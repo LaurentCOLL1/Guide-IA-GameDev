@@ -2,7 +2,7 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.1.0"
+version: "1.2.0"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-18"
@@ -22,17 +22,19 @@ La séquence obligatoire est :
 > **[LECTURE] Processus de référence - Ne pas saisir.**
 
 ```text
+annonce du chapitre et du niveau GPT-5.6 Sol conseillé
+   ↓
 rédaction
    ↓
 audit de complétude et de périmètre
    ↓
 audit des outils et contextes d’utilisation
    ↓
-corrections et seconde lecture
+contrôle des doublons et seconde lecture
    ↓
 vérification technique et des sources
    ↓
-mise à jour index / roadmap / contents.txt
+mise à jour index / roadmap / contents.txt / continuité
    ↓
 CI structurelle, contextuelle et PDF
    ↓
@@ -41,7 +43,30 @@ rapport et preuve externe
 chapitre déclaré rédigé, repéré et audité
 ```
 
-## 2. Métadonnées obligatoires
+## 2. Recommandation du niveau GPT-5.6 Sol
+
+Avant toute rédaction, la conversation doit annoncer :
+
+- le titre exact du chapitre ;
+- le niveau conseillé : **Moyenne** ou **Élevée** ;
+- une justification liée au contenu réel du chapitre.
+
+Utiliser généralement :
+
+- **Moyenne** pour un chapitre principalement descriptif, linéaire, à faible risque technique et avec peu de dépendances ;
+- **Élevée** pour architecture, code imbriqué, bases de données, IA, sécurité, optimisation, intégrations ou nombreuses frontières entre systèmes.
+
+La recommandation est enregistrée dans le front matter :
+
+> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
+
+```yaml
+recommended-reasoning: "GPT-5.6 Sol — Élevée"
+```
+
+Cette métadonnée documente le niveau conseillé pour produire ou réviser le chapitre. Elle ne modifie pas son statut technique.
+
+## 3. Métadonnées obligatoires
 
 Un chapitre audité porte au minimum :
 
@@ -53,11 +78,12 @@ audit-date: "AAAA-MM-JJ"
 audit-report: "Livre-II/QA/<rapport>.md"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
 `static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
 
-## 3. Matrice de contrôle
+## 4. Matrice de contrôle
 
 ### Q0 — Intégrité
 
@@ -66,12 +92,14 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 - [ ] L’identifiant est unique et correspond au numéro du chapitre.
 - [ ] L’encodage UTF-8 et les blocs Markdown sont valides.
 - [ ] Les liens locaux sont résolus.
+- [ ] Le niveau de raisonnement conseillé est annoncé et enregistré.
 
 ### Q1 — Complétude pédagogique
 
 - [ ] L’objectif et les prérequis sont observables.
 - [ ] Les termes nouveaux sont définis avant usage.
 - [ ] Le parcours convient à un débutant.
+- [ ] Les fonctions, paramètres, types et opérateurs nouveaux sont expliqués.
 - [ ] Les sujets exclus sont renvoyés au bon chapitre.
 - [ ] Les modes Solo et Studio sont présents lorsque pertinents.
 - [ ] Une checklist et un critère d’acceptation sont fournis.
@@ -82,7 +110,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 - [ ] Il ne duplique pas inutilement un chapitre précédent.
 - [ ] Il ne consomme pas prématurément le périmètre suivant.
 - [ ] Les chemins et identifiants cités sont stables.
-- [ ] L’index, la roadmap et `contents.txt` reflètent son état réel.
+- [ ] L’index, la roadmap, `contents.txt` et `CONTINUITE-PROJET.md` reflètent son état réel.
 
 ### Q3 — Vérification technique
 
@@ -116,13 +144,14 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ### Q6 — Publication
 
 - [ ] `Validate Usage Contexts` réussit.
+- [ ] Les contrôles spécialisés du chapitre réussissent lorsqu’ils existent.
 - [ ] `Validate Documentation` réussit.
 - [ ] La compilation Pandoc/XeLaTeX réussit.
 - [ ] Le PDF est non vide et son texte est extractible.
 - [ ] Un échantillon des pages modifiées est inspecté visuellement.
 - [ ] Les erreurs, réserves, exécutions et artefacts sont consignés.
 
-## 4. Décision
+## 5. Décision
 
 Un audit se termine par une décision unique :
 

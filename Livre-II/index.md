@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.5.0"
+version: "0.6.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -27,8 +27,8 @@ Project Asteria
 ## Partie I — Fondations Godot, architecture et données
 
 1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé, repéré et audité**
-2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé, repéré et audité**
-3. Scènes, nœuds, ressources et signaux — à rédiger
+2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé, repéré, enrichi et audité**
+3. [Scènes, nœuds, Resources et signaux](CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md) — **rédigé, repéré et audité au niveau static-review**
 4. Architecture modulaire du projet — à rédiger
 5. Services, gestionnaires, bus d’événements et injection de dépendances — à rédiger
 6. Entrées, contrôleurs, caméras et interactions — à rédiger
@@ -68,16 +68,27 @@ Project Asteria
 Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédaction :
 
 - [protocole obligatoire](QA/PROTOCOLE-AUDIT-POST-CREATION.md) ;
-- [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md).
+- [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md) ;
+- [audit du chapitre 3](QA/AUDIT-CHAPITRE-03.md).
 
 La mention **rédigé, repéré et audité** signifie que :
 
 - la complétude et les exemples ont été relus statiquement ;
 - chaque commande, fichier, action graphique, sortie ou exemple possède un contexte explicite ;
-- les contrôles `Validate Usage Contexts` et `Validate Documentation` ont réussi ;
-- le PDF a été compilé et inspecté.
+- les contrôles permanents ont réussi ;
+- le PDF a été compilé et inspecté ;
+- les limites runtime restent déclarées.
 
 Elle ne remplace pas un test runtime sur le projet matérialisé.
+
+## Niveau de raisonnement avant chaque chapitre
+
+Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le niveau conseillé de GPT-5.6 Sol :
+
+- **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
+- **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
+
+Le chapitre 3 utilise **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -105,4 +116,4 @@ Au 18 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés, repérés et audités.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Trois chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.

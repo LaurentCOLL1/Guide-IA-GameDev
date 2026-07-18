@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.0.0"
+version: "3.1.0"
 lang: "fr-FR"
 last-updated: "2026-07-18"
 update-policy: "mandatory-on-every-project-change"
@@ -10,7 +10,7 @@ update-policy: "mandatory-on-every-project-change"
 
 # Continuité du projet Guide IA GameDev
 
-> **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les erreurs corrigées et la prochaine action.
+> **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les erreurs corrigées, les règles QA et la prochaine action.
 
 > **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot de commits ou la même pull request.
 
@@ -23,9 +23,12 @@ Une nouvelle conversation doit suivre cet ordre :
 3. lire le plan maître détaillé du Livre ou Pack actif ;
 4. vérifier les derniers commits et pull requests fusionnés ;
 5. ne pas recréer un chapitre, un audit ou une décision déjà présent ;
-6. comparer la prochaine action au plan maître ;
-7. effectuer rédaction, audit, compilation et QA ;
-8. mettre à jour ce fichier avant de déclarer le lot terminé.
+6. identifier le prochain chapitre ;
+7. annoncer le niveau GPT-5.6 Sol conseillé : **Moyenne** ou **Élevée** ;
+8. justifier cette recommandation avant toute rédaction ;
+9. comparer le chapitre au plan maître ;
+10. effectuer rédaction, audit, compilation et QA ;
+11. mettre à jour ce fichier avant de déclarer le lot terminé.
 
 ## 2. Sources maîtres obligatoires
 
@@ -37,7 +40,7 @@ Le plan exact de la collection est réparti dans les documents suivants :
 - **Livre V :** [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md) ;
 - **Companion Pack :** [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
 
-Ces documents font partie de la gouvernance du projet. Un titre, un ordre ou un périmètre ne doit pas être modifié silencieusement. Toute modification du plan maître exige une décision explicite, une justification et une mise à jour de la roadmap.
+Un titre, un ordre ou un périmètre ne doit pas être modifié silencieusement. Toute modification du plan maître exige une décision explicite, une justification et une mise à jour de la roadmap.
 
 ## 3. Vision du projet
 
@@ -121,13 +124,13 @@ Décision historique : le Livre I avait été condensé en six chapitres. Quatre
 
 ### Livre II — Développement du jeu et plateforme IA
 
-**Statut : en cours — 2 chapitres sur 30 rédigés, repérés et audités.**
+**Statut : en cours — 3 chapitres sur 30 rédigés, repérés et audités au niveau documentaire et statique.**
 
 #### Partie A — Fondations Godot, architecture et données
 
 1. Découvrir Godot et créer le projet fil rouge — **terminé**.
 2. Fondamentaux de GDScript — **terminé, enrichi et audité contre les doublons**.
-3. Scènes, nœuds, Resources et signaux.
+3. Scènes, nœuds, Resources et signaux — **terminé au niveau static-review**.
 4. Architecture modulaire du projet.
 5. Services, gestionnaires, bus d’événements et injection de dépendances.
 6. Entrées, contrôleurs, caméras et interactions.
@@ -165,7 +168,41 @@ Décision historique : le Livre I avait été condensé en six chapitres. Quatre
 29. Automatisation Python et génération de données.
 30. Architecture Solo et architecture Studio.
 
-Le détail des objectifs du chapitre 3 et des chapitres suivants doit être vérifié dans le plan maître avant rédaction.
+### Chapitre 3 — état détaillé
+
+Fichier :
+
+```text
+Livre-II/CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md
+```
+
+Niveau recommandé annoncé avant rédaction : **GPT-5.6 Sol — Élevée**.
+
+Le chapitre couvre :
+
+- nœuds, scènes, instances, branches et `SceneTree` ;
+- parent et propriété `owner` ;
+- composition et `PackedScene.instantiate()` ;
+- `NodePath`, `get_node()`, `$`, `%NomUnique` et `get_node_or_null()` ;
+- références typées et `@onready` ;
+- `_init()`, `_enter_tree()`, `_ready()` et `_exit_tree()` ;
+- signaux intégrés et personnalisés ;
+- `Callable`, `connect()`, `emit()`, `is_connected()` et `disconnect()` ;
+- Resources personnalisées, partage et `resource_local_to_scene` ;
+- exercice `StatusBeacon` et `BeaconProfile` ;
+- validation graphique et headless ;
+- diagnostics, modes Solo/Studio et critères d’acceptation.
+
+Frontières conservées :
+
+- architecture modulaire au chapitre 4 ;
+- services globaux et bus d’événements au chapitre 5 ;
+- interactions complètes au chapitre 6 ;
+- stratégie des données au chapitre 7.
+
+Rapport : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
+
+Réserve : les fichiers de l’exercice ne sont pas encore matérialisés dans le Starter Kit ; le statut reste `static-review` jusqu’aux tests runtime.
 
 ### Livre III — Production des contenus et des assets
 
@@ -173,15 +210,11 @@ Le détail des objectifs du chapitre 3 et des chapitres suivants doit être vér
 
 Source obligatoire : [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md).
 
-Le plan détaille pour chacun des 30 chapitres : objectifs, livrables, frontière avec les autres chapitres et critères de validation. Il couvre préproduction, direction artistique, ComfyUI, Blender, provenance, humains, humanoïdes, animaux, créatures, visages, vêtements, objets, architecture, terrains, végétation, PBR, UV, LOD, rigging, animation, mocap, cinématiques, VFX, UI, UX, audio, lip-sync, import Godot, validation et automatisation.
-
 ### Livre IV — Finalisation, optimisation, publication et maintenance
 
 **Statut : non commencé — 22 chapitres.**
 
 Source obligatoire : [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md).
-
-Le plan détaille équilibrage, QA, tests, débogage, observabilité, profilage CPU/GPU/mémoire, streaming, optimisation, multijoueur, sécurité réseau, DevOps, sauvegardes, exports, publication, accessibilité, localisation, mises à jour, modding et pérennité.
 
 ### Livre V — Encyclopédie technique et bibliothèque de référence
 
@@ -189,30 +222,36 @@ Le plan détaille équilibrage, QA, tests, débogage, observabilité, profilage 
 
 Source obligatoire : [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md).
 
-Le plan détaille chaque type de fiche, les arbres de décision, les bibliothèques de workflows/prompts/scripts, les références GDScript/Python/JSON/SQLite/vectorielles, les patrons, erreurs, benchmarks, matrices, comparatifs, checklists, licences et index croisés.
-
 ### Companion Pack
 
 **Statut : non commencé — 10 packs.**
 
 Source obligatoire : [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
 
-Packs :
+Packs : Starter Kit, Project Templates, AI Library, Code Library, Database Library, ComfyUI Library, Documentation Library, Test & Benchmark Library, Production Toolkit et Knowledge Base.
 
-1. Starter Kit.
-2. Project Templates.
-3. AI Library.
-4. Code Library.
-5. Database Library.
-6. ComfyUI Library.
-7. Documentation Library.
-8. Test & Benchmark Library.
-9. Production Toolkit.
-10. Knowledge Base.
+## 6. Règle du niveau GPT-5.6 Sol
 
-Le plan détaille objectifs, contenu prévu, dépendances et critères de validation de chaque pack.
+Avant chaque nouveau chapitre, indiquer :
 
-## 6. Repères obligatoires d’utilisation
+```text
+Chapitre à produire : …
+Niveau GPT-5.6 Sol recommandé : Moyenne / Élevée
+Justification : …
+```
+
+Choisir généralement :
+
+- **Moyenne** pour un chapitre descriptif, linéaire, avec peu de code ou de dépendances ;
+- **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation, intégrations ou nombreuses frontières.
+
+Enregistrer la recommandation dans le chapitre :
+
+```yaml
+recommended-reasoning: "GPT-5.6 Sol — Élevée"
+```
+
+## 7. Repères obligatoires d’utilisation
 
 | Repère | Contexte |
 |---|---|
@@ -233,27 +272,26 @@ Forme obligatoire :
 [CODE] Outil - Action : chemin, cible ou précision utile
 ```
 
-La CI contrôle la présence et la cohérence sémantique de ces repères.
-
-## 7. Audit obligatoire après chaque chapitre
+## 8. Audit obligatoire après chaque chapitre
 
 Aucun chapitre n’est terminé immédiatement après sa rédaction.
 
 Séquence :
 
-1. rédaction ;
-2. comparaison au plan maître ;
-3. audit de complétude pédagogique ;
-4. contrôle des doublons ;
-5. vérification technique ;
-6. ajout des contextes d’utilisation ;
-7. correction des omissions ;
-8. contrôle des frontières avec les chapitres voisins ;
-9. mise à jour de `contents.txt`, index, roadmap et continuité ;
-10. compilation Pandoc/XeLaTeX ;
-11. inspection du PDF ;
-12. rapport QA et preuve indépendante ;
-13. seulement ensuite : statut rédigé, repéré et audité.
+1. recommandation du niveau GPT-5.6 Sol ;
+2. rédaction ;
+3. comparaison au plan maître ;
+4. audit de complétude pédagogique ;
+5. contrôle des doublons ;
+6. vérification technique ;
+7. ajout des contextes d’utilisation ;
+8. correction des omissions ;
+9. contrôle des frontières avec les chapitres voisins ;
+10. mise à jour de `contents.txt`, index, roadmap et continuité ;
+11. compilation Pandoc/XeLaTeX ;
+12. inspection du PDF ;
+13. rapport QA et preuve indépendante ;
+14. seulement ensuite : statut rédigé, repéré et audité.
 
 Métadonnées minimales :
 
@@ -264,11 +302,12 @@ audit-date: "YYYY-MM-DD"
 audit-level: "static-review"
 audit-report: "chemin/du/rapport.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
 `runtime-tested` est réservé aux exemples réellement exécutés.
 
-## 8. Règle pédagogique pour le code
+## 9. Règle pédagogique pour le code
 
 Lors de la première apparition d’un concept, expliquer :
 
@@ -286,25 +325,23 @@ Lors de la première apparition d’un concept, expliquer :
 
 Les rappels courts sont autorisés. Les duplications intégrales involontaires de titres, paragraphes longs et blocs significatifs sont interdites.
 
-## 9. Audit actuel du chapitre 2 GDScript
+## 10. Audits importants
+
+### Chapitre 2 GDScript
 
 Campagne de référence : PR n°11, commit métier `e40da615bdc922f0296ef34f51dc6e226f0782dd`.
 
-Résultats :
+Résultats enregistrés : 152 titres, 57 blocs significatifs et 22 paragraphes longs contrôlés ; zéro doublon et zéro explication obligatoire manquante.
 
-- 152 titres contrôlés ;
-- 57 blocs de code significatifs ;
-- 22 paragraphes longs ;
-- zéro doublon ;
-- zéro explication pédagogique obligatoire manquante ;
-- 829 blocs sur 829 repérés ;
-- zéro incohérence sémantique ;
-- PDF A4 de 512 pages ;
-- réserve runtime maintenue.
+### Chapitre 3
 
-La PR n°12 a été fermée sans fusion : son workflow temporaire n’avait pas appliqué les changements et était redondant.
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
 
-## 10. Décisions techniques permanentes
+Points contrôlés : périmètre, cycle de vie, ownership, références de nœuds, instanciation, Resources, signaux, Callables, contextes, doublons et commandes headless.
+
+Décision avant CI : accepté avec réserve CI et runtime. La preuve finale doit être complétée après les workflows.
+
+## 11. Décisions techniques permanentes
 
 ### Windows et AMD
 
@@ -336,7 +373,7 @@ La PR n°12 a été fermée sans fusion : son workflow temporaire n’avait pas 
 - AudioCraft limité aux usages compatibles avec les licences ;
 - aucun clonage sans consentement.
 
-## 11. Erreurs à ne pas reproduire
+## 12. Erreurs à ne pas reproduire
 
 - Ne pas déclarer un Livre complet uniquement parce que ses grands domaines sont couverts.
 - Ne pas condenser les fondations débutantes en simples prérequis.
@@ -349,53 +386,56 @@ La PR n°12 a été fermée sans fusion : son workflow temporaire n’avait pas 
 - Ne pas laisser fonction, paramètre, opérateur ou type sans explication suffisante.
 - Ne pas dupliquer une explication complète ; utiliser rappel et renvoi.
 - Ne pas modifier le plan maître sans décision explicite.
+- Ne pas oublier l’annonce Moyenne/Élevée avant un chapitre.
 - Ne pas oublier la mise à jour de ce fichier.
 
-## 12. État courant
+## 13. État courant
 
-- Branche principale : `main`.
+- Branche principale cible : `main`.
 - Jalon actif : M3 — Livre II.
-- Livre II : 2 chapitres sur 30 terminés.
+- Livre II : 3 chapitres sur 30 rédigés, repérés et audités statiquement.
 - Chapitre 2 : version `1.3.0`, audité contre les doublons.
+- Chapitre 3 : version `1.0.0`, recommandation Élevée, audit statique créé.
 - Licence globale : à définir.
 - Accessibilité PDF avancée : à traiter avant publication.
 - Tests runtime de `Project Asteria` : en attente du Starter Kit matérialisé.
 
-## 13. Prochaine action
+## 14. Prochaine action
 
-Créer puis auditer :
+Avant toute rédaction, annoncer le niveau conseillé pour :
 
 ```text
-Livre-II/CHAPITRE-03-Scenes-noeuds-resources-et-signaux.md
+Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md
 ```
 
-Le chapitre doit couvrir en détail :
+Le chapitre 4 devra notamment :
 
-- scène, nœud, branche et instance ;
-- arbre de scène et ownership ;
-- instanciation et composition ;
-- `NodePath`, `$`, `%NomUnique`, `get_node()` et références typées ;
-- signaux intégrés et personnalisés ;
-- connexion par éditeur et par code ;
-- `Callable`, `connect()`, émission et déconnexion ;
-- Resources natives et personnalisées ;
-- ordre d’initialisation ;
-- erreurs fréquentes ;
-- exercice intégré à `Project Asteria` ;
-- repères d’utilisation ;
-- explications ligne par ligne ;
-- audit de complétude et de doublons ;
-- compilation et inspection PDF.
+- définir les couches et dossiers du projet ;
+- séparer domaine, présentation, données, infrastructure et outils ;
+- organiser les fonctionnalités par modules ;
+- définir les dépendances autorisées ;
+- expliquer composition, contrats et interfaces implicites ;
+- éviter scènes monolithiques et singletons omniprésents ;
+- produire l’arborescence canonique ;
+- produire une matrice des dépendances ;
+- créer les premières ADR ;
+- proposer variantes Solo et Studio ;
+- réutiliser les scènes, Resources et signaux du chapitre 3 sans les dupliquer ;
+- réussir audit, contextes, doublons, compilation et inspection PDF.
 
-## 14. Journal de continuité
+Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier au début de la prochaine conversation ou du prochain lot.
+
+## 15. Journal de continuité
+
+### 2026-07-18 — version 3.1.0
+
+- création et audit statique du chapitre 3 ;
+- ajout de `StatusBeacon` et `BeaconProfile` comme exercice documentaire ;
+- ajout de la règle obligatoire Moyenne/Élevée avant chaque chapitre ;
+- passage du Livre II à 3 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 4.
 
 ### 2026-07-18 — version 3.0.0
 
-- création de quatre plans maîtres détaillés séparés ;
-- détail complet des 30 chapitres du Livre III ;
-- détail complet des 22 chapitres du Livre IV ;
-- détail complet des 26 chapitres du Livre V ;
-- détail complet des 10 packs du Companion Pack ;
-- ajout des objectifs, livrables, dépendances, frontières et critères de validation ;
-- transformation de ce fichier en index de reprise obligatoire ;
-- conservation de la prochaine action du Livre II.
+- création des quatre plans maîtres détaillés séparés ;
+- transformation du fichier en index de reprise obligatoire.
