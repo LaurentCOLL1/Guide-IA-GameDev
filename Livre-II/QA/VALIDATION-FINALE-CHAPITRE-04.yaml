@@ -1,0 +1,44 @@
+document: "DOC-L2-CH04"
+report: "DOC-L2-QA-AUDIT-CH04"
+status: "pending-ci"
+validation_date: "2026-07-18"
+branch: "docs/livre-ii-ch04-architecture-modulaire"
+reference_engine: "Godot 4.7.1-stable"
+audit_level: "static-review"
+recommended_reasoning: "GPT-5.6 Sol — Élevée"
+workflows:
+  usage_contexts:
+    run_id: null
+    conclusion: null
+  documentation:
+    run_id: null
+    conclusion: null
+artifact:
+  id: null
+  name: null
+  digest: null
+  archive_size_bytes: null
+documentation_qa:
+  declared_sources: null
+  livre_i_chapters: 10
+  livre_ii_chapters: 4
+  unique_identifiers: null
+  blocking_errors: null
+  warnings: null
+pdf:
+  pages: null
+  file_size_bytes: null
+  page_size: null
+  pdf_version: null
+  encrypted: null
+  javascript: null
+  rotated_pages: null
+  text_extractable: null
+visual_inspection:
+  pages_checked: []
+  result: "pending"
+  findings: []
+limitations:
+  - "L’arborescence et les déplacements décrits ne sont pas encore matérialisés dans le Starter Kit."
+  - "Les exemples GDScript et PowerShell sont validés statiquement, pas revendiqués comme runtime-tested."
+decision: "pending-ci"
