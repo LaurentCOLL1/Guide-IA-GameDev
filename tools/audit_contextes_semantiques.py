@@ -17,6 +17,8 @@ PATH_RE = re.compile(r"`([^`]+)`")
 
 FILE_LANGS = {
     "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "dockerfile",
+    "dotenv",
+    "env",
     "gitignore", "gitattributes", "python", "py", "gdscript", "sql",
     "markdown", "md", "xml", "csv", "javascript", "js", "typescript", "ts",
 }
@@ -91,6 +93,18 @@ def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple
         )
 
     if lang in FILE_LANGS:
+        context_paths = PATH_RE.findall(ctx)
+        context_target = context_paths[-1] if context_paths else ""
+        file_action = any(word in ctx for word in (
+            "créer", "creer", "modifier", "contenu du fichier",
+            "enregistrer dans", "copier le fichier", "fichier :",
+        ))
+        if marker == "LECTURE" and file_action:
+            chosen = context_target or target or "fichier indiqué dans l’étape"
+            return (
+                "VSC",
+                f"> **[VSC] Visual Studio Code - Créer ou modifier :** `{chosen}`.",
+            )
         if marker in {"VSC", "LECTURE", "SORTIE"}:
             if lang == "json" and target_lower == ".vscode/settings.json":
                 return (

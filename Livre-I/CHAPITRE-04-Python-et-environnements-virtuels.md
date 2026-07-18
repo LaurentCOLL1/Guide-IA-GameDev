@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 4 : Python et environnements virtuels"
 id: "DOC-L1-ENV-PYTHON"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -122,7 +122,7 @@ winget show --id Python.Python.3.13 --exact --source winget
 winget install --id Python.Python.3.13 --exact --source winget
 ```
 
-Le numéro ci-dessus est un exemple de version compatible avec plusieurs outils actuels. Il doit être remplacé par la version exigée par le projet concerné.
+Au 18 juillet 2026, les versions courantes publiées par Python sont `3.14.6` et `3.13.14`. Les commandes du guide conservent Python 3.13 comme exemple de compatibilité pour plusieurs outils IA ; la version la plus récente n’est pas automatiquement la version prise en charge par une application. Le numéro doit toujours être remplacé par la version exigée et testée par le projet concerné.
 
 Vérifier :
 

@@ -99,7 +99,7 @@ La présence d’un texte long ne constitue pas une preuve de complétude. Un co
 
 Avant la rédaction, l’auteur doit créer une fiche de préparation minimale.
 
-> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+> **[VSC] Visual Studio Code - Créer ou modifier :** `fichier indiqué dans l’étape`.
 
 ```yaml
 id: DOC-L1-CH01

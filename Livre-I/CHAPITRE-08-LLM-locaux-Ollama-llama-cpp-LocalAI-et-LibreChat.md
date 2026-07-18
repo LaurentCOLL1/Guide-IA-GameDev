@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 8 : LLM locaux avec Ollama, llama.cpp, LocalAI et LibreChat"
 id: "DOC-L1-CH05"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -625,7 +625,7 @@ Sur Docker Desktop Windows avec la RX 6750 XT, le parcours par défaut est CPU.
 
 Créer `.env` :
 
-> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.env`.
 
 ```dotenv
 LOCALAI_IMAGE=localai/localai:vX.Y.Z

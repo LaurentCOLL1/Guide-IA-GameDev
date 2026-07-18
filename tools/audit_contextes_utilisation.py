@@ -91,6 +91,8 @@ FILE_LANGS = {
     "gdscript",
     "sql",
     "dockerfile",
+    "dotenv",
+    "env",
     "gitignore",
     "gitattributes",
     "markdown",

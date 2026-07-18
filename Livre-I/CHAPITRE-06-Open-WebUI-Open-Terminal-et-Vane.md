@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 6 : Open WebUI, Open Terminal et Vane"
 id: "DOC-L1-CH03"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -304,7 +304,7 @@ Exécuter deux fois la commande pour obtenir :
 
 ### 7.2 Créer `.env.example`
 
-> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+> **[VSC] Visual Studio Code - Créer :** `.env.example` dans le dossier `Guide-IA-Services`.
 
 ```dotenv
 OPEN_WEBUI_IMAGE=ghcr.io/open-webui/open-webui:main
@@ -970,7 +970,7 @@ open-webui:vX.Y.Z
 
 Créer un volume distinct :
 
-> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text open-webui:dev open-webui:main open-webui:vx.y.z `.
 
 ```yaml
 volumes:

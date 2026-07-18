@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 2 : Terminal, PowerShell et outils Windows"
 id: "DOC-L1-ENV-TERMINAL"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -136,9 +136,9 @@ winget install --id Microsoft.WindowsTerminal --exact --source winget
 winget install --id Microsoft.PowerShell --exact --source winget
 ```
 
-Fermer puis rouvrir le terminal, puis vérifier :
+Fermer Windows Terminal, le rouvrir, puis ouvrir un nouvel onglet **PowerShell 7**.
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
 
 ```powershell
 wt --version
@@ -149,7 +149,7 @@ Les versions Preview ne sont pas utilisées dans le parcours stable.
 
 ### 3.3 Installer les utilitaires communs
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
 
 ```powershell
 winget install --id 7zip.7zip --exact --source winget

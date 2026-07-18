@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 7 : ComfyUI et workflows graphiques"
 id: "DOC-L1-CH04"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -15,7 +15,7 @@ reference-hardware:
   ram: "32 Go"
   os: "Windows 11 64 bits"
 reference-software:
-  comfyui: "v0.24.0"
+  comfyui: "v0.28.0"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
@@ -70,10 +70,10 @@ La version stable de référence utilisée pour la rédaction est :
 > **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
-ComfyUI v0.24.0
+ComfyUI v0.28.0
 ```
 
-Cette version doit être remplacée par un tag ou un commit explicitement testé lors d’une future mise à jour du guide. La mention `latest` ne doit jamais être utilisée comme preuve de compatibilité.
+La release `v0.28.0`, publiée le 15 juillet 2026, constitue le tag stable observé pendant cet audit. Elle doit rester épinglée par tag et commit dans le manifeste local. La mention `latest` ne doit jamais être utilisée comme preuve de compatibilité.
 
 ### 2.2 ComfyUI Desktop sous Windows
 
@@ -293,7 +293,7 @@ Dans PowerShell :
 Set-Location D:\IA\ComfyUI\installations
 git clone https://github.com/Comfy-Org/ComfyUI.git comfyui-cpu
 Set-Location comfyui-cpu
-git checkout v0.24.0
+git checkout v0.28.0
 ```
 
 Enregistrer :
@@ -1211,7 +1211,7 @@ hardware:
   cpu: "Ryzen 7 2700"
   ram: "32 Go"
 software:
-  comfyui: "v0.24.0"
+  comfyui: "v0.28.0"
   backend: "cpu|zluda|directml"
   driver: "version"
 workflow: "WF-IMG-0001"

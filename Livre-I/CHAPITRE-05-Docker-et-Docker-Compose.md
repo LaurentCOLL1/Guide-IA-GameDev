@@ -1,7 +1,7 @@
 ---
 title: "Livre I — Chapitre 5 : Docker et Docker Compose"
 id: "DOC-L1-CH02"
-status: "draft-review"
+status: "reviewed"
 version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
@@ -537,7 +537,7 @@ La deuxième forme peut rendre le service accessible depuis d’autres interface
 
 Créer des réseaux fonctionnels lorsque l’architecture le justifie :
 
-> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+> **[VSC] Visual Studio Code - Créer ou modifier :** `yaml ports: - "8080:8080" `.
 
 ```yaml
 networks:
