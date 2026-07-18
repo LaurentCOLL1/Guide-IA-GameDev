@@ -38,9 +38,9 @@
 - [x] ComfyUI.
 - [x] LLM locaux.
 - [x] Audio IA.
-- [ ] Validation technique, documentaire et compilation du Livre I.
+- [x] Validation technique, documentaire et compilation du Livre I.
 
-**Statut M2 : en cours — les 6 domaines principaux sont rédigés ; la validation finale reste à produire.**
+**Statut M2 : terminé.** Le workflow `Validate Documentation` a contrôlé 33 sources, 6 chapitres du Livre I et 32 identifiants uniques sans erreur bloquante. La compilation Pandoc/XeLaTeX a produit un PDF A4 de 348 pages ; 46 pages réparties dans le document ont été contrôlées visuellement. La licence globale et le balisage d’accessibilité du PDF restent à traiter avant publication officielle.
 
 ## M3 — Livre II : Développement et architecture
 
@@ -79,6 +79,8 @@
 - [ ] PDF complet.
 - [ ] Site HTML.
 - [ ] Archives de version.
+- [ ] Licence globale définie.
+- [ ] PDF balisé et contrôlé pour l’accessibilité.
 
 ## M9 — Version 1.0
 
