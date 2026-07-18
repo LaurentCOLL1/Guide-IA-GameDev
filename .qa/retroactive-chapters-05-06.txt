@@ -1,0 +1,11 @@
+Validation rétroactive sans PDF des chapitres 5 et 6 du Livre II.
+
+Objectifs :
+- structure et métadonnées ;
+- liens locaux ;
+- repères d’utilisation ;
+- cohérence sémantique des repères ;
+- doublons de titres, blocs significatifs et paragraphes longs ;
+- confirmation qu’aucun PDF n’est produit.
+
+Date : 2026-07-19
