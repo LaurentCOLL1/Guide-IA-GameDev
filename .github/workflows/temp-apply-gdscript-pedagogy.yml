@@ -25,20 +25,7 @@ jobs:
       - name: Repair migration anchor
         run: python3 tools/fix_deepen_gdscript_script.py
       - name: Apply pedagogical expansion
-        id: migration
-        continue-on-error: true
-        run: python3 tools/deepen_gdscript_chapter.py > migration.log 2>&1
-      - name: Upload migration log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gdscript-migration-log
-          path: migration.log
-      - name: Stop on migration failure
-        if: steps.migration.outcome == 'failure'
-        run: |
-          cat migration.log
-          exit 1
+        run: python3 tools/deepen_gdscript_chapter.py
       - name: Verify context markers
         run: |
           python3 tools/audit_contextes_utilisation.py --check
