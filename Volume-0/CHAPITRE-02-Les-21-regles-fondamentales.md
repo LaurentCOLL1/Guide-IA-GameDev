@@ -2,7 +2,7 @@
 title: "Volume 0 — Chapitre 2 : Les 21 règles fondamentales"
 id: "DOC-V0-CH02"
 status: "draft"
-version: "0.4.0"
+version: "0.5.0"
 language: "fr-FR"
 audit-status: "complete"
 audit-date: "2026-07-18"

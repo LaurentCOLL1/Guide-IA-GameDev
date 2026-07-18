@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 1 : Matériel, Windows, pilotes AMD et accélération locale"
 id: "DOC-L1-CH01"
 status: "draft-review"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 1

@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 10 : Sécurité, sauvegarde et validation de la plateforme"
 id: "DOC-L1-ENV-SECURITY"
 status: "draft-review"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 10

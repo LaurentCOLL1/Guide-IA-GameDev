@@ -2,7 +2,7 @@
 title: "Chapitre 8 — Standards IA"
 id: "DOC-V0-CH08"
 status: "draft"
-version: "0.4.0"
+version: "0.5.0"
 book: "Volume 0"
 chapter: 8
 language: "fr-FR"

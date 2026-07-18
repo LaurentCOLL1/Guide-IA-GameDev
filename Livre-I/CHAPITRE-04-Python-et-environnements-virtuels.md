@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 4 : Python et environnements virtuels"
 id: "DOC-L1-ENV-PYTHON"
 status: "draft-review"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 4

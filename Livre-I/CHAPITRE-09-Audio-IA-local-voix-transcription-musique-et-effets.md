@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 9 : Audio IA local, voix, transcription, musique et effets"
 id: "DOC-L1-CH06"
 status: "draft-review"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 9
