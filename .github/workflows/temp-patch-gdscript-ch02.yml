@@ -1,21 +1,27 @@
 name: Temporary patch GDScript chapter 2
 
 on:
-  push:
+  pull_request_target:
     branches:
-      - docs/audit-gdscript-duplicates-functions
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
 
 jobs:
   patch:
+    if: github.event.pull_request.head.ref == 'docs/audit-gdscript-duplicates-functions'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout target branch
         uses: actions/checkout@v4
         with:
+          repository: LaurentCOLL1/Guide-IA-GameDev
           ref: docs/audit-gdscript-duplicates-functions
           fetch-depth: 0
 
