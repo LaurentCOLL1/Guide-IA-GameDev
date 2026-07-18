@@ -32,6 +32,7 @@ Livre-I/CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md
 Livre-I/CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md
 Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md
 Livre-II/index.md
+Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
 Livre-III/index.md
 Livre-IV/index.md
 Livre-V/index.md
