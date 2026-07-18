@@ -2,7 +2,7 @@
 title: "Volume 0 — Chapitre 5 : Conventions Markdown et Pandoc"
 id: "DOC-V0-CH05"
 status: "review"
-version: "0.3.0"
+version: "0.4.0"
 date: "2026-07-18"
 audit-status: "complete"
 audit-date: "2026-07-18"

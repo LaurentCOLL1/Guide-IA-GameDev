@@ -2,7 +2,7 @@
 title: "Chapitre 11 — Glossaire, bibliographie et index"
 id: "DOC-V0-CH11"
 status: "draft"
-version: "0.3.0"
+version: "0.4.0"
 book: "Volume 0"
 chapter: 11
 level: "Débutant à avancé"

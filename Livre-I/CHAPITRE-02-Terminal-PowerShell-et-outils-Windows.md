@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 2 : Terminal, PowerShell et outils Windows"
 id: "DOC-L1-ENV-TERMINAL"
 status: "draft-review"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 2

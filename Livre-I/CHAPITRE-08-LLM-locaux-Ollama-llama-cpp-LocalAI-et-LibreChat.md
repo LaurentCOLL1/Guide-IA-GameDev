@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 8 : LLM locaux avec Ollama, llama.cpp, LocalAI et LibreChat"
 id: "DOC-L1-CH05"
 status: "draft-review"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 8

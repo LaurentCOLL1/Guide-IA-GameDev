@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 7 : ComfyUI et workflows graphiques"
 id: "DOC-L1-CH04"
 status: "draft-review"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 7

@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 6 : Open WebUI, Open Terminal et Vane"
 id: "DOC-L1-CH03"
 status: "draft-review"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 6
