@@ -637,20 +637,21 @@ Créer la matrice :
 ```markdown
 # Matrice des dépendances
 
-Une coche signifie que la couche de la ligne peut dépendre de la couche de la colonne.
+| Couche source | Couches cibles autorisées |
+|---|---|
+| Domaine | Domaine, Core |
+| Application | Domaine, Application, Données*, Core |
+| Présentation | Domaine, Application, Présentation, Données, Core |
+| Données | Domaine, Données, Core |
+| Infrastructure | Domaine, Application, Données, Infrastructure, Core |
+| Core | Core |
+| App / Bootstrap | Toutes les couches nécessaires à l’assemblage |
 
-| Depuis / Vers | Domaine | Application | Présentation | Données | Infrastructure | Core | App |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Domaine | oui | non | non | non | non | oui | non |
-| Application | oui | oui | non | oui* | non** | oui | non |
-| Présentation | oui | oui | oui | oui | non | oui | non |
-| Données | oui | non | non | oui | non | oui | non |
-| Infrastructure | oui | oui | non | oui | oui | oui | non |
-| Core | non | non | non | non | non | oui | non |
-| App / Bootstrap | oui | oui | oui | oui | oui | oui | oui |
+* L’application lit des types de données stables. Elle ne choisit pas
+  directement un chemin de fichier ou une base concrète.
 
-\* L’application peut lire des types de données stables, mais ne doit pas dépendre de chemins de fichiers arbitraires.  
-\** L’application dépend d’un contrat ; `App / Bootstrap` fournit l’implémentation d’infrastructure.
+L’application dépend d’un contrat. Le point `App / Bootstrap` fournit
+l’implémentation d’infrastructure correspondante.
 ```
 
 ### 11.1 Lire la matrice
@@ -759,7 +760,11 @@ func try_activate(candidate: Object, actor_name: StringName) -> bool:
 		return false
 
 	var result: Variant = candidate.call("activate", actor_name)
-	return result as bool
+	if result is not bool:
+		push_warning("activate() doit renvoyer un booléen.")
+		return false
+
+	return result
 ```
 
 Décomposition :
@@ -768,7 +773,8 @@ Décomposition :
 - `has_method("activate")` vérifie la présence de la méthode ;
 - `call()` réalise un appel dynamique ;
 - le résultat est d’abord un `Variant` ;
-- `as bool` suppose que le contrat documenté renvoie bien un booléen.
+- `result is not bool` détecte un retour incompatible ;
+- `return result` renvoie la valeur après cette vérification.
 
 Cette approche est flexible mais moins sûre qu’un type statique. L’utiliser pour une frontière dynamique clairement documentée, pas pour éviter toute conception.
 
@@ -933,7 +939,7 @@ Une ADR n’est pas un journal quotidien. Elle documente une décision qui influ
 > **[VSC] Visual Studio Code - Créer :** `docs/architecture/ADR-0001-feature-first.md`.
 
 ```markdown
-# ADR-0001 — Organiser le projet par fonctionnalités avec couches locales
+# ADR-0001 — Organisation feature-first
 
 - Statut : accepté
 - Date : 2026-07-18
@@ -941,15 +947,22 @@ Une ADR n’est pas un journal quotidien. Elle documente une décision qui influ
 
 ## Contexte
 
-Project Asteria doit accueillir de nombreux systèmes de gameplay, des données persistantes, des services IA et deux parcours Solo/Studio. Une organisation uniquement par type de fichier disperserait chaque fonctionnalité.
+Project Asteria doit accueillir de nombreux systèmes de gameplay,
+des données persistantes, des services IA et deux parcours.
+
+Une organisation uniquement par type de fichier disperserait
+chaque fonctionnalité.
 
 ## Décision
 
 Le projet utilise une organisation feature-first.
 
-Chaque module regroupe ses scènes, scripts et données proches. Des sous-couches `domain`, `application`, `presentation`, `data` ou `infrastructure` sont créées uniquement lorsque le module possède réellement ces responsabilités.
+Chaque module regroupe ses scènes, scripts et données proches.
+Les sous-couches sont créées uniquement lorsqu’une responsabilité
+réelle existe.
 
-La direction principale des dépendances va vers le domaine et les contrats stables. `src/app` constitue le point de composition.
+Les dépendances vont vers le domaine et les contrats stables.
+`src/app` constitue le point de composition.
 
 ## Conséquences positives
 
@@ -962,20 +975,21 @@ La direction principale des dépendances va vers le domaine et les contrats stab
 
 ## Conséquences négatives
 
-- certains types de fichiers sont répartis dans plusieurs modules ;
+- les types de fichiers sont répartis dans plusieurs modules ;
 - les règles doivent être documentées et contrôlées ;
-- une fonctionnalité transversale nécessite un contrat explicite ;
-- des décisions sont nécessaires avant de déplacer un fichier partagé.
+- une fonction transversale exige un contrat explicite ;
+- déplacer un fichier partagé exige une décision.
 
 ## Alternatives considérées
 
-1. dossiers globaux `scripts/`, `scenes/`, `resources/` ;
-2. couches globales strictes pour tout le projet ;
-3. architecture sans règle formelle jusqu’à l’apparition de problèmes.
+1. dossiers globaux par type de fichier ;
+2. couches globales strictes ;
+3. aucune règle formelle avant les premiers problèmes.
 
 ## Révision
 
-Réévaluer après les chapitres 9, 13 et 25 ou si trois modules contournent la matrice de dépendances.
+Réévaluer après les chapitres 9, 13 et 25, ou lorsque trois
+modules contournent la matrice de dépendances.
 ```
 
 ### 15.3 Statuts d’une ADR
