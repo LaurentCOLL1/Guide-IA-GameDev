@@ -1,0 +1,120 @@
+name: Apply Final Volume 0 and Livre I Audit Fixes v2
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.head_ref == 'docs/audit-volume0-livre1-contextes' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Apply final technical and semantic corrections
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import subprocess
+
+          def replace_once(path: str, old: str, new: str, label: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              if new in text:
+                  return
+              count = text.count(old)
+              if count != 1:
+                  raise RuntimeError(f'{label}: occurrence attendue 1, reçue {count}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+
+          for path in sorted(Path('Livre-I').glob('CHAPITRE-*.md')):
+              text = path.read_text(encoding='utf-8')
+              text = text.replace('status: "draft-review"', 'status: "reviewed"', 1)
+              path.write_text(text, encoding='utf-8', newline='\n')
+
+          replace_once(
+              'Livre-I/CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md',
+              '''Fermer puis rouvrir le terminal, puis vérifier :\n\n> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.''',
+              '''Fermer Windows Terminal, le rouvrir, puis ouvrir un nouvel onglet **PowerShell 7**.\n\n> **[PS] PowerShell 7 - Vérifier après réouverture :** exécuter les commandes dans le nouvel onglet PowerShell 7.''',
+              'chapitre 2 - réouverture terminal',
+          )
+
+          replace_once(
+              'Livre-I/CHAPITRE-04-Python-et-environnements-virtuels.md',
+              '''Le numéro ci-dessus est un exemple de version compatible avec plusieurs outils actuels. Il doit être remplacé par la version exigée par le projet concerné.''',
+              '''Au 18 juillet 2026, les versions courantes publiées par Python sont `3.14.6` et `3.13.14`. Les commandes du guide conservent Python 3.13 comme exemple de compatibilité pour plusieurs outils IA ; la version la plus récente n’est pas automatiquement la version prise en charge par une application. Le numéro doit toujours être remplacé par la version exigée et testée par le projet concerné.''',
+              'chapitre 4 - versions Python',
+          )
+
+          p = Path('Livre-I/CHAPITRE-07-ComfyUI-et-workflows-graphiques.md')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('comfyui: "v0.24.0"', 'comfyui: "v0.28.0"')
+          text = text.replace('ComfyUI v0.24.0', 'ComfyUI v0.28.0')
+          text = text.replace('git checkout v0.24.0', 'git checkout v0.28.0')
+          text = text.replace(
+              '''Cette version doit être remplacée par un tag ou un commit explicitement testé lors d’une future mise à jour du guide. La mention `latest` ne doit jamais être utilisée comme preuve de compatibilité.''',
+              '''La release `v0.28.0`, publiée le 15 juillet 2026, constitue le tag stable observé pendant cet audit. Elle doit rester épinglée par tag et commit dans le manifeste local. La mention `latest` ne doit jamais être utilisée comme preuve de compatibilité.''',
+              1,
+          )
+          p.write_text(text, encoding='utf-8', newline='\n')
+
+          for script in (
+              Path('tools/audit_contextes_utilisation.py'),
+              Path('tools/audit_contextes_semantiques.py'),
+          ):
+              text = script.read_text(encoding='utf-8')
+              if '    "dotenv",\n' not in text:
+                  text = text.replace(
+                      '"dockerfile",\n',
+                      '"dockerfile",\n    "dotenv",\n    "env",\n',
+                      1,
+                  )
+              script.write_text(text, encoding='utf-8', newline='\n')
+
+          p = Path('tools/audit_contextes_semantiques.py')
+          text = p.read_text(encoding='utf-8')
+          anchor = '''    if lang in FILE_LANGS:\n        if marker in {"VSC", "LECTURE", "SORTIE"}:\n'''
+          replacement = '''    if lang in FILE_LANGS:\n        context_paths = PATH_RE.findall(ctx)\n        context_target = context_paths[-1] if context_paths else ""\n        file_action = any(word in ctx for word in (\n            "créer", "creer", "modifier", "contenu du fichier",\n            "enregistrer dans", "copier le fichier", "fichier :",\n        ))\n        if marker == "LECTURE" and file_action:\n            chosen = context_target or target or "fichier indiqué dans l’étape"\n            return (\n                "VSC",\n                f"> **[VSC] Visual Studio Code - Créer ou modifier :** `{chosen}`.",\n            )\n        if marker in {"VSC", "LECTURE", "SORTIE"}:\n'''
+          if replacement not in text:
+              text = text.replace(anchor, replacement, 1)
+          p.write_text(text, encoding='utf-8', newline='\n')
+
+          subprocess.run(['python3', 'tools/audit_contextes_semantiques.py', '--apply'], check=True)
+
+          p = Path('Livre-I/CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md')
+          text = p.read_text(encoding='utf-8')
+          text = re.sub(
+              r'(### 7\.2 Créer `\.env\.example`\n\n)(?:> \*\*\[[A-Z]+\].*?\n\n)?(```dotenv)',
+              r'\1> **[VSC] Visual Studio Code - Créer :** `.env.example` dans le dossier `Guide-IA-Services`.\n\n\2',
+              text,
+              count=1,
+              flags=re.DOTALL,
+          )
+          p.write_text(text, encoding='utf-8', newline='\n')
+          PY
+
+          mkdir -p Volume-0/QA
+          set +e
+          python3 tools/audit_contextes_utilisation.py --check > Volume-0/QA/CONTEXT-PRESENCE-DIAGNOSTIC.log 2>&1
+          python3 tools/audit_contextes_semantiques.py --check > Volume-0/QA/CONTEXT-SEMANTIC-DIAGNOSTIC.log 2>&1
+          set -e
+
+      - name: Commit fixes and diagnostics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Volume-0 Livre-I STYLE_GUIDE.md tools
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(qa): apply final audit fixes and record diagnostics"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
