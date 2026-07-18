@@ -9,4 +9,4 @@ if old not in text:
 path.write_text(text.replace(old, new), encoding="utf-8", newline="\n")
 print("Ancre du chapitre 18.3 corrigée.")
 
-# Commit de relance après activation du workflow temporaire sur la branche principale.
+# Relance diagnostique après activation de la capture d’erreur.
