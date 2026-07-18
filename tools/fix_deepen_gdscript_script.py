@@ -8,3 +8,5 @@ if old not in text:
     raise RuntimeError("Ancienne ancre absente du script de migration")
 path.write_text(text.replace(old, new), encoding="utf-8", newline="\n")
 print("Ancre du chapitre 18.3 corrigée.")
+
+# Commit de relance après activation du workflow temporaire sur la branche principale.
