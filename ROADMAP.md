@@ -16,7 +16,7 @@
 - [x] Architecture documentaire.
 - [x] Convention des identifiants.
 - [x] Conventions Markdown et Pandoc.
-- [ ] Style rédactionnel.
+- [x] Style rédactionnel.
 - [ ] Standards techniques et IA.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
