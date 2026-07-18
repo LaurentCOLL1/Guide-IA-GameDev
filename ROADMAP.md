@@ -19,7 +19,7 @@
 - [x] Style rédactionnel.
 - [x] Standards techniques.
 - [x] Standards IA.
-- [ ] Politique de compatibilité.
+- [x] Politique de compatibilité.
 - [ ] Production, validation et publication.
 - [ ] Glossaire, bibliographie et index.
 - [ ] Assurance qualité documentaire.
