@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.3.0"
+version: "0.4.0"
 ---
 
 # Livre II — Développement du jeu et plateforme IA
@@ -21,8 +21,8 @@ Project Asteria
 
 ## Partie I — Fondations Godot, architecture et données
 
-1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé**
-2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé**
+1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé et audité**
+2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé et audité**
 3. Scènes, nœuds, ressources et signaux — à rédiger
 4. Architecture modulaire du projet — à rédiger
 5. Services, gestionnaires, bus d’événements et injection de dépendances — à rédiger
@@ -58,6 +58,12 @@ Project Asteria
 29. Automatisation Python et génération de données — à rédiger
 30. Architecture Solo et architecture Studio — à rédiger
 
+## Audit post-création
+
+Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédaction. Le protocole est défini dans [`QA/PROTOCOLE-AUDIT-POST-CREATION.md`](QA/PROTOCOLE-AUDIT-POST-CREATION.md). Les audits des chapitres 1 et 2 sont consignés dans [`QA/AUDIT-CHAPITRES-01-02.md`](QA/AUDIT-CHAPITRES-01-02.md).
+
+La mention **rédigé et audité** signifie que la complétude et les exemples ont été relus statiquement et que la compilation documentaire a réussi. Elle ne remplace pas un test runtime sur le projet matérialisé.
+
 ## Principes du Livre II
 
 - Le projet doit rester exécutable après chaque chapitre.
@@ -84,4 +90,4 @@ Au 18 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés et audités.

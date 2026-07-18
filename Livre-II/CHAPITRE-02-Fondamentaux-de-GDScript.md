@@ -1,12 +1,16 @@
 ---
 title: "Livre II — Chapitre 2 : Fondamentaux de GDScript"
 id: "DOC-L2-CH02"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 2
 last-verified: "2026-07-18"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Livre-II/QA/AUDIT-CHAPITRES-01-02.md"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -24,7 +28,8 @@ reference-project:
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **État technique vérifié le :** 18 juillet 2026  
-> **Résultat attendu :** lire, écrire, tester et corriger un script GDScript typé simple, sans confondre GDScript avec Python et sans introduire prématurément une architecture globale.
+> **Résultat attendu :** lire, écrire, tester et corriger un script GDScript typé simple, sans confondre GDScript avec Python et sans introduire prématurément une architecture globale.  
+> **Audit post-création :** terminé — voir `Livre-II/QA/AUDIT-CHAPITRES-01-02.md`.
 
 ## 1. Rôle du chapitre
 
@@ -374,7 +379,7 @@ L’expression conditionnelle est utile pour une valeur simple. Une logique comp
 | `bool` | vrai ou faux |
 | `int` | entier signé |
 | `float` | nombre à virgule flottante |
-| `String` | texte mutable par valeur |
+| `String` | chaîne de caractères Unicode |
 | `StringName` | identifiant texte optimisé pour les comparaisons répétées |
 | `NodePath` | chemin de nœud ou de propriété |
 | `Callable` | référence vers une fonction appelable |
@@ -492,6 +497,30 @@ Le typage :
 - rend les revues de code plus fiables.
 
 Le projet n’exige pas une annotation redondante lorsque l’inférence est parfaitement claire.
+
+### 10.6 Vérifier et convertir un type
+
+L’opérateur `is` vérifie un type avant utilisation :
+
+```gdscript
+func handle_body(body: Node) -> void:
+	if body is not CharacterBody3D:
+		push_warning("Le nœud reçu n’est pas un CharacterBody3D.")
+		return
+
+	var character: CharacterBody3D = body
+	print(character.name)
+```
+
+L’opérateur `as` tente une conversion d’objet et renvoie `null` si elle échoue :
+
+```gdscript
+var character := body as CharacterBody3D
+if character == null:
+	return
+```
+
+Cette forme est pratique lorsque l’échec est attendu. Elle peut aussi masquer une erreur de conception, car une conversion incompatible échoue silencieusement. Utiliser `is` ou une assertion lorsque le type incorrect représente un défaut.
 
 ## 11. Constantes et variables
 
@@ -643,6 +672,24 @@ for value: String in actor_names:
 actor_names = retained
 ```
 
+### 13.6 PackedArrays
+
+Godot fournit des tableaux compacts spécialisés, notamment :
+
+```text
+PackedByteArray
+PackedInt32Array
+PackedInt64Array
+PackedFloat32Array
+PackedFloat64Array
+PackedStringArray
+PackedVector2Array
+PackedVector3Array
+PackedColorArray
+```
+
+Les PackedArrays réduisent généralement la mémoire et conviennent aux grandes séries homogènes, aux buffers et à certaines API du moteur. Les `Array[Type]` restent préférables pour la plupart des collections métier grâce à leur souplesse et à leurs méthodes de haut niveau.
+
 ## 14. Dictionnaires
 
 ### 14.1 Déclaration
@@ -655,7 +702,26 @@ var actor_data: Dictionary = {
 }
 ```
 
-### 14.2 Accès sûr
+### 14.2 Dictionnaire typé
+
+Lorsque les clés et valeurs suivent un contrat stable :
+
+```gdscript
+var metrics: Dictionary[StringName, float] = {
+	&"marker_height": 1.0,
+	&"load_time_ms": 12.5,
+}
+```
+
+Une clé ou une valeur d’un autre type provoque une erreur. Utiliser `Variant` comme type de valeur uniquement lorsque la structure est volontairement hétérogène :
+
+```gdscript
+var metadata: Dictionary[StringName, Variant] = {}
+```
+
+Les dictionnaires, typés ou non, sont passés par référence. Utiliser `duplicate()` lorsqu’une copie indépendante est nécessaire.
+
+### 14.3 Accès sûr
 
 ```gdscript
 var actor_name: String = actor_data.get(&"name", "Unknown")
@@ -663,27 +729,27 @@ var actor_name: String = actor_data.get(&"name", "Unknown")
 
 Éviter de supposer qu’une clé externe existe.
 
-### 14.3 Tester une clé
+### 14.4 Tester une clé
 
 ```gdscript
 if actor_data.has(&"level"):
 	print(actor_data[&"level"])
 ```
 
-### 14.4 Ajouter ou modifier
+### 14.5 Ajouter ou modifier
 
 ```gdscript
 actor_data[&"level"] = 2
 actor_data[&"faction"] = &"neutral"
 ```
 
-### 14.5 Retirer
+### 14.6 Retirer
 
 ```gdscript
 actor_data.erase(&"active")
 ```
 
-### 14.6 Choix entre dictionnaire et classe
+### 14.7 Choix entre dictionnaire et classe
 
 Un dictionnaire convient pour :
 
@@ -795,7 +861,7 @@ for warning: String in warnings:
 ### 17.3 Parcourir un dictionnaire
 
 ```gdscript
-for key: Variant in metrics:
+for key: StringName in metrics:
 	print("%s = %s" % [key, metrics[key]])
 ```
 
@@ -867,6 +933,18 @@ if MathRules.is_valid_percentage(0.5):
 ### 18.5 Fonction récursive
 
 La récursion est possible, mais une boucle est souvent plus sûre pour les parcours simples. Toute récursion doit posséder un cas terminal clair.
+
+### 18.6 `await` et fonctions suspendues
+
+`await` suspend la fonction courante jusqu’à la résolution d’un signal ou d’un objet attendu :
+
+```gdscript
+func wait_one_frame() -> void:
+	await get_tree().process_frame
+	print("Image suivante")
+```
+
+Une fonction utilisant `await` rend la suite de son exécution asynchrone. Le code appelant doit éviter de supposer que le résultat est disponible immédiatement. Les signaux, temporisations, annulations et chaînes asynchrones seront approfondis au chapitre 3.
 
 ## 19. Classes, héritage et `class_name`
 
@@ -1386,7 +1464,7 @@ const MAX_MESSAGES: int = 32
 
 var status: Status = Status.UNKNOWN
 var messages: Array[String] = []
-var metrics: Dictionary = {}
+var metrics: Dictionary[StringName, float] = {}
 
 
 func add_message(message: String) -> void:
@@ -1727,13 +1805,15 @@ Une classe publique modifiée doit identifier les scènes, Resources et sauvegar
 - [ ] Les fichiers et symboles respectent les conventions de nommage.
 - [ ] Les paramètres et valeurs de retour importants sont typés.
 - [ ] Je sais utiliser `if`, `match`, `for` et `while`.
-- [ ] Je sais créer et parcourir un `Array` typé.
-- [ ] Je sais accéder prudemment à un `Dictionary`.
+- [ ] Je sais créer et parcourir un `Array` typé et reconnaître un PackedArray.
+- [ ] Je sais utiliser un `Dictionary` typé et accéder prudemment à ses valeurs.
+- [ ] Je sais vérifier un type avec `is` et utiliser `as` uniquement lorsque l’échec nullable est voulu.
 - [ ] Je comprends la différence entre copie et référence pour un tableau.
 - [ ] Je sais écrire une classe `class_name` simple.
 - [ ] Je comprends `_init()`, `_enter_tree()`, `_ready()`, `_process()` et `_physics_process()`.
 - [ ] Je sais utiliser `@export` et `@onready`.
 - [ ] Je sais utiliser `preload()` et `load()` dans leurs cas respectifs.
+- [ ] Je comprends que `await` suspend la suite d’une fonction.
 - [ ] Je sais lire une erreur dans Output et le débogueur.
 - [ ] `BootstrapReport` fonctionne dans `Project Asteria`.
 - [ ] La vérification headless ne rapporte aucune erreur de script.
@@ -1786,17 +1866,17 @@ Le statut doit être vide après le commit.
 ## 42. Sources officielles vérifiées
 
 - [Godot 4.7 — documentation GDScript](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/index.html)
-- [Référence GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html)
-- [Typage statique en GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/static_typing.html)
-- [Guide de style GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html)
-- [Commentaires de documentation](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_documentation_comments.html)
-- [Propriétés exportées](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html)
-- [Système d’avertissements GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/warning_system.html)
-- [Utilisation de l’éditeur de script](https://docs.godotengine.org/en/stable/tutorials/scripting/script_editor/index.html)
-- [Ligne de commande de Godot](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html)
-- [Classe Array](https://docs.godotengine.org/en/stable/classes/class_array.html)
-- [Classe Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)
-- [Liste des annotations GDScript](https://docs.godotengine.org/en/stable/classes/class_%40gdscript.html)
+- [Référence GDScript](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/gdscript_basics.html)
+- [Typage statique en GDScript](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/static_typing.html)
+- [Guide de style GDScript](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/gdscript_styleguide.html)
+- [Commentaires de documentation](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/gdscript_documentation_comments.html)
+- [Propriétés exportées](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/gdscript_exports.html)
+- [Système d’avertissements GDScript](https://docs.godotengine.org/en/4.7/tutorials/scripting/gdscript/warning_system.html)
+- [Utilisation de l’éditeur de script](https://docs.godotengine.org/en/4.7/tutorials/scripting/script_editor/index.html)
+- [Ligne de commande de Godot](https://docs.godotengine.org/en/4.7/tutorials/editor/command_line_tutorial.html)
+- [Classe Array](https://docs.godotengine.org/en/4.7/classes/class_array.html)
+- [Classe Dictionary](https://docs.godotengine.org/en/4.7/classes/class_dictionary.html)
+- [Liste des annotations GDScript](https://docs.godotengine.org/en/4.7/classes/class_%40gdscript.html)
 
 ## 43. Résumé
 

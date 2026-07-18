@@ -34,6 +34,8 @@ Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md
 Livre-II/index.md
 Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
 Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md
+Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
+Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-III/index.md
 Livre-IV/index.md
 Livre-V/index.md

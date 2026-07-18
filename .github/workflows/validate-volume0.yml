@@ -90,6 +90,19 @@ jobs:
                   f"détectés : {livre_i_numbers}."
               )
 
+          livre_ii_matches = [
+              (entry, re.fullmatch(r"Livre-II/CHAPITRE-(\d{2})-.+\.md", entry))
+              for entry in entries
+          ]
+          livre_ii_entries = [entry for entry, match in livre_ii_matches if match]
+          livre_ii_numbers = [int(match.group(1)) for _, match in livre_ii_matches if match]
+          expected_livre_ii_numbers = list(range(1, len(livre_ii_numbers) + 1))
+          if livre_ii_numbers != expected_livre_ii_numbers:
+              errors.append(
+                  "Les chapitres présents du Livre II doivent former une séquence continue depuis 01 ; "
+                  f"détectés : {livre_ii_numbers}."
+              )
+
           expected_livre_i_ids = {
               1: "DOC-L1-CH01",
               2: "DOC-L1-ENV-TERMINAL",
@@ -151,9 +164,9 @@ jobs:
               elif rel not in {"README.md"}:
                   warnings.append(f"Aucun front matter YAML : {rel}")
 
-              chapter_match = re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", rel)
-              if chapter_match:
-                  expected_chapter = int(chapter_match.group(1))
+              chapter_match_i = re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", rel)
+              if chapter_match_i:
+                  expected_chapter = int(chapter_match_i.group(1))
                   if metadata.get("book") != "Livre I":
                       errors.append(f"Métadonnée book incorrecte pour {rel}.")
                   if metadata.get("chapter") != expected_chapter:
@@ -171,6 +184,39 @@ jobs:
                       )
                   if expected_chapter in range(5, 10) and not metadata.get("legacy-chapter"):
                       errors.append(f"Métadonnée legacy-chapter absente après renumérotation : {rel}")
+
+              chapter_match_ii = re.fullmatch(r"Livre-II/CHAPITRE-(\d{2})-.+\.md", rel)
+              if chapter_match_ii:
+                  expected_chapter = int(chapter_match_ii.group(1))
+                  expected_id = f"DOC-L2-CH{expected_chapter:02d}"
+                  actual_id = metadata.get("id") or metadata.get("identifier")
+
+                  if metadata.get("book") != "Livre II":
+                      errors.append(f"Métadonnée book incorrecte pour {rel}.")
+                  if metadata.get("chapter") != expected_chapter:
+                      errors.append(
+                          f"Numéro de chapitre incohérent dans {rel} : attendu {expected_chapter}, reçu {metadata.get('chapter')}."
+                      )
+                  if actual_id != expected_id:
+                      errors.append(
+                          f"Identifiant stable incorrect pour {rel} : attendu {expected_id}, reçu {actual_id}."
+                      )
+                  if not metadata.get("last-verified"):
+                      errors.append(f"Métadonnée last-verified absente : {rel}")
+                  if metadata.get("audit-status") != "complete":
+                      errors.append(f"Audit post-création incomplet : {rel}")
+                  if not metadata.get("audit-date"):
+                      errors.append(f"Métadonnée audit-date absente : {rel}")
+                  if metadata.get("audit-level") not in {"static-review", "runtime-tested"}:
+                      errors.append(f"Métadonnée audit-level invalide : {rel}")
+
+                  audit_report = metadata.get("audit-report")
+                  if not audit_report:
+                      errors.append(f"Métadonnée audit-report absente : {rel}")
+                  else:
+                      audit_path = root / str(audit_report)
+                      if not audit_path.is_file():
+                          errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
 
               for raw_target in markdown_link.findall(text):
                   target = raw_target.strip().split()[0].strip("<>")
@@ -206,6 +252,7 @@ jobs:
               "",
               f"- Sources déclarées : **{len(sources)}**",
               f"- Chapitres du Livre I : **{len(livre_i_entries)}**",
+              f"- Chapitres du Livre II : **{len(livre_ii_entries)}**",
               f"- Identifiants uniques détectés : **{len(ids)}**",
               f"- Erreurs bloquantes : **{len(errors)}**",
               f"- Avertissements : **{len(warnings)}**",
