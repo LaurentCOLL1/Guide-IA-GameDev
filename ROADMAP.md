@@ -8,6 +8,8 @@
 - [x] Définir l'ordre de compilation.
 - [x] Ajouter la documentation de contribution et de style.
 - [x] Ajouter les scripts de construction multiplateformes.
+- [x] Créer `CONTINUITE-PROJET.md` comme document permanent de reprise.
+- [x] Rendre sa mise à jour obligatoire dans chaque lot de modifications du projet.
 
 **Statut M0 : terminé.**
 
@@ -56,9 +58,10 @@
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
 - [x] Convention des outils et contextes appliquée aux chapitres 1 et 2.
+- [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 2 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les futurs chapitres doivent réussir les contrôles de contextes d’utilisation avant d’être déclarés audités.
+**Statut M3 : en cours — 2 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les futurs chapitres doivent réussir les contrôles de contextes d’utilisation, de complétude pédagogique et de doublons avant d’être déclarés audités.
 
 ## M4 — Livre III : Production des contenus et assets
 
@@ -81,21 +84,26 @@
 
 ## M7 — Companion Pack
 
-- [ ] Templates, scripts, bases et workflows.
-- [ ] Projets de référence et tests.
+- [ ] Starter Kit.
+- [ ] Project Templates.
+- [ ] AI Library.
+- [ ] Code Library.
+- [ ] Database Library.
+- [ ] ComfyUI Library.
+- [ ] Documentation Library.
+- [ ] Test & Benchmark Library.
+- [ ] Production Toolkit.
+- [ ] Knowledge Base.
 
 ## M8 — Publications
 
-- [ ] PDF par volume.
-- [ ] PDF complet.
-- [ ] Site HTML.
-- [ ] Archives de version.
-- [ ] Licence globale définie.
-- [ ] PDF balisé et contrôlé pour l’accessibilité.
+- [ ] Définir la licence globale du projet.
+- [ ] Produire les versions PDF, HTML et EPUB.
+- [ ] Produire un PDF balisé pour les lecteurs d’écran.
+- [ ] Publier les archives du Companion Pack.
 
 ## M9 — Version 1.0
 
-- [ ] Relecture complète.
-- [ ] Vérification technique.
-- [ ] Validation des licences.
-- [ ] Publication officielle.
+- [ ] Stabiliser les cinq Livres et le Companion Pack.
+- [ ] Exécuter les campagnes finales de QA.
+- [ ] Publier la version 1.0 de la collection.
