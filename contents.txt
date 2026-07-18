@@ -26,6 +26,7 @@ Livre-I/CHAPITRE-02-Docker-et-Docker-Compose.md
 Livre-I/CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md
 Livre-I/CHAPITRE-04-ComfyUI-et-workflows-graphiques.md
 Livre-I/CHAPITRE-05-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md
+Livre-I/CHAPITRE-06-Audio-IA-local-voix-transcription-musique-et-effets.md
 Livre-II/index.md
 Livre-III/index.md
 Livre-IV/index.md
