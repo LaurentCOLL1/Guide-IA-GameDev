@@ -1,0 +1,30 @@
+name: Temporary Run Chapter 2 Pedagogy
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/scripts/deepen_ch2.py'
+      - '.audit-trigger-ch2'
+      - 'Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'audit/chapter-2-pedagogy' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/chapter-2-pedagogy
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python .github/scripts/deepen_ch2.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md Livre-II/QA/AUDIT-CHAPITRE-02-PEDAGOGIQUE.md
+          git commit -m "docs(livre-ii): deepen and audit GDScript explanations"
+          git push origin HEAD:audit/chapter-2-pedagogy
