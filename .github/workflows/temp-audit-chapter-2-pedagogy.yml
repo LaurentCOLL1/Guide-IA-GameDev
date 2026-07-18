@@ -1,0 +1,255 @@
+name: Temporary Chapter 2 Pedagogy Audit
+
+on:
+  push:
+    branches:
+      - audit/chapter-2-pedagogy
+
+permissions:
+  contents: write
+
+jobs:
+  deepen-and-audit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/chapter-2-pedagogy
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deepen explanations and audit duplicates
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          from collections import Counter
+          path = Path('Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('version: "1.3.0"', 'version: "1.4.0"', 1)
+          if 'pedagogical-audit-report:' not in text:
+              text = text.replace('audit-level: "static-review"\n', 'audit-level: "static-review"\npedagogical-audit-report: "Livre-II/QA/AUDIT-CHAPITRE-02-PEDAGOGIQUE.md"\n', 1)
+          replacements = {
+          '''```gdscript
+          func clamp_health(value: int, maximum: int) -> int:
+          \treturn clampi(value, 0, maximum)
+          ```
+
+          Une fonction qui ne renvoie rien utilise `void` :''': '''```gdscript
+          func clamp_health(value: int, maximum: int) -> int:
+          \treturn clampi(value, 0, maximum)
+          ```
+
+          Lecture détaillée :
+
+          - `clamp_health` est le nom choisi pour la fonction. Il décrit son objectif : ramener une valeur de santé dans un intervalle autorisé ;
+          - `value: int` est le premier paramètre. Lors de l’appel, il reçoit la valeur que l’on souhaite contrôler ;
+          - `maximum: int` est le second paramètre. Il représente la limite supérieure autorisée ;
+          - les noms `value` et `maximum` sont locaux à la fonction : ils n’existent que pendant son exécution ;
+          - `-> int` garantit que le résultat renvoyé sera un entier ;
+          - `clampi(value, 0, maximum)` appelle la fonction native `clampi` avec trois arguments : la valeur à limiter, la borne minimale `0` et la borne maximale ;
+          - si `value` vaut `-8`, le résultat est `0` ; si elle vaut `45` avec un maximum de `100`, le résultat reste `45` ; si elle vaut `130`, le résultat est `100` ;
+          - `return` termine immédiatement la fonction et transmet ce résultat au code appelant.
+
+          Exemple d’appel : `var safe_health: int = clamp_health(130, 100)`. Après l’appel, `safe_health` vaut `100`.
+
+          Une fonction qui ne renvoie rien utilise `void` :''',
+          '''```gdscript
+          for warning: String in warnings:
+          \tpush_warning(warning)
+          ```
+
+          ### 17.3 Parcourir un dictionnaire''': '''```gdscript
+          for warning: String in warnings:
+          \tpush_warning(warning)
+          ```
+
+          Lecture détaillée :
+
+          - `warnings` doit être une collection contenant des chaînes, par exemple `Array[String]` ;
+          - `warning` est une variable locale créée pour un seul tour de boucle ;
+          - `: String` précise que chaque élément attendu est une chaîne ;
+          - `in warnings` demande à Godot de prendre les éléments un par un, dans leur ordre ;
+          - `push_warning(warning)` transmet la chaîne courante au système d’avertissements de Godot ;
+          - après le dernier élément, la boucle se termine et la variable locale `warning` n’est plus utilisable.
+
+          ### 17.3 Parcourir un dictionnaire''',
+          '''```gdscript
+          func _normalize_label(value: String) -> String:
+          \treturn value.strip_edges().to_lower()
+          ```
+
+          GDScript ne rend pas cette méthode strictement privée. Le préfixe `_` communique l’intention.''': '''```gdscript
+          func _normalize_label(value: String) -> String:
+          \treturn value.strip_edges().to_lower()
+          ```
+
+          Lecture détaillée :
+
+          - le préfixe `_` dans `_normalize_label` signale par convention que la fonction est destinée à l’usage interne de la classe ;
+          - `value: String` reçoit le texte à normaliser ;
+          - `value.strip_edges()` crée une chaîne sans espaces inutiles au début et à la fin ;
+          - le point `.` enchaîne ensuite l’appel de `to_lower()` sur le résultat précédent ;
+          - `to_lower()` convertit les lettres en minuscules ;
+          - `return` renvoie la nouvelle chaîne sans modifier directement la chaîne reçue ;
+          - `_normalize_label("  PLAYER  ")` renvoie `"player"`.
+
+          GDScript ne rend pas cette méthode strictement privée. Le préfixe `_` communique l’intention.''',
+          '''```gdscript
+          static func is_valid_percentage(value: float) -> bool:
+          \treturn value >= 0.0 and value <= 1.0
+          ```
+
+          Appel :''': '''```gdscript
+          static func is_valid_percentage(value: float) -> bool:
+          \treturn value >= 0.0 and value <= 1.0
+          ```
+
+          Lecture détaillée :
+
+          - `static` associe la fonction à la classe elle-même plutôt qu’à une instance ;
+          - `value: float` représente le nombre à vérifier ;
+          - `-> bool` annonce que la réponse sera `true` ou `false` ;
+          - `value >= 0.0` vérifie la borne minimale ;
+          - `value <= 1.0` vérifie la borne maximale ;
+          - `and` exige que les deux comparaisons soient vraies ;
+          - la fonction renvoie donc `true` pour `0.5`, mais `false` pour `-0.1` ou `1.2`.
+
+          Appel :''',
+          '''```gdscript
+          func wait_one_frame() -> void:
+          \tawait get_tree().process_frame
+          \tprint("Image suivante")
+          ```
+
+          Une fonction utilisant `await` rend la suite de son exécution asynchrone.''': '''```gdscript
+          func wait_one_frame() -> void:
+          \tawait get_tree().process_frame
+          \tprint("Image suivante")
+          ```
+
+          Lecture détaillée :
+
+          - `get_tree()` récupère le `SceneTree` auquel appartient le nœud courant ;
+          - `.process_frame` désigne le signal émis au début de l’image de traitement suivante ;
+          - `await` suspend uniquement cette fonction jusqu’à l’émission du signal ; il ne bloque pas tout le moteur ;
+          - la ligne `print()` n’est exécutée qu’après cette reprise ;
+          - `-> void` signifie qu’aucune valeur métier n’est renvoyée au terme de l’attente.
+
+          Une fonction utilisant `await` rend la suite de son exécution asynchrone.''',
+          '''```gdscript
+          class_name BootstrapReport
+          extends RefCounted
+          ```
+
+          Godot enregistre `BootstrapReport` comme type global du projet.''': '''```gdscript
+          class_name BootstrapReport
+          extends RefCounted
+          ```
+
+          Lecture détaillée :
+
+          - `class_name BootstrapReport` enregistre un nom global utilisable dans les annotations de type et dans l’autocomplétion ;
+          - `BootstrapReport` est un nom choisi par le projet, écrit en `PascalCase` ;
+          - `extends RefCounted` indique que la nouvelle classe hérite de `RefCounted` ;
+          - `RefCounted` gère automatiquement sa durée de vie par comptage de références et n’est pas un nœud de scène ;
+          - ce choix convient à un objet de données temporaire qui ne doit pas être ajouté à l’arbre de scène.
+
+          Godot enregistre `BootstrapReport` comme type global du projet.''',
+          '''```gdscript
+          var health: int = 100:
+          \tset(value):
+          \t\thealth = clampi(value, 0, max_health)
+          \tget:
+          \t\treturn health
+
+          var max_health: int = 100
+          ```
+
+          Un accesseur peut garantir un invariant, mais il doit rester léger.''': '''```gdscript
+          var health: int = 100:
+          \tset(value):
+          \t\thealth = clampi(value, 0, max_health)
+          \tget:
+          \t\treturn health
+
+          var max_health: int = 100
+          ```
+
+          Lecture détaillée :
+
+          - `health` est une propriété entière initialisée à `100` ;
+          - le caractère `:` après sa valeur ouvre la définition de ses accesseurs ;
+          - `set(value)` est appelé chaque fois qu’un code affecte une nouvelle valeur à `health` ;
+          - `value` contient précisément la valeur proposée par l’appelant ;
+          - `clampi(value, 0, max_health)` empêche la propriété de sortir de l’intervalle autorisé ;
+          - dans le setter de GDScript, l’affectation à `health` désigne le stockage interne de la propriété et ne relance pas récursivement le setter ;
+          - `get` est appelé lorsqu’un code lit `health` ;
+          - `return health` transmet la valeur stockée ;
+          - `max_health` est une autre propriété membre utilisée comme borne supérieure.
+
+          Par exemple, après `health = 140` avec `max_health == 100`, une lecture de `health` renvoie `100`.
+
+          Un accesseur peut garantir un invariant, mais il doit rester léger.'''
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise RuntimeError('Ancre absente: ' + old.splitlines()[1][:80])
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          lines = text.splitlines()
+          headings = [re.sub(r'^#{2,6}\s+', '', line).strip() for line in lines if re.match(r'^#{2,6}\s+', line)]
+          duplicate_headings = [x for x,c in Counter(headings).items() if c > 1]
+          paragraphs=[]
+          for block in re.split(r'\n\s*\n', text):
+              n=re.sub(r'\s+',' ',block.strip())
+              if len(n)>=140 and not n.startswith('> **[') and not n.startswith('```'): paragraphs.append(n)
+          duplicate_paragraphs=[x for x,c in Counter(paragraphs).items() if c>1]
+          code=[]
+          for m in re.finditer(r'```(?:gdscript|text|bash|powershell|json|yaml|gitattributes)?\n(.*?)\n```',text,re.S):
+              n=re.sub(r'[ \t]+$','',m.group(1),flags=re.M).strip()
+              if len(n.splitlines())>=5: code.append(n)
+          duplicate_code=[x for x,c in Counter(code).items() if c>1]
+          if duplicate_headings or duplicate_paragraphs or duplicate_code:
+              raise RuntimeError(f'Doublons: headings={duplicate_headings}, paragraphs={len(duplicate_paragraphs)}, code={len(duplicate_code)}')
+          required=['`metrics[key]` utilise la clé courante','l’opérateur `%` situé entre la chaîne et le tableau','`Node3D` est une classe native de Godot','`Camera3D` est une classe native plus spécialisée','`BootstrapReport` est une classe personnalisée','`clamp_health` est le nom choisi pour la fonction','`static` associe la fonction à la classe elle-même','`await` suspend uniquement cette fonction','`set(value)` est appelé chaque fois']
+          missing=[x for x in required if x not in text]
+          if missing: raise RuntimeError('Explications absentes: '+repr(missing))
+          Path('Livre-II/QA/AUDIT-CHAPITRE-02-PEDAGOGIQUE.md').write_text('''---
+title: "Audit pédagogique — Livre II, chapitre 2"
+id: "DOC-L2-QA-CH02-PEDAGOGIE"
+status: "complete"
+version: "1.0.0"
+lang: "fr-FR"
+audit-date: "2026-07-18"
+audit-level: "static-review"
+---
+
+# Audit pédagogique du chapitre 2
+
+## Périmètre
+
+L’audit vérifie les doublons et la profondeur des explications consacrées aux variables, types, paramètres, arguments, valeurs de retour, opérateurs, accès aux collections et fonctions.
+
+## Résultats
+
+- aucun titre de section dupliqué ;
+- aucun paragraphe explicatif long dupliqué ;
+- aucun bloc de code non trivial dupliqué ;
+- les rappels courts restent admis lorsqu’ils accompagnent un exemple différent ;
+- les sections sur `Node3D`, `Camera3D`, `BootstrapReport`, les dictionnaires, `%s`, `%`, `key`, `metrics[key]`, les paramètres, les retours, `static`, `await` et les accesseurs possèdent une décomposition détaillée ;
+- chaque notion nouvelle est reliée à un exemple d’appel ou à un résultat observable ;
+- la validation reste statique jusqu’à l’exécution des extraits dans le projet fil rouge matérialisé.
+
+## Critère permanent
+
+Un exemple introduisant une syntaxe nouvelle doit expliquer les mots-clés, les noms choisis, les types, les opérateurs, la portée, les valeurs reçues, les valeurs renvoyées et le résultat observable.
+''',encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md Livre-II/QA/AUDIT-CHAPITRE-02-PEDAGOGIQUE.md
+          git commit -m "docs(livre-ii): deepen and audit GDScript explanations"
+          git push origin HEAD:audit/chapter-2-pedagogy
