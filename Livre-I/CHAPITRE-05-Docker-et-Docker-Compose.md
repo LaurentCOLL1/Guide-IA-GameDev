@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 5 : Docker et Docker Compose"
 id: "DOC-L1-CH02"
 status: "draft-review"
-version: "1.1.0"
+version: "1.2.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 5

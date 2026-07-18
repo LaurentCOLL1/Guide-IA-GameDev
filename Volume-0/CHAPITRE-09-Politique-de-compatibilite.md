@@ -2,7 +2,7 @@
 title: "Chapitre 9 — Politique de compatibilité"
 id: "DOC-V0-CH09"
 status: "draft"
-version: "0.2.0"
+version: "0.3.0"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"

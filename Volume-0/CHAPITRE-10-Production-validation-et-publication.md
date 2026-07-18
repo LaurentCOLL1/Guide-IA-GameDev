@@ -2,7 +2,7 @@
 title: "Chapitre 10 — Production, validation et publication"
 id: "DOC-V0-CH10"
 status: "draft"
-version: "0.2.0"
+version: "0.3.0"
 book: "Volume 0"
 chapter: 10
 level: "Débutant à avancé"

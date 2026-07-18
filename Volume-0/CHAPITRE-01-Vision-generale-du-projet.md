@@ -1,7 +1,7 @@
 ---
 title: "Volume 0 — Chapitre 1 : Vision générale du projet"
 identifier: "DOC-V0-CH01"
-version: "1.1.0"
+version: "1.2.0"
 status: "draft-review"
 lang: "fr-FR"
 audit-status: "complete"

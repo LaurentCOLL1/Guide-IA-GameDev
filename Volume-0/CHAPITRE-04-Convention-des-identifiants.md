@@ -2,7 +2,7 @@
 title: "Volume 0 — Chapitre 4 : Convention des identifiants"
 id: "DOC-V0-CH04"
 status: "complete"
-version: "1.1.0"
+version: "1.2.0"
 lang: "fr-FR"
 audit-status: "complete"
 audit-date: "2026-07-18"

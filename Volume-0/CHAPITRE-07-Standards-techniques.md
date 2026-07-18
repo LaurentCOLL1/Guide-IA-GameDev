@@ -2,7 +2,7 @@
 title: "Chapitre 7 — Standards techniques"
 id: "DOC-V0-CH07"
 status: "complete"
-version: "1.1.0"
+version: "1.2.0"
 book: "Volume 0"
 chapter: 7
 tags:

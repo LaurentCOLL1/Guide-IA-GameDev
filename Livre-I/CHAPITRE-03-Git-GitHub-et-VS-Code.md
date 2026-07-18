@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 3 : Git, GitHub et Visual Studio Code"
 id: "DOC-L1-ENV-GIT"
 status: "draft-review"
-version: "1.1.0"
+version: "1.2.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 3
