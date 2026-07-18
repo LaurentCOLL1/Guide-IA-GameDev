@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.2.0"
+version: "0.3.0"
 ---
 
 # Livre II — Développement du jeu et plateforme IA
@@ -22,7 +22,7 @@ Project Asteria
 ## Partie I — Fondations Godot, architecture et données
 
 1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé**
-2. Fondamentaux de GDScript — à rédiger
+2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé**
 3. Scènes, nœuds, ressources et signaux — à rédiger
 4. Architecture modulaire du projet — à rédiger
 5. Services, gestionnaires, bus d’événements et injection de dépendances — à rédiger
@@ -84,4 +84,4 @@ Au 18 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Un chapitre sur trente** est rédigé.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés.
