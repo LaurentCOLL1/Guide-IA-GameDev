@@ -37,9 +37,11 @@ Livre-II/index.md
 Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
 Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md
 Livre-II/CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md
+Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md
 Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
 Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-II/QA/AUDIT-CHAPITRE-03.md
+Livre-II/QA/AUDIT-CHAPITRE-04.md
 Livre-III/index.md
 Livre-IV/index.md
 Livre-V/index.md
