@@ -6,7 +6,7 @@ version: "1.1.0"
 book: "Livre II"
 category: "quality-report"
 validation-date: "2026-07-18"
-validation-run: "29643905233"
+validation-run: "29644072118"
 ---
 
 # Audit post-création — Livre II, chapitres 1 et 2
@@ -124,7 +124,7 @@ Exécution de référence :
 | Élément | Résultat |
 |---|---|
 | Workflow | `Validate Documentation` |
-| Exécution | `29643905233` |
+| Exécution | `29644072118` |
 | Résultat | `success` |
 | Sources déclarées | 41 |
 | Chapitres du Livre I | 10 |
@@ -133,8 +133,8 @@ Exécution de référence :
 | Erreurs bloquantes | 0 |
 | Avertissements | 1 — licence globale à définir |
 | PDF | A4, PDF 1.5 |
-| Pages | 470 |
-| Taille | 1 224 864 octets |
+| Pages | 472 |
+| Taille de l’artefact PDF | 1 227 702 octets |
 | Texte extractible | oui |
 
 Les étapes suivantes ont réussi :
