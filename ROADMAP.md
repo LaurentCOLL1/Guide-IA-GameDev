@@ -37,9 +37,10 @@
 - [x] Open WebUI, Open Terminal et Vane.
 - [x] ComfyUI.
 - [x] LLM locaux.
-- [ ] Audio IA.
+- [x] Audio IA.
+- [ ] Validation technique, documentaire et compilation du Livre I.
 
-**Statut M2 : en cours — 5 domaines principaux terminés sur 6.**
+**Statut M2 : en cours — les 6 domaines principaux sont rédigés ; la validation finale reste à produire.**
 
 ## M3 — Livre II : Développement et architecture
 
