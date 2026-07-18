@@ -42,9 +42,9 @@
 - [x] LLM locaux.
 - [x] Audio IA.
 - [x] Sécurité, sauvegarde et validation de la plateforme.
-- [ ] Nouvelle validation technique, documentaire et compilation du Livre I à dix chapitres.
+- [x] Nouvelle validation technique, documentaire et compilation du Livre I à dix chapitres.
 
-**Statut M2 : rouvert.** Les 10 chapitres sont rédigés et intégrés à l’ordre de compilation. Les anciens chapitres 2 à 6 ont été déplacés aux positions 5 à 9 sans réattribuer leurs identifiants stables. La validation antérieure à six chapitres est conservée comme historique mais ne clôt plus le milestone.
+**Statut M2 : terminé.** Le workflow `Validate Documentation` a contrôlé 37 sources, les 10 chapitres du Livre I et 36 identifiants uniques sans erreur bloquante. Les identifiants historiques des cinq chapitres déplacés ont été conservés. La compilation Pandoc/XeLaTeX a produit un PDF A4 de 396 pages ; 82 pages réparties dans le document ont été contrôlées visuellement. La licence globale et le balisage d’accessibilité du PDF restent à traiter avant publication officielle.
 
 ## M3 — Livre II : Développement et architecture
 
