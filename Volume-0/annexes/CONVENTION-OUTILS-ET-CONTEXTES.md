@@ -2,7 +2,7 @@
 title: "Convention des outils et contextes d’utilisation"
 id: "DOC-V0-ANN-CONTEXTES"
 status: "validated"
-version: "1.0.0"
+version: "1.0.1"
 date: "2026-07-18"
 category: "normative"
 audit-status: "complete"
@@ -144,7 +144,7 @@ Git version 2.x.y
 
 Une arborescence, une valeur indicative, un diagramme textuel ou un pseudocode utilise **[LECTURE]**.
 
-> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 project/
