@@ -34,12 +34,12 @@
 
 - [x] Matériel, Windows, pilotes AMD et voies d’accélération.
 - [x] Docker et Docker Compose.
-- [ ] Open WebUI, Open Terminal et Vane.
+- [x] Open WebUI, Open Terminal et Vane.
 - [ ] ComfyUI.
 - [ ] LLM locaux.
 - [ ] Audio IA.
 
-**Statut M2 : en cours — 2 domaines principaux terminés sur 6.**
+**Statut M2 : en cours — 3 domaines principaux terminés sur 6.**
 
 ## M3 — Livre II : Développement et architecture
 
