@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.6.0"
+version: "0.7.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -29,7 +29,7 @@ Project Asteria
 1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé, repéré et audité**
 2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé, repéré, enrichi et audité**
 3. [Scènes, nœuds, Resources et signaux](CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md) — **rédigé, repéré et audité au niveau static-review**
-4. Architecture modulaire du projet — à rédiger
+4. [Architecture modulaire du projet](CHAPITRE-04-Architecture-modulaire-du-projet.md) — **rédigé, repéré et audité au niveau static-review**
 5. Services, gestionnaires, bus d’événements et injection de dépendances — à rédiger
 6. Entrées, contrôleurs, caméras et interactions — à rédiger
 7. Données avec Resources, JSON et configurations — à rédiger
@@ -69,7 +69,8 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 
 - [protocole obligatoire](QA/PROTOCOLE-AUDIT-POST-CREATION.md) ;
 - [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md) ;
-- [audit du chapitre 3](QA/AUDIT-CHAPITRE-03.md).
+- [audit du chapitre 3](QA/AUDIT-CHAPITRE-03.md) ;
+- [audit du chapitre 4](QA/AUDIT-CHAPITRE-04.md).
 
 La mention **rédigé, repéré et audité** signifie que :
 
@@ -88,7 +89,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Le chapitre 3 utilise **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 et 4 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -116,4 +117,4 @@ Au 18 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Trois chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Quatre chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.
