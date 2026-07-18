@@ -12,6 +12,13 @@ Volume-0/CHAPITRE-08-Standards-IA.md
 Volume-0/CHAPITRE-09-Politique-de-compatibilite.md
 Volume-0/CHAPITRE-10-Production-validation-et-publication.md
 Volume-0/CHAPITRE-11-Glossaire-bibliographie-et-index.md
+Volume-0/annexes/GLOSSAIRE.md
+Volume-0/annexes/BIBLIOGRAPHIE.md
+Volume-0/annexes/INDEX-ALPHABETIQUE.md
+Volume-0/annexes/INDEX-OUTILS.md
+Volume-0/annexes/INDEX-SYSTEMES.md
+Volume-0/annexes/INDEX-FORMATS.md
+Volume-0/annexes/INDEX-LICENCES.md
 Livre-I/index.md
 Livre-II/index.md
 Livre-III/index.md
