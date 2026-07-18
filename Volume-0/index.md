@@ -2,7 +2,7 @@
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
 status: "in-progress"
-version: "0.11.0"
+version: "0.12.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -21,7 +21,7 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 8. [Standards IA](CHAPITRE-08-Standards-IA.md) — **rédigé**
 9. [Politique de compatibilité](CHAPITRE-09-Politique-de-compatibilite.md) — **rédigé**
 10. [Production, validation et publication](CHAPITRE-10-Production-validation-et-publication.md) — **rédigé**
-11. Glossaire, bibliographie et index — à rédiger
+11. [Glossaire, bibliographie et index](CHAPITRE-11-Glossaire-bibliographie-et-index.md) — **rédigé**
 
 ## Documents normatifs associés
 
@@ -32,4 +32,4 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 ## Statut
 
-Le Volume 0 est en cours de production. Les chapitres `DOC-V0-CH01` à `DOC-V0-CH10` sont désormais rédigés. Le prochain lot portera sur le glossaire, la bibliographie, les index et les annexes de contrôle documentaire.
+Les onze chapitres principaux du Volume 0 sont rédigés. Le milestone reste en cours jusqu’à la création des annexes normatives, au contrôle qualité documentaire et à la validation de la compilation complète.
