@@ -182,7 +182,12 @@ def process(path: Path, apply: bool) -> tuple[int, list[str]]:
         if not marker_match:
             continue
         marker = marker_match.group("code")
-        expectation = expected_marker(lang, marker, lines[marker_index].strip(), context(lines, i))
+        expectation = expected_marker(
+            lang,
+            marker,
+            lines[marker_index].strip(),
+            context(lines, marker_index),
+        )
         if expectation is None:
             continue
         expected_code, replacement = expectation
