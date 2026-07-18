@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 1 : Découvrir Godot et créer le projet fil rouge"
 id: "DOC-L2-CH01"
 status: "reviewed"
-version: "1.1.0"
+version: "1.2.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 1
@@ -21,9 +21,12 @@ reference-platform:
   gpu: "AMD Radeon RX 6750 XT 12 Go"
   cpu: "AMD Ryzen 7 2700"
   ram: "32 Go"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Découvrir Godot et créer le projet fil rouge
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L2-CH01`  
 > **Priorité :** Obligatoire  
@@ -80,11 +83,15 @@ Le projet n’essaie pas de construire tous ces systèmes en même temps. Chaque
 
 Le nom technique utilisé dans les exemples est :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Project Asteria
 ```
 
 Le dossier local recommandé est :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\projects\project-asteria
@@ -93,6 +100,8 @@ C:\IA-GameDev\projects\project-asteria
 Le nom est provisoire. Le chemin et les identifiants techniques doivent rester stables même si le titre commercial change.
 
 ### 2.3 Référentiel principal
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev        documentation et Companion Pack
@@ -106,6 +115,8 @@ Le guide et le projet de jeu peuvent vivre dans deux dépôts séparés. Le Comp
 ### 3.1 Version de référence
 
 La version retenue pour ce chapitre est :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Godot Engine 4.7.1-stable
@@ -132,6 +143,8 @@ Godot fournit notamment :
 
 Le parcours principal retient :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Godot Standard + GDScript
 ```
@@ -148,7 +161,9 @@ L’édition .NET sera présentée comme alternative lorsque C# apporte une vale
 
 ### 3.3 Politique de version
 
-Pour chaque projet Godot, enregistrer :
+Pour chaque projet Godot, créer le fichier `docs/environment/godot-reference.yaml` et y enregistrer :
+
+> **[VSC] Visual Studio Code - Créer :** `docs/environment/godot-reference.yaml` à la racine du projet.
 
 ```yaml
 engine: Godot
@@ -231,6 +246,8 @@ Il ne fournit pas toutes les fonctions visuelles disponibles dans Forward+.
 
 ### 5.4 Décision du projet
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Édition principale       Forward+
 Profil léger             Mobile
@@ -259,6 +276,8 @@ Ne pas utiliser comme source principale :
 
 Créer :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\apps\godot\
 ├── 4.7.1-standard\
@@ -269,6 +288,8 @@ C:\IA-GameDev\apps\godot\
 ```
 
 Le fichier `SOURCE.txt` peut contenir :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Produit : Godot Engine Standard
@@ -284,6 +305,8 @@ SHA-256 : À renseigner depuis le fichier téléchargé
 
 Dans PowerShell :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-FileHash `
   "C:\IA-GameDev\apps\godot\archives\Godot_v4.7.1-stable_win64.zip" `
@@ -293,6 +316,8 @@ Get-FileHash `
 Conserver l’empreinte dans l’inventaire logiciel du poste.
 
 ### 6.4 Extraire
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Expand-Archive `
@@ -305,6 +330,8 @@ Godot peut être utilisé comme application portable. L’éditeur n’a pas bes
 
 ### 6.5 Vérifier la version
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $Godot = "C:\IA-GameDev\apps\godot\4.7.1-standard\Godot_v4.7.1-stable_win64.exe"
 & $Godot --version
@@ -312,11 +339,15 @@ $Godot = "C:\IA-GameDev\apps\godot\4.7.1-standard\Godot_v4.7.1-stable_win64.exe"
 
 Résultat attendu : une version commençant par :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 4.7.1.stable
 ```
 
 Enregistrer :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\logs\godot | Out-Null
@@ -330,6 +361,8 @@ Godot Engine est distribué sous licence MIT. Le jeu peut utiliser une licence d
 
 Préparer dès le démarrage :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 docs/licenses/
 ├── GODOT-LICENSE.txt
@@ -342,12 +375,16 @@ Les composants tiers inclus dans Godot possèdent également leurs propres notic
 
 ### 7.1 Variable de session
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $env:GODOT_EXE = "C:\IA-GameDev\apps\godot\4.7.1-standard\Godot_v4.7.1-stable_win64.exe"
 & $env:GODOT_EXE --version
 ```
 
 ### 7.2 Variable utilisateur persistante
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 [Environment]::SetEnvironmentVariable(
@@ -359,6 +396,8 @@ $env:GODOT_EXE = "C:\IA-GameDev\apps\godot\4.7.1-standard\Godot_v4.7.1-stable_wi
 
 Ouvrir un nouveau terminal avant de tester :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 & $env:GODOT_EXE --version
 ```
@@ -369,6 +408,8 @@ Le guide utilise `$env:GODOT_EXE` afin de ne pas dépendre d’un alias ambigu o
 
 ### 8.1 Créer le dossier
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\projects\project-asteria | Out-Null
 Set-Location C:\IA-GameDev\projects\project-asteria
@@ -378,12 +419,16 @@ Le dossier doit être vide avant la création du projet.
 
 ### 8.2 Initialiser Git
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git init
 git branch -M main
 ```
 
 Créer `.gitignore` :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitignore` à la racine du projet.
 
 ```gitignore
 # Cache et imports générés par Godot 4
@@ -411,6 +456,8 @@ Thumbs.db
 
 Créer également `.gitattributes` :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitattributes` à la racine du projet.
+
 ```gitattributes
 # Normaliser les fichiers texte du projet en LF.
 * text=auto eol=lf
@@ -430,6 +477,8 @@ Pour un dépôt existant qui ne possède pas ces fichiers, utiliser **Project > 
 ### 8.3 README initial
 
 Créer `README.md` :
+
+> **[VSC] Visual Studio Code - Créer :** `README.md` à la racine du projet.
 
 ```markdown
 # Project Asteria
@@ -452,15 +501,21 @@ Ouvrir `project.godot` dans la version de Godot indiquée ci-dessus.
 
 ### 9.1 Ouvrir le gestionnaire
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 & $env:GODOT_EXE --editor --path C:\IA-GameDev\projects\project-asteria
 ```
+
+> **[APP] Godot Project Manager - Interface :** ouvrir le gestionnaire de projets et effectuer l’action décrite.
 
 Lorsque le dossier ne contient pas encore `project.godot`, ouvrir directement l’exécutable puis utiliser le Project Manager.
 
 ### 9.2 Paramètres de création
 
 Dans **Create New Project** :
+
+> **[APP] Godot Project Manager - Configurer :** renseigner les paramètres ci-dessous dans **Create New Project**.
 
 ```text
 Project Name       Project Asteria
@@ -469,17 +524,23 @@ Renderer           Forward+
 Version Control    Git
 ```
 
+> **[APP] Godot Project Manager - Créer :** valider la création du projet avec les paramètres précédents.
+
 Laisser le projet créer le fichier `project.godot`.
 
 ### 9.3 Vérifier les fichiers initiaux
 
 Après ouverture :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-ChildItem -Force C:\IA-GameDev\projects\project-asteria
 ```
 
 Éléments attendus :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer cette liste avec les fichiers réellement créés.
 
 ```text
 .git\
@@ -504,6 +565,8 @@ Les fichiers sources comme `icon.svg` sont versionnés. Les fichiers `.import` a
 
 Exemples :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 res://project.godot
 res://scenes/main/main.tscn
@@ -527,6 +590,8 @@ Il servira notamment à stocker :
 Le contenu de `user://` n’appartient pas au dépôt Git du projet.
 
 ### 10.3 Règle de séparation
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 res://     contenu livré avec le jeu
@@ -554,6 +619,8 @@ L’éditeur comprend notamment :
 
 Pour ce chapitre :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Scene       à gauche
 3D          au centre
@@ -567,6 +634,8 @@ Ne pas masquer le panneau Output pendant l’apprentissage. Les erreurs et les m
 ### 11.3 Sauvegarde
 
 Raccourcis utiles :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Ctrl+S       sauvegarder la scène courante
@@ -621,6 +690,8 @@ Une scène :
 
 Le projet privilégie la composition :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Player.tscn
 ├── CharacterBody3D
@@ -651,6 +722,8 @@ Le Livre II utilisera les Resources pour éviter de coder en dur les données de
 
 Créer les dossiers suivants :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $folders = @(
     "assets\shared",
@@ -674,6 +747,8 @@ foreach ($folder in $folders) {
 
 Créer un fichier vide :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType File -Force docs\.gdignore | Out-Null
 ```
@@ -681,6 +756,8 @@ New-Item -ItemType File -Force docs\.gdignore | Out-Null
 Le fichier `.gdignore` empêche Godot d’importer le contenu du dossier concerné. Les ressources placées sous ce dossier ne doivent donc pas être chargées avec `load()` ou `preload()`.
 
 ### 13.1 Structure de départ
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 project-asteria/
@@ -708,6 +785,8 @@ project-asteria/
 ### 13.2 Organisation par fonctionnalité
 
 Le projet regroupe autant que possible les ressources proches de la fonctionnalité qui les utilise :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 src/features/player/
@@ -745,6 +824,8 @@ Dans l’éditeur :
 2. renommer le nœud racine `Main` ;
 3. sauvegarder la scène sous :
 
+> **[APP] Godot - Enregistrer :** sauvegarder la scène sous le chemin ci-dessous.
+
 ```text
 res://src/features/bootstrap/main.tscn
 ```
@@ -755,14 +836,20 @@ Le nœud racine est un `Node3D`.
 
 Ajouter comme enfants de `Main` :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 WorldEnvironment
 DirectionalLight3D
 ```
 
+> **[APP] Godot - Inspector :** créer et affecter la ressource décrite.
+
 Créer une nouvelle ressource `Environment` dans la propriété **Environment** de `WorldEnvironment`.
 
 Réglages simples :
+
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
 
 ```text
 Background Mode     Color
@@ -776,6 +863,8 @@ Ces valeurs servent uniquement au test initial. La direction artistique sera tra
 
 Pour `DirectionalLight3D` :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 Nom                 Sun
 Rotation Degrees    X = -50, Y = -30, Z = 0
@@ -786,6 +875,8 @@ Shadows             Enabled
 
 Créer cette structure :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 Ground (StaticBody3D)
 ├── MeshInstance3D
@@ -794,12 +885,16 @@ Ground (StaticBody3D)
 
 Pour `MeshInstance3D` :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 Mesh    PlaneMesh
 Size    20 × 20
 ```
 
 Pour `CollisionShape3D` :
+
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
 
 ```text
 Shape       BoxShape3D
@@ -813,11 +908,15 @@ La collision correspond approximativement au plan visible.
 
 Ajouter à `Main` :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 Marker (MeshInstance3D)
 ```
 
 Réglages :
+
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
 
 ```text
 Mesh        BoxMesh
@@ -825,11 +924,15 @@ Size        X = 1, Y = 2, Z = 1
 Position    X = 0, Y = 1, Z = 0
 ```
 
+> **[APP] Godot - Inspector :** créer le matériau et régler sa couleur.
+
 Créer un `StandardMaterial3D` et lui attribuer une couleur facilement visible.
 
 ### 14.6 Ajouter la caméra
 
 Ajouter :
+
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
 
 ```text
 CameraRig (Node3D)
@@ -837,6 +940,8 @@ CameraRig (Node3D)
 ```
 
 Réglages de `Camera3D` :
+
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
 
 ```text
 Position            X = 0, Y = 4, Z = 8
@@ -850,6 +955,8 @@ La caméra regarde dans la direction négative de l’axe Z. Depuis `Z = 8`, ell
 
 Ajouter :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 HUD (CanvasLayer)
 └── MarginContainer
@@ -858,9 +965,13 @@ HUD (CanvasLayer)
 
 Texte du `Label` :
 
+> **[APP] Godot - Créer ou configurer :** utiliser l’arbre de scène et l’Inspector avec les valeurs ci-dessous.
+
 ```text
 Project Asteria — Bootstrap OK
 ```
+
+> **[APP] Godot - Interface :** régler les ancres et marges dans l’éditeur 2D.
 
 Utiliser les ancres et marges pour placer le texte en haut à gauche sans coder une position absolue dépendante de la résolution.
 
@@ -870,11 +981,15 @@ Utiliser les ancres et marges pour placer le texte en haut à gauche sans coder 
 
 Attacher un script à `Main` :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 res://src/features/bootstrap/main.gd
 ```
 
 Contenu :
+
+> **[VSC] Visual Studio Code - Créer :** `res://src/features/bootstrap/main.gd`.
 
 ```gdscript
 extends Node3D
@@ -922,6 +1037,8 @@ Le projet utilise :
 
 Dans l’éditeur :
 
+> **[APP] Godot - Configurer :** utiliser **Project Settings > Application > Run > Main Scene** avec la valeur ci-dessous.
+
 ```text
 Project
 └── Project Settings
@@ -931,6 +1048,8 @@ Project
 ```
 
 Sélectionner :
+
+> **[APP] Godot - Configurer :** utiliser **Project Settings > Application > Run > Main Scene** avec la valeur ci-dessous.
 
 ```text
 res://src/features/bootstrap/main.tscn
@@ -944,6 +1063,8 @@ Une autre méthode consiste à appuyer sur `F5` lors du premier lancement et à 
 
 Appuyer sur :
 
+> **[APP] Godot - Exécuter :** utiliser le raccourci ci-dessous pour lancer la scène courante.
+
 ```text
 F6
 ```
@@ -953,6 +1074,8 @@ Godot exécute uniquement la scène ouverte.
 ### 17.2 Projet complet
 
 Appuyer sur :
+
+> **[APP] Godot - Exécuter :** utiliser le raccourci ci-dessous pour lancer le projet complet.
 
 ```text
 F5
@@ -972,11 +1095,15 @@ La fenêtre doit afficher :
 
 Le panneau Output doit contenir :
 
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec le panneau **Output** de Godot.
+
 ```text
 DOC-L2-CH01 : scène principale prête.
 ```
 
 ### 17.4 Arrêter
+
+> **[APP] Godot - Arrêter :** utiliser le raccourci ci-dessous pour arrêter l’exécution.
 
 ```text
 F8
@@ -990,6 +1117,8 @@ Vérifier qu’aucune erreur rouge n’apparaît dans Output ou Debugger.
 
 Depuis la racine du projet :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 & $env:GODOT_EXE --headless --path . --import
 ```
@@ -997,6 +1126,8 @@ Depuis la racine du projet :
 Cette commande demande à l’éditeur d’importer les ressources puis de quitter.
 
 ### 18.2 Test de démarrage
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 New-Item -ItemType Directory -Force .\logs | Out-Null
@@ -1016,11 +1147,15 @@ if ($LASTEXITCODE -ne 0) {
 
 Lire le journal :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-Content .\logs\bootstrap-smoke.log
 ```
 
 Rechercher :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 DOC-L2-CH01 : scène principale prête.
@@ -1029,6 +1164,8 @@ DOC-L2-CH01 : scène principale prête.
 Le mode headless valide le chargement du projet et des scripts. Il ne remplace pas le contrôle visuel du rendu Forward+.
 
 ### 18.3 Journal détaillé
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & $env:GODOT_EXE `
@@ -1051,6 +1188,8 @@ Le journal détaillé est utile pour identifier :
 
 ### 19.1 Vérifier l’état
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git status --short
 git diff --check
@@ -1060,11 +1199,15 @@ Le dossier `.godot/` ne doit pas apparaître.
 
 ### 19.2 Ajouter les sources
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git add .gitattributes .gitignore README.md project.godot icon.svg src docs data localization tests tools
 ```
 
 Vérifier la sélection :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git diff --cached --stat
@@ -1073,6 +1216,8 @@ git diff --cached
 
 ### 19.3 Créer le commit
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git commit -m "feat(project): initialize Godot project bootstrap"
 ```
@@ -1080,6 +1225,8 @@ git commit -m "feat(project): initialize Godot project bootstrap"
 ### 19.4 Étiqueter le point de départ
 
 Après validation :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git tag -a bootstrap-godot-4.7.1 -m "Base Godot 4.7.1 validée"
@@ -1139,6 +1286,8 @@ Pour les opérations en lot :
 ## 23. Gestion des addons
 
 Le dossier standard des extensions est :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 res://addons/
@@ -1240,6 +1389,8 @@ Un studio ne doit pas laisser chaque membre adopter une version différente de l
 
 Vérifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Test-Path .\project.godot
 ```
@@ -1249,6 +1400,8 @@ Le dossier importé doit contenir directement `project.godot`, et non un sous-do
 ### 28.2 L’éditeur utilise une autre version
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & $env:GODOT_EXE --version
@@ -1277,6 +1430,8 @@ Définir `main.tscn` comme scène principale.
 
 L’instruction :
 
+> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+
 ```gdscript
 @onready var marker: MeshInstance3D = $Marker
 ```
@@ -1298,6 +1453,8 @@ Vérifier la casse et la position dans l’arbre.
 
 Si le dossier a été ajouté avant `.gitignore` :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git rm -r --cached .godot
 git commit -m "chore(git): stop tracking Godot cache"
@@ -1307,11 +1464,15 @@ Le dossier local reste présent, mais disparaît du suivi Git.
 
 ### 28.8 Déplacement de fichier cassant une scène
 
+> **[APP] Godot - FileSystem :** effectuer le déplacement depuis le dock de l’éditeur.
+
 Déplacer les ressources depuis le dock FileSystem de Godot, puis relancer le projet et examiner le diff.
 
 ## 29. Diagnostic par couches
 
 ### Couche 1 — Exécutable
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & $env:GODOT_EXE --version
@@ -1319,11 +1480,15 @@ Déplacer les ressources depuis le dock FileSystem de Godot, puis relancer le pr
 
 ### Couche 2 — Projet
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Test-Path .\project.godot
 ```
 
 ### Couche 3 — Import
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & $env:GODOT_EXE --headless --path . --import
@@ -1331,15 +1496,21 @@ Test-Path .\project.godot
 
 ### Couche 4 — Scripts
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 & $env:GODOT_EXE --headless --path . --quit-after 5
 ```
 
 ### Couche 5 — Rendu
 
+> **[APP] Godot - Exécuter :** lancer la scène et vérifier visuellement le résultat.
+
 Lancer l’éditeur, exécuter la scène et vérifier caméra, lumière et moteur de rendu.
 
 ### Couche 6 — Versionnement
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git status --short
@@ -1379,6 +1550,8 @@ Revenir temporairement au tag `bootstrap-godot-4.7.1` dans une copie de travail 
 
 Le chapitre est validé lorsque :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Godot --version         → 4.7.1 stable
 ouverture du projet     → succès
@@ -1394,11 +1567,15 @@ cache .godot            → non suivi
 
 Créer :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\logs\project-asteria\chapter-01\
 ```
 
 Y conserver :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 godot-version.txt
@@ -1411,6 +1588,8 @@ screenshot-bootstrap.png
 ```
 
 Exemple :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $dest = "C:\IA-GameDev\logs\project-asteria\chapter-01"

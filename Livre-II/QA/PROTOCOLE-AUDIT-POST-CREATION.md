@@ -10,6 +10,8 @@ last-verified: "2026-07-18"
 
 # Protocole d’audit post-création des chapitres
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Règle obligatoire
 
 À partir du Livre II, un chapitre n’est pas considéré comme terminé immédiatement après sa rédaction.
@@ -29,6 +31,8 @@ Il doit franchir une porte d’audit post-création distincte comprenant :
 
 Un chapitre audité porte les métadonnées suivantes :
 
+> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
+
 ```yaml
 audit-status: "complete"
 audit-date: "AAAA-MM-JJ"
@@ -39,6 +43,8 @@ audit-level: "static-review"
 `audit-level: static-review` signifie que le contenu, les commandes et le code ont été relus contre les références officielles, mais que les extraits n’ont pas nécessairement été exécutés sur une copie matérialisée de `Project Asteria`.
 
 Lorsque les fichiers exécutables existent dans le Companion Pack ou dans le dépôt du projet fil rouge, le niveau peut devenir :
+
+> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
 audit-level: "runtime-tested"
@@ -108,6 +114,8 @@ Un audit se termine par une décision unique :
 ## 4. Règle pour les prochains chapitres
 
 La séquence obligatoire devient :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 rédaction

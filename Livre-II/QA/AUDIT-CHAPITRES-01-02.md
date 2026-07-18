@@ -11,6 +11,8 @@ validation-run: "29644072118"
 
 # Audit post-création — Livre II, chapitres 1 et 2
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Périmètre
 
 Documents contrôlés :
