@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.1.0"
+version: "3.2.0"
 lang: "fr-FR"
 last-updated: "2026-07-18"
 update-policy: "mandatory-on-every-project-change"
@@ -34,7 +34,7 @@ Une nouvelle conversation doit suivre cet ordre :
 
 Le plan exact de la collection est réparti dans les documents suivants :
 
-- **Livre II :** section dédiée du présent fichier et `Livre-II/index.md` ;
+- **Livre II :** présent fichier et `Livre-II/index.md` ;
 - **Livre III :** [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md) ;
 - **Livre IV :** [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md) ;
 - **Livre V :** [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md) ;
@@ -124,14 +124,14 @@ Décision historique : le Livre I avait été condensé en six chapitres. Quatre
 
 ### Livre II — Développement du jeu et plateforme IA
 
-**Statut : en cours — 3 chapitres sur 30 rédigés, repérés et audités au niveau documentaire et statique.**
+**Statut : en cours — 4 chapitres sur 30 rédigés, repérés et audités au niveau documentaire et statique.**
 
 #### Partie A — Fondations Godot, architecture et données
 
 1. Découvrir Godot et créer le projet fil rouge — **terminé**.
 2. Fondamentaux de GDScript — **terminé, enrichi et audité contre les doublons**.
 3. Scènes, nœuds, Resources et signaux — **terminé au niveau static-review**.
-4. Architecture modulaire du projet.
+4. Architecture modulaire du projet — **terminé au niveau static-review**.
 5. Services, gestionnaires, bus d’événements et injection de dépendances.
 6. Entrées, contrôleurs, caméras et interactions.
 7. Données avec Resources, JSON et configurations.
@@ -176,33 +176,48 @@ Fichier :
 Livre-II/CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md
 ```
 
-Niveau recommandé annoncé avant rédaction : **GPT-5.6 Sol — Élevée**.
+Niveau annoncé : **GPT-5.6 Sol — Élevée**.
 
-Le chapitre couvre :
-
-- nœuds, scènes, instances, branches et `SceneTree` ;
-- parent et propriété `owner` ;
-- composition et `PackedScene.instantiate()` ;
-- `NodePath`, `get_node()`, `$`, `%NomUnique` et `get_node_or_null()` ;
-- références typées et `@onready` ;
-- `_init()`, `_enter_tree()`, `_ready()` et `_exit_tree()` ;
-- signaux intégrés et personnalisés ;
-- `Callable`, `connect()`, `emit()`, `is_connected()` et `disconnect()` ;
-- Resources personnalisées, partage et `resource_local_to_scene` ;
-- exercice `StatusBeacon` et `BeaconProfile` ;
-- validation graphique et headless ;
-- diagnostics, modes Solo/Studio et critères d’acceptation.
-
-Frontières conservées :
-
-- architecture modulaire au chapitre 4 ;
-- services globaux et bus d’événements au chapitre 5 ;
-- interactions complètes au chapitre 6 ;
-- stratégie des données au chapitre 7.
+Le chapitre couvre scènes, nœuds, instances, `SceneTree`, ownership, références, cycle de vie, `PackedScene`, Resources, signaux et `Callable`. Son exercice `StatusBeacon` constitue le premier composant réutilisable documenté de `Project Asteria`.
 
 Rapport : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
 
-Réserve : les fichiers de l’exercice ne sont pas encore matérialisés dans le Starter Kit ; le statut reste `static-review` jusqu’aux tests runtime.
+### Chapitre 4 — état détaillé
+
+Fichier :
+
+```text
+Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md
+```
+
+Niveau annoncé : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- architecture **feature-first** ;
+- couches locales créées uniquement lorsqu’une responsabilité réelle existe ;
+- couches conceptuelles : domaine, application, présentation, données, infrastructure et outils ;
+- dépendances dirigées vers le domaine et les contrats stables ;
+- `src/app` comme point de composition ;
+- `core` interdit de dépendre d’un module fonctionnel ;
+- petites scènes et objets spécialisés privilégiés à l’héritage profond ;
+- aucun Autoload choisi uniquement pour éviter de fournir une dépendance ;
+- matrice de dépendances et ADR obligatoires pour les décisions durables ;
+- migration progressive du module `beacons` à travers le dock FileSystem de Godot.
+
+Livrables documentés :
+
+- arborescence canonique de `Project Asteria` ;
+- `docs/architecture/README.md` ;
+- `docs/architecture/dependency-matrix.md` ;
+- `docs/architecture/ADR-0001-feature-first.md` ;
+- `src/features/beacons/README.md` ;
+- règles de nommage, ownership, import et validation ;
+- variantes Solo et Studio.
+
+Rapport : `Livre-II/QA/AUDIT-CHAPITRE-04.md`.
+
+Réserve : l’arborescence et les déplacements ne sont pas encore matérialisés dans le Starter Kit ; le statut reste `static-review` jusqu’aux tests runtime.
 
 ### Livre III — Production des contenus et des assets
 
@@ -337,17 +352,35 @@ Résultats enregistrés : 152 titres, 57 blocs significatifs et 22 paragraphes l
 
 Audit : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
 
-Points contrôlés : périmètre, cycle de vie, ownership, références de nœuds, instanciation, Resources, signaux, Callables, contextes, doublons et commandes headless.
+Décision : accepté avec réserve runtime.
+
+### Chapitre 4
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-04.md`.
+
+Points contrôlés : périmètre, feature-first, couches, dépendances, contrats, classe abstraite, duck typing, arborescence, migration Godot, matrice, ADR, contextes, doublons et commandes headless.
 
 Décision avant CI : accepté avec réserve CI et runtime. La preuve finale doit être complétée après les workflows.
 
 ## 11. Décisions techniques permanentes
 
+### Architecture de `Project Asteria`
+
+- organisation feature-first ;
+- couches locales non spéculatives ;
+- dépendances vers domaine et contrats ;
+- composition privilégiée ;
+- `src/app` comme point de composition ;
+- infrastructure derrière des contrats ;
+- outils absents du runtime exporté ;
+- matrice et ADR comme sources de vérité ;
+- migration progressive et vérifiée.
+
 ### Windows et AMD
 
-- Windows-first pour la configuration de référence.
-- CPU toujours disponible comme voie de diagnostic.
-- ZLUDA et autres voies expérimentales isolées et qualifiées.
+- Windows-first pour la configuration de référence ;
+- CPU toujours disponible comme voie de diagnostic ;
+- ZLUDA et autres voies expérimentales isolées et qualifiées ;
 - Docker Desktop n’est pas présenté comme solution GPU AMD universelle.
 
 ### ComfyUI
@@ -387,15 +420,19 @@ Décision avant CI : accepté avec réserve CI et runtime. La preuve finale doit
 - Ne pas dupliquer une explication complète ; utiliser rappel et renvoi.
 - Ne pas modifier le plan maître sans décision explicite.
 - Ne pas oublier l’annonce Moyenne/Élevée avant un chapitre.
+- Ne pas créer des couches, contrats ou managers sans besoin concret.
+- Ne pas déplacer des fichiers Godot référencés sans vérification des dépendances.
+- Ne pas laisser `core` dépendre d’une fonctionnalité.
 - Ne pas oublier la mise à jour de ce fichier.
 
 ## 13. État courant
 
 - Branche principale cible : `main`.
 - Jalon actif : M3 — Livre II.
-- Livre II : 3 chapitres sur 30 rédigés, repérés et audités statiquement.
+- Livre II : 4 chapitres sur 30 rédigés, repérés et audités statiquement.
 - Chapitre 2 : version `1.3.0`, audité contre les doublons.
-- Chapitre 3 : version `1.0.0`, recommandation Élevée, audit statique créé.
+- Chapitre 3 : version `1.0.0`, recommandation Élevée, accepté avec réserve runtime.
+- Chapitre 4 : version `1.0.0`, recommandation Élevée, audit statique créé.
 - Licence globale : à définir.
 - Accessibilité PDF avancée : à traiter avant publication.
 - Tests runtime de `Project Asteria` : en attente du Starter Kit matérialisé.
@@ -405,27 +442,34 @@ Décision avant CI : accepté avec réserve CI et runtime. La preuve finale doit
 Avant toute rédaction, annoncer le niveau conseillé pour :
 
 ```text
-Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md
+Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md
 ```
 
-Le chapitre 4 devra notamment :
+Le chapitre 5 devra notamment :
 
-- définir les couches et dossiers du projet ;
-- séparer domaine, présentation, données, infrastructure et outils ;
-- organiser les fonctionnalités par modules ;
-- définir les dépendances autorisées ;
-- expliquer composition, contrats et interfaces implicites ;
-- éviter scènes monolithiques et singletons omniprésents ;
-- produire l’arborescence canonique ;
-- produire une matrice des dépendances ;
-- créer les premières ADR ;
+- distinguer service, manager, repository, controller et système ;
+- expliquer Autoload et ses risques ;
+- créer un registre de services minimal ;
+- injecter les dépendances plutôt que les rechercher globalement ;
+- définir un bus d’événements limité et typé ;
+- gérer initialisation, arrêt, erreurs et tests ;
 - proposer variantes Solo et Studio ;
-- réutiliser les scènes, Resources et signaux du chapitre 3 sans les dupliquer ;
+- réutiliser l’architecture du chapitre 4 sans la redéfinir ;
 - réussir audit, contextes, doublons, compilation et inspection PDF.
 
-Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier au début de la prochaine conversation ou du prochain lot.
+Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier au début du prochain lot.
 
 ## 15. Journal de continuité
+
+### 2026-07-18 — version 3.2.0
+
+- création et audit statique du chapitre 4 ;
+- adoption de l’architecture feature-first avec couches locales ;
+- définition de l’arborescence canonique, de la matrice des dépendances et des ADR ;
+- définition de `src/app` comme point de composition ;
+- migration documentaire du module `beacons` ;
+- passage du Livre II à 4 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 5.
 
 ### 2026-07-18 — version 3.1.0
 
