@@ -2,7 +2,7 @@
 title: "Audit post-création — Livre II, chapitre 3"
 id: "DOC-L2-QA-AUDIT-CH03"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Livre II"
 chapter: 3
 category: "quality-report"
@@ -171,7 +171,7 @@ Le chapitre utilise :
 - `[LECTURE]` pour les extraits conceptuels ou partiels ;
 - `[WEB]` dans la légende et les références officielles.
 
-Chaque bloc procédural doit être validé par le workflow permanent des contextes.
+Chaque bloc procédural a été contrôlé par le workflow permanent des contextes.
 
 ## 8. Contrôle des doublons
 
@@ -195,7 +195,20 @@ Les répétitions courtes de `connect()`, `is_connected()` et des signatures son
 - Godot reste soumis à sa licence MIT ;
 - les fichiers de l’exercice sont destinés au futur Starter Kit avec licence et provenance du projet.
 
-## 10. Portes qualité
+## 10. Validation CI et PDF
+
+La campagne a validé :
+
+- le contrôle structurel ;
+- les contextes d’utilisation ;
+- la compilation Pandoc/XeLaTeX ;
+- l’inspection technique du PDF ;
+- l’extraction du texte ;
+- l’inspection visuelle ciblée des pages du chapitre, du code, du tableau de cycle de vie et du rapport QA.
+
+Les identifiants des workflows, caractéristiques du PDF, empreintes et pages inspectées sont conservés dans `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-03.yaml` afin d’éviter l’auto-référence du présent rapport compilé.
+
+## 11. Portes qualité
 
 - [x] Q0 — Intégrité des fichiers et métadonnées
 - [x] Q1 — Complétude pédagogique
@@ -203,13 +216,11 @@ Les répétitions courtes de `connect()`, `is_connected()` et des signatures son
 - [x] Q3 — Relecture technique statique
 - [x] Q4 — Outils et contextes d’utilisation
 - [x] Q5 — Sécurité et licences
-- [ ] Q6 — CI, compilation et inspection PDF : à enregistrer dans la preuve finale après exécution
+- [x] Q6 — CI, compilation et inspection PDF
 - [ ] Runtime — matérialisation et exécution du projet dans le Starter Kit
 
-## 11. Décision
+## 12. Décision
 
-**Accepté avec réserve CI et runtime au moment de la création du rapport.**
+**Accepté avec réserve runtime.**
 
-La décision deviendra **Accepté avec réserve runtime** lorsque les workflows de la branche auront réussi et que leurs identifiants seront enregistrés dans `VALIDATION-FINALE-CHAPITRE-03.yaml`.
-
-Le chapitre ne doit jamais être présenté comme `runtime-tested` tant que les fichiers de `Project Asteria` décrits dans le guide n’ont pas été matérialisés et exécutés avec journaux conservés.
+Le chapitre est rédigé, repéré et audité au niveau documentaire et statique. Il ne doit jamais être présenté comme `runtime-tested` tant que les fichiers de `Project Asteria` décrits dans le guide n’ont pas été matérialisés et exécutés avec journaux conservés.
