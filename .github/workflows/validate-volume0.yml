@@ -1,4 +1,4 @@
-name: Validate Volume 0
+name: Validate Documentation
 
 on:
   workflow_dispatch:
@@ -10,6 +10,7 @@ on:
       - "contents.txt"
       - "metadata.yaml"
       - "build.sh"
+      - "filters/**"
       - ".github/workflows/validate-volume0.yml"
 
 permissions:
@@ -55,12 +56,13 @@ jobs:
 
           root = Path.cwd()
           contents_path = root / "contents.txt"
-          report_path = root / "dist" / "QA-Volume-0.md"
+          report_path = root / "dist" / "QA-DOCUMENTATION.md"
           errors: list[str] = []
           warnings: list[str] = []
 
           if not contents_path.is_file():
               errors.append("contents.txt est absent.")
+              entries: list[str] = []
               sources: list[Path] = []
           else:
               entries = [
@@ -68,10 +70,22 @@ jobs:
                   for line in contents_path.read_text(encoding="utf-8").splitlines()
                   if line.strip() and not line.lstrip().startswith("#")
               ]
+              if len(entries) != len(set(entries)):
+                  errors.append("Une ou plusieurs sources sont dupliquées dans contents.txt.")
               sources = [root / entry for entry in entries]
               for entry, source in zip(entries, sources):
                   if not source.is_file():
                       errors.append(f"Source absente dans contents.txt : {entry}")
+
+          livre_i_entries = [
+              entry
+              for entry in entries
+              if re.fullmatch(r"Livre-I/CHAPITRE-\d{2}-.+\.md", entry)
+          ]
+          if len(livre_i_entries) != 6:
+              errors.append(
+                  f"Le Livre I doit déclarer exactement 6 chapitres dans contents.txt ; détectés : {len(livre_i_entries)}."
+              )
 
           ids: dict[str, str] = {}
           markdown_link = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
@@ -87,6 +101,7 @@ jobs:
               if any(marker in text for marker in conflict_markers):
                   errors.append(f"Marqueur de conflit Git détecté : {rel}")
 
+              metadata: dict[str, object] = {}
               if text.startswith("---\n"):
                   end = text.find("\n---\n", 4)
                   if end == -1:
@@ -94,14 +109,15 @@ jobs:
                   else:
                       raw_yaml = text[4:end]
                       try:
-                          metadata = yaml.safe_load(raw_yaml) or {}
+                          loaded = yaml.safe_load(raw_yaml) or {}
                       except yaml.YAMLError as exc:
                           errors.append(f"YAML invalide dans {rel} : {exc}")
-                          metadata = {}
+                          loaded = {}
 
-                      if not isinstance(metadata, dict):
+                      if not isinstance(loaded, dict):
                           errors.append(f"Front matter YAML non mappé : {rel}")
-                          metadata = {}
+                      else:
+                          metadata = loaded
 
                       for field in ("title", "status", "version"):
                           if not metadata.get(field):
@@ -110,14 +126,26 @@ jobs:
                       doc_id = metadata.get("id") or metadata.get("identifier")
                       if not doc_id:
                           errors.append(f"Métadonnée obligatoire absente (id ou identifier) : {rel}")
-                      elif doc_id in ids:
+                      elif str(doc_id) in ids:
                           errors.append(
-                              f"Identifiant dupliqué {doc_id} : {ids[doc_id]} et {rel}"
+                              f"Identifiant dupliqué {doc_id} : {ids[str(doc_id)]} et {rel}"
                           )
                       else:
                           ids[str(doc_id)] = rel
               elif rel not in {"README.md"}:
                   warnings.append(f"Aucun front matter YAML : {rel}")
+
+              chapter_match = re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", rel)
+              if chapter_match:
+                  expected_chapter = int(chapter_match.group(1))
+                  if metadata.get("book") != "Livre I":
+                      errors.append(f"Métadonnée book incorrecte pour {rel}.")
+                  if metadata.get("chapter") != expected_chapter:
+                      errors.append(
+                          f"Numéro de chapitre incohérent dans {rel} : attendu {expected_chapter}, reçu {metadata.get('chapter')}."
+                      )
+                  if not metadata.get("last-verified"):
+                      errors.append(f"Métadonnée last-verified absente : {rel}")
 
               for raw_target in markdown_link.findall(text):
                   target = raw_target.strip().split()[0].strip("<>")
@@ -149,9 +177,10 @@ jobs:
                   warnings.append("La licence globale reste à définir avant publication officielle.")
 
           lines = [
-              "# Rapport QA automatisé — Volume 0",
+              "# Rapport QA automatisé — Documentation",
               "",
               f"- Sources déclarées : **{len(sources)}**",
+              f"- Chapitres du Livre I : **{len(livre_i_entries)}**",
               f"- Identifiants uniques détectés : **{len(ids)}**",
               f"- Erreurs bloquantes : **{len(errors)}**",
               f"- Avertissements : **{len(warnings)}**",
@@ -191,12 +220,12 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: volume-0-validation
+          name: documentation-validation
           if-no-files-found: warn
           retention-days: 14
           path: |
             dist/Guide-IA-GameDev.pdf
-            dist/QA-Volume-0.md
+            dist/QA-DOCUMENTATION.md
             dist/PANDOC-BUILD.log
             dist/PDF-INFO.txt
             dist/Guide-IA-GameDev.txt
