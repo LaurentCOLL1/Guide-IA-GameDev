@@ -11,6 +11,7 @@
 - [x] Créer `CONTINUITE-PROJET.md` comme document permanent de reprise.
 - [x] Rendre sa mise à jour obligatoire dans chaque lot de modifications du projet.
 - [x] Enregistrer dans ce document le plan maître détaillé des Livres II à V et du Companion Pack.
+- [x] Rendre obligatoire l’annonce du niveau GPT-5.6 Sol conseillé avant chaque chapitre.
 
 **Statut M0 : terminé.**
 
@@ -54,15 +55,16 @@
 
 ## M3 — Livre II : Développement et architecture
 
-- [ ] Fondations Godot, GDScript, architecture et données — 2 chapitres rédigés, repérés et audités sur 9.
+- [ ] Fondations Godot, GDScript, architecture et données — 3 chapitres rédigés, repérés et audités sur 9.
 - [ ] Plateforme IA locale — 0 chapitre sur 4.
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 et 2.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 3.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
+- [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 2 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les futurs chapitres doivent réussir les contrôles de contextes d’utilisation, de complétude pédagogique et de doublons avant d’être déclarés audités.
+**Statut M3 : en cours — 3 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les futurs chapitres doivent recevoir une recommandation GPT-5.6 Sol, puis réussir les contrôles de contextes d’utilisation, de complétude pédagogique, de doublons et de compilation avant d’être déclarés audités.
 
 ## M4 — Livre III : Production des contenus et assets
 
