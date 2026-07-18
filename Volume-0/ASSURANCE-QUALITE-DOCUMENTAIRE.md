@@ -9,6 +9,8 @@ category: "normative"
 
 # Assurance qualité documentaire
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Objet
 
 Ce document définit le système d’assurance qualité applicable à l’ensemble du **Guide IA GameDev**, à ses annexes et au Companion Pack.
@@ -306,6 +308,8 @@ Chaque exemple significatif reçoit un statut :
 
 Une fiche de validation doit idéalement contenir :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```yaml
 validation_id: VAL-EXAMPLE-0001
 document_id: DOC-EXAMPLE
@@ -340,6 +344,8 @@ Les avertissements Pandoc doivent être enregistrés et triés. Un avertissement
 ## 10. Rapport de contrôle
 
 Chaque campagne de contrôle peut produire un rapport suivant ce modèle :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 # Rapport QA
@@ -387,6 +393,8 @@ Une non-conformité doit comporter :
 - la preuve de résolution.
 
 Cycle recommandé :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Détectée → Confirmée → Assignée → Corrigée → Vérifiée → Fermée

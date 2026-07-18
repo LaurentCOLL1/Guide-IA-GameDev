@@ -2,11 +2,18 @@
 title: "Volume 0 — Chapitre 3 : Architecture documentaire"
 id: "DOC-V0-CH03"
 status: "draft"
-version: "0.1.0"
+version: "0.5.0"
 lang: "fr-FR"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Volume 0 — Chapitre 3 : Architecture documentaire
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## 1. Objectif du chapitre
 
@@ -27,6 +34,8 @@ L’organisation du projet repose sur sept principes.
 7. **Évolution incrémentale** : les ajouts doivent préserver la compatibilité avec la structure existante.
 
 ## 3. Vue d’ensemble du dépôt
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev/
@@ -160,6 +169,8 @@ Chaque ressource du Companion Pack doit posséder un identifiant et une fiche as
 
 Chaque livre possède au minimum :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Livre-X/
 ├── index.md
@@ -251,6 +262,8 @@ Une référence croisée utilise de préférence :
 
 Exemple :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `dist/`.
+
 ```markdown
 Voir `DOC-V0-CH04 — Convention des identifiants`.
 ```
@@ -317,6 +330,8 @@ Avant chaque publication, les vérifications suivantes doivent être exécutées
 - les ressources du Companion Pack citées existent ou sont marquées comme planifiées.
 
 ## 17. Exemple de flux éditorial
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Nouvelle idée

@@ -2,11 +2,18 @@
 title: "Volume 0 — Chapitre 2 : Les 21 règles fondamentales"
 id: "DOC-V0-CH02"
 status: "draft"
-version: "0.1.0"
+version: "0.5.0"
 language: "fr-FR"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Volume 0 — Chapitre 2
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 # Les 21 règles fondamentales du projet
 
 ## 1. Objet du chapitre
@@ -62,6 +69,8 @@ Le lecteur ne doit jamais être renvoyé vers une notion qui n’a pas encore é
 ## 4. Règle 3 — Le projet fil rouge est unique
 
 Les exemples principaux s’appuient sur un même projet de référence :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev/

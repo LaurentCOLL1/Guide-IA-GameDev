@@ -1,5 +1,7 @@
 # Guide de style éditorial
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## Langue
 
 Le contenu principal est rédigé en français. Les noms officiels d'outils, d'API, de classes et de paramètres restent dans leur forme d'origine.
@@ -42,6 +44,24 @@ Chaque chapitre doit indiquer, lorsque pertinent :
 - Les exemples doivent être exécutables ou explicitement identifiés comme pseudocode.
 - Utiliser quatre espaces d'indentation dans Python, GDScript, JSON et YAML.
 - Ne jamais inclure de secrets réels, de jetons ou d'identifiants privés.
+
+## Contextes d’utilisation
+
+Chaque commande, contenu de fichier ou lien procédural indique le programme à utiliser. La convention normative est définie par `DOC-V0-ANN-CONTEXTES`.
+
+Repères principaux :
+
+- **[PS]** : exécuter dans PowerShell 7 sur l’hôte Windows ;
+- **[VSC]** : créer ou modifier le fichier dans Visual Studio Code, avec son chemin ;
+- **[WEB]** : ouvrir la page dans un navigateur internet ;
+- **[DCK]** : effectuer l’action dans l’interface Docker Desktop ;
+- **[DCT]** : exécuter dans le terminal d’un conteneur ;
+- **[WSL]** : exécuter dans un terminal WSL/Bash ;
+- **[APP]** : effectuer l’action dans l’application nommée ;
+- **[SORTIE]** : résultat à lire, jamais à saisir ;
+- **[LECTURE]** : exemple ou structure non directement exécutable.
+
+Le repère se place immédiatement avant le bloc ou le lien. Un contenu JSON, YAML, Python, GDScript ou autre destiné à un fichier doit indiquer **Visual Studio Code** et le chemin cible.
 
 ## Noms et chemins
 

@@ -2,14 +2,21 @@
 title: "Chapitre 10 — Production, validation et publication"
 id: "DOC-V0-CH10"
 status: "draft"
-version: "0.1.0"
+version: "0.5.0"
 book: "Volume 0"
 chapter: 10
 level: "Débutant à avancé"
 priority: "Obligatoire"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 10 — Production, validation et publication
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## Objectif du chapitre
 
@@ -30,6 +37,8 @@ Ces règles s’appliquent aux fichiers Markdown, aux scripts, aux configuration
 ## 1. Le cycle de vie officiel
 
 Chaque élément produit suit le cycle suivant :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Idée
@@ -88,7 +97,9 @@ La présence d’un texte long ne constitue pas une preuve de complétude. Un co
 
 ## 3. Préparation d’un nouveau contenu
 
-Avant la rédaction, l’auteur doit créer une fiche de préparation minimale.
+Avant la rédaction, l’auteur doit créer une fiche de préparation minimale dans `docs/qa/preparation/<ID-DOCUMENT>.yaml`.
+
+> **[VSC] Visual Studio Code - Créer :** `docs/qa/preparation/<ID-DOCUMENT>.yaml`, en remplaçant le placeholder par l’identifiant réel.
 
 ```yaml
 id: DOC-L1-CH01
@@ -323,6 +334,8 @@ Le projet doit progressivement automatiser les contrôles suivants :
 
 Exemple de pipeline :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Markdown lint
   ↓
@@ -377,6 +390,8 @@ Le dépôt utilise `main` comme branche stable de référence.
 
 Pour les changements importants, le flux recommandé est :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 main
   └── docs/volume-0-chapter-10
@@ -388,6 +403,8 @@ main
 Les commits doivent être atomiques et descriptifs.
 
 Exemples :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 docs(volume-0): add chapter 10 publication workflow
@@ -420,6 +437,8 @@ Une publication doit produire un ensemble identifiable et reproductible.
 
 Le projet suit une version sémantique adaptée à la documentation :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 MAJEURE.MINEURE.CORRECTIF
 ```
@@ -429,6 +448,8 @@ MAJEURE.MINEURE.CORRECTIF
 - **CORRECTIF** : corrections sans modification majeure du parcours.
 
 Les versions de travail peuvent utiliser :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 0.1.0-alpha.1
@@ -486,6 +507,8 @@ Avant publication HTML :
 Le Companion Pack doit être aligné sur la version du guide.
 
 Une archive doit comporter :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Companion-Pack-0.2.0/

@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Index des systèmes
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cet index réserve les identifiants des douze grands systèmes de jeu qui structureront le Livre II. Leur périmètre détaillé pourra évoluer pendant la conception, mais leurs identifiants doivent rester stables afin de préserver les références croisées.
 
 ## Catalogue initial des douze systèmes
@@ -29,6 +31,8 @@ Cet index réserve les identifiants des douze grands systèmes de jeu qui struct
 ## Contrat minimal d’un système
 
 Chaque système du Livre II devra fournir une fiche conforme au modèle suivant :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: "SYS-XX"

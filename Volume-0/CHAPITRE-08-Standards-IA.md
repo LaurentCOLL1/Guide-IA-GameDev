@@ -2,7 +2,7 @@
 title: "Chapitre 8 — Standards IA"
 id: "DOC-V0-CH08"
 status: "draft"
-version: "0.1.0"
+version: "0.5.0"
 book: "Volume 0"
 chapter: 8
 language: "fr-FR"
@@ -13,9 +13,16 @@ tags:
   - prompts
   - evaluation
   - securite
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 8 — Standards IA
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## Objectif du chapitre
 
@@ -137,11 +144,15 @@ Cette entrée doit contenir au minimum :
 
 Exemple d’identifiant :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 AI-MODEL-LLM-001
 ```
 
 Exemple de registre simplifié :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: AI-MODEL-LLM-001
@@ -190,6 +201,8 @@ La fiche doit distinguer :
 
 Une licence inconnue ou ambiguë entraîne le statut :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 blocked-license-review
 ```
@@ -216,6 +229,8 @@ Il doit être enregistré dans un fichier versionné avec :
 
 Exemple d’identifiant :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 AI-PROMPT-NPC-DIALOGUE-001
 ```
@@ -225,6 +240,8 @@ AI-PROMPT-NPC-DIALOGUE-001
 Les données injectées dans un prompt doivent être clairement séparées des instructions.
 
 Exemple recommandé :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [SYSTEME]
@@ -256,6 +273,8 @@ Cette séparation facilite :
 Les variables d’un prompt doivent utiliser une syntaxe uniforme.
 
 Convention recommandée :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 {{variable_name}}
@@ -379,6 +398,8 @@ Pour les faits techniques, le pipeline doit privilégier :
 6. l’inférence du modèle en dernier recours.
 
 Une réponse incertaine doit pouvoir utiliser un état explicite :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```json
 {
@@ -813,6 +834,8 @@ Un système ne doit pas transformer silencieusement une erreur en succès.
 
 Une sortie invalide doit produire un état explicite, par exemple :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```json
 {
   "status": "failed",
@@ -867,6 +890,8 @@ En Mode Studio, il faut ajouter :
 ## 16. Fiche minimale d’un workflow IA
 
 Chaque workflow de production doit pouvoir être résumé par la fiche suivante :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: AI-WORKFLOW-XXX-001

@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Chapitre 1 : Matériel, Windows, pilotes AMD et accélération locale"
 id: "DOC-L1-CH01"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 1
@@ -12,9 +12,16 @@ reference-hardware:
   cpu: "AMD Ryzen 7 2700"
   ram: "32 Go"
   os: "Windows 11 64 bits"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Matériel, Windows, pilotes AMD et accélération locale
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-CH01`  
 > **Priorité :** Obligatoire  
@@ -209,6 +216,8 @@ Le guide ne recommande pas l’overclocking pour le parcours principal. Toute mo
 
 Séparer logiquement les catégories suivantes :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\
 ├── apps\
@@ -234,6 +243,8 @@ Windows 10 peut rester utilisable pour certains outils DirectML, mais il ne cons
 
 Ouvrir PowerShell et exécuter :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-ComputerInfo |
     Select-Object WindowsProductName, WindowsVersion, OsBuildNumber,
@@ -241,6 +252,8 @@ Get-ComputerInfo |
 ```
 
 Lister le processeur et les cartes graphiques détectées :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-CimInstance Win32_Processor |
@@ -252,12 +265,16 @@ Get-CimInstance Win32_VideoController |
 
 Créer un rapport DirectX :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force -Path C:\IA-GameDev\logs | Out-Null
 dxdiag /t C:\IA-GameDev\logs\dxdiag.txt
 ```
 
 Afficher la version de Windows avec l’interface graphique :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winver
@@ -287,6 +304,8 @@ Au moment de la vérification de ce chapitre, la page AMD proposait un outil act
 ### 8.2 Informations à enregistrer
 
 Avant l’installation :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Date :
@@ -351,6 +370,8 @@ Dans `dxdiag.txt`, vérifier :
 
 ### 9.2 Contrôle PowerShell
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $gpu = Get-CimInstance Win32_VideoController |
     Where-Object Name -Match "Radeon RX 6750 XT"
@@ -378,17 +399,23 @@ Les chapitres suivants préciseront leurs propres versions. Le socle commun comp
 
 Vérifier `winget` :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget --version
 ```
 
 Vérifier Git après installation :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git --version
 ```
 
 Vérifier Python sans supposer qu’une seule version globale sera utilisée :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 py --list
@@ -436,11 +463,15 @@ Avant Docker, ComfyUI ou les LLM, le poste doit réussir un test de base :
 
 Créer :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\logs\platform-baseline\
 ```
 
 Y conserver :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 windows-info.txt
@@ -451,6 +482,8 @@ validation-notes.md
 ```
 
 Exemple de collecte :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $dest = "C:\IA-GameDev\logs\platform-baseline"
@@ -508,6 +541,8 @@ N’optimiser qu’après avoir obtenu une exécution correcte et reproductible.
 
 Toute procédure ZLUDA doit fournir les éléments suivants :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```yaml
 backend: zluda
 status: experimental
@@ -544,6 +579,8 @@ Le parcours Solo privilégie :
 - ZLUDA uniquement dans un dossier expérimental distinct.
 
 Arborescence conseillée :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\

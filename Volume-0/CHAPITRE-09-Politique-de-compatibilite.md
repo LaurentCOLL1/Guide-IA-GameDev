@@ -2,10 +2,17 @@
 title: "Chapitre 9 — Politique de compatibilité"
 id: "DOC-V0-CH09"
 status: "draft"
-version: "0.1.0"
+version: "0.5.0"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 9 — Politique de compatibilité
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## Objectif du chapitre
 
@@ -195,12 +202,16 @@ Une plage de versions n’est acceptable que si elle a été testée.
 
 Exemple de formulation correcte :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Validé avec la version de référence et la version majeure suivante.
 Les versions antérieures ne sont pas prises en charge.
 ```
 
 Exemple incorrect :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Fonctionne avec toutes les versions récentes.
@@ -409,6 +420,8 @@ Un workflow doit séparer :
 
 Les variantes doivent être nommées explicitement, par exemple :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 WF-IMG-001-H2-LOWVRAM
 WF-IMG-001-H3-REFERENCE
@@ -490,6 +503,8 @@ En Mode Studio, la compatibilité implique en plus :
 ## 19. Fiche universelle de compatibilité
 
 Chaque composant important peut utiliser la structure suivante :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: TOOL-EXAMPLE-001

@@ -1,0 +1,54 @@
+name: Validate Usage Contexts
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Volume-0/**/*.md"
+      - "Livre-I/**/*.md"
+      - "STYLE_GUIDE.md"
+      - "tools/audit_contextes_utilisation.py"
+      - "tools/audit_contextes_semantiques.py"
+      - "tools/report_contextes_utilisation.py"
+      - ".github/workflows/validate-contextes-utilisation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-contexts:
+    name: Validate tool and execution contexts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Audit marker presence and web contexts
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/audit_contextes_utilisation.py --check | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Upload context audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md

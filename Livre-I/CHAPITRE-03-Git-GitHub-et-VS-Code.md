@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Chapitre 3 : Git, GitHub et Visual Studio Code"
 id: "DOC-L1-ENV-GIT"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 3
@@ -11,9 +11,16 @@ reference-platform:
   os: "Windows 11 64 bits"
   vcs: "Git for Windows"
   editor: "Visual Studio Code"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Git, GitHub et Visual Studio Code
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-ENV-GIT`  
 > **Priorité :** Obligatoire  
@@ -49,6 +56,8 @@ La règle principale est :
 
 ## 2. Git, GitHub et VS Code
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Git
 └── historique local distribué
@@ -73,12 +82,16 @@ Un dépôt Git fonctionne sans GitHub. GitHub ajoute la synchronisation distante
 
 ### 3.1 Installation avec WinGet
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget show --id Git.Git --exact --source winget
 winget install --id Git.Git --exact --source winget
 ```
 
 Fermer et rouvrir PowerShell :
+
+> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
 
 ```powershell
 git --version
@@ -102,6 +115,8 @@ Ne pas activer plusieurs gestionnaires d’identifiants concurrents.
 
 ## 4. Configurer l’identité Git
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git config --global user.name "Votre nom"
 git config --global user.email "adresse-associee-au-compte@example.com"
@@ -109,6 +124,8 @@ git config --global init.defaultBranch main
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git config --global --list --show-origin
@@ -128,6 +145,8 @@ Ne pas confondre :
 
 Le programme d’installation utilisateur est le choix recommandé pour la majorité des postes individuels.
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget show --id Microsoft.VisualStudioCode --exact --source winget
 winget install --id Microsoft.VisualStudioCode --exact --source winget
@@ -135,11 +154,15 @@ winget install --id Microsoft.VisualStudioCode --exact --source winget
 
 Vérifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 code --version
 ```
 
 Ouvrir le dossier courant :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 code .
@@ -164,6 +187,8 @@ Installer uniquement les extensions nécessaires. Chaque extension exécute du c
 
 Exemple `.vscode/settings.json` :
 
+> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet. Ouvrir le dossier du projet dans VS Code, créer le dossier `.vscode` s’il n’existe pas, puis créer `settings.json`.
+
 ```json
 {
   "files.encoding": "utf8",
@@ -181,6 +206,8 @@ Les réglages partagés doivent rester utiles à tous les contributeurs. Les pr�
 
 ## 6. Créer un dépôt local
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\workspaces\mon-projet | Out-Null
 Set-Location C:\IA-GameDev\workspaces\mon-projet
@@ -189,12 +216,16 @@ git init
 
 Créer un fichier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 "# Mon projet" | Out-File README.md -Encoding utf8
 git status
 ```
 
 Ajouter et committer :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git add README.md
@@ -203,6 +234,8 @@ git commit -m "docs: initialize project"
 
 Vérifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git log --oneline --decorate --graph --all
 ```
@@ -210,6 +243,8 @@ git log --oneline --decorate --graph --all
 ## 7. Comprendre la zone de travail
 
 Git distingue :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 fichiers de travail
@@ -222,6 +257,8 @@ dépôt distant
 ```
 
 Commandes essentielles :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git status
@@ -241,6 +278,8 @@ Avant chaque commit :
 ## 8. `.gitignore`
 
 Exemple de base :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitignore`.
 
 ```gitignore
 # Secrets
@@ -278,12 +317,16 @@ Thumbs.db
 
 Tester l’exclusion :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git check-ignore -v .env
 git status --ignored
 ```
 
 Un `.gitignore` n’efface pas un fichier déjà suivi. Pour arrêter de le suivre sans le supprimer localement :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git rm --cached .env
@@ -294,6 +337,8 @@ Si un secret a déjà été committé, le retirer du dernier commit ne suffit pa
 ## 9. `.gitattributes` et fins de ligne
 
 Exemple :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitattributes`.
 
 ```gitattributes
 * text=auto eol=lf
@@ -308,6 +353,8 @@ Exemple :
 Cette politique doit être décidée avant que le dépôt contienne de nombreux fichiers afin d’éviter des diffs entièrement réécrits.
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git check-attr -a -- README.md
@@ -328,12 +375,16 @@ Il ne transforme pas GitHub en stockage illimité de modèles IA.
 
 Installation :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget install --id GitHub.GitLFS --exact --source winget
 git lfs install
 ```
 
 Exemple :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git lfs track "*.blend"
@@ -342,6 +393,8 @@ git add .gitattributes
 ```
 
 Vérifier avant le commit :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git lfs status
@@ -355,6 +408,8 @@ Les quotas, coûts et conditions du service distant doivent être vérifiés ava
 Créer un dépôt vide depuis GitHub, sans réinitialiser les fichiers si le dépôt local existe déjà.
 
 Ajouter le remote :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git remote add origin https://github.com/UTILISATEUR/DEPOT.git
@@ -380,6 +435,8 @@ Les jetons doivent être traités comme des mots de passe.
 
 Installation :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget install --id GitHub.cli --exact --source winget
 gh --version
@@ -387,6 +444,8 @@ gh auth login
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 gh auth status
@@ -396,6 +455,8 @@ gh auth status
 
 Générer une clé Ed25519 :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 ssh-keygen -t ed25519 -C "adresse-associee-au-compte@example.com"
 ```
@@ -404,11 +465,15 @@ La clé privée ne quitte pas le poste. Seule la clé publique est ajoutée au c
 
 Tester :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 ssh -T git@github.com
 ```
 
 Modifier le remote :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git remote set-url origin git@github.com:UTILISATEUR/DEPOT.git
@@ -420,12 +485,16 @@ Protéger la clé privée avec une phrase secrète et une sauvegarde chiffrée a
 
 Créer une branche :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git switch -c docs/ajouter-chapitre
 git status
 ```
 
 Après les modifications :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git add .
@@ -436,6 +505,8 @@ git push -u origin docs/ajouter-chapitre
 Une branche doit traiter un objectif cohérent.
 
 Convention recommandée :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 feat/...
@@ -450,17 +521,23 @@ chore/...
 
 Avant de récupérer :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git status
 ```
 
 Récupérer les références distantes :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git fetch --prune
 ```
 
 Mettre à jour la branche principale lorsqu’elle est propre :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git switch main
@@ -473,12 +550,16 @@ git pull --ff-only
 
 ### 15.1 Annuler une modification non ajoutée
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git diff -- chemin\fichier.md
 git restore chemin\fichier.md
 ```
 
 ### 15.2 Retirer de l’index sans perdre le fichier
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git restore --staged chemin\fichier.md
@@ -488,11 +569,15 @@ git restore --staged chemin\fichier.md
 
 Pour un commit déjà partagé :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git revert IDENTIFIANT_DU_COMMIT
 ```
 
 ### 15.4 Retrouver une référence
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git reflog
@@ -555,6 +640,8 @@ Le parcours Studio ajoute :
 - sauvegarde du dépôt et des artefacts externes.
 
 ## 20. Test de validation
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $root = Join-Path $HOME "ia-gamedev-git-check"

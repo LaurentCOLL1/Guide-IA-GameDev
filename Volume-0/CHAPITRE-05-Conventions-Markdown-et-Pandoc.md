@@ -2,11 +2,18 @@
 title: "Volume 0 — Chapitre 5 : Conventions Markdown et Pandoc"
 id: "DOC-V0-CH05"
 status: "review"
-version: "0.1.0"
+version: "0.5.0"
 date: "2026-07-18"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Volume 0 — Chapitre 5 : Conventions Markdown et Pandoc
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## 1. Objet du chapitre
 
@@ -48,6 +55,8 @@ Les fins de ligne recommandées sont :
 
 Les caractères accentués français sont écrits directement :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 é è ê à ù ç œ
 ```
@@ -60,11 +69,15 @@ Ils ne doivent pas être remplacés par des entités HTML telles que `&eacute;`.
 
 Les chapitres suivent cette forme :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 CHAPITRE-NN-Titre-court-et-explicite.md
 ```
 
 Exemples :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 CHAPITRE-01-Vision-generale-du-projet.md
@@ -91,6 +104,8 @@ Chaque chapitre doit commencer par un bloc YAML.
 
 Modèle minimal :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `index.md`.
+
 ```yaml
 ---
 title: "Titre complet du chapitre"
@@ -113,6 +128,8 @@ date: "2026-07-18"
 
 ### 5.2 États autorisés
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 draft
 review
@@ -124,6 +141,8 @@ archived
 ### 5.3 Champs facultatifs
 
 Selon le besoin :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 author: "Nom ou équipe"
@@ -146,11 +165,15 @@ Un champ facultatif ne doit être ajouté que s’il est effectivement exploité
 
 Un chapitre contient un seul titre de niveau 1 :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 # Titre du chapitre
 ```
 
 La hiérarchie normale est ensuite :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 ## Section
@@ -167,6 +190,8 @@ Règles :
 - éviter les titres génériques tels que « Divers » ou « Autres ».
 
 Le numéro des sections est écrit dans le titre lorsque le chapitre adopte une numérotation interne :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 ## 6. Hiérarchie des titres
@@ -197,6 +222,8 @@ Le retour à la ligne visuel de l’éditeur ne constitue pas un nouveau paragra
 
 Le gras met en valeur un terme important, un statut ou une action :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 **Obligatoire**
 ```
@@ -207,6 +234,8 @@ Il ne doit pas remplacer une structure de titres correcte.
 
 L’italique est réservé aux termes étrangers, aux titres d’œuvres ou à une nuance ponctuelle :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 *workflow*
 ```
@@ -214,6 +243,8 @@ L’italique est réservé aux termes étrangers, aux titres d’œuvres ou à u
 ### 8.3 Code en ligne
 
 Les noms de fichiers, commandes, variables, nœuds et identifiants sont écrits avec des accents graves :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 `project.godot`
@@ -233,6 +264,8 @@ Le texte barré n’est pas utilisé pour conserver un historique. Git et `CHANG
 
 Utiliser le tiret :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `CHANGELOG.md`.
+
 ```markdown
 - premier élément ;
 - deuxième élément ;
@@ -242,6 +275,8 @@ Utiliser le tiret :
 ### 9.2 Listes ordonnées
 
 Utiliser des nombres réels lorsque l’ordre est important :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 1. installer l’outil ;
@@ -264,6 +299,8 @@ Dans une liste composée de fragments courts, chaque élément peut se terminer 
 Les tableaux servent aux comparaisons structurées et aux matrices courtes.
 
 Exemple :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 | Outil | Rôle | Statut |
@@ -289,6 +326,8 @@ Les tableaux très grands doivent être placés dans le Livre V ou dans un fichi
 
 Chaque bloc de code doit indiquer son langage lorsque celui-ci est connu.
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 ```gdscript
 extends Node
@@ -296,6 +335,9 @@ extends Node
 func _ready() -> void:
     print("Guide IA GameDev")
 ```
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```
 
 Langages courants :
@@ -324,6 +366,8 @@ Règles :
 
 Exemple avec chemin :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 Fichier : `Scripts/validation/check_json.py`
 ```
@@ -336,11 +380,15 @@ Les commandes sont séparées du résultat attendu.
 
 Commande :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 pandoc --version
 ```
 
 Résultat attendu, donné sous forme indicative :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 pandoc 3.x
@@ -354,6 +402,46 @@ Règles :
 - fournir une commande de vérification après une installation ;
 - éviter les commandes destructrices sans avertissement explicite.
 
+### 12.1 Repères obligatoires d’utilisation
+
+Tout bloc procédural reçoit immédiatement un repère défini par `DOC-V0-ANN-CONTEXTES`.
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
+```text
+[PS] PowerShell 7
+[VSC] Visual Studio Code
+[WEB] Navigateur internet
+[DCK] Interface Docker Desktop
+[DCT] Terminal dans un conteneur
+[WSL] Terminal WSL/Bash
+[APP] Interface de l’application nommée
+[SORTIE] Résultat attendu
+[LECTURE] Exemple non exécutable
+```
+
+Exemple de commande :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
+```powershell
+pandoc --version
+```
+
+Exemple de fichier :
+
+> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet. Ouvrir le dossier du projet dans VS Code, créer le dossier `.vscode` s’il n’existe pas, puis créer `settings.json`.
+
+```json
+{
+  "files.encoding": "utf8"
+}
+```
+
+Une adresse de téléchargement utilisée dans une procédure reçoit **[WEB]**. Une sortie de commande reçoit **[SORTIE]**. Un schéma ou une valeur illustrative reçoit **[LECTURE]**.
+
+La convention complète est disponible dans [Convention des outils et contextes d’utilisation](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ---
 
 ## 13. Liens internes
@@ -362,11 +450,15 @@ Les liens internes utilisent des chemins relatifs.
 
 Exemple depuis le Volume 0 :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 [Architecture documentaire](CHAPITRE-03-Architecture-documentaire.md)
 ```
 
 Exemple vers la racine :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `markdown [Architecture documentaire](CHAPITRE-03-Architecture-documentaire.md)`.
 
 ```markdown
 [Guide de style](../STYLE_GUIDE.md)
@@ -403,6 +495,8 @@ Aucun lien vers un modèle, un workflow ou un asset ne doit laisser croire qu’
 
 Syntaxe standard :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 ![Description concise de l’image](assets/nom-image.webp){#fig:identifiant width=90%}
 ```
@@ -427,6 +521,8 @@ Les diagrammes textuels sont écrits en Mermaid lorsque le rendu cible le permet
 
 Exemple :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `assets/`.
+
 ```mermaid
 flowchart LR
     MD[Markdown] --> P[Pandoc]
@@ -449,6 +545,8 @@ Règles :
 ## 17. Notes, avertissements et statuts
 
 Le projet utilise une syntaxe textuelle portable.
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 > **Attention — Obligatoire**  
@@ -476,11 +574,15 @@ Les citations bibliographiques utiliseront ultérieurement un fichier BibLaTeX o
 
 Exemple prévu :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 Godot recommande d’organiser les ressources par fonctionnalité [@godot-project-organization].
 ```
 
 Une note de bas de page Markdown peut être utilisée pour une précision non essentielle :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 Cette règle s’applique au pipeline principal.[^pipeline]
@@ -498,11 +600,15 @@ Les formules simples utilisent la syntaxe LaTeX compatible Pandoc.
 
 En ligne :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 La complexité est notée $O(n)$.
 ```
 
 En bloc :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 $$
@@ -535,6 +641,8 @@ Alternatives recommandées :
 
 Le séparateur horizontal Markdown est utilisé avec modération :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 ---
 ```
@@ -550,6 +658,8 @@ Les sauts de page forcés doivent rester exceptionnels. Ils sont gérés de pré
 Le fichier racine `contents.txt` définit l’ordre officiel des documents.
 
 Chaque ligne non vide contient un chemin relatif :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 README.md
@@ -588,6 +698,8 @@ Les métadonnées locales d’un chapitre ne doivent pas contredire les métadon
 Le pipeline principal utilise Pandoc et un moteur PDF compatible.
 
 Principe :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Markdown + metadata.yaml + contents.txt
@@ -643,6 +755,8 @@ Avant le passage à l’état `validated`, vérifier :
 ---
 
 ## 27. Exemple de squelette de chapitre
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `contents.txt`.
 
 ```markdown
 ---

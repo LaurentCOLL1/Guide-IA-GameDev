@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Chapitre 4 : Python et environnements virtuels"
 id: "DOC-L1-ENV-PYTHON"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 4
@@ -10,9 +10,16 @@ last-verified: "2026-07-18"
 reference-platform:
   os: "Windows 11 64 bits"
   python-management: "Python Launcher et uv"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Python et environnements virtuels
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-ENV-PYTHON`  
 > **Priorité :** Obligatoire  
@@ -47,6 +54,8 @@ La règle principale est :
 > Une application ou un projet Python possède son propre environnement, ses dépendances déclarées et une méthode de reconstruction documentée.
 
 ## 2. Les composants à distinguer
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Interpréteur Python
@@ -88,6 +97,8 @@ Le guide peut utiliser plusieurs versions côte à côte. Une version récente n
 
 ### 4.1 Vérifier les installations existantes
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py --list
 py --list-paths
@@ -103,15 +114,19 @@ Pour un environnement contrôlé, utiliser les installateurs officiels Python ou
 
 Exemple WinGet :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget search Python.Python
 winget show --id Python.Python.3.13 --exact --source winget
 winget install --id Python.Python.3.13 --exact --source winget
 ```
 
-Le numéro ci-dessus est un exemple de version compatible avec plusieurs outils actuels. Il doit être remplacé par la version exigée par le projet concerné.
+Au 18 juillet 2026, les versions courantes publiées par Python sont `3.14.6` et `3.13.14`. Les commandes du guide conservent Python 3.13 comme exemple de compatibilité pour plusieurs outils IA ; la version la plus récente n’est pas automatiquement la version prise en charge par une application. Le numéro doit toujours être remplacé par la version exigée et testée par le projet concerné.
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 py -3.13 --version
@@ -122,11 +137,15 @@ py -3.13 -c "import sys; print(sys.executable)"
 
 Une commande explicite est plus fiable :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.13 -m venv .venv
 ```
 
 plutôt que :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m venv .venv
@@ -136,6 +155,8 @@ lorsque plusieurs installations existent.
 
 ## 5. Créer un environnement avec `venv`
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\workspaces\python-check | Out-Null
 Set-Location C:\IA-GameDev\workspaces\python-check
@@ -144,11 +165,15 @@ py -3.13 -m venv .venv
 
 Activer :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python --version
@@ -157,6 +182,8 @@ python -m pip --version
 ```
 
 Désactiver :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 deactivate
@@ -168,12 +195,16 @@ Ne pas versionner `.venv/`.
 
 Toujours rattacher `pip` à l’interpréteur actif :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m pip install --upgrade pip
 python -m pip install paquet
 ```
 
 Éviter :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 pip install paquet
@@ -183,6 +214,8 @@ lorsque l’origine de `pip.exe` n’est pas certaine.
 
 Inventaire :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m pip list
 python -m pip show paquet
@@ -190,6 +223,8 @@ python -m pip check
 ```
 
 Exporter un état diagnostique :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m pip freeze | Out-File requirements-diagnostic.txt -Encoding utf8
@@ -203,12 +238,16 @@ python -m pip freeze | Out-File requirements-diagnostic.txt -Encoding utf8
 
 Installation WinGet :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget show --id astral-sh.uv --exact --source winget
 winget install --id astral-sh.uv --exact --source winget
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv --version
@@ -219,6 +258,8 @@ Le script d’installation officiel peut aussi être utilisé après inspection,
 
 ## 8. Créer un projet avec `uv`
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\workspaces\uv-check | Out-Null
 Set-Location C:\IA-GameDev\workspaces\uv-check
@@ -226,6 +267,8 @@ uv init
 ```
 
 Structure attendue :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 uv-check/
@@ -238,11 +281,15 @@ uv-check/
 
 Créer ou synchroniser l’environnement :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv sync
 ```
 
 `uv` crée généralement :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 .venv/
@@ -253,6 +300,8 @@ Le fichier `uv.lock` doit être versionné. Le dossier `.venv/` ne doit pas l’
 
 ## 9. Ajouter et retirer des dépendances
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv add requests
 uv add --dev pytest ruff
@@ -261,11 +310,15 @@ uv remove requests
 
 Afficher l’arbre :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv tree
 ```
 
 Exécuter dans l’environnement :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv run python main.py
@@ -274,17 +327,23 @@ uv run pytest
 
 Vérifier que le verrouillage est à jour sans le modifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv lock --check
 ```
 
 Reproduire exactement l’environnement :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv sync --locked
 ```
 
 Mettre à jour volontairement :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv lock --upgrade-package nom-du-paquet
@@ -295,6 +354,8 @@ Ne pas lancer une mise à jour générale au milieu d’une phase de production 
 ## 10. `pyproject.toml`
 
 Exemple minimal :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `pyproject.toml`.
 
 ```toml
 [project]
@@ -320,6 +381,8 @@ Le fichier de verrouillage enregistre la résolution exacte. `pyproject.toml` ex
 
 Certains projets existants utilisent encore :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 requirements.txt
 requirements-dev.txt
@@ -328,17 +391,23 @@ constraints.txt
 
 Installer avec `pip` :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
 Avec `uv` :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uv pip sync requirements.txt
 ```
 
 Exporter depuis un projet `uv` :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv export --format requirements.txt --output-file requirements.txt
@@ -347,6 +416,8 @@ uv export --format requirements.txt --output-file requirements.txt
 Ne pas modifier manuellement un fichier généré sans modifier également sa source de vérité.
 
 ## 12. Organisation recommandée
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\
@@ -372,6 +443,8 @@ Les environnements CPU, DirectML, Vulkan, HIP ou ZLUDA ne doivent pas partager l
 
 Afficher les emplacements :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -c "import site, sys; print(sys.executable); print(site.getsitepackages())"
 uv cache dir
@@ -380,6 +453,8 @@ uv cache dir
 Les caches peuvent être déplacés vers un disque adapté, mais leur emplacement doit rester documenté.
 
 Exemples de variables rencontrées :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 HF_HOME
@@ -394,11 +469,15 @@ Ne pas définir une variable globale pour résoudre un problème propre à une s
 
 Exécuter un fichier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python .\script.py
 ```
 
 Exécuter un module :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m pytest
@@ -407,6 +486,8 @@ python -m pytest
 La forme `python -m ...` garantit que le module appartient à l’interpréteur actif.
 
 Exemple robuste :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python .\script.py`.
 
 ```python
 from __future__ import annotations
@@ -431,6 +512,8 @@ if __name__ == "__main__":
 
 Collecter :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python --version
 python -c "import sys, platform; print(sys.executable); print(platform.platform())"
@@ -442,6 +525,8 @@ uv tree
 ```
 
 Pour un paquet :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -c "import NOM; print(NOM.__file__)"
@@ -461,12 +546,16 @@ Ordre de diagnostic :
 
 Lorsque `.venv` est corrompu ou incohérent :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Remove-Item .\.venv -Recurse -Force
 uv sync --locked
 ```
 
 Avec `venv` et `requirements.txt` :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Remove-Item .\.venv -Recurse -Force
@@ -515,6 +604,8 @@ Le Mode Studio ajoute :
 - conservation des artefacts nécessaires à une reconstruction hors ligne.
 
 ## 20. Test de validation
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $root = Join-Path $HOME "ia-gamedev-python-check"

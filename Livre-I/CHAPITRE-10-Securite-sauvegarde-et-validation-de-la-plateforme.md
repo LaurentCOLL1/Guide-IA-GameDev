@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Chapitre 10 : Sécurité, sauvegarde et validation de la plateforme"
 id: "DOC-L1-ENV-SECURITY"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.4.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 10
@@ -10,9 +10,16 @@ last-verified: "2026-07-18"
 reference-platform:
   os: "Windows 11 64 bits"
   scope: "plateforme locale IA et GameDev"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Sécurité, sauvegarde et validation de la plateforme
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-ENV-SECURITY`  
 > **Priorité :** Obligatoire  
@@ -23,6 +30,8 @@ reference-platform:
 ## 1. Objet du chapitre
 
 Les chapitres précédents installent plusieurs couches :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Windows et pilote AMD
@@ -130,6 +139,8 @@ Ces éléments ne doivent pas être placés dans un dépôt public, un log parta
 
 Créer :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\platform-manifest\
 ├── hardware.yaml
@@ -146,6 +157,8 @@ C:\IA-GameDev\platform-manifest\
 
 Exemple `applications.yaml` :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `applications.yaml`.
+
 ```yaml
 applications:
   - name: Git for Windows
@@ -161,6 +174,8 @@ applications:
 ```
 
 Le registre de secrets ne contient jamais les valeurs secrètes. Il enregistre seulement :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 secrets:
@@ -182,6 +197,8 @@ Pour les données uniques :
 
 Exemple Solo :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Copie 1 : SSD de travail
 Copie 2 : disque externe déconnecté après sauvegarde
@@ -189,6 +206,8 @@ Copie 3 : stockage distant chiffré ou second lieu
 ```
 
 Exemple Studio :
+
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Copie 1 : stockage de production
@@ -202,6 +221,8 @@ GitHub est une copie distante des sources suivies, pas une sauvegarde des modèl
 
 Vérifier l’état avant sauvegarde :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git status
 git log --oneline --decorate -10
@@ -210,6 +231,8 @@ git remote -v
 
 Synchroniser les commits voulus :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git push --all origin
 git push --tags origin
@@ -217,17 +240,23 @@ git push --tags origin
 
 Créer un bundle hors ligne :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git bundle create ..\backups\projet-$(Get-Date -Format yyyyMMdd).bundle --all
 ```
 
 Vérifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git bundle verify ..\backups\projet-AAAAmmjj.bundle
 ```
 
 Restaurer dans un dossier de test :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git clone ..\backups\projet-AAAAmmjj.bundle restauration-test
@@ -251,6 +280,8 @@ Conserver :
 
 Test de restauration :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Remove-Item .\.venv -Recurse -Force
 uv sync --locked
@@ -273,6 +304,8 @@ Conserver :
 
 Inventaire :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker version > .\exports\docker-version.txt
 docker image ls --digests > .\exports\docker-images.txt
@@ -283,6 +316,8 @@ docker compose config > .\exports\compose-resolved.yaml
 Vérifier `compose-resolved.yaml` avant partage : l’interpolation peut y révéler une valeur sensible.
 
 Sauvegarde générique d’un volume :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker run --rm `
@@ -297,6 +332,8 @@ Une base de données doit aussi utiliser son outil d’export logique.
 ## 9. Sauvegarder les modèles et workflows
 
 Pour chaque modèle :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/nom_volume.tar.gz -C /data .`.
 
 ```yaml
 id: MODEL-EXAMPLE
@@ -391,6 +428,8 @@ La protection lors du push peut bloquer certaines informations d’identificatio
 
 Par défaut :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 Interface locale uniquement : 127.0.0.1
 Réseau Docker interne : non publié
@@ -400,6 +439,8 @@ Accès Internet entrant : interdit sans architecture dédiée
 
 Vérifier les ports :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-NetTCPConnection -State Listen |
     Sort-Object LocalPort |
@@ -407,6 +448,8 @@ Get-NetTCPConnection -State Listen |
 ```
 
 Identifier un processus :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-Process -Id IDENTIFIANT
@@ -488,6 +531,8 @@ Un point de restauration Windows ne remplace pas une sauvegarde indépendante de
 
 Exemple :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```yaml
 recovery_plan:
   target: "station IA GameDev"
@@ -520,6 +565,8 @@ Ordre de restauration conseillé :
 ## 18. Validation globale de la plateforme
 
 ### 18.1 Contrôles système
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 pwsh --version
@@ -556,11 +603,15 @@ docker compose version
 
 Créer :
 
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
+
 ```text
 C:\IA-GameDev\platform-manifest\validation.md
 ```
 
 Modèle :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text C:\IA-GameDev\platform-manifest\validation.md`.
 
 ```markdown
 # Validation de la plateforme
