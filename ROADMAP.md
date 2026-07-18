@@ -23,11 +23,11 @@
 - [x] Standards IA.
 - [x] Politique de compatibilité.
 - [x] Production, validation et publication.
-- [ ] Glossaire, bibliographie et index.
+- [x] Glossaire, bibliographie et index.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
 
-**Statut M1 : 10 chapitres principaux rédigés sur 11 ; contrôle qualité et annexes encore à produire.**
+**Statut M1 : les 11 chapitres principaux sont rédigés ; contrôle qualité, annexes et validation de compilation restent à produire.**
 
 ## M2 — Livre I : Préparer la plateforme
 
