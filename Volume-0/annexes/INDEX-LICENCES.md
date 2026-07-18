@@ -7,7 +7,7 @@ version: "0.1.0"
 
 # Index des licences
 
-> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 Cet index organise la vérification des licences applicables aux logiciels, modèles, jeux de données, assets et livrables. Il ne constitue pas un avis juridique. Toute publication commerciale ou redistribution importante doit faire l’objet d’une vérification adaptée au territoire et au mode de diffusion.
 

@@ -341,7 +341,21 @@ def add_usage_note(path: Path, lines: list[str]) -> tuple[list[str], bool]:
     }:
         return lines, False
 
-    note = USAGE_NOTE_VOLUME0 if relative(path).startswith("Volume-0/") else USAGE_NOTE_LIVRE1
+    rel = relative(path)
+    if rel.startswith("Volume-0/annexes/"):
+        note = USAGE_NOTE_VOLUME0.replace(
+            "annexes/CONVENTION-OUTILS-ET-CONTEXTES.md",
+            "CONVENTION-OUTILS-ET-CONTEXTES.md",
+        )
+    elif rel.startswith("Volume-0/QA/"):
+        note = USAGE_NOTE_VOLUME0.replace(
+            "annexes/CONVENTION-OUTILS-ET-CONTEXTES.md",
+            "../annexes/CONVENTION-OUTILS-ET-CONTEXTES.md",
+        )
+    elif rel.startswith("Volume-0/"):
+        note = USAGE_NOTE_VOLUME0
+    else:
+        note = USAGE_NOTE_LIVRE1
     for index, line in enumerate(lines):
         if line.startswith("# "):
             return lines[: index + 1] + ["", note] + lines[index + 1 :], True

@@ -7,7 +7,7 @@ version: "0.1.0"
 
 # Index des systèmes
 
-> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 Cet index réserve les identifiants des douze grands systèmes de jeu qui structureront le Livre II. Leur périmètre détaillé pourra évoluer pendant la conception, mais leurs identifiants doivent rester stables afin de préserver les références croisées.
 
