@@ -29,7 +29,7 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 - [Assurance qualité documentaire](ASSURANCE-QUALITE-DOCUMENTAIRE.md) — **rédigée**
 - [Rapport QA final](RAPPORT-QA-FINAL.md) — **validation réussie**
-- [Audit du Volume 0 et du Livre I](QA/AUDIT-VOLUME-0-LIVRE-I.md) — **audit transversal en cours de clôture**
+- [Audit du Volume 0 et du Livre I](QA/AUDIT-VOLUME-0-LIVRE-I.md) — **audit transversal en validation finale**
 
 Le référentiel définit les portes Q0 à Q5, les contrôles automatiques et manuels, la gravité des non-conformités et les critères de clôture. Le rapport final consigne l’exécution GitHub Actions, les résultats structurels, la compilation Pandoc/XeLaTeX et le contrôle visuel du PDF.
 
@@ -42,6 +42,7 @@ Le référentiel définit les portes Q0 à Q5, les contrôles automatiques et ma
 - [Index des systèmes](annexes/INDEX-SYSTEMES.md) — **créé**
 - [Index des formats](annexes/INDEX-FORMATS.md) — **créé**
 - [Index des licences](annexes/INDEX-LICENCES.md) — **créé**
+- [Convention des outils et contextes d’utilisation](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md) — **créée et appliquée**
 
 Ces annexes constituent une première base normative. Elles seront enrichies au fil de la rédaction des Livres I à V et du Companion Pack.
 
