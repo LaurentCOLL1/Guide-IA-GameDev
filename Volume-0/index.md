@@ -2,7 +2,7 @@
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
 status: "in-progress"
-version: "0.12.0"
+version: "0.13.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -23,6 +23,18 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 10. [Production, validation et publication](CHAPITRE-10-Production-validation-et-publication.md) — **rédigé**
 11. [Glossaire, bibliographie et index](CHAPITRE-11-Glossaire-bibliographie-et-index.md) — **rédigé**
 
+## Annexes normatives
+
+- [Glossaire normatif](annexes/GLOSSAIRE.md) — **créé**
+- [Bibliographie](annexes/BIBLIOGRAPHIE.md) — **créée**
+- [Index alphabétique](annexes/INDEX-ALPHABETIQUE.md) — **créé**
+- [Index des outils](annexes/INDEX-OUTILS.md) — **créé**
+- [Index des systèmes](annexes/INDEX-SYSTEMES.md) — **créé**
+- [Index des formats](annexes/INDEX-FORMATS.md) — **créé**
+- [Index des licences](annexes/INDEX-LICENCES.md) — **créé**
+
+Ces annexes constituent une première base normative. Elles seront enrichies au fil de la rédaction des Livres I à V et du Companion Pack.
+
 ## Documents normatifs associés
 
 - [`STYLE_GUIDE.md`](../STYLE_GUIDE.md)
@@ -32,4 +44,4 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 ## Statut
 
-Les onze chapitres principaux du Volume 0 sont rédigés. Le milestone reste en cours jusqu’à la création des annexes normatives, au contrôle qualité documentaire et à la validation de la compilation complète.
+Les onze chapitres principaux et les sept annexes normatives initiales du Volume 0 sont rédigés ou créés. Le milestone reste en cours jusqu’au contrôle qualité documentaire et à la validation de la compilation complète.
