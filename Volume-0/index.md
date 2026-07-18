@@ -2,7 +2,7 @@
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
 status: "in-progress"
-version: "0.13.0"
+version: "0.14.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -22,6 +22,12 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 9. [Politique de compatibilité](CHAPITRE-09-Politique-de-compatibilite.md) — **rédigé**
 10. [Production, validation et publication](CHAPITRE-10-Production-validation-et-publication.md) — **rédigé**
 11. [Glossaire, bibliographie et index](CHAPITRE-11-Glossaire-bibliographie-et-index.md) — **rédigé**
+
+## Assurance qualité
+
+- [Assurance qualité documentaire](ASSURANCE-QUALITE-DOCUMENTAIRE.md) — **rédigée**
+
+Ce référentiel définit les portes Q0 à Q5, les contrôles automatiques et manuels, la gravité des non-conformités et les critères de clôture du milestone.
 
 ## Annexes normatives
 
@@ -44,4 +50,4 @@ Ces annexes constituent une première base normative. Elles seront enrichies au 
 
 ## Statut
 
-Les onze chapitres principaux et les sept annexes normatives initiales du Volume 0 sont rédigés ou créés. Le milestone reste en cours jusqu’au contrôle qualité documentaire et à la validation de la compilation complète.
+Les onze chapitres principaux, les sept annexes normatives initiales et le référentiel d’assurance qualité du Volume 0 sont en place. Le milestone reste ouvert uniquement jusqu’à la validation de la compilation complète et du livrable généré.
