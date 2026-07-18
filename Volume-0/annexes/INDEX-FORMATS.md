@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Index des formats
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cet index définit les formats privilégiés pour les sources, les échanges, les livrables et l’archivage. Un format non répertorié peut être utilisé, mais son choix doit être justifié lorsqu’il devient une dépendance du projet.
 
 ## Classification

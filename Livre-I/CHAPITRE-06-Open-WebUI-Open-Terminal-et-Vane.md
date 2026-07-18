@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 6 : Open WebUI, Open Terminal et Vane"
 id: "DOC-L1-CH03"
 status: "draft-review"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 6
@@ -13,9 +13,16 @@ reference-platform:
   os: "Windows 11 64 bits"
   containers: "Docker Desktop avec WSL 2"
   gpu: "AMD Radeon RX 6750 XT 12 Go"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Open WebUI, Open Terminal et Vane
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-CH03`  
 > **Priorité :** Open WebUI obligatoire · Open Terminal recommandé · Vane optionnel  
@@ -46,6 +53,8 @@ Ils ne doivent pas être confondus :
 ## 2. Architecture retenue
 
 La configuration principale sépare l’interface, le terminal et la recherche :
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 Navigateur Windows
@@ -92,6 +101,8 @@ Open WebUI est une plateforme auto-hébergée compatible avec :
 L’installation Docker est la voie officiellement recommandée pour la majorité des utilisateurs.
 
 Les images officielles sont publiées sur :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 ghcr.io/open-webui/open-webui
@@ -193,6 +204,8 @@ Les clés de fournisseurs éventuelles :
 
 Les exemples officiels de documentation utilisent parfois des balises flottantes telles que :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 :main
 :latest
@@ -203,6 +216,8 @@ Elles sont pratiques pour un essai, mais ne garantissent pas qu’une réinstall
 Le projet applique deux niveaux :
 
 ### Niveau d’exploration
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```dotenv
 OPEN_WEBUI_IMAGE=ghcr.io/open-webui/open-webui:main
@@ -223,6 +238,8 @@ Après validation :
 
 Commande d’inventaire :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker image inspect `
   --format '{{json .RepoDigests}}' `
@@ -241,6 +258,8 @@ Ces valeurs constituent un relevé daté, pas une invitation à supposer qu’el
 
 Créer :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `ghcr.io/open-webui/open-webui:main`.
+
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\Guide-IA-Services" | Out-Null
 Set-Location "$HOME\Guide-IA-Services"
@@ -249,6 +268,8 @@ New-Item -ItemType Directory -Force "backups" | Out-Null
 ```
 
 Arborescence :
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 Guide-IA-Services/
@@ -268,6 +289,8 @@ Le dossier `workspace` est le seul dossier de projet partagé avec Open Terminal
 
 Avec PowerShell :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $bytes = New-Object byte[] 32
 [System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
@@ -280,6 +303,8 @@ Exécuter deux fois la commande pour obtenir :
 - `OPEN_TERMINAL_API_KEY`.
 
 ### 7.2 Créer `.env.example`
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```dotenv
 OPEN_WEBUI_IMAGE=ghcr.io/open-webui/open-webui:main
@@ -295,12 +320,16 @@ OPEN_TERMINAL_API_KEY=replace-me
 
 Copier le fichier puis remplacer les secrets :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.env`.
+
 ```powershell
 Copy-Item .env.example .env
 notepad .env
 ```
 
 Ajouter au `.gitignore` du projet local :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitignore`.
 
 ```gitignore
 .env
@@ -313,6 +342,8 @@ Le fichier `.env` reste une solution simple adaptée au Mode Solo. Pour un dépl
 ## 8. Fichier Compose de référence
 
 Créer `compose.yaml` :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `compose.yaml`.
 
 ```yaml
 name: guide-ia-interface
@@ -406,6 +437,8 @@ Open WebUI et Open Terminal partagent le réseau interne `terminal`.
 
 Open WebUI peut joindre :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 http://open-terminal:8000
 ```
@@ -418,17 +451,23 @@ Vane est optionnel. Il ne doit pas consommer des ressources ni multiplier les se
 
 Démarrage standard :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose up -d open-webui open-terminal
 ```
 
 Démarrage avec Vane :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose --profile research up -d
 ```
 
 ## 9. Valider la configuration Compose
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose config
@@ -438,11 +477,15 @@ Cette commande doit échouer si une variable obligatoire manque.
 
 Afficher les services :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose config --services
 ```
 
 Afficher les volumes :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose config --volumes
@@ -451,6 +494,8 @@ docker compose config --volumes
 Ne pas poursuivre tant que `docker compose config` signale une erreur.
 
 ## 10. Démarrer Open WebUI et Open Terminal
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose pull open-webui open-terminal
@@ -463,7 +508,12 @@ Attendre que les deux services soient `healthy`.
 
 Ouvrir :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
+
+> **[WEB] Navigateur internet - Ouvrir :** utiliser la page officielle indiquée ci-dessous.
+
 http://127.0.0.1:3000
 ```
 
@@ -475,6 +525,8 @@ Le premier compte créé devient administrateur. Utiliser un mot de passe unique
 
 Dans Open WebUI :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Admin Settings
 └── Integrations
@@ -482,6 +534,8 @@ Admin Settings
 ```
 
 Ajouter :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Nom : Terminal Guide IA
@@ -495,11 +549,15 @@ La connexion administrateur est recommandée lorsque les deux conteneurs partage
 
 Depuis le conteneur Open WebUI :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 localhost = conteneur Open WebUI
 ```
 
 La bonne adresse est le nom de service Compose :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 http://open-terminal:8000
@@ -507,11 +565,15 @@ http://open-terminal:8000
 
 ### 11.3 Tester la liaison interne
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text http://open-terminal:8000`.
+
 ```powershell
 docker compose exec open-webui python -c "import urllib.request; print(urllib.request.urlopen('http://open-terminal:8000/docs').status)"
 ```
 
 Résultat attendu :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 200
@@ -521,11 +583,15 @@ Résultat attendu :
 
 Créer dans `workspace` un fichier sans importance :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Set-Content -Path .\workspace\test-agent.txt -Value "Avant test"
 ```
 
 Demander ensuite à l’assistant, avec confirmation humaine :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Lis /workspace/test-agent.txt et ajoute une ligne contenant "Open Terminal validé".
@@ -533,6 +599,8 @@ Ne modifie aucun autre fichier.
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-Content .\workspace\test-agent.txt
@@ -543,6 +611,8 @@ Ne pas commencer par une tâche portant sur un dépôt important ou un dossier p
 ## 12. Limiter l’espace de travail du terminal
 
 ### 12.1 Arborescence conseillée
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 workspace/
@@ -558,6 +628,8 @@ L’agent ne reçoit que les fichiers nécessaires à sa tâche.
 ### 12.2 Interdictions
 
 Ne pas monter :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 C:\Users\<utilisateur>
@@ -582,6 +654,8 @@ Ne pas transmettre au terminal :
 
 Avant une tâche agentique :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git status
 git add -A
@@ -589,6 +663,8 @@ git commit -m "checkpoint before agent task"
 ```
 
 Ou travailler dans une branche dédiée :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git switch -c agent/tache-limitee
@@ -611,6 +687,8 @@ Le mode natif est utile lorsque l’agent doit réellement accéder :
 
 Exemple limité :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Set-Location C:\Projets\Sandbox-Agent
 uvx open-terminal run `
@@ -630,11 +708,15 @@ Open Terminal peut fonctionner comme serveur MCP.
 
 Installation ponctuelle :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 uvx --from "open-terminal[mcp]" open-terminal mcp
 ```
 
 Transport HTTP local :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uvx --from "open-terminal[mcp]" open-terminal mcp `
@@ -657,6 +739,8 @@ Ne pas activer simultanément plusieurs voies d’accès au même terminal sans 
 
 ### 15.1 Démarrer le profil
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose --profile research pull vane
 docker compose --profile research up -d vane
@@ -666,11 +750,18 @@ docker compose logs --tail=200 vane
 
 Ouvrir :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
+
+> **[WEB] Navigateur internet - Ouvrir :** utiliser la page officielle indiquée ci-dessous.
+
 http://127.0.0.1:3001
 ```
 
 L’image standard de Vane inclut SearxNG. Le volume persistant conserve les paramètres et données applicatives sous :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 /home/vane/data
@@ -691,11 +782,15 @@ Le parcours local utilisera plus tard Ollama ou une API compatible OpenAI exécu
 
 Depuis un conteneur, l’adresse de l’hôte est :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 host.docker.internal
 ```
 
 Exemple d’URL future :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 http://host.docker.internal:11434
@@ -706,6 +801,8 @@ La configuration détaillée du fournisseur est traitée dans le chapitre consac
 ### 15.3 Version allégée avec SearxNG externe
 
 Vane publie également une image `slim-latest` destinée à un SearxNG existant :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 itzcrazykns1337/vane:slim-latest
@@ -764,6 +861,8 @@ Elle sera évaluée comme variante dans le Livre V ou le Companion Pack lorsque 
 
 ### 18.1 Arrêter les écritures
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose stop open-webui open-terminal vane
 ```
@@ -771,6 +870,8 @@ docker compose stop open-webui open-terminal vane
 L’arrêt de Vane peut signaler que le profil n’est pas actif ; ce n’est pas une erreur si Vane n’a jamais été démarré.
 
 ### 18.2 Sauvegarder Open WebUI
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker run --rm `
@@ -792,6 +893,8 @@ Le volume contient notamment :
 
 ### 18.3 Sauvegarder Open Terminal
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker run --rm `
   --mount source=guide-ia-open-terminal-home,target=/data,readonly `
@@ -804,6 +907,8 @@ Le dossier `workspace` étant un bind mount, il doit être sauvegardé par Git o
 
 ### 18.4 Sauvegarder Vane
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/open-terminal-home.tar.gz -C /data .`.
+
 ```powershell
 docker run --rm `
   --mount source=guide-ia-vane-data,target=/data,readonly `
@@ -813,6 +918,8 @@ docker run --rm `
 ```
 
 ### 18.5 Redémarrer
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/vane-data.tar.gz -C /data .`.
 
 ```powershell
 docker compose up -d open-webui open-terminal
@@ -837,6 +944,8 @@ Ne pas démarrer Vane si le profil n’est pas utilisé.
 
 Commandes :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose pull open-webui open-terminal
 docker compose --profile research pull vane
@@ -851,6 +960,8 @@ Open WebUI exécute ses migrations au démarrage. Une mise à jour interrompue o
 
 Ne pas utiliser le même volume pour :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 open-webui:dev
 open-webui:main
@@ -858,6 +969,8 @@ open-webui:vX.Y.Z
 ```
 
 Créer un volume distinct :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 volumes:
@@ -870,6 +983,8 @@ Les versions de développement peuvent introduire des migrations incompatibles a
 
 ### 20.1 État général
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose ps
 docker compose top
@@ -877,6 +992,8 @@ docker stats --no-stream
 ```
 
 ### 20.2 Open WebUI
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose logs --tail=300 open-webui
@@ -893,6 +1010,8 @@ Vérifier :
 
 ### 20.3 Open Terminal
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose logs --tail=300 open-terminal
 ```
@@ -906,6 +1025,8 @@ Vérifier :
 - absence de port publié vers Windows.
 
 ### 20.4 Vane
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose --profile research logs --tail=300 vane
@@ -926,11 +1047,15 @@ Vérifier :
 
 Utiliser :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 host.docker.internal
 ```
 
 et non :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 localhost
@@ -953,6 +1078,8 @@ Solution :
 
 Vérifier :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose config
 ```
@@ -962,6 +1089,8 @@ Le service `open-terminal` ne doit contenir aucune section `ports:` dans la conf
 ### Open Terminal ne voit pas les fichiers
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose exec open-terminal pwd
@@ -1016,17 +1145,23 @@ Le Mode Solo privilégie :
 
 Commandes quotidiennes :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose up -d open-webui
 ```
 
 Avec terminal :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 docker compose up -d open-webui open-terminal
 ```
 
 Avec recherche Vane :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose --profile research up -d
@@ -1110,6 +1245,8 @@ Les images Docker, dépendances, modèles et moteurs de recherche utilisés par 
 - [ ] Vane reste arrêté lorsque sa fonction spécialisée n’est pas utile.
 
 ### 25.4 Critère d’acceptation
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Open WebUI              → interface locale accessible et persistante

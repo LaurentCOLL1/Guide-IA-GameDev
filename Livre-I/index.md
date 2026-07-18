@@ -2,10 +2,12 @@
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
 status: "complete"
-version: "1.2.0"
+version: "1.3.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 Ce livre couvre l’installation, la configuration, la compréhension et la validation de l’environnement local de développement et de création assistée par IA.
 
@@ -17,16 +19,22 @@ Le Livre I fournit également les bases nécessaires à un débutant complet : t
 
 ## Chapitres
 
-1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé et validé**
-2. [Terminal, PowerShell et outils Windows](CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md) — **rédigé et validé**
-3. [Git, GitHub et Visual Studio Code](CHAPITRE-03-Git-GitHub-et-VS-Code.md) — **rédigé et validé**
-4. [Python et environnements virtuels](CHAPITRE-04-Python-et-environnements-virtuels.md) — **rédigé et validé**
-5. [Docker et Docker Compose](CHAPITRE-05-Docker-et-Docker-Compose.md) — **rédigé et validé**
-6. [Open WebUI, Open Terminal et Vane](CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé et validé**
-7. [ComfyUI et workflows graphiques](CHAPITRE-07-ComfyUI-et-workflows-graphiques.md) — **rédigé et validé**
-8. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé et validé**
-9. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé et validé**
-10. [Sécurité, sauvegarde et validation de la plateforme](CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md) — **rédigé et validé**
+1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé, validé et audité**
+2. [Terminal, PowerShell et outils Windows](CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md) — **rédigé, validé et audité**
+3. [Git, GitHub et Visual Studio Code](CHAPITRE-03-Git-GitHub-et-VS-Code.md) — **rédigé, validé et audité**
+4. [Python et environnements virtuels](CHAPITRE-04-Python-et-environnements-virtuels.md) — **rédigé, validé et audité**
+5. [Docker et Docker Compose](CHAPITRE-05-Docker-et-Docker-Compose.md) — **rédigé, validé et audité**
+6. [Open WebUI, Open Terminal et Vane](CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé, validé et audité**
+7. [ComfyUI et workflows graphiques](CHAPITRE-07-ComfyUI-et-workflows-graphiques.md) — **rédigé, validé et audité**
+8. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé, validé et audité**
+9. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé, validé et audité**
+10. [Sécurité, sauvegarde et validation de la plateforme](CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md) — **rédigé, validé et audité**
+
+## Audit transversal des contextes d’utilisation
+
+Les dix chapitres appliquent désormais la convention `DOC-V0-ANN-CONTEXTES`. Chaque commande précise son terminal, chaque contenu de fichier précise l’éditeur et le chemin cible, les liens procéduraux utilisent **[WEB]**, et les sorties utilisent **[SORTIE]**.
+
+Le rapport est disponible dans [`Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md`](../Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md). La validation est statique : les procédures nécessitant le matériel ou les services réels conservent une réserve runtime.
 
 ## Stabilité des identifiants
 

@@ -27,6 +27,8 @@
 - [x] Assurance qualité documentaire.
 - [x] Annexes normatives.
 - [x] Validation de la compilation complète.
+- [x] Convention des outils et contextes d’utilisation.
+- [x] Audit transversal du Volume 0 et du Livre I.
 
 **Statut M1 : terminé.** Le workflow GitHub Actions a validé 27 sources, 26 identifiants uniques, la compilation Pandoc/XeLaTeX et un PDF A4 de 214 pages. La licence globale reste à définir avant publication officielle.
 
@@ -43,6 +45,7 @@
 - [x] Audio IA.
 - [x] Sécurité, sauvegarde et validation de la plateforme.
 - [x] Nouvelle validation technique, documentaire et compilation du Livre I à dix chapitres.
+- [x] Repères d’utilisation appliqués à toutes les commandes, fichiers et procédures web.
 
 **Statut M2 : terminé.** Le workflow `Validate Documentation` a contrôlé 37 sources, les 10 chapitres du Livre I et 36 identifiants uniques sans erreur bloquante. Les identifiants historiques des cinq chapitres déplacés ont été conservés. La compilation Pandoc/XeLaTeX a produit un PDF A4 de 396 pages ; 82 pages réparties dans le document ont été contrôlées visuellement. La licence globale et le balisage d’accessibilité du PDF restent à traiter avant publication officielle.
 

@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Index alphabétique
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cet index facilite l’accès transversal aux notions du guide. Il sera enrichi à chaque livre et pourra être généré automatiquement à partir des métadonnées et des identifiants stables.
 
 ## A

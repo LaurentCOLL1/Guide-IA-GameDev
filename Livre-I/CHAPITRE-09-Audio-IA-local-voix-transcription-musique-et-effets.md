@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 9 : Audio IA local, voix, transcription, musique et effets"
 id: "DOC-L1-CH06"
 status: "draft-review"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 9
@@ -14,9 +14,16 @@ reference-platform:
   gpu: "AMD Radeon RX 6750 XT 12 Go"
   cpu: "AMD Ryzen 7 2700"
   ram: "32 Go"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Audio IA local, voix, transcription, musique et effets
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-CH06`  
 > **Priorité :** Obligatoire  
@@ -39,6 +46,8 @@ Elle doit couvrir quatre besoins distincts :
 Ces quatre domaines ne doivent pas être confondus dans un seul environnement Python. Les dépendances, licences, formats et besoins matériels diffèrent fortement.
 
 La stratégie du guide est :
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Texte / audio source
@@ -114,6 +123,8 @@ Une génération brute ne doit pas être intégrée directement dans le jeu.
 
 Le pipeline officiel est :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Génération
     ↓
@@ -131,6 +142,8 @@ Export jeu
 ```
 
 ## 3. Architecture des dossiers
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 audio-local/
@@ -201,11 +214,15 @@ Ne pas effectuer plusieurs conversions successives entre 44,1 et 48 kHz.
 
 ### 4.3 Convention de nommage
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 <type>_<personnage-ou-source>_<intention>_<langue>_<version>.<extension>
 ```
 
 Exemples :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 voice_mara_warning_fr_v003.wav
@@ -233,6 +250,8 @@ Le projet fournit actuellement un installeur Windows MSI et un déploiement Dock
 ### 5.2 Parcours retenu
 
 Pour la configuration de référence :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Voicebox Windows
@@ -284,6 +303,8 @@ Il est adapté à :
 
 ### 6.2 Environnement isolé
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.11 -m venv environments\kokoro\.venv
 environments\kokoro\.venv\Scripts\Activate.ps1
@@ -292,6 +313,8 @@ pip install kokoro soundfile
 ```
 
 Enregistrer ensuite :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 pip freeze > environments\kokoro\requirements-lock.txt
@@ -335,6 +358,8 @@ Les voix téléchargées peuvent posséder des licences distinctes.
 
 ### 7.2 Installation
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `OHF-Voice/piper1-gpl`.
+
 ```powershell
 py -3.11 -m venv environments\piper\.venv
 environments\piper\.venv\Scripts\Activate.ps1
@@ -344,6 +369,8 @@ pip install piper-tts
 
 Lister et télécharger les voix :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m piper.download_voices
 python -m piper.download_voices fr_FR-siwis-medium --data-dir models\tts\piper
@@ -352,6 +379,8 @@ python -m piper.download_voices fr_FR-siwis-medium --data-dir models\tts\piper
 La disponibilité et le nom exact des voix doivent être vérifiés lors de l’installation.
 
 ### 7.3 Génération
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m piper.download_voices python -m piper.download_voices fr_FR-siwis-medium --data-dir models\tts\piper`.
 
 ```powershell
 python -m piper `
@@ -382,6 +411,8 @@ La branche multilingue actuelle est destinée aux voix conversationnelles et au 
 
 Le projet est installé avec :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 pip install chatterbox-tts
 ```
@@ -389,6 +420,8 @@ pip install chatterbox-tts
 Le dépôt indique que le développement et les tests de référence utilisent Python 3.11 sous Debian. Une installation Windows doit donc être traitée comme une adaptation à valider, pas comme une équivalence garantie.
 
 ### 8.2 Environnement séparé
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 py -3.11 -m venv environments\chatterbox\.venv
@@ -411,6 +444,8 @@ Une référence de clonage doit être :
 - retirée si le consentement est révoqué.
 
 ### 8.4 Manifest de voix
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: VOICE-MARA-FR-001
@@ -462,6 +497,8 @@ Il utilise CTranslate2 et prend en charge :
 
 ### 9.2 Installation
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.11 -m venv environments\faster-whisper\.venv
 environments\faster-whisper\.venv\Scripts\Activate.ps1
@@ -471,6 +508,8 @@ pip freeze > environments\faster-whisper\requirements-lock.txt
 ```
 
 ### 9.3 Script minimal
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```python
 from pathlib import Path
@@ -544,6 +583,8 @@ Pour la RX 6750 XT, le parcours Vulkan est un laboratoire intéressant, car il �
 
 ### 10.2 Référence CPU
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 whisper-cli.exe `
   -m models\stt\ggml-small.bin `
@@ -554,6 +595,8 @@ whisper-cli.exe `
 ```
 
 ### 10.3 Préparation FFmpeg
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `-m models\stt\ggml-small.bin`.
 
 ```powershell
 ffmpeg -i recordings\raw\test.wav `
@@ -576,6 +619,8 @@ Utiliser le même :
 - format de sortie.
 
 Enregistrer :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 engine: whisper.cpp
@@ -603,6 +648,8 @@ Le paquet officiel `openai-whisper` reste utile pour :
 
 Installation :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.11 -m venv environments\openai-whisper\.venv
 environments\openai-whisper\.venv\Scripts\Activate.ps1
@@ -613,6 +660,8 @@ pip install openai-whisper
 FFmpeg doit être installé et accessible dans le `PATH`.
 
 Exemple :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 whisper recordings\cleaned\test.wav `
@@ -627,11 +676,15 @@ Ce moteur n’est pas le parcours quotidien du guide sur la configuration de ré
 
 ### 12.1 Normaliser le format
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `--output_dir transcripts\openai-whisper`.
+
 ```powershell
 ffmpeg -i input.wav -ar 48000 -ac 1 -c:a pcm_s24le output.wav
 ```
 
 ### 12.2 Mesurer le niveau sonore
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `--output_dir transcripts\openai-whisper`.
 
 ```powershell
 ffmpeg -i input.wav -af loudnorm=print_format=json -f null NUL
@@ -681,6 +734,8 @@ Ardour est recommandé pour :
 
 Toujours conserver :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 source brute
 édition de travail
@@ -716,6 +771,8 @@ Il ne constitue pas la source musicale commerciale par défaut du projet.
 
 ### 14.3 Environnement séparé
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.11 -m venv environments\audiocraft\.venv
 environments\audiocraft\.venv\Scripts\Activate.ps1
@@ -740,6 +797,8 @@ Un prompt doit décrire :
 
 Exemple :
 
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+
 ```text
 Dark ambient exploration cue, sparse bowed metal, low cello drones,
 slow pulse around 60 BPM, no vocals, no heroic melody, seamless loop,
@@ -747,6 +806,8 @@ ruined underground laboratory, restrained tension.
 ```
 
 ### 14.5 Manifest de génération
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: MUSIC-RUINS-NIGHT-004
@@ -775,6 +836,8 @@ Usages adaptés :
 
 Exemple de prompt :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Heavy corroded steel door closing in an underground bunker,
 short mechanical groan, deep impact, small debris falling,
@@ -795,6 +858,8 @@ Les poids AudioGen fournis par AudioCraft relèvent également de la licence CC-
 ## 16. Production de dialogues de jeu
 
 ### 16.1 Pipeline recommandé
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Texte validé
@@ -830,11 +895,15 @@ Ne pas tenter de corriger uniquement par prompt une ligne dont le texte est mal 
 
 Créer un fichier :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 audio-local/voices/pronunciation/fr-FR.yaml
 ```
 
 Exemple :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text audio-local/voices/pronunciation/fr-FR.yaml`.
 
 ```yaml
 Aeryn: "É-rine"
@@ -859,6 +928,8 @@ La transcription peut produire une première version des sous-titres, mais elle 
 
 Format source recommandé :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 WebVTT ou SRT
 ```
@@ -868,6 +939,8 @@ Format d’intégration : structure de données Godot dérivée du fichier sourc
 ## 18. Gestion des modèles et licences
 
 Chaque modèle audio doit posséder un manifeste :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: MODEL-AUDIO-001
@@ -892,6 +965,8 @@ Une licence de code permissive ne rend pas automatiquement les poids, les voix o
 
 Les dossiers suivants peuvent contenir des données biométriques ou personnelles :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 voices/references/
 voices/consent/
@@ -910,6 +985,8 @@ Ils doivent être :
 ### 19.2 APIs locales
 
 Les serveurs TTS ou STT doivent écouter par défaut sur :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 127.0.0.1
@@ -962,6 +1039,8 @@ Enregistrer :
 ### 20.3 Cas de référence
 
 Créer au minimum :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 benchmarks/audio/
@@ -1082,6 +1161,8 @@ Vérifier :
 ## 25. Critère d’acceptation
 
 Le chapitre est validé lorsque le poste peut exécuter ce scénario :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Texte français

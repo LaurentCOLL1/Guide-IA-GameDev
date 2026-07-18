@@ -2,7 +2,7 @@
 title: "Chapitre 7 — Standards techniques"
 id: "DOC-V0-CH07"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Volume 0"
 chapter: 7
 tags:
@@ -11,9 +11,16 @@ tags:
   - code
   - reproductibilite
   - qualite
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 7 — Standards techniques
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## Objectif du chapitre
 
@@ -157,6 +164,8 @@ L’étiquette `latest` ne doit pas être utilisée dans un exemple de productio
 **Obligatoire.** Le code, les données, la configuration, les ressources sources et les fichiers générés doivent être séparés.
 
 Structure générique recommandée :
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 project/

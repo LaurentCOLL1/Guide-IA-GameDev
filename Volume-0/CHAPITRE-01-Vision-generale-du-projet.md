@@ -1,12 +1,19 @@
 ---
 title: "Volume 0 — Chapitre 1 : Vision générale du projet"
 identifier: "DOC-V0-CH01"
-version: "1.0.0"
+version: "1.1.0"
 status: "draft-review"
 lang: "fr-FR"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Vision générale du projet
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-V0-CH01`  
 > **Priorité :** 🟢 Obligatoire  
@@ -23,6 +30,8 @@ Les choix détaillés d'installation, d'architecture, de modèles d'intelligence
 ## 2. Nom et identité du projet
 
 ### 2.1 Nom du dépôt
+
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Guide-IA-GameDev
@@ -43,6 +52,8 @@ Le titre pourra évoluer avant la publication de la version `1.0`. L'identifiant
 La mission du projet est de permettre à une personne disposant de peu ou pas d'expérience en informatique, en programmation ou en développement de jeux de construire progressivement un jeu vidéo 3D réaliste en s'appuyant sur des logiciels gratuits, des composants open source et des intelligences artificielles exécutées localement.
 
 Le guide doit accompagner le lecteur sur l'ensemble du cycle de vie :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Comprendre
@@ -99,6 +110,8 @@ Le projet fil rouge sert de support d'apprentissage. Il ne constitue pas une pro
 ### 4.2 Un environnement de production réutilisable
 
 Le lecteur doit aussi obtenir une plateforme locale capable de l'assister dans d'autres projets :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Docker
@@ -218,6 +231,8 @@ Lorsqu'un outil gratuit n'est pas open source, sa nature doit être indiquée cl
 ### 7.3 Une source de vérité documentaire
 
 Le Markdown constitue la source officielle de la collection. Les PDF, pages HTML, fichiers DOCX ou EPUB sont des formats générés.
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Markdown versionné

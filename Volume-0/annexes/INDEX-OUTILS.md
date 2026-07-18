@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Index des outils
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cet index répertorie les outils principaux, leurs rôles dans le guide et l’emplacement prévu de leur documentation détaillée.
 
 ## Outils principaux
@@ -65,6 +67,8 @@ Cet index répertorie les outils principaux, leurs rôles dans le guide et l’e
 ## Fiche d’outil obligatoire
 
 Tout outil documenté en profondeur doit préciser :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 name: "Nom"

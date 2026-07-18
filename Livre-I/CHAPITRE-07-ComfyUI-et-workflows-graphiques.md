@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 7 : ComfyUI et workflows graphiques"
 id: "DOC-L1-CH04"
 status: "draft-review"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 7
@@ -16,9 +16,16 @@ reference-hardware:
   os: "Windows 11 64 bits"
 reference-software:
   comfyui: "v0.24.0"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # ComfyUI et workflows graphiques
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-CH04`  
 > **Priorité :** Obligatoire  
@@ -47,6 +54,8 @@ Le chapitre ne cherche pas à installer le plus grand nombre possible de modèle
 
 La règle centrale est :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Un workflow sans version, sans modèles identifiés et sans dépendances enregistrées
 n’est pas un workflow reproductible.
@@ -57,6 +66,8 @@ n’est pas un workflow reproductible.
 ### 2.1 Version de référence
 
 La version stable de référence utilisée pour la rédaction est :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 ComfyUI v0.24.0
@@ -69,6 +80,8 @@ Cette version doit être remplacée par un tag ou un commit explicitement testé
 ComfyUI Desktop est l’installation la plus simple pour un poste compatible. Toutefois, la documentation officielle Windows la destine actuellement aux GPU NVIDIA.
 
 Pour la RX 6750 XT :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 ComfyUI Desktop Windows
@@ -103,6 +116,8 @@ L’installation manuelle est la base retenue pour ce guide, car elle permet :
 
 ComfyUI accepte encore l’argument :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 --directml
 ```
@@ -110,6 +125,8 @@ ComfyUI accepte encore l’argument :
 Cependant, le code officiel avertit actuellement que `torch-directml` fonctionne mal, reste très lent, n’a pas été mis à jour depuis longtemps et pourrait être supprimé.
 
 DirectML est donc classé :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 secours dégradé
@@ -146,6 +163,8 @@ ZLUDA ne doit pas être copié dans l’installation stable CPU ni dans une inst
 
 Le parcours de référence est :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Installation CPU validée
         ↓
@@ -165,6 +184,8 @@ Conservation du backend seulement s’il est stable
 Le code, les environnements Python, les modèles et les productions ne doivent pas être mélangés.
 
 Arborescence recommandée :
+
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
 
 ```text
 D:\IA\ComfyUI\
@@ -252,6 +273,8 @@ La documentation ComfyUI recommande actuellement Python 3.13. Python 3.12 reste 
 
 Pour un projet de production :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Python 3.13.x : choix initial
 Python 3.12.x : repli de compatibilité
@@ -264,6 +287,8 @@ Ne pas utiliser le Python global de Windows pour toutes les applications IA.
 
 Dans PowerShell :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Set-Location D:\IA\ComfyUI\installations
 git clone https://github.com/Comfy-Org/ComfyUI.git comfyui-cpu
@@ -272,6 +297,8 @@ git checkout v0.24.0
 ```
 
 Enregistrer :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git rev-parse HEAD
@@ -282,6 +309,8 @@ Le résultat doit montrer un dépôt propre et un commit précis.
 
 ### 5.4 Créer l’environnement virtuel
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 py -3.13 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -289,6 +318,8 @@ python -m pip install --upgrade pip
 ```
 
 Vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python --version
@@ -299,11 +330,15 @@ L’exécutable doit appartenir au dossier `.venv` de l’installation.
 
 ### 5.5 Installer les dépendances
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
 Puis vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m pip check
@@ -311,6 +346,8 @@ python -m pip freeze > ..\..\manifests\comfyui-cpu-pip-freeze.txt
 ```
 
 ### 5.6 Démarrer en CPU
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python main.py `
@@ -324,7 +361,12 @@ python main.py `
 
 Ouvrir :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
+
+> **[WEB] Navigateur internet - Ouvrir :** utiliser la page officielle indiquée ci-dessous.
+
 http://127.0.0.1:8188
 ```
 
@@ -336,11 +378,15 @@ Ne pas utiliser `--listen` sans adresse. Sans argument, cette option écoute sur
 
 Créer dans chaque installation :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 extra_model_paths.yaml
 ```
 
 Exemple :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text extra_model_paths.yaml`.
 
 ```yaml
 guide_ia_models:
@@ -377,6 +423,8 @@ Une mise à jour simultanée de plusieurs installations peut écrire dans les m�
 ### 7.1 Manifeste obligatoire
 
 Chaque modèle accepté doit être enregistré avec :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: MODEL-IMAGE-001
@@ -418,6 +466,8 @@ Vérifier séparément :
 
 PowerShell :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-FileHash .\modele.safetensors -Algorithm SHA256
 ```
@@ -429,6 +479,8 @@ La comparaison doit porter sur l’empreinte et non seulement sur le nom du fich
 ### 8.1 Objectif
 
 Le premier workflow doit rester simple :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Checkpoint Loader
@@ -463,6 +515,8 @@ Le but est de vérifier le pipeline, pas de produire l’image finale du projet.
 
 Les prompts utilisés pour la validation doivent être neutres et répétables. Exemple :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 positif : studio photograph of a red ceramic mug on a wooden table, neutral light
 négatif : blurry, duplicate, text, watermark
@@ -488,6 +542,8 @@ Le test réussit lorsque :
 
 Chaque workflow accepté doit être exporté en JSON :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 workflows/source/WF-IMG-0001-text-to-image.json
 ```
@@ -496,11 +552,15 @@ workflows/source/WF-IMG-0001-text-to-image.json
 
 Créer un fichier associé :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 workflows/source/WF-IMG-0001-text-to-image.yaml
 ```
 
 Exemple :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text workflows/source/WF-IMG-0001-text-to-image.yaml`.
 
 ```yaml
 id: WF-IMG-0001
@@ -543,6 +603,8 @@ Une image générée par ComfyUI peut contenir le workflow et les paramètres. C
 
 Conserver :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 JSON source + manifeste + image de référence
 ```
@@ -550,6 +612,8 @@ JSON source + manifeste + image de référence
 ### 9.5 Ne pas désactiver les métadonnées par défaut
 
 L’argument :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 --disable-metadata
@@ -592,6 +656,8 @@ Avant d’installer un nœud :
 
 Le Manager officiel intégré peut être activé avec :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python -m pip install -r manager_requirements.txt
 python main.py --enable-manager
@@ -603,6 +669,8 @@ Le niveau de sécurité recommandé est `normal`. Les niveaux plus permissifs ne
 
 Avec `comfy-cli` :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m pip install -r manager_requirements.txt python main.py --enable-manager`.
+
 ```powershell
 comfy node save-snapshot
 comfy node snapshot-list
@@ -610,6 +678,8 @@ comfy node restore-snapshot <snapshot>
 ```
 
 Il est également possible de produire une liste de dépendances à partir d’un workflow :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 comfy node deps-in-workflow `
@@ -637,6 +707,8 @@ Ne jamais transformer l’installation CPU en installation ZLUDA.
 
 Créer :
 
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+
 ```text
 D:\IA\ComfyUI\installations\comfyui-zluda
 ```
@@ -662,6 +734,8 @@ ZLUDA ne garantit pas :
 - la réussite d’une mise à jour PyTorch.
 
 ### 11.3 Manifeste du backend
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: BACKEND-ZLUDA-001
@@ -709,6 +783,8 @@ Aucune migration de workflow ne doit être nécessaire pour revenir au CPU.
 
 ### 12.1 Environnement distinct
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 D:\IA\ComfyUI\installations\comfyui-directml
 ```
@@ -716,6 +792,8 @@ D:\IA\ComfyUI\installations\comfyui-directml
 Ne pas installer `torch-directml` dans les environnements CPU ou ZLUDA.
 
 ### 12.2 Installation de principe
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text D:\IA\ComfyUI\installations\comfyui-directml`.
 
 ```powershell
 python -m venv .venv
@@ -725,6 +803,8 @@ python -m pip install -r requirements.txt
 ```
 
 Démarrage :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m venv .venv .\.venv\Scripts\Activate.ps1 python -m pip install torch-directml python -m pip install -r requirements.txt`.
 
 ```powershell
 python main.py --directml --listen 127.0.0.1 --port 8190
@@ -750,6 +830,8 @@ ComfyUI utilise une gestion dynamique de la VRAM. Ne pas la désactiver sans dia
 
 L’argument :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 --disable-dynamic-vram
 ```
@@ -759,6 +841,8 @@ est à éviter. Le projet ComfyUI signale que cette option doit disparaître à 
 ### 13.2 Réserver de la VRAM
 
 Point de départ :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 --reserve-vram 1.5
@@ -775,17 +859,23 @@ La valeur doit être mesurée. Augmenter la réserve lorsque :
 
 #### Profil normal
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python main.py --reserve-vram 1.5
 ```
 
 #### Profil prudent
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --reserve-vram 1.5`.
+
 ```powershell
 python main.py --lowvram --reserve-vram 2.0
 ```
 
 #### Profil de secours
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --lowvram --reserve-vram 2.0`.
 
 ```powershell
 python main.py --novram --reserve-vram 2.0
@@ -818,6 +908,8 @@ Elles ne doivent pas être activées dans le profil stable sans comparaison visu
 
 ### 14.1 Niveau W0 — fumée
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 512 × 512
 batch 1
@@ -829,6 +921,8 @@ aucun upscale
 Objectif : valider l’installation.
 
 ### 14.2 Niveau W1 — production légère
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 512 à 768 pixels
@@ -842,6 +936,8 @@ Objectif : concept art, tests de style, textures simples.
 
 ### 14.3 Niveau W2 — production standard
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 768 à 1024 pixels
 batch 1
@@ -853,6 +949,8 @@ upscale séparé
 Objectif : images de référence et assets 2D préparatoires.
 
 ### 14.4 Niveau W3 — lourd
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 haute résolution
@@ -872,6 +970,8 @@ Objectif : expérimentation. Le workflow doit être fractionné, mesurer chaque 
 
 Découper :
 
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+
 ```text
 01-load
 02-conditioning
@@ -884,6 +984,8 @@ Découper :
 ### 15.2 Nommage
 
 Utiliser des groupes et notes :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 [INPUT] modèle et image
@@ -921,17 +1023,23 @@ Les sous-graphes ou composants réutilisables doivent rester simples et document
 
 Convention :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 <workflow-id>_<asset-id>_<version>_<seed>_<date>
 ```
 
 Exemple :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 WF-IMG-0042_ENV-FOREST-003_v02_s123456_20260718.png
 ```
 
 Les dossiers de sortie peuvent suivre :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 output/
@@ -951,6 +1059,8 @@ Une sortie rejetée ne doit pas écraser une sortie acceptée.
 ### 17.1 Exposition
 
 Par défaut :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 127.0.0.1:8188
@@ -976,6 +1086,8 @@ Pour un accès distant :
 
 Les API Nodes intégrés peuvent communiquer avec des services externes. Pour une instance strictement locale :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 --disable-api-nodes
 ```
@@ -985,6 +1097,8 @@ Cette option empêche également le frontend de communiquer avec Internet par le
 ### 17.4 Multi-utilisateur
 
 L’option :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 --multi-user
@@ -1008,6 +1122,8 @@ Avant mise à jour :
 
 ### 18.2 Mise à jour du code
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 git fetch --tags
 git checkout <nouveau-tag>
@@ -1020,6 +1136,8 @@ Ne pas exécuter `git pull` aveuglément sur une installation de production modi
 ### 18.3 Environnement parallèle
 
 Méthode recommandée :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 comfyui-v0.24.0-stable
@@ -1083,6 +1201,8 @@ Les caches peuvent être supprimés et recréés. Ils ne doivent pas être la se
 
 ### 20.1 Fiche
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```yaml
 id: BENCH-COMFY-001
 date: "2026-07-18"
@@ -1129,6 +1249,8 @@ Une moyenne sans préciser le nombre d’exécutions n’est pas exploitable.
 
 ### Couche 1 — Python
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python --version
 python -c "import sys; print(sys.executable)"
@@ -1136,6 +1258,8 @@ python -m pip check
 ```
 
 ### Couche 2 — ComfyUI
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git rev-parse HEAD
@@ -1165,11 +1289,15 @@ python main.py --cpu --verbose DEBUG
 
 Démarrer sans nœuds personnalisés :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 python main.py --disable-all-custom-nodes
 ```
 
 Puis autoriser seulement un dossier :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --disable-all-custom-nodes`.
 
 ```powershell
 python main.py `
@@ -1194,6 +1322,8 @@ Puis tester `--lowvram` et `--novram`.
 
 Comparer le même workflow :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 CPU → DirectML → ZLUDA
 ```
@@ -1201,6 +1331,8 @@ CPU → DirectML → ZLUDA
 Si CPU réussit et ZLUDA échoue, le workflow n’est pas nécessairement en cause.
 
 ### Couche 8 — réseau
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Test-NetConnection 127.0.0.1 -Port 8188
@@ -1245,6 +1377,8 @@ Ne pas installer un paquet CUDA au hasard. Identifier d’abord le backend de l�
 ### Interface accessible depuis le réseau
 
 Vérifier que le lancement contient :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 --listen 127.0.0.1
@@ -1319,6 +1453,8 @@ Un utilisateur ne doit pas pouvoir installer librement un nœud Python dans l’
 
 ### 25.2 Critère d’acceptation
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 ComfyUI CPU              → démarrage réussi
 Workflow W0              → image enregistrée
@@ -1371,6 +1507,8 @@ Backend expérimental      → isolé et réversible
 Pour la RX 6750 XT, ComfyUI doit être installé comme un environnement de production versionné plutôt que comme une application opaque mise à jour automatiquement.
 
 Le socle retenu est :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 ComfyUI manuel CPU

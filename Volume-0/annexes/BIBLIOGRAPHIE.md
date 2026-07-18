@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Bibliographie
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cette annexe décrit le registre bibliographique de la collection. Elle privilégie les sources primaires, officielles, versionnées et consultables sans ambiguïté.
 
 ## Hiérarchie des sources
@@ -21,6 +23,8 @@ Cette annexe décrit le registre bibliographique de la collection. Elle privilé
 ## Format d’une référence
 
 Chaque référence stable doit contenir les champs suivants :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```yaml
 id: REF-0001
@@ -68,6 +72,8 @@ Les entrées ci-dessous identifient les familles de sources à maintenir. Les ve
 Une affirmation dépendante d’une version, d’un comportement logiciel ou d’une règle juridique doit renvoyer vers une référence identifiable. La citation doit être placée au plus près de l’affirmation et préciser, lorsque nécessaire, la version testée.
 
 Exemple :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Cette procédure a été validée avec la version X.Y de l’outil [REF-0003].

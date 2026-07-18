@@ -10,6 +10,8 @@ validation-date: "2026-07-18"
 
 # Rapport QA final du Volume 0
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Décision
 
 **Validation réussie.** Le contenu normatif du Volume 0, ses annexes initiales et la chaîne de construction documentaire satisfont les contrôles définis pour le milestone M1.
@@ -49,6 +51,8 @@ Le validateur accepte les champs d’identification `id` et l’alias historique
 ## 4. Avertissement restant
 
 La métadonnée globale de licence contient encore la valeur :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `contents.txt`.
 
 ```yaml
 license: "À définir avant publication"
@@ -90,6 +94,8 @@ La validation a permis de corriger ou renforcer les éléments suivants :
 
 Un échantillon représentatif a été rendu en images aux pages suivantes :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 1 à 5, 50, 100, 150, 200 et 214
 ```
@@ -109,6 +115,8 @@ La table des matières, les pages de texte courant, les blocs de code et les tab
 ## 8. Artefacts produits
 
 L’artefact GitHub Actions `volume-0-validation` contient :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev.pdf

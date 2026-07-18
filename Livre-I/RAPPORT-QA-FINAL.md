@@ -10,6 +10,8 @@ validation-date: "2026-07-18"
 
 # Rapport QA final du Livre I
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Décision
 
 **Validation réussie.** La structure corrigée du Livre I contient dix chapitres et satisfait les contrôles documentaires, structurels et de compilation du milestone M2.
@@ -110,6 +112,8 @@ Les contrôles n’ont détecté aucun :
 
 La nouvelle structure fournit une progression complète :
 
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+
 ```text
 comprendre le poste
         ↓
@@ -151,6 +155,8 @@ Le journal Pandoc ne contient aucune erreur, aucun avertissement de glyphe manqu
 ## 7. Contrôle visuel
 
 Un échantillon de **82 pages** a été rendu à 160 DPI et examiné :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 1-5
@@ -195,6 +201,8 @@ La dernière page est partiellement vide, ce qui correspond à la fin du contenu
 
 La métadonnée globale conserve :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```yaml
 license: "À définir avant publication"
 ```
@@ -234,6 +242,8 @@ Les procédures conservent donc :
 
 L’artefact GitHub Actions `documentation-validation` contient :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Guide-IA-GameDev.pdf
 Guide-IA-GameDev.txt
@@ -243,6 +253,8 @@ PDF-INFO.txt
 ```
 
 L’archive de l’exécution porte l’empreinte :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 sha256:37692ab31405d003fcbe7f6c9fb8ac2f4b9b4d8017e95af485ff9db473bdda98

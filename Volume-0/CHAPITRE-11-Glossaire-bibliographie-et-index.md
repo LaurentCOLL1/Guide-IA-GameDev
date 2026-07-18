@@ -2,7 +2,7 @@
 title: "Chapitre 11 — Glossaire, bibliographie et index"
 id: "DOC-V0-CH11"
 status: "draft"
-version: "0.1.0"
+version: "0.2.0"
 book: "Volume 0"
 chapter: 11
 level: "Débutant à avancé"
@@ -12,9 +12,16 @@ tags:
   - bibliographie
   - index
   - traçabilité
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 11 — Glossaire, bibliographie et index
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## Objectif du chapitre
 
@@ -64,11 +71,15 @@ Le glossaire central fournit les définitions normatives de la collection. Il do
 
 Le glossaire global sera placé dans :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Volume-0/annexes/GLOSSAIRE.md
 ```
 
 Les glossaires propres à un livre peuvent être placés dans :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Livre-X/annexes/GLOSSAIRE-LIVRE-X.md
@@ -79,6 +90,8 @@ Ils ne doivent contenir que les termes très spécialisés du livre. Toute notio
 ### 2.3 Structure d’une entrée
 
 Chaque entrée suit cette structure :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text Livre-X/annexes/GLOSSAIRE-LIVRE-X.md`.
 
 ```markdown
 ### Terme canonique
@@ -97,6 +110,8 @@ Chaque entrée suit cette structure :
 ```
 
 ### 2.4 Exemple
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 ### Quantification
@@ -155,11 +170,15 @@ Un seul terme est choisi comme forme principale. Les autres formes redirigent ve
 
 Exemple :
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 ### Maillage
 
 Terme canonique. Voir aussi : mesh.
 ```
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 ### Mesh
@@ -178,11 +197,15 @@ L’anglais peut être conservé lorsque :
 
 La première occurrence dans un chapitre doit de préférence prendre la forme :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 maillage (*mesh*)
 ```
 
 ou :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 *prompt* (instruction fournie à un modèle)
@@ -233,11 +256,15 @@ L’ordre de préférence est :
 
 La bibliographie globale sera stockée dans :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Volume-0/annexes/BIBLIOGRAPHIE.md
 ```
 
 Une version structurée pourra être ajoutée au Companion Pack :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Companion-Pack/knowledge-base/bibliography.yaml
@@ -260,6 +287,8 @@ Chaque référence doit contenir autant que possible :
 
 ### 5.5 Format d’une entrée bibliographique
 
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
+
 ```markdown
 ### `BIB-TOOL-001` — Documentation officielle de Godot
 
@@ -276,6 +305,8 @@ Chaque référence doit contenir autant que possible :
 ### 5.6 Citations dans les chapitres
 
 Les références courtes utilisent l’identifiant bibliographique :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Voir `BIB-TOOL-001`.
@@ -321,6 +352,8 @@ La collection doit fournir plusieurs index complémentaires :
 
 ### 7.2 Emplacement recommandé
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Volume-0/annexes/INDEX-ALPHABETIQUE.md
 Volume-0/annexes/INDEX-OUTILS.md
@@ -334,6 +367,8 @@ Companion-Pack/indexes/
 ### 7.3 Index alphabétique
 
 L’index alphabétique contient des entrées courtes :
+
+> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.
 
 ```markdown
 - **ComfyUI** — `GLS-TOOL-004`, `L1-IMG-CHXX`, `WF-IMG-XXX`
@@ -389,11 +424,15 @@ Les décisions architecturales importantes doivent être consignées sous forme 
 
 Emplacement prévu :
 
+> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+
 ```text
 Companion-Pack/architecture/decisions/
 ```
 
 Format recommandé :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text Companion-Pack/architecture/decisions/`.
 
 ```markdown
 # ADR-NNN — Titre de la décision
@@ -422,6 +461,8 @@ Les erreurs fréquentes doivent être indexées avec :
 - les versions concernées.
 
 Exemple d’identifiant :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 ERR-COMFY-ZLUDA-001
@@ -530,6 +571,8 @@ En Mode Studio, il est recommandé d’ajouter :
 ## 16. Livrables attendus
 
 À terme, ce chapitre doit conduire à la création des fichiers suivants :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Volume-0/annexes/GLOSSAIRE.md

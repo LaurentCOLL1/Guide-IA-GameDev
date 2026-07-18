@@ -2,7 +2,7 @@
 title: "Livre I — Chapitre 2 : Terminal, PowerShell et outils Windows"
 id: "DOC-L1-ENV-TERMINAL"
 status: "draft-review"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre I"
 chapter: 2
@@ -11,9 +11,16 @@ reference-platform:
   os: "Windows 11 64 bits"
   shell: "PowerShell 7"
   terminal: "Windows Terminal"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Terminal, PowerShell et outils Windows
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 > **Identifiant stable :** `DOC-L1-ENV-TERMINAL`  
 > **Priorité :** Obligatoire  
@@ -46,6 +53,8 @@ La règle principale est :
 
 Windows Terminal est l’application qui affiche les onglets, panneaux et sessions. Il peut héberger plusieurs shells :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Windows Terminal
 ├── PowerShell 7              pwsh.exe
@@ -60,6 +69,8 @@ PowerShell 7 est le shell principal du guide. Il est distinct de Windows PowerSh
 
 Vérifier la session :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $PSVersionTable
 $PSHOME
@@ -72,13 +83,19 @@ Une commande destinée à PowerShell n’est pas nécessairement valide dans `cm
 
 Les blocs sont identifiés explicitement :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Write-Output "Commande PowerShell"
 ```
 
+> **[WSL] Terminal WSL/Bash - Exécuter :** utiliser la distribution Linux indiquée.
+
 ```bash
 printf '%s\n' "Commande Bash ou WSL"
 ```
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 Sortie attendue ou pseudo-arborescence
@@ -89,6 +106,8 @@ Sortie attendue ou pseudo-arborescence
 ### 3.1 Vérifier WinGet
 
 WinGet est inclus dans Windows 11 via App Installer.
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget --version
@@ -101,6 +120,8 @@ Si la commande est absente, mettre à jour **App Installer** depuis la source Mi
 
 Rechercher les paquets exacts :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget search --id Microsoft.WindowsTerminal --exact
 winget search --id Microsoft.PowerShell --exact
@@ -108,12 +129,16 @@ winget search --id Microsoft.PowerShell --exact
 
 Installer :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 winget install --id Microsoft.WindowsTerminal --exact --source winget
 winget install --id Microsoft.PowerShell --exact --source winget
 ```
 
 Fermer puis rouvrir le terminal, puis vérifier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 wt --version
@@ -123,6 +148,8 @@ pwsh --version
 Les versions Preview ne sont pas utilisées dans le parcours stable.
 
 ### 3.3 Installer les utilitaires communs
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget install --id 7zip.7zip --exact --source winget
@@ -145,6 +172,8 @@ Le parcours normal utilise une session utilisateur. L’élévation est réserv�
 
 Vérifier si la session est élevée :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
     [Security.Principal.WindowsBuiltInRole]::Administrator
@@ -158,6 +187,8 @@ Ne pas désactiver UAC pour simplifier une procédure.
 
 ### 5.1 Dossier courant
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-Location
 Set-Location C:\IA-GameDev
@@ -165,6 +196,8 @@ Get-ChildItem
 ```
 
 Alias courants à reconnaître, sans les imposer dans les scripts documentés :
+
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
 
 ```text
 pwd  → Get-Location
@@ -176,6 +209,8 @@ cat  → Get-Content
 Les scripts du guide utilisent de préférence les noms complets des commandes PowerShell.
 
 ### 5.2 Chemins absolus et relatifs
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 # Absolu
@@ -190,11 +225,15 @@ C:\IA-GameDev\models\modele.gguf
 
 Toujours entourer un chemin contenant des espaces de guillemets :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell # Absolu C:\IA-GameDev\models\modele.gguf # Relatif au dossier courant .\models\modele.gguf # Dossier parent ..\archives`.
+
 ```powershell
 Set-Location "C:\IA GameDev\Mon Projet"
 ```
 
 ### 5.3 Chemins utilisateur portables
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Set-Location "C:\IA GameDev\Mon Projet"`.
 
 ```powershell
 $HOME
@@ -208,6 +247,8 @@ Préférer ces variables aux chemins contenant un nom d’utilisateur codé en d
 
 ## 6. Créer et manipuler des fichiers
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 New-Item -ItemType Directory -Force C:\IA-GameDev\workspaces
 New-Item -ItemType File .\validation-notes.md
@@ -218,6 +259,8 @@ Remove-Item .\fichier-temporaire.txt
 
 Avant une suppression récursive :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-ChildItem .\dossier -Recurse
 Remove-Item .\dossier -Recurse -WhatIf
@@ -226,6 +269,8 @@ Remove-Item .\dossier -Recurse -WhatIf
 Retirer `-WhatIf` uniquement après vérification.
 
 Les commandes suivantes sont considérées comme destructives :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Remove-Item -Recurse -Force
@@ -239,12 +284,16 @@ Elles doivent être précédées d’un inventaire et d’une sauvegarde adapté
 
 ### 7.1 Lire une variable
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $env:PATH
 $env:TEMP
 ```
 
 ### 7.2 Variable temporaire de session
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $env:MON_MODELE = "C:\IA-GameDev\models\exemple.gguf"
@@ -253,6 +302,8 @@ $env:MON_MODELE = "C:\IA-GameDev\models\exemple.gguf"
 Elle disparaît à la fermeture de la session.
 
 ### 7.3 Variable persistante utilisateur
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell $env:MON_MODELE = "C:\IA-GameDev\models\exemple.gguf"`.
 
 ```powershell
 [Environment]::SetEnvironmentVariable(
@@ -270,6 +321,8 @@ Ne jamais stocker durablement une clé privée dans une variable inscrite dans u
 
 ### 8.1 Identifier la politique active
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-ExecutionPolicy -List
 ```
@@ -278,6 +331,8 @@ Le guide n’impose pas `Unrestricted` et ne désactive pas globalement les prot
 
 Pour un script local contrôlé, préférer une portée limitée et documentée :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
@@ -285,6 +340,8 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 Dans une organisation, la stratégie de groupe prime et ne doit pas être contournée.
 
 ### 8.2 Inspecter avant d’exécuter
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-Content .\script.ps1
@@ -307,6 +364,8 @@ Pour un script téléchargé :
 
 PowerShell transmet des objets, pas seulement du texte :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-Process |
     Sort-Object CPU -Descending |
@@ -315,17 +374,23 @@ Get-Process |
 
 ### 9.2 Enregistrer une sortie
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Get-ComputerInfo | Out-File .\windows-info.txt -Encoding utf8
 ```
 
 Sortie standard et erreurs :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-ComputerInfo | Out-File .\windows-info.txt -Encoding utf8`.
+
 ```powershell
 & .\outil.exe --version *> .\outil-version.log
 ```
 
 Afficher et enregistrer simultanément :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --version *> .\outil-version.log`.
 
 ```powershell
 & .\outil.exe --check 2>&1 | Tee-Object .\validation.log
@@ -335,12 +400,16 @@ Afficher et enregistrer simultanément :
 
 Après un programme natif :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --check 2>&1 | Tee-Object .\validation.log`.
+
 ```powershell
 & git --version
 $LASTEXITCODE
 ```
 
 Dans un script :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --check 2>&1 | Tee-Object .\validation.log`.
 
 ```powershell
 if ($LASTEXITCODE -ne 0) {
@@ -352,11 +421,15 @@ if ($LASTEXITCODE -ne 0) {
 
 ### 10.1 Créer une archive
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 Compress-Archive -Path .\config\* -DestinationPath .\backups\config.zip
 ```
 
 Pour les formats non pris en charge ou les archives volumineuses, utiliser 7-Zip :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 7z a .\backups\projet.7z .\projet\
@@ -364,11 +437,15 @@ Pour les formats non pris en charge ou les archives volumineuses, utiliser 7-Zip
 
 ### 10.2 Calculer une empreinte
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell 7z a .\backups\projet.7z .\projet\`.
+
 ```powershell
 Get-FileHash .\archive.zip -Algorithm SHA256
 ```
 
 Enregistrer le résultat :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-FileHash .\archive.zip -Algorithm SHA256`.
 
 ```powershell
 Get-FileHash .\archive.zip -Algorithm SHA256 |
@@ -383,6 +460,8 @@ Une empreinte confirme l’intégrité d’un fichier connu. Elle ne prouve pas 
 Le dépôt utilise UTF-8.
 
 Créer un fichier explicitement :
+
+> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-FileHash .\archive.zip -Algorithm SHA256 | Format-List | Out-File .\archive.zip.sha256.txt -Encoding utf8`.
 
 ```powershell
 "Texte en français" | Out-File .\exemple.txt -Encoding utf8
@@ -405,6 +484,8 @@ Une commande lancée dans WSL agit dans un environnement Linux, avec ses propres
 
 Correspondance typique :
 
+> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+
 ```text
 Windows : C:\IA-GameDev\projet
 WSL     : /mnt/c/IA-GameDev/projet
@@ -418,11 +499,15 @@ Ne pas mélanger silencieusement les exécutables `python`, `git` ou `docker` de
 
 Afficher le chemin du profil :
 
+> **[VSC] Visual Studio Code - Créer ou modifier :** `text Windows : C:\IA-GameDev\projet WSL     : /mnt/c/IA-GameDev/projet`.
+
 ```powershell
 $PROFILE
 ```
 
 Créer le fichier :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 New-Item -ItemType File -Force $PROFILE
@@ -462,6 +547,8 @@ Le parcours Studio ajoute :
 
 Créer un dossier de test :
 
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+
 ```powershell
 $root = Join-Path $HOME "ia-gamedev-terminal-check"
 New-Item -ItemType Directory -Force $root | Out-Null
@@ -469,6 +556,8 @@ Set-Location $root
 ```
 
 Exécuter :
+
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $report = [ordered]@{

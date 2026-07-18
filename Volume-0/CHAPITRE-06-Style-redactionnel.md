@@ -2,10 +2,17 @@
 title: "Chapitre 6 — Style rédactionnel"
 id: "DOC-V0-CH06"
 status: "draft"
-version: "0.1.0"
+version: "0.2.0"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Chapitre 6 — Style rédactionnel
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 Ce chapitre définit la voix, le niveau de détail et les règles de présentation applicables à l’ensemble du guide. Son objectif est de garantir une documentation claire, cohérente, pédagogique et exploitable aussi bien par une personne seule que par une équipe de production.
 

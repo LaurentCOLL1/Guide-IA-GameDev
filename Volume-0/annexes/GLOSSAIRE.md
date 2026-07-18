@@ -7,6 +7,8 @@ version: "0.1.0"
 
 # Glossaire normatif
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 Cette annexe centralise les termes employés dans l’ensemble du guide. Une définition publiée ici prévaut sur les reformulations locales. Les chapitres peuvent ajouter du contexte, mais ne doivent pas créer une définition concurrente.
 
 ## Règles d’utilisation

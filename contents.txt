@@ -20,6 +20,7 @@ Volume-0/annexes/INDEX-OUTILS.md
 Volume-0/annexes/INDEX-SYSTEMES.md
 Volume-0/annexes/INDEX-FORMATS.md
 Volume-0/annexes/INDEX-LICENCES.md
+Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md
 Livre-I/index.md
 Livre-I/CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md
 Livre-I/CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md
@@ -31,6 +32,7 @@ Livre-I/CHAPITRE-07-ComfyUI-et-workflows-graphiques.md
 Livre-I/CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md
 Livre-I/CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md
 Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md
+Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md
 Livre-II/index.md
 Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
 Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md
