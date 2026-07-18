@@ -1,8 +1,8 @@
 document: "DOC-L2-CH04"
 report: "DOC-L2-QA-AUDIT-CH04"
-status: "pending-final-validation"
+status: "success"
 validation_date: "2026-07-18"
-validated_commit: "c77f230af07ab348e0a26329f0698206c9111104"
+validated_commit: "bb483c1cb4683d8b55faf122e159b5a1a276083a"
 branch: "docs/livre-ii-ch04-architecture-modulaire"
 reference_engine: "Godot 4.7.1-stable"
 audit_level: "static-review"
@@ -20,16 +20,16 @@ layout_correction:
   retained_as_final_evidence: false
 workflows:
   usage_contexts:
-    run_id: null
-    conclusion: null
+    run_id: 29661809423
+    conclusion: "success"
   documentation:
-    run_id: null
-    conclusion: null
+    run_id: 29661809454
+    conclusion: "success"
 artifact:
-  id: null
+  id: 8434555893
   name: "documentation-validation"
-  digest: null
-  archive_size_bytes: null
+  digest: "sha256:4e0f40d3abce21cc875c1592a65f8637729a895f822fc74b7896e0888877851f"
+  archive_size_bytes: 1752059
 documentation_qa:
   declared_sources: 47
   livre_i_chapters: 10
@@ -41,7 +41,7 @@ documentation_qa:
     - "La licence globale reste à définir avant publication officielle."
 pdf:
   pages: 580
-  file_size_bytes: null
+  file_size_bytes: 1533365
   page_size: "A4 — 595.28 x 841.89 pts"
   pdf_version: "1.5"
   encrypted: false
@@ -73,4 +73,4 @@ visual_inspection:
 limitations:
   - "L’arborescence et les déplacements décrits ne sont pas encore matérialisés dans le Starter Kit."
   - "Les exemples GDScript et PowerShell sont validés statiquement, pas revendiqués comme runtime-tested."
-decision: "pending-final-validation"
+decision: "accepted-with-runtime-reservation"
