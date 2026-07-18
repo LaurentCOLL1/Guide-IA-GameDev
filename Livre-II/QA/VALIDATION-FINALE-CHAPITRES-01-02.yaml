@@ -1,17 +1,17 @@
 audit_id: DOC-L2-QA-AUDIT-CH01-CH02
 audit_report: Livre-II/QA/AUDIT-CHAPITRES-01-02.md
-evidence_version: 1.2.0
+evidence_version: 1.2.1
 validated_at: 2026-07-18
-source_commit: 9bee07ed3503a4c6bac09bd9b87630a5d3cfa6c8
+source_commit: c57a9b30be5a85c00302972b74e82f574afb960a
 
 usage_context_validation:
   workflow: Validate Usage Contexts
-  run_id: 29656829499
+  run_id: 29657032162
   conclusion: success
   artifact:
-    id: 8433120688
+    id: 8433176985
     name: usage-context-audit
-    digest: sha256:e8a0e230917133f214e6c2584a299eb5efbdf963114bbd6db9ff8ca82d1ff665
+    digest: sha256:834b3d8652da9f03ffc4d08217dec90955913fc16e2a3d69cae2ab3361c8aa08
   coverage:
     files_checked: 41
     code_or_text_blocks: 829
@@ -66,12 +66,12 @@ usage_context_validation:
 
 gdscript_pedagogy_validation:
   workflow: Validate GDScript Chapter 2
-  run_id: 29656829492
+  run_id: 29657032132
   conclusion: success
   artifact:
-    id: 8433120661
+    id: 8433177164
     name: gdscript-chapter-2-audit
-    digest: sha256:1aa4000de08e3620410b9a9d29cd8d0696d04988bbcde9cb4698a832b1811bca
+    digest: sha256:ca0d6d28e2bd17fb59d85ce40bb8733964daeac32794d89dc4ddc31376d629b2
   duplicate_checks:
     headings_checked: 152
     significant_code_blocks_checked: 57
@@ -85,12 +85,12 @@ gdscript_pedagogy_validation:
 
 documentation_validation:
   workflow: Validate Documentation
-  run_id: 29656813536
+  run_id: 29657032158
   conclusion: success
   artifact:
-    id: 8433132871
+    id: 8433193289
     name: documentation-validation
-    digest: sha256:9e6f243da571b170e5149bc04f719492ad8a3d19920bceafa75adbc5d081a46e
+    digest: sha256:e9555c1a76e2676a6d3bc0f648dab3621e4245eda73896c2c32a19f4e49c965c
   structural_qa:
     declared_sources: 43
     livre_i_chapters: 10
@@ -103,7 +103,7 @@ documentation_validation:
     format: A4
     version: "1.5"
     pages: 512
-    size_bytes: 1358331
+    size_bytes: 1360771
     rotation_degrees: 0
     encrypted: false
     javascript: false
