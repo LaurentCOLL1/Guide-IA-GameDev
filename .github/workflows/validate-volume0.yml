@@ -33,6 +33,8 @@ jobs:
             texlive-xetex \
             texlive-latex-extra \
             texlive-fonts-recommended \
+            lmodern \
+            librsvg2-bin \
             fonts-dejavu-core \
             poppler-utils \
             python3-yaml
