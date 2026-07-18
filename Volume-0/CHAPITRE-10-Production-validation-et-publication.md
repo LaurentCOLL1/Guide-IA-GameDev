@@ -97,9 +97,9 @@ La présence d’un texte long ne constitue pas une preuve de complétude. Un co
 
 ## 3. Préparation d’un nouveau contenu
 
-Avant la rédaction, l’auteur doit créer une fiche de préparation minimale.
+Avant la rédaction, l’auteur doit créer une fiche de préparation minimale dans `docs/qa/preparation/<ID-DOCUMENT>.yaml`.
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `fichier indiqué dans l’étape`.
+> **[VSC] Visual Studio Code - Créer :** `docs/qa/preparation/<ID-DOCUMENT>.yaml`, en remplaçant le placeholder par l’identifiant réel.
 
 ```yaml
 id: DOC-L1-CH01

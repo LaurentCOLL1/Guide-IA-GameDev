@@ -968,9 +968,9 @@ open-webui:main
 open-webui:vX.Y.Z
 ```
 
-Créer un volume distinct :
+Déclarer un volume distinct dans `compose.yaml` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text open-webui:dev open-webui:main open-webui:vx.y.z `.
+> **[VSC] Visual Studio Code - Modifier :** `compose.yaml` dans le dossier `Guide-IA-Services`.
 
 ```yaml
 volumes:

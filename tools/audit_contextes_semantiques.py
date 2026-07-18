@@ -13,7 +13,10 @@ MARKER_RE = re.compile(
     r"^> \*\*\[(?P<code>PS|CMD|WSL|DCT|DCK|VSC|WEB|APP|SORTIE|LECTURE)\](?P<rest>.*)$"
 )
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>[^`]*)$")
-PATH_RE = re.compile(r"`([^`]+)`")
+PATH_RE = re.compile(
+    r"`([^`\n]*(?:[\\/]|\.(?:json|ya?ml|toml|ini|cfg|conf|env|md|txt|py|ps1|sh|bat|cmd|sql|gd|tscn|tres|godot|dockerfile|gitignore|gitattributes))[^`\n]*)`",
+    re.IGNORECASE,
+)
 
 FILE_LANGS = {
     "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "dockerfile",
@@ -45,8 +48,13 @@ def context(lines: list[str], index: int, count: int = 8) -> str:
     values: list[str] = []
     i = index - 1
     while i >= 0 and len(values) < count:
-        if lines[i].strip():
-            values.append(lines[i].strip())
+        value = lines[i].strip()
+        if not value:
+            i -= 1
+            continue
+        if values and (value.startswith("#") or value.startswith("```") or value.startswith("~~~")):
+            break
+        values.append(value)
         i -= 1
     return " ".join(reversed(values)).lower()
 

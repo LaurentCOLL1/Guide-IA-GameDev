@@ -149,7 +149,7 @@ Les versions Preview ne sont pas utilisées dans le parcours stable.
 
 ### 3.3 Installer les utilitaires communs
 
-> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget install --id 7zip.7zip --exact --source winget

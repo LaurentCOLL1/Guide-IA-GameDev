@@ -535,9 +535,9 @@ La deuxième forme peut rendre le service accessible depuis d’autres interface
 
 ### 9.4 Réseaux
 
-Créer des réseaux fonctionnels lorsque l’architecture le justifie :
+Créer ou modifier les réseaux dans `compose.yaml` lorsque l’architecture le justifie :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `yaml ports: - "8080:8080" `.
+> **[VSC] Visual Studio Code - Modifier :** `compose.yaml` dans le dossier du déploiement.
 
 ```yaml
 networks:
