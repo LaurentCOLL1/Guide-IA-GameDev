@@ -198,19 +198,23 @@ Le workflow permanent des contextes a réussi.
 
 ## 10. Validation CI et PDF
 
-Campagne finale :
+La campagne finale a validé :
 
-- `Validate Usage Contexts` : exécution `29661521005`, réussite ;
-- `Validate Documentation` : exécution `29661521014`, réussite ;
+- les contextes d’utilisation ;
+- la structure et les liens ;
 - 47 sources déclarées ;
 - 10 chapitres du Livre I ;
 - 4 chapitres du Livre II ;
 - 46 identifiants uniques ;
 - 0 erreur bloquante ;
 - 1 avertissement : licence globale à définir ;
-- PDF A4 1.5 de 580 pages et 1 533 828 octets ;
-- texte extractible ;
+- un PDF A4 1.5 de 580 pages ;
+- un texte extractible ;
 - aucun chiffrement, JavaScript ou page tournée.
+
+Les identifiants des exécutions, l’empreinte de l’artefact et la taille
+exacte du PDF sont conservés uniquement dans la preuve YAML externe,
+afin d’éviter que le rapport compilé modifie ses propres mesures.
 
 Pages inspectées après correction : 525, 526, 530, 534, 537, 542, 543, 544, 549, 550 et 567 à 571.
 
