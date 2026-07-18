@@ -11,6 +11,7 @@ on:
       - "STYLE_GUIDE.md"
       - "tools/audit_contextes_utilisation.py"
       - "tools/audit_contextes_semantiques.py"
+      - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-contextes-utilisation.yml"
 
 permissions:
@@ -35,6 +36,11 @@ jobs:
           set -o pipefail
           python3 tools/audit_contextes_semantiques.py --check | tee dist/QA-CONTEXTES-SEMANTIQUES.log
 
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py | tee dist/QA-CONTEXTES-COUVERTURE.md
+
       - name: Upload context audit
         if: always()
         uses: actions/upload-artifact@v4
@@ -45,3 +51,4 @@ jobs:
           path: |
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
