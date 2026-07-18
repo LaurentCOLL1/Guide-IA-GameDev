@@ -2,7 +2,7 @@
 title: "Demande de validation du Volume 0"
 id: "DOC-V0-QA-REQUEST"
 status: "validation"
-version: "1.0.3"
+version: "1.0.4"
 ---
 
 # Demande de validation du Volume 0
@@ -15,9 +15,10 @@ Ce document déclenche la validation automatisée du Volume 0 par GitHub Actions
 - validation des métadonnées et identifiants, y compris l’alias historique `identifier` ;
 - contrôle des liens Markdown locaux ;
 - compilation complète avec Pandoc et XeLaTeX ;
+- normalisation du titre global et des glyphes PDF ;
 - conversion des ressources SVG ;
 - conservation du journal complet de compilation ;
 - inspection technique du PDF généré ;
 - publication du rapport QA et du PDF comme artefacts de workflow.
 
-Cette révision relance le pipeline avec les dépendances LaTeX et SVG manquantes installées.
+Cette révision valide le livrable après correction du titre global et des pictogrammes non couverts par DejaVu.
