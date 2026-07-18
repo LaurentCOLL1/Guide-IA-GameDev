@@ -2,7 +2,7 @@
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
 status: "in-progress"
-version: "0.2.0"
+version: "0.3.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -12,7 +12,7 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 ## Chapitres
 
 1. [Vision générale du projet](CHAPITRE-01-Vision-generale-du-projet.md) — **rédigé**
-2. Les 21 règles fondamentales — à rédiger
+2. [Les 21 règles fondamentales](CHAPITRE-02-Les-21-regles-fondamentales.md) — **rédigé**
 3. Architecture documentaire — à rédiger
 4. Convention des identifiants — à rédiger
 5. Conventions Markdown et Pandoc — à rédiger
@@ -32,4 +32,4 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 ## Statut
 
-Le Volume 0 est en cours de production. Le chapitre `DOC-V0-CH01` constitue la première livraison complète.
+Le Volume 0 est en cours de production. Les chapitres `DOC-V0-CH01` et `DOC-V0-CH02` sont désormais rédigés.
