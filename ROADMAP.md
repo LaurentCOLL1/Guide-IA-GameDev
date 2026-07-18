@@ -32,12 +32,14 @@
 
 ## M2 — Livre I : Préparer la plateforme
 
-- [ ] Matériel, Windows, pilotes AMD et ZLUDA.
+- [x] Matériel, Windows, pilotes AMD et voies d’accélération.
 - [ ] Docker et Docker Compose.
 - [ ] Open WebUI, Open Terminal et Vane.
 - [ ] ComfyUI.
 - [ ] LLM locaux.
 - [ ] Audio IA.
+
+**Statut M2 : en cours — 1 domaine principal terminé sur 6.**
 
 ## M3 — Livre II : Développement et architecture
 
