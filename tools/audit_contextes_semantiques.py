@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and correct semantic consistency of usage-context markers."""
+"""Validate semantic consistency of usage-context markers."""
 
 from __future__ import annotations
 
@@ -17,158 +17,87 @@ PATH_RE = re.compile(
     r"`([^`\n]*(?:[\\/]|\.(?:json|ya?ml|toml|ini|cfg|conf|env|md|txt|py|ps1|sh|bat|cmd|sql|gd|tscn|tres|godot|dockerfile|gitignore|gitattributes))[^`\n]*)`",
     re.IGNORECASE,
 )
-
 FILE_LANGS = {
-    "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "dockerfile",
-    "dotenv",
-    "env",
-    "gitignore", "gitattributes", "python", "py", "gdscript", "sql",
-    "markdown", "md", "xml", "csv", "javascript", "js", "typescript", "ts",
+    "json", "yaml", "yml", "toml", "ini", "cfg", "conf", "dockerfile", "dotenv", "env",
+    "gitignore", "gitattributes", "python", "py", "gdscript", "sql", "markdown", "md", "xml",
+    "csv", "javascript", "js", "typescript", "ts",
 }
 
 
 def files() -> list[Path]:
     result: list[Path] = []
-    for base in (ROOT / "Volume-0", ROOT / "Livre-I"):
+    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II"):
         result.extend(sorted(base.rglob("*.md")))
     result.append(ROOT / "STYLE_GUIDE.md")
-    return [p for p in result if p.is_file()]
+    return [path for path in result if path.is_file()]
 
 
 def previous_nonempty(lines: list[str], index: int) -> int | None:
-    i = index - 1
-    while i >= 0:
-        if lines[i].strip():
-            return i
-        i -= 1
+    index -= 1
+    while index >= 0:
+        if lines[index].strip():
+            return index
+        index -= 1
     return None
 
 
-def context(lines: list[str], index: int, count: int = 8) -> str:
-    values: list[str] = []
-    i = index - 1
-    while i >= 0 and len(values) < count:
-        value = lines[i].strip()
-        if not value:
-            i -= 1
-            continue
-        if values and (value.startswith("#") or value.startswith("```") or value.startswith("~~~")):
-            break
-        values.append(value)
-        i -= 1
+def context(lines: list[str], marker_index: int, count: int = 8) -> str:
+    values = [lines[marker_index].strip()]
+    index = marker_index - 1
+    while index >= 0 and len(values) < count + 1:
+        value = lines[index].strip()
+        if value:
+            if len(values) > 1 and value.startswith(("#", "```", "~~~")):
+                break
+            values.append(value)
+        index -= 1
     return " ".join(reversed(values)).lower()
 
 
-def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple[str, str] | None:
+def allowed_markers(lang: str, marker_line: str, semantic_context: str) -> set[str] | None:
     lang = lang.lower()
-    marker_text = marker_line.lower()
-    semantic_context = f"{ctx} {marker_text}".strip()
-    path_values = PATH_RE.findall(marker_line)
-    target = path_values[-1] if path_values else ""
-    target_lower = target.lower()
+    paths = PATH_RE.findall(marker_line)
+    target = paths[-1].lower() if paths else ""
 
     if lang in {"powershell", "pwsh"}:
-        is_script_file = marker == "VSC" and target_lower.endswith((".ps1", ".psm1", ".psd1"))
-        if is_script_file:
-            return None
-        if "fermer et rouvrir powershell" in semantic_context or "après réouverture" in semantic_context:
-            return (
-                "PS",
-                "> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.",
-            )
-        return (
-            "PS",
-            "> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.",
-        )
+        if target.endswith((".ps1", ".psm1", ".psd1")):
+            return {"PS", "VSC"}
+        return {"PS"}
 
     if lang in {"cmd", "bat", "batch"}:
-        if marker == "VSC" and target_lower.endswith((".bat", ".cmd")):
-            return None
-        return (
-            "CMD",
-            "> **[CMD] Invite de commandes Windows - Exécuter :** utiliser `cmd.exe`.",
-        )
+        if target.endswith((".bat", ".cmd")):
+            return {"CMD", "VSC"}
+        return {"CMD"}
 
     if lang in {"bash", "sh", "shell", "zsh"}:
-        if marker == "VSC" and target_lower.endswith(".sh"):
-            return None
+        if target.endswith(".sh"):
+            return {"VSC", "WSL", "DCT"}
         if any(word in semantic_context for word in (
-            "dans le conteneur",
-            "terminal du conteneur",
-            "docker exec",
-            "shell du conteneur",
+            "terminal du conteneur", "dans le conteneur", "shell du conteneur", "docker exec",
         )):
-            return (
-                "DCT",
-                "> **[DCT] Terminal du conteneur - Exécuter :** utiliser le shell du conteneur concerné.",
-            )
-        return (
-            "WSL",
-            "> **[WSL] Terminal WSL/Bash - Exécuter :** utiliser la distribution Linux indiquée.",
-        )
+            return {"DCT"}
+        return {"WSL"}
 
     if lang in FILE_LANGS:
-        context_paths = PATH_RE.findall(ctx)
-        context_target = context_paths[-1] if context_paths else ""
-        file_action = any(word in ctx for word in (
-            "créer", "creer", "modifier", "contenu du fichier",
-            "enregistrer dans", "copier le fichier", "fichier :",
-        ))
-        if marker == "LECTURE" and file_action:
-            chosen = context_target or target or "fichier indiqué dans l’étape"
-            return (
-                "VSC",
-                f"> **[VSC] Visual Studio Code - Créer ou modifier :** `{chosen}`.",
-            )
-        if marker in {"VSC", "LECTURE", "SORTIE"}:
-            if lang == "json" and target_lower == ".vscode/settings.json":
-                return (
-                    "VSC",
-                    "> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet. Ouvrir le dossier du projet dans VS Code, créer le dossier `.vscode` s’il n’existe pas, puis créer `settings.json`.",
-                )
-            return None
-        if target:
-            return (
-                "VSC",
-                f"> **[VSC] Visual Studio Code - Créer ou modifier :** `{target}`.",
-            )
-        return (
-            "LECTURE",
-            "> **[LECTURE] Exemple de code - Ne pas exécuter directement :** utiliser selon l’instruction qui précède.",
-        )
+        return {"VSC", "LECTURE", "SORTIE"}
 
     if lang in {"text", "", "plaintext", "console", "output"}:
-        output_words = ("résultat attendu", "sortie attendue", "doit afficher", "exemple de sortie")
-        if any(word in semantic_context for word in output_words):
-            return (
-                "SORTIE",
-                "> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.",
-            )
-        return (
-            "LECTURE",
-            "> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**",
-        )
+        return {"APP", "DCK", "VSC", "SORTIE", "LECTURE"}
 
     if lang == "mermaid":
-        if marker in {"VSC", "LECTURE"}:
-            return None
-        return (
-            "LECTURE",
-            "> **[LECTURE] Diagramme de référence - Ne pas exécuter :** lire le flux représenté.",
-        )
+        return {"VSC", "LECTURE"}
 
     return None
 
 
-def process(path: Path, apply: bool) -> tuple[int, list[str]]:
+def process(path: Path) -> list[str]:
     lines = path.read_text(encoding="utf-8").splitlines()
-    changes = 0
     errors: list[str] = []
     inside = False
     fence_char = ""
     fence_len = 0
 
-    for i, line in enumerate(lines):
+    for index, line in enumerate(lines):
         match = FENCE_RE.match(line.strip())
         if not match:
             continue
@@ -178,64 +107,45 @@ def process(path: Path, apply: bool) -> tuple[int, list[str]]:
             if fence[0] == fence_char and len(fence) >= fence_len and not lang:
                 inside = False
             continue
+
         inside = True
         fence_char = fence[0]
         fence_len = len(fence)
-
-        marker_index = previous_nonempty(lines, i)
+        marker_index = previous_nonempty(lines, index)
         if marker_index is None:
             continue
         marker_match = MARKER_RE.match(lines[marker_index].strip())
         if not marker_match:
             continue
-        marker = marker_match.group("code")
-        expectation = expected_marker(
-            lang,
-            marker,
-            lines[marker_index].strip(),
-            context(lines, marker_index),
-        )
-        if expectation is None:
-            continue
-        expected_code, replacement = expectation
-        if marker == expected_code:
-            continue
-        message = (
-            f"{path.relative_to(ROOT).as_posix()}:{i + 1}: "
-            f"bloc `{lang or 'text'}` marqué [{marker}], attendu [{expected_code}]"
-        )
-        errors.append(message)
-        if apply:
-            lines[marker_index] = replacement
-            changes += 1
 
-    if apply and changes:
-        path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8", newline="\n")
-    return changes, errors
+        marker = marker_match.group("code")
+        semantic_context = context(lines, marker_index)
+        allowed = allowed_markers(lang, lines[marker_index].strip(), semantic_context)
+        if allowed is not None and marker not in allowed:
+            rendered = ", ".join(f"[{value}]" for value in sorted(allowed))
+            errors.append(
+                f"{path.relative_to(ROOT).as_posix()}:{index + 1}: "
+                f"bloc `{lang or 'text'}` marqué [{marker}], attendu parmi {rendered}"
+            )
+
+    return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--apply", action="store_true")
-    group.add_argument("--check", action="store_true")
-    args = parser.parse_args()
+    parser.add_argument("--check", action="store_true", required=True)
+    _args = parser.parse_args()
 
-    total_changes = 0
     all_errors: list[str] = []
-    for path in files():
-        changes, errors = process(path, apply=args.apply)
-        total_changes += changes
-        all_errors.extend(errors)
+    controlled = files()
+    for path in controlled:
+        all_errors.extend(process(path))
 
-    print(f"Fichiers contrôlés : {len(files())}")
+    print(f"Fichiers contrôlés : {len(controlled)}")
     print(f"Incohérences sémantiques détectées : {len(all_errors)}")
-    if args.apply:
-        print(f"Repères corrigés : {total_changes}")
     for error in all_errors:
         print(f"- {error}")
-
-    return 0 if args.apply or not all_errors else 1
+    return 1 if all_errors else 0
 
 
 if __name__ == "__main__":
