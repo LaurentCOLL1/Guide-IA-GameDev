@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
-status: "in-progress"
-version: "1.1.0"
+status: "complete"
+version: "1.2.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
@@ -13,20 +13,20 @@ Ce livre couvre l’installation, la configuration, la compréhension et la vali
 
 À la fin du Livre I, le lecteur doit disposer d’une plateforme locale documentée, récupérable et adaptée à la configuration de référence : AMD Radeon RX 6750 XT 12 Go, Ryzen 7 2700, 32 Go de RAM et Windows 11.
 
-Le Livre I doit également fournir les bases nécessaires à un débutant complet : terminal, fichiers, Git, éditeur, Python, environnements isolés, secrets et restauration.
+Le Livre I fournit également les bases nécessaires à un débutant complet : terminal, fichiers, Git, éditeur, Python, environnements isolés, secrets et restauration.
 
 ## Chapitres
 
-1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé, revalidation requise**
-2. [Terminal, PowerShell et outils Windows](CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md) — **rédigé, validation requise**
-3. [Git, GitHub et Visual Studio Code](CHAPITRE-03-Git-GitHub-et-VS-Code.md) — **rédigé, validation requise**
-4. [Python et environnements virtuels](CHAPITRE-04-Python-et-environnements-virtuels.md) — **rédigé, validation requise**
-5. [Docker et Docker Compose](CHAPITRE-05-Docker-et-Docker-Compose.md) — **rédigé, revalidation requise**
-6. [Open WebUI, Open Terminal et Vane](CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé, revalidation requise**
-7. [ComfyUI et workflows graphiques](CHAPITRE-07-ComfyUI-et-workflows-graphiques.md) — **rédigé, revalidation requise**
-8. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé, revalidation requise**
-9. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé, revalidation requise**
-10. [Sécurité, sauvegarde et validation de la plateforme](CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md) — **rédigé, validation requise**
+1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé et validé**
+2. [Terminal, PowerShell et outils Windows](CHAPITRE-02-Terminal-PowerShell-et-outils-Windows.md) — **rédigé et validé**
+3. [Git, GitHub et Visual Studio Code](CHAPITRE-03-Git-GitHub-et-VS-Code.md) — **rédigé et validé**
+4. [Python et environnements virtuels](CHAPITRE-04-Python-et-environnements-virtuels.md) — **rédigé et validé**
+5. [Docker et Docker Compose](CHAPITRE-05-Docker-et-Docker-Compose.md) — **rédigé et validé**
+6. [Open WebUI, Open Terminal et Vane](CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé et validé**
+7. [ComfyUI et workflows graphiques](CHAPITRE-07-ComfyUI-et-workflows-graphiques.md) — **rédigé et validé**
+8. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé et validé**
+9. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé et validé**
+10. [Sécurité, sauvegarde et validation de la plateforme](CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md) — **rédigé et validé**
 
 ## Stabilité des identifiants
 
@@ -89,16 +89,24 @@ Au 18 juillet 2026 :
 
 ## Assurance qualité
 
-Le [rapport QA précédent](RAPPORT-QA-FINAL.md) est conservé comme preuve de la structure à six chapitres, mais il est désormais **superseded**. Une nouvelle validation doit contrôler :
+Le [rapport QA final](RAPPORT-QA-FINAL.md) remplace la validation historique à six chapitres.
 
-- les dix chapitres ;
-- les identifiants historiques et nouveaux ;
-- les liens après renumérotation ;
-- la compilation Pandoc/XeLaTeX ;
-- la mise en page du PDF ;
-- la cohérence des procédures de sauvegarde et de restauration ;
-- les avertissements de licence et d’accessibilité.
+Le workflow `Validate Documentation` a contrôlé :
+
+- 37 sources déclarées ;
+- les 10 chapitres du Livre I dans l’ordre 01 à 10 ;
+- 36 identifiants uniques ;
+- les identifiants historiques préservés après déplacement ;
+- les métadonnées et liens locaux ;
+- la compilation Pandoc/XeLaTeX.
+
+La compilation a produit un PDF A4 de **396 pages**, dont le texte est extractible. Un échantillon de **82 pages** a été contrôlé visuellement sans défaut bloquant observé.
+
+Deux réserves restent liées à la publication et non à M2 :
+
+- la licence globale du projet doit être définie ;
+- le PDF final devra être balisé pour améliorer l’accessibilité aux lecteurs d’écran.
 
 ## Statut
 
-Le milestone **M2 — Livre I : Préparer la plateforme** est rouvert. Les dix chapitres sont rédigés ; la validation technique, documentaire et visuelle reste à produire avant une nouvelle clôture.
+Le milestone **M2 — Livre I : Préparer la plateforme** est terminé sur sa structure corrigée à dix chapitres. La prochaine phase active est **M3 — Livre II : Développement et architecture**.
