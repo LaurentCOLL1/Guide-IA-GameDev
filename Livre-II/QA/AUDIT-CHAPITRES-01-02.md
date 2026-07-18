@@ -129,10 +129,10 @@ Ce fichier de preuve n’est pas compilé dans le PDF. Cette séparation évite 
 - [x] Q3 — Relecture technique statique
 - [x] Q4 — Outils et contextes d’utilisation
 - [x] Q5 — Sécurité et licences documentées
-- [ ] Q6 — Exécutions CI et inspection PDF finales à figer dans la preuve externe
+- [x] Q6 — Exécutions CI, compilation et inspection PDF finales
 - [ ] Runtime — Exécution sur le projet matérialisé
 
-La case Q6 est cochée dans cette version du rapport après réussite des workflows et création de la preuve externe. La réserve runtime demeure indépendante.
+Q6 est validée par les deux workflows réussis, les artefacts enregistrés et l’inspection visuelle de onze pages. La réserve runtime demeure indépendante.
 
 ## 10. Règle permanente
 
