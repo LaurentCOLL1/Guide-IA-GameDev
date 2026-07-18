@@ -13,7 +13,7 @@
 
 - [x] Vision générale du projet.
 - [x] Les 21 règles fondamentales.
-- [ ] Architecture documentaire.
+- [x] Architecture documentaire.
 - [ ] Convention des identifiants.
 - [ ] Standards Markdown et rédactionnels.
 - [ ] Standards techniques et IA.
