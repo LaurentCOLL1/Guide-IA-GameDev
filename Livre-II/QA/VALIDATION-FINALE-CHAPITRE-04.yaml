@@ -1,7 +1,8 @@
 document: "DOC-L2-CH04"
 report: "DOC-L2-QA-AUDIT-CH04"
-status: "pending-ci"
+status: "success"
 validation_date: "2026-07-18"
+validated_commit: "36f724f8ae83353570bd36371034f502dc1e9ac7"
 branch: "docs/livre-ii-ch04-architecture-modulaire"
 reference_engine: "Godot 4.7.1-stable"
 audit_level: "static-review"
@@ -19,37 +20,57 @@ layout_correction:
   retained_as_final_evidence: false
 workflows:
   usage_contexts:
-    run_id: null
-    conclusion: null
+    run_id: 29661521005
+    conclusion: "success"
   documentation:
-    run_id: null
-    conclusion: null
+    run_id: 29661521014
+    conclusion: "success"
 artifact:
-  id: null
-  name: null
-  digest: null
-  archive_size_bytes: null
+  id: 8434474631
+  name: "documentation-validation"
+  digest: "sha256:c5f833636c7ac7f60f4f2f498fabd648140832aaf109dedab2fdbb38f3b8478f"
+  archive_size_bytes: 1752516
 documentation_qa:
-  declared_sources: null
+  declared_sources: 47
   livre_i_chapters: 10
   livre_ii_chapters: 4
-  unique_identifiers: null
-  blocking_errors: null
-  warnings: null
+  unique_identifiers: 46
+  blocking_errors: 0
+  warnings: 1
+  warning_details:
+    - "La licence globale reste à définir avant publication officielle."
 pdf:
-  pages: null
-  file_size_bytes: null
-  page_size: null
-  pdf_version: null
-  encrypted: null
-  javascript: null
-  rotated_pages: null
-  text_extractable: null
+  pages: 580
+  file_size_bytes: 1533828
+  page_size: "A4 — 595.28 x 841.89 pts"
+  pdf_version: "1.5"
+  encrypted: false
+  javascript: false
+  rotated_pages: false
+  text_extractable: true
 visual_inspection:
-  pages_checked: []
-  result: "pending"
-  findings: []
+  pages_checked:
+    - 525
+    - 526
+    - 530
+    - 534
+    - 537
+    - 542
+    - 543
+    - 544
+    - 549
+    - 550
+    - 567
+    - 568
+    - 569
+    - 570
+    - 571
+  result: "success"
+  findings:
+    - "Aucun texte rogné observé après correction."
+    - "Aucun chevauchement majeur observé."
+    - "Aucun glyphe manquant ou tableau hors page observé."
 limitations:
   - "L’arborescence et les déplacements décrits ne sont pas encore matérialisés dans le Starter Kit."
   - "Les exemples GDScript et PowerShell sont validés statiquement, pas revendiqués comme runtime-tested."
-decision: "pending-ci"
+decision: "accepted-with-runtime-reservation"
