@@ -1,12 +1,14 @@
 ---
 title: "Audit documentaire et technique - Volume 0 et Livre I"
 id: "DOC-QA-V0-L1-2026-07"
-status: "reviewed"
-version: "0.9.0"
+status: "complete"
+version: "1.0.0"
 date: "2026-07-18"
 category: "quality-report"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+validation-context-run: "29646705224"
+validation-documentation-run: "29646705225"
 ---
 
 # Audit documentaire et technique - Volume 0 et Livre I
@@ -199,20 +201,68 @@ Aucune non-conformité bloquante supplémentaire n’a été conservée après c
 | V0L1-AUD-008 | mineure | Python 3.13 pouvait sembler être la dernière version disponible. | Distinction entre actualité et compatibilité. |
 | V0L1-AUD-009 | majeure | Version ComfyUI de référence devenue obsolète. | Mise à jour vers `v0.28.0`. |
 | V0L1-AUD-010 | mineure | Les dix chapitres du Livre I restaient en `draft-review`. | Passage au statut `reviewed` après audit. |
+| V0L1-AUD-011 | majeure | Les sept anciennes annexes pointaient vers un chemin relatif invalide après ajout du lien de convention. | Correction des liens et de la logique du migrateur selon le sous-dossier. |
 
 ## 8. Résultats quantitatifs
 
-Les valeurs exactes sont produites par `tools/report_contextes_utilisation.py` et seront recopiées après l’exécution finale de la CI.
+### 8.1 Contextes d’utilisation
 
-| Mesure | Résultat provisoire |
-|---|---|
-| Documents contrôlés par le linter | 42 |
+Exécution GitHub Actions `29646705224` : **success**.
+
+| Mesure | Résultat |
+|---|---:|
+| Fichiers contrôlés | 36 |
 | Chapitres audités | 21 |
-| Blocs précédés d’un repère | validation automatique requise |
-| Cohérence sémantique | validation automatique requise |
-| Non-conformités bloquantes ouvertes | 0 après corrections |
-| Compilation PDF | en attente du passage final |
-| Inspection visuelle | en attente du passage final |
+| Blocs de code ou de texte | 612 |
+| Blocs précédés d’un repère | 612 |
+| Repères totaux | 621 |
+| Non-conformités de présence | 0 |
+| Incohérences sémantiques | 0 |
+
+Répartition des repères :
+
+| Repère | Nombre |
+|---|---:|
+| `[PS]` | 273 |
+| `[CMD]` | 0 |
+| `[WSL]` | 2 |
+| `[DCT]` | 2 |
+| `[DCK]` | 1 |
+| `[VSC]` | 39 |
+| `[WEB]` | 5 |
+| `[APP]` | 3 |
+| `[SORTIE]` | 10 |
+| `[LECTURE]` | 286 |
+
+L’absence de bloc `[CMD]` signifie que le parcours audité n’impose actuellement aucune commande dépendant réellement de `cmd.exe`.
+
+### 8.2 Documentation et PDF
+
+Exécution GitHub Actions `29646705225` : **success**.
+
+| Mesure | Résultat |
+|---|---:|
+| Sources déclarées | 43 |
+| Chapitres du Livre I | 10 |
+| Chapitres du Livre II | 2 |
+| Identifiants uniques | 42 |
+| Erreurs bloquantes | 0 |
+| Avertissements | 1 - licence globale à définir |
+| Format PDF | A4, PDF 1.5 |
+| Pages | 496 |
+| Taille du PDF | 1 313 820 octets |
+| Texte extractible | oui |
+
+Un échantillon de **15 pages** a été rendu à 160 DPI et inspecté. Il couvre :
+
+- la convention normative complète ;
+- l’installation Git avec WinGet ;
+- la création de `.vscode/settings.json` ;
+- la création de `.env.example` ;
+- la version ComfyUI `v0.28.0` ;
+- le rapport d’audit et ses tableaux.
+
+Aucun texte rogné, chevauchement, tableau hors page, glyphe manquant, carré noir ou rotation incorrecte n’a été observé dans cet échantillon.
 
 ## 9. Portes qualité
 
@@ -221,9 +271,15 @@ Les valeurs exactes sont produites par `tools/report_contextes_utilisation.py` e
 - [x] Q2 - Cohérence documentaire
 - [x] Q3 - Vérification technique statique
 - [x] Q4 - Sécurité et licences
-- [ ] Q5 - Compilation et inspection PDF
+- [x] Q5 - Compilation et inspection PDF
 
-## 10. Réserve runtime
+## 10. Décision
+
+**Accepté avec réserve runtime.**
+
+Le Volume 0 et le Livre I sont complets et audités sur les plans documentaire, éditorial et technique statique. La convention des contextes d’utilisation est appliquée et contrôlée automatiquement. La seule réserve générale de publication reste la licence globale de la collection, déjà signalée par la CI.
+
+## 11. Réserve runtime
 
 Cet audit vérifie statiquement les procédures, les commandes et les configurations. Il ne prétend pas que chaque logiciel tiers a été installé et exécuté sur une station physique dans cette campagne.
 
