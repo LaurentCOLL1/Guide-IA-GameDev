@@ -2,7 +2,7 @@
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
 status: "in-progress"
-version: "0.6.0"
+version: "0.7.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -16,7 +16,7 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 3. [Architecture documentaire](CHAPITRE-03-Architecture-documentaire.md) — **rédigé**
 4. [Convention des identifiants](CHAPITRE-04-Convention-des-identifiants.md) — **rédigé**
 5. [Conventions Markdown et Pandoc](CHAPITRE-05-Conventions-Markdown-et-Pandoc.md) — **rédigé**
-6. Style rédactionnel — à rédiger
+6. [Style rédactionnel](CHAPITRE-06-Style-redactionnel.md) — **rédigé**
 7. Standards techniques — à rédiger
 8. Standards IA — à rédiger
 9. Politique de compatibilité — à rédiger
@@ -32,4 +32,4 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 ## Statut
 
-Le Volume 0 est en cours de production. Les chapitres `DOC-V0-CH01` à `DOC-V0-CH05` sont désormais rédigés.
+Le Volume 0 est en cours de production. Les chapitres `DOC-V0-CH01` à `DOC-V0-CH06` sont désormais rédigés.
