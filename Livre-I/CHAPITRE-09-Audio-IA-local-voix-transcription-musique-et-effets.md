@@ -1,11 +1,13 @@
 ---
-title: "Livre I — Chapitre 6 : Audio IA local, voix, transcription, musique et effets"
+title: "Livre I — Chapitre 9 : Audio IA local, voix, transcription, musique et effets"
 id: "DOC-L1-CH06"
 status: "draft-review"
 version: "1.0.0"
 lang: "fr-FR"
 book: "Livre I"
-chapter: 6
+chapter: 9
+legacy-chapter: 6
+canonical-order: 9
 last-verified: "2026-07-18"
 reference-platform:
   os: "Windows 11 64 bits"

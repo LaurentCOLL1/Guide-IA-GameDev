@@ -16,11 +16,11 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 ## Chapitres
 
 1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé et validé**
-2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé et validé**
-3. [Open WebUI, Open Terminal et Vane](CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé et validé**
-4. [ComfyUI et workflows graphiques](CHAPITRE-04-ComfyUI-et-workflows-graphiques.md) — **rédigé et validé**
-5. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-05-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé et validé**
-6. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-06-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé et validé**
+2. [Docker et Docker Compose](CHAPITRE-05-Docker-et-Docker-Compose.md) — **rédigé et validé**
+3. [Open WebUI, Open Terminal et Vane](CHAPITRE-06-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé et validé**
+4. [ComfyUI et workflows graphiques](CHAPITRE-07-ComfyUI-et-workflows-graphiques.md) — **rédigé et validé**
+5. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé et validé**
+6. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé et validé**
 
 ## Principes du Livre I
 

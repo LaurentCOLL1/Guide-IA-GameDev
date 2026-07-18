@@ -1,11 +1,13 @@
 ---
-title: "Livre I — Chapitre 5 : LLM locaux avec Ollama, llama.cpp, LocalAI et LibreChat"
+title: "Livre I — Chapitre 8 : LLM locaux avec Ollama, llama.cpp, LocalAI et LibreChat"
 id: "DOC-L1-CH05"
 status: "draft-review"
 version: "1.0.0"
 lang: "fr-FR"
 book: "Livre I"
-chapter: 5
+chapter: 8
+legacy-chapter: 5
+canonical-order: 8
 last-verified: "2026-07-18"
 reference-hardware:
   gpu: "AMD Radeon RX 6750 XT 12 Go"

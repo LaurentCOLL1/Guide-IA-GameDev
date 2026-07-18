@@ -1,11 +1,13 @@
 ---
-title: "Livre I — Chapitre 4 : ComfyUI et workflows graphiques"
+title: "Livre I — Chapitre 7 : ComfyUI et workflows graphiques"
 id: "DOC-L1-CH04"
 status: "draft-review"
 version: "1.0.0"
 lang: "fr-FR"
 book: "Livre I"
-chapter: 4
+chapter: 7
+legacy-chapter: 4
+canonical-order: 7
 last-verified: "2026-07-18"
 reference-hardware:
   gpu: "AMD Radeon RX 6750 XT 12 Go"
