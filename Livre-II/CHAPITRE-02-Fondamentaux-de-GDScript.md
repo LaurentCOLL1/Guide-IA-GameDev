@@ -861,7 +861,7 @@ for warning: String in warnings:
 ### 17.3 Parcourir un dictionnaire
 
 ```gdscript
-for key: Variant in metrics:
+for key: StringName in metrics:
 	print("%s = %s" % [key, metrics[key]])
 ```
 
@@ -1464,7 +1464,7 @@ const MAX_MESSAGES: int = 32
 
 var status: Status = Status.UNKNOWN
 var messages: Array[String] = []
-var metrics: Dictionary = {}
+var metrics: Dictionary[StringName, float] = {}
 
 
 func add_message(message: String) -> void:

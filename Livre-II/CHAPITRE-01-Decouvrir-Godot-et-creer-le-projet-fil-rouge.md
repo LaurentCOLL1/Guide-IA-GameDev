@@ -1061,7 +1061,7 @@ Le dossier `.godot/` ne doit pas apparaître.
 ### 19.2 Ajouter les sources
 
 ```powershell
-git add .gitignore README.md project.godot icon.svg src docs data localization tests tools
+git add .gitattributes .gitignore README.md project.godot icon.svg src docs data localization tests tools
 ```
 
 Vérifier la sélection :
