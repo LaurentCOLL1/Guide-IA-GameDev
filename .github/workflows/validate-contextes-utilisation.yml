@@ -1,0 +1,39 @@
+name: Validate Usage Contexts
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Volume-0/**/*.md"
+      - "Livre-I/**/*.md"
+      - "STYLE_GUIDE.md"
+      - "tools/audit_contextes_utilisation.py"
+      - ".github/workflows/validate-contextes-utilisation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-contexts:
+    name: Validate tool and execution contexts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Audit command, file and web contexts
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/audit_contextes_utilisation.py --check | tee dist/QA-CONTEXTES.log
+
+      - name: Upload context audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: warn
+          retention-days: 14
+          path: dist/QA-CONTEXTES.log
