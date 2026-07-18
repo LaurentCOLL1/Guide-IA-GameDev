@@ -2,7 +2,7 @@
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
 status: "in-progress"
-version: "0.2.0"
+version: "0.3.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
@@ -16,7 +16,7 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 ## Chapitres
 
 1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé**
-2. Docker et Docker Compose — à rédiger
+2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé**
 3. Open WebUI, Open Terminal et Vane — à rédiger
 4. ComfyUI et workflows graphiques — à rédiger
 5. LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat — à rédiger
@@ -32,10 +32,17 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 - Le Mode Solo limite le nombre de services permanents.
 - Le Mode Studio ajoute registres, versions approuvées et déploiement progressif.
 
-## État de la compatibilité AMD de référence
+## État de la plateforme de référence
 
-Au 18 juillet 2026, la RX 6750 XT est traitée comme une carte RDNA 2 `gfx1031` de 12 Go. Le parcours principal privilégie les backends officiellement documentés, Windows ML/DirectML lorsque le format et l’application le permettent, puis le CPU. ZLUDA reste optionnel et expérimental.
+Au 18 juillet 2026 :
+
+- la RX 6750 XT est traitée comme une carte RDNA 2 `gfx1031` de 12 Go ;
+- le parcours AMD privilégie les backends officiellement documentés, Windows ML ou DirectML lorsque l’application le permet, puis le CPU ;
+- ZLUDA reste optionnel et expérimental ;
+- Docker Desktop utilise le backend WSL 2 ;
+- les services conteneurisés ne présument pas d’un accès au GPU AMD ;
+- les calculs AMD lourds restent par défaut sur l’hôte Windows.
 
 ## Statut
 
-Le milestone M2 est en cours. **Un chapitre sur six** est rédigé.
+Le milestone M2 est en cours. **Deux chapitres sur six** sont rédigés.
