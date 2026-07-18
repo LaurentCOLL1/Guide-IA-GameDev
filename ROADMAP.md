@@ -24,11 +24,11 @@
 - [x] Politique de compatibilité.
 - [x] Production, validation et publication.
 - [x] Glossaire, bibliographie et index.
-- [ ] Assurance qualité documentaire.
+- [x] Assurance qualité documentaire.
 - [x] Annexes normatives.
 - [ ] Validation de la compilation complète.
 
-**Statut M1 : les 11 chapitres principaux et les 7 annexes normatives initiales sont en place ; contrôle qualité et validation de compilation restent à produire.**
+**Statut M1 : contenu normatif terminé ; seule la compilation complète et la vérification du livrable restent à valider.**
 
 ## M2 — Livre I : Préparer la plateforme
 
