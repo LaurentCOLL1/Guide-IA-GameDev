@@ -1,0 +1,27 @@
+document: "DOC-L2-CH03"
+report: "DOC-L2-QA-AUDIT-CH03"
+status: "pending-ci"
+validation_date: "2026-07-18"
+branch: "docs/livre-ii-ch03-scenes-nodes-resources-signals"
+reference_engine: "Godot 4.7.1-stable"
+audit_level: "static-review"
+recommended_reasoning: "GPT-5.6 Sol — Élevée"
+workflows:
+  usage_contexts:
+    run_id: null
+    conclusion: null
+  documentation:
+    run_id: null
+    conclusion: null
+pdf:
+  pages: null
+  file_size_bytes: null
+  page_size: null
+  pdf_version: null
+  text_extractable: null
+visual_inspection:
+  pages_checked: []
+  result: "pending"
+limitations:
+  - "Les fichiers Project Asteria décrits dans le chapitre ne sont pas encore matérialisés dans le Starter Kit."
+  - "Les exemples GDScript sont validés statiquement, pas revendiqués comme runtime-tested."
