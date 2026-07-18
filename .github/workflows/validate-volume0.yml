@@ -101,18 +101,19 @@ jobs:
                           errors.append(f"Front matter YAML non mappé : {rel}")
                           metadata = {}
 
-                      for field in ("title", "id", "status", "version"):
+                      for field in ("title", "status", "version"):
                           if not metadata.get(field):
                               errors.append(f"Métadonnée obligatoire absente ({field}) : {rel}")
 
-                      doc_id = metadata.get("id")
-                      if doc_id:
-                          if doc_id in ids:
-                              errors.append(
-                                  f"Identifiant dupliqué {doc_id} : {ids[doc_id]} et {rel}"
-                              )
-                          else:
-                              ids[str(doc_id)] = rel
+                      doc_id = metadata.get("id") or metadata.get("identifier")
+                      if not doc_id:
+                          errors.append(f"Métadonnée obligatoire absente (id ou identifier) : {rel}")
+                      elif doc_id in ids:
+                          errors.append(
+                              f"Identifiant dupliqué {doc_id} : {ids[doc_id]} et {rel}"
+                          )
+                      else:
+                          ids[str(doc_id)] = rel
               elif rel not in {"README.md"}:
                   warnings.append(f"Aucun front matter YAML : {rel}")
 
