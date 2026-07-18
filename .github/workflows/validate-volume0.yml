@@ -1,4 +1,4 @@
-name: Validate Documentation
+name: Validate Documentation PDF
 
 on:
   workflow_dispatch:
@@ -6,10 +6,9 @@ on:
     branches:
       - main
     paths:
-      - "**/*.md"
-      - "contents.txt"
       - "metadata.yaml"
       - "build.sh"
+      - "build.ps1"
       - "filters/**"
       - ".github/workflows/validate-volume0.yml"
 
@@ -17,8 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  validate:
-    name: Validate and compile documentation
+  validate-pdf:
+    name: Validate and compile publication PDF
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -40,245 +39,24 @@ jobs:
             poppler-utils \
             python3-yaml
 
-      - name: Run structural QA
-        shell: bash
+      - name: Run lightweight QA before publication build
         run: |
           mkdir -p dist
-          python3 - <<'PY'
-          from __future__ import annotations
-
-          import re
-          import sys
-          from pathlib import Path
-          from urllib.parse import unquote
-
-          import yaml
-
-          root = Path.cwd()
-          contents_path = root / "contents.txt"
-          report_path = root / "dist" / "QA-DOCUMENTATION.md"
-          errors: list[str] = []
-          warnings: list[str] = []
-
-          if not contents_path.is_file():
-              errors.append("contents.txt est absent.")
-              entries: list[str] = []
-              sources: list[Path] = []
-          else:
-              entries = [
-                  line.strip()
-                  for line in contents_path.read_text(encoding="utf-8").splitlines()
-                  if line.strip() and not line.lstrip().startswith("#")
-              ]
-              if len(entries) != len(set(entries)):
-                  errors.append("Une ou plusieurs sources sont dupliquées dans contents.txt.")
-              sources = [root / entry for entry in entries]
-              for entry, source in zip(entries, sources):
-                  if not source.is_file():
-                      errors.append(f"Source absente dans contents.txt : {entry}")
-
-          livre_i_matches = [
-              (entry, re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", entry))
-              for entry in entries
-          ]
-          livre_i_entries = [entry for entry, match in livre_i_matches if match]
-          livre_i_numbers = [int(match.group(1)) for _, match in livre_i_matches if match]
-          expected_numbers = list(range(1, 11))
-          if livre_i_numbers != expected_numbers:
-              errors.append(
-                  "Le Livre I doit déclarer exactement les chapitres 01 à 10, dans cet ordre ; "
-                  f"détectés : {livre_i_numbers}."
-              )
-
-          livre_ii_matches = [
-              (entry, re.fullmatch(r"Livre-II/CHAPITRE-(\d{2})-.+\.md", entry))
-              for entry in entries
-          ]
-          livre_ii_entries = [entry for entry, match in livre_ii_matches if match]
-          livre_ii_numbers = [int(match.group(1)) for _, match in livre_ii_matches if match]
-          expected_livre_ii_numbers = list(range(1, len(livre_ii_numbers) + 1))
-          if livre_ii_numbers != expected_livre_ii_numbers:
-              errors.append(
-                  "Les chapitres présents du Livre II doivent former une séquence continue depuis 01 ; "
-                  f"détectés : {livre_ii_numbers}."
-              )
-
-          expected_livre_i_ids = {
-              1: "DOC-L1-CH01",
-              2: "DOC-L1-ENV-TERMINAL",
-              3: "DOC-L1-ENV-GIT",
-              4: "DOC-L1-ENV-PYTHON",
-              5: "DOC-L1-CH02",
-              6: "DOC-L1-CH03",
-              7: "DOC-L1-CH04",
-              8: "DOC-L1-CH05",
-              9: "DOC-L1-CH06",
-              10: "DOC-L1-ENV-SECURITY",
-          }
-
-          ids: dict[str, str] = {}
-          markdown_link = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
-          conflict_markers = ("<<<<<<<", "=======", ">>>>>>>")
-
-          for source in sources:
-              if not source.is_file() or source.suffix.lower() != ".md":
-                  continue
-
-              rel = source.relative_to(root).as_posix()
-              text = source.read_text(encoding="utf-8")
-
-              if any(marker in text for marker in conflict_markers):
-                  errors.append(f"Marqueur de conflit Git détecté : {rel}")
-
-              metadata: dict[str, object] = {}
-              if text.startswith("---\n"):
-                  end = text.find("\n---\n", 4)
-                  if end == -1:
-                      errors.append(f"Front matter YAML non fermé : {rel}")
-                  else:
-                      raw_yaml = text[4:end]
-                      try:
-                          loaded = yaml.safe_load(raw_yaml) or {}
-                      except yaml.YAMLError as exc:
-                          errors.append(f"YAML invalide dans {rel} : {exc}")
-                          loaded = {}
-
-                      if not isinstance(loaded, dict):
-                          errors.append(f"Front matter YAML non mappé : {rel}")
-                      else:
-                          metadata = loaded
-
-                      for field in ("title", "status", "version"):
-                          if not metadata.get(field):
-                              errors.append(f"Métadonnée obligatoire absente ({field}) : {rel}")
-
-                      doc_id = metadata.get("id") or metadata.get("identifier")
-                      if not doc_id:
-                          errors.append(f"Métadonnée obligatoire absente (id ou identifier) : {rel}")
-                      elif str(doc_id) in ids:
-                          errors.append(
-                              f"Identifiant dupliqué {doc_id} : {ids[str(doc_id)]} et {rel}"
-                          )
-                      else:
-                          ids[str(doc_id)] = rel
-              elif rel not in {"README.md"}:
-                  warnings.append(f"Aucun front matter YAML : {rel}")
-
-              chapter_match_i = re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", rel)
-              if chapter_match_i:
-                  expected_chapter = int(chapter_match_i.group(1))
-                  if metadata.get("book") != "Livre I":
-                      errors.append(f"Métadonnée book incorrecte pour {rel}.")
-                  if metadata.get("chapter") != expected_chapter:
-                      errors.append(
-                          f"Numéro de chapitre incohérent dans {rel} : attendu {expected_chapter}, reçu {metadata.get('chapter')}."
-                      )
-                  if not metadata.get("last-verified"):
-                      errors.append(f"Métadonnée last-verified absente : {rel}")
-                  expected_id = expected_livre_i_ids.get(expected_chapter)
-                  actual_id = metadata.get("id") or metadata.get("identifier")
-                  if expected_id and actual_id != expected_id:
-                      errors.append(
-                          f"Identifiant stable incorrect pour le chapitre {expected_chapter:02d} : "
-                          f"attendu {expected_id}, reçu {actual_id}."
-                      )
-                  if expected_chapter in range(5, 10) and not metadata.get("legacy-chapter"):
-                      errors.append(f"Métadonnée legacy-chapter absente après renumérotation : {rel}")
-
-              chapter_match_ii = re.fullmatch(r"Livre-II/CHAPITRE-(\d{2})-.+\.md", rel)
-              if chapter_match_ii:
-                  expected_chapter = int(chapter_match_ii.group(1))
-                  expected_id = f"DOC-L2-CH{expected_chapter:02d}"
-                  actual_id = metadata.get("id") or metadata.get("identifier")
-
-                  if metadata.get("book") != "Livre II":
-                      errors.append(f"Métadonnée book incorrecte pour {rel}.")
-                  if metadata.get("chapter") != expected_chapter:
-                      errors.append(
-                          f"Numéro de chapitre incohérent dans {rel} : attendu {expected_chapter}, reçu {metadata.get('chapter')}."
-                      )
-                  if actual_id != expected_id:
-                      errors.append(
-                          f"Identifiant stable incorrect pour {rel} : attendu {expected_id}, reçu {actual_id}."
-                      )
-                  if not metadata.get("last-verified"):
-                      errors.append(f"Métadonnée last-verified absente : {rel}")
-                  if metadata.get("audit-status") != "complete":
-                      errors.append(f"Audit post-création incomplet : {rel}")
-                  if not metadata.get("audit-date"):
-                      errors.append(f"Métadonnée audit-date absente : {rel}")
-                  if metadata.get("audit-level") not in {"static-review", "runtime-tested"}:
-                      errors.append(f"Métadonnée audit-level invalide : {rel}")
-
-                  audit_report = metadata.get("audit-report")
-                  if not audit_report:
-                      errors.append(f"Métadonnée audit-report absente : {rel}")
-                  else:
-                      audit_path = root / str(audit_report)
-                      if not audit_path.is_file():
-                          errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
-
-              for raw_target in markdown_link.findall(text):
-                  target = raw_target.strip().split()[0].strip("<>")
-                  target = unquote(target)
-                  if not target or target.startswith(("#", "http://", "https://", "mailto:")):
-                      continue
-                  target_path = target.split("#", 1)[0]
-                  if not target_path:
-                      continue
-                  resolved = (source.parent / target_path).resolve()
-                  try:
-                      resolved.relative_to(root.resolve())
-                  except ValueError:
-                      errors.append(f"Lien sortant du dépôt dans {rel} : {target}")
-                      continue
-                  if not resolved.exists():
-                      errors.append(f"Lien local cassé dans {rel} : {target}")
-
-          metadata_file = root / "metadata.yaml"
-          if not metadata_file.is_file():
-              errors.append("metadata.yaml est absent.")
-          else:
-              try:
-                  global_metadata = yaml.safe_load(metadata_file.read_text(encoding="utf-8")) or {}
-              except yaml.YAMLError as exc:
-                  errors.append(f"metadata.yaml invalide : {exc}")
-                  global_metadata = {}
-              if global_metadata.get("license") in (None, "", "À définir avant publication"):
-                  warnings.append("La licence globale reste à définir avant publication officielle.")
-
-          lines = [
-              "# Rapport QA automatisé — Documentation",
-              "",
-              f"- Sources déclarées : **{len(sources)}**",
-              f"- Chapitres du Livre I : **{len(livre_i_entries)}**",
-              f"- Chapitres du Livre II : **{len(livre_ii_entries)}**",
-              f"- Identifiants uniques détectés : **{len(ids)}**",
-              f"- Erreurs bloquantes : **{len(errors)}**",
-              f"- Avertissements : **{len(warnings)}**",
-              "",
-              "## Erreurs",
-              "",
-          ]
-          lines.extend([f"- {item}" for item in errors] or ["- Aucune."])
-          lines.extend(["", "## Avertissements", ""])
-          lines.extend([f"- {item}" for item in warnings] or ["- Aucun."])
-          report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-          print(report_path.read_text(encoding="utf-8"))
-          if errors:
-              sys.exit(1)
-          PY
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
+          python3 tools/audit_contextes_utilisation.py --check \
+            | tee dist/QA-CONTEXTES.log
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
 
       - name: Compile PDF with Pandoc
-        shell: bash
         run: |
           chmod +x build.sh
           set -o pipefail
           ./build.sh 2>&1 | tee dist/PANDOC-BUILD.log
 
       - name: Inspect generated PDF
-        shell: bash
         run: |
           test -s dist/Guide-IA-GameDev.pdf
           pdfinfo dist/Guide-IA-GameDev.pdf | tee dist/PDF-INFO.txt
@@ -288,16 +66,19 @@ jobs:
           pdftotext dist/Guide-IA-GameDev.pdf dist/Guide-IA-GameDev.txt
           test -s dist/Guide-IA-GameDev.txt
 
-      - name: Upload validation artifacts
+      - name: Upload publication validation artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: documentation-validation
+          name: documentation-pdf-validation
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 30
           path: |
             dist/Guide-IA-GameDev.pdf
-            dist/QA-DOCUMENTATION.md
-            dist/PANDOC-BUILD.log
-            dist/PDF-INFO.txt
             dist/Guide-IA-GameDev.txt
+            dist/PDF-INFO.txt
+            dist/PANDOC-BUILD.log
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
