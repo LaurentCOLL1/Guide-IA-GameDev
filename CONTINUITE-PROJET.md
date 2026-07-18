@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.2.0"
+version: "3.3.0"
 lang: "fr-FR"
-last-updated: "2026-07-18"
+last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -12,102 +12,78 @@ update-policy: "mandatory-on-every-project-change"
 
 > **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les erreurs corrigées, les règles QA et la prochaine action.
 
-> **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot de commits ou la même pull request.
+> **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot.
 
 ## 1. Procédure obligatoire lors d’une reprise
 
-Une nouvelle conversation doit suivre cet ordre :
+Une nouvelle conversation doit :
 
 1. lire entièrement `CONTINUITE-PROJET.md` ;
 2. lire `ROADMAP.md`, `contents.txt` et l’index du Livre actif ;
-3. lire le plan maître détaillé du Livre ou Pack actif ;
-4. vérifier les derniers commits et pull requests fusionnés ;
-5. ne pas recréer un chapitre, un audit ou une décision déjà présent ;
+3. lire le plan maître du Livre ou Pack actif ;
+4. vérifier les derniers commits et pull requests ;
+5. ne pas recréer un chapitre, audit ou choix déjà présent ;
 6. identifier le prochain chapitre ;
-7. annoncer le niveau GPT-5.6 Sol conseillé : **Moyenne** ou **Élevée** ;
-8. justifier cette recommandation avant toute rédaction ;
-9. comparer le chapitre au plan maître ;
-10. effectuer rédaction, audit, compilation et QA ;
-11. mettre à jour ce fichier avant de déclarer le lot terminé.
+7. annoncer **GPT-5.6 Sol — Moyenne ou Élevée** et justifier le choix ;
+8. comparer le périmètre au plan maître ;
+9. rédiger, auditer et corriger ;
+10. mettre à jour index, roadmap, `contents.txt` et ce fichier ;
+11. ne construire le PDF qu’à la fin du Livre, sauf modification directe de la chaîne PDF.
 
-## 2. Sources maîtres obligatoires
+## 2. Sources maîtres
 
-Le plan exact de la collection est réparti dans les documents suivants :
+- **Livre II :** `Livre-II/index.md` et le présent fichier ;
+- **Livre III :** `plans/LIVRE-III-PLAN-MAITRE.md` ;
+- **Livre IV :** `plans/LIVRE-IV-PLAN-MAITRE.md` ;
+- **Livre V :** `plans/LIVRE-V-PLAN-MAITRE.md` ;
+- **Companion Pack :** `plans/COMPANION-PACK-PLAN-MAITRE.md`.
 
-- **Livre II :** présent fichier et `Livre-II/index.md` ;
-- **Livre III :** [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md) ;
-- **Livre IV :** [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md) ;
-- **Livre V :** [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md) ;
-- **Companion Pack :** [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
+Aucun titre, ordre ou périmètre ne doit être modifié silencieusement.
 
-Un titre, un ordre ou un périmètre ne doit pas être modifié silencieusement. Toute modification du plan maître exige une décision explicite, une justification et une mise à jour de la roadmap.
+## 3. Vision et contraintes permanentes
 
-## 3. Vision du projet
-
-Laurent Collin souhaite produire un guide français très complet permettant à un débutant de concevoir et développer un jeu vidéo 3D réaliste avec :
+Le guide doit permettre à un débutant de concevoir un jeu 3D réaliste avec :
 
 - Godot et GDScript ;
 - Blender ;
 - Python, JSON, SQLite et mémoire vectorielle ;
-- IA locale pour textes, images, voix, sons et musiques ;
+- IA locale pour texte, image, voix, sons et musique ;
 - outils gratuits, locaux et majoritairement open source ;
-- procédures adaptées à Windows et à un GPU AMD ;
+- Windows et GPU AMD comme configuration de référence ;
 - parcours Solo et Studio ;
-- projet fil rouge `Project Asteria` ;
-- Volume 0, cinq Livres et Companion Pack.
+- projet fil rouge `Project Asteria`.
 
-Le guide doit toujours expliquer :
+Chaque procédure doit expliquer :
 
 - quel programme ouvrir ;
-- où exécuter une commande ;
-- où créer ou modifier un fichier ;
-- la signification des fonctions, paramètres, types, opérateurs et valeurs ;
+- où exécuter la commande ;
+- où créer ou modifier le fichier ;
+- les fonctions, paramètres, types, opérateurs et retours ;
 - le résultat attendu ;
-- la procédure de vérification et de correction ;
-- les dépendances avec les chapitres voisins ;
-- le niveau Obligatoire, Recommandé ou Optionnel ;
-- les différences Solo/Studio.
+- les erreurs et corrections ;
+- les frontières avec les chapitres voisins.
 
-## 4. Configuration matérielle de référence
+## 4. Configuration de référence
 
-- Système : Windows.
-- GPU : AMD Radeon RX 6750 XT, 12 Go de VRAM, RDNA2.
-- CPU : AMD Ryzen 7 2700, 8 cœurs, 3,2 GHz.
-- RAM : 32 Go.
-- Éditeur : Visual Studio Code.
-- Terminal principal : PowerShell 7.
-- ComfyUI : natif Windows, ZLUDA expérimental lorsque pertinent.
-- Docker Desktop : services CPU et interfaces ; charges GPU AMD principalement natives.
+- Windows 11 ;
+- AMD Radeon RX 6750 XT, 12 Go ;
+- Ryzen 7 2700 ;
+- 32 Go de RAM ;
+- PowerShell 7 ;
+- Visual Studio Code ;
+- Godot `4.7.1-stable`, édition Standard, GDScript, Forward+ ;
+- Docker Desktop pour les services adaptés ;
+- ComfyUI natif Windows, ZLUDA expérimental lorsque pertinent.
 
-## 5. État de la collection
+## 5. Collection
 
-### Volume 0 — Fondation documentaire
+### Volume 0
 
-**Statut : terminé et audité.**
+**Terminé et audité.** Onze chapitres normatifs, annexes, convention des contextes et QA.
 
-Chapitres :
+### Livre I
 
-1. Vision générale du projet.
-2. Les 21 règles fondamentales.
-3. Architecture documentaire.
-4. Convention des identifiants.
-5. Conventions Markdown et Pandoc.
-6. Style rédactionnel.
-7. Standards techniques.
-8. Standards IA.
-9. Politique de compatibilité.
-10. Production, validation et publication.
-11. Glossaire, bibliographie et index.
-
-Documents importants :
-
-- `Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md` ;
-- `Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md` ;
-- `Volume-0/QA/VALIDATION-FINALE-V0-L1.yaml`.
-
-### Livre I — Préparer la plateforme de développement IA
-
-**Statut : terminé, repéré et audité.**
+**Terminé, repéré et audité.** Dix chapitres :
 
 1. Matériel, Windows, pilotes AMD et accélération locale.
 2. Terminal, PowerShell et outils Windows.
@@ -116,36 +92,34 @@ Documents importants :
 5. Docker et Docker Compose.
 6. Open WebUI, Open Terminal et Vane.
 7. ComfyUI et workflows graphiques.
-8. LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat.
-9. Audio IA local : voix, transcription, musique et effets.
-10. Sécurité, sauvegarde et validation de la plateforme.
+8. LLM locaux.
+9. Audio IA local.
+10. Sécurité, sauvegarde et validation.
 
-Décision historique : le Livre I avait été condensé en six chapitres. Quatre chapitres de fondation ont été ajoutés après audit. Les identifiants historiques déplacés ont été conservés.
+### Livre II
 
-### Livre II — Développement du jeu et plateforme IA
-
-**Statut : en cours — 4 chapitres sur 30 rédigés, repérés et audités au niveau documentaire et statique.**
+**En cours : 5 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
-1. Découvrir Godot et créer le projet fil rouge — **terminé**.
-2. Fondamentaux de GDScript — **terminé, enrichi et audité contre les doublons**.
-3. Scènes, nœuds, Resources et signaux — **terminé au niveau static-review**.
-4. Architecture modulaire du projet — **terminé au niveau static-review**.
-5. Services, gestionnaires, bus d’événements et injection de dépendances.
+1. Découvrir Godot et créer le projet fil rouge — terminé.
+2. Fondamentaux de GDScript — terminé, enrichi et audité contre les doublons.
+3. Scènes, nœuds, Resources et signaux — terminé au niveau `static-review`.
+4. Architecture modulaire du projet — terminé au niveau `static-review`.
+5. Services, gestionnaires, bus d’événements et injection de dépendances — terminé au niveau `static-review`.
 6. Entrées, contrôleurs, caméras et interactions.
 7. Données avec Resources, JSON et configurations.
 8. SQLite, migrations et données persistantes.
 9. Sauvegardes, chargements et compatibilité des versions.
 
-#### Partie B — Plateforme IA locale intégrée au jeu
+#### Partie B — Plateforme IA locale
 
 10. Mémoire vectorielle, connaissances et recherche sémantique.
 11. Communication Godot avec les services IA locaux.
 12. HTTP, WebSocket, API OpenAI-compatible et files de tâches.
 13. Sécurité et séparation production/runtime de l’IA.
 
-#### Partie C — Douze grands systèmes de gameplay
+#### Partie C — Systèmes de gameplay
 
 14. Personnages.
 15. Relations sociales.
@@ -168,86 +142,38 @@ Décision historique : le Livre I avait été condensé en six chapitres. Quatre
 29. Automatisation Python et génération de données.
 30. Architecture Solo et architecture Studio.
 
-### Chapitre 3 — état détaillé
+### Livres III à V et Companion Pack
 
-Fichier :
+Le détail chapitre par chapitre ou pack par pack se trouve exclusivement dans les quatre plans maîtres. Chaque entrée y possède objectifs, livrables, dépendances, frontières et critères de validation.
+
+## 6. Repères d’utilisation
+
+| Repère | Contexte |
+|---|---|
+| `[PS]` | PowerShell 7 |
+| `[CMD]` | Invite de commandes |
+| `[WSL]` | Terminal WSL |
+| `[DCT]` | Terminal dans un conteneur |
+| `[DCK]` | Docker Desktop |
+| `[VSC]` | Visual Studio Code |
+| `[WEB]` | Navigateur |
+| `[APP]` | Application graphique nommée |
+| `[SORTIE]` | Résultat à lire |
+| `[LECTURE]` | Exemple de référence |
+
+Forme obligatoire :
+
+> **[LECTURE] Forme normative — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md
+[CODE] Outil - Action : chemin, cible ou précision
 ```
 
-Niveau annoncé : **GPT-5.6 Sol — Élevée**.
+## 7. Niveau GPT-5.6 Sol
 
-Le chapitre couvre scènes, nœuds, instances, `SceneTree`, ownership, références, cycle de vie, `PackedScene`, Resources, signaux et `Callable`. Son exercice `StatusBeacon` constitue le premier composant réutilisable documenté de `Project Asteria`.
+Avant chaque chapitre :
 
-Rapport : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
-
-### Chapitre 4 — état détaillé
-
-Fichier :
-
-```text
-Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md
-```
-
-Niveau annoncé : **GPT-5.6 Sol — Élevée**.
-
-Décisions enregistrées :
-
-- architecture **feature-first** ;
-- couches locales créées uniquement lorsqu’une responsabilité réelle existe ;
-- couches conceptuelles : domaine, application, présentation, données, infrastructure et outils ;
-- dépendances dirigées vers le domaine et les contrats stables ;
-- `src/app` comme point de composition ;
-- `core` interdit de dépendre d’un module fonctionnel ;
-- petites scènes et objets spécialisés privilégiés à l’héritage profond ;
-- aucun Autoload choisi uniquement pour éviter de fournir une dépendance ;
-- matrice de dépendances et ADR obligatoires pour les décisions durables ;
-- migration progressive du module `beacons` à travers le dock FileSystem de Godot.
-
-Livrables documentés :
-
-- arborescence canonique de `Project Asteria` ;
-- `docs/architecture/README.md` ;
-- `docs/architecture/dependency-matrix.md` ;
-- `docs/architecture/ADR-0001-feature-first.md` ;
-- `src/features/beacons/README.md` ;
-- règles de nommage, ownership, import et validation ;
-- variantes Solo et Studio.
-
-Rapport : `Livre-II/QA/AUDIT-CHAPITRE-04.md`.
-
-Réserve : l’arborescence et les déplacements ne sont pas encore matérialisés dans le Starter Kit ; le statut reste `static-review` jusqu’aux tests runtime.
-
-### Livre III — Production des contenus et des assets
-
-**Statut : non commencé — 30 chapitres.**
-
-Source obligatoire : [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md).
-
-### Livre IV — Finalisation, optimisation, publication et maintenance
-
-**Statut : non commencé — 22 chapitres.**
-
-Source obligatoire : [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md).
-
-### Livre V — Encyclopédie technique et bibliothèque de référence
-
-**Statut : non commencé — 26 chapitres.**
-
-Source obligatoire : [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md).
-
-### Companion Pack
-
-**Statut : non commencé — 10 packs.**
-
-Source obligatoire : [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
-
-Packs : Starter Kit, Project Templates, AI Library, Code Library, Database Library, ComfyUI Library, Documentation Library, Test & Benchmark Library, Production Toolkit et Knowledge Base.
-
-## 6. Règle du niveau GPT-5.6 Sol
-
-Avant chaque nouveau chapitre, indiquer :
+> **[LECTURE] Modèle d’annonce — Ne pas saisir.**
 
 ```text
 Chapitre à produire : …
@@ -255,231 +181,214 @@ Niveau GPT-5.6 Sol recommandé : Moyenne / Élevée
 Justification : …
 ```
 
-Choisir généralement :
+- **Moyenne** : chapitre descriptif ou linéaire ;
+- **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-- **Moyenne** pour un chapitre descriptif, linéaire, avec peu de code ou de dépendances ;
-- **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation, intégrations ou nombreuses frontières.
+Chapitres 3, 4 et 5 : **Élevée**.
 
-Enregistrer la recommandation dans le chapitre :
+## 8. Audit par chapitre
 
-```yaml
-recommended-reasoning: "GPT-5.6 Sol — Élevée"
-```
+Chaque chapitre suit :
 
-## 7. Repères obligatoires d’utilisation
-
-| Repère | Contexte |
-|---|---|
-| `[PS]` | PowerShell 7 sur Windows |
-| `[CMD]` | Invite de commandes Windows |
-| `[WSL]` | Terminal WSL/Bash |
-| `[DCT]` | Terminal dans un conteneur Docker |
-| `[DCK]` | Interface Docker Desktop |
-| `[VSC]` | Visual Studio Code |
-| `[WEB]` | Navigateur internet |
-| `[APP]` | Interface graphique du logiciel nommé |
-| `[SORTIE]` | Résultat à lire, ne pas saisir |
-| `[LECTURE]` | Exemple ou structure de référence |
-
-Forme obligatoire :
-
-```text
-[CODE] Outil - Action : chemin, cible ou précision utile
-```
-
-## 8. Audit obligatoire après chaque chapitre
-
-Aucun chapitre n’est terminé immédiatement après sa rédaction.
-
-Séquence :
-
-1. recommandation du niveau GPT-5.6 Sol ;
-2. rédaction ;
-3. comparaison au plan maître ;
-4. audit de complétude pédagogique ;
+1. rédaction ;
+2. comparaison au plan maître ;
+3. audit de complétude ;
+4. explication détaillée du code ;
 5. contrôle des doublons ;
-6. vérification technique ;
-7. ajout des contextes d’utilisation ;
+6. vérification technique et sources officielles ;
+7. contrôle des repères ;
 8. correction des omissions ;
-9. contrôle des frontières avec les chapitres voisins ;
-10. mise à jour de `contents.txt`, index, roadmap et continuité ;
-11. compilation Pandoc/XeLaTeX ;
-12. inspection du PDF ;
-13. rapport QA et preuve indépendante ;
-14. seulement ensuite : statut rédigé, repéré et audité.
+9. contrôle des frontières ;
+10. mise à jour de la gouvernance ;
+11. rapport QA ;
+12. statut `static-review` ou `runtime-tested`.
 
 Métadonnées minimales :
+
+> **[LECTURE] Exemple YAML — Ne pas créer sans chemin.**
 
 ```yaml
 status: "reviewed"
 audit-status: "complete"
 audit-date: "YYYY-MM-DD"
 audit-level: "static-review"
-audit-report: "chemin/du/rapport.md"
+audit-report: "Livre-II/QA/..."
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
-`runtime-tested` est réservé aux exemples réellement exécutés.
+## 9. Politique PDF
 
-## 9. Règle pédagogique pour le code
+Décision utilisateur du 19 juillet 2026 :
 
-Lors de la première apparition d’un concept, expliquer :
+- ne plus construire le PDF après chaque chapitre ;
+- construire et inspecter le PDF à la fin de chaque Livre ;
+- construire une dernière version à la fin de la collection ;
+- autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
+
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.3.0`.
+
+## 10. Règle pédagogique du code
+
+À la première apparition, expliquer :
 
 - mot-clé ;
-- nom de variable ou fonction ;
+- nom ;
 - type ;
 - opérateur ;
 - paramètre et argument ;
 - valeur par défaut ;
-- valeur et type de retour ;
+- retour ;
 - portée ;
-- accès par index ou clé ;
+- index ou clé ;
 - appel de méthode ;
 - résultat concret.
 
-Les rappels courts sont autorisés. Les duplications intégrales involontaires de titres, paragraphes longs et blocs significatifs sont interdites.
+Les rappels courts sont permis. Les duplications intégrales sont interdites.
 
-## 10. Audits importants
-
-### Chapitre 2 GDScript
-
-Campagne de référence : PR n°11, commit métier `e40da615bdc922f0296ef34f51dc6e226f0782dd`.
-
-Résultats enregistrés : 152 titres, 57 blocs significatifs et 22 paragraphes longs contrôlés ; zéro doublon et zéro explication obligatoire manquante.
-
-### Chapitre 3
-
-Audit : `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
-
-Décision : accepté avec réserve runtime.
-
-### Chapitre 4
-
-Audit : `Livre-II/QA/AUDIT-CHAPITRE-04.md`.
-
-Points contrôlés : périmètre, feature-first, couches, dépendances, contrats, classe abstraite, duck typing, arborescence, migration Godot, matrice, ADR, contextes, doublons et commandes headless.
-
-Décision avant CI : accepté avec réserve CI et runtime. La preuve finale doit être complétée après les workflows.
-
-## 11. Décisions techniques permanentes
-
-### Architecture de `Project Asteria`
+## 11. Décisions d’architecture de `Project Asteria`
 
 - organisation feature-first ;
 - couches locales non spéculatives ;
-- dépendances vers domaine et contrats ;
+- dépendances orientées vers le domaine et les contrats ;
 - composition privilégiée ;
 - `src/app` comme point de composition ;
+- `core` ne dépend d’aucune fonctionnalité ;
 - infrastructure derrière des contrats ;
-- outils absents du runtime exporté ;
-- matrice et ADR comme sources de vérité ;
-- migration progressive et vérifiée.
+- matrice de dépendances et ADR comme sources de vérité ;
+- déplacements Godot effectués depuis le dock FileSystem ;
+- services construits par le bootstrap ;
+- registre limité au point de composition ;
+- bus d’événements typé et limité ;
+- un Autoload par nécessité de durée de vie, pas par commodité ;
+- démarrage déterministe et arrêt dans l’ordre inverse.
 
-### Windows et AMD
+## 12. Chapitre 5 — état détaillé
 
-- Windows-first pour la configuration de référence ;
-- CPU toujours disponible comme voie de diagnostic ;
-- ZLUDA et autres voies expérimentales isolées et qualifiées ;
-- Docker Desktop n’est pas présenté comme solution GPU AMD universelle.
+Fichier :
 
-### ComfyUI
-
-- installation manuelle de référence ;
-- CPU comme voie de secours ;
-- ZLUDA comme laboratoire expérimental ;
-- workflows, modèles, licences, versions et empreintes enregistrés.
-
-### LLM locaux
-
-- Ollama natif Windows pour le parcours simple ;
-- llama.cpp CPU/Vulkan pour référence et mesures ;
-- LocalAI optionnel ;
-- LibreChat comme interface alternative ;
-- services liés à `127.0.0.1` par défaut.
-
-### Audio
-
-- Kokoro et Piper pour les voix légères ;
-- Chatterbox pour voix expressive et clonage autorisé ;
-- faster-whisper et whisper.cpp pour transcription ;
-- AudioCraft limité aux usages compatibles avec les licences ;
-- aucun clonage sans consentement.
-
-## 12. Erreurs à ne pas reproduire
-
-- Ne pas déclarer un Livre complet uniquement parce que ses grands domaines sont couverts.
-- Ne pas condenser les fondations débutantes en simples prérequis.
-- Ne pas donner une commande sans terminal.
-- Ne pas donner un contenu de fichier sans éditeur et chemin.
-- Ne pas présenter une sortie comme une commande.
-- Ne pas revendiquer une exécution runtime non réalisée.
-- Ne pas conserver de workflow temporaire dans `main`.
-- Ne pas publier des mesures intermédiaires comme preuves finales.
-- Ne pas laisser fonction, paramètre, opérateur ou type sans explication suffisante.
-- Ne pas dupliquer une explication complète ; utiliser rappel et renvoi.
-- Ne pas modifier le plan maître sans décision explicite.
-- Ne pas oublier l’annonce Moyenne/Élevée avant un chapitre.
-- Ne pas créer des couches, contrats ou managers sans besoin concret.
-- Ne pas déplacer des fichiers Godot référencés sans vérification des dépendances.
-- Ne pas laisser `core` dépendre d’une fonctionnalité.
-- Ne pas oublier la mise à jour de ce fichier.
-
-## 13. État courant
-
-- Branche principale cible : `main`.
-- Jalon actif : M3 — Livre II.
-- Livre II : 4 chapitres sur 30 rédigés, repérés et audités statiquement.
-- Chapitre 2 : version `1.3.0`, audité contre les doublons.
-- Chapitre 3 : version `1.0.0`, recommandation Élevée, accepté avec réserve runtime.
-- Chapitre 4 : version `1.0.0`, recommandation Élevée, audit statique créé.
-- Licence globale : à définir.
-- Accessibilité PDF avancée : à traiter avant publication.
-- Tests runtime de `Project Asteria` : en attente du Starter Kit matérialisé.
-
-## 14. Prochaine action
-
-Avant toute rédaction, annoncer le niveau conseillé pour :
+> **[LECTURE] Chemin de référence — Ne pas saisir.**
 
 ```text
 Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md
 ```
 
-Le chapitre 5 devra notamment :
+Niveau : **GPT-5.6 Sol — Élevée**.
 
-- distinguer service, manager, repository, controller et système ;
-- expliquer Autoload et ses risques ;
-- créer un registre de services minimal ;
-- injecter les dépendances plutôt que les rechercher globalement ;
-- définir un bus d’événements limité et typé ;
-- gérer initialisation, arrêt, erreurs et tests ;
-- proposer variantes Solo et Studio ;
-- réutiliser l’architecture du chapitre 4 sans la redéfinir ;
-- réussir audit, contextes, doublons, compilation et inspection PDF.
+Contenu :
 
-Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier au début du prochain lot.
+- vocabulaire service, manager, système, controller et repository ;
+- critères `Node`, `RefCounted`, `Resource` et Autoload ;
+- injection par constructeur, méthode et propriété exportée ;
+- `GameEventBus` typé ;
+- `ServiceRegistry` minimal ;
+- contrat de cycle de vie ;
+- `AppBootstrap` comme composition root ;
+- démarrage et rollback ;
+- arrêt en ordre inverse ;
+- exercice `beacons` ;
+- doubles de test préparatoires ;
+- parcours Solo et Studio.
 
-## 15. Journal de continuité
+Livrables documentés :
+
+- `src/app/app_bootstrap.gd` ;
+- `src/core/events/game_event_bus.gd` ;
+- `src/core/services/service_registry.gd` ;
+- `src/core/services/service_lifecycle.gd` ;
+- `src/features/beacons/application/beacon_activation_service.gd` ;
+- `scenes/learning/ch05_services_demo.gd` ;
+- `scenes/learning/ch05_services_demo.tscn` ;
+- `docs/architecture/service-catalog.md`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-05.md`.
+
+Résultats : 78 titres, 18 blocs, 18 repères, zéro doublon de titre, bloc significatif ou paragraphe long.
+
+Décision : accepté avec réserve runtime et PDF de fin de Livre.
+
+## 13. Erreurs à ne pas reproduire
+
+- ne pas donner une commande sans terminal ;
+- ne pas donner un fichier sans éditeur et chemin ;
+- ne pas présenter une sortie comme une commande ;
+- ne pas revendiquer un test runtime non exécuté ;
+- ne pas laisser fonction ou paramètre sans explication ;
+- ne pas dupliquer une explication complète ;
+- ne pas créer de couche ou manager sans besoin ;
+- ne pas laisser `core` dépendre d’une fonctionnalité ;
+- ne pas utiliser le registre comme Service Locator ;
+- ne pas créer un Autoload par service ;
+- ne pas utiliser un bus générique à dictionnaires ;
+- ne pas oublier de nettoyer un démarrage partiel ;
+- ne pas construire le PDF à chaque chapitre ;
+- ne pas oublier la mise à jour de ce fichier.
+
+## 14. État courant
+
+- branche principale : `main` ;
+- jalon : M3 — Livre II ;
+- progression : 5 chapitres sur 30 ;
+- chapitre 2 : version `1.3.0` ;
+- chapitre 3 : version `1.0.0` ;
+- chapitre 4 : version `1.0.0` ;
+- chapitre 5 : version `1.0.0` ;
+- Starter Kit non matérialisé ;
+- licence globale à définir ;
+- accessibilité PDF avancée à traiter avant publication.
+
+## 15. Prochaine action
+
+Chapitre :
+
+> **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
+
+```text
+Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md
+```
+
+Périmètre attendu :
+
+- Input Map ;
+- actions et événements d’entrée ;
+- contrôleur joueur ;
+- séparation intention/mouvement ;
+- caméra 3D ;
+- souris, clavier et manette ;
+- interaction par raycast ou zone ;
+- injection des services du chapitre 5 ;
+- remappage et accessibilité ;
+- différences Solo/Studio ;
+- audit statique sans PDF intermédiaire.
+
+Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
+
+## 16. Journal
+
+### 2026-07-19 — version 3.3.0
+
+- création et audit statique du chapitre 5 ;
+- adoption du registre limité au bootstrap ;
+- adoption du bus d’événements typé ;
+- définition du cycle de vie des services ;
+- Autoload `AppRuntime` distinct de la classe `AppBootstrap` ;
+- progression à 5 chapitres sur 30 ;
+- politique PDF différée enregistrée ;
+- prochaine action déplacée vers le chapitre 6.
 
 ### 2026-07-18 — version 3.2.0
 
-- création et audit statique du chapitre 4 ;
-- adoption de l’architecture feature-first avec couches locales ;
-- définition de l’arborescence canonique, de la matrice des dépendances et des ADR ;
-- définition de `src/app` comme point de composition ;
-- migration documentaire du module `beacons` ;
-- passage du Livre II à 4 chapitres sur 30 ;
-- prochaine action déplacée vers le chapitre 5.
+- création du chapitre 4 ;
+- architecture feature-first ;
+- matrice de dépendances et ADR ;
+- `src/app` défini comme point de composition.
 
 ### 2026-07-18 — version 3.1.0
 
-- création et audit statique du chapitre 3 ;
-- ajout de `StatusBeacon` et `BeaconProfile` comme exercice documentaire ;
-- ajout de la règle obligatoire Moyenne/Élevée avant chaque chapitre ;
-- passage du Livre II à 3 chapitres sur 30 ;
-- prochaine action déplacée vers le chapitre 4.
+- création du chapitre 3 ;
+- ajout de `StatusBeacon` et `BeaconProfile` ;
+- règle Moyenne/Élevée avant chaque chapitre.
 
 ### 2026-07-18 — version 3.0.0
 
-- création des quatre plans maîtres détaillés séparés ;
-- transformation du fichier en index de reprise obligatoire.
+- création des plans maîtres détaillés des Livres III à V et du Companion Pack.
