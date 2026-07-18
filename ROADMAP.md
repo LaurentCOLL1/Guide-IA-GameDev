@@ -18,7 +18,10 @@
 - [x] Conventions Markdown et Pandoc.
 - [x] Style rédactionnel.
 - [x] Standards techniques.
-- [ ] Standards IA.
+- [x] Standards IA.
+- [ ] Politique de compatibilité.
+- [ ] Production, validation et publication.
+- [ ] Glossaire, bibliographie et index.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
 
