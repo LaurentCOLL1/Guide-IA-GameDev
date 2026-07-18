@@ -171,7 +171,8 @@ jobs:
         shell: bash
         run: |
           chmod +x build.sh
-          ./build.sh
+          set -o pipefail
+          ./build.sh 2>&1 | tee dist/PANDOC-BUILD.log
 
       - name: Inspect generated PDF
         shell: bash
@@ -194,5 +195,6 @@ jobs:
           path: |
             dist/Guide-IA-GameDev.pdf
             dist/QA-Volume-0.md
+            dist/PANDOC-BUILD.log
             dist/PDF-INFO.txt
             dist/Guide-IA-GameDev.txt
