@@ -23,8 +23,14 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Apply chapter 2 patch
-        run: python3 tools/patch_gdscript_ch02_audit.py
+      - name: Apply chapter 2 patch when still present
+        shell: bash
+        run: |
+          if test -f tools/patch_gdscript_ch02_audit.py; then
+            python3 tools/patch_gdscript_ch02_audit.py
+          else
+            echo "Patch already applied."
+          fi
 
       - name: Restore and extend permanent workflow
         shell: bash
@@ -61,5 +67,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "docs(livre-ii): remove duplication and deepen function explanations"
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "ci(docs): enable permanent GDScript pedagogy audit"
           git push origin HEAD:${{ github.head_ref }}
