@@ -1,0 +1,71 @@
+# Operating systems
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Pandoc / LaTeX build outputs
+build/
+dist/
+PDF/
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# MkDocs
+site/
+
+# Temporary and backup files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Large local AI models and generated caches
+Models/
+models/
+*.safetensors
+*.ckpt
+*.gguf
+*.bin
+*.onnx
+.cache/
+
+# Local databases and runtime state
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+runtime/
+logs/
+
+# Generated media and exports
+exports/
+renders/
+outputs/
+
+# Secrets
+secrets/
+credentials/
