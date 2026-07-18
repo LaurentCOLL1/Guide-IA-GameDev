@@ -34,3 +34,5 @@ jobs:
           git add Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md Livre-II/QA/AUDIT-CHAPITRES-01-02.md
           git commit -m "docs(livre-ii): explain GDScript examples line by line [skip pedagogy migration]"
           git push origin HEAD:docs/deepen-gdscript-explanations
+
+# Trigger refreshed after enabling the base-branch migration workflow.
