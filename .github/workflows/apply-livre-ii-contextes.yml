@@ -1,0 +1,47 @@
+name: Apply Livre II Usage Contexts
+
+on:
+  push:
+    branches:
+      - docs/audit-livre-ii-contextes
+    paths:
+      - ".github/workflows/apply-livre-ii-contextes.yml"
+      - "tools/audit_contextes_utilisation.py"
+      - "tools/audit_contextes_semantiques.py"
+      - "Livre-II/**/*.md"
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: "!contains(github.event.head_commit.message, '[skip context migration]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/audit-livre-ii-contextes
+          fetch-depth: 0
+
+      - name: Apply context markers
+        run: |
+          python3 tools/audit_contextes_utilisation.py --apply
+          python3 tools/audit_contextes_semantiques.py --apply
+
+      - name: Verify migration
+        run: |
+          python3 tools/audit_contextes_utilisation.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+
+      - name: Commit migrated chapters
+        run: |
+          if git diff --quiet; then
+            echo "No migration changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II tools
+          git commit -m "docs(livre-ii): apply usage context markers [skip context migration]"
+          git push origin HEAD:docs/audit-livre-ii-contextes
