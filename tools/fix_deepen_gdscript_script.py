@@ -9,4 +9,4 @@ if old not in text:
 path.write_text(text.replace(old, new), encoding="utf-8", newline="\n")
 print("Ancre du chapitre 18.3 corrigée.")
 
-# Relance avec publication du journal de migration en artefact.
+# Relance finale pour appliquer et committer le contenu pédagogique validé.
