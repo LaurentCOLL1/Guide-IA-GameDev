@@ -2,24 +2,24 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.2.0"
+version: "1.3.0"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-18"
+last-verified: "2026-07-19"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Protocole d’audit post-création des chapitres
 
-> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir, **[LECTURE]** exemple à étudier. Voir la [convention complète](../../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## 1. Règle obligatoire
 
-À partir du Livre II, un chapitre n’est jamais considéré comme terminé immédiatement après sa rédaction. Il doit franchir une porte d’audit distincte, recevoir ses corrections, réussir les validations automatiques et laisser une preuve consultable.
+À partir du Livre II, un chapitre n’est jamais considéré comme terminé immédiatement après sa rédaction. Il doit franchir une porte d’audit distincte, recevoir ses corrections et laisser une preuve consultable.
 
 La séquence obligatoire est :
 
-> **[LECTURE] Processus de référence - Ne pas saisir.**
+> **[LECTURE] Processus de référence — Ne pas saisir.**
 
 ```text
 annonce du chapitre et du niveau GPT-5.6 Sol conseillé
@@ -36,14 +36,56 @@ vérification technique et des sources
    ↓
 mise à jour index / roadmap / contents.txt / continuité
    ↓
-CI structurelle, contextuelle et PDF
+contrôles documentaires et statiques du chapitre
    ↓
-rapport et preuve externe
+rapport d’audit
    ↓
 chapitre déclaré rédigé, repéré et audité
 ```
 
-## 2. Recommandation du niveau GPT-5.6 Sol
+La compilation Pandoc/XeLaTeX et l’inspection visuelle du PDF ne sont plus réalisées après chaque chapitre. Elles sont regroupées à la fin de chaque Livre, puis une dernière fois à la fin de la collection.
+
+## 2. Politique de génération PDF
+
+### 2.1 Construction différée
+
+Le PDF complet est construit :
+
+1. à la fin du Volume ou Livre actif ;
+2. à la fin du Companion Pack lorsqu’une publication PDF est pertinente ;
+3. à la fin de la collection complète.
+
+Cette politique réduit le temps de calcul et évite de produire des artefacts intermédiaires qui deviennent rapidement obsolètes.
+
+### 2.2 Exceptions
+
+Une construction intermédiaire reste autorisée uniquement lorsque le lot modifie directement :
+
+- `metadata.yaml` ;
+- les scripts `build.ps1` ou `build.sh` ;
+- le filtre Pandoc ;
+- le moteur PDF ;
+- les polices ;
+- la table des matières ;
+- les marges, tableaux ou règles de mise en page ;
+- le workflow de publication.
+
+L’exception et sa justification doivent être consignées dans le rapport QA.
+
+### 2.3 Ce qui reste obligatoire par chapitre
+
+Chaque chapitre doit encore réussir :
+
+- l’intégrité du Markdown et du front matter ;
+- la continuité des numéros et identifiants ;
+- la vérification des liens locaux ;
+- l’audit des repères d’utilisation ;
+- le contrôle des doublons ;
+- la vérification statique du code et des commandes ;
+- la comparaison au plan maître ;
+- la mise à jour des documents de gouvernance.
+
+## 3. Recommandation du niveau GPT-5.6 Sol
 
 Avant toute rédaction, la conversation doit annoncer :
 
@@ -58,19 +100,17 @@ Utiliser généralement :
 
 La recommandation est enregistrée dans le front matter :
 
-> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
+> **[LECTURE] Exemple YAML — Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
 recommended-reasoning: "GPT-5.6 Sol — Élevée"
 ```
 
-Cette métadonnée documente le niveau conseillé pour produire ou réviser le chapitre. Elle ne modifie pas son statut technique.
-
-## 3. Métadonnées obligatoires
+## 4. Métadonnées obligatoires
 
 Un chapitre audité porte au minimum :
 
-> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
+> **[LECTURE] Exemple YAML — Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
 audit-status: "complete"
@@ -83,7 +123,7 @@ recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 
 `static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
 
-## 4. Matrice de contrôle
+## 5. Matrice de contrôle
 
 ### Q0 — Intégrité
 
@@ -141,22 +181,32 @@ recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 - [ ] Les obligations de licence et d’attribution sont mentionnées.
 - [ ] Les addons, modèles, assets ou services tiers sont qualifiés.
 
-### Q6 — Publication
+### Q6 — Validation documentaire du chapitre
 
-- [ ] `Validate Usage Contexts` réussit.
+- [ ] Le contrôle des repères réussit.
+- [ ] Le contrôle des doublons réussit.
 - [ ] Les contrôles spécialisés du chapitre réussissent lorsqu’ils existent.
-- [ ] `Validate Documentation` réussit.
-- [ ] La compilation Pandoc/XeLaTeX réussit.
-- [ ] Le PDF est non vide et son texte est extractible.
-- [ ] Un échantillon des pages modifiées est inspecté visuellement.
-- [ ] Les erreurs, réserves, exécutions et artefacts sont consignés.
+- [ ] L’ordre de compilation est mis à jour sans construire le PDF.
+- [ ] Les réserves statiques et runtime sont consignées.
+- [ ] Le rapport d’audit est complet.
 
-## 5. Décision
+### Q7 — Publication de fin de Livre
 
-Un audit se termine par une décision unique :
+Cette porte reste **différée** jusqu’au dernier chapitre du Livre :
+
+- [ ] la compilation Pandoc/XeLaTeX réussit ;
+- [ ] le PDF est non vide et son texte est extractible ;
+- [ ] la table des matières est lisible ;
+- [ ] un échantillon représentatif des pages est inspecté visuellement ;
+- [ ] les erreurs, réserves, exécutions et artefacts sont consignés ;
+- [ ] la preuve finale ne contient pas de mesure auto-référentielle.
+
+## 6. Décision
+
+Un audit de chapitre se termine par une décision unique :
 
 - **Accepté** : aucune non-conformité bloquante ou majeure ouverte ;
-- **Accepté avec réserves** : le chapitre est utilisable, mais un test runtime ou matériel reste à produire ;
+- **Accepté avec réserves** : le chapitre est utilisable, mais un test runtime, matériel ou PDF de fin de Livre reste à produire ;
 - **Refusé** : une omission ou erreur majeure empêche de le considérer comme terminé.
 
-La mention **rédigé, repéré et audité** signifie que les portes documentaires et statiques ont réussi. Elle ne signifie pas automatiquement que tous les exemples ont été exécutés sur la station de référence.
+La mention **rédigé, repéré et audité** signifie que les portes documentaires et statiques du chapitre ont réussi. Elle ne signifie ni que tous les exemples ont été exécutés, ni qu’un PDF intermédiaire a été construit.
