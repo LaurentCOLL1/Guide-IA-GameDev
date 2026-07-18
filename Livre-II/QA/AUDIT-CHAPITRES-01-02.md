@@ -2,7 +2,7 @@
 title: "Audit post-création — Livre II, chapitres 1 et 2"
 id: "DOC-L2-QA-AUDIT-CH01-CH02"
 status: "complete"
-version: "2.0.0"
+version: "2.1.0"
 book: "Livre II"
 category: "quality-report"
 validation-date: "2026-07-18"
@@ -71,7 +71,7 @@ Le chapitre couvre toujours correctement l’installation portable, le choix du 
 
 ## 5. Chapitre 2 — Fondamentaux de GDScript
 
-Le chapitre couvre toujours correctement la syntaxe, le typage, les collections, fonctions, classes, annotations, cycle de vie, erreurs, débogage et l’exercice `BootstrapReport`.
+Le chapitre couvre la syntaxe, le typage, les collections, fonctions, classes, annotations, cycle de vie, erreurs, débogage et l’exercice `BootstrapReport`. La nouvelle lecture a renforcé l’explication de chaque symbole et de chaque rôle au moment de sa première utilisation.
 
 ### Contextes désormais explicites
 
@@ -98,6 +98,8 @@ Le chapitre couvre toujours correctement la syntaxe, le typage, les collections,
 | L2-AUD-019 | majeure | Le workflow des contextes ne surveillait pas `Livre-II/**/*.md`. | Extension permanente du déclencheur et des scripts au Livre II. |
 | L2-AUD-020 | majeure | Le premier prototype de migration pouvait insérer un repère dans le front matter YAML. | Rejet du prototype avant écriture et remplacement par une migration déterministe. |
 | L2-AUD-021 | majeure | Le vérificateur sémantique et le rapporteur de couverture ne contrôlaient pas encore le Livre II. | Extension des deux outils et ajout de métriques par chapitre. |
+| L2-AUD-022 | majeure | Plusieurs exemples introduisaient des symboles, types ou accès sans les expliquer suffisamment pour un débutant. | Ajout d’une méthode de lecture syntaxique et de décompositions ligne par ligne. |
+| L2-AUD-023 | majeure | Les exemples de classes natives/personnalisées et de parcours de dictionnaire supposaient des connaissances préalables. | Explication détaillée de `Node3D`, `Camera3D`, `BootstrapReport`, `%s`, `%`, `key` et `metrics[key]`. |
 
 Les treize corrections de l’audit précédent restent acquises. Aucune ancienne correction n’a été annulée.
 
