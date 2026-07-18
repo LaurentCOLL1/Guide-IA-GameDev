@@ -20,6 +20,13 @@ citecolor: MidnightBlue
 mainfont: "DejaVu Serif"
 sansfont: "DejaVu Sans"
 monofont: "DejaVu Sans Mono"
+header-includes:
+  - |
+    \usepackage{tocloft}
+    \setlength{\cftchapnumwidth}{3.5em}
+    \setlength{\cftsecnumwidth}{4.5em}
+    \setlength{\cftsubsecnumwidth}{5.5em}
+    \setlength{\cftsubsubsecnumwidth}{6.5em}
 version: "0.1.0-dev"
 status: "production"
 reference-hardware:
