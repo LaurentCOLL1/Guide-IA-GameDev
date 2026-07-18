@@ -25,9 +25,10 @@
 - [x] Production, validation et publication.
 - [x] Glossaire, bibliographie et index.
 - [ ] Assurance qualité documentaire.
-- [ ] Annexes normatives.
+- [x] Annexes normatives.
+- [ ] Validation de la compilation complète.
 
-**Statut M1 : les 11 chapitres principaux sont rédigés ; contrôle qualité, annexes et validation de compilation restent à produire.**
+**Statut M1 : les 11 chapitres principaux et les 7 annexes normatives initiales sont en place ; contrôle qualité et validation de compilation restent à produire.**
 
 ## M2 — Livre I : Préparer la plateforme
 
