@@ -1,12 +1,16 @@
 ---
 title: "Livre II — Chapitre 1 : Découvrir Godot et créer le projet fil rouge"
 id: "DOC-L2-CH01"
-status: "draft-review"
-version: "1.0.0"
+status: "reviewed"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 1
 last-verified: "2026-07-18"
+audit-status: "complete"
+audit-date: "2026-07-18"
+audit-report: "Livre-II/QA/AUDIT-CHAPITRES-01-02.md"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -26,7 +30,8 @@ reference-platform:
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **État technique vérifié le :** 18 juillet 2026  
-> **Résultat attendu :** installer une version stable et reproductible de Godot, créer le projet fil rouge 3D, comprendre les notions de nœud et de scène, exécuter une première scène et enregistrer une base saine dans Git.
+> **Résultat attendu :** installer une version stable et reproductible de Godot, créer le projet fil rouge 3D, comprendre les notions de nœud et de scène, exécuter une première scène et enregistrer une base saine dans Git.  
+> **Audit post-création :** terminé — voir `Livre-II/QA/AUDIT-CHAPITRES-01-02.md`.
 
 ## 1. Rôle de ce chapitre
 
@@ -319,6 +324,20 @@ New-Item -ItemType Directory -Force C:\IA-GameDev\logs\godot | Out-Null
   Out-File C:\IA-GameDev\logs\godot\version.txt -Encoding utf8
 ```
 
+### 6.6 Licence et attribution
+
+Godot Engine est distribué sous licence MIT. Le jeu peut utiliser une licence différente, y compris commerciale ou propriétaire, mais la distribution du binaire Godot exige de conserver la notice de copyright et le texte de licence du moteur.
+
+Préparer dès le démarrage :
+
+```text
+docs/licenses/
+├── GODOT-LICENSE.txt
+└── THIRD-PARTY-NOTICES.md
+```
+
+Les composants tiers inclus dans Godot possèdent également leurs propres notices. La publication finale devra fournir un accès à ces informations dans les crédits, la documentation ou les fichiers accompagnant le jeu.
+
 ## 7. Rendre la commande accessible
 
 ### 7.1 Variable de session
@@ -369,6 +388,7 @@ Créer `.gitignore` :
 ```gitignore
 # Cache et imports générés par Godot 4
 .godot/
+*.translation
 
 # Fichiers temporaires
 *.tmp
@@ -389,7 +409,23 @@ Thumbs.db
 .vscode/*.local.json
 ```
 
-Godot peut aussi générer les métadonnées Git lors de la création du projet. Le résultat doit être vérifié et non supposé correct pour tous les besoins du dépôt.
+Créer également `.gitattributes` :
+
+```gitattributes
+# Normaliser les fichiers texte du projet en LF.
+* text=auto eol=lf
+
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+```
+
+Lorsque l’option Git est choisie dans le Project Manager, Godot crée normalement `.gitignore` et `.gitattributes`. Les deux fichiers doivent être relus et versionnés. Sous Windows, cette normalisation évite les changements artificiels dus aux conversions CRLF/LF.
+
+Pour un dépôt existant qui ne possède pas ces fichiers, utiliser **Project > Version Control > Generate Version Control Metadata**, puis examiner le diff avant commit.
 
 ### 8.3 README initial
 
@@ -447,6 +483,7 @@ Get-ChildItem -Force C:\IA-GameDev\projects\project-asteria
 
 ```text
 .git\
+.gitattributes
 .gitignore
 .godot\
 icon.svg
@@ -967,13 +1004,15 @@ New-Item -ItemType Directory -Force .\logs | Out-Null
 & $env:GODOT_EXE `
   --headless `
   --path . `
-  --quit-after 2 `
+  --quit-after 5 `
   --log-file .\logs\bootstrap-smoke.log
 
 if ($LASTEXITCODE -ne 0) {
     throw "Le test Godot a échoué avec le code $LASTEXITCODE."
 }
 ```
+
+`--quit-after 5` signifie cinq itérations de la boucle principale, et non cinq secondes. Ce nombre laisse la scène entrer dans `_ready()` tout en conservant un test très court.
 
 Lire le journal :
 
@@ -996,7 +1035,7 @@ Le mode headless valide le chargement du projet et des scripts. Il ne remplace p
   --verbose `
   --headless `
   --path . `
-  --quit-after 2 `
+  --quit-after 5 `
   --log-file .\logs\bootstrap-verbose.log
 ```
 
@@ -1293,7 +1332,7 @@ Test-Path .\project.godot
 ### Couche 4 — Scripts
 
 ```powershell
-& $env:GODOT_EXE --headless --path . --quit-after 2
+& $env:GODOT_EXE --headless --path . --quit-after 5
 ```
 
 ### Couche 5 — Rendu
@@ -1320,7 +1359,8 @@ Revenir temporairement au tag `bootstrap-godot-4.7.1` dans une copie de travail 
 - [ ] `$env:GODOT_EXE` pointe vers la bonne version.
 - [ ] Le projet `Project Asteria` existe.
 - [ ] Le renderer principal est Forward+.
-- [ ] Git ignore `.godot/`.
+- [ ] Git ignore `.godot/` et `*.translation`.
+- [ ] `.gitattributes` normalise les fichiers texte en LF.
 - [ ] L’arborescence de base est créée.
 - [ ] `docs/.gdignore` existe.
 - [ ] La scène `main.tscn` possède caméra, lumière, sol et marqueur.
@@ -1333,6 +1373,7 @@ Revenir temporairement au tag `bootstrap-godot-4.7.1` dans une copie de travail 
 - [ ] Le premier commit Git est créé.
 - [ ] Le tag de bootstrap est créé après validation.
 - [ ] Aucun addon tiers n’est requis.
+- [ ] La licence MIT de Godot et les notices tierces sont enregistrées pour la future distribution.
 
 ### 30.2 Critère d’acceptation
 
@@ -1419,6 +1460,7 @@ Les captures et journaux peuvent contenir des chemins utilisateur. Les nettoyer 
 - [Organisation du projet](https://docs.godotengine.org/en/4.7/tutorials/best_practices/project_organization.html)
 - [Systèmes de contrôle de version](https://docs.godotengine.org/en/4.7/tutorials/best_practices/version_control_systems.html)
 - [Architecture interne du rendu](https://docs.godotengine.org/en/4.7/engine_details/architecture/internal_rendering_architecture.html)
+- [Conformité à la licence Godot](https://docs.godotengine.org/en/4.7/about/complying_with_licenses.html)
 - [Tutoriel de ligne de commande](https://docs.godotengine.org/en/4.7/tutorials/editor/command_line_tutorial.html)
 - [Introduction à la 3D](https://docs.godotengine.org/en/4.7/tutorials/3d/introduction_to_3d.html)
 - [Premier jeu 3D](https://docs.godotengine.org/en/4.7/getting_started/first_3d_game/)
@@ -1434,6 +1476,8 @@ Le projet fil rouge possède maintenant une base contrôlée :
 - une scène principale 3D ;
 - un script minimal ;
 - une validation graphique et headless ;
+- des métadonnées Git complètes avec `.gitignore` et `.gitattributes` ;
+- une stratégie d’attribution pour la licence MIT de Godot ;
 - un premier commit et un tag de référence.
 
 Le chapitre suivant explique GDScript de manière progressive : variables, types, fonctions, conditions, boucles, classes, ressources et erreurs courantes.

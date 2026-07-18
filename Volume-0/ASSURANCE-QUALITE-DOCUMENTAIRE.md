@@ -2,7 +2,7 @@
 title: "Assurance qualité documentaire"
 id: "DOC-V0-QA"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 volume: "Volume 0"
 category: "normative"
 ---
@@ -438,6 +438,23 @@ Une modification importante doit être revue par une personne différente de son
 - [ ] Licences et crédits vérifiés.
 - [ ] Index concernés mis à jour.
 - [ ] Compilation vérifiée.
+- [ ] Audit post-création réalisé et rapport enregistré.
+- [ ] Métadonnées `audit-status`, `audit-date`, `audit-report` et `audit-level` présentes lorsque requises.
+
+## 13.1 Porte obligatoire après création d’un chapitre
+
+À partir du Livre II, la rédaction et l’audit constituent deux étapes distinctes. Un chapitre ne peut être annoncé comme terminé qu’après :
+
+1. comparaison au sommaire maître ;
+2. recherche des notions fondamentales manquantes ;
+3. relecture technique des commandes et exemples ;
+4. vérification des sources et versions ;
+5. correction des non-conformités ;
+6. mise à jour de l’index, de la roadmap et de `contents.txt` ;
+7. compilation CI réussie ;
+8. enregistrement d’un rapport d’audit.
+
+Le protocole détaillé du Livre II est défini dans `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`.
 
 ## 14. Critères de clôture du Volume 0
 
