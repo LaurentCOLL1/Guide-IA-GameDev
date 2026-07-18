@@ -6,6 +6,7 @@ Volume-0/CHAPITRE-02-Les-21-regles-fondamentales.md
 Volume-0/CHAPITRE-03-Architecture-documentaire.md
 Volume-0/CHAPITRE-04-Convention-des-identifiants.md
 Volume-0/CHAPITRE-05-Conventions-Markdown-et-Pandoc.md
+Volume-0/CHAPITRE-06-Style-redactionnel.md
 Livre-I/index.md
 Livre-II/index.md
 Livre-III/index.md
