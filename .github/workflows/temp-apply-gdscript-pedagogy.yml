@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "tools/deepen_gdscript_chapter.py"
+      - ".github/workflows/apply-gdscript-pedagogy.yml"
       - "Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md"
 
 permissions:
