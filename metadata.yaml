@@ -1,0 +1,30 @@
+---
+title: "Guide réaliste de création de jeux vidéo 3D avec IA locale"
+subtitle: "Godot, Blender, ComfyUI, Open WebUI et outils open source locaux"
+author:
+  - "Laurent Collin"
+language: fr-FR
+lang: fr-FR
+documentclass: book
+papersize: a4
+fontsize: 11pt
+geometry:
+  - margin=2.2cm
+toc: true
+toc-depth: 3
+numbersections: true
+colorlinks: true
+linkcolor: MidnightBlue
+urlcolor: MidnightBlue
+citecolor: MidnightBlue
+mainfont: "DejaVu Serif"
+sansfont: "DejaVu Sans"
+monofont: "DejaVu Sans Mono"
+version: "0.1.0-dev"
+status: "production"
+reference-hardware:
+  gpu: "AMD Radeon RX 6750 XT 12 Go"
+  cpu: "AMD Ryzen 7 2700"
+  ram: "32 Go"
+license: "À définir avant publication"
+...
