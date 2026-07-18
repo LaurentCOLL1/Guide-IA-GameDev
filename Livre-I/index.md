@@ -2,7 +2,7 @@
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
 status: "in-progress"
-version: "0.5.0"
+version: "0.6.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
@@ -19,7 +19,7 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé**
 3. [Open WebUI, Open Terminal et Vane](CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé**
 4. [ComfyUI et workflows graphiques](CHAPITRE-04-ComfyUI-et-workflows-graphiques.md) — **rédigé**
-5. LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat — à rédiger
+5. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-05-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé**
 6. Audio IA local : Voicebox, synthèse vocale, transcription et génération — à rédiger
 
 ## Principes du Livre I
@@ -48,8 +48,11 @@ Au 18 juillet 2026 :
 - ComfyUI utilise une installation manuelle versionnée pour la RX 6750 XT ;
 - un environnement CPU de référence reste disponible ;
 - ZLUDA est limité à une installation de laboratoire séparée ;
-- les modèles et workflows possèdent des manifestes et des empreintes.
+- les modèles et workflows possèdent des manifestes et des empreintes ;
+- Ollama natif Windows constitue le moteur LLM principal ;
+- llama.cpp CPU et Vulkan servent de référence et de benchmark ;
+- LocalAI et LibreChat restent optionnels selon le besoin d’orchestration.
 
 ## Statut
 
-Le milestone M2 est en cours. **Quatre chapitres sur six** sont rédigés.
+Le milestone M2 est en cours. **Cinq chapitres sur six** sont rédigés.
