@@ -9,6 +9,8 @@
 - [x] Ajouter la documentation de contribution et de style.
 - [x] Ajouter les scripts de construction multiplateformes.
 
+**Statut M0 : terminé.**
+
 ## M1 — Volume 0 : Fondation documentaire
 
 - [x] Vision générale du projet.
@@ -20,10 +22,12 @@
 - [x] Standards techniques.
 - [x] Standards IA.
 - [x] Politique de compatibilité.
-- [ ] Production, validation et publication.
+- [x] Production, validation et publication.
 - [ ] Glossaire, bibliographie et index.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
+
+**Statut M1 : 10 chapitres principaux rédigés sur 11 ; contrôle qualité et annexes encore à produire.**
 
 ## M2 — Livre I : Préparer la plateforme
 
