@@ -17,7 +17,8 @@
 - [x] Convention des identifiants.
 - [x] Conventions Markdown et Pandoc.
 - [x] Style rédactionnel.
-- [ ] Standards techniques et IA.
+- [x] Standards techniques.
+- [ ] Standards IA.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
 
