@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "2.0.0"
+version: "3.0.0"
 lang: "fr-FR"
 last-updated: "2026-07-18"
 update-policy: "mandatory-on-every-project-change"
@@ -10,66 +10,79 @@ update-policy: "mandatory-on-every-project-change"
 
 # Continuité du projet Guide IA GameDev
 
-> **Document de reprise prioritaire.** Ce fichier résume les décisions, l’historique, l’état du dépôt, les règles permanentes, le plan maître complet de la collection et la prochaine action. Il doit permettre de reprendre le projet dans une nouvelle conversation sans recommencer la conception depuis zéro.
+> **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les erreurs corrigées et la prochaine action.
 
-> **Règle obligatoire :** toute modification fonctionnelle, documentaire, structurelle, éditoriale, technique ou QA du projet doit mettre à jour ce fichier dans le même lot de commits ou la même pull request.
+> **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot de commits ou la même pull request.
 
-## 1. Mode d’emploi lors d’une reprise
+## 1. Procédure obligatoire lors d’une reprise
 
-Lorsqu’une nouvelle conversation commence :
+Une nouvelle conversation doit suivre cet ordre :
 
 1. lire entièrement `CONTINUITE-PROJET.md` ;
 2. lire `ROADMAP.md`, `contents.txt` et l’index du Livre actif ;
-3. vérifier les derniers commits et pull requests fusionnés ;
-4. ne pas recréer un chapitre, une décision ou un audit déjà présent ;
-5. comparer la prochaine action au **plan maître détaillé** du présent fichier ;
-6. continuer depuis la section **Prochaine action** ;
-7. actualiser ce fichier avant de déclarer le nouveau lot terminé.
+3. lire le plan maître détaillé du Livre ou Pack actif ;
+4. vérifier les derniers commits et pull requests fusionnés ;
+5. ne pas recréer un chapitre, un audit ou une décision déjà présent ;
+6. comparer la prochaine action au plan maître ;
+7. effectuer rédaction, audit, compilation et QA ;
+8. mettre à jour ce fichier avant de déclarer le lot terminé.
 
-Ce document est un résumé opérationnel exhaustif de la conversation. Il ne reproduit pas mot pour mot tous les dialogues, mais conserve les informations, décisions, contraintes, plans et erreurs corrigées nécessaires pour poursuivre le travail fidèlement.
+## 2. Sources maîtres obligatoires
 
-## 2. Demande et vision du projet
+Le plan exact de la collection est réparti dans les documents suivants :
+
+- **Livre II :** section dédiée du présent fichier et `Livre-II/index.md` ;
+- **Livre III :** [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md) ;
+- **Livre IV :** [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md) ;
+- **Livre V :** [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md) ;
+- **Companion Pack :** [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
+
+Ces documents font partie de la gouvernance du projet. Un titre, un ordre ou un périmètre ne doit pas être modifié silencieusement. Toute modification du plan maître exige une décision explicite, une justification et une mise à jour de la roadmap.
+
+## 3. Vision du projet
 
 Laurent Collin souhaite produire un guide français très complet permettant à un débutant de concevoir et développer un jeu vidéo 3D réaliste avec :
 
 - Godot et GDScript ;
 - Blender ;
 - Python, JSON, SQLite et mémoire vectorielle ;
-- IA locale pour les textes, images, voix, sons et musiques ;
+- IA locale pour textes, images, voix, sons et musiques ;
 - outils gratuits, locaux et majoritairement open source ;
-- procédures reproductibles et adaptées à une station Windows avec GPU AMD ;
-- deux parcours : développeur Solo et équipe/Studio ;
-- un projet fil rouge nommé `Project Asteria` ;
-- une collection comprenant un Volume 0, cinq Livres et un Companion Pack.
+- procédures adaptées à Windows et à un GPU AMD ;
+- parcours Solo et Studio ;
+- projet fil rouge `Project Asteria` ;
+- Volume 0, cinq Livres et Companion Pack.
 
-Le guide ne doit pas seulement donner des commandes ou du code. Il doit expliquer clairement :
+Le guide doit toujours expliquer :
 
 - quel programme ouvrir ;
-- où créer ou modifier un fichier ;
 - où exécuter une commande ;
-- ce que signifie chaque élément important du code ;
+- où créer ou modifier un fichier ;
+- la signification des fonctions, paramètres, types, opérateurs et valeurs ;
 - le résultat attendu ;
-- comment vérifier et corriger les erreurs ;
-- comment les choix du chapitre s’intègrent dans l’architecture générale ;
-- quelles parties sont obligatoires, recommandées ou optionnelles ;
-- quelles différences existent entre le parcours Solo et le parcours Studio.
+- la procédure de vérification et de correction ;
+- les dépendances avec les chapitres voisins ;
+- le niveau Obligatoire, Recommandé ou Optionnel ;
+- les différences Solo/Studio.
 
-## 3. Configuration matérielle de référence
+## 4. Configuration matérielle de référence
 
 - Système : Windows.
-- GPU : AMD Radeon RX 6750 XT, 12 Go de VRAM, architecture RDNA2.
+- GPU : AMD Radeon RX 6750 XT, 12 Go de VRAM, RDNA2.
 - CPU : AMD Ryzen 7 2700, 8 cœurs, 3,2 GHz.
 - RAM : 32 Go.
-- ComfyUI : installation Windows avec voie ZLUDA expérimentale lorsque pertinente.
-- Docker Desktop : utilisé pour les services CPU et les interfaces ; les charges GPU AMD restent principalement natives sur Windows.
-- Éditeur principal : Visual Studio Code.
-- Terminal Windows principal : PowerShell 7.
+- Éditeur : Visual Studio Code.
+- Terminal principal : PowerShell 7.
+- ComfyUI : natif Windows, ZLUDA expérimental lorsque pertinent.
+- Docker Desktop : services CPU et interfaces ; charges GPU AMD principalement natives.
 
-## 4. Architecture générale de la collection
+## 5. État de la collection
 
 ### Volume 0 — Fondation documentaire
 
-Terminé et audité. Il contient :
+**Statut : terminé et audité.**
+
+Chapitres :
 
 1. Vision générale du projet.
 2. Les 21 règles fondamentales.
@@ -83,7 +96,7 @@ Terminé et audité. Il contient :
 10. Production, validation et publication.
 11. Glossaire, bibliographie et index.
 
-Annexes et QA importantes :
+Documents importants :
 
 - `Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md` ;
 - `Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md` ;
@@ -91,7 +104,7 @@ Annexes et QA importantes :
 
 ### Livre I — Préparer la plateforme de développement IA
 
-Terminé, corrigé, repéré et audité avec dix chapitres :
+**Statut : terminé, repéré et audité.**
 
 1. Matériel, Windows, pilotes AMD et accélération locale.
 2. Terminal, PowerShell et outils Windows.
@@ -104,496 +117,102 @@ Terminé, corrigé, repéré et audité avec dix chapitres :
 9. Audio IA local : voix, transcription, musique et effets.
 10. Sécurité, sauvegarde et validation de la plateforme.
 
-Décision historique importante : le Livre I avait d’abord été condensé en six chapitres. Après vérification du plan initial, quatre chapitres de fondation ont été ajoutés. Les cinq chapitres historiques déplacés ont conservé leurs identifiants stables grâce aux métadonnées de migration.
+Décision historique : le Livre I avait été condensé en six chapitres. Quatre chapitres de fondation ont été ajoutés après audit. Les identifiants historiques déplacés ont été conservés.
 
-## 5. Plan maître détaillé — Livre II
+### Livre II — Développement du jeu et plateforme IA
 
-**Titre : Développement du jeu et plateforme IA**  
-**Statut : en cours**  
-**Total prévu : 30 chapitres**
+**Statut : en cours — 2 chapitres sur 30 rédigés, repérés et audités.**
 
-Le Livre II construit le projet exécutable `Project Asteria`. Il ne doit pas devenir une simple encyclopédie de GDScript : chaque chapitre doit produire une partie utilisable du projet fil rouge.
+#### Partie A — Fondations Godot, architecture et données
 
-### Partie A — Fondations Godot, architecture et données
+1. Découvrir Godot et créer le projet fil rouge — **terminé**.
+2. Fondamentaux de GDScript — **terminé, enrichi et audité contre les doublons**.
+3. Scènes, nœuds, Resources et signaux.
+4. Architecture modulaire du projet.
+5. Services, gestionnaires, bus d’événements et injection de dépendances.
+6. Entrées, contrôleurs, caméras et interactions.
+7. Données avec Resources, JSON et configurations.
+8. SQLite, migrations et données persistantes.
+9. Sauvegardes, chargements et compatibilité des versions.
 
-#### Chapitre 1 — Découvrir Godot et créer le projet fil rouge
+#### Partie B — Plateforme IA locale intégrée au jeu
 
-Objectifs :
+10. Mémoire vectorielle, connaissances et recherche sémantique.
+11. Communication Godot avec les services IA locaux.
+12. HTTP, WebSocket, API OpenAI-compatible et files de tâches.
+13. Sécurité et séparation production/runtime de l’IA.
 
-- installer et identifier la version de référence de Godot ;
-- comprendre le Project Manager, le renderer et les éditions Standard/.NET ;
-- créer le dépôt et la structure initiale de `Project Asteria` ;
-- créer une première scène exécutable ;
-- valider l’exécution graphique et headless ;
-- établir les premiers fichiers Git, README et référence d’environnement.
+#### Partie C — Douze grands systèmes de gameplay
 
-État : **rédigé, repéré et audité**.
+14. Personnages.
+15. Relations sociales.
+16. Famille et générations.
+17. Agents IA et comportements autonomes.
+18. Combat.
+19. Compétences et pouvoirs.
+20. Inventaire et réputation des objets.
+21. Économie.
+22. Monde vivant et simulation écologique.
+23. Politique, factions et justice.
+24. Construction et gestion de domaines.
+25. Narration, quêtes, codex et connaissances.
 
-#### Chapitre 2 — Fondamentaux de GDScript
+#### Partie D — Industrialisation
 
-Objectifs :
+26. Outils d’édition internes et pipelines de contenu.
+27. Tests unitaires, tests d’intégration et simulations.
+28. Journalisation, diagnostic et reproductibilité.
+29. Automatisation Python et génération de données.
+30. Architecture Solo et architecture Studio.
 
-- expliquer syntaxe, indentation, types, variables, constantes et expressions ;
-- détailler tableaux, dictionnaires, conditions, boucles et fonctions ;
-- expliquer paramètres, arguments, retours, portée, classes et annotations ;
-- expliquer chaque symbole important à sa première apparition ;
-- produire et tester statiquement `BootstrapReport` ;
-- contrôler les doublons pédagogiques.
+Le détail des objectifs du chapitre 3 et des chapitres suivants doit être vérifié dans le plan maître avant rédaction.
 
-État : **rédigé, repéré, enrichi et audité**, version actuelle `1.3.0`.
+### Livre III — Production des contenus et des assets
 
-#### Chapitre 3 — Scènes, nœuds, Resources et signaux
+**Statut : non commencé — 30 chapitres.**
 
-Objectifs :
+Source obligatoire : [`plans/LIVRE-III-PLAN-MAITRE.md`](plans/LIVRE-III-PLAN-MAITRE.md).
 
-- distinguer scène, nœud, branche et instance ;
-- comprendre l’arbre de scène et la propriété des nœuds ;
-- instancier, réutiliser et composer des scènes ;
-- utiliser `NodePath`, `$`, `%NomUnique`, `get_node()` et références typées ;
-- expliquer les signaux intégrés et personnalisés ;
-- connecter un signal dans l’éditeur et dans le code ;
-- utiliser `Callable`, `emit()`, `connect()` et déconnexion ;
-- introduire les Resources natives et personnalisées ;
-- expliquer l’ordre d’initialisation, `_enter_tree()`, `_ready()` et sortie de l’arbre ;
-- produire un exercice intégré à `Project Asteria`.
+Le plan détaille pour chacun des 30 chapitres : objectifs, livrables, frontière avec les autres chapitres et critères de validation. Il couvre préproduction, direction artistique, ComfyUI, Blender, provenance, humains, humanoïdes, animaux, créatures, visages, vêtements, objets, architecture, terrains, végétation, PBR, UV, LOD, rigging, animation, mocap, cinématiques, VFX, UI, UX, audio, lip-sync, import Godot, validation et automatisation.
 
-Frontière : ne pas définir encore l’architecture globale des services ; elle appartient aux chapitres 4 et 5.
+### Livre IV — Finalisation, optimisation, publication et maintenance
 
-#### Chapitre 4 — Architecture modulaire du projet
+**Statut : non commencé — 22 chapitres.**
 
-Objectifs :
+Source obligatoire : [`plans/LIVRE-IV-PLAN-MAITRE.md`](plans/LIVRE-IV-PLAN-MAITRE.md).
 
-- définir les couches et dossiers du projet ;
-- séparer domaine, présentation, données, infrastructure et outils ;
-- organiser les fonctionnalités par modules ;
-- définir les dépendances autorisées ;
-- expliquer composition, interfaces implicites et contrats ;
-- éviter les singletons omniprésents et les scènes monolithiques ;
-- créer un diagramme d’architecture de `Project Asteria` ;
-- établir les conventions de nommage, ownership et frontières.
+Le plan détaille équilibrage, QA, tests, débogage, observabilité, profilage CPU/GPU/mémoire, streaming, optimisation, multijoueur, sécurité réseau, DevOps, sauvegardes, exports, publication, accessibilité, localisation, mises à jour, modding et pérennité.
 
-Livrables : arborescence canonique, ADR initiales, règles d’import et matrice des dépendances.
+### Livre V — Encyclopédie technique et bibliothèque de référence
 
-#### Chapitre 5 — Services, gestionnaires, bus d’événements et injection de dépendances
+**Statut : non commencé — 26 chapitres.**
 
-Objectifs :
+Source obligatoire : [`plans/LIVRE-V-PLAN-MAITRE.md`](plans/LIVRE-V-PLAN-MAITRE.md).
 
-- distinguer service, manager, repository, controller et système ;
-- expliquer Autoload et ses risques ;
-- créer un registre de services minimal ;
-- injecter les dépendances plutôt que les rechercher globalement ;
-- définir un bus d’événements limité et typé ;
-- gérer initialisation, arrêt, erreurs et tests ;
-- proposer variantes Solo et Studio.
+Le plan détaille chaque type de fiche, les arbres de décision, les bibliothèques de workflows/prompts/scripts, les références GDScript/Python/JSON/SQLite/vectorielles, les patrons, erreurs, benchmarks, matrices, comparatifs, checklists, licences et index croisés.
 
-Frontière : les signaux locaux restent au chapitre 3 ; ce chapitre traite l’échelle application.
+### Companion Pack
 
-#### Chapitre 6 — Entrées, contrôleurs, caméras et interactions
+**Statut : non commencé — 10 packs.**
 
-Objectifs :
+Source obligatoire : [`plans/COMPANION-PACK-PLAN-MAITRE.md`](plans/COMPANION-PACK-PLAN-MAITRE.md).
 
-- configurer l’Input Map ;
-- distinguer actions, événements, périphériques et remappage ;
-- créer contrôleur clavier/souris/manette ;
-- séparer intention du joueur et mouvement ;
-- créer caméra 3D, rig, rotation, zoom et collisions ;
-- mettre en place raycasts, zones et interactions contextuelles ;
-- gérer focus UI, accessibilité et rebinding ;
-- tester les entrées sans dépendre du matériel exact.
+Packs :
 
-#### Chapitre 7 — Données avec Resources, JSON et configurations
+1. Starter Kit.
+2. Project Templates.
+3. AI Library.
+4. Code Library.
+5. Database Library.
+6. ComfyUI Library.
+7. Documentation Library.
+8. Test & Benchmark Library.
+9. Production Toolkit.
+10. Knowledge Base.
 
-Objectifs :
+Le plan détaille objectifs, contenu prévu, dépendances et critères de validation de chaque pack.
 
-- choisir entre constantes, Resources, JSON et scènes ;
-- créer des Resources personnalisées éditables ;
-- sérialiser et valider JSON ;
-- définir schémas, valeurs par défaut et migrations simples ;
-- séparer données de conception et état runtime ;
-- organiser catalogues, identifiants et localisation ;
-- gérer erreurs, provenance et versionnement.
-
-#### Chapitre 8 — SQLite, migrations et données persistantes
-
-Objectifs :
-
-- expliquer base relationnelle, table, clé, index et transaction ;
-- intégrer SQLite à Godot avec une solution vérifiée ;
-- concevoir schémas et conventions ;
-- créer migrations versionnées ;
-- gérer requêtes préparées, transactions et sauvegardes ;
-- séparer base de contenu, sauvegarde et cache ;
-- fournir procédures de restauration et tests.
-
-#### Chapitre 9 — Sauvegardes, chargements et compatibilité des versions
-
-Objectifs :
-
-- définir ce qui doit être sauvegardé ;
-- choisir entre JSON, Resources binaires et SQLite ;
-- créer slots, autosave, métadonnées et captures ;
-- garantir atomicité, validation et reprise après corruption ;
-- migrer les anciennes sauvegardes ;
-- gérer déterminisme, références et identifiants stables ;
-- tester compatibilité ascendante et retour arrière.
-
-### Partie B — Plateforme IA locale intégrée au jeu
-
-#### Chapitre 10 — Mémoire vectorielle, connaissances et recherche sémantique
-
-Objectifs :
-
-- expliquer embeddings, vecteurs, distance et recherche ;
-- choisir une base vectorielle locale ;
-- découper, indexer et versionner les connaissances ;
-- séparer mémoire de jeu, lore, historique et documents ;
-- filtrer par métadonnées ;
-- mesurer rappel, précision et coût ;
-- gérer suppression, réindexation et confidentialité.
-
-#### Chapitre 11 — Communication Godot avec les services IA locaux
-
-Objectifs :
-
-- utiliser `HTTPRequest` et clients réseau ;
-- envoyer et recevoir JSON ;
-- gérer délais, annulation, retries et erreurs ;
-- protéger les secrets ;
-- connecter Ollama, Open WebUI ou passerelles compatibles ;
-- créer une couche d’abstraction IA indépendante d’un fournisseur ;
-- journaliser requêtes, réponses et latences.
-
-#### Chapitre 12 — HTTP, WebSocket, API OpenAI-compatible et files de tâches
-
-Objectifs :
-
-- choisir HTTP synchrone, streaming ou WebSocket ;
-- expliquer SSE et tokens diffusés progressivement ;
-- créer files de tâches et priorités ;
-- éviter de bloquer la boucle principale ;
-- gérer concurrence, quotas, cache et reprise ;
-- fournir contrats OpenAI-compatible ;
-- tester avec services simulés.
-
-#### Chapitre 13 — Sécurité et séparation production/runtime de l’IA
-
-Objectifs :
-
-- distinguer IA de production d’assets et IA embarquée ;
-- définir sandbox, permissions et validation des sorties ;
-- prévenir injection de prompt et données non fiables ;
-- limiter réseau, fichiers et commandes ;
-- traiter données personnelles, voix et journaux ;
-- définir modes hors ligne et dégradés ;
-- créer une matrice de menace et un plan d’incident.
-
-### Partie C — Les douze grands systèmes de gameplay
-
-Chaque système doit être modulaire, testable, sérialisable, observable et compatible avec les autres systèmes sans dépendances circulaires.
-
-#### Chapitre 14 — Personnages
-
-- identité, apparence, attributs, besoins et état ;
-- composants, données et représentation en scène ;
-- création, destruction, pooling et persistance ;
-- avatars joueur et non-joueur ;
-- blessures, mortalité et transformations.
-
-#### Chapitre 15 — Relations sociales
-
-- relations directionnelles ;
-- affinité, confiance, peur, dette et mémoire ;
-- événements sociaux et propagation ;
-- dialogues et conséquences ;
-- visualisation, sauvegarde et équilibrage.
-
-#### Chapitre 16 — Famille et générations
-
-- parenté, unions, descendance et foyers ;
-- âge, naissance, héritage et décès ;
-- généalogie et identifiants durables ;
-- transmission de traits et biens ;
-- simulation hors écran.
-
-#### Chapitre 17 — Agents IA et comportements autonomes
-
-- machines à états, behavior trees, utility AI et planification ;
-- perception, mémoire, objectifs et actions ;
-- navigation et évitement ;
-- budgets de simulation et LOD comportemental ;
-- intégration optionnelle des LLM sans dépendance critique.
-
-#### Chapitre 18 — Combat
-
-- modèle de dégâts, défense et résistances ;
-- ciblage, portée, hitboxes et projectiles ;
-- temps réel, pause tactique et tours éventuels ;
-- effets, statuts et contrôle de foule ;
-- journal de combat, IA et tests déterministes.
-
-#### Chapitre 19 — Compétences et pouvoirs
-
-- définition data-driven ;
-- coûts, cooldowns, conditions et effets ;
-- progression, arbres et synergies ;
-- ciblage et prévisualisation ;
-- validation et équilibrage automatisé.
-
-#### Chapitre 20 — Inventaire et réputation des objets
-
-- piles, emplacements, poids, conteneurs et équipements ;
-- objets uniques, durabilité et provenance ;
-- réputation, histoire et propriété ;
-- transactions atomiques ;
-- sauvegarde et UI.
-
-#### Chapitre 21 — Économie
-
-- monnaies, prix, offre et demande ;
-- production, consommation et marchés ;
-- métiers, salaires, taxes et commerce ;
-- prévention des boucles infinies ;
-- télémétrie et équilibrage.
-
-#### Chapitre 22 — Monde vivant et simulation écologique
-
-- temps, météo, saisons et cycles ;
-- populations, ressources et chaînes alimentaires ;
-- croissance, régénération et catastrophes ;
-- simulation active et hors écran ;
-- déterminisme, performances et sauvegarde.
-
-#### Chapitre 23 — Politique, factions et justice
-
-- factions, rangs, idéologies et territoires ;
-- lois, crimes, preuves et sanctions ;
-- élections, nominations et conflits ;
-- diplomatie, réputation et guerre ;
-- événements émergents et auditabilité.
-
-#### Chapitre 24 — Construction et gestion de domaines
-
-- placement, grille, terrain et validation ;
-- bâtiments modulaires et ressources ;
-- propriété, zones, travailleurs et production ;
-- sauvegarde, destruction et amélioration ;
-- outils d’édition et performances.
-
-#### Chapitre 25 — Narration, quêtes, codex et connaissances
-
-- événements, conditions et conséquences ;
-- quêtes data-driven et graphes ;
-- journal, objectifs et récompenses ;
-- codex, lore, découverte et contradictions ;
-- narration procédurale et assistance IA contrôlée.
-
-### Partie D — Industrialisation du projet
-
-#### Chapitre 26 — Outils d’édition internes et pipelines de contenu
-
-- plugins Godot et outils `@tool` ;
-- inspecteurs personnalisés ;
-- import, validation et génération en lots ;
-- formulaires de données ;
-- sécurité des outils d’éditeur.
-
-#### Chapitre 27 — Tests unitaires, tests d’intégration et simulations
-
-- stratégie de test ;
-- tests de fonctions, scènes, données et systèmes ;
-- doublures, fixtures et seeds ;
-- simulations accélérées ;
-- couverture utile et non cosmétique.
-
-#### Chapitre 28 — Journalisation, diagnostic et reproductibilité
-
-- niveaux de logs et catégories ;
-- traces structurées ;
-- rapports de crash ;
-- captures d’état ;
-- identifiants de session, version et seed ;
-- procédures de reproduction.
-
-#### Chapitre 29 — Automatisation Python et génération de données
-
-- rôle de Python hors runtime Godot ;
-- scripts de conversion, génération et validation ;
-- CLI, arguments et fichiers de configuration ;
-- intégration CI ;
-- déterminisme et provenance ;
-- limites entre Python et GDScript.
-
-#### Chapitre 30 — Architecture Solo et architecture Studio
-
-- comparaison des deux parcours ;
-- responsabilités, branches et revues ;
-- gestion des assets et données ;
-- environnements, CI/CD et permissions ;
-- montée en charge du projet ;
-- checklist de fin du Livre II.
-
-## 6. Plan maître détaillé — Livre III
-
-**Titre : Production des contenus et des assets**  
-**Statut : non commencé**  
-**Total prévu : 30 chapitres**
-
-Le Livre III transforme la direction artistique en assets utilisables. Chaque chapitre doit inclure provenance, licences, conventions de fichiers, budgets techniques, import Godot et validation.
-
-1. **Préproduction et cahier des charges artistique** — objectifs, contraintes, références, budgets, calendrier et critères d’acceptation.
-2. **Direction artistique et bible visuelle** — formes, couleurs, matériaux, lumière, réalisme, cohérence et variantes.
-3. **Références, concept art et ComfyUI** — collecte légale, moodboards, workflows, seeds, métadonnées et sélection humaine.
-4. **Pipeline Blender et organisation des fichiers** — unités, axes, collections, nommage, versions, liens et exports.
-5. **Provenance, licences et validation des assets** — sources, consentements, restrictions, empreintes et registre.
-6. **Création des humains** — proportions, anatomie, diversité, modularité et optimisation.
-7. **Création des humanoïdes** — adaptations anatomiques, silhouettes et compatibilité des rigs.
-8. **Création des animaux** — anatomie, locomotion, pelage/plumes et variantes.
-9. **Création des créatures** — conception crédible, besoins de gameplay, rig et lisibilité.
-10. **Visages, peau, yeux, cheveux et pilosité** — shaders, textures, groom, expressions et performances.
-11. **Vêtements, armures et accessoires** — couches, simulation, clipping, variantes et modularité.
-12. **Objets, équipements et armes** — échelle, prise en main, états, collisions et LOD.
-13. **Architecture, bâtiments et kits modulaires** — métriques, snapping, modularité, intérieurs et destruction.
-14. **Terrains, paysages et mondes ouverts** — heightmaps, streaming, routes, eau et optimisation.
-15. **Végétation et biomes** — espèces, distribution, saisons, imposteurs et interactions.
-16. **Textures, matériaux et pipeline PBR** — maps, espaces colorimétriques, texel density et bibliothèques.
-17. **UV, retopologie et baking** — topologie, dépliage, cages, normales et contrôle qualité.
-18. **LOD, imposteurs et optimisation géométrique** — seuils, transitions, budgets et mesure.
-19. **Rigging et skinning** — squelettes, contraintes, poids, déformations et nomenclature.
-20. **Animation procédurale et animation par keyframes** — poses, courbes, blend trees et couches.
-21. **Capture de mouvement et retargeting** — nettoyage, mapping, licences et correction manuelle.
-22. **Cinématiques, caméras et mise en scène** — storyboard, timelines, focales, montage et export.
-23. **Effets visuels, particules et simulations** — feu, fumée, magie, météo, collisions et budgets.
-24. **Interface utilisateur** — composants, thèmes, icônes, responsive et intégration.
-25. **Expérience utilisateur et accessibilité visuelle** — lisibilité, daltonisme, tailles, feedback et navigation.
-26. **Voix, bruitages, ambiances et musique** — enregistrement, génération, montage, mixage, licences et intégration.
-27. **Synchronisation labiale et animation faciale** — phonèmes, blendshapes, audio et performances.
-28. **Importation et intégration dans Godot** — presets, matériaux, animations, collisions et scènes importées.
-29. **Validation technique et artistique des assets** — checklists, tests, comparaison à la bible et revue.
-30. **Automatisation Blender, ComfyUI et production en lots** — scripts, queues, manifestes, reproductibilité et reprise.
-
-## 7. Plan maître détaillé — Livre IV
-
-**Titre : Finalisation, optimisation, publication et maintenance**  
-**Statut : non commencé**  
-**Total prévu : 22 chapitres**
-
-1. **Équilibrage et télémétrie locale** — métriques, simulations, courbes, confidentialité et décisions.
-2. **Stratégie générale d’assurance qualité** — niveaux de test, responsabilités, critères et calendrier.
-3. **Tests fonctionnels et tests de régression** — cas, suites, automatisation et non-régression.
-4. **Débogage et reproduction des anomalies** — rapports, étapes, environnements et priorisation.
-5. **Journalisation et observabilité locale** — logs, métriques, traces et tableaux de bord.
-6. **Profilage CPU** — profiler Godot, scripts, physique, threads et budgets.
-7. **Profilage GPU et optimisation du rendu** — passes, shaders, overdraw, lumière et VRAM.
-8. **Optimisation RAM, VRAM et allocations** — ressources, caches, fuites et fragmentation.
-9. **Chargements, streaming et gestion des ressources** — préchargement, arrière-plan, transitions et monde ouvert.
-10. **Optimisation des scènes, scripts et systèmes de jeu** — fréquences, LOD logique, pooling et découpage.
-11. **Architecture multijoueur** — modèle réseau, sessions, lobby et topologie.
-12. **Synchronisation, autorité et prédiction** — réplication, interpolation, rollback et triche.
-13. **Serveurs dédiés et sécurité réseau** — déploiement, durcissement, supervision et incidents.
-14. **DevOps et intégration continue** — builds, tests, artefacts, versions et secrets.
-15. **Sauvegardes, migrations et reprise après incident** — données joueurs, serveurs et procédures.
-16. **Exports Godot et packaging** — presets, signatures, dépendances et formats.
-17. **Publication et distribution** — boutiques, pages, builds, conformité et lancement.
-18. **Accessibilité** — moteur, commandes, audio, visuel, cognition et tests utilisateurs.
-19. **Localisation et internationalisation** — chaînes, pluriels, formats, polices, voix et QA linguistique.
-20. **Correctifs, mises à jour et retour arrière** — patching, compatibilité, canaux et rollback.
-21. **Modding et contenu communautaire** — API, sandbox, formats, licences et modération.
-22. **Maintenance, archivage et pérennité** — dépendances, sources, reproductibilité, conservation et succession.
-
-## 8. Plan maître détaillé — Livre V
-
-**Titre : Encyclopédie technique et bibliothèque de référence**  
-**Statut : non commencé**  
-**Total prévu : 26 chapitres**
-
-Le Livre V est non linéaire. Il consolide les connaissances sans dupliquer les tutoriels complets des Livres I à IV.
-
-1. Carte générale de la collection.
-2. Arbres de décision.
-3. Fiches des logiciels et outils.
-4. Fiches des moteurs et backends IA.
-5. Fiches des modèles de langage.
-6. Fiches des modèles visuels.
-7. Fiches des modèles audio.
-8. Bibliothèque de workflows.
-9. Bibliothèque de prompts.
-10. Bibliothèque de scripts et recettes de code.
-11. Référence GDScript.
-12. Référence Python.
-13. Structures JSON et formats d’échange.
-14. Schémas SQLite et migrations.
-15. Bases vectorielles et recherche sémantique.
-16. Patrons d’architecture.
-17. Patrons de gameplay.
-18. Référence graphique et 3D.
-19. Référence audio.
-20. Catalogue des erreurs et diagnostics.
-21. Benchmarks et méthodes de mesure.
-22. Matrices de compatibilité.
-23. Comparatifs des solutions.
-24. Checklists de production et de publication.
-25. Licences, provenance et conformité.
-26. Index croisés.
-
-Chaque fiche doit inclure : identifiant, objectif, prérequis, version vérifiée, statut de licence, compatibilité matérielle, procédure minimale, erreurs fréquentes, alternatives, sources et date de révision.
-
-## 9. Plan maître détaillé — Companion Pack
-
-**Statut : non commencé**  
-**Organisation prévue : 10 packs**
-
-### Pack 1 — Starter Kit
-
-Projet Godot minimal fonctionnel, structure canonique, scène de bootstrap, configuration Git, profils d’environnement et exemple de test.
-
-### Pack 2 — Project Templates
-
-Modèles Solo et Studio, modules, conventions de dossiers, ADR, issues, pull requests et configurations d’éditeur.
-
-### Pack 3 — AI Library
-
-Clients HTTP/WebSocket, contrats OpenAI-compatible, adaptateurs Ollama/LocalAI, files de tâches, cache, mocks et protections.
-
-### Pack 4 — Code Library
-
-Composants GDScript réutilisables, utilitaires Python, patrons, exemples documentés et tests.
-
-### Pack 5 — Database Library
-
-Schémas SQLite, migrations, repositories, données d’exemple, scripts de sauvegarde et validation.
-
-### Pack 6 — ComfyUI Library
-
-Workflows JSON, manifestes, presets, modèles de dossiers, scripts de lancement et fiches de provenance.
-
-### Pack 7 — Documentation Library
-
-Templates Markdown, front matter, rapports QA, ADR, checklists, glossaires et modèles de fiches.
-
-### Pack 8 — Test & Benchmark Library
-
-Suites de tests, fixtures, seeds, scènes de benchmark, scripts de mesure et formats de rapport.
-
-### Pack 9 — Production Toolkit
-
-Scripts Blender, convertisseurs, validateurs d’assets, générateurs de catalogues, outils de lots et packaging.
-
-### Pack 10 — Knowledge Base
-
-Lore, exemples de codex, corpus de test, documents RAG, métadonnées, embeddings reproductibles et outils d’indexation.
-
-Règles du Companion Pack :
-
-- chaque ressource doit être directement réutilisable ;
-- chaque fichier doit avoir licence, provenance et version ;
-- chaque outil doit avoir un README et un exemple minimal ;
-- les packs doivent être testés séparément du guide ;
-- aucun secret ni modèle tiers non redistribuable ne doit être inclus ;
-- les versions binaires lourdes doivent être publiées comme artefacts ou releases, pas intégrées sans contrôle au dépôt principal.
-
-## 10. Système obligatoire des contextes d’utilisation
-
-Chaque bloc de commande, code, configuration, sortie ou structure doit indiquer le programme et l’action à effectuer.
+## 6. Repères obligatoires d’utilisation
 
 | Repère | Contexte |
 |---|---|
@@ -608,7 +227,7 @@ Chaque bloc de commande, code, configuration, sortie ou structure doit indiquer 
 | `[SORTIE]` | Résultat à lire, ne pas saisir |
 | `[LECTURE]` | Exemple ou structure de référence |
 
-Forme attendue :
+Forme obligatoire :
 
 ```text
 [CODE] Outil - Action : chemin, cible ou précision utile
@@ -616,25 +235,25 @@ Forme attendue :
 
 La CI contrôle la présence et la cohérence sémantique de ces repères.
 
-## 11. Règle permanente d’audit après création
+## 7. Audit obligatoire après chaque chapitre
 
-Aucun chapitre ne doit être déclaré terminé immédiatement après sa rédaction.
+Aucun chapitre n’est terminé immédiatement après sa rédaction.
 
-Séquence obligatoire :
+Séquence :
 
 1. rédaction ;
 2. comparaison au plan maître ;
 3. audit de complétude pédagogique ;
 4. contrôle des doublons ;
-5. vérification technique des commandes et exemples ;
+5. vérification technique ;
 6. ajout des contextes d’utilisation ;
 7. correction des omissions ;
-8. vérification des frontières avec les chapitres voisins ;
-9. mise à jour de `contents.txt`, de l’index, de `ROADMAP.md` et du présent fichier ;
+8. contrôle des frontières avec les chapitres voisins ;
+9. mise à jour de `contents.txt`, index, roadmap et continuité ;
 10. compilation Pandoc/XeLaTeX ;
 11. inspection du PDF ;
 12. rapport QA et preuve indépendante ;
-13. seulement ensuite : chapitre déclaré rédigé, repéré et audité.
+13. seulement ensuite : statut rédigé, repéré et audité.
 
 Métadonnées minimales :
 
@@ -647,11 +266,11 @@ audit-report: "chemin/du/rapport.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ```
 
-Le niveau `runtime-tested` ne doit être utilisé qu’après exécution réelle des exemples dans un projet matérialisé.
+`runtime-tested` est réservé aux exemples réellement exécutés.
 
-## 12. Règle pédagogique pour le code
+## 8. Règle pédagogique pour le code
 
-Lors de la première apparition d’une syntaxe ou d’un concept, expliquer :
+Lors de la première apparition d’un concept, expliquer :
 
 - mot-clé ;
 - nom de variable ou fonction ;
@@ -663,122 +282,86 @@ Lors de la première apparition d’une syntaxe ou d’un concept, expliquer :
 - portée ;
 - accès par index ou clé ;
 - appel de méthode ;
-- résultat concret ;
-- erreurs fréquentes ;
-- variante plus explicite pour débutant lorsque la forme compacte masque le fonctionnement.
+- résultat concret.
 
-Les rappels pédagogiques sont autorisés lorsqu’un nouvel exemple combine les concepts différemment. Les duplications intégrales involontaires de titres, paragraphes longs ou blocs significatifs sont interdites.
+Les rappels courts sont autorisés. Les duplications intégrales involontaires de titres, paragraphes longs et blocs significatifs sont interdites.
 
-## 13. Audit actuel du chapitre 2 GDScript
+## 9. Audit actuel du chapitre 2 GDScript
 
-Dernière campagne fusionnée : PR n°11.
+Campagne de référence : PR n°11, commit métier `e40da615bdc922f0296ef34f51dc6e226f0782dd`.
 
-- commit de référence : `e40da615bdc922f0296ef34f51dc6e226f0782dd` ;
+Résultats :
+
 - 152 titres contrôlés ;
-- 57 blocs de code significatifs contrôlés ;
-- 22 paragraphes longs contrôlés ;
-- zéro titre dupliqué ;
-- zéro bloc significatif dupliqué ;
-- zéro paragraphe long dupliqué ;
+- 57 blocs de code significatifs ;
+- 22 paragraphes longs ;
+- zéro doublon ;
 - zéro explication pédagogique obligatoire manquante ;
 - 829 blocs sur 829 repérés ;
 - zéro incohérence sémantique ;
-- PDF A4 1.5 de 512 pages ;
-- réserve runtime maintenue jusqu’à la matérialisation de `Project Asteria`.
+- PDF A4 de 512 pages ;
+- réserve runtime maintenue.
 
-La PR n°12 a été fermée sans fusion, car son mécanisme temporaire n’avait pas appliqué les changements et était redondant après la fusion de la PR n°11.
+La PR n°12 a été fermée sans fusion : son workflow temporaire n’avait pas appliqué les changements et était redondant.
 
-## 14. QA, compilation et preuves
-
-- Markdown = source unique ;
-- compilation avec Pandoc et XeLaTeX ;
-- vérification structurelle, métadonnées, identifiants et liens ;
-- extraction du texte du PDF ;
-- contrôle des polices et caractéristiques techniques ;
-- inspection visuelle d’un échantillon de pages ;
-- preuves finales externalisées en YAML pour éviter l’auto-référence des rapports compilés ;
-- aucun rapport ne doit revendiquer une exécution runtime qui n’a pas eu lieu.
-
-## 15. Décisions techniques importantes
+## 10. Décisions techniques permanentes
 
 ### Windows et AMD
 
-- guide local-first et Windows-first ;
-- chemins GPU AMD expérimentaux isolés ;
-- CPU toujours disponible comme référence ;
-- Docker Desktop non présenté comme solution GPU AMD universelle.
+- Windows-first pour la configuration de référence.
+- CPU toujours disponible comme voie de diagnostic.
+- ZLUDA et autres voies expérimentales isolées et qualifiées.
+- Docker Desktop n’est pas présenté comme solution GPU AMD universelle.
 
 ### ComfyUI
 
 - installation manuelle de référence ;
-- CPU obligatoire comme secours ;
-- ZLUDA laboratoire expérimental ;
-- DirectML solution dégradée ;
-- workflows, manifestes, modèles, licences et empreintes versionnés.
+- CPU comme voie de secours ;
+- ZLUDA comme laboratoire expérimental ;
+- workflows, modèles, licences, versions et empreintes enregistrés.
 
 ### LLM locaux
 
 - Ollama natif Windows pour le parcours simple ;
-- llama.cpp CPU/Vulkan comme moteur de référence ;
-- LocalAI passerelle optionnelle ;
-- LibreChat interface alternative ;
-- services liés à `127.0.0.1` sauf sécurisation explicite.
+- llama.cpp CPU/Vulkan pour référence et mesures ;
+- LocalAI optionnel ;
+- LibreChat comme interface alternative ;
+- services liés à `127.0.0.1` par défaut.
 
-### Audio local
+### Audio
 
 - Kokoro et Piper pour les voix légères ;
 - Chatterbox pour voix expressive et clonage autorisé ;
 - faster-whisper et whisper.cpp pour transcription ;
-- AudioCraft réservé aux usages compatibles avec les licences ;
-- aucun clonage vocal sans consentement.
+- AudioCraft limité aux usages compatibles avec les licences ;
+- aucun clonage sans consentement.
 
-## 16. Historique condensé des jalons
-
-- M0 : infrastructure documentaire terminée.
-- M1 : Volume 0 terminé et audité.
-- M2 : Livre I terminé à dix chapitres après réouverture.
-- Audit transversal Volume 0/Livre I : contextes appliqués et validés.
-- M3 : Livre II en cours.
-- Chapitre 1 : rédigé, repéré et audité.
-- Chapitre 2 : rédigé, repéré, enrichi et audité contre les doublons.
-
-Pull requests importantes :
-
-- PR 3 : restauration du Livre I complet ;
-- PR 5 : audit initial des chapitres 1 et 2 ;
-- PR 6 et 7 : audit Volume 0/Livre I ;
-- PR 8 : repères Livre II ;
-- PR 10 : explications GDScript ligne par ligne ;
-- PR 11 : audit anti-doublon et fonctions ;
-- PR 12 : fermée sans fusion.
-
-## 17. Erreurs à ne pas reproduire
+## 11. Erreurs à ne pas reproduire
 
 - Ne pas déclarer un Livre complet uniquement parce que ses grands domaines sont couverts.
-- Ne pas condenser des fondations de débutant en simples prérequis.
-- Ne pas donner une commande sans préciser le terminal.
-- Ne pas donner un contenu de fichier sans préciser l’éditeur et le chemin.
+- Ne pas condenser les fondations débutantes en simples prérequis.
+- Ne pas donner une commande sans terminal.
+- Ne pas donner un contenu de fichier sans éditeur et chemin.
 - Ne pas présenter une sortie comme une commande.
-- Ne pas affirmer qu’un exemple a été exécuté lorsqu’il a seulement été relu.
-- Ne pas conserver de workflows temporaires dans `main`.
-- Ne pas publier des mesures intermédiaires comme preuve finale.
-- Ne pas laisser une fonction, un paramètre, un opérateur ou un type sans explication suffisante.
-- Ne pas dupliquer intégralement une explication déjà donnée.
-- Ne pas modifier le plan maître sans décision explicite et journalisée.
-- Ne pas oublier de mettre à jour ce fichier.
+- Ne pas revendiquer une exécution runtime non réalisée.
+- Ne pas conserver de workflow temporaire dans `main`.
+- Ne pas publier des mesures intermédiaires comme preuves finales.
+- Ne pas laisser fonction, paramètre, opérateur ou type sans explication suffisante.
+- Ne pas dupliquer une explication complète ; utiliser rappel et renvoi.
+- Ne pas modifier le plan maître sans décision explicite.
+- Ne pas oublier la mise à jour de ce fichier.
 
-## 18. État courant du dépôt
+## 12. État courant
 
 - Branche principale : `main`.
 - Jalon actif : M3 — Livre II.
-- Livre II : 2 chapitres sur 30 rédigés, repérés et audités.
-- Chapitre 2 : version `1.3.0`.
-- Dernier commit métier important : `e40da615bdc922f0296ef34f51dc6e226f0782dd`.
+- Livre II : 2 chapitres sur 30 terminés.
+- Chapitre 2 : version `1.3.0`, audité contre les doublons.
 - Licence globale : à définir.
 - Accessibilité PDF avancée : à traiter avant publication.
-- Tests runtime de `Project Asteria` : en attente du projet exécutable matérialisé.
+- Tests runtime de `Project Asteria` : en attente du Starter Kit matérialisé.
 
-## 19. Prochaine action
+## 13. Prochaine action
 
 Créer puis auditer :
 
@@ -786,25 +369,33 @@ Créer puis auditer :
 Livre-II/CHAPITRE-03-Scenes-noeuds-resources-et-signaux.md
 ```
 
-Le chapitre doit suivre exactement la fiche du chapitre 3 dans le plan maître du Livre II et inclure : repères, explications ligne par ligne, exercice fil rouge, contrôle des doublons, audit, compilation et inspection PDF.
+Le chapitre doit couvrir en détail :
 
-## 20. Journal des mises à jour de continuité
+- scène, nœud, branche et instance ;
+- arbre de scène et ownership ;
+- instanciation et composition ;
+- `NodePath`, `$`, `%NomUnique`, `get_node()` et références typées ;
+- signaux intégrés et personnalisés ;
+- connexion par éditeur et par code ;
+- `Callable`, `connect()`, émission et déconnexion ;
+- Resources natives et personnalisées ;
+- ordre d’initialisation ;
+- erreurs fréquentes ;
+- exercice intégré à `Project Asteria` ;
+- repères d’utilisation ;
+- explications ligne par ligne ;
+- audit de complétude et de doublons ;
+- compilation et inspection PDF.
 
-### 2026-07-18 — version 2.0.0
+## 14. Journal de continuité
 
-- ajout du plan détaillé des 30 chapitres du Livre II ;
-- ajout du plan détaillé des 30 chapitres du Livre III ;
-- ajout du plan détaillé des 22 chapitres du Livre IV ;
-- ajout du plan détaillé des 26 chapitres du Livre V ;
-- ajout des dix packs du Companion Pack ;
-- ajout des objectifs, frontières, livrables et règles de chaque partie ;
-- renforcement des instructions de reprise et de gouvernance.
+### 2026-07-18 — version 3.0.0
 
-### 2026-07-18 — version 1.0.0
-
-- création du document de continuité ;
-- reprise de la vision, du matériel, de l’architecture et des jalons ;
-- enregistrement des règles d’audit et de contextes ;
-- enregistrement de l’état des Livres I et II ;
-- enregistrement de l’audit anti-doublon du chapitre 2 ;
-- définition de la prochaine action.
+- création de quatre plans maîtres détaillés séparés ;
+- détail complet des 30 chapitres du Livre III ;
+- détail complet des 22 chapitres du Livre IV ;
+- détail complet des 26 chapitres du Livre V ;
+- détail complet des 10 packs du Companion Pack ;
+- ajout des objectifs, livrables, dépendances, frontières et critères de validation ;
+- transformation de ce fichier en index de reprise obligatoire ;
+- conservation de la prochaine action du Livre II.
