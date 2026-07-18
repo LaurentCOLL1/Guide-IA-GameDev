@@ -4,10 +4,17 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Dist = Join-Path $Root "dist"
 $ContentsFile = Join-Path $Root "contents.txt"
 $MetadataFile = Join-Path $Root "metadata.yaml"
+$FilterFile = Join-Path $Root "filters/pdf-normalize.lua"
 $OutputFile = Join-Path $Dist "Guide-IA-GameDev.pdf"
 
 if (-not (Get-Command pandoc -ErrorAction SilentlyContinue)) {
     throw "Pandoc est introuvable. Installez Pandoc et ajoutez-le au PATH."
+}
+
+foreach ($Required in @($ContentsFile, $MetadataFile, $FilterFile)) {
+    if (-not (Test-Path $Required)) {
+        throw "Fichier de construction absent : $Required"
+    }
 }
 
 if (-not (Test-Path $Dist)) {
@@ -28,6 +35,7 @@ foreach ($Source in $Sources) {
 $Arguments = @(
     "--metadata-file=$MetadataFile",
     "--from=markdown+yaml_metadata_block",
+    "--lua-filter=$FilterFile",
     "--toc",
     "--number-sections",
     "--pdf-engine=xelatex",
