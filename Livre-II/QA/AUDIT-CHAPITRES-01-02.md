@@ -2,7 +2,7 @@
 title: "Audit post-création — Livre II, chapitres 1 et 2"
 id: "DOC-L2-QA-AUDIT-CH01-CH02"
 status: "complete"
-version: "2.1.0"
+version: "2.2.0"
 book: "Livre II"
 category: "quality-report"
 validation-date: "2026-07-18"
@@ -82,9 +82,13 @@ Le chapitre couvre la syntaxe, le typage, les collections, fonctions, classes, a
 - le placement d’un point d’arrêt dans l’éditeur Godot utilise `[APP]` ;
 - les liens procéduraux utilisent `[WEB]`.
 
+### Contrôle dédié des doublons
+
+Le chapitre est désormais contrôlé automatiquement pour les titres identiques, les paragraphes longs identiques et les blocs de code multilignes identiques. Les répétitions nécessaires sont remplacées par un renvoi vers la première définition complète.
+
 ### Décision
 
-**Accepté avec réserve runtime.** Les exemples pédagogiques ne sont plus confondus avec les fichiers que le lecteur doit réellement créer.
+**Accepté avec réserve runtime.** Les fonctions, méthodes, paramètres, arguments, valeurs par défaut et retours sont explicités au niveau débutant ; aucun doublon exact significatif n’est accepté par la CI.
 
 ## 6. Non-conformités corrigées lors de cette campagne
 
@@ -100,6 +104,9 @@ Le chapitre couvre la syntaxe, le typage, les collections, fonctions, classes, a
 | L2-AUD-021 | majeure | Le vérificateur sémantique et le rapporteur de couverture ne contrôlaient pas encore le Livre II. | Extension des deux outils et ajout de métriques par chapitre. |
 | L2-AUD-022 | majeure | Plusieurs exemples introduisaient des symboles, types ou accès sans les expliquer suffisamment pour un débutant. | Ajout d’une méthode de lecture syntaxique et de décompositions ligne par ligne. |
 | L2-AUD-023 | majeure | Les exemples de classes natives/personnalisées et de parcours de dictionnaire supposaient des connaissances préalables. | Explication détaillée de `Node3D`, `Camera3D`, `BootstrapReport`, `%s`, `%`, `key` et `metrics[key]`. |
+| L2-AUD-024 | majeure | Le chapitre ne distinguait pas formellement répétition pédagogique et progression. | Ajout d’une règle de première définition, rappel bref et nouvelle combinaison. |
+| L2-AUD-025 | majeure | Plusieurs fonctions secondaires et paramètres (`value`, `delta`, fonctions statiques ou privées) restaient trop peu décomposés. | Ajout de lectures ligne par ligne, exemples d’appels et résultats concrets. |
+| L2-AUD-026 | majeure | L’absence de doublons n’était pas démontrée par un contrôle dédié. | Ajout de `tools/audit_gdscript_ch02.py` et exécution permanente dans la CI. |
 
 Les treize corrections de l’audit précédent restent acquises. Aucune ancienne correction n’a été annulée.
 
