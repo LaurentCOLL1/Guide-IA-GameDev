@@ -15,7 +15,8 @@
 - [x] Les 21 règles fondamentales.
 - [x] Architecture documentaire.
 - [x] Convention des identifiants.
-- [ ] Standards Markdown et rédactionnels.
+- [x] Conventions Markdown et Pandoc.
+- [ ] Style rédactionnel.
 - [ ] Standards techniques et IA.
 - [ ] Assurance qualité documentaire.
 - [ ] Annexes normatives.
