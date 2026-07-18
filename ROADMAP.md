@@ -11,7 +11,7 @@
 
 ## M1 — Volume 0 : Fondation documentaire
 
-- [ ] Vision générale du projet.
+- [x] Vision générale du projet.
 - [ ] Les 21 règles fondamentales.
 - [ ] Architecture documentaire.
 - [ ] Convention des identifiants.
