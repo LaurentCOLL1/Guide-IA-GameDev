@@ -2,7 +2,7 @@
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
 status: "in-progress"
-version: "0.4.0"
+version: "0.5.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
@@ -18,7 +18,7 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé**
 2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé**
 3. [Open WebUI, Open Terminal et Vane](CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé**
-4. ComfyUI et workflows graphiques — à rédiger
+4. [ComfyUI et workflows graphiques](CHAPITRE-04-ComfyUI-et-workflows-graphiques.md) — **rédigé**
 5. LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat — à rédiger
 6. Audio IA local : Voicebox, synthèse vocale, transcription et génération — à rédiger
 
@@ -44,8 +44,12 @@ Au 18 juillet 2026 :
 - les calculs AMD lourds restent par défaut sur l’hôte Windows ;
 - Open WebUI constitue l’interface centrale ;
 - Open Terminal reste isolé sur un réseau Docker interne ;
-- Vane est un moteur de recherche IA tiers et optionnel.
+- Vane est un moteur de recherche IA tiers et optionnel ;
+- ComfyUI utilise une installation manuelle versionnée pour la RX 6750 XT ;
+- un environnement CPU de référence reste disponible ;
+- ZLUDA est limité à une installation de laboratoire séparée ;
+- les modèles et workflows possèdent des manifestes et des empreintes.
 
 ## Statut
 
-Le milestone M2 est en cours. **Trois chapitres sur six** sont rédigés.
+Le milestone M2 est en cours. **Quatre chapitres sur six** sont rédigés.
