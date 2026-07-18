@@ -1,0 +1,197 @@
+name: Validate Volume 0
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+      - "contents.txt"
+      - "metadata.yaml"
+      - "build.sh"
+      - ".github/workflows/validate-volume0.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate and compile documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install documentation toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            fonts-dejavu-core \
+            poppler-utils \
+            python3-yaml
+
+      - name: Run structural QA
+        shell: bash
+        run: |
+          mkdir -p dist
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          import re
+          import sys
+          from pathlib import Path
+          from urllib.parse import unquote
+
+          import yaml
+
+          root = Path.cwd()
+          contents_path = root / "contents.txt"
+          report_path = root / "dist" / "QA-Volume-0.md"
+          errors: list[str] = []
+          warnings: list[str] = []
+
+          if not contents_path.is_file():
+              errors.append("contents.txt est absent.")
+              sources: list[Path] = []
+          else:
+              entries = [
+                  line.strip()
+                  for line in contents_path.read_text(encoding="utf-8").splitlines()
+                  if line.strip() and not line.lstrip().startswith("#")
+              ]
+              sources = [root / entry for entry in entries]
+              for entry, source in zip(entries, sources):
+                  if not source.is_file():
+                      errors.append(f"Source absente dans contents.txt : {entry}")
+
+          ids: dict[str, str] = {}
+          markdown_link = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
+          conflict_markers = ("<<<<<<<", "=======", ">>>>>>>")
+
+          for source in sources:
+              if not source.is_file() or source.suffix.lower() != ".md":
+                  continue
+
+              rel = source.relative_to(root).as_posix()
+              text = source.read_text(encoding="utf-8")
+
+              if any(marker in text for marker in conflict_markers):
+                  errors.append(f"Marqueur de conflit Git détecté : {rel}")
+
+              if text.startswith("---\n"):
+                  end = text.find("\n---\n", 4)
+                  if end == -1:
+                      errors.append(f"Front matter YAML non fermé : {rel}")
+                  else:
+                      raw_yaml = text[4:end]
+                      try:
+                          metadata = yaml.safe_load(raw_yaml) or {}
+                      except yaml.YAMLError as exc:
+                          errors.append(f"YAML invalide dans {rel} : {exc}")
+                          metadata = {}
+
+                      if not isinstance(metadata, dict):
+                          errors.append(f"Front matter YAML non mappé : {rel}")
+                          metadata = {}
+
+                      for field in ("title", "id", "status", "version"):
+                          if not metadata.get(field):
+                              errors.append(f"Métadonnée obligatoire absente ({field}) : {rel}")
+
+                      doc_id = metadata.get("id")
+                      if doc_id:
+                          if doc_id in ids:
+                              errors.append(
+                                  f"Identifiant dupliqué {doc_id} : {ids[doc_id]} et {rel}"
+                              )
+                          else:
+                              ids[str(doc_id)] = rel
+              elif rel not in {"README.md"}:
+                  warnings.append(f"Aucun front matter YAML : {rel}")
+
+              for raw_target in markdown_link.findall(text):
+                  target = raw_target.strip().split()[0].strip("<>")
+                  target = unquote(target)
+                  if not target or target.startswith(("#", "http://", "https://", "mailto:")):
+                      continue
+                  target_path = target.split("#", 1)[0]
+                  if not target_path:
+                      continue
+                  resolved = (source.parent / target_path).resolve()
+                  try:
+                      resolved.relative_to(root.resolve())
+                  except ValueError:
+                      errors.append(f"Lien sortant du dépôt dans {rel} : {target}")
+                      continue
+                  if not resolved.exists():
+                      errors.append(f"Lien local cassé dans {rel} : {target}")
+
+          metadata_file = root / "metadata.yaml"
+          if not metadata_file.is_file():
+              errors.append("metadata.yaml est absent.")
+          else:
+              try:
+                  global_metadata = yaml.safe_load(metadata_file.read_text(encoding="utf-8")) or {}
+              except yaml.YAMLError as exc:
+                  errors.append(f"metadata.yaml invalide : {exc}")
+                  global_metadata = {}
+              if global_metadata.get("license") in (None, "", "À définir avant publication"):
+                  warnings.append("La licence globale reste à définir avant publication officielle.")
+
+          lines = [
+              "# Rapport QA automatisé — Volume 0",
+              "",
+              f"- Sources déclarées : **{len(sources)}**",
+              f"- Identifiants uniques détectés : **{len(ids)}**",
+              f"- Erreurs bloquantes : **{len(errors)}**",
+              f"- Avertissements : **{len(warnings)}**",
+              "",
+              "## Erreurs",
+              "",
+          ]
+          lines.extend([f"- {item}" for item in errors] or ["- Aucune."])
+          lines.extend(["", "## Avertissements", ""])
+          lines.extend([f"- {item}" for item in warnings] or ["- Aucun."])
+          report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+          print(report_path.read_text(encoding="utf-8"))
+          if errors:
+              sys.exit(1)
+          PY
+
+      - name: Compile PDF with Pandoc
+        shell: bash
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Inspect generated PDF
+        shell: bash
+        run: |
+          test -s dist/Guide-IA-GameDev.pdf
+          pdfinfo dist/Guide-IA-GameDev.pdf | tee dist/PDF-INFO.txt
+          pages="$(pdfinfo dist/Guide-IA-GameDev.pdf | awk '/^Pages:/ {print $2}')"
+          test -n "$pages"
+          test "$pages" -gt 0
+          pdftotext dist/Guide-IA-GameDev.pdf dist/Guide-IA-GameDev.txt
+          test -s dist/Guide-IA-GameDev.txt
+
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: volume-0-validation
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            dist/Guide-IA-GameDev.pdf
+            dist/QA-Volume-0.md
+            dist/PDF-INFO.txt
+            dist/Guide-IA-GameDev.txt
