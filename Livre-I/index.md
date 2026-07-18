@@ -1,8 +1,8 @@
 ---
 title: "Livre I — Préparer la plateforme de développement IA"
 id: "LIV-I-INDEX"
-status: "in-progress"
-version: "0.7.0"
+status: "complete"
+version: "1.0.0"
 ---
 
 # Livre I — Préparer la plateforme de développement IA
@@ -15,18 +15,18 @@ Ce livre couvre l’installation, la configuration et la validation de l’envir
 
 ## Chapitres
 
-1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé**
-2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé**
-3. [Open WebUI, Open Terminal et Vane](CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé**
-4. [ComfyUI et workflows graphiques](CHAPITRE-04-ComfyUI-et-workflows-graphiques.md) — **rédigé**
-5. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-05-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé**
-6. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-06-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé**
+1. [Matériel, Windows, pilotes AMD et accélération locale](CHAPITRE-01-Materiel-Windows-pilotes-AMD-et-acceleration.md) — **rédigé et validé**
+2. [Docker et Docker Compose](CHAPITRE-02-Docker-et-Docker-Compose.md) — **rédigé et validé**
+3. [Open WebUI, Open Terminal et Vane](CHAPITRE-03-Open-WebUI-Open-Terminal-et-Vane.md) — **rédigé et validé**
+4. [ComfyUI et workflows graphiques](CHAPITRE-04-ComfyUI-et-workflows-graphiques.md) — **rédigé et validé**
+5. [LLM locaux : Ollama, llama.cpp, LocalAI et LibreChat](CHAPITRE-05-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) — **rédigé et validé**
+6. [Audio IA local, voix, transcription, musique et effets](CHAPITRE-06-Audio-IA-local-voix-transcription-musique-et-effets.md) — **rédigé et validé**
 
 ## Principes du Livre I
 
 - Windows constitue la plateforme principale.
-- Les procédures doivent conserver un chemin CPU de secours.
-- Les versions de pilotes, runtimes et modèles doivent être enregistrées.
+- Les procédures conservent un chemin CPU de secours.
+- Les versions de pilotes, runtimes et modèles sont enregistrées.
 - Les composants expérimentaux restent isolés des installations stables.
 - Les voies officiellement prises en charge sont distinguées des solutions communautaires.
 - Le Mode Solo limite le nombre de services permanents.
@@ -60,16 +60,17 @@ Au 18 juillet 2026 :
 - whisper.cpp fournit la référence autonome CPU/Vulkan ;
 - AudioCraft est limité aux maquettes non commerciales avec les poids fournis.
 
-## Validation restante
+## Assurance qualité
 
-Les six chapitres sont rédigés et intégrés à `contents.txt`. Le milestone reste ouvert jusqu’à :
+- [Rapport QA final du Livre I](RAPPORT-QA-FINAL.md) — **validation réussie**
 
-- la validation structurelle des métadonnées et liens ;
-- la compilation Pandoc/XeLaTeX de l’ensemble mis à jour ;
-- la vérification visuelle du PDF ;
-- la rédaction du rapport QA du Livre I ;
-- la confirmation que les avertissements de licences sont correctement bloquants avant publication.
+Le workflow `Validate Documentation` a contrôlé 33 sources, les six chapitres du Livre I et 32 identifiants uniques, sans erreur bloquante. La compilation Pandoc/XeLaTeX a généré un PDF A4 de 348 pages dont le texte est extractible. Un échantillon visuel de 46 pages a été vérifié.
+
+Deux réserves restent liées à la publication et non à M2 :
+
+- la licence globale du projet doit être définie ;
+- le PDF final devra être balisé pour améliorer l’accessibilité aux lecteurs d’écran.
 
 ## Statut
 
-Le milestone M2 est en cours. **Les six chapitres sur six sont rédigés ; la validation technique et documentaire reste à effectuer.**
+Le milestone **M2 — Livre I : Préparer la plateforme** est terminé. La prochaine phase active est **M3 — Livre II : Développement et architecture**.
