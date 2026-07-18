@@ -29,7 +29,7 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 
 - [Assurance qualité documentaire](ASSURANCE-QUALITE-DOCUMENTAIRE.md) — **rédigée**
 - [Rapport QA final](RAPPORT-QA-FINAL.md) — **validation réussie**
-- [Audit du Volume 0 et du Livre I](QA/AUDIT-VOLUME-0-LIVRE-I.md) — **corrections terminées, contrôle de publication en cours**
+- [Audit du Volume 0 et du Livre I](QA/AUDIT-VOLUME-0-LIVRE-I.md) — **audit transversal validé**
 
 Le référentiel définit les portes Q0 à Q5, les contrôles automatiques et manuels, la gravité des non-conformités et les critères de clôture. Le rapport final consigne l’exécution GitHub Actions, les résultats structurels, la compilation Pandoc/XeLaTeX et le contrôle visuel du PDF.
 
