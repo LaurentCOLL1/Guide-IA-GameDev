@@ -1,8 +1,8 @@
 ---
 title: "Volume 0 — Fondation documentaire"
 id: "DOC-V0-INDEX"
-status: "in-progress"
-version: "0.14.0"
+status: "complete"
+version: "1.0.0"
 ---
 
 # Volume 0 — Fondation documentaire
@@ -26,8 +26,9 @@ Le Volume 0 définit les règles normatives applicables à l’ensemble de la co
 ## Assurance qualité
 
 - [Assurance qualité documentaire](ASSURANCE-QUALITE-DOCUMENTAIRE.md) — **rédigée**
+- [Rapport QA final](RAPPORT-QA-FINAL.md) — **validation réussie**
 
-Ce référentiel définit les portes Q0 à Q5, les contrôles automatiques et manuels, la gravité des non-conformités et les critères de clôture du milestone.
+Le référentiel définit les portes Q0 à Q5, les contrôles automatiques et manuels, la gravité des non-conformités et les critères de clôture. Le rapport final consigne l’exécution GitHub Actions, les résultats structurels, la compilation Pandoc/XeLaTeX et le contrôle visuel du PDF.
 
 ## Annexes normatives
 
@@ -50,4 +51,4 @@ Ces annexes constituent une première base normative. Elles seront enrichies au 
 
 ## Statut
 
-Les onze chapitres principaux, les sept annexes normatives initiales et le référentiel d’assurance qualité du Volume 0 sont en place. Le milestone reste ouvert uniquement jusqu’à la validation de la compilation complète et du livrable généré.
+Le milestone **M1 — Volume 0 : Fondation documentaire** est terminé. Les onze chapitres principaux, les sept annexes initiales, le référentiel QA et la chaîne de compilation multiplateforme ont été validés. La licence globale reste à définir avant une publication officielle de la collection.
