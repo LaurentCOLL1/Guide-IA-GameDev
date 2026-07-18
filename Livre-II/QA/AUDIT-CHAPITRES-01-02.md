@@ -2,10 +2,11 @@
 title: "Audit post-création — Livre II, chapitres 1 et 2"
 id: "DOC-L2-QA-AUDIT-CH01-CH02"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Livre II"
 category: "quality-report"
 validation-date: "2026-07-18"
+validation-run: "29643905233"
 ---
 
 # Audit post-création — Livre II, chapitres 1 et 2
@@ -31,7 +32,8 @@ Les contrôles ont porté sur :
 - la relecture statique des extraits GDScript ;
 - les risques, licences et diagnostics ;
 - l’intégration à `contents.txt`, à l’index et à la roadmap ;
-- la compilation Pandoc/XeLaTeX.
+- la compilation Pandoc/XeLaTeX ;
+- l’inspection technique et visuelle du PDF.
 
 Le dépôt du guide ne contient pas encore une copie exécutable complète de `Project Asteria`. Les extraits GDScript font donc l’objet d’une **revue statique** contre la documentation Godot 4.7. Leur exécution réelle reste à reproduire lorsque les fichiers du projet fil rouge seront matérialisés dans le Companion Pack ou dans un dépôt dédié.
 
@@ -63,6 +65,7 @@ Le chapitre couvre correctement :
 | L2-AUD-003 | mineure | La liste des fichiers initiaux omettait `.gitattributes`. | Ajout à l’inventaire attendu. |
 | L2-AUD-004 | mineure | `--quit-after` pouvait être interprété comme une durée. | Précision qu’il s’agit d’un nombre d’itérations et ajustement du test. |
 | L2-AUD-005 | majeure | La licence MIT de Godot et l’obligation d’attribution n’étaient pas explicitées dans le chapitre d’installation. | Ajout d’une section licence et notices tierces. |
+| L2-AUD-012 | mineure | La commande du premier commit n’ajoutait pas le nouveau fichier `.gitattributes`. | Ajout explicite de `.gitattributes` à la commande `git add`. |
 
 ### Décision
 
@@ -96,6 +99,7 @@ Le chapitre couvre correctement :
 | L2-AUD-009 | mineure | `await` et les coroutines n’étaient pas mentionnés. | Ajout d’un aperçu limité, avec approfondissement reporté au chapitre sur les signaux. |
 | L2-AUD-010 | mineure | Plusieurs liens utilisaient `/stable/`, susceptible de changer de branche. | Épinglage des références techniques à la documentation `/en/4.7/`. |
 | L2-AUD-011 | mineure | La description de `String` pouvait laisser entendre une mutabilité directe. | Reformulation en « chaîne Unicode ». |
+| L2-AUD-013 | mineure | L’exercice `BootstrapReport` conservait un dictionnaire non typé malgré la nouvelle règle. | Typage de `metrics` en `Dictionary[StringName, float]` et de sa variable d’itération. |
 
 ### Décision
 
@@ -113,19 +117,61 @@ La séparation retenue est cohérente :
 
 Aucune duplication majeure ou consommation prématurée du périmètre suivant n’a été détectée.
 
-## 6. Portes qualité
+## 6. Validation automatisée et PDF
+
+Exécution de référence :
+
+| Élément | Résultat |
+|---|---|
+| Workflow | `Validate Documentation` |
+| Exécution | `29643905233` |
+| Résultat | `success` |
+| Sources déclarées | 41 |
+| Chapitres du Livre I | 10 |
+| Chapitres du Livre II | 2 |
+| Identifiants uniques | 40 |
+| Erreurs bloquantes | 0 |
+| Avertissements | 1 — licence globale à définir |
+| PDF | A4, PDF 1.5 |
+| Pages | 470 |
+| Taille | 1 224 864 octets |
+| Texte extractible | oui |
+
+Les étapes suivantes ont réussi :
+
+- contrôle de la séquence des chapitres ;
+- contrôle des identifiants ;
+- contrôle des métadonnées d’audit ;
+- vérification de l’existence du rapport d’audit ;
+- validation des liens locaux ;
+- compilation Pandoc/XeLaTeX ;
+- inspection technique du PDF ;
+- extraction du texte.
+
+Un échantillon de **27 pages** a été rendu à 150 DPI et examiné. Il couvre :
+
+- l’index et le statut du Livre II ;
+- le début et la fin du chapitre 1 ;
+- le début et plusieurs sections du chapitre 2 ;
+- le protocole d’audit ;
+- le rapport d’audit ;
+- les transitions vers les Livres III à V et le Companion Pack.
+
+Aucun texte rogné, chevauchement majeur, glyphe manquant, carré noir, rotation incorrecte ou tableau manifestement hors page n’a été observé dans cet échantillon.
+
+## 7. Portes qualité
 
 - [x] Q0 — Intégrité des fichiers et métadonnées
 - [x] Q1 — Complétude pédagogique
 - [x] Q2 — Cohérence avec le sommaire maître
 - [x] Q3 — Relecture technique statique
 - [x] Q4 — Sécurité et licences documentées
+- [x] Q5 — Compilation et inspection du PDF
 - [ ] Q3 runtime — Exécution sur le projet matérialisé
-- [ ] Q5 — Compilation finale de la branche corrigée
 
-Les deux dernières cases sont mises à jour après exécution de la CI et, ultérieurement, après création des fichiers exécutables du projet fil rouge.
+La réserve runtime est explicite et ne doit pas être confondue avec une validation d’exécution. Elle sera levée lorsque `Project Asteria` sera fourni sous forme de fichiers réellement exécutables et testé avec Godot 4.7.1-stable.
 
-## 7. Règle permanente adoptée
+## 8. Règle permanente adoptée
 
 Chaque nouveau chapitre du Livre II doit désormais :
 
