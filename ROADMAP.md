@@ -48,10 +48,13 @@
 
 ## M3 — Livre II : Développement et architecture
 
-- [ ] Godot et GDScript.
-- [ ] Douze grands systèmes de jeu.
-- [ ] Plateforme IA locale.
-- [ ] Industrialisation du projet.
+- [ ] Fondations Godot, GDScript, architecture et données — 1 chapitre sur 9.
+- [ ] Plateforme IA locale — 0 chapitre sur 4.
+- [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
+- [ ] Industrialisation du projet — 0 chapitre sur 5.
+- [ ] Validation technique, documentaire et compilation du Livre II.
+
+**Statut M3 : en cours — 1 chapitre rédigé sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`.
 
 ## M4 — Livre III : Production des contenus et assets
 
