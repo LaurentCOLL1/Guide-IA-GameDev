@@ -94,7 +94,7 @@ La validation a permis de corriger ou renforcer les éléments suivants :
 
 Un échantillon représentatif a été rendu en images aux pages suivantes :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 1 à 5, 50, 100, 150, 200 et 214
@@ -116,7 +116,7 @@ La table des matières, les pages de texte courant, les blocs de code et les tab
 
 L’artefact GitHub Actions `volume-0-validation` contient :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev.pdf

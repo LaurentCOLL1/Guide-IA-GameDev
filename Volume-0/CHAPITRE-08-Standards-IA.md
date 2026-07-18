@@ -144,7 +144,7 @@ Cette entrée doit contenir au minimum :
 
 Exemple d’identifiant :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 AI-MODEL-LLM-001
@@ -201,7 +201,7 @@ La fiche doit distinguer :
 
 Une licence inconnue ou ambiguë entraîne le statut :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 blocked-license-review
@@ -229,7 +229,7 @@ Il doit être enregistré dans un fichier versionné avec :
 
 Exemple d’identifiant :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 AI-PROMPT-NPC-DIALOGUE-001
@@ -241,7 +241,7 @@ Les données injectées dans un prompt doivent être clairement séparées des i
 
 Exemple recommandé :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [SYSTEME]
@@ -274,7 +274,7 @@ Les variables d’un prompt doivent utiliser une syntaxe uniforme.
 
 Convention recommandée :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 {{variable_name}}

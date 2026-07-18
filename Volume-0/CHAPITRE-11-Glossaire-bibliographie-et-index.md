@@ -71,7 +71,7 @@ Le glossaire central fournit les définitions normatives de la collection. Il do
 
 Le glossaire global sera placé dans :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Volume-0/annexes/GLOSSAIRE.md
@@ -79,7 +79,7 @@ Volume-0/annexes/GLOSSAIRE.md
 
 Les glossaires propres à un livre peuvent être placés dans :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Livre-X/annexes/GLOSSAIRE-LIVRE-X.md
@@ -197,7 +197,7 @@ L’anglais peut être conservé lorsque :
 
 La première occurrence dans un chapitre doit de préférence prendre la forme :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 maillage (*mesh*)
@@ -205,7 +205,7 @@ maillage (*mesh*)
 
 ou :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 *prompt* (instruction fournie à un modèle)
@@ -256,7 +256,7 @@ L’ordre de préférence est :
 
 La bibliographie globale sera stockée dans :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Volume-0/annexes/BIBLIOGRAPHIE.md
@@ -264,7 +264,7 @@ Volume-0/annexes/BIBLIOGRAPHIE.md
 
 Une version structurée pourra être ajoutée au Companion Pack :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Companion-Pack/knowledge-base/bibliography.yaml
@@ -306,7 +306,7 @@ Chaque référence doit contenir autant que possible :
 
 Les références courtes utilisent l’identifiant bibliographique :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Voir `BIB-TOOL-001`.
@@ -352,7 +352,7 @@ La collection doit fournir plusieurs index complémentaires :
 
 ### 7.2 Emplacement recommandé
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Volume-0/annexes/INDEX-ALPHABETIQUE.md
@@ -424,7 +424,7 @@ Les décisions architecturales importantes doivent être consignées sous forme 
 
 Emplacement prévu :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Companion-Pack/architecture/decisions/
@@ -462,7 +462,7 @@ Les erreurs fréquentes doivent être indexées avec :
 
 Exemple d’identifiant :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ERR-COMFY-ZLUDA-001
@@ -572,7 +572,7 @@ En Mode Studio, il est recommandé d’ajouter :
 
 À terme, ce chapitre doit conduire à la création des fichiers suivants :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Volume-0/annexes/GLOSSAIRE.md

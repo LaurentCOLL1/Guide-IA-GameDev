@@ -38,7 +38,7 @@ Ces règles s’appliquent aux fichiers Markdown, aux scripts, aux configuration
 
 Chaque élément produit suit le cycle suivant :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Idée
@@ -334,7 +334,7 @@ Le projet doit progressivement automatiser les contrôles suivants :
 
 Exemple de pipeline :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Markdown lint
@@ -390,7 +390,7 @@ Le dépôt utilise `main` comme branche stable de référence.
 
 Pour les changements importants, le flux recommandé est :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 main
@@ -404,7 +404,7 @@ Les commits doivent être atomiques et descriptifs.
 
 Exemples :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 docs(volume-0): add chapter 10 publication workflow
@@ -437,7 +437,7 @@ Une publication doit produire un ensemble identifiable et reproductible.
 
 Le projet suit une version sémantique adaptée à la documentation :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 MAJEURE.MINEURE.CORRECTIF
@@ -449,7 +449,7 @@ MAJEURE.MINEURE.CORRECTIF
 
 Les versions de travail peuvent utiliser :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 0.1.0-alpha.1
@@ -508,7 +508,7 @@ Le Companion Pack doit être aligné sur la version du guide.
 
 Une archive doit comporter :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Companion-Pack-0.2.0/

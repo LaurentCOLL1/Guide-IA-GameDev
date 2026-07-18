@@ -123,7 +123,7 @@ Une génération brute ne doit pas être intégrée directement dans le jeu.
 
 Le pipeline officiel est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Génération
@@ -143,7 +143,7 @@ Export jeu
 
 ## 3. Architecture des dossiers
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 audio-local/
@@ -214,7 +214,7 @@ Ne pas effectuer plusieurs conversions successives entre 44,1 et 48 kHz.
 
 ### 4.3 Convention de nommage
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 <type>_<personnage-ou-source>_<intention>_<langue>_<version>.<extension>
@@ -222,7 +222,7 @@ Ne pas effectuer plusieurs conversions successives entre 44,1 et 48 kHz.
 
 Exemples :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 voice_mara_warning_fr_v003.wav
@@ -251,7 +251,7 @@ Le projet fournit actuellement un installeur Windows MSI et un déploiement Dock
 
 Pour la configuration de référence :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Voicebox Windows
@@ -358,7 +358,7 @@ Les voix téléchargées peuvent posséder des licences distinctes.
 
 ### 7.2 Installation
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `OHF-Voice/piper1-gpl`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 py -3.11 -m venv environments\piper\.venv
@@ -380,7 +380,7 @@ La disponibilité et le nom exact des voix doivent être vérifiés lors de l’
 
 ### 7.3 Génération
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m piper.download_voices python -m piper.download_voices fr_FR-siwis-medium --data-dir models\tts\piper`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m piper `
@@ -596,7 +596,7 @@ whisper-cli.exe `
 
 ### 10.3 Préparation FFmpeg
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `-m models\stt\ggml-small.bin`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 ffmpeg -i recordings\raw\test.wav `
@@ -676,7 +676,7 @@ Ce moteur n’est pas le parcours quotidien du guide sur la configuration de ré
 
 ### 12.1 Normaliser le format
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `--output_dir transcripts\openai-whisper`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 ffmpeg -i input.wav -ar 48000 -ac 1 -c:a pcm_s24le output.wav
@@ -684,7 +684,7 @@ ffmpeg -i input.wav -ar 48000 -ac 1 -c:a pcm_s24le output.wav
 
 ### 12.2 Mesurer le niveau sonore
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `--output_dir transcripts\openai-whisper`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 ffmpeg -i input.wav -af loudnorm=print_format=json -f null NUL
@@ -734,7 +734,7 @@ Ardour est recommandé pour :
 
 Toujours conserver :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 source brute
@@ -797,7 +797,7 @@ Un prompt doit décrire :
 
 Exemple :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Dark ambient exploration cue, sparse bowed metal, low cello drones,
@@ -836,7 +836,7 @@ Usages adaptés :
 
 Exemple de prompt :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Heavy corroded steel door closing in an underground bunker,
@@ -859,7 +859,7 @@ Les poids AudioGen fournis par AudioCraft relèvent également de la licence CC-
 
 ### 16.1 Pipeline recommandé
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Texte validé
@@ -895,7 +895,7 @@ Ne pas tenter de corriger uniquement par prompt une ligne dont le texte est mal 
 
 Créer un fichier :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 audio-local/voices/pronunciation/fr-FR.yaml
@@ -928,7 +928,7 @@ La transcription peut produire une première version des sous-titres, mais elle 
 
 Format source recommandé :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 WebVTT ou SRT
@@ -965,7 +965,7 @@ Une licence de code permissive ne rend pas automatiquement les poids, les voix o
 
 Les dossiers suivants peuvent contenir des données biométriques ou personnelles :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 voices/references/
@@ -986,7 +986,7 @@ Ils doivent être :
 
 Les serveurs TTS ou STT doivent écouter par défaut sur :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 127.0.0.1
@@ -1040,7 +1040,7 @@ Enregistrer :
 
 Créer au minimum :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 benchmarks/audio/
@@ -1162,7 +1162,7 @@ Vérifier :
 
 Le chapitre est validé lorsque le poste peut exécuter ce scénario :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Texte français

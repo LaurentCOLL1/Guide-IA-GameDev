@@ -73,7 +73,7 @@ Une affirmation dépendante d’une version, d’un comportement logiciel ou d�
 
 Exemple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Cette procédure a été validée avec la version X.Y de l’outil [REF-0003].

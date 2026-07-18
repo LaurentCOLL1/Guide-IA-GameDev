@@ -54,7 +54,7 @@ Ils ne doivent pas être confondus :
 
 La configuration principale sépare l’interface, le terminal et la recherche :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Navigateur Windows
@@ -102,7 +102,7 @@ L’installation Docker est la voie officiellement recommandée pour la majorit�
 
 Les images officielles sont publiées sur :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ghcr.io/open-webui/open-webui
@@ -204,7 +204,7 @@ Les clés de fournisseurs éventuelles :
 
 Les exemples officiels de documentation utilisent parfois des balises flottantes telles que :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 :main
@@ -258,7 +258,7 @@ Ces valeurs constituent un relevé daté, pas une invitation à supposer qu’el
 
 Créer :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `ghcr.io/open-webui/open-webui:main`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 New-Item -ItemType Directory -Force "$HOME\Guide-IA-Services" | Out-Null
@@ -269,7 +269,7 @@ New-Item -ItemType Directory -Force "backups" | Out-Null
 
 Arborescence :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-Services/
@@ -320,7 +320,7 @@ OPEN_TERMINAL_API_KEY=replace-me
 
 Copier le fichier puis remplacer les secrets :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.env`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Copy-Item .env.example .env
@@ -437,7 +437,7 @@ Open WebUI et Open Terminal partagent le réseau interne `terminal`.
 
 Open WebUI peut joindre :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://open-terminal:8000
@@ -508,7 +508,7 @@ Attendre que les deux services soient `healthy`.
 
 Ouvrir :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 
@@ -525,7 +525,7 @@ Le premier compte créé devient administrateur. Utiliser un mot de passe unique
 
 Dans Open WebUI :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Admin Settings
@@ -535,7 +535,7 @@ Admin Settings
 
 Ajouter :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Nom : Terminal Guide IA
@@ -549,7 +549,7 @@ La connexion administrateur est recommandée lorsque les deux conteneurs partage
 
 Depuis le conteneur Open WebUI :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 localhost = conteneur Open WebUI
@@ -557,7 +557,7 @@ localhost = conteneur Open WebUI
 
 La bonne adresse est le nom de service Compose :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://open-terminal:8000
@@ -565,7 +565,7 @@ http://open-terminal:8000
 
 ### 11.3 Tester la liaison interne
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text http://open-terminal:8000`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose exec open-webui python -c "import urllib.request; print(urllib.request.urlopen('http://open-terminal:8000/docs').status)"
@@ -612,7 +612,7 @@ Ne pas commencer par une tâche portant sur un dépôt important ou un dossier p
 
 ### 12.1 Arborescence conseillée
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 workspace/
@@ -629,7 +629,7 @@ L’agent ne reçoit que les fichiers nécessaires à sa tâche.
 
 Ne pas monter :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\Users\<utilisateur>
@@ -750,7 +750,7 @@ docker compose logs --tail=200 vane
 
 Ouvrir :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 
@@ -761,7 +761,7 @@ http://127.0.0.1:3001
 
 L’image standard de Vane inclut SearxNG. Le volume persistant conserve les paramètres et données applicatives sous :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 /home/vane/data
@@ -782,7 +782,7 @@ Le parcours local utilisera plus tard Ollama ou une API compatible OpenAI exécu
 
 Depuis un conteneur, l’adresse de l’hôte est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 host.docker.internal
@@ -790,7 +790,7 @@ host.docker.internal
 
 Exemple d’URL future :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://host.docker.internal:11434
@@ -802,7 +802,7 @@ La configuration détaillée du fournisseur est traitée dans le chapitre consac
 
 Vane publie également une image `slim-latest` destinée à un SearxNG existant :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 itzcrazykns1337/vane:slim-latest
@@ -907,7 +907,7 @@ Le dossier `workspace` étant un bind mount, il doit être sauvegardé par Git o
 
 ### 18.4 Sauvegarder Vane
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/open-terminal-home.tar.gz -C /data .`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker run --rm `
@@ -919,7 +919,7 @@ docker run --rm `
 
 ### 18.5 Redémarrer
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/vane-data.tar.gz -C /data .`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose up -d open-webui open-terminal
@@ -960,7 +960,7 @@ Open WebUI exécute ses migrations au démarrage. Une mise à jour interrompue o
 
 Ne pas utiliser le même volume pour :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 open-webui:dev
@@ -1047,7 +1047,7 @@ Vérifier :
 
 Utiliser :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 host.docker.internal
@@ -1055,7 +1055,7 @@ host.docker.internal
 
 et non :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 localhost
@@ -1246,7 +1246,7 @@ Les images Docker, dépendances, modèles et moteurs de recherche utilisés par 
 
 ### 25.4 Critère d’acceptation
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Open WebUI              → interface locale accessible et persistante

@@ -55,7 +55,7 @@ La règle principale est :
 
 ## 2. Les composants à distinguer
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Interpréteur Python
@@ -195,7 +195,7 @@ Ne pas versionner `.venv/`.
 
 Toujours rattacher `pip` à l’interpréteur actif :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.venv/`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m pip install --upgrade pip
@@ -204,7 +204,7 @@ python -m pip install paquet
 
 Éviter :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.venv/`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 pip install paquet
@@ -238,7 +238,7 @@ python -m pip freeze | Out-File requirements-diagnostic.txt -Encoding utf8
 
 Installation WinGet :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m pip freeze | Out-File requirements-diagnostic.txt -Encoding utf8`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget show --id astral-sh.uv --exact --source winget
@@ -268,7 +268,7 @@ uv init
 
 Structure attendue :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 uv-check/
@@ -281,7 +281,7 @@ uv-check/
 
 Créer ou synchroniser l’environnement :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text uv-check/ ├── .gitignore ├── .python-version ├── README.md ├── main.py └── pyproject.toml`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv sync
@@ -289,7 +289,7 @@ uv sync
 
 `uv` crée généralement :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 .venv/
@@ -300,7 +300,7 @@ Le fichier `uv.lock` doit être versionné. Le dossier `.venv/` ne doit pas l’
 
 ## 9. Ajouter et retirer des dépendances
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.venv/`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv add requests
@@ -310,7 +310,7 @@ uv remove requests
 
 Afficher l’arbre :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.venv/`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv tree
@@ -381,7 +381,7 @@ Le fichier de verrouillage enregistre la résolution exacte. `pyproject.toml` ex
 
 Certains projets existants utilisent encore :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 requirements.txt
@@ -391,7 +391,7 @@ constraints.txt
 
 Installer avec `pip` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text requirements.txt requirements-dev.txt constraints.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -399,7 +399,7 @@ python -m pip install -r requirements.txt
 
 Avec `uv` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m pip install -r requirements.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv pip sync requirements.txt
@@ -407,7 +407,7 @@ uv pip sync requirements.txt
 
 Exporter depuis un projet `uv` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell uv pip sync requirements.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 uv export --format requirements.txt --output-file requirements.txt
@@ -417,7 +417,7 @@ Ne pas modifier manuellement un fichier généré sans modifier également sa so
 
 ## 12. Organisation recommandée
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\
@@ -454,7 +454,7 @@ Les caches peuvent être déplacés vers un disque adapté, mais leur emplacemen
 
 Exemples de variables rencontrées :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 HF_HOME
@@ -555,7 +555,7 @@ uv sync --locked
 
 Avec `venv` et `requirements.txt` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `requirements.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Remove-Item .\.venv -Recurse -Force

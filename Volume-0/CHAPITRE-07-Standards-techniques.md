@@ -165,7 +165,7 @@ L’étiquette `latest` ne doit pas être utilisée dans un exemple de productio
 
 Structure générique recommandée :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 project/

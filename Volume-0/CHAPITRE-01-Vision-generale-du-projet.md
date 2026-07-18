@@ -53,7 +53,7 @@ La mission du projet est de permettre à une personne disposant de peu ou pas d'
 
 Le guide doit accompagner le lecteur sur l'ensemble du cycle de vie :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Comprendre
@@ -111,7 +111,7 @@ Le projet fil rouge sert de support d'apprentissage. Il ne constitue pas une pro
 
 Le lecteur doit aussi obtenir une plateforme locale capable de l'assister dans d'autres projets :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Docker
@@ -232,7 +232,7 @@ Lorsqu'un outil gratuit n'est pas open source, sa nature doit être indiquée cl
 
 Le Markdown constitue la source officielle de la collection. Les PDF, pages HTML, fichiers DOCX ou EPUB sont des formats générés.
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Markdown versionné

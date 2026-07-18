@@ -70,7 +70,7 @@ Le lecteur ne doit jamais être renvoyé vers une notion qui n’a pas encore é
 
 Les exemples principaux s’appuient sur un même projet de référence :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev/

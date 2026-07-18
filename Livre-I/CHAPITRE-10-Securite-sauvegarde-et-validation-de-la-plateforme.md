@@ -139,7 +139,7 @@ Ces éléments ne doivent pas être placés dans un dépôt public, un log parta
 
 Créer :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\platform-manifest\
@@ -197,7 +197,7 @@ Pour les données uniques :
 
 Exemple Solo :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Copie 1 : SSD de travail
@@ -207,7 +207,7 @@ Copie 3 : stockage distant chiffré ou second lieu
 
 Exemple Studio :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Copie 1 : stockage de production
@@ -280,7 +280,7 @@ Conserver :
 
 Test de restauration :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.python-version`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Remove-Item .\.venv -Recurse -Force
@@ -304,7 +304,7 @@ Conserver :
 
 Inventaire :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.env.example`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker version > .\exports\docker-version.txt
@@ -428,7 +428,7 @@ La protection lors du push peut bloquer certaines informations d’identificatio
 
 Par défaut :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Interface locale uniquement : 127.0.0.1
@@ -603,7 +603,7 @@ docker compose version
 
 Créer :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\platform-manifest\validation.md

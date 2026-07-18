@@ -54,7 +54,7 @@ Le chapitre ne cherche pas à installer le plus grand nombre possible de modèle
 
 La règle centrale est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Un workflow sans version, sans modèles identifiés et sans dépendances enregistrées
@@ -67,7 +67,7 @@ n’est pas un workflow reproductible.
 
 La version stable de référence utilisée pour la rédaction est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ComfyUI v0.24.0
@@ -81,7 +81,7 @@ ComfyUI Desktop est l’installation la plus simple pour un poste compatible. To
 
 Pour la RX 6750 XT :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ComfyUI Desktop Windows
@@ -116,7 +116,7 @@ L’installation manuelle est la base retenue pour ce guide, car elle permet :
 
 ComfyUI accepte encore l’argument :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --directml
@@ -126,7 +126,7 @@ Cependant, le code officiel avertit actuellement que `torch-directml` fonctionne
 
 DirectML est donc classé :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 secours dégradé
@@ -163,7 +163,7 @@ ZLUDA ne doit pas être copié dans l’installation stable CPU ni dans une inst
 
 Le parcours de référence est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Installation CPU validée
@@ -185,7 +185,7 @@ Le code, les environnements Python, les modèles et les productions ne doivent p
 
 Arborescence recommandée :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 D:\IA\ComfyUI\
@@ -273,7 +273,7 @@ La documentation ComfyUI recommande actuellement Python 3.13. Python 3.12 reste 
 
 Pour un projet de production :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Python 3.13.x : choix initial
@@ -361,7 +361,7 @@ python main.py `
 
 Ouvrir :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 
@@ -378,7 +378,7 @@ Ne pas utiliser `--listen` sans adresse. Sans argument, cette option écoute sur
 
 Créer dans chaque installation :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 extra_model_paths.yaml
@@ -480,7 +480,7 @@ La comparaison doit porter sur l’empreinte et non seulement sur le nom du fich
 
 Le premier workflow doit rester simple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Checkpoint Loader
@@ -515,7 +515,7 @@ Le but est de vérifier le pipeline, pas de produire l’image finale du projet.
 
 Les prompts utilisés pour la validation doivent être neutres et répétables. Exemple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 positif : studio photograph of a red ceramic mug on a wooden table, neutral light
@@ -542,7 +542,7 @@ Le test réussit lorsque :
 
 Chaque workflow accepté doit être exporté en JSON :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 workflows/source/WF-IMG-0001-text-to-image.json
@@ -552,7 +552,7 @@ workflows/source/WF-IMG-0001-text-to-image.json
 
 Créer un fichier associé :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 workflows/source/WF-IMG-0001-text-to-image.yaml
@@ -603,7 +603,7 @@ Une image générée par ComfyUI peut contenir le workflow et les paramètres. C
 
 Conserver :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 JSON source + manifeste + image de référence
@@ -613,7 +613,7 @@ JSON source + manifeste + image de référence
 
 L’argument :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --disable-metadata
@@ -669,7 +669,7 @@ Le niveau de sécurité recommandé est `normal`. Les niveaux plus permissifs ne
 
 Avec `comfy-cli` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m pip install -r manager_requirements.txt python main.py --enable-manager`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 comfy node save-snapshot
@@ -707,7 +707,7 @@ Ne jamais transformer l’installation CPU en installation ZLUDA.
 
 Créer :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 D:\IA\ComfyUI\installations\comfyui-zluda
@@ -783,7 +783,7 @@ Aucune migration de workflow ne doit être nécessaire pour revenir au CPU.
 
 ### 12.1 Environnement distinct
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 D:\IA\ComfyUI\installations\comfyui-directml
@@ -793,7 +793,7 @@ Ne pas installer `torch-directml` dans les environnements CPU ou ZLUDA.
 
 ### 12.2 Installation de principe
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text D:\IA\ComfyUI\installations\comfyui-directml`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python -m venv .venv
@@ -804,7 +804,7 @@ python -m pip install -r requirements.txt
 
 Démarrage :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python -m venv .venv .\.venv\Scripts\Activate.ps1 python -m pip install torch-directml python -m pip install -r requirements.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python main.py --directml --listen 127.0.0.1 --port 8190
@@ -830,7 +830,7 @@ ComfyUI utilise une gestion dynamique de la VRAM. Ne pas la désactiver sans dia
 
 L’argument :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --disable-dynamic-vram
@@ -842,7 +842,7 @@ est à éviter. Le projet ComfyUI signale que cette option doit disparaître à 
 
 Point de départ :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --reserve-vram 1.5
@@ -867,7 +867,7 @@ python main.py --reserve-vram 1.5
 
 #### Profil prudent
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --reserve-vram 1.5`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python main.py --lowvram --reserve-vram 2.0
@@ -875,7 +875,7 @@ python main.py --lowvram --reserve-vram 2.0
 
 #### Profil de secours
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --lowvram --reserve-vram 2.0`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python main.py --novram --reserve-vram 2.0
@@ -908,7 +908,7 @@ Elles ne doivent pas être activées dans le profil stable sans comparaison visu
 
 ### 14.1 Niveau W0 — fumée
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 512 × 512
@@ -922,7 +922,7 @@ Objectif : valider l’installation.
 
 ### 14.2 Niveau W1 — production légère
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 512 à 768 pixels
@@ -936,7 +936,7 @@ Objectif : concept art, tests de style, textures simples.
 
 ### 14.3 Niveau W2 — production standard
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 768 à 1024 pixels
@@ -950,7 +950,7 @@ Objectif : images de référence et assets 2D préparatoires.
 
 ### 14.4 Niveau W3 — lourd
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 haute résolution
@@ -970,7 +970,7 @@ Objectif : expérimentation. Le workflow doit être fractionné, mesurer chaque 
 
 Découper :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 01-load
@@ -985,7 +985,7 @@ Découper :
 
 Utiliser des groupes et notes :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [INPUT] modèle et image
@@ -1023,7 +1023,7 @@ Les sous-graphes ou composants réutilisables doivent rester simples et document
 
 Convention :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 <workflow-id>_<asset-id>_<version>_<seed>_<date>
@@ -1031,7 +1031,7 @@ Convention :
 
 Exemple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 WF-IMG-0042_ENV-FOREST-003_v02_s123456_20260718.png
@@ -1039,7 +1039,7 @@ WF-IMG-0042_ENV-FOREST-003_v02_s123456_20260718.png
 
 Les dossiers de sortie peuvent suivre :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 output/
@@ -1060,7 +1060,7 @@ Une sortie rejetée ne doit pas écraser une sortie acceptée.
 
 Par défaut :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 127.0.0.1:8188
@@ -1086,7 +1086,7 @@ Pour un accès distant :
 
 Les API Nodes intégrés peuvent communiquer avec des services externes. Pour une instance strictement locale :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --disable-api-nodes
@@ -1098,7 +1098,7 @@ Cette option empêche également le frontend de communiquer avec Internet par le
 
 L’option :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --multi-user
@@ -1137,7 +1137,7 @@ Ne pas exécuter `git pull` aveuglément sur une installation de production modi
 
 Méthode recommandée :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 comfyui-v0.24.0-stable
@@ -1297,7 +1297,7 @@ python main.py --disable-all-custom-nodes
 
 Puis autoriser seulement un dossier :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell python main.py --disable-all-custom-nodes`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 python main.py `
@@ -1322,7 +1322,7 @@ Puis tester `--lowvram` et `--novram`.
 
 Comparer le même workflow :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 CPU → DirectML → ZLUDA
@@ -1378,7 +1378,7 @@ Ne pas installer un paquet CUDA au hasard. Identifier d’abord le backend de l�
 
 Vérifier que le lancement contient :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 --listen 127.0.0.1
@@ -1453,7 +1453,7 @@ Un utilisateur ne doit pas pouvoir installer librement un nœud Python dans l’
 
 ### 25.2 Critère d’acceptation
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ComfyUI CPU              → démarrage réussi
@@ -1508,7 +1508,7 @@ Pour la RX 6750 XT, ComfyUI doit être installé comme un environnement de produ
 
 Le socle retenu est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 ComfyUI manuel CPU

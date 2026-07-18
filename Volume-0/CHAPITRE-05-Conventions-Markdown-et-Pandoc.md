@@ -55,7 +55,7 @@ Les fins de ligne recommandées sont :
 
 Les caractères accentués français sont écrits directement :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 é è ê à ù ç œ
@@ -69,7 +69,7 @@ Ils ne doivent pas être remplacés par des entités HTML telles que `&eacute;`.
 
 Les chapitres suivent cette forme :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 CHAPITRE-NN-Titre-court-et-explicite.md
@@ -77,7 +77,7 @@ CHAPITRE-NN-Titre-court-et-explicite.md
 
 Exemples :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 CHAPITRE-01-Vision-generale-du-projet.md
@@ -128,7 +128,7 @@ date: "2026-07-18"
 
 ### 5.2 États autorisés
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 draft
@@ -336,7 +336,7 @@ func _ready() -> void:
     print("Guide IA GameDev")
 ```
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```
 
@@ -406,7 +406,7 @@ Règles :
 
 Tout bloc procédural reçoit immédiatement un repère défini par `DOC-V0-ANN-CONTEXTES`.
 
-> **[LECTURE] Légende abrégée - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [PS] PowerShell 7
@@ -430,7 +430,7 @@ pandoc --version
 
 Exemple de fichier :
 
-> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet.
+> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet. Ouvrir le dossier du projet dans VS Code, créer le dossier `.vscode` s’il n’existe pas, puis créer `settings.json`.
 
 ```json
 {
@@ -659,7 +659,7 @@ Le fichier racine `contents.txt` définit l’ordre officiel des documents.
 
 Chaque ligne non vide contient un chemin relatif :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 README.md
@@ -699,7 +699,7 @@ Le pipeline principal utilise Pandoc et un moteur PDF compatible.
 
 Principe :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Markdown + metadata.yaml + contents.txt

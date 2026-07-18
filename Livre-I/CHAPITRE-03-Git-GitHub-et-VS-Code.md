@@ -56,7 +56,7 @@ La règle principale est :
 
 ## 2. Git, GitHub et VS Code
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Git
@@ -91,7 +91,7 @@ winget install --id Git.Git --exact --source winget
 
 Fermer et rouvrir PowerShell :
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
 
 ```powershell
 git --version
@@ -187,7 +187,7 @@ Installer uniquement les extensions nécessaires. Chaque extension exécute du c
 
 Exemple `.vscode/settings.json` :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.vscode/settings.json`.
+> **[VSC] Visual Studio Code - Créer :** `.vscode/settings.json` à la racine du projet. Ouvrir le dossier du projet dans VS Code, créer le dossier `.vscode` s’il n’existe pas, puis créer `settings.json`.
 
 ```json
 {
@@ -225,7 +225,7 @@ git status
 
 Ajouter et committer :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell "# Mon projet" | Out-File README.md -Encoding utf8 git status`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git add README.md
@@ -244,7 +244,7 @@ git log --oneline --decorate --graph --all
 
 Git distingue :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 fichiers de travail
@@ -326,7 +326,7 @@ git status --ignored
 
 Un `.gitignore` n’efface pas un fichier déjà suivi. Pour arrêter de le suivre sans le supprimer localement :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.gitignore`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git rm --cached .env
@@ -485,7 +485,7 @@ Protéger la clé privée avec une phrase secrète et une sauvegarde chiffrée a
 
 Créer une branche :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell git remote set-url origin git@github.com:UTILISATEUR/DEPOT.git`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git switch -c docs/ajouter-chapitre
@@ -494,7 +494,7 @@ git status
 
 Après les modifications :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell git switch -c docs/ajouter-chapitre git status`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git add .
@@ -506,7 +506,7 @@ Une branche doit traiter un objectif cohérent.
 
 Convention recommandée :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 feat/...
@@ -521,7 +521,7 @@ chore/...
 
 Avant de récupérer :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text feat/... fix/... docs/... refactor/... test/... chore/...`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git status
@@ -559,7 +559,7 @@ git restore chemin\fichier.md
 
 ### 15.2 Retirer de l’index sans perdre le fichier
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell git diff -- chemin\fichier.md git restore chemin\fichier.md`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git restore --staged chemin\fichier.md
@@ -569,7 +569,7 @@ git restore --staged chemin\fichier.md
 
 Pour un commit déjà partagé :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell git restore --staged chemin\fichier.md`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git revert IDENTIFIANT_DU_COMMIT
@@ -577,7 +577,7 @@ git revert IDENTIFIANT_DU_COMMIT
 
 ### 15.4 Retrouver une référence
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell git restore --staged chemin\fichier.md`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 git reflog

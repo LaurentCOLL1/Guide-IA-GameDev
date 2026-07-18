@@ -55,7 +55,7 @@ Cette non-conformité est classée **majeure** pour un guide destiné aux début
 
 La convention `DOC-V0-ANN-CONTEXTES` introduit les repères :
 
-> **[LECTURE] Liste normative - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [PS] [CMD] [WSL] [DCT] [DCK] [VSC] [WEB] [APP] [SORTIE] [LECTURE]
@@ -71,7 +71,7 @@ Avant correction, le lecteur devait déduire le terminal à utiliser.
 
 Après correction :
 
-> **[PS] PowerShell 7 - Exécuter :** ouvrir PowerShell sur l’hôte Windows.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget show --id Git.Git --exact --source winget

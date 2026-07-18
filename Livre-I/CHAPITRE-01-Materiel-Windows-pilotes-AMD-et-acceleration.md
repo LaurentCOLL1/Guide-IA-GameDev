@@ -216,7 +216,7 @@ Le guide ne recommande pas l’overclocking pour le parcours principal. Toute mo
 
 Séparer logiquement les catégories suivantes :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\
@@ -274,7 +274,7 @@ dxdiag /t C:\IA-GameDev\logs\dxdiag.txt
 
 Afficher la version de Windows avec l’interface graphique :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell New-Item -ItemType Directory -Force -Path C:\IA-GameDev\logs | Out-Null dxdiag /t C:\IA-GameDev\logs\dxdiag.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winver
@@ -305,7 +305,7 @@ Au moment de la vérification de ce chapitre, la page AMD proposait un outil act
 
 Avant l’installation :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Date :
@@ -463,7 +463,7 @@ Avant Docker, ComfyUI ou les LLM, le poste doit réussir un test de base :
 
 Créer :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\logs\platform-baseline\
@@ -471,7 +471,7 @@ C:\IA-GameDev\logs\platform-baseline\
 
 Y conserver :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 windows-info.txt
@@ -483,7 +483,7 @@ validation-notes.md
 
 Exemple de collecte :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text windows-info.txt dxdiag.txt gpu-driver.txt disk-space.txt validation-notes.md`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $dest = "C:\IA-GameDev\logs\platform-baseline"
@@ -580,7 +580,7 @@ Le parcours Solo privilégie :
 
 Arborescence conseillée :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 C:\IA-GameDev\

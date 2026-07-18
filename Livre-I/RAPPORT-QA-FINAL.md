@@ -112,7 +112,7 @@ Les contrôles n’ont détecté aucun :
 
 La nouvelle structure fournit une progression complète :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 comprendre le poste
@@ -156,7 +156,7 @@ Le journal Pandoc ne contient aucune erreur, aucun avertissement de glyphe manqu
 
 Un échantillon de **82 pages** a été rendu à 160 DPI et examiné :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 1-5
@@ -242,7 +242,7 @@ Les procédures conservent donc :
 
 L’artefact GitHub Actions `documentation-validation` contient :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev.pdf
@@ -254,7 +254,7 @@ PDF-INFO.txt
 
 L’archive de l’exécution porte l’empreinte :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 sha256:37692ab31405d003fcbe7f6c9fb8ac2f4b9b4d8017e95af485ff9db473bdda98

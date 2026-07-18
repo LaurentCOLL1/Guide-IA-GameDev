@@ -49,7 +49,7 @@ Aucun de ces composants ne doit être présenté comme un modèle. Ils chargent 
 
 Le pipeline retenu est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Modèle et licence vérifiés
@@ -69,7 +69,7 @@ Mesures, validation et journal de décision
 
 ### 2.1 Parcours principal
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Windows 11
@@ -196,7 +196,7 @@ Le besoin mémoire dépend également :
 
 Pour la RX 6750 XT et 32 Go de RAM :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 contexte initial : 4096 jetons
@@ -255,7 +255,7 @@ New-Item -ItemType Directory -Force "D:\IA\ollama-models" | Out-Null
 
 Créer la variable utilisateur :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell New-Item -ItemType Directory -Force "D:\IA\ollama-models" | Out-Null`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 [Environment]::SetEnvironmentVariable(
@@ -316,7 +316,7 @@ ollama run <modele-de-validation>
 
 Prompt de validation :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Réponds uniquement avec : OLLAMA_OK
@@ -364,7 +364,7 @@ Invoke-RestMethod `
 
 ### 6.4 Tester l’API compatible OpenAI
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `-ContentType "application/json"`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $body = @{
@@ -437,7 +437,7 @@ Le backend Vulkan ne devient pas le parcours stable avant :
 
 Journaux Windows :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 %LOCALAPPDATA%\Ollama\app.log
@@ -447,7 +447,7 @@ Journaux Windows :
 
 Collecte :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text %LOCALAPPDATA%\Ollama\app.log %LOCALAPPDATA%\Ollama\server.log %LOCALAPPDATA%\Ollama\upgrade.log`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 ollama --version
@@ -470,7 +470,7 @@ Ne pas mélanger les DLL de plusieurs paquets dans le même dossier.
 
 Arborescence :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 D:\IA\llama.cpp\
@@ -498,7 +498,7 @@ Set-Location "D:\IA\llama.cpp\cpu\<build-id>"
 
 Test :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Set-Location "D:\IA\llama.cpp\cpu\<build-id>" .\llama-cli.exe --version`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 .\llama-cli.exe `
@@ -511,7 +511,7 @@ Test :
 
 ### 8.3 Vérification Vulkan
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell .\llama-cli.exe`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Set-Location "D:\IA\llama.cpp\vulkan\<build-id>"
@@ -520,7 +520,7 @@ Set-Location "D:\IA\llama.cpp\vulkan\<build-id>"
 
 Test avec offload progressif :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Set-Location "D:\IA\llama.cpp\vulkan\<build-id>" .\llama-cli.exe --version`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 .\llama-cli.exe `
@@ -537,7 +537,7 @@ Augmenter `-ngl` progressivement. Ne pas commencer par un offload maximal sur un
 
 CPU :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `-m "D:\IA\llama.cpp\models\modele.gguf"`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 .\llama-bench.exe `
@@ -548,7 +548,7 @@ CPU :
 
 Vulkan :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell .\llama-bench.exe`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 .\llama-bench.exe `
@@ -597,7 +597,7 @@ Invoke-RestMethod http://127.0.0.1:8081/health
 
 Depuis Open WebUI ou LibreChat :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://host.docker.internal:8081/v1
@@ -714,7 +714,7 @@ docker compose up -d
 
 Ouvrir :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 
@@ -747,7 +747,7 @@ endpoints:
 
 Monter `librechat.yaml` dans le conteneur puis redémarrer :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `librechat.yaml`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose down
@@ -762,7 +762,7 @@ Ne pas exécuter en permanence Open WebUI et LibreChat sur la même station sans
 
 Choisir une interface principale :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Open WebUI : parcours recommandé du guide
@@ -788,7 +788,7 @@ Les adresses `localhost` dans un conteneur désignent le conteneur lui-même, pa
 
 Utiliser :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 127.0.0.1
@@ -796,7 +796,7 @@ Utiliser :
 
 et non :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 0.0.0.0
@@ -863,7 +863,7 @@ Pour un test de régression :
 
 ### 15.1 Test fonctionnel
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Réponds uniquement avec : TEST_LLM_OK
@@ -871,7 +871,7 @@ Réponds uniquement avec : TEST_LLM_OK
 
 ### 15.2 Test JSON
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Retourne uniquement un objet JSON valide contenant les clés status et value.
@@ -880,7 +880,7 @@ status doit valoir ok et value doit valoir 42.
 
 ### 15.3 Test français
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Résume en trois phrases un paragraphe technique en français sans inventer de fait.
@@ -888,7 +888,7 @@ Résume en trois phrases un paragraphe technique en français sans inventer de f
 
 ### 15.4 Test code
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Écris une fonction GDScript typée qui additionne deux entiers, puis un test minimal.
@@ -898,7 +898,7 @@ Le code produit doit être exécuté ou analysé. Une réponse plausible ne cons
 
 ### 15.5 Test de refus d’invention
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Lorsque l’information manque, réponds exactement : INFORMATION_INSUFFISANTE
@@ -976,7 +976,7 @@ ollama --version | Out-File .\exports\ollama-version.txt
 
 ### 17.3 Inventaire llama.cpp
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell ollama list | Out-File .\exports\ollama-models.txt ollama --version | Out-File .\exports\ollama-version.txt`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-FileHash .\models\*.gguf -Algorithm SHA256 |
@@ -1070,7 +1070,7 @@ ou :
 
 ### Couche 3 — API
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell .\llama-cli.exe --version`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Test-NetConnection 127.0.0.1 -Port 11434
@@ -1079,7 +1079,7 @@ Invoke-RestMethod http://127.0.0.1:11434/api/tags
 
 ### Couche 4 — Conteneur
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Test-NetConnection 127.0.0.1 -Port 11434 Invoke-RestMethod http://127.0.0.1:11434/api/tags`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose ps
@@ -1108,7 +1108,7 @@ docker compose logs --tail=200
 
 Le Mode Solo utilise :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Ollama natif
@@ -1159,7 +1159,7 @@ Un modèle ne doit pas être ajouté directement en production par simple télé
 
 Utiliser :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://host.docker.internal:11434
@@ -1167,7 +1167,7 @@ http://host.docker.internal:11434
 
 et non :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://localhost:11434
@@ -1227,7 +1227,7 @@ Comparer :
 
 Le chapitre est validé lorsque :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Ollama Windows              → API disponible
@@ -1281,7 +1281,7 @@ retour CPU                  → fonctionnel
 
 La plateforme LLM locale repose sur une séparation nette des responsabilités :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Ollama      → simplicité et service principal

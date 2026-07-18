@@ -53,7 +53,7 @@ La règle principale est :
 
 Windows Terminal est l’application qui affiche les onglets, panneaux et sessions. Il peut héberger plusieurs shells :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Windows Terminal
@@ -95,7 +95,7 @@ Write-Output "Commande PowerShell"
 printf '%s\n' "Commande Bash ou WSL"
 ```
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Sortie attendue ou pseudo-arborescence
@@ -197,7 +197,7 @@ Get-ChildItem
 
 Alias courants à reconnaître, sans les imposer dans les scripts documentés :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 pwd  → Get-Location
@@ -225,7 +225,7 @@ C:\IA-GameDev\models\modele.gguf
 
 Toujours entourer un chemin contenant des espaces de guillemets :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell # Absolu C:\IA-GameDev\models\modele.gguf # Relatif au dossier courant .\models\modele.gguf # Dossier parent ..\archives`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Set-Location "C:\IA GameDev\Mon Projet"
@@ -233,7 +233,7 @@ Set-Location "C:\IA GameDev\Mon Projet"
 
 ### 5.3 Chemins utilisateur portables
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Set-Location "C:\IA GameDev\Mon Projet"`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $HOME
@@ -303,7 +303,7 @@ Elle disparaît à la fermeture de la session.
 
 ### 7.3 Variable persistante utilisateur
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell $env:MON_MODELE = "C:\IA-GameDev\models\exemple.gguf"`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 [Environment]::SetEnvironmentVariable(
@@ -382,7 +382,7 @@ Get-ComputerInfo | Out-File .\windows-info.txt -Encoding utf8
 
 Sortie standard et erreurs :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-ComputerInfo | Out-File .\windows-info.txt -Encoding utf8`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & .\outil.exe --version *> .\outil-version.log
@@ -390,7 +390,7 @@ Sortie standard et erreurs :
 
 Afficher et enregistrer simultanément :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --version *> .\outil-version.log`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & .\outil.exe --check 2>&1 | Tee-Object .\validation.log
@@ -400,7 +400,7 @@ Afficher et enregistrer simultanément :
 
 Après un programme natif :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --check 2>&1 | Tee-Object .\validation.log`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 & git --version
@@ -409,7 +409,7 @@ $LASTEXITCODE
 
 Dans un script :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell & .\outil.exe --check 2>&1 | Tee-Object .\validation.log`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 if ($LASTEXITCODE -ne 0) {
@@ -437,7 +437,7 @@ Pour les formats non pris en charge ou les archives volumineuses, utiliser 7-Zip
 
 ### 10.2 Calculer une empreinte
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell 7z a .\backups\projet.7z .\projet\`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-FileHash .\archive.zip -Algorithm SHA256
@@ -445,7 +445,7 @@ Get-FileHash .\archive.zip -Algorithm SHA256
 
 Enregistrer le résultat :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-FileHash .\archive.zip -Algorithm SHA256`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 Get-FileHash .\archive.zip -Algorithm SHA256 |
@@ -461,7 +461,7 @@ Le dépôt utilise UTF-8.
 
 Créer un fichier explicitement :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Get-FileHash .\archive.zip -Algorithm SHA256 | Format-List | Out-File .\archive.zip.sha256.txt -Encoding utf8`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 "Texte en français" | Out-File .\exemple.txt -Encoding utf8
@@ -484,7 +484,7 @@ Une commande lancée dans WSL agit dans un environnement Linux, avec ses propres
 
 Correspondance typique :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Windows : C:\IA-GameDev\projet
@@ -499,7 +499,7 @@ Ne pas mélanger silencieusement les exécutables `python`, `git` ou `docker` de
 
 Afficher le chemin du profil :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `text Windows : C:\IA-GameDev\projet WSL     : /mnt/c/IA-GameDev/projet`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 $PROFILE

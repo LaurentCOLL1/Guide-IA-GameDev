@@ -51,7 +51,7 @@ Docker ne remplace pas Windows, Godot, Blender ou ComfyUI. Il fournit une couche
 
 La stratégie retenue est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Windows 11
@@ -114,7 +114,7 @@ La configuration de référence du guide satisfait les exigences de mémoire ave
 
 Le backend principal est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Docker Desktop
@@ -185,7 +185,7 @@ Ne pas installer manuellement un ancien moteur Docker dans une distribution WSL 
 
 Dans le Gestionnaire des tâches :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Performances
@@ -209,7 +209,7 @@ Télécharger Docker Desktop uniquement depuis le site officiel Docker.
 
 Enregistrer avant installation :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Docker Desktop : version téléchargée
@@ -236,7 +236,7 @@ Le parcours principal du guide n’exige pas les conteneurs Windows.
 
 Dans Docker Desktop :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Settings
@@ -351,7 +351,7 @@ Ces valeurs ne sont pas des minima universels. Elles servent de point de départ
 
 Créer ou modifier :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 %USERPROFILE%\.wslconfig
@@ -400,7 +400,7 @@ Dans le Gestionnaire des tâches, surveiller également :
 
 ### 8.1 Arborescence recommandée
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 plateforme-locale/
@@ -421,7 +421,7 @@ plateforme-locale/
 
 Ne pas versionner :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 .env
@@ -455,7 +455,7 @@ Docker recommande de conserver les sources fréquemment bind-montées dans le sy
 
 Pour les projets à forte activité disque :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 \\wsl$\Ubuntu\home\<utilisateur>\projects\<projet>
@@ -477,7 +477,7 @@ Les documents peu modifiés, sauvegardes et exports peuvent rester sur un volume
 
 Le fichier principal est :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 compose.yaml
@@ -485,7 +485,7 @@ compose.yaml
 
 Fichiers complémentaires possibles :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 compose.override.yaml
@@ -672,7 +672,7 @@ Docker Compose OK
 
 Arrêter et nettoyer :
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `powershell Invoke-WebRequest http://127.0.0.1:18080`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose down
@@ -723,7 +723,7 @@ secrets:
 
 Dans le conteneur, le secret est monté sous :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 /run/secrets/api_key
@@ -798,7 +798,7 @@ Les interfaces de base de données, tableaux de bord et consoles de debug doiven
 
 Un conteneur Docker Desktop peut joindre un service exécuté sur Windows avec :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 host.docker.internal
@@ -806,7 +806,7 @@ host.docker.internal
 
 Exemple : un service Windows écoute sur le port `11434` :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 http://host.docker.internal:11434
@@ -822,7 +822,7 @@ Ne pas remplacer cette adresse par une IP hôte codée en dur, car l’adresse i
 
 Pour la RX 6750 XT :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 GPU AMD
@@ -838,7 +838,7 @@ Les conteneurs hébergent en priorité les services qui n’ont pas besoin d’u
 
 Exemple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Open WebUI dans Docker
@@ -865,7 +865,7 @@ Cette architecture évite de rendre toute la plateforme dépendante d’une pris
 
 ### 15.2 Inventaire
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `.env.example`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose config > exports\compose-resolved.yaml
@@ -892,7 +892,7 @@ docker run --rm `
 
 ### 15.4 Restauration d’un volume
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `tar -czf /backup/mon_volume.tar.gz -C /data .`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker volume create mon_volume
@@ -1131,7 +1131,7 @@ Causes probables :
 
 ### Le client ne trouve pas le daemon
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 error during connect
@@ -1168,7 +1168,7 @@ Ajouter :
 
 ### Le disque Docker grossit
 
-> **[VSC] Visual Studio Code - Créer ou modifier :** `C:\`.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker system df
@@ -1202,7 +1202,7 @@ Ne pas exécuter `docker system prune --all --volumes` sans inventaire et sauveg
 
 Le chapitre est validé lorsque :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 wsl --version             → succès

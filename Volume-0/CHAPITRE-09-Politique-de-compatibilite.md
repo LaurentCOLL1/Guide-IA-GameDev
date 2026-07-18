@@ -202,7 +202,7 @@ Une plage de versions n’est acceptable que si elle a été testée.
 
 Exemple de formulation correcte :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Validé avec la version de référence et la version majeure suivante.
@@ -211,7 +211,7 @@ Les versions antérieures ne sont pas prises en charge.
 
 Exemple incorrect :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Fonctionne avec toutes les versions récentes.
@@ -420,7 +420,7 @@ Un workflow doit séparer :
 
 Les variantes doivent être nommées explicitement, par exemple :
 
-> **[LECTURE] Exemple ou valeur de référence - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 WF-IMG-001-H2-LOWVRAM

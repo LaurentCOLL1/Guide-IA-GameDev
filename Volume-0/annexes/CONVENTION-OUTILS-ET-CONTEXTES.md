@@ -47,7 +47,7 @@ Le repère doit répondre au minimum à deux questions :
 
 Le repère **[PS]** signifie que les commandes sont saisies dans **PowerShell 7** ouvert sur l’hôte Windows.
 
-> **[PS] PowerShell 7 - Exécuter :** ouvrir PowerShell sur Windows, sans privilèges administrateur sauf indication contraire.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 winget show --id Git.Git --exact --source winget
@@ -56,7 +56,7 @@ winget install --id Git.Git --exact --source winget
 
 Après une installation qui modifie le `PATH`, la procédure doit préciser qu’il faut fermer puis rouvrir PowerShell.
 
-> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer toutes les fenêtres PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
+> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.
 
 ```powershell
 git --version
@@ -99,7 +99,7 @@ Les contextes Docker ne doivent pas être confondus.
 
 ### 6.1 Commande Docker lancée depuis Windows
 
-> **[PS] PowerShell 7 - Exécuter depuis le dossier contenant `compose.yaml` :** la commande pilote Docker Desktop depuis l’hôte Windows.
+> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
 
 ```powershell
 docker compose up -d
@@ -111,7 +111,7 @@ docker compose up -d
 
 ### 6.3 Commande dans un conteneur
 
-> **[DCT] Terminal du conteneur - Exécuter :** après ouverture d’un shell dans le conteneur concerné.
+> **[DCT] Terminal du conteneur - Exécuter :** utiliser le shell du conteneur concerné.
 
 ```bash
 python --version
@@ -136,7 +136,7 @@ Le repère générique **[APP]** ne doit jamais être écrit sans le nom de l’
 
 Une sortie de commande ne doit pas être confondue avec une commande.
 
-> **[SORTIE] Résultat attendu - Ne pas saisir :** la version exacte peut varier.
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 Git version 2.x.y
@@ -144,7 +144,7 @@ Git version 2.x.y
 
 Une arborescence, une valeur indicative, un diagramme textuel ou un pseudocode utilise **[LECTURE]**.
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** exemple d’organisation d’un projet.
+> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.
 
 ```text
 project/
@@ -183,7 +183,7 @@ La CI vérifie les documents du Volume 0 et du Livre I. Tout bloc de code procé
 
 Les repères reconnus sont :
 
-> **[LECTURE] Liste normative - Ne pas saisir.**
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 [PS] [CMD] [WSL] [DCT] [DCK] [VSC] [WEB] [APP] [SORTIE] [LECTURE]

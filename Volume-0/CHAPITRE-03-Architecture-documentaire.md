@@ -35,7 +35,7 @@ L’organisation du projet repose sur sept principes.
 
 ## 3. Vue d’ensemble du dépôt
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Guide-IA-GameDev/
@@ -169,7 +169,7 @@ Chaque ressource du Companion Pack doit posséder un identifiant et une fiche as
 
 Chaque livre possède au minimum :
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Livre-X/
@@ -331,7 +331,7 @@ Avant chaque publication, les vérifications suivantes doivent être exécutées
 
 ## 17. Exemple de flux éditorial
 
-> **[LECTURE] Structure de référence - Ne pas saisir :** utiliser le bloc comme repère visuel.
+> **[LECTURE] Exemple ou structure de référence - Ne pas saisir.**
 
 ```text
 Nouvelle idée
