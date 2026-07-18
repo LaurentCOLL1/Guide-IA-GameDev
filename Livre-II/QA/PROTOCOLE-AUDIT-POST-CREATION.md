@@ -2,65 +2,77 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-18"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Protocole d’audit post-création des chapitres
 
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
+
 ## 1. Règle obligatoire
 
-À partir du Livre II, un chapitre n’est pas considéré comme terminé immédiatement après sa rédaction.
+À partir du Livre II, un chapitre n’est jamais considéré comme terminé immédiatement après sa rédaction. Il doit franchir une porte d’audit distincte, recevoir ses corrections, réussir les validations automatiques et laisser une preuve consultable.
 
-Il doit franchir une porte d’audit post-création distincte comprenant :
+La séquence obligatoire est :
 
-1. la comparaison avec le sommaire maître ;
-2. la vérification du périmètre annoncé ;
-3. la recherche des notions fondamentales manquantes ;
-4. la vérification des versions et des sources officielles ;
-5. la relecture des commandes et exemples de code ;
-6. le contrôle des frontières avec les chapitres précédents et suivants ;
-7. le contrôle des métadonnées, liens, index, roadmap et `contents.txt` ;
-8. la compilation Pandoc/XeLaTeX ;
-9. l’inspection technique du PDF ;
-10. la rédaction d’une preuve d’audit.
+> **[LECTURE] Processus de référence - Ne pas saisir.**
 
-Un chapitre audité porte les métadonnées suivantes :
+```text
+rédaction
+   ↓
+audit de complétude et de périmètre
+   ↓
+audit des outils et contextes d’utilisation
+   ↓
+corrections et seconde lecture
+   ↓
+vérification technique et des sources
+   ↓
+mise à jour index / roadmap / contents.txt
+   ↓
+CI structurelle, contextuelle et PDF
+   ↓
+rapport et preuve externe
+   ↓
+chapitre déclaré rédigé, repéré et audité
+```
+
+## 2. Métadonnées obligatoires
+
+Un chapitre audité porte au minimum :
+
+> **[LECTURE] Exemple YAML - Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
 audit-status: "complete"
 audit-date: "AAAA-MM-JJ"
 audit-report: "Livre-II/QA/<rapport>.md"
 audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ```
 
-`audit-level: static-review` signifie que le contenu, les commandes et le code ont été relus contre les références officielles, mais que les extraits n’ont pas nécessairement été exécutés sur une copie matérialisée de `Project Asteria`.
+`static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
 
-Lorsque les fichiers exécutables existent dans le Companion Pack ou dans le dépôt du projet fil rouge, le niveau peut devenir :
-
-```yaml
-audit-level: "runtime-tested"
-```
-
-## 2. Matrice de contrôle
+## 3. Matrice de contrôle
 
 ### Q0 — Intégrité
 
 - [ ] Le fichier existe au chemin canonique.
 - [ ] Le front matter YAML est valide.
-- [ ] L’identifiant est unique.
-- [ ] Le numéro du chapitre correspond au nom de fichier.
-- [ ] L’encodage et les blocs Markdown sont valides.
+- [ ] L’identifiant est unique et correspond au numéro du chapitre.
+- [ ] L’encodage UTF-8 et les blocs Markdown sont valides.
+- [ ] Les liens locaux sont résolus.
 
 ### Q1 — Complétude pédagogique
 
-- [ ] L’objectif est observable.
-- [ ] Les prérequis sont indiqués.
-- [ ] Les termes nouveaux sont définis.
+- [ ] L’objectif et les prérequis sont observables.
+- [ ] Les termes nouveaux sont définis avant usage.
 - [ ] Le parcours convient à un débutant.
-- [ ] Les sujets exclus sont annoncés et renvoyés au bon chapitre.
+- [ ] Les sujets exclus sont renvoyés au bon chapitre.
 - [ ] Les modes Solo et Studio sont présents lorsque pertinents.
 - [ ] Une checklist et un critère d’acceptation sont fournis.
 
@@ -68,21 +80,32 @@ audit-level: "runtime-tested"
 
 - [ ] Le chapitre couvre exactement son entrée du sommaire maître.
 - [ ] Il ne duplique pas inutilement un chapitre précédent.
-- [ ] Il ne consomme pas prématurément le périmètre d’un chapitre suivant.
-- [ ] Les identifiants et chemins cités sont stables.
+- [ ] Il ne consomme pas prématurément le périmètre suivant.
+- [ ] Les chemins et identifiants cités sont stables.
 - [ ] L’index, la roadmap et `contents.txt` reflètent son état réel.
 
 ### Q3 — Vérification technique
 
-- [ ] Les versions sont actuelles à la date d’audit.
-- [ ] Les sources principales sont officielles et épinglées à la version lorsque possible.
-- [ ] Les commandes ont été relues argument par argument.
-- [ ] Les exemples de code ont été relus syntaxiquement.
-- [ ] Les sorties attendues sont plausibles et cohérentes.
-- [ ] Les limitations du test sont déclarées.
-- [ ] Un diagnostic est prévu pour les erreurs courantes.
+- [ ] Les versions et sources sont actuelles à la date d’audit.
+- [ ] Les sources principales sont officielles et épinglées lorsque possible.
+- [ ] Les commandes sont relues argument par argument.
+- [ ] Les exemples de code font l’objet d’une revue syntaxique statique.
+- [ ] Les sorties attendues sont plausibles.
+- [ ] Les limitations des tests sont déclarées.
+- [ ] Les erreurs courantes disposent d’un diagnostic.
 
-### Q4 — Sécurité et licences
+### Q4 — Outils et contextes d’utilisation
+
+- [ ] Chaque bloc procédural possède un repère reconnu.
+- [ ] Une commande indique le terminal exact : `[PS]`, `[CMD]`, `[WSL]` ou `[DCT]`.
+- [ ] Un fichier à créer ou modifier indique `[VSC]` et son chemin cible.
+- [ ] Une action graphique indique `[APP]` ou `[DCK]` et nomme l’application.
+- [ ] Un téléchargement procédural indique `[WEB]`.
+- [ ] Une sortie à comparer utilise `[SORTIE]`.
+- [ ] Un exemple non exécutable utilise `[LECTURE]`.
+- [ ] Le repère est cohérent avec le langage et l’action décrite.
+
+### Q5 — Sécurité et licences
 
 - [ ] Les privilèges sont minimaux.
 - [ ] Les commandes destructives sont signalées.
@@ -90,14 +113,16 @@ audit-level: "runtime-tested"
 - [ ] Les obligations de licence et d’attribution sont mentionnées.
 - [ ] Les addons, modèles, assets ou services tiers sont qualifiés.
 
-### Q5 — Publication
+### Q6 — Publication
 
-- [ ] La CI structurelle réussit.
+- [ ] `Validate Usage Contexts` réussit.
+- [ ] `Validate Documentation` réussit.
 - [ ] La compilation Pandoc/XeLaTeX réussit.
 - [ ] Le PDF est non vide et son texte est extractible.
-- [ ] Les erreurs ou réserves sont consignées dans le rapport d’audit.
+- [ ] Un échantillon des pages modifiées est inspecté visuellement.
+- [ ] Les erreurs, réserves, exécutions et artefacts sont consignés.
 
-## 3. Décision
+## 4. Décision
 
 Un audit se termine par une décision unique :
 
@@ -105,26 +130,4 @@ Un audit se termine par une décision unique :
 - **Accepté avec réserves** : le chapitre est utilisable, mais un test runtime ou matériel reste à produire ;
 - **Refusé** : une omission ou erreur majeure empêche de le considérer comme terminé.
 
-## 4. Règle pour les prochains chapitres
-
-La séquence obligatoire devient :
-
-```text
-rédaction
-   ↓
-audit de complétude
-   ↓
-corrections
-   ↓
-vérification technique
-   ↓
-mise à jour index / roadmap / contents
-   ↓
-compilation CI
-   ↓
-rapport d’audit
-   ↓
-chapitre déclaré audité
-```
-
-La CI du dépôt vérifie la présence de `audit-status`, `audit-date` et `audit-report` pour chaque chapitre du Livre II déclaré dans `contents.txt`.
+La mention **rédigé, repéré et audité** signifie que les portes documentaires et statiques ont réussi. Elle ne signifie pas automatiquement que tous les exemples ont été exécutés sur la station de référence.

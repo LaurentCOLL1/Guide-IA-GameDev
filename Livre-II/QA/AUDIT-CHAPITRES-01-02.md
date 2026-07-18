@@ -2,182 +2,138 @@
 title: "Audit post-création — Livre II, chapitres 1 et 2"
 id: "DOC-L2-QA-AUDIT-CH01-CH02"
 status: "complete"
-version: "1.1.0"
+version: "2.0.0"
 book: "Livre II"
 category: "quality-report"
 validation-date: "2026-07-18"
-validation-run: "29644072118"
+audit-level: "static-review"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+validation-evidence: "Livre-II/QA/VALIDATION-FINALE-CHAPITRES-01-02.yaml"
 ---
 
 # Audit post-création — Livre II, chapitres 1 et 2
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 ## 1. Périmètre
 
 Documents contrôlés :
 
 - `DOC-L2-CH01` — Découvrir Godot et créer le projet fil rouge ;
-- `DOC-L2-CH02` — Fondamentaux de GDScript.
+- `DOC-L2-CH02` — Fondamentaux de GDScript ;
+- `DOC-L2-QA-POST-CREATION` — protocole d’audit ;
+- l’index du Livre II, la roadmap et les contrôles CI associés.
 
-L’audit applique le protocole `DOC-L2-QA-POST-CREATION` et compare les deux documents au sommaire maître du Livre II.
+Cette campagne reprend l’audit précédent et ajoute un contrôle transversal : aucun lecteur ne doit devoir deviner quel terminal, éditeur ou programme utiliser.
 
 ## 2. Méthode
 
-Les contrôles ont porté sur :
+Les deux chapitres ont été relus selon les portes suivantes :
 
-- la complétude pédagogique ;
-- les frontières entre chapitres ;
-- les métadonnées et identifiants ;
-- les versions et liens officiels ;
-- la syntaxe et la cohérence des commandes ;
-- la relecture statique des extraits GDScript ;
-- les risques, licences et diagnostics ;
-- l’intégration à `contents.txt`, à l’index et à la roadmap ;
-- la compilation Pandoc/XeLaTeX ;
-- l’inspection technique et visuelle du PDF.
+- complétude pédagogique et frontières avec les chapitres suivants ;
+- versions, sources officielles et exactitude des affirmations ;
+- relecture statique des commandes et extraits GDScript ;
+- identification des fichiers réellement à créer ;
+- distinction entre commandes, interfaces graphiques, sorties et exemples ;
+- contrôle automatique de présence et de cohérence des repères ;
+- compilation Pandoc/XeLaTeX et inspection du PDF.
 
-Le dépôt du guide ne contient pas encore une copie exécutable complète de `Project Asteria`. Les extraits GDScript font donc l’objet d’une **revue statique** contre la documentation Godot 4.7. Leur exécution réelle reste à reproduire lorsque les fichiers du projet fil rouge seront matérialisés dans le Companion Pack ou dans un dépôt dédié.
+Le projet fil rouge exécutable n’est pas encore matérialisé dans le dépôt. La campagne reste donc au niveau **static-review** et ne revendique pas l’exécution de chaque extrait.
 
-## 3. Chapitre 1 — Résultats
+## 3. Vérification technique actualisée
 
-### Couverture validée
+La version de référence reste Godot `4.7.1-stable`. La seconde lecture confirme notamment :
 
-Le chapitre couvre correctement :
+- la distinction entre l’édition Standard et l’édition .NET ;
+- Forward+ comme renderer principal du parcours ;
+- `--quit-after` exprimé en nombre d’itérations de la boucle principale ;
+- la présence et l’usage pédagogique de `is`, `as` et `await` en GDScript ;
+- l’épinglage des références à la documentation Godot 4.7 lorsque possible.
 
-- le rôle et le périmètre de `Project Asteria` ;
-- la version stable de Godot ;
-- les éditions Standard et .NET ;
-- Forward+, Mobile et Compatibility ;
-- le téléchargement, l’empreinte et l’installation portable ;
-- la création du dépôt et du projet ;
-- `res://`, `user://` et `.gdignore` ;
-- l’éditeur, les nœuds, scènes et Resources ;
-- l’arborescence par fonctionnalité ;
-- la scène de bootstrap et le premier script ;
-- la validation visuelle et headless ;
-- Git, les addons, le diagnostic et les modes Solo/Studio.
+Aucune correction technique majeure supplémentaire n’a été nécessaire dans le corps pédagogique lors de cette campagne.
 
-### Oublis détectés et corrigés
+## 4. Chapitre 1 — Godot et projet fil rouge
 
-| ID | Gravité | Constat | Correction |
-|---|---|---|---|
-| L2-AUD-001 | majeure | La base Git ne documentait pas suffisamment `.gitattributes`. | Ajout de la génération et du contenu minimal de `.gitattributes`, avec normalisation LF. |
-| L2-AUD-002 | majeure | Le fichier généré `*.translation` n’était pas exclu. | Ajout à `.gitignore` conformément à la documentation Godot 4.7. |
-| L2-AUD-003 | mineure | La liste des fichiers initiaux omettait `.gitattributes`. | Ajout à l’inventaire attendu. |
-| L2-AUD-004 | mineure | `--quit-after` pouvait être interprété comme une durée. | Précision qu’il s’agit d’un nombre d’itérations et ajustement du test. |
-| L2-AUD-005 | majeure | La licence MIT de Godot et l’obligation d’attribution n’étaient pas explicitées dans le chapitre d’installation. | Ajout d’une section licence et notices tierces. |
-| L2-AUD-012 | mineure | La commande du premier commit n’ajoutait pas le nouveau fichier `.gitattributes`. | Ajout explicite de `.gitattributes` à la commande `git add`. |
+Le chapitre couvre toujours correctement l’installation portable, le choix du renderer, la création du dépôt, l’arborescence, la scène de bootstrap, le premier script, la validation graphique et headless, Git, les licences et le diagnostic.
+
+### Contextes désormais explicites
+
+- les commandes Windows et Godot headless utilisent `[PS]` ;
+- `docs/environment/godot-reference.yaml`, `.gitignore`, `.gitattributes`, `README.md` et `main.gd` utilisent `[VSC]` avec leur chemin ;
+- la création du projet, les nœuds, l’Inspector, les raccourcis d’exécution et le dock FileSystem utilisent `[APP]` ;
+- les listes de fichiers et sorties de l’éditeur utilisent `[SORTIE]` ;
+- les arborescences et exemples conceptuels utilisent `[LECTURE]` ;
+- les téléchargements procéduraux utilisent `[WEB]`.
 
 ### Décision
 
-**Accepté avec réserve runtime.** Le chapitre est complet sur le plan documentaire après corrections. La scène et les commandes doivent encore être exécutées sur une copie matérialisée de `Project Asteria` pour passer au niveau `runtime-tested`.
+**Accepté avec réserve runtime.** Le lecteur dispose désormais du programme, de l’action et du chemin nécessaires avant chaque étape procédurale.
 
-## 4. Chapitre 2 — Résultats
+## 5. Chapitre 2 — Fondamentaux de GDScript
 
-### Couverture validée
+Le chapitre couvre toujours correctement la syntaxe, le typage, les collections, fonctions, classes, annotations, cycle de vie, erreurs, débogage et l’exercice `BootstrapReport`.
 
-Le chapitre couvre correctement :
+### Contextes désormais explicites
 
-- la nature de GDScript et sa différence avec Python ;
-- fichiers, classes, indentation et style ;
-- types, variables, constantes et énumérations ;
-- tableaux, dictionnaires, conditions, `match` et boucles ;
-- fonctions, classes, héritage et accesseurs ;
-- annotations, cycle de vie et validité des objets ;
-- chargement des ressources, chaînes, mathématiques et aléatoire ;
-- gestion des erreurs, avertissements et débogueur ;
-- un exercice intégré à `Project Asteria` ;
-- des tests manuels, déterministes et headless ;
-- les modes Solo et Studio.
-
-### Oublis détectés et corrigés
-
-| ID | Gravité | Constat | Correction |
-|---|---|---|---|
-| L2-AUD-006 | majeure | Les opérateurs de contrôle et conversion de type `is` et `as` n’étaient pas enseignés. | Ajout d’une section avec contrôle sûr, conversion nullable et avertissement sur les échecs silencieux. |
-| L2-AUD-007 | majeure | Les dictionnaires typés, disponibles dans la version de référence, n’étaient pas présentés. | Ajout de `Dictionary[StringName, float]` et des règles d’usage. |
-| L2-AUD-008 | mineure | Les PackedArrays n’étaient pas distingués des tableaux ordinaires. | Ajout d’un aperçu et d’une règle de choix. |
-| L2-AUD-009 | mineure | `await` et les coroutines n’étaient pas mentionnés. | Ajout d’un aperçu limité, avec approfondissement reporté au chapitre sur les signaux. |
-| L2-AUD-010 | mineure | Plusieurs liens utilisaient `/stable/`, susceptible de changer de branche. | Épinglage des références techniques à la documentation `/en/4.7/`. |
-| L2-AUD-011 | mineure | La description de `String` pouvait laisser entendre une mutabilité directe. | Reformulation en « chaîne Unicode ». |
-| L2-AUD-013 | mineure | L’exercice `BootstrapReport` conservait un dictionnaire non typé malgré la nouvelle règle. | Typage de `metrics` en `Dictionary[StringName, float]` et de sa variable d’itération. |
+- les commandes de création de dossiers, Git et tests headless utilisent `[PS]` ;
+- les fichiers `bootstrap_report.gd`, `main.gd` et `.gitattributes` utilisent `[VSC]` avec leur chemin ;
+- les extraits servant uniquement à apprendre la syntaxe utilisent `[LECTURE]` ;
+- les sorties de tests et journaux attendus utilisent `[SORTIE]` ;
+- le placement d’un point d’arrêt dans l’éditeur Godot utilise `[APP]` ;
+- les liens procéduraux utilisent `[WEB]`.
 
 ### Décision
 
-**Accepté avec réserve runtime.** Le périmètre « fondamentaux de GDScript » est complet après corrections. Les extraits ont été relus statiquement ; l’exécution réelle dans Godot reste à matérialiser.
+**Accepté avec réserve runtime.** Les exemples pédagogiques ne sont plus confondus avec les fichiers que le lecteur doit réellement créer.
 
-## 5. Frontières entre les chapitres
+## 6. Non-conformités corrigées lors de cette campagne
 
-La séparation retenue est cohérente :
+| ID | Gravité | Constat | Résolution |
+|---|---|---|---|
+| L2-AUD-014 | majeure | Les chapitres ne présentaient pas la légende commune des outils et contextes. | Ajout de la convention `DOC-V0-ANN-CONTEXTES` et de sa métadonnée. |
+| L2-AUD-015 | majeure | Les commandes PowerShell et Godot headless n’indiquaient pas systématiquement le terminal. | Ajout de `[PS]` devant chaque bloc concerné. |
+| L2-AUD-016 | majeure | Certains contenus YAML, Git et GDScript ne précisaient pas clairement le fichier à créer. | Ajout de `[VSC]`, de l’action et du chemin cible. |
+| L2-AUD-017 | majeure | Des valeurs destinées au Project Manager, à l’arbre de scène ou à l’Inspector pouvaient sembler être de simples exemples. | Ajout de `[APP]` avec le nom de l’interface et l’action. |
+| L2-AUD-018 | mineure | Sorties, raccourcis et structures de référence pouvaient être recopiés sans distinction. | Séparation `[SORTIE]`, `[APP]` et `[LECTURE]`. |
+| L2-AUD-019 | majeure | Le workflow des contextes ne surveillait pas `Livre-II/**/*.md`. | Extension permanente du déclencheur et des scripts au Livre II. |
+| L2-AUD-020 | majeure | Le premier prototype de migration pouvait insérer un repère dans le front matter YAML. | Rejet du prototype avant écriture et remplacement par une migration déterministe. |
+| L2-AUD-021 | majeure | Le vérificateur sémantique et le rapporteur de couverture ne contrôlaient pas encore le Livre II. | Extension des deux outils et ajout de métriques par chapitre. |
+
+Les treize corrections de l’audit précédent restent acquises. Aucune ancienne correction n’a été annulée.
+
+## 7. Frontières entre les chapitres
+
+La séparation reste cohérente :
 
 - le chapitre 1 installe le moteur et crée une scène minimale ;
-- le chapitre 2 enseigne le langage sans construire l’architecture globale ;
+- le chapitre 2 enseigne le langage sans définir l’architecture globale ;
 - le chapitre 3 approfondira scènes, instances, Resources et signaux ;
 - le chapitre 4 définira l’architecture modulaire ;
 - les services globaux et bus d’événements restent réservés au chapitre 5.
 
 Aucune duplication majeure ou consommation prématurée du périmètre suivant n’a été détectée.
 
-## 6. Validation automatisée et PDF
+## 8. Validation automatisée et preuve
 
-Exécution de référence :
+Les identifiants des exécutions finales, les empreintes des artefacts, les métriques de repérage et les caractéristiques du PDF sont conservés dans :
 
-| Élément | Résultat |
-|---|---|
-| Workflow | `Validate Documentation` |
-| Exécution | `29644072118` |
-| Résultat | `success` |
-| Sources déclarées | 41 |
-| Chapitres du Livre I | 10 |
-| Chapitres du Livre II | 2 |
-| Identifiants uniques | 40 |
-| Erreurs bloquantes | 0 |
-| Avertissements | 1 — licence globale à définir |
-| PDF | A4, PDF 1.5 |
-| Pages | 472 |
-| Taille de l’artefact PDF | 1 227 702 octets |
-| Texte extractible | oui |
+`Livre-II/QA/VALIDATION-FINALE-CHAPITRES-01-02.yaml`
 
-Les étapes suivantes ont réussi :
+Ce fichier de preuve n’est pas compilé dans le PDF. Cette séparation évite qu’une modification du présent rapport change la pagination qu’il décrit.
 
-- contrôle de la séquence des chapitres ;
-- contrôle des identifiants ;
-- contrôle des métadonnées d’audit ;
-- vérification de l’existence du rapport d’audit ;
-- validation des liens locaux ;
-- compilation Pandoc/XeLaTeX ;
-- inspection technique du PDF ;
-- extraction du texte.
-
-Un échantillon de **27 pages** a été rendu à 150 DPI et examiné. Il couvre :
-
-- l’index et le statut du Livre II ;
-- le début et la fin du chapitre 1 ;
-- le début et plusieurs sections du chapitre 2 ;
-- le protocole d’audit ;
-- le rapport d’audit ;
-- les transitions vers les Livres III à V et le Companion Pack.
-
-Aucun texte rogné, chevauchement majeur, glyphe manquant, carré noir, rotation incorrecte ou tableau manifestement hors page n’a été observé dans cet échantillon.
-
-## 7. Portes qualité
+## 9. Portes qualité
 
 - [x] Q0 — Intégrité des fichiers et métadonnées
 - [x] Q1 — Complétude pédagogique
 - [x] Q2 — Cohérence avec le sommaire maître
 - [x] Q3 — Relecture technique statique
-- [x] Q4 — Sécurité et licences documentées
-- [x] Q5 — Compilation et inspection du PDF
-- [ ] Q3 runtime — Exécution sur le projet matérialisé
+- [x] Q4 — Outils et contextes d’utilisation
+- [x] Q5 — Sécurité et licences documentées
+- [x] Q6 — Exécutions CI, compilation et inspection PDF finales
+- [ ] Runtime — Exécution sur le projet matérialisé
 
-La réserve runtime est explicite et ne doit pas être confondue avec une validation d’exécution. Elle sera levée lorsque `Project Asteria` sera fourni sous forme de fichiers réellement exécutables et testé avec Godot 4.7.1-stable.
+Q6 est validée par les deux workflows réussis, les artefacts enregistrés et l’inspection visuelle de onze pages. La réserve runtime demeure indépendante.
 
-## 8. Règle permanente adoptée
+## 10. Règle permanente
 
-Chaque nouveau chapitre du Livre II doit désormais :
-
-1. recevoir un audit post-création ;
-2. corriger les oublis détectés ;
-3. porter les métadonnées `audit-status`, `audit-date`, `audit-report` et `audit-level` ;
-4. être intégré aux index avant validation ;
-5. réussir la compilation CI ;
-6. être présenté comme « rédigé et audité », et non simplement « fait ».
+Chaque prochain chapitre du Livre II devra être présenté comme **rédigé, repéré et audité**. La CI refusera un chapitre dont les blocs procéduraux ne portent pas un contexte reconnu ou dont le rapport d’audit est absent.

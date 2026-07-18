@@ -51,13 +51,14 @@
 
 ## M3 — Livre II : Développement et architecture
 
-- [ ] Fondations Godot, GDScript, architecture et données — 2 chapitres rédigés et audités sur 9.
+- [ ] Fondations Godot, GDScript, architecture et données — 2 chapitres rédigés, repérés et audités sur 9.
 - [ ] Plateforme IA locale — 0 chapitre sur 4.
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [ ] Validation technique, documentaire et compilation du Livre II.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 et 2.
+- [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 2 chapitres rédigés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`.
+**Statut M3 : en cours — 2 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les futurs chapitres doivent réussir les contrôles de contextes d’utilisation avant d’être déclarés audités.
 
 ## M4 — Livre III : Production des contenus et assets
 

@@ -1,0 +1,127 @@
+audit_id: DOC-L2-QA-AUDIT-CH01-CH02
+audit_report: Livre-II/QA/AUDIT-CHAPITRES-01-02.md
+evidence_version: 1.0.0
+validated_at: 2026-07-18
+source_commit: 0bfd8dd5927a55572cb7b8de457fbb7007307015
+
+usage_context_validation:
+  workflow: Validate Usage Contexts
+  run_id: 29649802460
+  conclusion: success
+  artifact:
+    id: 8431114923
+    name: usage-context-audit
+    digest: sha256:dd418d5d35292d04853b5b66b8a8efaa403540f12847d2834f68f4f51037bd91
+  coverage:
+    files_checked: 41
+    code_or_text_blocks: 826
+    blocks_with_marker: 826
+    total_markers: 843
+    presence_nonconformities: 0
+    semantic_inconsistencies: 0
+    external_url_lines: 179
+  sets:
+    volume_0:
+      files: 23
+      marked_blocks: 155
+      total_blocks: 155
+    livre_i:
+      files: 12
+      marked_blocks: 457
+      total_blocks: 457
+    livre_ii:
+      files: 5
+      marked_blocks: 214
+      total_blocks: 214
+    root:
+      files: 1
+      marked_blocks: 0
+      total_blocks: 0
+  markers:
+    PS: 309
+    CMD: 0
+    WSL: 2
+    DCT: 2
+    DCK: 1
+    VSC: 47
+    WEB: 5
+    APP: 30
+    SORTIE: 12
+    LECTURE: 435
+  livre_ii_chapters:
+    DOC-L2-CH01:
+      path: Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
+      PS: 31
+      VSC: 5
+      APP: 26
+      SORTIE: 2
+      LECTURE: 24
+    DOC-L2-CH02:
+      path: Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md
+      PS: 5
+      VSC: 3
+      APP: 1
+      SORTIE: 1
+      LECTURE: 121
+
+documentation_validation:
+  workflow: Validate Documentation
+  run_id: 29649802459
+  conclusion: success
+  artifact:
+    id: 8431131550
+    name: documentation-validation
+    digest: sha256:3ade2911430427ffc9b764c0a1a168dfd7b9753806490b078d435bb7744b0f7b
+  structural_qa:
+    declared_sources: 43
+    livre_i_chapters: 10
+    livre_ii_chapters: 2
+    unique_identifiers: 42
+    blocking_errors: 0
+    warnings: 1
+    warning_summary: La licence globale reste a definir avant publication officielle.
+  pdf:
+    format: A4
+    version: "1.5"
+    pages: 504
+    size_bytes: 1334474
+    rotation_degrees: 0
+    encrypted: false
+    javascript: false
+    text_extractable: true
+
+visual_countercheck:
+  renderer: pdftoppm
+  dpi: 150
+  pages_rendered: 11
+  page_numbers:
+    - 419
+    - 425
+    - 431
+    - 436
+    - 437
+    - 451
+    - 478
+    - 479
+    - 490
+    - 494
+    - 496
+  inspected_topics:
+    - index du Livre II et statut des chapitres
+    - version de Godot et fichier YAML de reference
+    - creation du projet dans Godot Project Manager
+    - arbre de scene et Inspector
+    - ouverture du chapitre GDScript
+    - point d'arret dans le debogueur
+    - creation de bootstrap_report.gd dans Visual Studio Code
+    - protocole d'audit
+    - rapport d'audit et portes qualite
+  clipped_text: false
+  overlaps: false
+  missing_glyphs: false
+  black_squares: false
+  incorrect_rotation: false
+
+remaining_reservations:
+  - Les extraits et procedures restent au niveau static-review tant que Project Asteria n'est pas materialise et execute.
+  - La licence globale de la collection reste a definir avant publication officielle.

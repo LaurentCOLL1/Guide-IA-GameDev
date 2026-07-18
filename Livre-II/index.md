@@ -2,10 +2,13 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.4.0"
+version: "0.5.0"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Livre II — Développement du jeu et plateforme IA
+
+> **Repères d’utilisation :** **[PS]** PowerShell, **[VSC]** Visual Studio Code, **[WEB]** navigateur internet, **[APP]** interface graphique, **[SORTIE]** résultat à ne pas saisir. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
 Ce livre construit progressivement le projet fil rouge sous Godot. Il couvre les bases du moteur et de GDScript, l’architecture logicielle, les douze grands systèmes de gameplay, les données persistantes, la communication avec les services IA locaux et l’industrialisation du projet.
 
@@ -15,14 +18,16 @@ Ce livre construit progressivement le projet fil rouge sous Godot. Il couvre les
 
 Le projet fil rouge porte le nom technique provisoire :
 
+> **[LECTURE] Nom de référence - Ne pas saisir.**
+
 ```text
 Project Asteria
 ```
 
 ## Partie I — Fondations Godot, architecture et données
 
-1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé et audité**
-2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé et audité**
+1. [Découvrir Godot et créer le projet fil rouge](CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md) — **rédigé, repéré et audité**
+2. [Fondamentaux de GDScript](CHAPITRE-02-Fondamentaux-de-GDScript.md) — **rédigé, repéré et audité**
 3. Scènes, nœuds, ressources et signaux — à rédiger
 4. Architecture modulaire du projet — à rédiger
 5. Services, gestionnaires, bus d’événements et injection de dépendances — à rédiger
@@ -60,9 +65,19 @@ Project Asteria
 
 ## Audit post-création
 
-Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédaction. Le protocole est défini dans [`QA/PROTOCOLE-AUDIT-POST-CREATION.md`](QA/PROTOCOLE-AUDIT-POST-CREATION.md). Les audits des chapitres 1 et 2 sont consignés dans [`QA/AUDIT-CHAPITRES-01-02.md`](QA/AUDIT-CHAPITRES-01-02.md).
+Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédaction :
 
-La mention **rédigé et audité** signifie que la complétude et les exemples ont été relus statiquement et que la compilation documentaire a réussi. Elle ne remplace pas un test runtime sur le projet matérialisé.
+- [protocole obligatoire](QA/PROTOCOLE-AUDIT-POST-CREATION.md) ;
+- [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md).
+
+La mention **rédigé, repéré et audité** signifie que :
+
+- la complétude et les exemples ont été relus statiquement ;
+- chaque commande, fichier, action graphique, sortie ou exemple possède un contexte explicite ;
+- les contrôles `Validate Usage Contexts` et `Validate Documentation` ont réussi ;
+- le PDF a été compilé et inspecté.
+
+Elle ne remplace pas un test runtime sur le projet matérialisé.
 
 ## Principes du Livre II
 
@@ -90,4 +105,4 @@ Au 18 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés et audités.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Deux chapitres sur trente** sont rédigés, repérés et audités.

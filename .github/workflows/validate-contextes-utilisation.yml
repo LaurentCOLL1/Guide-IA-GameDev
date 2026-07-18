@@ -8,6 +8,7 @@ on:
     paths:
       - "Volume-0/**/*.md"
       - "Livre-I/**/*.md"
+      - "Livre-II/**/*.md"
       - "STYLE_GUIDE.md"
       - "tools/audit_contextes_utilisation.py"
       - "tools/audit_contextes_semantiques.py"
