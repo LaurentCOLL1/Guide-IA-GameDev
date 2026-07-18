@@ -1,0 +1,34 @@
+name: Apply Semantic Context Fixes
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.head_ref == 'docs/audit-volume0-livre1-contextes' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Correct semantic marker mismatches
+        run: |
+          python3 tools/audit_contextes_semantiques.py --apply | tee /tmp/semantic-context-fixes.log
+
+      - name: Commit semantic fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Volume-0 Livre-I STYLE_GUIDE.md
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(qa): correct semantic usage-context markers"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
