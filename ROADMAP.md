@@ -26,9 +26,9 @@
 - [x] Glossaire, bibliographie et index.
 - [x] Assurance qualité documentaire.
 - [x] Annexes normatives.
-- [ ] Validation de la compilation complète.
+- [x] Validation de la compilation complète.
 
-**Statut M1 : contenu normatif terminé ; seule la compilation complète et la vérification du livrable restent à valider.**
+**Statut M1 : terminé.** Le workflow GitHub Actions a validé 27 sources, 26 identifiants uniques, la compilation Pandoc/XeLaTeX et un PDF A4 de 214 pages. La licence globale reste à définir avant publication officielle.
 
 ## M2 — Livre I : Préparer la plateforme
 
