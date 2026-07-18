@@ -1,0 +1,35 @@
+name: Temporary patch GDScript chapter 2
+
+on:
+  push:
+    branches:
+      - docs/audit-gdscript-duplicates-functions
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/audit-gdscript-duplicates-functions
+          fetch-depth: 0
+
+      - name: Apply pedagogical and duplicate-audit patch
+        run: python3 tools/patch_gdscript_ch02_audit.py
+
+      - name: Commit generated changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "docs(livre-ii): remove duplication and deepen function explanations"
+          git push origin HEAD:docs/audit-gdscript-duplicates-functions
