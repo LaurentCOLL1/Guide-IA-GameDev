@@ -2,7 +2,7 @@
 title: "Audit documentaire et technique - Volume 0 et Livre I"
 id: "DOC-QA-V0-L1-2026-07"
 status: "complete"
-version: "1.1.0"
+version: "1.1.1"
 date: "2026-07-18"
 category: "quality-report"
 audit-level: "static-review"
@@ -202,6 +202,7 @@ Aucune non-conformité bloquante supplémentaire n’a été conservée après c
 | V0L1-AUD-010 | mineure | Les dix chapitres du Livre I restaient en `draft-review`. | Passage au statut `reviewed` après audit. |
 | V0L1-AUD-011 | majeure | Les sept anciennes annexes pointaient vers un chemin relatif invalide après ajout du lien de convention. | Correction des liens et de la logique du migrateur selon le sous-dossier. |
 | V0L1-AUD-012 | mineure | Le rapport conservait les identifiants et mesures d’une exécution intermédiaire après la validation finale. | Externalisation de la preuve finale dans un fichier YAML non compilé afin d’éviter une preuve auto-référentielle. |
+| V0L1-AUD-013 | mineure | La répartition `[SORTIE]` / `[LECTURE]` ne correspondait plus au contrôle final du dépôt. | Alignement sur les mesures produites par le linter corrigé. |
 
 ## 8. Résultats quantitatifs et preuve finale
 
@@ -233,8 +234,8 @@ Répartition des repères :
 | `[VSC]` | 39 |
 | `[WEB]` | 5 |
 | `[APP]` | 3 |
-| `[SORTIE]` | 10 |
-| `[LECTURE]` | 286 |
+| `[SORTIE]` | 9 |
+| `[LECTURE]` | 287 |
 
 L’absence de bloc `[CMD]` signifie que le parcours audité n’impose actuellement aucune commande dépendant réellement de `cmd.exe`.
 
