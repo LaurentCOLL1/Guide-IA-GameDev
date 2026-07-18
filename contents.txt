@@ -8,6 +8,7 @@ Volume-0/CHAPITRE-04-Convention-des-identifiants.md
 Volume-0/CHAPITRE-05-Conventions-Markdown-et-Pandoc.md
 Volume-0/CHAPITRE-06-Style-redactionnel.md
 Volume-0/CHAPITRE-07-Standards-techniques.md
+Volume-0/CHAPITRE-08-Standards-IA.md
 Livre-I/index.md
 Livre-II/index.md
 Livre-III/index.md
