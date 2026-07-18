@@ -2,7 +2,7 @@
 title: "Rapport QA final du Livre I"
 id: "DOC-L1-QA-FINAL"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 book: "Livre I"
 category: "quality-report"
 validation-date: "2026-07-18"
@@ -21,11 +21,13 @@ Le Livre I peut être considéré comme **terminé sur le plan documentaire**. C
 | Élément | Valeur |
 |---|---|
 | Workflow | `Validate Documentation` |
-| Exécution | `29637937397` |
+| Exécution | `29638120888` |
 | Résultat | `success` |
 | Branche de contrôle | `qa/validate-livre-i` |
-| Commit contrôlé | `bce10edcc3d51b5764f40f0eaa9dbb5952f2fcac` |
+| Commit contrôlé | `75316cb1b1a51b10194343dcd7bd325d953876f1` |
 | Date | 18 juillet 2026 |
+
+Cette exécution finale inclut l’index du Livre I marqué `complete`, la clôture de M2 dans la roadmap et le lien vers le présent rapport QA.
 
 Toutes les étapes ont réussi :
 
@@ -93,7 +95,7 @@ Le PDF généré n’est pas balisé comme PDF structuré pour lecteur d’écra
 | Format | PDF 1.5 |
 | Taille de page | A4 |
 | Nombre de pages | 348 |
-| Taille du fichier | 939 023 octets |
+| Taille du fichier | 939 388 octets |
 | Moteur | XeLaTeX via Pandoc |
 | Producteur | `xdvipdfmx` |
 | Titre PDF | Guide réaliste de création de jeux vidéo 3D avec IA locale |
@@ -131,6 +133,8 @@ Cet échantillon couvre :
 - des blocs de code ;
 - des listes et arborescences ;
 - la transition vers les livres suivants et le Companion Pack.
+
+Après la clôture de M2, les pages 213 à 215 ont été rendues de nouveau à 180 DPI. Le lien vers le rapport QA, les réserves de publication et le statut final restent lisibles sans débordement.
 
 Aucun des défauts suivants n’a été observé :
 
@@ -193,6 +197,7 @@ Les artefacts sont conservés quatorze jours par le workflow. Le PDF reste un li
 - [x] Métadonnées PDF globales correctes.
 - [x] Polices incorporées.
 - [x] Échantillon visuel de 46 pages contrôlé.
+- [x] État clôturé de M2 recompilé et vérifié.
 - [x] Rapport QA final rédigé.
 - [ ] Licence globale définie avant publication officielle.
 - [ ] PDF balisé pour l’accessibilité avant publication officielle.
