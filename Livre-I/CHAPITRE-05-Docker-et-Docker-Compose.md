@@ -1,11 +1,13 @@
 ---
-title: "Livre I — Chapitre 2 : Docker et Docker Compose"
+title: "Livre I — Chapitre 5 : Docker et Docker Compose"
 id: "DOC-L1-CH02"
 status: "draft-review"
 version: "1.0.0"
 lang: "fr-FR"
 book: "Livre I"
-chapter: 2
+chapter: 5
+legacy-chapter: 2
+canonical-order: 5
 last-verified: "2026-07-18"
 reference-platform:
   os: "Windows 11 64 bits"

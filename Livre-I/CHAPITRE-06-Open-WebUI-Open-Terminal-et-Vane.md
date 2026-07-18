@@ -1,11 +1,13 @@
 ---
-title: "Livre I — Chapitre 3 : Open WebUI, Open Terminal et Vane"
+title: "Livre I — Chapitre 6 : Open WebUI, Open Terminal et Vane"
 id: "DOC-L1-CH03"
 status: "draft-review"
 version: "1.0.0"
 lang: "fr-FR"
 book: "Livre I"
-chapter: 3
+chapter: 6
+legacy-chapter: 3
+canonical-order: 6
 last-verified: "2026-07-18"
 reference-platform:
   os: "Windows 11 64 bits"

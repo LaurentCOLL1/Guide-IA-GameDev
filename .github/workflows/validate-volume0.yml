@@ -77,15 +77,31 @@ jobs:
                   if not source.is_file():
                       errors.append(f"Source absente dans contents.txt : {entry}")
 
-          livre_i_entries = [
-              entry
+          livre_i_matches = [
+              (entry, re.fullmatch(r"Livre-I/CHAPITRE-(\d{2})-.+\.md", entry))
               for entry in entries
-              if re.fullmatch(r"Livre-I/CHAPITRE-\d{2}-.+\.md", entry)
           ]
-          if len(livre_i_entries) != 6:
+          livre_i_entries = [entry for entry, match in livre_i_matches if match]
+          livre_i_numbers = [int(match.group(1)) for _, match in livre_i_matches if match]
+          expected_numbers = list(range(1, 11))
+          if livre_i_numbers != expected_numbers:
               errors.append(
-                  f"Le Livre I doit déclarer exactement 6 chapitres dans contents.txt ; détectés : {len(livre_i_entries)}."
+                  "Le Livre I doit déclarer exactement les chapitres 01 à 10, dans cet ordre ; "
+                  f"détectés : {livre_i_numbers}."
               )
+
+          expected_livre_i_ids = {
+              1: "DOC-L1-CH01",
+              2: "DOC-L1-ENV-TERMINAL",
+              3: "DOC-L1-ENV-GIT",
+              4: "DOC-L1-ENV-PYTHON",
+              5: "DOC-L1-CH02",
+              6: "DOC-L1-CH03",
+              7: "DOC-L1-CH04",
+              8: "DOC-L1-CH05",
+              9: "DOC-L1-CH06",
+              10: "DOC-L1-ENV-SECURITY",
+          }
 
           ids: dict[str, str] = {}
           markdown_link = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
@@ -146,6 +162,15 @@ jobs:
                       )
                   if not metadata.get("last-verified"):
                       errors.append(f"Métadonnée last-verified absente : {rel}")
+                  expected_id = expected_livre_i_ids.get(expected_chapter)
+                  actual_id = metadata.get("id") or metadata.get("identifier")
+                  if expected_id and actual_id != expected_id:
+                      errors.append(
+                          f"Identifiant stable incorrect pour le chapitre {expected_chapter:02d} : "
+                          f"attendu {expected_id}, reçu {actual_id}."
+                      )
+                  if expected_chapter in range(5, 10) and not metadata.get("legacy-chapter"):
+                      errors.append(f"Métadonnée legacy-chapter absente après renumérotation : {rel}")
 
               for raw_target in markdown_link.findall(text):
                   target = raw_target.strip().split()[0].strip("<>")

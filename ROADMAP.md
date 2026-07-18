@@ -33,14 +33,18 @@
 ## M2 — Livre I : Préparer la plateforme
 
 - [x] Matériel, Windows, pilotes AMD et voies d’accélération.
+- [x] Terminal, PowerShell et outils Windows.
+- [x] Git, GitHub et Visual Studio Code.
+- [x] Python et environnements virtuels.
 - [x] Docker et Docker Compose.
 - [x] Open WebUI, Open Terminal et Vane.
 - [x] ComfyUI.
 - [x] LLM locaux.
 - [x] Audio IA.
-- [x] Validation technique, documentaire et compilation du Livre I.
+- [x] Sécurité, sauvegarde et validation de la plateforme.
+- [x] Nouvelle validation technique, documentaire et compilation du Livre I à dix chapitres.
 
-**Statut M2 : terminé.** Le workflow `Validate Documentation` a contrôlé 33 sources, 6 chapitres du Livre I et 32 identifiants uniques sans erreur bloquante. La compilation Pandoc/XeLaTeX a produit un PDF A4 de 348 pages ; 46 pages réparties dans le document ont été contrôlées visuellement. La licence globale et le balisage d’accessibilité du PDF restent à traiter avant publication officielle.
+**Statut M2 : terminé.** Le workflow `Validate Documentation` a contrôlé 37 sources, les 10 chapitres du Livre I et 36 identifiants uniques sans erreur bloquante. Les identifiants historiques des cinq chapitres déplacés ont été conservés. La compilation Pandoc/XeLaTeX a produit un PDF A4 de 396 pages ; 82 pages réparties dans le document ont été contrôlées visuellement. La licence globale et le balisage d’accessibilité du PDF restent à traiter avant publication officielle.
 
 ## M3 — Livre II : Développement et architecture
 
