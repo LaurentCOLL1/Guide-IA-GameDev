@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.3.0"
+version: "3.4.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -98,7 +98,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 5 chapitres sur 30.**
+**En cours : 6 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -107,7 +107,7 @@ Chaque procédure doit expliquer :
 3. Scènes, nœuds, Resources et signaux — terminé au niveau `static-review`.
 4. Architecture modulaire du projet — terminé au niveau `static-review`.
 5. Services, gestionnaires, bus d’événements et injection de dépendances — terminé au niveau `static-review`.
-6. Entrées, contrôleurs, caméras et interactions.
+6. Entrées, contrôleurs, caméras et interactions — terminé au niveau `static-review`.
 7. Données avec Resources, JSON et configurations.
 8. SQLite, migrations et données persistantes.
 9. Sauvegardes, chargements et compatibilité des versions.
@@ -184,7 +184,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3, 4 et 5 : **Élevée**.
+Chapitres 3, 4, 5 et 6 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -307,7 +307,53 @@ Résultats : 78 titres, 18 blocs, 18 repères, zéro doublon de titre, bloc sign
 
 Décision : accepté avec réserve runtime et PDF de fin de Livre.
 
-## 13. Erreurs à ne pas reproduire
+## 13. Chapitre 6 — état détaillé
+
+Fichier :
+
+> **[LECTURE] Chemin de référence — Ne pas saisir.**
+
+```text
+Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md
+```
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- actions Input Map nommées, jamais de touches physiques dans le code métier ;
+- séparation `PlayerInputReader` → `PlayerInputFrame` → `PlayerController` ;
+- mouvement avec `CharacterBody3D` dans `_physics_process()` ;
+- déplacement relatif à la base horizontale de la caméra ;
+- souris en delta relatif, stick en vitesse multipliée par `delta` ;
+- caméra yaw/pitch avec `SpringArm3D` ;
+- `PlayerInteractor` descendant de `Camera3D` ;
+- cible typée `InteractionTarget` ;
+- interaction locale sans bus global obligatoire ;
+- remappage en mémoire seulement ;
+- accessibilité prévue dès la conception.
+
+Livrables documentés :
+
+- `src/features/player/input/player_input_actions.gd` ;
+- `src/features/player/input/player_input_frame.gd` ;
+- `src/features/player/input/player_input_reader.gd` ;
+- `src/features/player/movement/player_motor.gd` ;
+- `src/features/player/camera/third_person_camera_rig.gd` ;
+- `src/features/player/presentation/player_controller.gd` ;
+- `src/features/player/presentation/player_character.tscn` ;
+- `src/features/interactions/domain/interaction_target.gd` ;
+- `src/features/interactions/presentation/player_interactor.gd` ;
+- `src/features/settings/input/input_rebinder.gd` ;
+- `docs/architecture/input-contract.md`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-06.md`.
+
+Résultats : 81 titres, 17 blocs, 17 repères, zéro doublon de titre, bloc significatif ou paragraphe long.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 14. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -321,49 +367,63 @@ Décision : accepté avec réserve runtime et PDF de fin de Livre.
 - ne pas créer un Autoload par service ;
 - ne pas utiliser un bus générique à dictionnaires ;
 - ne pas oublier de nettoyer un démarrage partiel ;
+- ne pas coder les touches physiques dans le gameplay ;
+- ne pas multiplier `CharacterBody3D.velocity` par `delta` avant `move_and_slide()` ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 14. État courant
+## 15. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 5 chapitres sur 30 ;
+- progression : 6 chapitres sur 30 ;
 - chapitre 2 : version `1.3.0` ;
 - chapitre 3 : version `1.0.0` ;
 - chapitre 4 : version `1.0.0` ;
 - chapitre 5 : version `1.0.0` ;
+- chapitre 6 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 15. Prochaine action
+## 16. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md
+Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md
 ```
 
 Périmètre attendu :
 
-- Input Map ;
-- actions et événements d’entrée ;
-- contrôleur joueur ;
-- séparation intention/mouvement ;
-- caméra 3D ;
-- souris, clavier et manette ;
-- interaction par raycast ou zone ;
-- injection des services du chapitre 5 ;
-- remappage et accessibilité ;
+- données de conception contre état runtime ;
+- Resources personnalisées et sous-ressources ;
+- partage, duplication et `resource_local_to_scene` ;
+- JSON, schémas, validation et erreurs ;
+- catalogues et identifiants stables ;
+- configurations par environnement ;
+- chargement synchrone et différé ;
+- versionnement des formats sans SQLite ;
+- injection des repositories ou catalogues ;
 - différences Solo/Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 16. Journal
+## 17. Journal
+
+### 2026-07-19 — version 3.4.0
+
+- création et audit statique du chapitre 6 ;
+- séparation lecture des entrées, intention, contrôleur et moteur ;
+- adoption de `Input.get_vector()` et d’une trame indépendante du périphérique ;
+- caméra troisième personne avec yaw, pitch et `SpringArm3D` ;
+- interaction typée par rayon et alternative de proximité ;
+- préparation du remappage et de l’accessibilité ;
+- progression à 6 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 7.
 
 ### 2026-07-19 — version 3.3.0
 

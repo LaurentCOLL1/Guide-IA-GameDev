@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "0.8.0"
+version: "0.9.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -31,7 +31,7 @@ Project Asteria
 3. [Scènes, nœuds, Resources et signaux](CHAPITRE-03-Scenes-noeuds-Resources-et-signaux.md) — **rédigé, repéré et audité au niveau static-review**
 4. [Architecture modulaire du projet](CHAPITRE-04-Architecture-modulaire-du-projet.md) — **rédigé, repéré et audité au niveau static-review**
 5. [Services, gestionnaires, bus d’événements et injection de dépendances](CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md) — **rédigé, repéré et audité au niveau static-review**
-6. Entrées, contrôleurs, caméras et interactions — à rédiger
+6. [Entrées, contrôleurs, caméras et interactions](CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md) — **rédigé, repéré et audité au niveau static-review**
 7. Données avec Resources, JSON et configurations — à rédiger
 8. SQLite, migrations et données persistantes — à rédiger
 9. Sauvegardes, chargements et compatibilité des versions — à rédiger
@@ -71,7 +71,8 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md) ;
 - [audit du chapitre 3](QA/AUDIT-CHAPITRE-03.md) ;
 - [audit du chapitre 4](QA/AUDIT-CHAPITRE-04.md) ;
-- [audit du chapitre 5](QA/AUDIT-CHAPITRE-05.md).
+- [audit du chapitre 5](QA/AUDIT-CHAPITRE-05.md) ;
+- [audit du chapitre 6](QA/AUDIT-CHAPITRE-06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
 
@@ -100,7 +101,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3, 4 et 5 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 6 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -128,4 +129,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Cinq chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Six chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.
