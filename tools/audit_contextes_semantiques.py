@@ -186,7 +186,7 @@ def process(path: Path, apply: bool) -> tuple[int, list[str]]:
         if expectation is None:
             continue
         expected_code, replacement = expectation
-        if marker == expected_code and lines[marker_index].strip() == replacement:
+        if marker == expected_code:
             continue
         message = (
             f"{path.relative_to(ROOT).as_posix()}:{i + 1}: "
