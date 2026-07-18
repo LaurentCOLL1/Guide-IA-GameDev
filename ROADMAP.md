@@ -36,10 +36,10 @@
 - [x] Docker et Docker Compose.
 - [x] Open WebUI, Open Terminal et Vane.
 - [x] ComfyUI.
-- [ ] LLM locaux.
+- [x] LLM locaux.
 - [ ] Audio IA.
 
-**Statut M2 : en cours — 4 domaines principaux terminés sur 6.**
+**Statut M2 : en cours — 5 domaines principaux terminés sur 6.**
 
 ## M3 — Livre II : Développement et architecture
 
