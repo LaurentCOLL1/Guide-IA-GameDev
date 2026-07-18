@@ -2,13 +2,12 @@
 title: "Audit documentaire et technique - Volume 0 et Livre I"
 id: "DOC-QA-V0-L1-2026-07"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 date: "2026-07-18"
 category: "quality-report"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-validation-context-run: "29646705224"
-validation-documentation-run: "29646705225"
+validation-evidence: "Volume-0/QA/VALIDATION-FINALE-V0-L1.yaml"
 ---
 
 # Audit documentaire et technique - Volume 0 et Livre I
@@ -202,22 +201,25 @@ Aucune non-conformité bloquante supplémentaire n’a été conservée après c
 | V0L1-AUD-009 | majeure | Version ComfyUI de référence devenue obsolète. | Mise à jour vers `v0.28.0`. |
 | V0L1-AUD-010 | mineure | Les dix chapitres du Livre I restaient en `draft-review`. | Passage au statut `reviewed` après audit. |
 | V0L1-AUD-011 | majeure | Les sept anciennes annexes pointaient vers un chemin relatif invalide après ajout du lien de convention. | Correction des liens et de la logique du migrateur selon le sous-dossier. |
+| V0L1-AUD-012 | mineure | Le rapport conservait les identifiants et mesures d’une exécution intermédiaire après la validation finale. | Externalisation de la preuve finale dans un fichier YAML non compilé afin d’éviter une preuve auto-référentielle. |
 
-## 8. Résultats quantitatifs
+## 8. Résultats quantitatifs et preuve finale
+
+Les mesures et identifiants exacts des exécutions finales sont figés dans `Volume-0/QA/VALIDATION-FINALE-V0-L1.yaml`.
+
+Ce fichier de preuve n’est pas intégré au PDF. Cette séparation évite qu’une modification du rapport change la pagination ou la taille du PDF qu’il prétend décrire.
 
 ### 8.1 Contextes d’utilisation
 
-Exécution GitHub Actions `29646705224` : **success**.
+La campagne finale a contrôlé :
 
-| Mesure | Résultat |
-|---|---:|
-| Fichiers contrôlés | 36 |
-| Chapitres audités | 21 |
-| Blocs de code ou de texte | 612 |
-| Blocs précédés d’un repère | 612 |
-| Repères totaux | 621 |
-| Non-conformités de présence | 0 |
-| Incohérences sémantiques | 0 |
+- 36 fichiers ;
+- 21 chapitres ;
+- 612 blocs de code ou de texte ;
+- 612 blocs précédés d’un repère reconnu ;
+- 621 repères au total ;
+- zéro non-conformité de présence ;
+- zéro incohérence sémantique.
 
 Répartition des repères :
 
@@ -238,31 +240,20 @@ L’absence de bloc `[CMD]` signifie que le parcours audité n’impose actuelle
 
 ### 8.2 Documentation et PDF
 
-Exécution GitHub Actions `29646705225` : **success**.
+La validation documentaire finale a confirmé :
 
-| Mesure | Résultat |
-|---|---:|
-| Sources déclarées | 43 |
-| Chapitres du Livre I | 10 |
-| Chapitres du Livre II | 2 |
-| Identifiants uniques | 42 |
-| Erreurs bloquantes | 0 |
-| Avertissements | 1 - licence globale à définir |
-| Format PDF | A4, PDF 1.5 |
-| Pages | 496 |
-| Taille du PDF | 1 313 820 octets |
-| Texte extractible | oui |
+- 43 sources déclarées ;
+- 10 chapitres du Livre I ;
+- 2 chapitres du Livre II ;
+- 42 identifiants uniques ;
+- zéro erreur bloquante ;
+- un avertissement connu : la licence globale reste à définir ;
+- un PDF A4, version PDF 1.5 ;
+- un texte extractible.
 
-Un échantillon de **15 pages** a été rendu à 160 DPI et inspecté. Il couvre :
+L’inspection visuelle a couvert la convention normative, l’installation Git avec WinGet, la création de `.vscode/settings.json`, la création de `.env.example`, la version ComfyUI de référence et les tableaux du rapport.
 
-- la convention normative complète ;
-- l’installation Git avec WinGet ;
-- la création de `.vscode/settings.json` ;
-- la création de `.env.example` ;
-- la version ComfyUI `v0.28.0` ;
-- le rapport d’audit et ses tableaux.
-
-Aucun texte rogné, chevauchement, tableau hors page, glyphe manquant, carré noir ou rotation incorrecte n’a été observé dans cet échantillon.
+Une contre-vérification après fusion a rendu neuf pages supplémentaires à 150 DPI, dont les pages contenant les deux exemples signalés. Aucun texte rogné, chevauchement, tableau hors page, glyphe manquant, carré noir ou rotation incorrecte n’a été observé.
 
 ## 9. Portes qualité
 
