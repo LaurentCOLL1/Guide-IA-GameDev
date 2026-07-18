@@ -12,6 +12,7 @@
 - [x] Rendre sa mise à jour obligatoire dans chaque lot de modifications du projet.
 - [x] Enregistrer dans ce document le plan maître détaillé des Livres II à V et du Companion Pack.
 - [x] Rendre obligatoire l’annonce du niveau GPT-5.6 Sol conseillé avant chaque chapitre.
+- [x] Différer la construction PDF à la fin de chaque Livre et à la fin de la collection.
 
 **Statut M0 : terminé.**
 
@@ -55,17 +56,19 @@
 
 ## M3 — Livre II : Développement et architecture
 
-- [ ] Fondations Godot, GDScript, architecture et données — 4 chapitres rédigés, repérés et audités sur 9.
+- [ ] Fondations Godot, GDScript, architecture et données — 5 chapitres rédigés, repérés et audités sur 9.
 - [ ] Plateforme IA locale — 0 chapitre sur 4.
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 4.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 5.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 5 — services, Autoloads, bus d’événements, registre et injection de dépendances — rédigé et audité au niveau `static-review`.
+- [x] Protocole QA adapté à la construction PDF différée.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 4 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. L’architecture retenue est feature-first avec couches locales, matrice de dépendances et point de composition dans `src/app`. Les futurs chapitres doivent recevoir une recommandation GPT-5.6 Sol, puis réussir les contrôles de contextes d’utilisation, de complétude pédagogique, de doublons et de compilation avant d’être déclarés audités.
+**Statut M3 : en cours — 5 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. L’architecture est feature-first avec couches locales, `src/app` comme point de composition, un registre limité au bootstrap et un bus d’événements typé. Chaque chapitre reçoit une recommandation GPT-5.6 Sol et un audit statique. Le PDF complet sera construit uniquement à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 
