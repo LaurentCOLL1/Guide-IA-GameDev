@@ -61,6 +61,8 @@ def context(lines: list[str], index: int, count: int = 8) -> str:
 
 def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple[str, str] | None:
     lang = lang.lower()
+    marker_text = marker_line.lower()
+    semantic_context = f"{ctx} {marker_text}".strip()
     path_values = PATH_RE.findall(marker_line)
     target = path_values[-1] if path_values else ""
     target_lower = target.lower()
@@ -69,7 +71,7 @@ def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple
         is_script_file = marker == "VSC" and target_lower.endswith((".ps1", ".psm1", ".psd1"))
         if is_script_file:
             return None
-        if "fermer et rouvrir powershell" in ctx or "après réouverture" in ctx:
+        if "fermer et rouvrir powershell" in semantic_context or "après réouverture" in semantic_context:
             return (
                 "PS",
                 "> **[PS] PowerShell 7 - Vérifier après réouverture :** fermer PowerShell, ouvrir une nouvelle fenêtre, puis exécuter les commandes.",
@@ -90,7 +92,12 @@ def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple
     if lang in {"bash", "sh", "shell", "zsh"}:
         if marker == "VSC" and target_lower.endswith(".sh"):
             return None
-        if any(word in ctx for word in ("dans le conteneur", "terminal du conteneur", "docker exec", "shell du conteneur")):
+        if any(word in semantic_context for word in (
+            "dans le conteneur",
+            "terminal du conteneur",
+            "docker exec",
+            "shell du conteneur",
+        )):
             return (
                 "DCT",
                 "> **[DCT] Terminal du conteneur - Exécuter :** utiliser le shell du conteneur concerné.",
@@ -132,7 +139,7 @@ def expected_marker(lang: str, marker: str, marker_line: str, ctx: str) -> tuple
 
     if lang in {"text", "", "plaintext", "console", "output"}:
         output_words = ("résultat attendu", "sortie attendue", "doit afficher", "exemple de sortie")
-        if any(word in ctx for word in output_words):
+        if any(word in semantic_context for word in output_words):
             return (
                 "SORTIE",
                 "> **[SORTIE] Résultat attendu - Ne pas saisir :** comparer avec la sortie obtenue.",
