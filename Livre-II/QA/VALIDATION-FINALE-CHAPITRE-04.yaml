@@ -1,0 +1,76 @@
+document: "DOC-L2-CH04"
+report: "DOC-L2-QA-AUDIT-CH04"
+status: "success"
+validation_date: "2026-07-18"
+validated_commit: "bb483c1cb4683d8b55faf122e159b5a1a276083a"
+branch: "docs/livre-ii-ch04-architecture-modulaire"
+reference_engine: "Godot 4.7.1-stable"
+audit_level: "static-review"
+recommended_reasoning: "GPT-5.6 Sol — Élevée"
+layout_correction:
+  first_documentation_run: 29661263709
+  first_artifact: 8434399676
+  findings:
+    - "La matrice à huit colonnes dépassait la largeur imprimable."
+    - "Plusieurs lignes du modèle ADR étaient rognées à droite."
+  resolution:
+    - "Matrice remplacée par un tableau compact à deux colonnes."
+    - "Paragraphes du modèle ADR reformattés sur plusieurs lignes."
+    - "Retour dynamique vérifié avec `is bool` avant renvoi."
+  retained_as_final_evidence: false
+workflows:
+  usage_contexts:
+    run_id: 29661809423
+    conclusion: "success"
+  documentation:
+    run_id: 29661809454
+    conclusion: "success"
+artifact:
+  id: 8434555893
+  name: "documentation-validation"
+  digest: "sha256:4e0f40d3abce21cc875c1592a65f8637729a895f822fc74b7896e0888877851f"
+  archive_size_bytes: 1752059
+documentation_qa:
+  declared_sources: 47
+  livre_i_chapters: 10
+  livre_ii_chapters: 4
+  unique_identifiers: 46
+  blocking_errors: 0
+  warnings: 1
+  warning_details:
+    - "La licence globale reste à définir avant publication officielle."
+pdf:
+  pages: 580
+  file_size_bytes: 1533365
+  page_size: "A4 — 595.28 x 841.89 pts"
+  pdf_version: "1.5"
+  encrypted: false
+  javascript: false
+  rotated_pages: false
+  text_extractable: true
+visual_inspection:
+  pages_checked:
+    - 525
+    - 526
+    - 530
+    - 534
+    - 537
+    - 542
+    - 543
+    - 544
+    - 549
+    - 550
+    - 567
+    - 568
+    - 569
+    - 570
+    - 571
+  result: "success"
+  findings:
+    - "Aucun texte rogné observé après correction."
+    - "Aucun chevauchement majeur observé."
+    - "Aucun glyphe manquant ou tableau hors page observé."
+limitations:
+  - "L’arborescence et les déplacements décrits ne sont pas encore matérialisés dans le Starter Kit."
+  - "Les exemples GDScript et PowerShell sont validés statiquement, pas revendiqués comme runtime-tested."
+decision: "accepted-with-runtime-reservation"
