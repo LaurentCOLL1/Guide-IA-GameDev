@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "tools/deepen_gdscript_chapter.py"
+      - "tools/fix_deepen_gdscript_script.py"
       - ".github/workflows/apply-gdscript-pedagogy.yml"
       - "Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md"
 
@@ -21,6 +22,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+      - name: Repair migration anchor
+        run: python3 tools/fix_deepen_gdscript_script.py
       - name: Apply pedagogical expansion
         run: python3 tools/deepen_gdscript_chapter.py
       - name: Verify context markers
