@@ -10,6 +10,7 @@
 - [x] Ajouter les scripts de construction multiplateformes.
 - [x] Créer `CONTINUITE-PROJET.md` comme document permanent de reprise.
 - [x] Rendre sa mise à jour obligatoire dans chaque lot de modifications du projet.
+- [x] Enregistrer dans ce document le plan maître détaillé des Livres II à V et du Companion Pack.
 
 **Statut M0 : terminé.**
 
