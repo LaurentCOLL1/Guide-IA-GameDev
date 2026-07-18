@@ -6,6 +6,17 @@ branch: "docs/livre-ii-ch04-architecture-modulaire"
 reference_engine: "Godot 4.7.1-stable"
 audit_level: "static-review"
 recommended_reasoning: "GPT-5.6 Sol — Élevée"
+layout_correction:
+  first_documentation_run: 29661263709
+  first_artifact: 8434399676
+  findings:
+    - "La matrice à huit colonnes dépassait la largeur imprimable."
+    - "Plusieurs lignes du modèle ADR étaient rognées à droite."
+  resolution:
+    - "Matrice remplacée par un tableau compact à deux colonnes."
+    - "Paragraphes du modèle ADR reformattés sur plusieurs lignes."
+    - "Retour dynamique vérifié avec `is bool` avant renvoi."
+  retained_as_final_evidence: false
 workflows:
   usage_contexts:
     run_id: null
