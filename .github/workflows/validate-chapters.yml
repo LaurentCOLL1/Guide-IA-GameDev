@@ -1,0 +1,82 @@
+name: Validate Chapters Without PDF
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Livre-II/**/*.md"
+      - "Livre-II/index.md"
+      - "contents.txt"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "tools/validate_chapters.py"
+      - "tools/audit_contextes_utilisation.py"
+      - "tools/audit_contextes_semantiques.py"
+      - "tools/report_contextes_utilisation.py"
+      - ".github/workflows/validate-chapters.yml"
+      - ".qa/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-chapters:
+    name: Validate chapters without PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install lightweight dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Validate structure, metadata, links and duplicates
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
+
+      - name: Audit usage marker presence
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_utilisation.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Upload lightweight QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
