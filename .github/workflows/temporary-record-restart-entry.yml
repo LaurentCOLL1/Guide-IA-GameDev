@@ -1,19 +1,20 @@
 name: Temporary Record Restart Entry
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/reprise-nouvelle-conversation
-    paths:
-      - REPRISE-NOUVELLE-CONVERSATION.md
-      - .github/workflows/temporary-record-restart-entry.yml
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
 
 jobs:
   update-continuity:
-    if: github.actor != 'github-actions[bot]'
+    if: github.actor != 'github-actions[bot]' && github.head_ref == 'docs/reprise-nouvelle-conversation'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
