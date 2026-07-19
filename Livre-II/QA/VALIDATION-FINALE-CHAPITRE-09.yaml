@@ -1,0 +1,54 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH09
+status: awaiting-ci
+validation-date: 2026-07-19
+chapter:
+  id: DOC-L2-CH09
+  path: Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - technical static review
+  - GDScript static review
+  - save-format review
+  - migration-chain review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 13
+  detailed-error-cases: 12
+  current-format-version: 2
+  migrations-documented: 1
+  snapshot-distinct-from-sqlite: true
+  canonical-payload-hash: true
+  exact-json-integer-limit: true
+  temporary-write-reread-validation: true
+  controlled-replacement: true
+  future-save-protected: true
+  corrupt-primary-preserves-backup: true
+  backup-fallback-requires-validation: true
+  slot-identity-checked: true
+  unknown-sections-rejected: true
+  load-lock-held-through-apply: true
+  chapter-10-boundary-preserved: true
+  temporary-workflows-removed: true
+  temporary-scripts-removed: true
+  pdf-produced: false
+ci:
+  validate-chapters-without-pdf: pending
+  validate-usage-contexts: pending
+reservations:
+  - L’écriture réelle des slots n’a pas encore été exécutée sous Windows 11.
+  - Le remplacement contrôlé n’a pas encore été qualifié sur NTFS.
+  - Les coupures d’écriture et le disque plein n’ont pas encore été simulés.
+  - La récupération depuis une copie .bak n’a pas encore été exécutée.
+  - La migration V1 vers V2 n’a pas encore été exécutée dans le Starter Kit.
+  - La restauration transactionnelle de plusieurs sections reste à matérialiser.
+  - Le monde temporaire et la bascule sans perte restent à tester.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
