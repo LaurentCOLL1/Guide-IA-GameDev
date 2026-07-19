@@ -198,6 +198,10 @@ La configuration :
 
 **Correction :** seconde relecture des noms publics : utilisation de `cooldown_remaining`, `tick()`, `record_activation()`, du constructeur `BeaconRuntimeState.new(profile)`, de `BeaconJsonMapper.from_dictionary()` sur une instance et de `BeaconCatalog.register()`.
 
+### Risque 20 — code inline interprété comme lien Markdown
+
+**Correction :** le validateur de liens ignore désormais les blocs clôturés et les expressions placées entre backticks, par exemple `Array[StringName](...)`.
+
 ## 7. Vérification des doublons
 
 La seconde lecture a recherché :
