@@ -166,7 +166,7 @@ def validate_error_correction_sections(text: str, rel: str, errors: list[str]) -
             if "Exemple fautif" not in child_body:
                 missing.append("exemple fautif")
             corrected_match = re.search(
-                r"(?:exemple|structure|organisation|architecture|flux|chemin|dépendances?|arbre|lot)[^\n]{0,100}corrig(?:é|ée|és|ées)",
+                r"(?:exemple|structure|organisation|architecture|flux|formulation|ordre|historique|chemin|dépendances?|arbre|lot)[^\n]{0,100}corrig(?:é|ée|és|ées)",
                 child_body,
                 re.IGNORECASE,
             )
