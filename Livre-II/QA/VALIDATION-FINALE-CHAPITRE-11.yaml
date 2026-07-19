@@ -73,6 +73,11 @@ ci:
     id: 8445585823
     name: chapter-validation-without-pdf
     digest: sha256:2f1c951cea807935eaae851ae7385280770fd309a40381033801de0d210853e0
+  final-nonregression:
+    validate-chapters-run-id: 29698056994
+    validate-chapters-conclusion: success
+    validate-contexts-run-id: 29698056964
+    validate-contexts-conclusion: success
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - OS.execute_with_pipe n’a pas été exécuté sous Windows 11.
