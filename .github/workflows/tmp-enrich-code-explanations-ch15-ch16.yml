@@ -1,0 +1,39 @@
+name: Temporary Enrich Chapter 15-16 Code Explanations
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    if: github.head_ref == 'docs/enrich-code-explanations-ch15-ch16' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/enrich-code-explanations-ch15-ch16
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enrich code explanations
+        run: python tools/qa/tmp_enrich_code_explanations_ch15_ch16.py
+      - name: Commit chapter corrections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            Livre-II/CHAPITRE-15-Relations-sociales.md \
+            Livre-II/CHAPITRE-16-Famille-et-generations.md \
+            Livre-II/QA/AUDIT-CHAPITRE-15.md \
+            Livre-II/QA/AUDIT-CHAPITRE-16.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
+            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+            tmp_ch15_ch16_code_explanation_metrics.txt
+          git commit -m "docs(livre-ii): explain chapter 15 and 16 code blocks"
+          git push origin HEAD:docs/enrich-code-explanations-ch15-ch16
