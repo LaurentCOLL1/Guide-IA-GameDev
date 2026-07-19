@@ -1,0 +1,68 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH11
+status: pending-ci
+validation-date: 2026-07-19
+validated-base-commit: af364fd83ed98abb6b90bf15a47b59ceee6da257
+chapter:
+  id: DOC-L2-CH11
+  path: Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - technical static review
+  - GDScript static review
+  - Python syntax review
+  - companion-process review
+  - protocol-envelope review
+  - capability-discovery review
+  - correlation review
+  - timeout and cancellation review
+  - deterministic fallback review
+  - lifecycle review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 14
+  detailed-error-cases: 16
+  application-port-transport-independent: true
+  godot-qdrant-boundary-preserved: true
+  json-lines-protocol-versioned: true
+  stdout-protocol-stderr-logs: true
+  message-size-bounded: true
+  partial-line-buffering-documented: true
+  request-correlation: true
+  capability-handshake: true
+  monotonic-timeouts: true
+  cooperative-cancellation: true
+  late-response-rejected: true
+  deterministic-feature-fallback: true
+  controlled-shutdown: true
+  chapter-12-boundary-preserved: true
+  chapter-13-boundary-preserved: true
+  documented-python-syntax-compilation: success
+  pdf-produced: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+reservations:
+  - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
+  - OS.execute_with_pipe n’a pas été exécuté sous Windows 11.
+  - Les flux non bloquants et les lignes fragmentées n’ont pas été testés.
+  - Le handshake de capacités n’a pas été exécuté.
+  - Les requêtes simultanées et leur corrélation n’ont pas été exécutées.
+  - Les timeouts, réponses tardives et annulations n’ont pas été exécutés.
+  - L’arrêt normal et l’arrêt forcé du processus n’ont pas été exécutés.
+  - Le compagnon Python n’a pas chargé RetrievalService.
+  - Le repli des balises n’a pas été exécuté.
+  - Le packaging et les exports Windows, Web et mobile restent à qualifier.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
