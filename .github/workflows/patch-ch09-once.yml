@@ -20,8 +20,11 @@ jobs:
           ref: docs/livre-ii-ch09-saves-versioning
           fetch-depth: 0
 
-      - name: Apply reviewed corrections
-        run: python tools/patch_ch09_once.py
+      - name: Repair and apply reviewed corrections
+        run: |
+          python tools/repair_ch09_patch.py
+          python tools/patch_ch09_once.py
+          rm tools/repair_ch09_patch.py
 
       - name: Commit corrected chapter and remove temporary tooling
         run: |
