@@ -1,0 +1,125 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH16
+status: pending-ci
+validation-date: 2026-07-19
+validated-base-commit: 47ec5d7312f9c53af6e570b3b2cc355bba1f2f26
+chapter:
+  id: DOC-L2-CH16
+  path: Livre-II/CHAPITRE-16-Famille-et-generations.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - stable family link identity review
+  - directed parent-child graph review
+  - canonical union pair review
+  - temporal interval review
+  - ancestry cycle prevention review
+  - bounded traversal review
+  - derived siblings and generations review
+  - logical character identity review
+  - typed event and history review
+  - strict snapshot review
+  - candidate graph restoration review
+  - chapter-boundary review
+  - GDScript static review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 16
+  detailed-error-cases: 16
+  clickable-technical-source-links: 15
+  official-web-source-links: 15
+  local-chapter-links: 1
+  sources: null
+  unique-identifiers: null
+  livre-i-chapters: 10
+  livre-ii-chapters: 16
+  chapter-lines: 2206
+  chapter-headings: 89
+  chapter-significant-code-blocks: null
+  chapter-code-and-data-blocks: 69
+  total-context-blocks: null
+  marked-context-blocks: null
+  context-nonconformities: 0
+  semantic-inconsistencies: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  local-markdown-links: 1
+  broken-local-links: 0
+  json-blocks-parsed: 1
+  json-parse-errors: 0
+  gdscript-code-blocks: 66
+  documented-gdscript-static-review: success
+  godot-parser-executed: false
+  stable-family-link-id: true
+  family-state-separated-from-character-state: true
+  parent-child-links-directed: true
+  biological-and-adoptive-parentage-distinguished: true
+  guardianship-distinguished: true
+  union-pair-canonical: true
+  self-links-refused: true
+  business-duplicates-refused: true
+  ancestry-cycles-refused: true
+  traversal-depth-bounded: true
+  traversal-node-count-bounded: true
+  siblings-derived: true
+  generation-distance-derived: true
+  logical-ticks-used: true
+  temporal-overlaps-validated: true
+  logical-character-index-used: true
+  active-scene-independence: true
+  dead-and-archived-identities-supported: true
+  typed-events-documented: true
+  bounded-family-history: true
+  defensive-graph-reads: true
+  strict-snapshot-types: true
+  secondary-indexes-excluded-from-snapshot: true
+  candidate-graph-built-before-apply: true
+  future-gameplay-systems-separated: true
+  process-audit-report-present: true
+  process-distinct-draft-gate-recorded: true
+  blocking-errors: 0
+  warnings: 1
+  pdf-produced: false
+corrections:
+  - Réutilisation de CharacterIdentityIndex au lieu d'une seconde définition.
+  - Validation explicite des valeurs de FamilyLinkKind.
+  - Bornage des parcours par profondeur et nombre de nœuds.
+  - Ajout des getters défensifs pour les trois familles de liens.
+  - Implémentation atomique de replace_all_from avec reconstruction des index.
+  - Codec complet pour filiations, tutelles, unions et historique.
+  - Initialisation explicite et propagation des erreurs dans FamilySaveSection.
+  - Restauration de l'historique avec séquences strictement croissantes.
+  - Convention temporelle inclusive documentée.
+  - Conservation des quinze sources sous forme de liens Markdown nommés.
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Les scripts GDScript n'ont pas été analysés par Godot 4.7.1.
+  - Les classes n'ont pas été matérialisées dans le Starter Kit.
+  - La scène de démonstration n'a pas été instanciée.
+  - Les signaux n'ont pas été exécutés.
+  - La détection des cycles n'a pas été testée sur un grand graphe réel.
+  - Les budgets de profondeur et de nœuds n'ont pas été mesurés.
+  - La restauration coordonnée avec la section des personnages n'a pas été exécutée.
+  - Les migrations de format familial n'ont pas été testées.
+  - Les politiques culturelles d'union restent à définir par le projet.
+  - Le multijoueur reste hors périmètre.
+  - Le packaging multi-plateforme reste à qualifier.
+  - Le PDF reste différé jusqu'à la fin du Livre II.
