@@ -1,0 +1,41 @@
+name: Apply Chapter 7 Review Fixes
+
+on:
+  push:
+    branches:
+      - fix/ch07-examples-and-explanations
+    paths:
+      - ".qa/ch07-review-trigger.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/ch07-examples-and-explanations
+          fetch-depth: 0
+
+      - name: Apply reviewed corrections
+        run: python3 .qa/apply_ch07_review.py
+
+      - name: Remove temporary patch infrastructure
+        run: |
+          rm -f .qa/apply_ch07_review.py
+          rm -f .qa/ch07-review-trigger.txt
+          rm -f .github/workflows/apply-ch07-review.yml
+
+      - name: Commit corrections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md
+          git add Livre-II/QA/AUDIT-CHAPITRE-07.md
+          git add CONTINUITE-PROJET.md
+          git add -A .qa .github/workflows/apply-ch07-review.yml
+          git commit -m "docs(livre-ii): deepen chapter 7 examples and corrections"
+          git push origin HEAD:fix/ch07-examples-and-explanations
