@@ -42,6 +42,7 @@ Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-depen
 Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md
 Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md
 Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
+Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
 Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
 Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-II/QA/AUDIT-CHAPITRE-03.md
@@ -50,6 +51,7 @@ Livre-II/QA/AUDIT-CHAPITRE-05.md
 Livre-II/QA/AUDIT-CHAPITRE-06.md
 Livre-II/QA/AUDIT-CHAPITRE-07.md
 Livre-II/QA/AUDIT-CHAPITRE-08.md
+Livre-II/QA/AUDIT-CHAPITRE-09.md
 Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md
 Livre-III/index.md
 Livre-IV/index.md
