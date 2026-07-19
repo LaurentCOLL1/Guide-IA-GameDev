@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  refine:
+  polish:
     if: github.head_ref == 'docs/refine-code-explanations-ch15-ch16' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -20,9 +20,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Refine explanation style
-        run: python tools/qa/tmp_refine_explanation_style_ch15_ch16.py
-      - name: Commit editorial refinements
+      - name: Polish error explanations
+        run: python tools/qa/tmp_polish_error_explanations_ch15_ch16.py
+      - name: Commit final editorial refinements
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -34,7 +34,7 @@ jobs:
             Livre-II/QA/AUDIT-CHAPITRE-16.md \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
-            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+            CONTINUITE-PROJET.md \
             tmp_ch15_ch16_explanation_style_metrics.txt
-          git commit -m "docs(livre-ii): make chapter 15 and 16 explanations concise"
+          git commit -m "docs(livre-ii): simplify error and correction explanations"
           git push origin HEAD:docs/refine-code-explanations-ch15-ch16
