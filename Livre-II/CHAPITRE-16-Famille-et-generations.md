@@ -1,14 +1,16 @@
 ---
 title: "Livre II — Chapitre 16 : Famille et générations"
 id: "DOC-L2-CH16"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 16
 last-verified: "2026-07-19"
-audit-status: "pending"
-audit-level: "not-audited"
+audit-status: "complete"
+audit-date: "2026-07-19"
+audit-report: "Livre-II/QA/AUDIT-CHAPITRE-16.md"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -31,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** à réaliser immédiatement après cette rédaction.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-16.md`.
 
 ## 1. Rôle du chapitre
 
@@ -206,6 +208,14 @@ static func is_parent_kind(value: Value) -> bool:
 		Value.BIOLOGICAL_PARENT,
 		Value.ADOPTIVE_PARENT,
 	]
+
+static func is_known(value: int) -> bool:
+	return value in [
+		int(Value.BIOLOGICAL_PARENT),
+		int(Value.ADOPTIVE_PARENT),
+		int(Value.GUARDIANSHIP),
+		int(Value.UNION),
+	]
 ```
 
 Une tutelle ne devient pas automatiquement une adoption. Une union ne crée pas automatiquement une filiation.
@@ -253,7 +263,7 @@ func duplicate_value() -> LogicalInterval:
 	return LogicalInterval.new(started_at_tick, ended_at_tick)
 ```
 
-Les ticks proviennent de l’horloge logique de la simulation, jamais de l’heure système de l’ordinateur.
+Les ticks proviennent de l’horloge logique de la simulation, jamais de l’heure système de l’ordinateur. L’intervalle est inclusif : `[started_at_tick, ended_at_tick]`. `OPEN_END` signifie qu’aucune fin n’est encore connue.
 
 ## 7. Filiation dirigée
 
@@ -442,18 +452,15 @@ Le chapitre n’impose ni exclusivité, ni monogamie, ni règles culturelles uni
 
 ## 10. Contrat de l’index logique des personnages
 
-> **[VSC] Visual Studio Code — Créer : `src/features/characters/application/character_identity_index.gd`.**
+> **[VSC] Visual Studio Code — Réutiliser : `src/features/characters/application/character_identity_index.gd`, introduit au chapitre 15.**
+
+Le chapitre 16 ne redéfinit pas cette classe. Il consomme le même contrat logique :
+
+> **[LECTURE] Exemple d’appel — Ne pas créer une seconde classe.**
 
 ```gdscript
-class_name CharacterIdentityIndex
-extends RefCounted
-
-func contains(_character_id: StringName) -> bool:
-	push_error("CharacterIdentityIndex.contains() doit être implémenté.")
-	return false
-
-func is_archived(_character_id: StringName) -> bool:
-	return false
+if not identity_index.contains(character_id):
+	return ERR_DOES_NOT_EXIST
 ```
 
 L’index contient les identités logiques :
@@ -575,6 +582,24 @@ func _has_parent_edge(
 		if link != null and link.child_id == child_id:
 			return true
 	return false
+
+func get_parent_links() -> Array[ParentChildLink]:
+	var result: Array[ParentChildLink] = []
+	for link: ParentChildLink in _parent_links.values():
+		result.append(link.duplicate_value())
+	return result
+
+func get_guardianship_links() -> Array[GuardianshipLink]:
+	var result: Array[GuardianshipLink] = []
+	for link: GuardianshipLink in _guardian_links.values():
+		result.append(link.duplicate_value())
+	return result
+
+func get_union_links() -> Array[UnionLink]:
+	var result: Array[UnionLink] = []
+	for link: UnionLink in _union_links.values():
+		result.append(link.duplicate_value())
+	return result
 ```
 
 ## 12. Requêtes de filiation
@@ -632,11 +657,21 @@ func get_ancestors(
 	max_depth: int = 32,
 ) -> Dictionary[StringName, int]:
 	var distances: Dictionary[StringName, int] = {}
+	if max_depth < 0 or max_depth > 32:
+		push_error("Profondeur d’ancêtres hors limites.")
+		return distances
+
 	var pending: Array[Dictionary] = [
 		{"id": character_id, "depth": 0},
 	]
+	var visited_nodes := 0
 
 	while not pending.is_empty():
+		if visited_nodes >= MAX_TRAVERSAL_NODES:
+			push_error("Parcours d’ancêtres interrompu par le budget.")
+			return {}
+		visited_nodes += 1
+
 		var entry: Dictionary = pending.pop_front()
 		var current: StringName = entry["id"]
 		var depth: int = entry["depth"]
@@ -669,11 +704,21 @@ func get_descendants(
 	max_depth: int = 32,
 ) -> Dictionary[StringName, int]:
 	var distances: Dictionary[StringName, int] = {}
+	if max_depth < 0 or max_depth > 32:
+		push_error("Profondeur de descendants hors limites.")
+		return distances
+
 	var pending: Array[Dictionary] = [
 		{"id": character_id, "depth": 0},
 	]
+	var visited_nodes := 0
 
 	while not pending.is_empty():
+		if visited_nodes >= MAX_TRAVERSAL_NODES:
+			push_error("Parcours de descendants interrompu par le budget.")
+			return {}
+		visited_nodes += 1
+
 		var entry: Dictionary = pending.pop_front()
 		var current: StringName = entry["id"]
 		var depth: int = entry["depth"]
@@ -786,6 +831,32 @@ func _intervals_overlap(
 		left.started_at_tick <= right_end
 		and right.started_at_tick <= left_end
 	)
+
+func replace_all_from(source: FamilyGraph) -> Error:
+	if source == null:
+		return ERR_INVALID_PARAMETER
+
+	var candidate := FamilyGraph.new()
+	for link: ParentChildLink in source.get_parent_links():
+		var parent_result := candidate.add_parent_link(link)
+		if parent_result != OK:
+			return parent_result
+	for link: GuardianshipLink in source.get_guardianship_links():
+		var guardian_result := candidate.add_guardianship(link)
+		if guardian_result != OK:
+			return guardian_result
+	for link: UnionLink in source.get_union_links():
+		var union_result := candidate.add_union(link)
+		if union_result != OK:
+			return union_result
+
+	_parent_links = candidate._parent_links
+	_guardian_links = candidate._guardian_links
+	_union_links = candidate._union_links
+	_parents_by_child = candidate._parents_by_child
+	_children_by_parent = candidate._children_by_parent
+	_unions_by_pair = candidate._unions_by_pair
+	return OK
 ```
 
 ## 15. Service applicatif
@@ -967,6 +1038,25 @@ func snapshot() -> Array[FamilyHistoryRecord]:
 	for record: FamilyHistoryRecord in _records:
 		result.append(record.duplicate_value())
 	return result
+
+func restore(records: Array[FamilyHistoryRecord]) -> Error:
+	if records.size() > MAX_RECORDS:
+		return ERR_OUT_OF_MEMORY
+
+	var candidate: Array[FamilyHistoryRecord] = []
+	var previous_sequence := -1
+
+	for record: FamilyHistoryRecord in records:
+		if record == null or not record.validate():
+			return ERR_INVALID_DATA
+		if record.sequence <= previous_sequence:
+			return ERR_INVALID_DATA
+		previous_sequence = record.sequence
+		candidate.append(record.duplicate_value())
+
+	_records = candidate
+	_next_sequence = previous_sequence + 1
+	return OK
 ```
 
 Le journal n’est pas un journal légal exhaustif. Il fournit un historique borné utile au gameplay et au diagnostic.
@@ -1051,17 +1141,53 @@ Le snapshot ne contient pas :
 - les vues sociales ;
 - les caches d’ancêtres.
 
-### 18.2 Encoder une filiation
-
-> **[VSC] Visual Studio Code — Créer : `src/features/families/infrastructure/family_snapshot_codec.gd`.**
+### 18.2 Limites du codec
 
 ```gdscript
 class_name FamilySnapshotCodec
 extends RefCounted
 
 const FORMAT_VERSION := 1
+const MAX_PARENT_LINKS := 8192
+const MAX_GUARDIANSHIPS := 4096
+const MAX_UNIONS := 4096
+const MAX_HISTORY_RECORDS := 256
+```
 
-func encode_parent_link(link: ParentChildLink) -> Dictionary:
+### 18.3 Encodeurs
+
+> **[VSC] Visual Studio Code — Créer : `src/features/families/infrastructure/family_snapshot_codec.gd`.**
+
+```gdscript
+func encode_graph(
+	graph: FamilyGraph,
+	history: FamilyEventLog,
+) -> Dictionary:
+	var parent_links: Array[Dictionary] = []
+	for link: ParentChildLink in graph.get_parent_links():
+		parent_links.append(_encode_parent_link(link))
+
+	var guardianships: Array[Dictionary] = []
+	for link: GuardianshipLink in graph.get_guardianship_links():
+		guardianships.append(_encode_guardianship(link))
+
+	var unions: Array[Dictionary] = []
+	for link: UnionLink in graph.get_union_links():
+		unions.append(_encode_union(link))
+
+	var history_records: Array[Dictionary] = []
+	for record: FamilyHistoryRecord in history.snapshot():
+		history_records.append(_encode_history(record))
+
+	return {
+		"format_version": FORMAT_VERSION,
+		"parent_links": parent_links,
+		"guardianships": guardianships,
+		"unions": unions,
+		"history": history_records,
+	}
+
+func _encode_parent_link(link: ParentChildLink) -> Dictionary:
 	return {
 		"link_id": String(link.link_id),
 		"parent_id": String(link.parent_id),
@@ -1070,12 +1196,46 @@ func encode_parent_link(link: ParentChildLink) -> Dictionary:
 		"established_at_tick": link.established_at_tick,
 		"provenance": String(link.provenance),
 	}
+
+func _encode_interval(interval: LogicalInterval) -> Dictionary:
+	return {
+		"started_at_tick": interval.started_at_tick,
+		"ended_at_tick": interval.ended_at_tick,
+	}
+
+func _encode_guardianship(link: GuardianshipLink) -> Dictionary:
+	return {
+		"link_id": String(link.link_id),
+		"guardian_id": String(link.guardian_id),
+		"ward_id": String(link.ward_id),
+		"interval": _encode_interval(link.interval),
+		"provenance": String(link.provenance),
+	}
+
+func _encode_union(link: UnionLink) -> Dictionary:
+	return {
+		"link_id": String(link.link_id),
+		"first_id": String(link.pair.first_id),
+		"second_id": String(link.pair.second_id),
+		"interval": _encode_interval(link.interval),
+		"union_type": String(link.union_type),
+		"provenance": String(link.provenance),
+	}
+
+func _encode_history(record: FamilyHistoryRecord) -> Dictionary:
+	return {
+		"sequence": record.sequence,
+		"event_type": String(record.event_type),
+		"link_id": String(record.link_id),
+		"tick": record.tick,
+		"provenance": String(record.provenance),
+	}
 ```
 
-### 18.3 Décodage strict
+### 18.4 Décodage strict d’une filiation
 
 ```gdscript
-func decode_parent_link(
+func _decode_parent_link(
 	value: Variant,
 	identities: CharacterIdentityIndex,
 ) -> ParentChildLink:
@@ -1092,17 +1252,17 @@ func decode_parent_link(
 	]
 	if not _has_exact_keys(data, required):
 		return null
-	if not data["link_id"] is String:
-		return null
-	if not data["parent_id"] is String:
-		return null
-	if not data["child_id"] is String:
-		return null
-	if not data["kind"] is int:
-		return null
-	if not data["established_at_tick"] is int:
-		return null
-	if not data["provenance"] is String:
+	if not _types_match(
+		data,
+		{
+			"link_id": TYPE_STRING,
+			"parent_id": TYPE_STRING,
+			"child_id": TYPE_STRING,
+			"kind": TYPE_INT,
+			"established_at_tick": TYPE_INT,
+			"provenance": TYPE_STRING,
+		},
+	):
 		return null
 
 	var parent_id := StringName(data["parent_id"])
@@ -1113,14 +1273,14 @@ func decode_parent_link(
 		return null
 
 	var kind_value: int = data["kind"]
-	if kind_value < 0 or kind_value >= FamilyLinkKind.Value.size():
+	if not FamilyLinkKind.is_known(kind_value):
 		return null
 
 	var link := ParentChildLink.new(
 		StringName(data["link_id"]),
 		parent_id,
 		child_id,
-		kind_value as FamilyLinkKind.Value,
+		kind_value,
 		data["established_at_tick"],
 		StringName(data["provenance"]),
 	)
@@ -1129,55 +1289,255 @@ func decode_parent_link(
 	return link
 ```
 
-### 18.4 Clés exactes
+### 18.5 Intervalles, tutelles et unions
 
 ```gdscript
-func _has_exact_keys(
-	data: Dictionary,
-	required: Array,
-) -> bool:
+func _decode_interval(value: Variant) -> LogicalInterval:
+	if not value is Dictionary:
+		return null
+	var data := value as Dictionary
+	if not _has_exact_keys(
+		data,
+		["started_at_tick", "ended_at_tick"],
+	):
+		return null
+	if not data["started_at_tick"] is int:
+		return null
+	if not data["ended_at_tick"] is int:
+		return null
+
+	var interval := LogicalInterval.new(
+		data["started_at_tick"],
+		data["ended_at_tick"],
+	)
+	return interval if interval.is_valid() else null
+
+func _decode_guardianship(
+	value: Variant,
+	identities: CharacterIdentityIndex,
+) -> GuardianshipLink:
+	if not value is Dictionary:
+		return null
+	var data := value as Dictionary
+	var required := [
+		"link_id",
+		"guardian_id",
+		"ward_id",
+		"interval",
+		"provenance",
+	]
+	if not _has_exact_keys(data, required):
+		return null
+	if not data["link_id"] is String:
+		return null
+	if not data["guardian_id"] is String:
+		return null
+	if not data["ward_id"] is String:
+		return null
+	if not data["provenance"] is String:
+		return null
+
+	var guardian_id := StringName(data["guardian_id"])
+	var ward_id := StringName(data["ward_id"])
+	if not identities.contains(guardian_id):
+		return null
+	if not identities.contains(ward_id):
+		return null
+
+	var interval := _decode_interval(data["interval"])
+	if interval == null:
+		return null
+
+	var link := GuardianshipLink.new()
+	link.link_id = StringName(data["link_id"])
+	link.guardian_id = guardian_id
+	link.ward_id = ward_id
+	link.interval = interval
+	link.provenance = StringName(data["provenance"])
+	return link if link.validate().is_empty() else null
+
+func _decode_union(
+	value: Variant,
+	identities: CharacterIdentityIndex,
+) -> UnionLink:
+	if not value is Dictionary:
+		return null
+	var data := value as Dictionary
+	var required := [
+		"link_id",
+		"first_id",
+		"second_id",
+		"interval",
+		"union_type",
+		"provenance",
+	]
+	if not _has_exact_keys(data, required):
+		return null
+	for key: String in [
+		"link_id",
+		"first_id",
+		"second_id",
+		"union_type",
+		"provenance",
+	]:
+		if not data[key] is String:
+			return null
+
+	var first_id := StringName(data["first_id"])
+	var second_id := StringName(data["second_id"])
+	if not identities.contains(first_id):
+		return null
+	if not identities.contains(second_id):
+		return null
+
+	var pair := CharacterPair.create(first_id, second_id)
+	var interval := _decode_interval(data["interval"])
+	if pair == null or interval == null:
+		return null
+
+	var link := UnionLink.new()
+	link.link_id = StringName(data["link_id"])
+	link.pair = pair
+	link.interval = interval
+	link.union_type = StringName(data["union_type"])
+	link.provenance = StringName(data["provenance"])
+	return link if link.validate().is_empty() else null
+```
+
+### 18.6 Historique et utilitaires
+
+```gdscript
+func _decode_history(value: Variant) -> FamilyHistoryRecord:
+	if not value is Dictionary:
+		return null
+	var data := value as Dictionary
+	var required := [
+		"sequence",
+		"event_type",
+		"link_id",
+		"tick",
+		"provenance",
+	]
+	if not _has_exact_keys(data, required):
+		return null
+	if not data["sequence"] is int:
+		return null
+	if not data["event_type"] is String:
+		return null
+	if not data["link_id"] is String:
+		return null
+	if not data["tick"] is int:
+		return null
+	if not data["provenance"] is String:
+		return null
+
+	var record := FamilyHistoryRecord.new()
+	record.sequence = data["sequence"]
+	record.event_type = StringName(data["event_type"])
+	record.link_id = StringName(data["link_id"])
+	record.tick = data["tick"]
+	record.provenance = StringName(data["provenance"])
+	return record if record.validate() else null
+
+func _has_exact_keys(data: Dictionary, required: Array) -> bool:
 	if data.size() != required.size():
 		return false
 	for key: String in required:
 		if not data.has(key):
 			return false
 	return true
-```
 
-Le refus des clés inconnues évite d’accepter silencieusement un format futur ou mal orthographié.
+func _types_match(
+	data: Dictionary,
+	expected: Dictionary,
+) -> bool:
+	for key: String in expected:
+		if typeof(data[key]) != expected[key]:
+			return false
+	return true
+```
 
 ## 19. Construction atomique du graphe candidat
 
 ```gdscript
-func decode_graph(
-	payload: Dictionary,
+func decode_snapshot(
+	payload: Variant,
 	identities: CharacterIdentityIndex,
-) -> FamilyGraph:
-	if not payload.has("format_version"):
-		return null
-	if payload["format_version"] != FORMAT_VERSION:
-		return null
+) -> Dictionary:
+	if not payload is Dictionary:
+		return {}
+	var data := payload as Dictionary
+	var root_keys := [
+		"format_version",
+		"parent_links",
+		"guardianships",
+		"unions",
+		"history",
+	]
+	if not _has_exact_keys(data, root_keys):
+		return {}
+	if not data["format_version"] is int:
+		return {}
+	if data["format_version"] != FORMAT_VERSION:
+		return {}
+	for key: String in [
+		"parent_links",
+		"guardianships",
+		"unions",
+		"history",
+	]:
+		if not data[key] is Array:
+			return {}
+
+	if data["parent_links"].size() > MAX_PARENT_LINKS:
+		return {}
+	if data["guardianships"].size() > MAX_GUARDIANSHIPS:
+		return {}
+	if data["unions"].size() > MAX_UNIONS:
+		return {}
+	if data["history"].size() > MAX_HISTORY_RECORDS:
+		return {}
 
 	var candidate := FamilyGraph.new()
+	for raw_link: Variant in data["parent_links"]:
+		var parent_link := _decode_parent_link(raw_link, identities)
+		if parent_link == null:
+			return {}
+		if candidate.add_parent_link(parent_link) != OK:
+			return {}
 
-	if not payload.get("parent_links", null) is Array:
-		return null
-	for raw_link: Variant in payload["parent_links"]:
-		var link := decode_parent_link(raw_link, identities)
-		if link == null:
-			return null
-		if candidate.add_parent_link(link) != OK:
-			return null
+	for raw_link: Variant in data["guardianships"]:
+		var guardianship := _decode_guardianship(raw_link, identities)
+		if guardianship == null:
+			return {}
+		if candidate.add_guardianship(guardianship) != OK:
+			return {}
 
-	if not _decode_guardianships_into(candidate, payload, identities):
-		return null
-	if not _decode_unions_into(candidate, payload, identities):
-		return null
+	for raw_link: Variant in data["unions"]:
+		var union_link := _decode_union(raw_link, identities)
+		if union_link == null:
+			return {}
+		if candidate.add_union(union_link) != OK:
+			return {}
 
-	return candidate
+	var records: Array[FamilyHistoryRecord] = []
+	for raw_record: Variant in data["history"]:
+		var record := _decode_history(raw_record)
+		if record == null:
+			return {}
+		records.append(record)
+
+	var history := FamilyEventLog.new()
+	if history.restore(records) != OK:
+		return {}
+
+	return {
+		"graph": candidate,
+		"history": history,
+	}
 ```
 
-La fonction ne modifie jamais le graphe actif. Tout échec abandonne le candidat.
+La fonction ne modifie jamais le graphe actif. Tout échec retourne un dictionnaire vide et abandonne le candidat.
 
 ## 20. Section de sauvegarde
 
@@ -1190,26 +1550,49 @@ extends SaveSection
 const SECTION_ID := &"families"
 
 var _graph: FamilyGraph
+var _history: FamilyEventLog
 var _codec: FamilySnapshotCodec
 var _identities: CharacterIdentityIndex
 var _prepared_graph: FamilyGraph
+var _prepared_history: FamilyEventLog
+
+func _init(
+	graph: FamilyGraph,
+	history: FamilyEventLog,
+	codec: FamilySnapshotCodec,
+	identities: CharacterIdentityIndex,
+) -> void:
+	_graph = graph
+	_history = history
+	_codec = codec
+	_identities = identities
 
 func get_section_id() -> StringName:
 	return SECTION_ID
 
 func capture() -> Dictionary:
-	return _codec.encode_graph(_graph)
+	if (
+		_graph == null
+		or _history == null
+		or _codec == null
+	):
+		push_error("FamilySaveSection non configurée.")
+		return {}
+	return _codec.encode_graph(_graph, _history)
 
 func prepare_apply(payload: Variant) -> Error:
 	_prepared_graph = null
-	if not payload is Dictionary:
+	_prepared_history = null
+	if _codec == null or _identities == null:
+		return ERR_UNCONFIGURED
+
+	var decoded := _codec.decode_snapshot(payload, _identities)
+	if decoded.is_empty():
 		return ERR_INVALID_DATA
 
-	var candidate := _codec.decode_graph(
-		payload as Dictionary,
-		_identities,
-	)
-	if candidate == null:
+	var candidate := decoded["graph"] as FamilyGraph
+	var candidate_history := decoded["history"] as FamilyEventLog
+	if candidate == null or candidate_history == null:
 		return ERR_INVALID_DATA
 
 	var validator := FamilyGraphValidator.new()
@@ -1217,20 +1600,33 @@ func prepare_apply(payload: Variant) -> Error:
 		return ERR_INVALID_DATA
 
 	_prepared_graph = candidate
+	_prepared_history = candidate_history
 	return OK
 
 func apply_prepared() -> Error:
-	if _prepared_graph == null:
+	if _prepared_graph == null or _prepared_history == null:
 		return ERR_UNCONFIGURED
-	_graph.replace_all_from(_prepared_graph)
+
+	var graph_result := _graph.replace_all_from(_prepared_graph)
+	if graph_result != OK:
+		return graph_result
+
+	var history_result := _history.restore(
+		_prepared_history.snapshot(),
+	)
+	if history_result != OK:
+		return history_result
+
 	_prepared_graph = null
+	_prepared_history = null
 	return OK
 
 func cancel_prepared() -> void:
 	_prepared_graph = null
+	_prepared_history = null
 ```
 
-`replace_all_from()` doit reconstruire les index secondaires à partir des liens du candidat. Il ne copie pas les dictionnaires internes par référence.
+`replace_all_from()` reconstruit les index secondaires à partir des liens du candidat. La section propage son retour `Error` et ne considère la préparation terminée qu’après remplacement du graphe et restauration de l’historique.
 
 ## 21. Personnages décédés, absents ou archivés
 
