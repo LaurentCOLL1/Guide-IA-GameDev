@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.14.0"
+version: "3.15.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 13 chapitres sur 30.**
+**En cours : 14 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -123,7 +123,7 @@ Chaque procédure doit expliquer :
 
 #### Partie C — Systèmes de gameplay
 
-14. Personnages.
+14. Personnages — terminé au niveau `static-review`.
 15. Relations sociales.
 16. Famille et générations.
 17. Agents IA et comportements autonomes.
@@ -186,7 +186,9 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 13 : **Élevée**.
+Chapitres 3 à 14 : **Élevée**.
+
+À chaque clôture de chapitre, le bloc **Prochaine action** doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`.
 
 ## 8. Audit par chapitre
 
@@ -394,6 +396,22 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - SBOM, provenance, signature et rollback préparés pour la publication ;
 - violation de sécurité refusée sans contournement par le repli ;
 - repli déterministe conservé uniquement pour les indisponibilités fonctionnelles prévues.
+
+### 11.9 Personnages
+
+- identité d’instance `chr_...` indépendante du nom affiché et distincte du `StableId` de définition ;
+- `CharacterDefinition` comme `Resource` de conception validée et partagée ;
+- `CharacterRuntimeState` séparé, borné et dépourvu de référence vers un nœud actif ;
+- statistiques dérivées recalculées depuis la définition et les bonus autoritaires ;
+- scène composée avec corps, runtime, synchronisation de transform, visuel et contrôleur séparés ;
+- réutilisation de la chaîne d’intention du chapitre 6 sans lecture directe de `Input` dans le personnage ;
+- initialisation avant entrée dans l’arbre et placement global après `add_child()` ;
+- apparition unique par identité et disparition distincte de la suppression métier ;
+- registre limité aux instances actives et injecté aux services concernés ;
+- événements typés de nom, santé, endurance et état de vie ;
+- snapshot strict composé d’identifiants et de valeurs sérialisables, sans nœud, ressource ou cache ;
+- section de sauvegarde préparée complètement avant application ;
+- relations, famille, agents, combat et compétences maintenus dans des systèmes séparés.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -792,7 +810,61 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-13.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 21. Erreurs à ne pas reproduire
+## 21. Chapitre 14 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-14-Personnages.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- identifiant d’instance aléatoire canonique, indépendant du nom et du chemin ;
+- espace d’identifiants distinct pour les définitions de contenu ;
+- `CharacterDefinition`, `CharacterRuntimeState` et snapshot persistant séparés ;
+- attributs de base validés et statistiques dérivées reconstructibles ;
+- bonus et valeurs courantes bornés, transforms obligatoirement finis ;
+- fabrique centralisant les invariants de création ;
+- règles fondamentales de santé et d’endurance sans anticiper le combat ;
+- signaux typés transportant l’identifiant stable ;
+- corps physique, runtime, visuel, synchronisation et contrôleur séparés ;
+- contrôleur humain réutilisé depuis le chapitre 6 et contrôleur autonome réservé au chapitre 17 ;
+- initialisation avant `add_child()` et transform global appliqué après ;
+- une seule représentation active par identité ;
+- disparition conservant l’état logique ;
+- registre actif injecté, non global et non persistant ;
+- codec strict refusant les conversions silencieuses ;
+- snapshot sans nœud, ressource, contrôleur ou statistique dérivée ;
+- section de sauvegarde validée et préparée avant mutation ;
+- systèmes sociaux, familiaux, autonomes, de combat et de compétences séparés.
+
+Livrables documentés :
+
+- `src/features/characters/domain/character_id.gd` ;
+- `src/features/characters/domain/character_definition.gd` ;
+- `src/features/characters/domain/character_statistics.gd` ;
+- `src/features/characters/domain/character_runtime_state.gd` ;
+- `src/features/characters/domain/character_rules.gd` ;
+- `src/features/characters/application/character_catalog.gd` ;
+- `src/features/characters/application/character_factory.gd` ;
+- `src/features/characters/application/character_spawner.gd` ;
+- `src/features/characters/application/active_character_registry.gd` ;
+- `src/features/characters/presentation/character_runtime.gd` ;
+- `src/features/characters/presentation/character_transform_sync.gd` ;
+- `src/features/characters/presentation/player_character.tscn` ;
+- `src/features/characters/infrastructure/character_snapshot_codec.gd` ;
+- `src/features/characters/infrastructure/character_save_section.gd` ;
+- `src/app/character_bootstrap.gd` ;
+- `data/characters/aster.tres` ;
+- `scenes/learning/ch14_characters_demo.tscn` ;
+- `scenes/learning/ch14_characters_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-14.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-14.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 22. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -882,14 +954,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas présenter un hachage seul comme preuve d’origine ;
 - ne pas contourner un refus de sécurité par un repli ;
 - ne pas conserver le debug de développement en production ;
+- ne pas utiliser le nom affiché ou un index comme identité de personnage ;
+- ne pas modifier une `CharacterDefinition` partagée comme état vivant ;
+- ne pas sauvegarder un nœud, une `Resource` ou une statistique dérivée comme autorité ;
+- ne pas faire lire `Input` directement au personnage ;
+- ne pas confondre contrôleur, possession et identité ;
+- ne pas initialiser le runtime après l’entrée du nœud dans l’arbre ;
+- ne pas enregistrer deux acteurs actifs pour la même identité ;
+- ne pas traiter `queue_free()` comme une suppression métier ;
+- ne pas appliquer une section de personnages avant validation complète ;
+- ne pas placer relations, famille, agent, combat ou compétences dans `CharacterRuntimeState` ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 22. État courant
+## 23. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 13 chapitres sur 30 ;
+- progression : 14 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -900,40 +982,58 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 11 : version `1.0.0` ;
 - chapitre 12 : version `1.0.2` ;
 - chapitre 13 : version `1.0.0` ;
+- chapitre 14 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 23. Prochaine action
+## 24. Prochaine action
 
 Chapitre :
 
-> **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-14-Personnages.md
+Livre-II/CHAPITRE-15-Relations-sociales.md
+Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
 Périmètre attendu :
 
-- premier des douze systèmes de gameplay ;
-- identité stable d’un personnage indépendante de son nom affiché ;
-- séparation entre définition de conception, état runtime et persistance ;
-- données de base, attributs, statistiques dérivées et validation ;
-- composition de la scène de personnage et responsabilités des composants ;
-- séparation entre personnage, contrôleur, représentation visuelle et corps physique ;
-- réutilisation des entrées, caméra et interactions du chapitre 6 ;
-- création, apparition, désapparition et registre limité des personnages actifs ;
-- événements typés pour les changements importants ;
-- sérialisation vers le système de sauvegarde sans inclure les caches dérivés ;
-- frontières explicites avec relations sociales, famille, agents autonomes, combat et compétences ;
+- état relationnel séparé de `CharacterRuntimeState` ;
+- identité d’une relation fondée sur les identifiants stables des personnages ;
+- distinction explicite entre relations dirigées et relations symétriques ;
+- axes bornés comme affinité, confiance, peur et respect ;
+- modificateurs sociaux, causes, provenance et historique borné ;
+- opérations applicatives validées pour faire évoluer une relation ;
+- événements typés et requêtes de voisinage social ;
+- absence de dépendance directe aux nœuds actifs ;
+- sérialisation dans une section de sauvegarde indépendante ;
+- validation des références de personnages et gestion des personnages absents de la scène ;
+- frontières avec famille, agents autonomes, factions, réputation et narration ;
 - démonstration pédagogique, critères d’acceptation et tests à préparer ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
-Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
+La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
-## 24. Journal
+## 25. Journal
+
+### 2026-07-19 — version 3.15.0
+
+- création, correction et audit statique du chapitre 14 ;
+- ouverture des douze systèmes de gameplay avec les personnages ;
+- identité stable séparée du nom et des définitions de contenu ;
+- définition de conception, état runtime et snapshot persistant séparés ;
+- attributs bornés et statistiques dérivées reconstructibles ;
+- scène composée avec corps, runtime, visuel, synchronisation et contrôleur séparés ;
+- apparition, disparition et registre limité aux instances actives ;
+- événements typés et sauvegarde validée avant application ;
+- maintien des relations, famille, agents, combat et compétences dans leurs chapitres propres ;
+- progression à 14 chapitres sur 30 et systèmes de gameplay à 1 sur 12 ;
+- règle permanente ajoutée : chaque prochaine action affiche le chemin et le niveau GPT-5.6 Sol dans le même bloc ;
+- prochaine action déplacée vers le chapitre 15 — Relations sociales ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.14.0
 

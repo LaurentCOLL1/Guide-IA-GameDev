@@ -1,0 +1,128 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH14
+status: complete
+validation-date: 2026-07-19
+validated-base-commit: 06a5bb0217553d49f6e114335ec5fdd16dbc586f
+chapter:
+  id: DOC-L2-CH14
+  path: Livre-II/CHAPITRE-14-Personnages.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - stable character identity review
+  - definition-runtime-persistence separation review
+  - base and derived statistics review
+  - scene composition review
+  - controller and body separation review
+  - spawn and despawn lifecycle review
+  - active registry review
+  - typed event review
+  - strict snapshot review
+  - save-section atomicity review
+  - chapter-boundary review
+  - GDScript static review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 16
+  detailed-error-cases: 16
+  clickable-technical-source-links: 15
+  sources: 69
+  unique-identifiers: 67
+  livre-i-chapters: 10
+  livre-ii-chapters: 14
+  chapter-lines: 2066
+  chapter-headings: 62
+  chapter-significant-code-blocks: 21
+  chapter-code-and-data-blocks: 55
+  total-context-blocks: 1507
+  marked-context-blocks: 1507
+  context-nonconformities: 0
+  semantic-inconsistencies: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  local-markdown-links: 1
+  broken-local-links: 0
+  json-blocks-parsed: 3
+  json-parse-errors: 0
+  gdscript-code-blocks: 44
+  documented-gdscript-static-review: success
+  godot-parser-executed: false
+  chapter-context-markers:
+    VSC: 15
+    APP: 4
+    SORTIE: 3
+    LECTURE: 37
+  stable-instance-id-independent-of-name: true
+  definition-id-separated-from-instance-id: true
+  definition-runtime-snapshot-separated: true
+  derived-statistics-reconstructible: true
+  runtime-state-bounded: true
+  character-controller-separated: true
+  character-body-separated: true
+  chapter-6-input-chain-reused: true
+  initialization-before-tree-entry: true
+  global-transform-after-add-child: true
+  active-registry-limited: true
+  duplicate-active-instance-refused: true
+  typed-events-documented: true
+  strict-snapshot-types: true
+  nodes-and-resources-excluded-from-snapshot: true
+  save-section-prepared-before-apply: true
+  future-gameplay-systems-separated: true
+  process-audit-report-present: true
+  process-distinct-draft-gate-recorded: true
+  process-continuity-paths-verified: true
+  next-action-includes-reasoning-level: true
+  blocking-errors: 0
+  warnings: 1
+  pdf-produced: false
+corrections:
+  - Séparation des espaces d’identifiants des définitions et des instances.
+  - Validation de species_id avec StableId.
+  - Validation des attributs entre 1 et 100 hors Inspector.
+  - Retour Error explicite du catalogue.
+  - Construction atomique du catalogue par candidat.
+  - Bornage du nom personnalisé et des bonus d’attributs.
+  - Ajout des opérations d’endurance avec événements typés.
+  - Distinction entre free avant l’arbre et queue_free après l’ajout.
+  - Ajout de CharacterTransformSync dans l’arbre attendu.
+  - Suppression de clear_without_freeing du registre actif.
+  - Validation stricte des types avant conversion du snapshot.
+  - Conversion explicite de StringName vers String dans le JSON.
+  - Refus d’une capture de sauvegarde contenant un état absent ou invalide.
+  - Présentation des quinze sources techniques comme liens Markdown nommés.
+  - Ajout de la règle de clôture associant chemin et niveau GPT-5.6 Sol dans un même bloc.
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29703366259
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29703366230
+    conclusion: success
+  artifact:
+    id: 8447127297
+    name: chapter-validation-without-pdf
+    digest: sha256:8cabe8292aaa59f595b09dab30d1f5f64dd99735a70720705ad14f90941ad117
+reservations:
+  - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
+  - Les scènes n’ont pas été créées dans l’éditeur.
+  - Crypto.generate_random_bytes n’a pas été qualifié sur les exports.
+  - Aucun PackedScene de personnage n’a été instancié.
+  - L’ordre des callbacks n’a pas été exécuté dans le Starter Kit.
+  - Le déplacement et les collisions n’ont pas été exécutés.
+  - Le contrôleur du chapitre 6 n’a pas été connecté au runtime du chapitre 14.
+  - L’apparition, la disparition et le registre n’ont pas été exécutés.
+  - La capture de transform avec interpolation n’a pas été qualifiée.
+  - La section n’a pas été exécutée dans le pipeline de sauvegarde complet.
+  - Les migrations et anciennes sauvegardes n’ont pas été testées.
+  - Les budgets d’instances et le streaming de zones restent à qualifier.
+  - Le packaging multi-plateforme reste à qualifier.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
