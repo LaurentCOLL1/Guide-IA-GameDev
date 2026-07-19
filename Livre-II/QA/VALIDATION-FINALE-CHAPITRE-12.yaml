@@ -6,7 +6,7 @@ validated-base-commit: 64989c7faf6521becd7ddb13f7d4ffabc24abef1
 chapter:
   id: DOC-L2-CH12
   path: Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 scope:
   - markdown integrity
@@ -73,6 +73,7 @@ results:
   chapter-13-boundary-preserved: true
   process-audit-report-present: true
   process-continuity-paths-verified: true
+  clickable-technical-source-links: true
   blocking-errors: 0
   warnings: 1
   pdf-produced: false
@@ -92,7 +93,17 @@ corrections:
   - Épinglage des sources officielles Godot 4.7, Python 3.12 et OpenAI.
   - Normalisation du libellé Exemple corrigé dans le cas 46.2.
   - Correction des chemins du chapitre détaillé et de la prochaine action.
+  - Conversion des neuf adresses de la section Sources techniques en liens Markdown nommés.
 ci:
+  source-links-follow-up:
+    validated-head-commit: 68b5219366bf37721d81a3b137d649bccddc2efe
+    validate-chapters-run-id: 29701255286
+    validate-chapters-conclusion: success
+    validate-contexts-run-id: 29701255251
+    validate-contexts-conclusion: success
+    artifact-id: 8446511389
+    artifact-name: chapter-validation-without-pdf
+    artifact-digest: sha256:04c2e246718cb1b668ca9cf907c42c91d9ab9d12fb16fa7b1664d3d70ecee73e
   validate-chapters-without-pdf:
     run-id: 29700629472
     conclusion: success
@@ -111,7 +122,7 @@ reservations:
   - Les workers concurrents et la backpressure n’ont pas été exécutés.
   - L’idempotence et l’empreinte canonique n’ont pas été exécutées.
   - Les timeouts et annulations distantes n’ont pas été exécutés.
-  - Les priorités, la famine et l’expiration n’ont pas été exécutées.
+  - Les priorités, la famine et l’expiration n’ont pas été exécutés.
   - Le streaming SSE ou WebSocket n’a pas été exécuté.
   - Le mapper n’a pas été testé contre un serveur compatible OpenAI réel.
   - Le packaging et les exports restent à qualifier.
