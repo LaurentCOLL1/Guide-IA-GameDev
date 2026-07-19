@@ -11,17 +11,78 @@ on:
       - "contents.txt"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
+      - "REPRISE-NOUVELLE-CONVERSATION.md"
       - "tools/validate_chapters.py"
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-chapters.yml"
+      - ".github/workflows/temporary-record-restart-entry.yml"
       - ".qa/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  prepare-restart-entry:
+    name: Record restart entry in continuity
+    if: github.event_name == 'pull_request' && github.head_ref == 'docs/reprise-nouvelle-conversation' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/reprise-nouvelle-conversation
+          fetch-depth: 0
+
+      - name: Update continuity and remove temporary workflow
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path("CONTINUITE-PROJET.md")
+          text = path.read_text(encoding="utf-8")
+
+          if 'version: "3.9.0"' in text:
+              text = text.replace('version: "3.9.0"', 'version: "3.10.0"', 1)
+          elif 'version: "3.10.0"' not in text:
+              raise SystemExit("Version de continuité inattendue")
+
+          rule = "> **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot."
+          point = "> **Point d’entrée recommandé :** `REPRISE-NOUVELLE-CONVERSATION.md` fournit le prompt stable à copier dans une nouvelle conversation. Il pointe vers le présent document sans recopier l’état courant ; `CONTINUITE-PROJET.md` reste l’unique source de vérité de la reprise."
+          if point not in text:
+              if rule not in text:
+                  raise SystemExit("Règle obligatoire de continuité introuvable")
+              text = text.replace(rule, rule + "\n\n" + point, 1)
+
+          journal_anchor = "### 2026-07-19 — version 3.9.0"
+          journal_title = "### 2026-07-19 — version 3.10.0"
+          if journal_title not in text:
+              journal_entry = """### 2026-07-19 — version 3.10.0
+
+- ajout de `REPRISE-NOUVELLE-CONVERSATION.md` comme point d’entrée stable pour une nouvelle conversation ;
+- rappel que le dépôt puis `CONTINUITE-PROJET.md` prévalent sur les anciens résumés ;
+- interdiction de recopier la progression et la prochaine action dans le fichier de reprise ;
+- procédure de confirmation obligatoire avant toute nouvelle rédaction ;
+- ajout du fichier de reprise aux chemins du workflow léger ;
+- aucun PDF construit.
+
+"""
+              if journal_anchor not in text:
+                  raise SystemExit("Ancre du journal 3.9.0 introuvable")
+              text = text.replace(journal_anchor, journal_entry + journal_anchor, 1)
+
+          path.write_text(text, encoding="utf-8")
+          Path(".github/workflows/temporary-record-restart-entry.yml").unlink(missing_ok=True)
+
+      - name: Commit branch update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CONTINUITE-PROJET.md .github/workflows/temporary-record-restart-entry.yml
+          git commit -m "docs(project): record restart entry point [skip ci]"
+          git push origin HEAD:docs/reprise-nouvelle-conversation
+
   validate-chapters:
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
