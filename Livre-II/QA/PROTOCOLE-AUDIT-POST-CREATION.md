@@ -2,7 +2,7 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.5.0"
+version: "1.6.0"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-19"
@@ -153,8 +153,30 @@ recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 - [ ] Les modes Solo et Studio sont présents lorsque pertinents.
 - [ ] Une checklist et un critère d’acceptation sont fournis.
 - [ ] Toute section qui enseigne des erreurs, anti-patterns, pièges ou corrections fournit un exemple fautif, un exemple corrigé et leur différence pour chaque cas.
+- [ ] Chaque bloc de code significatif possède une explication pédagogique proportionnée à sa longueur et à sa complexité.
 
-#### Q1.1 — Règle sémantique des erreurs et corrections
+#### Q1.1 — Explication obligatoire de chaque bloc de code
+
+Un bloc de code ne peut pas être considéré comme expliqué par une simple phrase générique. L’explication doit donner au lecteur les informations nécessaires pour comprendre, adapter et diagnostiquer l’extrait.
+
+Pour chaque bloc significatif, vérifier explicitement :
+
+1. son rôle et la raison de sa présence ;
+2. le fichier et le chemin où le placer, ou le contexte dans lequel il est seulement lu ;
+3. les entrées, paramètres, types, valeurs par défaut et dépendances utilisées ;
+4. les sorties, valeurs de retour, erreurs, signaux et effets de bord ;
+5. le déroulement des instructions importantes, ligne par ligne ou par groupes cohérents ;
+6. les opérateurs, conversions, conditions et appels non évidents ;
+7. les préconditions, invariants et postconditions protégés ;
+8. le résultat attendu et la manière de le vérifier ;
+9. les variantes raisonnables, limites et erreurs fréquentes pour un débutant ;
+10. le lien avec le bloc précédent, le bloc suivant et l’architecture générale.
+
+Une explication peut être placée avant ou après le bloc, mais elle doit être immédiatement identifiable. Pour un exemple fautif, elle doit aussi expliquer précisément pourquoi il échoue ou devient dangereux. Pour un exemple corrigé, elle doit montrer quelle modification rétablit l’invariant.
+
+**Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
+
+### Q1.2 — Règle sémantique des erreurs et corrections
 
 La règle dépend de la fonction pédagogique, jamais du titre exact. Elle couvre notamment les sections nommées :
 

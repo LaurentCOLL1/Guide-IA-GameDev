@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.0"
+version: "3.17.1"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -64,6 +64,10 @@ Chaque procédure doit expliquer :
 - le résultat attendu ;
 - les erreurs et corrections ;
 - les frontières avec les chapitres voisins.
+
+Tout bloc de code significatif doit être expliqué avec un niveau de détail proportionné à sa complexité. L’explication couvre au minimum son rôle, son emplacement, ses entrées et types, ses paramètres, ses retours et erreurs, ses effets de bord, les instructions non évidentes, les invariants protégés, le résultat attendu et les erreurs fréquentes. Une phrase générique ne suffit pas lorsqu’un lecteur débutant doit encore deviner le fonctionnement d’une ligne importante.
+
+Cette règle est une porte d’audit bloquante. Elle s’applique aux nouveaux chapitres et aux corrections rétroactives. Les chapitres 15 et 16 doivent recevoir un enrichissement pédagogique de leurs blocs de code avant le démarrage du chapitre 17.
 
 ## 4. Configuration de référence
 
@@ -1132,6 +1136,9 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas charger directement dans le graphe actif ;
 - ne pas laisser une sortie IA créer un lien sans commande validée ;
 - ne pas mélanger filiation et succession politique ;
+- ne pas insérer un bloc de code significatif sans expliquer son rôle, ses types, paramètres, retours, effets, invariants, déroulement et résultat attendu ;
+- ne pas considérer une phrase générique comme une explication suffisante d’un bloc complexe ;
+- ne pas démarrer un nouveau chapitre tant que les corrections pédagogiques prioritaires des chapitres précédents ne sont pas fermées ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
@@ -1159,7 +1166,19 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Chapitre :
+Correction pédagogique prioritaire avant tout nouveau chapitre :
+
+> **[LECTURE] Chemins et niveau de correction — Ne pas saisir.**
+
+```text
+Livre-II/CHAPITRE-15-Relations-sociales.md
+Livre-II/CHAPITRE-16-Famille-et-generations.md
+Niveau GPT-5.6 Sol recommandé : Élevée
+```
+
+Objectif de la correction : reprendre chaque bloc de code significatif et ajouter les explications nécessaires sur le rôle, le chemin, les types, paramètres, retours, effets de bord, instructions non évidentes, invariants, résultat attendu et erreurs fréquentes. Les preuves QA et audits des deux chapitres seront mis à jour après cette passe.
+
+Chapitre suivant, bloqué jusqu’à la fermeture de cette correction :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
@@ -1189,6 +1208,15 @@ Périmètre attendu :
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.1
+
+- règle pédagogique permanente renforcée : tout bloc de code significatif doit être expliqué en détail ;
+- critères obligatoires ajoutés pour rôle, emplacement, types, paramètres, retours, erreurs, effets de bord, déroulement, invariants et résultat attendu ;
+- une phrase générique n’est plus acceptée comme explication d’un bloc complexe ;
+- correction rétroactive des chapitres 15 et 16 déclarée prioritaire et bloquante avant le chapitre 17 ;
+- protocole QA et roadmap mis à jour ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.17.0
 
