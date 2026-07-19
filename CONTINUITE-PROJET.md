@@ -254,7 +254,7 @@ La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA
 
 Les rappels courts sont permis. Les duplications intégrales sont interdites.
 
-La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence. Le titre peut être « Erreurs fréquentes », « Erreurs fréquentes et diagnostics », « Anti-patterns et corrections », « Éviter les anti-patterns » ou toute formulation équivalente.
+La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence. Le titre peut être « Erreurs fréquentes », « Erreurs fréquentes et diagnostics », « Erreurs fréquentes et corrections », « Anti-patterns et corrections », « Éviter les anti-patterns » ou toute formulation équivalente.
 
 Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un index compact de symptômes peut porter `<!-- qa:error-correction-index -->` uniquement s’il renvoie vers des exemples détaillés conformes.
 
