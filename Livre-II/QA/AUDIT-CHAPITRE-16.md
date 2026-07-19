@@ -2,14 +2,14 @@
 title: "Audit du Livre II — Chapitre 16"
 id: "DOC-L2-QA-CH16"
 status: "complete"
-version: "1.1.0"
+version: "1.2.0"
 book: "Livre II"
 chapter: 16
 category: "quality-report"
 audit-date: "2026-07-20"
 audit-level: "static-review"
 chapter-id: "DOC-L2-CH16"
-chapter-version: "1.1.0"
+chapter-version: "1.2.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -312,10 +312,15 @@ Chaque explication couvre désormais, selon le contenu réel du bloc :
 
 La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
 
-La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+## Addendum 2026-07-20 — concision et contextualisation des explications
 
-La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+La passe précédente était complète mais trop répétitive. Cette correction éditoriale applique les règles suivantes aux **67 blocs** du chapitre 16 :
 
-La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+- 35 rubriques `Emplacement` supprimées parce que le chemin est déjà fourni avant le code ;
+- 30 rappels généraux sur `:` et `->` supprimés des blocs et remplacés par une convention unique renvoyant au chapitre 2 ;
+- 16 rubriques `Rôle` supprimées parce qu’elles reformulaient seulement le titre de la section ;
+- 16 contre-exemples réduits à une explication précise de leur faute ;
+- 16 corrections réduites à la raison concrète de leur fonctionnement ;
+- 12 renvois contextuels ajoutés avant des erreurs lorsque le chapitre avait déjà établi la règle concernée.
 
-La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+Les rôles qui nomment un contrat, une classe, une fonction ou une responsabilité concrète sont conservés. La décision reste `static-review` : aucune exécution Godot supplémentaire n’est revendiquée.

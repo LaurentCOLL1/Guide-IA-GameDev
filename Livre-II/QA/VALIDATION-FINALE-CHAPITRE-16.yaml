@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH16
-status: complete
+status: pending-ci
 validation-date: 2026-07-20
 validated-base-commit: 47ec5d7312f9c53af6e570b3b2cc355bba1f2f26
 enrichment-base-commit: b603dcee25bdef01b9d6e47f4eddf441672a905c
@@ -8,7 +8,7 @@ validated-head-commit: 22446295f0e0c839a9732923dcd902a85a39d149
 chapter:
   id: DOC-L2-CH16
   path: Livre-II/CHAPITRE-16-Famille-et-generations.md
-  version: 1.1.0
+  version: 1.2.0
   audit-level: static-review
 scope:
   - markdown integrity
@@ -42,7 +42,7 @@ results:
   unique-identifiers: 71
   livre-i-chapters: 10
   livre-ii-chapters: 16
-  chapter-lines: 3141
+  chapter-lines: 2859
   chapter-headings: 89
   chapter-significant-code-blocks: 36
   chapter-code-and-data-blocks: 69
@@ -152,3 +152,16 @@ code-explanation-enrichment:
   expected-result-covered: true
   runtime-executed: false
   ci-status: success
+
+code-explanation-style-refinement:
+  policy: QA-Q1.1-concise
+  chapter: 16
+  explanation-blocks-reviewed: 67
+  repeated-location-lines-removed: 35
+  repeated-syntax-reminders-removed: 30
+  generic-role-lines-removed: 16
+  faulty-explanations-simplified: 16
+  corrected-explanations-simplified: 16
+  contextual-references-added: 12
+  runtime-executed: false
+  ci-status: pending

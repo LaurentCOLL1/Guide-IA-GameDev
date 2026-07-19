@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.3"
+version: "3.17.4"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -1158,8 +1158,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 : version `1.0.2` ;
 - chapitre 13 : version `1.0.0` ;
 - chapitre 14 : version `1.0.0` ;
-- chapitre 15 : version `1.1.0` ;
-- chapitre 16 : version `1.1.0` ;
+- chapitre 15 : version `1.2.0` ;
+- chapitre 16 : version `1.2.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1170,7 +1170,9 @@ Correction pédagogique des chapitres 15 et 16 : **terminée au niveau `static-r
 
 - chapitre 15 : 56 blocs de code ou données contrôlés, 56 explications détaillées présentes ;
 - chapitre 16 : 67 blocs de code ou données contrôlés, 67 explications détaillées présentes ;
-- audits et preuves QA révisés en version `1.1.0` ;
+- audits et preuves QA révisés en version `1.2.0` ;
+- chemins, rappels généraux de syntaxe et rôles purement redondants retirés des explications ;
+- sections d’erreurs simplifiées autour de la faute et de la correction, avec renvois contextuels lorsque pertinents ;
 - aucune exécution runtime ni production PDF revendiquée.
 
 Chapitre suivant :
@@ -1203,6 +1205,17 @@ Périmètre attendu :
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.4
+
+- correction éditoriale des explications de code des chapitres 15 et 16 ;
+- suppression des rubriques `Emplacement` lorsque le chemin précède déjà le bloc ;
+- suppression des rappels répétés sur les annotations `:` et `->` ;
+- conservation des rôles uniquement lorsqu’ils apportent une responsabilité concrète ;
+- simplification des exemples fautifs et corrigés ;
+- ajout de renvois contextuels avant certaines erreurs ;
+- chapitres, audits et preuves QA portés en version `1.2.0` ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.3
 

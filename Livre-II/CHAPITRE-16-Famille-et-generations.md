@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 16 : Famille et générations"
 id: "DOC-L2-CH16"
 status: "reviewed"
-version: "1.1.0"
+version: "1.2.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 16
@@ -34,7 +34,8 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-16.md`.
-> **Explications de code :** enrichies bloc par bloc selon la porte QA Q1.1.
+> **Explications de code :** contextualisées bloc par bloc selon la porte QA Q1.1, sans répéter le chemin ou les rappels généraux de syntaxe.
+> **Convention de lecture :** la consigne `[VSC]` placée avant un bloc porte déjà son chemin canonique ; l’explication ne le répète pas. Les annotations GDScript `:` et `->` sont présentées au [chapitre 2](CHAPITRE-02-Fondamentaux-de-GDScript.md) et ne sont rappelées ici que lorsqu’un choix de type ou de retour demande une attention particulière.
 
 ## 1. Rôle du chapitre
 
@@ -186,8 +187,7 @@ static func is_valid(value: StringName) -> bool:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyLinkId` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_link_id.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `create_random(aucun paramètre) -> StringName` est une méthode statique qui valide puis ajoute ou applique une mutation métier ; `is_valid(value: StringName) -> bool` est une méthode statique qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `create_random(aucun paramètre) -> StringName` est une méthode statique qui valide puis ajoute ou applique une mutation métier ; `is_valid(value: StringName) -> bool` est une méthode statique qui vérifie les préconditions et signale toute donnée invalide.
 - **Données et types :** constantes `PREFIX := "fam_"`, `HEX_LENGTH := 32` ; variables `bytes := Crypto.new().generate_random_bytes(16)`, `text := String(value)`, `suffix := text.substr(PREFIX.length())`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -235,8 +235,7 @@ static func is_known(value: int) -> bool:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyLinkKind` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_link_kind.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `is_parent_kind(value: Value) -> bool` est une méthode statique qui répond à une question sans modifier l’état ; `is_known(value: int) -> bool` est une méthode statique qui répond à une question sans modifier l’état. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `is_parent_kind(value: Value) -> bool` est une méthode statique qui répond à une question sans modifier l’état ; `is_known(value: int) -> bool` est une méthode statique qui répond à une question sans modifier l’état.
 - **Données et types :** énumérations `Value = BIOLOGICAL_PARENT, ADOPTIVE_PARENT, GUARDIANSHIP, UNION`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -292,8 +291,7 @@ func duplicate_value() -> LogicalInterval:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `LogicalInterval` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/logical_interval.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_init(start_tick: int, end_tick: int = OPEN_END) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `is_valid(aucun paramètre) -> bool` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `is_active_at(tick: int) -> bool` est une méthode qui répond à une question sans modifier l’état ; `close_at(tick: int) -> Error` est une méthode qui termine ou retire un élément en refusant les transitions incohérentes ; `duplicate_value(aucun paramètre) -> LogicalInterval` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_init(start_tick: int, end_tick: int = OPEN_END) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `is_valid(aucun paramètre) -> bool` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `is_active_at(tick: int) -> bool` est une méthode qui répond à une question sans modifier l’état ; `close_at(tick: int) -> Error` est une méthode qui termine ou retire un élément en refusant les transitions incohérentes ; `duplicate_value(aucun paramètre) -> LogicalInterval` est une méthode qui produit une copie défensive indépendante de l’original.
 - **Données et types :** constantes `OPEN_END := -1` ; variables `started_at_tick: int`, `ended_at_tick: int`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** modifie un état temporel ou une révision ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -367,8 +365,7 @@ func duplicate_value() -> ParentChildLink:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `ParentChildLink` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/parent_child_link.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_init(new_link_id: StringName, new_parent_id: StringName, new_child_id: StringName, new_kind: FamilyLinkKind.Value, new_tick: int, new_provenance: StringName,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> ParentChildLink` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_init(new_link_id: StringName, new_parent_id: StringName, new_child_id: StringName, new_kind: FamilyLinkKind.Value, new_tick: int, new_provenance: StringName,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> ParentChildLink` est une méthode qui produit une copie défensive indépendante de l’original.
 - **Données et types :** variables `link_id: StringName`, `parent_id: StringName`, `child_id: StringName`, `kind: FamilyLinkKind.Value`, `established_at_tick: int`, `provenance: StringName` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -425,8 +422,7 @@ func duplicate_value() -> GuardianshipLink:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `GuardianshipLink` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/guardianship_link.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> GuardianshipLink` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> GuardianshipLink` est une méthode qui produit une copie défensive indépendante de l’original.
 - **Données et types :** variables `link_id: StringName`, `guardian_id: StringName`, `ward_id: StringName`, `interval: LogicalInterval`, `provenance: StringName`, `errors := PackedStringArray()` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -473,8 +469,7 @@ func key() -> StringName:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `CharacterPair` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/character_pair.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `create(left_id: StringName, right_id: StringName) -> CharacterPair` est une méthode statique qui encapsule l’opération métier indiquée par son nom ; `key(aucun paramètre) -> StringName` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `create(left_id: StringName, right_id: StringName) -> CharacterPair` est une méthode statique qui encapsule l’opération métier indiquée par son nom ; `key(aucun paramètre) -> StringName` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `first_id: StringName`, `second_id: StringName`, `pair := CharacterPair.new()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -525,8 +520,7 @@ func duplicate_value() -> UnionLink:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `UnionLink` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/union_link.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> UnionLink` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> UnionLink` est une méthode qui produit une copie défensive indépendante de l’original.
 - **Données et types :** variables `link_id: StringName`, `pair: CharacterPair`, `interval: LogicalInterval`, `union_type: StringName`, `provenance: StringName`, `errors := PackedStringArray()` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -551,8 +545,6 @@ if not identity_index.contains(character_id):
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 10. Contrat de l’index logique des personnages ».
-- **Emplacement :** place ce code dans `src/features/characters/application/character_identity_index.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -594,7 +586,6 @@ var _unions_by_pair: Dictionary[StringName, Array] = {}
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyGraph` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** constantes `MAX_TRAVERSAL_NODES := 4096` ; variables `_parent_links: Dictionary[StringName, ParentChildLink] = {}`, `_guardian_links: Dictionary[StringName, GuardianshipLink] = {}`, `_union_links: Dictionary[StringName, UnionLink] = {}`, `_parents_by_child: Dictionary[StringName, Array] = {}`, `_children_by_parent: Dictionary[StringName, Array] = {}`, `_unions_by_pair: Dictionary[StringName, Array] = {}`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -630,9 +621,7 @@ func add_parent_link(link: ParentChildLink) -> Error:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 11.2 Ajouter une filiation ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `add_parent_link(link: ParentChildLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `add_parent_link(link: ParentChildLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -684,9 +673,7 @@ func _would_create_ancestry_cycle(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 11.3 Cycle d’ascendance ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_would_create_ancestry_cycle(parent_id: StringName, child_id: StringName,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_would_create_ancestry_cycle(parent_id: StringName, child_id: StringName,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `pending: Array[StringName] = [child_id]`, `visited: Dictionary[StringName, bool] = {}`, `current: StringName = pending.pop_back()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -744,9 +731,7 @@ func get_union_links() -> Array[UnionLink]:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 11.4 Helpers d’index ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_append_index(index: Dictionary[StringName, Array], character_id: StringName, link_id: StringName,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_has_parent_edge(parent_id: StringName, child_id: StringName,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `get_parent_links(aucun paramètre) -> Array[ParentChildLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_guardianship_links(aucun paramètre) -> Array[GuardianshipLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_union_links(aucun paramètre) -> Array[UnionLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_append_index(index: Dictionary[StringName, Array], character_id: StringName, link_id: StringName,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_has_parent_edge(parent_id: StringName, child_id: StringName,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `get_parent_links(aucun paramètre) -> Array[ParentChildLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_guardianship_links(aucun paramètre) -> Array[GuardianshipLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_union_links(aucun paramètre) -> Array[UnionLink]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `ids: Array = index.get(character_id, [])`, `link := _parent_links.get(link_id) as ParentChildLink`, `result: Array[ParentChildLink] = []`, `result: Array[GuardianshipLink] = []`, `result: Array[UnionLink] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -783,8 +768,7 @@ func get_children(parent_id: StringName) -> Array[StringName]:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `get_parents(child_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_children(parent_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `get_parents(child_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_children(parent_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`, `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -816,8 +800,7 @@ func get_siblings(character_id: StringName) -> Array[StringName]:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `get_siblings(character_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `get_siblings(character_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `siblings: Dictionary[StringName, bool] = {}`, `result: Array[StringName] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -874,9 +857,7 @@ func get_ancestors(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 12.3 Ancêtres bornés ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `get_ancestors(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `get_ancestors(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `distances: Dictionary[StringName, int] = {}`, `pending: Array[Dictionary] = [`, `visited_nodes := 0`, `entry: Dictionary = pending.pop_front()`, `current: StringName = entry["id"]`, `depth: int = entry["depth"]` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -935,9 +916,7 @@ func get_descendants(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 12.4 Descendants bornés ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `get_descendants(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `get_descendants(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `distances: Dictionary[StringName, int] = {}`, `pending: Array[Dictionary] = [`, `visited_nodes := 0`, `entry: Dictionary = pending.pop_front()`, `current: StringName = entry["id"]`, `depth: int = entry["depth"]` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -974,9 +953,7 @@ func get_generation_distance(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 13.2 Distance générationnelle ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `get_generation_distance(ancestor_id: StringName, descendant_id: StringName, max_depth: int = 32,) -> int` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `get_generation_distance(ancestor_id: StringName, descendant_id: StringName, max_depth: int = 32,) -> int` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `descendants := get_descendants(ancestor_id, max_depth)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -1013,9 +990,7 @@ func add_guardianship(link: GuardianshipLink) -> Error:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 14.1 Ajouter une tutelle ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `add_guardianship(link: GuardianshipLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `add_guardianship(link: GuardianshipLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1050,9 +1025,7 @@ func add_union(link: UnionLink) -> Error:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 14.2 Ajouter une union ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `add_union(link: UnionLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `add_union(link: UnionLink) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier.
 - **Données et types :** variables `pair_key := link.pair.key()`, `existing := _union_links.get(existing_id) as UnionLink`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1113,9 +1086,7 @@ func replace_all_from(source: FamilyGraph) -> Error:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 14.3 Chevauchement d’intervalles ».
-- **Emplacement :** place ce code dans `src/features/families/domain/family_graph.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_intervals_overlap(left: LogicalInterval, right: LogicalInterval,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `replace_all_from(source: FamilyGraph) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_intervals_overlap(left: LogicalInterval, right: LogicalInterval,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `replace_all_from(source: FamilyGraph) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé.
 - **Données et types :** variables `left_end := (`, `right_end := (`, `candidate := FamilyGraph.new()`, `parent_result := candidate.add_parent_link(link)`, `guardian_result := candidate.add_guardianship(link)`, `union_result := candidate.add_union(link)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** remplace l’état autoritaire ; modifie un état temporel ou une révision. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1159,8 +1130,7 @@ func validate() -> PackedStringArray:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `AddParentLinkCommand` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/application/add_parent_link_command.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide.
 - **Données et types :** variables `parent_id: StringName`, `child_id: StringName`, `kind: FamilyLinkKind.Value`, `tick: int`, `provenance: StringName`, `errors := PackedStringArray()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1187,7 +1157,6 @@ var provenance: StringName
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyLinkAddedEvent` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/application/family_link_added_event.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** variables `link_id: StringName`, `kind: FamilyLinkKind.Value`, `first_character_id: StringName`, `second_character_id: StringName`, `tick: int`, `provenance: StringName`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1255,8 +1224,7 @@ func add_parent_link(command: AddParentLinkCommand) -> Error:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyGraphService` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/application/family_graph_service.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_init(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `add_parent_link(command: AddParentLinkCommand) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_init(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `add_parent_link(command: AddParentLinkCommand) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier.
 - **Données et types :** variables `_graph: FamilyGraph`, `_identities: CharacterIdentityIndex`, `link := ParentChildLink.new(`, `result := _graph.add_parent_link(link)`, `event := FamilyLinkAddedEvent.new()` ; signaux `family_link_added(event: FamilyLinkAddedEvent)`, `family_link_closed(`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** émet un événement observable après succès. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1304,8 +1272,7 @@ func duplicate_value() -> FamilyHistoryRecord:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyHistoryRecord` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_history_record.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> bool` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> FamilyHistoryRecord` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> bool` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_value(aucun paramètre) -> FamilyHistoryRecord` est une méthode qui produit une copie défensive indépendante de l’original.
 - **Données et types :** variables `sequence: int`, `event_type: StringName`, `link_id: StringName`, `tick: int`, `provenance: StringName`, `copy := FamilyHistoryRecord.new()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1376,8 +1343,7 @@ func restore(records: Array[FamilyHistoryRecord]) -> Error:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyEventLog` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/domain/family_history_record.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `append(event_type: StringName, link_id: StringName, tick: int, provenance: StringName,) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom ; `snapshot(aucun paramètre) -> Array[FamilyHistoryRecord]` est une méthode qui encapsule l’opération métier indiquée par son nom ; `restore(records: Array[FamilyHistoryRecord]) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `append(event_type: StringName, link_id: StringName, tick: int, provenance: StringName,) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom ; `snapshot(aucun paramètre) -> Array[FamilyHistoryRecord]` est une méthode qui encapsule l’opération métier indiquée par son nom ; `restore(records: Array[FamilyHistoryRecord]) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé.
 - **Données et types :** constantes `MAX_RECORDS := 256` ; variables `_records: Array[FamilyHistoryRecord] = []`, `_next_sequence := 0`, `record := FamilyHistoryRecord.new()`, `result: Array[FamilyHistoryRecord] = []`, `candidate: Array[FamilyHistoryRecord] = []`, `previous_sequence := -1`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; modifie un état temporel ou une révision ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1442,8 +1408,7 @@ func validate(
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilyGraphValidator` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/application/family_graph_validator.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `validate(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `validate(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> PackedStringArray` est une méthode qui vérifie les préconditions et signale toute donnée invalide.
 - **Données et types :** variables `errors := PackedStringArray()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1472,7 +1437,6 @@ Le validateur de restauration sera exécuté sur un graphe candidat complet avan
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc montre la forme JSON attendue par « 18.1 Structure JSON ».
-- **Emplacement :** place ce code dans `src/features/families/application/family_graph_validator.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1509,7 +1473,6 @@ const MAX_HISTORY_RECORDS := 256
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilySnapshotCodec` et l’appuie sur `RefCounted`.
-- **Emplacement :** place ce code dans `src/features/families/application/family_graph_validator.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** constantes `FORMAT_VERSION := 1`, `MAX_PARENT_LINKS := 8192`, `MAX_GUARDIANSHIPS := 4096`, `MAX_UNIONS := 4096`, `MAX_HISTORY_RECORDS := 256`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1598,9 +1561,7 @@ func _encode_history(record: FamilyHistoryRecord) -> Dictionary:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 18.3 Encodeurs ».
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `encode_graph(graph: FamilyGraph, history: FamilyEventLog,) -> Dictionary` est une méthode qui convertit l’objet vers une représentation de transport ou de stockage ; `_encode_parent_link(link: ParentChildLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_interval(interval: LogicalInterval) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_guardianship(link: GuardianshipLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_union(link: UnionLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_history(record: FamilyHistoryRecord) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `encode_graph(graph: FamilyGraph, history: FamilyEventLog,) -> Dictionary` est une méthode qui convertit l’objet vers une représentation de transport ou de stockage ; `_encode_parent_link(link: ParentChildLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_interval(interval: LogicalInterval) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_guardianship(link: GuardianshipLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_union(link: UnionLink) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_encode_history(record: FamilyHistoryRecord) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `parent_links: Array[Dictionary] = []`, `guardianships: Array[Dictionary] = []`, `unions: Array[Dictionary] = []`, `history_records: Array[Dictionary] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -1669,9 +1630,7 @@ func _decode_parent_link(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 18.4 Décodage strict d’une filiation ».
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_decode_parent_link(value: Variant, identities: CharacterIdentityIndex,) -> ParentChildLink` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_decode_parent_link(value: Variant, identities: CharacterIdentityIndex,) -> ParentChildLink` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `data := value as Dictionary`, `required := [`, `parent_id := StringName(data["parent_id"])`, `child_id := StringName(data["child_id"])`, `kind_value: int = data["kind"]`, `link := ParentChildLink.new(`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -1798,9 +1757,7 @@ func _decode_union(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 18.5 Intervalles, tutelles et unions ».
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_decode_interval(value: Variant) -> LogicalInterval` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_decode_guardianship(value: Variant, identities: CharacterIdentityIndex,) -> GuardianshipLink` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_decode_union(value: Variant, identities: CharacterIdentityIndex,) -> UnionLink` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_decode_interval(value: Variant) -> LogicalInterval` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_decode_guardianship(value: Variant, identities: CharacterIdentityIndex,) -> GuardianshipLink` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_decode_union(value: Variant, identities: CharacterIdentityIndex,) -> UnionLink` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `data := value as Dictionary`, `interval := LogicalInterval.new(`, `data := value as Dictionary`, `required := [`, `guardian_id := StringName(data["guardian_id"])`, `ward_id := StringName(data["ward_id"])` et 9 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -1865,9 +1822,7 @@ func _types_match(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 18.6 Historique et utilitaires ».
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_decode_history(value: Variant) -> FamilyHistoryRecord` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_has_exact_keys(data: Dictionary, required: Array) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_types_match(data: Dictionary, expected: Dictionary,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_decode_history(value: Variant) -> FamilyHistoryRecord` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_has_exact_keys(data: Dictionary, required: Array) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_types_match(data: Dictionary, expected: Dictionary,) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `data := value as Dictionary`, `required := [`, `record := FamilyHistoryRecord.new()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -1959,9 +1914,7 @@ func decode_snapshot(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 19. Construction atomique du graphe candidat ».
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `decode_snapshot(payload: Variant, identities: CharacterIdentityIndex,) -> Dictionary` est une méthode qui reconstruit une valeur typée après validation de la représentation externe. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `decode_snapshot(payload: Variant, identities: CharacterIdentityIndex,) -> Dictionary` est une méthode qui reconstruit une valeur typée après validation de la représentation externe.
 - **Données et types :** variables `data := payload as Dictionary`, `root_keys := [`, `candidate := FamilyGraph.new()`, `parent_link := _decode_parent_link(raw_link, identities)`, `guardianship := _decode_guardianship(raw_link, identities)`, `union_link := _decode_union(raw_link, identities)` et 3 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -2061,8 +2014,7 @@ func cancel_prepared() -> void:
 **Explication détaillée du bloc :**
 
 - **Rôle :** ce bloc définit le contrat `FamilySaveSection` et l’appuie sur `SaveSection`.
-- **Emplacement :** place ce code dans `src/features/families/infrastructure/family_save_section.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_init(graph: FamilyGraph, history: FamilyEventLog, codec: FamilySnapshotCodec, identities: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `get_section_id(aucun paramètre) -> StringName` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `capture(aucun paramètre) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `prepare_apply(payload: Variant) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom ; `apply_prepared(aucun paramètre) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier ; `cancel_prepared(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_init(graph: FamilyGraph, history: FamilyEventLog, codec: FamilySnapshotCodec, identities: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `get_section_id(aucun paramètre) -> StringName` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `capture(aucun paramètre) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `prepare_apply(payload: Variant) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom ; `apply_prepared(aucun paramètre) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier ; `cancel_prepared(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** constantes `SECTION_ID := &"families"` ; variables `_graph: FamilyGraph`, `_history: FamilyEventLog`, `_codec: FamilySnapshotCodec`, `_identities: CharacterIdentityIndex`, `_prepared_graph: FamilyGraph`, `_prepared_history: FamilyEventLog` et 6 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** remplace l’état autoritaire ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
@@ -2152,9 +2104,7 @@ func _add_parent(
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 22.2 Script de démonstration ».
-- **Emplacement :** place ce code dans `scenes/learning/ch16_family_demo.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
-- **Fonctions, paramètres et retours :** `_ready(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `demonstrate_cycle_refusal(grandparent_id: StringName, parent_id: StringName, child_id: StringName,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_add_parent(parent_id: StringName, child_id: StringName, tick: int,) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Fonctions, paramètres et retours :** `_ready(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `demonstrate_cycle_refusal(grandparent_id: StringName, parent_id: StringName, child_id: StringName,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_add_parent(parent_id: StringName, child_id: StringName, tick: int,) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom.
 - **Données et types :** variables `output: RichTextLabel = %Output`, `graph := FamilyGraph.new()`, `result := _add_parent(child_id, grandparent_id, 30)`, `link := ParentChildLink.new(`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
@@ -2284,6 +2234,8 @@ Le chapitre est accepté au niveau documentaire et statique si :
 
 ### 28.1 Utiliser le nom affiché comme identité
 
+> **À relire :** [§ 7.2 Identité métier de la filiation](#72-identite-metier-de-la-filiation).
+
 **Symptôme ou risque :** un renommage casse les liens.
 
 **Exemple fautif :**
@@ -2297,15 +2249,7 @@ parents_by_name["Aster"] = ["Mira"]
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.1 Utiliser le nom affiché comme identité ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un renommage casse les liens.
 
 **Correction :** utiliser les `CharacterId`.
 
@@ -2320,19 +2264,13 @@ parents_by_child[child_id] = [parent_id]
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.1 Utiliser le nom affiché comme identité ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** utiliser les `CharacterId`. l’identité reste stable et indépendante de l’affichage.
 
 **Différence :** l’identité reste stable et indépendante de l’affichage.
 
 ### 28.2 Stocker la famille dans le nœud actif
+
+> **À relire :** [§ 11. Graphe familial](#11-graphe-familial).
 
 **Symptôme ou risque :** les liens disparaissent lors du déchargement.
 
@@ -2347,15 +2285,7 @@ player_node.children_ids.append(child_id)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.2 Stocker la famille dans le nœud actif ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** les liens disparaissent lors du déchargement.
 
 **Correction :** conserver les liens dans `FamilyGraph`.
 
@@ -2370,19 +2300,13 @@ family_graph.add_parent_link(link)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.2 Stocker la famille dans le nœud actif ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** conserver les liens dans `FamilyGraph`. le graphe survit à la scène.
 
 **Différence :** le graphe survit à la scène.
 
 ### 28.3 Déduire la filiation depuis l’affinité
+
+> **À relire :** [§ 7. Filiation dirigée](#7-filiation-dirigee).
 
 **Symptôme ou risque :** une valeur sociale devient une autorité familiale.
 
@@ -2398,15 +2322,7 @@ if affinity > 80:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.3 Déduire la filiation depuis l’affinité ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** une valeur sociale devient une autorité familiale.
 
 **Correction :** créer une commande familiale explicite.
 
@@ -2421,15 +2337,7 @@ family_service.add_parent_link(command)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.3 Déduire la filiation depuis l’affinité ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** créer une commande familiale explicite. la structure et la perception restent séparées.
 
 **Différence :** la structure et la perception restent séparées.
 
@@ -2448,15 +2356,7 @@ snapshot["siblings"] = sibling_ids
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.4 Persister la fratrie ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** les données deviennent contradictoires après ajout d’un parent.
 
 **Correction :** calculer la fratrie depuis les parents partagés.
 
@@ -2471,15 +2371,7 @@ var sibling_ids := graph.get_siblings(character_id)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.4 Persister la fratrie ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `sibling_ids := graph.get_siblings(character_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** calculer la fratrie depuis les parents partagés. une seule autorité est persistée.
 
 **Différence :** une seule autorité est persistée.
 
@@ -2498,15 +2390,7 @@ character.generation = 4
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.5 Persister un numéro de génération absolu ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** plusieurs lignées produisent des numéros incompatibles.
 
 **Correction :** calculer une distance relative à un ancêtre.
 
@@ -2521,19 +2405,13 @@ var distance := graph.get_generation_distance(founder_id, character_id)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.5 Persister un numéro de génération absolu ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `distance := graph.get_generation_distance(founder_id, character_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** calculer une distance relative à un ancêtre. la valeur dépend explicitement du point de référence.
 
 **Différence :** la valeur dépend explicitement du point de référence.
 
 ### 28.6 Oublier la détection de cycle
+
+> **À relire :** [§ 11.3 Cycle d’ascendance](#113-cycle-dascendance).
 
 **Symptôme ou risque :** un personnage devient son propre ancêtre.
 
@@ -2548,15 +2426,7 @@ _parent_links[link.link_id] = link
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.6 Oublier la détection de cycle ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** aucun cycle d’ascendance ne peut être introduit.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un personnage devient son propre ancêtre.
 
 **Correction :** rechercher si le parent est déjà descendant de l’enfant.
 
@@ -2572,19 +2442,13 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.6 Oublier la détection de cycle ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** aucun cycle d’ascendance ne peut être introduit.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** rechercher si le parent est déjà descendant de l’enfant. le graphe reste acyclique.
 
 **Différence :** le graphe reste acyclique.
 
 ### 28.7 Traiter un dépassement de budget comme une absence de cycle
+
+> **À relire :** [§ 11.3 Cycle d’ascendance](#113-cycle-dascendance).
 
 **Symptôme ou risque :** un grand graphe contourne la sécurité structurelle.
 
@@ -2600,15 +2464,7 @@ if visited.size() > limit:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.7 Traiter un dépassement de budget comme une absence de cycle ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** aucun cycle d’ascendance ne peut être introduit.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un grand graphe contourne la sécurité structurelle.
 
 **Correction :** refuser conservativement.
 
@@ -2624,19 +2480,13 @@ if visited.size() >= MAX_TRAVERSAL_NODES:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.7 Traiter un dépassement de budget comme une absence de cycle ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les parcours et historiques sont bornés ; aucun cycle d’ascendance ne peut être introduit ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** refuser conservativement. l’incertitude n’autorise pas la mutation.
 
 **Différence :** l’incertitude n’autorise pas la mutation.
 
 ### 28.8 Orienter une union
+
+> **À relire :** [§ 18.5 Intervalles, tutelles et unions](#185-intervalles-tutelles-et-unions).
 
 **Symptôme ou risque :** `{A, B}` et `{B, A}` deviennent deux unions.
 
@@ -2651,15 +2501,7 @@ var key := "%s>%s" % [left_id, right_id]
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.8 Orienter une union ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `key := "%s>%s" % [left_id, right_id]`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** `{A, B}` et `{B, A}` deviennent deux unions.
 
 **Correction :** canoniser la paire.
 
@@ -2674,19 +2516,13 @@ var key := CharacterPair.create(left_id, right_id).key()
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.8 Orienter une union ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `key := CharacterPair.create(left_id, right_id).key()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** canoniser la paire. l’ordre des partenaires ne change pas l’identité métier.
 
 **Différence :** l’ordre des partenaires ne change pas l’identité métier.
 
 ### 28.9 Utiliser l’heure système
+
+> **À relire :** [§ 6.1 Intervalle logique](#61-intervalle-logique).
 
 **Symptôme ou risque :** les sauvegardes et simulations ne sont pas reproductibles.
 
@@ -2701,15 +2537,7 @@ started_at_tick = Time.get_unix_time_from_system()
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.9 Utiliser l’heure système ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** les sauvegardes et simulations ne sont pas reproductibles.
 
 **Correction :** utiliser le tick logique.
 
@@ -2724,19 +2552,13 @@ started_at_tick = simulation_clock.current_tick
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.9 Utiliser l’heure système ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** utiliser le tick logique. l’ordre dépend de la simulation.
 
 **Différence :** l’ordre dépend de la simulation.
 
 ### 28.10 Accepter un intervalle inversé
+
+> **À relire :** [§ 6.1 Intervalle logique](#61-intervalle-logique).
 
 **Symptôme ou risque :** un lien se termine avant de commencer.
 
@@ -2751,15 +2573,7 @@ interval.ended_at_tick = 10
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.10 Accepter un intervalle inversé ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** modifie un état temporel ou une révision. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
-- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un lien se termine avant de commencer.
 
 **Correction :** passer par `close_at()`.
 
@@ -2774,15 +2588,7 @@ var result := interval.close_at(current_tick)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.10 Accepter un intervalle inversé ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `result := interval.close_at(current_tick)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** passer par `close_at()`. l’invariant temporel est contrôlé.
 
 **Différence :** l’invariant temporel est contrôlé.
 
@@ -2802,15 +2608,7 @@ if not active_registry.has(parent_id):
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.11 Valider uniquement contre les personnages actifs ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un parent déchargé devient « inconnu ».
 
 **Correction :** utiliser l’index logique.
 
@@ -2826,19 +2624,13 @@ if not identity_index.contains(parent_id):
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.11 Valider uniquement contre les personnages actifs ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** utiliser l’index logique. la présence en scène n’est pas l’existence métier.
 
 **Différence :** la présence en scène n’est pas l’existence métier.
 
 ### 28.12 Retourner une collection interne mutable
+
+> **À relire :** [§ 19. Construction atomique du graphe candidat](#19-construction-atomique-du-graphe-candidat).
 
 **Symptôme ou risque :** l’appelant désynchronise les index.
 
@@ -2853,15 +2645,7 @@ return _children_by_parent[parent_id]
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.12 Retourner une collection interne mutable ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** l’appelant désynchronise les index.
 
 **Correction :** construire un nouveau tableau.
 
@@ -2876,19 +2660,13 @@ return result
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.12 Retourner une collection interne mutable ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** construire un nouveau tableau. le graphe garde le contrôle de ses structures.
 
 **Différence :** le graphe garde le contrôle de ses structures.
 
 ### 28.13 Charger directement dans le graphe actif
+
+> **À relire :** [§ 19. Construction atomique du graphe candidat](#19-construction-atomique-du-graphe-candidat).
 
 **Symptôme ou risque :** une erreur tardive laisse une restauration partielle.
 
@@ -2904,15 +2682,7 @@ for raw_link in payload.parent_links:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.13 Charger directement dans le graphe actif ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les boucles `for` parcourent explicitement les collections. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** une erreur tardive laisse une restauration partielle.
 
 **Correction :** construire un candidat complet.
 
@@ -2927,15 +2697,7 @@ var candidate := codec.decode_graph(payload, identities)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.13 Charger directement dans le graphe actif ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `candidate := codec.decode_graph(payload, identities)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** construire un candidat complet. aucun état actif n’est modifié avant succès global.
 
 **Différence :** aucun état actif n’est modifié avant succès global.
 
@@ -2954,15 +2716,7 @@ snapshot["parents_by_child"] = _parents_by_child
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.14 Sauvegarder les index secondaires ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** liens et index divergent.
 
 **Correction :** persister uniquement les liens autoritaires.
 
@@ -2977,19 +2731,13 @@ snapshot["parent_links"] = encoded_links
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.14 Sauvegarder les index secondaires ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** persister uniquement les liens autoritaires. les index sont reconstruits.
 
 **Différence :** les index sont reconstruits.
 
 ### 28.15 Laisser une sortie IA créer un lien directement
+
+> **À relire :** [§ 18.4 Décodage strict d’une filiation](#184-decodage-strict-dune-filiation).
 
 **Symptôme ou risque :** un texte généré contourne les invariants.
 
@@ -3004,15 +2752,7 @@ family_graph.add_parent_link(ai_response)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.15 Laisser une sortie IA créer un lien directement ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** un texte généré contourne les invariants.
 
 **Correction :** mapper vers une commande validée et soumise à l’autorité du jeu.
 
@@ -3027,19 +2767,13 @@ var result := family_service.add_parent_link(validated_command)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.15 Laisser une sortie IA créer un lien directement ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** variables `result := family_service.add_parent_link(validated_command)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** mapper vers une commande validée et soumise à l’autorité du jeu. l’IA ne devient pas autorité métier.
 
 **Différence :** l’IA ne devient pas autorité métier.
 
 ### 28.16 Mélanger succession et famille
+
+> **À relire :** [§ 3. Périmètre et frontières](#3-perimetre-et-frontieres).
 
 **Symptôme ou risque :** le graphe impose prématurément des règles politiques.
 
@@ -3055,15 +2789,7 @@ func add_child(child_id):
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc regroupe les opérations nécessaires à « 28.16 Mélanger succession et famille ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Fonctions, paramètres et retours :** `add_child(child_id) -> Variant implicite` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi cet exemple est fautif :** le graphe impose prématurément des règles politiques.
 
 **Correction :** publier un événement familial consommable par le chapitre 23.
 
@@ -3078,15 +2804,7 @@ family_link_added.emit(event)
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre la règle technique de « 28.16 Mélanger succession et famille ».
-- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
-- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
-- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
-- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
-- **Effets de bord :** émet un événement observable après succès. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
-- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
-- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** publier un événement familial consommable par le chapitre 23. la famille décrit le lien ; la politique décide de la succession.
 
 **Différence :** la famille décrit le lien ; la politique décide de la succession.
 
