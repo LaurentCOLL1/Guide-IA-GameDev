@@ -377,8 +377,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
 - progression : 7 chapitres sur 30 ;
-- chapitre 2 : version `1.3.0` ;
-- chapitres 3 à 7 : version `1.0.0` ;
+- chapitre 1 : version `1.3.0` ;
+- chapitre 2 : version `1.5.0` ;
+- chapitres 3 à 6 : version `1.1.0` ;
+- chapitre 7 : version `1.1.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.

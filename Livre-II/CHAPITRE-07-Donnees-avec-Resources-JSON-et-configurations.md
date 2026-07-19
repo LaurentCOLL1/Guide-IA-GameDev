@@ -1771,8 +1771,12 @@ for path: String in paths:
 	if profile == null:
 		push_error("Resource BeaconProfile invalide : %s" % path)
 		continue
-	catalog.add_profile(profile)
+	var register_error := catalog.register(profile)
+	if register_error != OK:
+		push_error("Profil refusé : %s" % error_string(register_error))
 ```
+
+Le chargeur corrigé utilise la méthode publique `register()` du catalogue et contrôle son code `Error` au lieu d’appeler une méthode inexistante.
 
 Le chapitre privilégie malgré tout `BeaconCatalogPaths.PATHS` tant que la collection reste petite, car cette liste rend les changements explicites dans Git.
 

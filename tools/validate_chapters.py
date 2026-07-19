@@ -22,7 +22,7 @@ VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
-ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges fréquents)", re.IGNORECASE)
+ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
 
 
 @dataclass
@@ -152,7 +152,38 @@ def validate_error_correction_sections(text: str, rel: str, errors: list[str]) -
                 missing.append("exemple fautif")
             if "Exemple corrigé" not in child_body:
                 missing.append("exemple corrigé")
-            if "**Différence :**" not in child_body:
+            has_labeled_difference = "**Différence :**" in child_body
+            trailing_prose = ""
+            if "Exemple corrigé" in child_body:
+                corrected_part = child_body.split("Exemple corrigé", 1)[1]
+                outside_fence: list[str] = []
+                current_after_fence: list[str] = []
+                in_fence = False
+                saw_closed_fence = False
+                fence_char = ""
+                fence_length = 0
+                for line in corrected_part.splitlines():
+                    fence_match = FENCE_RE.match(line.strip())
+                    if fence_match:
+                        fence = fence_match.group("fence")
+                        if not in_fence:
+                            in_fence = True
+                            fence_char = fence[0]
+                            fence_length = len(fence)
+                        elif fence[0] == fence_char and len(fence) >= fence_length:
+                            in_fence = False
+                            saw_closed_fence = True
+                            current_after_fence = []
+                        continue
+                    if saw_closed_fence and not in_fence:
+                        current_after_fence.append(line)
+                outside_fence = [
+                    line.strip()
+                    for line in current_after_fence
+                    if line.strip() and not line.lstrip().startswith((">", "<!--"))
+                ]
+                trailing_prose = normalize_paragraph(" ".join(outside_fence))
+            if not has_labeled_difference and len(trailing_prose) < 45:
                 missing.append("explication de la différence")
             if missing:
                 errors.append(
