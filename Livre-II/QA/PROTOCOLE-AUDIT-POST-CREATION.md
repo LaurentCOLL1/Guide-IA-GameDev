@@ -2,7 +2,7 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.3.0"
+version: "1.4.0"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-19"
@@ -72,7 +72,16 @@ Une construction intermédiaire reste autorisée uniquement lorsque le lot modif
 
 L’exception et sa justification doivent être consignées dans le rapport QA.
 
-### 2.3 Ce qui reste obligatoire par chapitre
+### 2.3 Workflows permanents
+
+Deux workflows ont des responsabilités séparées :
+
+- `Validate Chapters Without PDF` s’exécute sur chaque pull request documentaire du Livre II et contrôle structure, métadonnées, liens, doublons et repères sans produire de PDF ;
+- `Validate Documentation PDF` est réservé au déclenchement manuel de fin de Livre ou aux modifications directes de la chaîne de publication.
+
+Le workflow léger doit contenir une assertion explicite confirmant qu’aucun fichier PDF n’a été produit.
+
+### 2.4 Ce qui reste obligatoire par chapitre
 
 Chaque chapitre doit encore réussir :
 
