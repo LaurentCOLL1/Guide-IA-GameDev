@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.4.0"
+version: "1.5.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -37,7 +37,7 @@ Project Asteria
 9. [Sauvegardes, chargements et compatibilité des versions](CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md) — **rédigé, repéré et audité au niveau static-review**
 10. [Mémoire vectorielle, connaissances et recherche sémantique](CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md) — **rédigé, repéré et audité au niveau static-review**
 11. [Communication Godot avec les services IA locaux](CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md) — **rédigé, repéré et audité au niveau static-review**
-12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — à rédiger
+12. [HTTP, WebSocket, API compatibles OpenAI et files de tâches](CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md) — **rédigé, repéré et audité au niveau static-review**
 13. Sécurité et séparation entre production et runtime de l’IA — à rédiger
 
 ## Partie II — Les douze grands systèmes de gameplay
@@ -78,6 +78,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 9](QA/AUDIT-CHAPITRE-09.md) ;
 - [audit du chapitre 10](QA/AUDIT-CHAPITRE-10.md) ;
 - [audit du chapitre 11](QA/AUDIT-CHAPITRE-11.md) ;
+- [audit du chapitre 12](QA/AUDIT-CHAPITRE-12.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -107,7 +108,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 11 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 12 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -135,4 +136,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Onze chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. La première partie consacrée aux fondations Godot, à l’architecture et aux données est complète avec neuf chapitres sur neuf. La plateforme IA locale compte désormais deux chapitres sur quatre : la mémoire vectorielle dérivée est définie et Godot dispose d’un port applicatif, d’un processus compagnon local, de contrats versionnés, d’une découverte de capacités, de délais, d’une corrélation, d’un repli déterministe et d’un arrêt contrôlé. Les transports HTTP et WebSocket, les API compatibles OpenAI et les files de tâches restent réservés au chapitre 12.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Douze chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. La première partie consacrée aux fondations Godot, à l’architecture et aux données est complète avec neuf chapitres sur neuf. La plateforme IA locale compte désormais trois chapitres sur quatre : mémoire vectorielle dérivée, frontière de service locale, transports HTTP et WebSocket, contrats versionnés, tâches bornées, idempotence, backpressure, streaming et adaptateurs compatibles OpenAI sont documentés. Le durcissement et la séparation production/runtime restent réservés au chapitre 13.
