@@ -1,12 +1,12 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH12
-status: complete
+status: pending-ci
 validation-date: 2026-07-19
 validated-base-commit: 64989c7faf6521becd7ddb13f7d4ffabc24abef1
 chapter:
   id: DOC-L2-CH12
   path: Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 scope:
   - markdown integrity
@@ -73,6 +73,7 @@ results:
   chapter-13-boundary-preserved: true
   process-audit-report-present: true
   process-continuity-paths-verified: true
+  clickable-technical-source-links: true
   blocking-errors: 0
   warnings: 1
   pdf-produced: false
@@ -92,7 +93,13 @@ corrections:
   - Épinglage des sources officielles Godot 4.7, Python 3.12 et OpenAI.
   - Normalisation du libellé Exemple corrigé dans le cas 46.2.
   - Correction des chemins du chapitre détaillé et de la prochaine action.
+  - Conversion des neuf adresses de la section Sources techniques en liens Markdown nommés.
 ci:
+  source-links-follow-up:
+    validate-chapters-run-id: null
+    validate-chapters-conclusion: pending
+    validate-contexts-run-id: null
+    validate-contexts-conclusion: pending
   validate-chapters-without-pdf:
     run-id: 29700629472
     conclusion: success

@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 12 : HTTP, WebSocket, API compatibles OpenAI et files de tâches"
 id: "DOC-L2-CH12"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 12
@@ -1976,15 +1976,15 @@ Le lecteur peut expliquer et montrer statiquement que :
 
 Sources principales relues pour l’audit statique du 19 juillet 2026 :
 
-- Godot Engine 4.7 — `HTTPRequest` : `https://docs.godotengine.org/en/4.7/classes/class_httprequest.html` ;
-- Godot Engine 4.7 — `HTTPClient` : `https://docs.godotengine.org/en/4.7/classes/class_httpclient.html` ;
-- Godot Engine 4.7 — `WebSocketPeer` : `https://docs.godotengine.org/en/4.7/classes/class_websocketpeer.html` ;
-- Godot Engine 4.7 — tutoriel WebSocket : `https://docs.godotengine.org/en/4.7/tutorials/networking/websocket.html` ;
-- Godot Engine 4.7 — `JSON` : `https://docs.godotengine.org/en/4.7/classes/class_json.html` ;
-- Python 3.12 — files `asyncio` : `https://docs.python.org/3.12/library/asyncio-queue.html` ;
-- Python 3.12 — `dataclasses` : `https://docs.python.org/3.12/library/dataclasses.html` ;
-- Python 3.12 — `enum.StrEnum` : `https://docs.python.org/3.12/library/enum.html` ;
-- OpenAI API — Responses et événements de streaming : `https://platform.openai.com/docs/api-reference/responses-streaming` ;
+- [Godot Engine 4.7 — `HTTPRequest`](https://docs.godotengine.org/en/4.7/classes/class_httprequest.html) ;
+- [Godot Engine 4.7 — `HTTPClient`](https://docs.godotengine.org/en/4.7/classes/class_httpclient.html) ;
+- [Godot Engine 4.7 — `WebSocketPeer`](https://docs.godotengine.org/en/4.7/classes/class_websocketpeer.html) ;
+- [Godot Engine 4.7 — tutoriel WebSocket](https://docs.godotengine.org/en/4.7/tutorials/networking/websocket.html) ;
+- [Godot Engine 4.7 — `JSON`](https://docs.godotengine.org/en/4.7/classes/class_json.html) ;
+- [Python 3.12 — files `asyncio`](https://docs.python.org/3.12/library/asyncio-queue.html) ;
+- [Python 3.12 — `dataclasses`](https://docs.python.org/3.12/library/dataclasses.html) ;
+- [Python 3.12 — `enum.StrEnum`](https://docs.python.org/3.12/library/enum.html) ;
+- [OpenAI API — Responses et événements de streaming](https://platform.openai.com/docs/api-reference/responses-streaming) ;
 - schéma de l’API compatible OpenAI réellement ciblée par le serveur local.
 
 Le chapitre n’impose pas un framework serveur Python. Cette décision doit être prise au moment de matérialiser le Starter Kit, puis la documentation officielle de ce framework doit être ajoutée au rapport runtime.

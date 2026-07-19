@@ -2,14 +2,14 @@
 title: "Audit du Livre II — Chapitre 12"
 id: "DOC-L2-QA-CH12"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 book: "Livre II"
 chapter: 12
 category: "quality-report"
 audit-date: "2026-07-19"
 audit-level: "static-review"
 chapter-id: "DOC-L2-CH12"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -279,7 +279,20 @@ Ne sont pas revendiqués :
 - durcissement du chapitre 13 ;
 - PDF du Livre II.
 
-## 11. Décision
+## 11. Correction post-audit — liens des sources techniques
+
+Une relecture utilisateur a détecté que les neuf adresses de la section 51 étaient placées entre backticks au lieu d’être exposées comme liens Markdown. Cette présentation obligeait le lecteur à copier manuellement les URL et n’était pas cohérente avec les chapitres voisins.
+
+Correction appliquée : chaque référence possède désormais un libellé descriptif cliquable au format `[nom de la source](URL)`. Les destinations et les versions documentaires restent inchangées.
+
+Contrôles associés :
+
+- les neuf références web sont des liens Markdown ;
+- aucun lien technique n’est laissé sous forme d’URL entre backticks dans la section 51 ;
+- les intitulés permettent d’identifier la documentation avant l’ouverture ;
+- la section conserve la source non déterminée du serveur local comme exigence à compléter lors de sa matérialisation.
+
+## 12. Décision
 
 Le chapitre 12 est accepté au niveau `static-review` après application des corrections recensées.
 

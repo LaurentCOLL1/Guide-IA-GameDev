@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.13.0"
+version: "3.13.1"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -806,7 +806,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 9 : version `1.0.0` ;
 - chapitre 10 : version `1.0.0` ;
 - chapitre 11 : version `1.0.0` ;
-- chapitre 12 : version `1.0.1` ;
+- chapitre 12 : version `1.0.2` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -843,6 +843,13 @@ Périmètre attendu :
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
 ## 23. Journal
+
+### 2026-07-19 — version 3.13.1
+
+- correction post-audit de la section 51 du chapitre 12 ;
+- conversion de neuf URL techniques en liens Markdown nommés et directement cliquables ;
+- mise à jour du chapitre 12 vers la version `1.0.2` et de son audit vers `1.0.1` ;
+- aucun changement de périmètre, aucune exécution runtime et aucun PDF construit.
 
 ### 2026-07-19 — version 3.13.0
 
