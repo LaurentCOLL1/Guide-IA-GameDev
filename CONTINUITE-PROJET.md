@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.12.0"
+version: "3.13.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 11 chapitres sur 30.**
+**En cours : 12 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -118,8 +118,8 @@ Chaque procédure doit expliquer :
 
 10. Mémoire vectorielle, connaissances et recherche sémantique — terminé au niveau `static-review`.
 11. Communication Godot avec les services IA locaux — terminé au niveau `static-review`.
-12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — prochain chapitre.
-13. Sécurité et séparation production/runtime de l’IA.
+12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — terminé au niveau `static-review`.
+13. Sécurité et séparation production/runtime de l’IA — prochain chapitre.
 
 #### Partie C — Systèmes de gameplay
 
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 11 : **Élevée**.
+Chapitres 3 à 12 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -352,8 +352,28 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - les chemins d’exécution proviennent d’une configuration fiable et les arguments restent séparés ;
 - le processus compagnon reçoit un arrêt coopératif puis un arrêt forcé seulement après délai ;
 - les exports Web et les plateformes non qualifiées utilisent le repli ;
-- HTTP, WebSocket, API compatibles OpenAI et files de tâches restent réservés au chapitre 12 ;
+- les adaptateurs réseau du chapitre 12 restent derrière `LocalAiGateway` ;
 - secrets, isolation, signature et durcissement de production restent réservés au chapitre 13.
+
+### 11.7 Transports réseau et files de tâches
+
+- `LocalAiGateway` reste le port applicatif canonique ;
+- HTTP sert aux échanges bornés et WebSocket aux événements, progressions et flux sélectionnés ;
+- les enveloppes HTTP sont versionnées et distinguent résultat de transport, code HTTP et erreur métier ;
+- `HTTPRequest.body_size_limit` est configuré avant téléchargement ;
+- WebSocket est sondé sans bloquer, avec tampons et files de paquets bornés ;
+- les événements de tâche portent une séquence croissante et l’état HTTP final reste l’autorité ;
+- les tâches utilisent `QUEUED`, `RUNNING`, `SUCCEEDED`, `FAILED`, `CANCEL_REQUESTED`, `CANCELLED` et `EXPIRED` ;
+- la file prioritaire est bornée et la surcharge produit `429` avec `Retry-After` ;
+- une clé d’idempotence est liée à une empreinte canonique du payload et un conflit produit `409` ;
+- les retries sont bornés avec backoff exponentiel et jitter ;
+- `timeout_ms` est une durée relative convertie en échéance monotone locale ;
+- le polling HTTP reste disponible lorsque WebSocket est absent ;
+- la compatibilité OpenAI est isolée dans un adaptateur versionné ;
+- l’exemple `chat/completions` constitue un sous-ensemble historique et l’API Responses peut être ciblée séparément ;
+- la file en mémoire est volatile et ne promet aucune reprise après panne ;
+- le repli déterministe masque seulement les indisponibilités prévues ;
+- le durcissement de production reste réservé au chapitre 13.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -636,7 +656,65 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-11.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 19. Erreurs à ne pas reproduire
+## 19. Chapitre 12 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- `LocalAiGateway` conservé comme unique port métier ;
+- `HTTPRequest` pour les requêtes et réponses bornées ;
+- `WebSocketPeer` pour événements, progressions et certains flux ;
+- contrats HTTP versionnés et erreurs structurées ;
+- limite du corps configurée avant téléchargement ;
+- séparation résultat de transport, code HTTP et erreur métier ;
+- tâches longues avec sept états explicites ;
+- file prioritaire bornée, concurrence limitée et backpressure ;
+- `429` et `Retry-After` pour la surcharge ;
+- idempotence par clé et empreinte canonique du payload ;
+- conflit `409` lorsqu’une clé est réutilisée avec un autre payload ;
+- retries bornés avec backoff et jitter ;
+- délais relatifs convertis vers une horloge monotone locale ;
+- annulation coopérative et réponses tardives rejetées ;
+- événements ordonnés par séquence et polling HTTP de secours ;
+- adaptateur compatible OpenAI isolé du domaine ;
+- compatibilité `chat/completions` qualifiée de sous-ensemble historique ;
+- API Responses et SSE réservés à un schéma explicitement versionné ;
+- file en mémoire qualifiée de volatile ;
+- repli déterministe limité aux indisponibilités attendues ;
+- durcissement production/runtime réservé au chapitre 13.
+
+Livrables documentés :
+
+- `src/core/ai/ai_network_config.gd` ;
+- `src/core/ai/ai_network_envelope_codec.gd` ;
+- `src/core/ai/http_local_ai_transport.gd` ;
+- `src/core/ai/websocket_event_channel.gd` ;
+- `src/core/ai/ai_task_status.gd` ;
+- `src/core/ai/ai_task.gd` ;
+- `src/core/ai/ai_task_event.gd` ;
+- `src/core/ai/openai_compatible_mapper.gd` ;
+- `src/app/ai_network_bootstrap.gd` ;
+- `tools/ai_server/task_models.py` ;
+- `tools/ai_server/task_queue.py` ;
+- `tools/ai_server/task_worker.py` ;
+- `tools/ai_server/protocol.py` ;
+- `tools/ai_server/operations.py` ;
+- `tools/ai_server/task_registry.py` ;
+- `tools/ai_server/event_hub.py` ;
+- `tools/ai_server/openai_adapter.py` ;
+- `tools/ai_server/server.py` ;
+- `scenes/learning/ch12_network_ai_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-12.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-12.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 20. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -696,14 +774,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas confondre processus vivant et capacité disponible ;
 - ne pas coupler le port applicatif à HTTP avant le chapitre 12 ;
 - ne pas utiliser `OS.kill()` avant la tentative d’arrêt coopératif ;
+- ne pas placer les routes HTTP dans le gameplay ;
+- ne pas utiliser WebSocket pour tous les échanges ;
+- ne pas lancer plusieurs requêtes simultanées sur une même instance `HTTPRequest` ;
+- ne pas confondre résultat de transport et code HTTP ;
+- ne pas retenter immédiatement après `429` ;
+- ne pas laisser une file de tâches sans limite ;
+- ne pas confondre corrélation et idempotence ;
+- ne pas accepter la même clé d’idempotence pour deux payloads différents ;
+- ne pas traiter `CANCEL_REQUESTED` comme un état terminal ;
+- ne pas appliquer un événement WebSocket hors séquence ;
+- ne pas traiter un fragment de streaming comme résultat final ;
+- ne pas laisser un schéma OpenAI-compatible devenir le modèle du domaine ;
+- ne pas déclarer le service prêt lorsque ses dépendances obligatoires sont indisponibles ;
+- ne pas utiliser un identifiant de tâche comme autorisation ;
+- ne pas promettre une reprise après panne avec une file volatile ;
+- ne pas masquer une erreur de protocole par le repli ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 20. État courant
+## 21. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 11 chapitres sur 30 ;
+- progression : 12 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -712,43 +806,57 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 9 : version `1.0.0` ;
 - chapitre 10 : version `1.0.0` ;
 - chapitre 11 : version `1.0.0` ;
+- chapitre 12 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 21. Prochaine action
+## 22. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
+Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md
 ```
 
 Périmètre attendu :
 
-- mise en œuvre du port du chapitre 11 avec des transports réseau ;
-- choix entre `HTTPRequest`, `HTTPClient` et `WebSocketPeer` ;
-- contrats HTTP versionnés, en-têtes, types de contenu et codes de statut ;
-- API compatibles OpenAI sans dépendance directe à un fournisseur ;
-- streaming de réponses et événements ;
-- files de tâches locales ou serveur ;
-- identifiants de tâches, états et résultats ;
-- idempotence, retries bornés et backoff ;
-- délais et annulation à travers le transport ;
-- polling, notification et reprise ;
-- backpressure et limites de concurrence ;
-- erreurs réseau structurées ;
-- découverte de santé et de capacités ;
-- aucun secret réel dans les exemples ;
-- durcissement production/runtime réservé au chapitre 13 ;
+- modèle de menaces et frontières de confiance ;
+- séparation stricte entre outils de production et services autorisés au runtime ;
+- configurations distinctes développement, test et production ;
+- secrets hors versionnement et hors payloads de gameplay ;
+- écoute sur boucle locale par défaut et refus de l’exposition implicite ;
+- authentification obligatoire dès qu’un service quitte la boucle locale ;
+- TLS et certificats lorsque le réseau l’exige ;
+- listes d’autorisation pour opérations, modèles et chemins ;
+- moindre privilège pour processus, fichiers et réseau ;
+- limites de payload, débit, concurrence et quotas ;
+- rédaction des journaux et politique de conservation ;
+- dépendances épinglées, inventaire, licences et SBOM ;
+- packaging, signature et stratégie de mise à jour ;
+- échec fermé pour la sécurité avec repli déterministe du gameplay ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 22. Journal
+## 23. Journal
+
+### 2026-07-19 — version 3.13.0
+
+- création, correction et audit statique du chapitre 12 ;
+- conservation de `LocalAiGateway` comme port canonique ;
+- transports HTTP et WebSocket derrière des adaptateurs ;
+- contrats réseau versionnés, limites avant téléchargement et erreurs structurées ;
+- tâches longues, file prioritaire bornée et backpressure ;
+- idempotence, retries bornés, polling, séquences et annulation coopérative ;
+- compatibilité OpenAI isolée et API Responses explicitement qualifiée ;
+- progression à 12 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 13 ;
+- aucun PDF construit.
+
 
 ### 2026-07-19 — version 3.12.0
 
