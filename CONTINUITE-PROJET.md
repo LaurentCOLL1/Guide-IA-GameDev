@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.15.0"
+version: "3.16.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 14 chapitres sur 30.**
+**En cours : 15 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -124,7 +124,7 @@ Chaque procédure doit expliquer :
 #### Partie C — Systèmes de gameplay
 
 14. Personnages — terminé au niveau `static-review`.
-15. Relations sociales.
+15. Relations sociales — terminé au niveau `static-review`.
 16. Famille et générations.
 17. Agents IA et comportements autonomes.
 18. Combat.
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 14 : **Élevée**.
+Chapitres 3 à 15 : **Élevée**.
 
 À chaque clôture de chapitre, le bloc **Prochaine action** doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`.
 
@@ -412,6 +412,22 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - snapshot strict composé d’identifiants et de valeurs sérialisables, sans nœud, ressource ou cache ;
 - section de sauvegarde préparée complètement avant application ;
 - relations, famille, agents, combat et compétences maintenus dans des systèmes séparés.
+
+### 11.10 Relations sociales
+
+- une relation est une perception orientée `source → cible` entre deux `CharacterId` ;
+- les deux directions peuvent diverger et sont persistées séparément ;
+- les vues mutuelles sont calculées et distinguent absence de relation et neutralité ;
+- affinité, confiance et respect sont bornés de `-100` à `100`, peur de `0` à `100` ;
+- chaque mutation exige une cause stable, un système source, un tick logique et au moins un delta ;
+- les deltas sont bornés et l’historique récent est limité à `32` entrées ;
+- la mutation utilise une copie profonde, une validation complète et `replace_one()` avant émission ;
+- le dépôt indexe les relations sortantes sans dépendre des nœuds actifs ;
+- l’existence est validée contre un index logique des personnages, y compris hors scène ;
+- les événements typés transportent des copies des axes avant et après ;
+- les snapshots refusent clés inconnues, conversions silencieuses, doublons et références absentes ;
+- la section sociale est préparée avant application et reste indépendante de la section personnages ;
+- parenté, agents, factions, réputation et narration restent dans leurs systèmes propres.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -864,7 +880,58 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-14.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 22. Erreurs à ne pas reproduire
+## 22. Chapitre 15 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-15-Relations-sociales.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- clé orientée fondée sur deux `CharacterId`, avec auto-relation refusée ;
+- perceptions `A → B` et `B → A` indépendantes ;
+- vues mutuelles calculées à partir des deux directions ;
+- quatre axes sociaux bornés : affinité, confiance, respect et peur ;
+- commandes sans effet et deltas excessifs refusés ;
+- cause, provenance, contexte et tick logique obligatoires ;
+- historique causal borné à `32` entrées par direction ;
+- copie profonde des axes, états et enregistrements ;
+- mutation atomique par candidat validé et `replace_one()` ;
+- dépôt en mémoire avec index des relations sortantes ;
+- requêtes renvoyant des identifiants plutôt que des nœuds ;
+- validation contre un index logique incluant les personnages hors scène ;
+- événements typés après remplacement réussi ;
+- snapshot JSON strict, versionné et sans nœud ni vue dérivée ;
+- section de sauvegarde indépendante préparée avant application ;
+- famille, agents, factions, réputation et narration séparés.
+
+Livrables documentés :
+
+- `src/features/social/domain/social_relationship_key.gd` ;
+- `src/features/social/domain/social_axes.gd` ;
+- `src/features/social/domain/social_change_cause.gd` ;
+- `src/features/social/domain/social_change_record.gd` ;
+- `src/features/social/domain/social_relationship_state.gd` ;
+- `src/features/social/application/change_social_relationship_command.gd` ;
+- `src/features/social/application/social_relationship_repository.gd` ;
+- `src/features/social/application/social_relationship_changed_event.gd` ;
+- `src/features/social/application/social_relationship_service.gd` ;
+- `src/features/social/application/social_relationship_query.gd` ;
+- `src/features/social/application/mutual_social_view.gd` ;
+- `src/features/characters/application/character_identity_index.gd` ;
+- `src/features/social/infrastructure/in_memory_social_relationship_repository.gd` ;
+- `src/features/social/infrastructure/social_relationship_snapshot_codec.gd` ;
+- `src/features/social/infrastructure/social_relationship_save_section.gd` ;
+- `scenes/learning/ch15_social_relationships_demo.tscn` ;
+- `scenes/learning/ch15_social_relationships_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-15.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 23. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -964,14 +1031,28 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas traiter `queue_free()` comme une suppression métier ;
 - ne pas appliquer une section de personnages avant validation complète ;
 - ne pas placer relations, famille, agent, combat ou compétences dans `CharacterRuntimeState` ;
+- ne pas stocker une relation sociale sur un nœud actif ;
+- ne pas utiliser un nom affiché comme clé de relation ;
+- ne pas forcer la symétrie entre deux perceptions ;
+- ne pas persister un booléen d’amitié contradictoire avec les axes ;
+- ne pas laisser un axe ou un delta hors bornes ;
+- ne pas accepter un changement sans cause ni provenance ;
+- ne pas utiliser l’heure système comme ordre de simulation ;
+- ne pas conserver un historique social illimité ;
+- ne pas retourner les collections internes mutables ;
+- ne pas créer toutes les paires possibles de personnages ;
+- ne pas valider une relation uniquement contre les personnages actifs ;
+- ne pas appliquer une section sociale avant validation complète ;
+- ne pas déduire la parenté depuis l’affinité ;
+- ne pas laisser une sortie IA modifier directement l’état social ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 23. État courant
+## 24. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 14 chapitres sur 30 ;
+- progression : 15 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -983,41 +1064,58 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 : version `1.0.2` ;
 - chapitre 13 : version `1.0.0` ;
 - chapitre 14 : version `1.0.0` ;
+- chapitre 15 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 24. Prochaine action
+## 25. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-15-Relations-sociales.md
+Livre-II/CHAPITRE-16-Famille-et-generations.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
 Périmètre attendu :
 
-- état relationnel séparé de `CharacterRuntimeState` ;
-- identité d’une relation fondée sur les identifiants stables des personnages ;
-- distinction explicite entre relations dirigées et relations symétriques ;
-- axes bornés comme affinité, confiance, peur et respect ;
-- modificateurs sociaux, causes, provenance et historique borné ;
-- opérations applicatives validées pour faire évoluer une relation ;
-- événements typés et requêtes de voisinage social ;
-- absence de dépendance directe aux nœuds actifs ;
-- sérialisation dans une section de sauvegarde indépendante ;
-- validation des références de personnages et gestion des personnages absents de la scène ;
-- frontières avec famille, agents autonomes, factions, réputation et narration ;
+- système familial séparé des axes sociaux ;
+- liens de filiation dirigés et unions ou fratries traitées selon leurs invariants réels ;
+- types de liens explicites : biologique, adoption, tutelle et union ;
+- identités fondées sur les `CharacterId`, sans dépendance aux nœuds actifs ;
+- refus des auto-liens, doublons, cycles d’ascendance et références inconnues ;
+- ancêtres, descendants, fratries et générations calculés par requêtes bornées ;
+- absence de génération persistée lorsqu’elle peut être dérivée ;
+- dates ou ticks de début et de fin pour les liens temporels ;
+- événements typés et historique des changements familiaux ;
+- sauvegarde dans une section indépendante validée contre les personnages candidats ;
+- gestion des personnages décédés, absents de la scène ou archivés ;
+- frontières avec relations sociales, agents, succession, politique et narration ;
 - démonstration pédagogique, critères d’acceptation et tests à préparer ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
-## 25. Journal
+## 26. Journal
+
+### 2026-07-19 — version 3.16.0
+
+- création, correction et audit statique du chapitre 15 ;
+- relations sociales orientées entre identifiants stables ;
+- axes affinité, confiance, respect et peur bornés ;
+- causes, provenance, ticks logiques et historique limité ;
+- mutation atomique par copie profonde et remplacement validé ;
+- requêtes et vues mutuelles indépendantes des scènes ;
+- événements typés et index des relations sortantes ;
+- snapshot strict et section de sauvegarde indépendante ;
+- maintien de la famille, des agents, factions, réputations et récits dans leurs systèmes propres ;
+- progression à 15 chapitres sur 30 et systèmes de gameplay à 2 sur 12 ;
+- prochaine action déplacée vers le chapitre 16 — Famille et générations, niveau Élevée ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.15.0
 
