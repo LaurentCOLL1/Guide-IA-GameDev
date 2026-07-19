@@ -1,0 +1,66 @@
+---
+title: "Validation automatique rétroactive — Livre II, chapitres 5 et 6"
+id: "DOC-L2-QA-AUTO-CH05-CH06"
+status: "complete"
+version: "1.1.0"
+lang: "fr-FR"
+validation-date: "2026-07-19"
+validation-level: "automated-static-review"
+pdf-produced: false
+validated-head-sha: "45426ad27e363ffbaf01155a5319710282e50564"
+workflows:
+  chapter-validation:
+    name: "Validate Chapters Without PDF"
+    run-id: 29666722612
+    conclusion: "success"
+    artifact:
+      id: 8435934752
+      name: "chapter-validation-without-pdf"
+      digest: "sha256:fba31993d3e85baf40b75dcfef475a6821606831325f1bec060b52a67b17c567"
+      retention-days: 30
+  usage-contexts:
+    name: "Validate Usage Contexts"
+    run-id: 29666722604
+    conclusion: "success"
+    artifact:
+      id: 8435934243
+      name: "usage-context-audit"
+      digest: "sha256:1e955a674fce091df91cb9cc8fc649c635d71015e97da8321c13771cf3f697e2"
+      retention-days: 30
+  pdf-publication:
+    triggered: false
+scope:
+  chapters:
+    - "Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md"
+    - "Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md"
+results:
+  sources-declared: 51
+  livre-i-chapters: 10
+  livre-ii-chapters: 6
+  unique-identifiers: 50
+  blocking-errors: 0
+  warnings: 1
+  controlled-files-for-contexts: 49
+  controlled-code-blocks: 926
+  blocks-with-marker: 926
+  context-nonconformities: 0
+  semantic-context-inconsistencies: 0
+  chapter-05:
+    lines: 1153
+    headings: 78
+    significant-code-blocks: 13
+    duplicate-headings: 0
+    duplicate-code-blocks: 0
+    duplicate-long-paragraphs: 0
+  chapter-06:
+    lines: 1443
+    headings: 81
+    significant-code-blocks: 16
+    duplicate-headings: 0
+    duplicate-code-blocks: 0
+    duplicate-long-paragraphs: 0
+reservation:
+  - "La licence globale reste à définir avant publication officielle."
+  - "Les réserves runtime propres aux deux chapitres restent ouvertes."
+  - "La publication PDF reste différée à la fin du Livre II."
+---

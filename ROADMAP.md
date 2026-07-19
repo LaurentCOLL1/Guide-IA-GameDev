@@ -13,6 +13,7 @@
 - [x] Enregistrer dans ce document le plan maître détaillé des Livres II à V et du Companion Pack.
 - [x] Rendre obligatoire l’annonce du niveau GPT-5.6 Sol conseillé avant chaque chapitre.
 - [x] Différer la construction PDF à la fin de chaque Livre et à la fin de la collection.
+- [x] Séparer le workflow léger des chapitres du workflow de publication PDF.
 
 **Statut M0 : terminé.**
 
@@ -67,9 +68,10 @@
 - [x] Chapitre 5 — services, Autoloads, bus d’événements, registre et injection de dépendances — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 6 — Input Map, contrôleurs, caméra et interactions — rédigé et audité au niveau `static-review`.
 - [x] Protocole QA adapté à la construction PDF différée.
+- [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 6 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Le joueur est désormais défini comme un assemblage séparant lecture des entrées, trame d’intention, contrôleur, moteur physique, rig de caméra et interaction typée. Chaque chapitre reçoit une recommandation GPT-5.6 Sol et un audit statique. Le PDF complet sera construit uniquement à la fin du Livre II.
+**Statut M3 : en cours — 6 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Le joueur est désormais défini comme un assemblage séparant lecture des entrées, trame d’intention, contrôleur, moteur physique, rig de caméra et interaction typée. Le workflow léger valide désormais chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

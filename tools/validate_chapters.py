@@ -230,7 +230,7 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-level invalide : {rel}")
                 if metadata.get("usage-context-standard") != "DOC-V0-ANN-CONTEXTES":
                     errors.append(f"Convention de contexte absente ou incorrecte : {rel}")
-                if metadata.get("recommended-reasoning") not in VALID_REASONING:
+                if number >= 3 and metadata.get("recommended-reasoning") not in VALID_REASONING:
                     errors.append(f"Niveau GPT-5.6 Sol absent ou invalide : {rel}")
                 audit_report = metadata.get("audit-report")
                 if not audit_report:

@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.4.0"
+version: "3.5.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -226,7 +226,14 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.3.0`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.4.0`.
+
+Deux workflows sont désormais séparés :
+
+- `Validate Chapters Without PDF` : validation automatique légère à chaque chapitre ;
+- `Validate Documentation PDF` : construction manuelle de fin de Livre ou validation d’une modification directe de la chaîne PDF.
+
+La campagne rétroactive des chapitres 5 et 6 a réussi dans l’exécution `29666380972`. Elle a validé 51 sources, 6 chapitres du Livre II, 50 identifiants uniques, 926 blocs avec repère, zéro erreur bloquante, zéro incohérence sémantique et zéro PDF produit. La preuve se trouve dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
 
 ## 10. Règle pédagogique du code
 
@@ -367,8 +374,6 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas créer un Autoload par service ;
 - ne pas utiliser un bus générique à dictionnaires ;
 - ne pas oublier de nettoyer un démarrage partiel ;
-- ne pas coder les touches physiques dans le gameplay ;
-- ne pas multiplier `CharacterBody3D.velocity` par `delta` avant `move_and_slide()` ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
@@ -413,6 +418,15 @@ Périmètre attendu :
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
 ## 17. Journal
+
+### 2026-07-19 — version 3.5.0
+
+- séparation permanente des workflows chapitre et PDF ;
+- ajout de `tools/validate_chapters.py` et `tools/check_context_markers.py` ;
+- validation automatique rétroactive des chapitres 5 et 6 ;
+- 51 sources, 50 identifiants et 926 blocs contrôlés sans erreur ;
+- aucun PDF produit par la validation légère ;
+- preuve enregistrée dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
 
 ### 2026-07-19 — version 3.4.0
 
