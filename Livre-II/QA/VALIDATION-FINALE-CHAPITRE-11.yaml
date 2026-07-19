@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH11
-status: pending-ci
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: af364fd83ed98abb6b90bf15a47b59ceee6da257
 chapter:
@@ -30,6 +30,21 @@ scope:
 results:
   master-plan-items-covered: 14
   detailed-error-cases: 16
+  sources: 62
+  unique-identifiers: 61
+  livre-i-chapters: 10
+  livre-ii-chapters: 11
+  chapter-lines: 2717
+  chapter-headings: 107
+  chapter-significant-code-blocks: 33
+  total-context-blocks: 1318
+  marked-context-blocks: 1318
+  semantic-inconsistencies: 0
+  blocking-errors: 0
+  warnings: 1
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
   application-port-transport-independent: true
   godot-qdrant-boundary-preserved: true
   json-lines-protocol-versioned: true
@@ -49,11 +64,15 @@ results:
   pdf-produced: false
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29698011682
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29698011655
+    conclusion: success
+  artifact:
+    id: 8445585823
+    name: chapter-validation-without-pdf
+    digest: sha256:2f1c951cea807935eaae851ae7385280770fd309a40381033801de0d210853e0
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - OS.execute_with_pipe n’a pas été exécuté sous Windows 11.
