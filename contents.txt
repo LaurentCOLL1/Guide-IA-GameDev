@@ -49,6 +49,7 @@ Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
 Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md
 Livre-II/CHAPITRE-14-Personnages.md
 Livre-II/CHAPITRE-15-Relations-sociales.md
+Livre-II/CHAPITRE-16-Famille-et-generations.md
 Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
 Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-II/QA/AUDIT-CHAPITRE-03.md
@@ -64,8 +65,10 @@ Livre-II/QA/AUDIT-CHAPITRE-12.md
 Livre-II/QA/AUDIT-CHAPITRE-13.md
 Livre-II/QA/AUDIT-CHAPITRE-14.md
 Livre-II/QA/AUDIT-CHAPITRE-15.md
+Livre-II/QA/AUDIT-CHAPITRE-16.md
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-14.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml
+Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml
 Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md
 Livre-III/index.md
 Livre-IV/index.md

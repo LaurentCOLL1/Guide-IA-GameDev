@@ -59,9 +59,9 @@
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
-- [ ] Douze grands systèmes de jeu — 2 chapitres rédigés, repérés et audités sur 12.
+- [ ] Douze grands systèmes de jeu — 3 chapitres rédigés, repérés et audités sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 15.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 16.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -76,12 +76,13 @@
 - [x] Chapitre 13 — modèle de menaces, séparation production/runtime, secrets, authentification, autorisation, TLS, limites, journaux, SBOM, provenance et signature — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 14 — identité stable, définition, état runtime, statistiques dérivées, scène, contrôleurs, apparition, registre actif, événements et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 15 — relations orientées, axes bornés, causes, historique, vues mutuelles, requêtes, événements et sauvegarde indépendante — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
 - [x] Audit rétroactif des sections d’erreurs, diagnostics et anti-patterns des chapitres 1 à 6 — 52 cas avec exemples fautifs et corrigés.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 15 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Deux des douze systèmes de gameplay sont documentés : les personnages restent séparés de leur représentation, tandis que les relations sociales sont orientées, bornées, causales, indépendantes des scènes, interrogeables par voisinage et persistées dans une section distincte. Le chapitre 16 traitera la famille et les générations avec leurs propres invariants. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 16 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Trois des douze systèmes de gameplay sont documentés : personnages, relations sociales et famille. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. Le chapitre 17 traitera les agents IA et comportements autonomes derrière des contrats et budgets explicites. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

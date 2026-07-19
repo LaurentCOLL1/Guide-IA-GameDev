@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.16.0"
+version: "3.17.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 15 chapitres sur 30.**
+**En cours : 16 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -125,7 +125,7 @@ Chaque procédure doit expliquer :
 
 14. Personnages — terminé au niveau `static-review`.
 15. Relations sociales — terminé au niveau `static-review`.
-16. Famille et générations.
+16. Famille et générations — terminé au niveau `static-review`.
 17. Agents IA et comportements autonomes.
 18. Combat.
 19. Compétences et pouvoirs.
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 15 : **Élevée**.
+Chapitres 3 à 16 : **Élevée**.
 
 À chaque clôture de chapitre, le bloc **Prochaine action** doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`.
 
@@ -428,6 +428,24 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - les snapshots refusent clés inconnues, conversions silencieuses, doublons et références absentes ;
 - la section sociale est préparée avant application et reste indépendante de la section personnages ;
 - parenté, agents, factions, réputation et narration restent dans leurs systèmes propres.
+
+### 11.11 Famille et générations
+
+- système familial séparé de `CharacterRuntimeState` et des axes sociaux ;
+- liens fondés sur les `CharacterId` et indépendants des nœuds actifs ;
+- filiation dirigée parent vers enfant avec types biologique et adoption ;
+- tutelle dirigée et union par paire canonique distinctes de la filiation ;
+- intervalles logiques inclusifs avec début, fin éventuelle et provenance ;
+- auto-liens, doublons métier, chevauchements invalides et références inconnues refusés ;
+- cycles d’ascendance détectés avant mutation avec refus conservateur en cas de dépassement du budget ;
+- parcours bornés par profondeur `32` et maximum `4 096` nœuds ;
+- parents, enfants, fratries, ancêtres, descendants et distance générationnelle calculés ;
+- fratries, générations, caches et index secondaires exclus de la persistance ;
+- personnages décédés, archivés ou absents de la scène conservés par l’index logique ;
+- événements typés et historique familial borné à `256` records ;
+- snapshots stricts pour filiation, tutelle, union et historique ;
+- graphe candidat complet validé avant remplacement de l’état actif ;
+- succession, héritage, politique, narration et décisions d’agents maintenus dans leurs systèmes propres.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -931,7 +949,62 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 23. Erreurs à ne pas reproduire
+## 23. Chapitre 16 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-16-Famille-et-generations.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- `FamilyLinkId` aléatoire stable et indépendant de l’affichage ;
+- filiation biologique et adoptive orientée parent vers enfant ;
+- tutelle temporelle séparée de l’adoption ;
+- union identifiée par une paire canonique non orientée ;
+- intervalles logiques validés et fondés sur le tick de simulation ;
+- index logique des personnages réutilisé depuis le chapitre 15 ;
+- auto-liens et références inconnues refusés ;
+- doublons métier et intervalles chevauchants refusés ;
+- cycle d’ascendance recherché avant insertion ;
+- dépassement du budget traité comme refus conservateur ;
+- parents, enfants et fratries retournés par copies défensives ;
+- ancêtres et descendants bornés par profondeur et nombre de nœuds ;
+- génération représentée par une distance relative, jamais persistée comme valeur absolue ;
+- personnages décédés, archivés ou hors scène conservés ;
+- événements familiaux typés et historique borné ;
+- snapshot strict sans index secondaire ni relation dérivée ;
+- codec complet des filiations, tutelles, unions et records ;
+- restauration par graphe candidat puis `replace_all_from()` validé ;
+- agents, succession, héritage, politique et narration séparés.
+
+Livrables documentés :
+
+- `src/features/families/domain/family_link_id.gd` ;
+- `src/features/families/domain/family_link_kind.gd` ;
+- `src/features/families/domain/logical_interval.gd` ;
+- `src/features/families/domain/parent_child_link.gd` ;
+- `src/features/families/domain/guardianship_link.gd` ;
+- `src/features/families/domain/character_pair.gd` ;
+- `src/features/families/domain/union_link.gd` ;
+- `src/features/families/domain/family_graph.gd` ;
+- `src/features/families/domain/family_history_record.gd` ;
+- `src/features/families/domain/family_event_log.gd` ;
+- `src/features/families/application/add_parent_link_command.gd` ;
+- `src/features/families/application/family_link_added_event.gd` ;
+- `src/features/families/application/family_graph_service.gd` ;
+- `src/features/families/application/family_graph_validator.gd` ;
+- `src/features/families/infrastructure/family_snapshot_codec.gd` ;
+- `src/features/families/infrastructure/family_save_section.gd` ;
+- `scenes/learning/ch16_family_demo.tscn` ;
+- `scenes/learning/ch16_family_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-16.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -1045,14 +1118,28 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas appliquer une section sociale avant validation complète ;
 - ne pas déduire la parenté depuis l’affinité ;
 - ne pas laisser une sortie IA modifier directement l’état social ;
+- ne pas utiliser un nom affiché comme identité familiale ;
+- ne pas stocker les liens familiaux sur un nœud actif ;
+- ne pas déduire la filiation depuis une valeur sociale ;
+- ne pas persister fratries, générations ou index secondaires ;
+- ne pas insérer une filiation sans détection de cycle ;
+- ne pas traiter un dépassement de parcours comme une absence de cycle ;
+- ne pas orienter une union qui exige une paire canonique ;
+- ne pas dater un lien avec l’heure système ;
+- ne pas accepter un intervalle terminé avant son début ;
+- ne pas valider une identité uniquement contre les personnages actifs ;
+- ne pas retourner les collections internes du graphe ;
+- ne pas charger directement dans le graphe actif ;
+- ne pas laisser une sortie IA créer un lien sans commande validée ;
+- ne pas mélanger filiation et succession politique ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 24. État courant
+## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 15 chapitres sur 30 ;
+- progression : 16 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1065,42 +1152,59 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 13 : version `1.0.0` ;
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.0.0` ;
+- chapitre 16 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 25. Prochaine action
+## 26. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-16-Famille-et-generations.md
+Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
 Périmètre attendu :
 
-- système familial séparé des axes sociaux ;
-- liens de filiation dirigés et unions ou fratries traitées selon leurs invariants réels ;
-- types de liens explicites : biologique, adoption, tutelle et union ;
-- identités fondées sur les `CharacterId`, sans dépendance aux nœuds actifs ;
-- refus des auto-liens, doublons, cycles d’ascendance et références inconnues ;
-- ancêtres, descendants, fratries et générations calculés par requêtes bornées ;
-- absence de génération persistée lorsqu’elle peut être dérivée ;
-- dates ou ticks de début et de fin pour les liens temporels ;
-- événements typés et historique des changements familiaux ;
-- sauvegarde dans une section indépendante validée contre les personnages candidats ;
-- gestion des personnages décédés, absents de la scène ou archivés ;
-- frontières avec relations sociales, agents, succession, politique et narration ;
+- état d’agent autonome séparé de `CharacterRuntimeState`, des relations sociales et de la famille ;
+- perceptions structurées, mémoire de travail bornée et tableau noir explicite ;
+- buts durables distingués des intentions et actions transitoires ;
+- catalogue d’actions avec préconditions, effets et coûts validés ;
+- sélection de comportement déterministe comme autorité de référence ;
+- IA générative ou service local limité à un rôle consultatif et validé ;
+- ordonnanceur par ticks avec budgets de temps, fréquence et nombre d’agents ;
+- simulation hors écran séparée de la représentation active ;
+- annulation et invalidation lorsqu’un monde ou une cible change ;
+- événements typés, diagnostics et reproductibilité des décisions ;
+- persistance des buts durables sans caches, perceptions ou plans transitoires ;
+- frontières avec combat, compétences, économie, monde vivant et narration ;
 - démonstration pédagogique, critères d’acceptation et tests à préparer ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
-## 26. Journal
+## 27. Journal
+
+### 2026-07-19 — version 3.17.0
+
+- création, correction et audit statique du chapitre 16 ;
+- séparation permanente entre famille, personnages et relations sociales ;
+- filiations biologiques ou adoptives dirigées ;
+- tutelles temporelles et unions par paires canoniques ;
+- cycles d’ascendance, doublons et références inconnues refusés ;
+- parcours d’ancêtres et descendants bornés ;
+- fratries et générations calculées plutôt que persistées ;
+- personnages décédés, archivés ou hors scène conservés ;
+- événements et historique familial borné ;
+- snapshot strict et restauration par graphe candidat ;
+- progression à 16 chapitres sur 30 et systèmes de gameplay à 3 sur 12 ;
+- prochaine action déplacée vers le chapitre 17 — Agents IA et comportements autonomes, niveau Élevée ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.16.0
 

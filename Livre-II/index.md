@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.8.0"
+version: "1.9.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -44,7 +44,7 @@ Project Asteria
 
 14. [Personnages](CHAPITRE-14-Personnages.md) — **rédigé, repéré et audité au niveau static-review**
 15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré et audité au niveau static-review**
-16. Famille et générations — à rédiger
+16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré et audité au niveau static-review**
 17. Agents IA et comportements autonomes — à rédiger
 18. Combat — à rédiger
 19. Compétences et pouvoirs — à rédiger
@@ -82,6 +82,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 13](QA/AUDIT-CHAPITRE-13.md) ;
 - [audit du chapitre 14](QA/AUDIT-CHAPITRE-14.md) ;
 - [audit du chapitre 15](QA/AUDIT-CHAPITRE-15.md) ;
+- [audit du chapitre 16](QA/AUDIT-CHAPITRE-16.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -111,7 +112,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 15 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 16 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -139,4 +140,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Quinze chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les fondations et la plateforme IA locale sont complètes : neuf chapitres de fondation sur neuf et quatre chapitres de plateforme IA sur quatre. La partie gameplay compte désormais **deux systèmes sur douze**. Les personnages possèdent une identité et un état séparés ; les relations sociales utilisent des clés orientées, quatre axes bornés, des causes traçables, un historique limité, des vues mutuelles calculées, des événements typés et une section de sauvegarde indépendante des nœuds actifs. Le chapitre 16 poursuivra avec la famille et les générations sans déduire la parenté depuis l’affinité.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Seize chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les fondations et la plateforme IA locale sont complètes : neuf chapitres de fondation sur neuf et quatre chapitres de plateforme IA sur quatre. La partie gameplay compte désormais **trois systèmes sur douze**. Les personnages, les relations sociales et le graphe familial restent séparés. La famille distingue filiation, adoption, tutelle et union, refuse les cycles d’ascendance, calcule fratries et générations, conserve les identités hors scène et utilise une section de sauvegarde indépendante. Le chapitre 17 poursuivra avec les agents IA et comportements autonomes sans leur donner l’autorité directe sur ces états métier.
