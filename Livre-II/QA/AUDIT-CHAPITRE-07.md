@@ -2,7 +2,7 @@
 title: "Audit post-création — Livre II, chapitre 7"
 id: "DOC-L2-QA-CH07"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 7
@@ -57,7 +57,7 @@ Les premières apparitions significatives expliquent :
 - la fusion des sections et clés d’un `ConfigFile` ;
 - la différence entre version de format et version de contenu.
 
-Les exemples sont accompagnés d’un contexte `[VSC]`, `[APP]`, `[LECTURE]` ou `[SORTIE]`.
+Les exemples sont accompagnés d’un contexte `[VSC]`, `[APP]`, `[LECTURE]` ou `[SORTIE]`. La seconde Resource, la scène de vérification et les huit erreurs fréquentes disposent désormais d’exemples détaillés et comparables.
 
 ## 4. Contrôle des frontières
 
@@ -177,6 +177,30 @@ La configuration :
 ### Risque 14 — construire le PDF après le chapitre
 
 **Correction :** validation légère obligatoire et PDF différé à la fin du Livre II.
+
+### Risque 15 — renvoi ambigu au chapitre 28
+
+**Correction :** précision de la frontière entre rapport d’import au chapitre 7, tests automatisés au chapitre 27 et journalisation/reproductibilité globale au chapitre 28.
+
+### Risque 16 — seconde Resource décrite sans contenu vérifiable
+
+**Correction :** ajout du contenu `.tres` attendu, de son explication et de la liste complète `BeaconCatalogPaths.PATHS`.
+
+### Risque 17 — scène de vérification non expliquée
+
+**Correction :** ajout des protections `null` et d’une décomposition détaillée du chargement des Resources, du JSON, de la configuration et du formatage des sorties.
+
+### Risque 18 — erreurs fréquentes sans exemples concrets
+
+**Correction :** chaque erreur de la section 35 possède maintenant un exemple fautif, un exemple corrigé et une explication de la différence.
+
+### Risque 19 — exemples corrigés incompatibles avec les contrats déjà définis
+
+**Correction :** seconde relecture des noms publics : utilisation de `cooldown_remaining`, `tick()`, `record_activation()`, du constructeur `BeaconRuntimeState.new(profile)`, de `BeaconJsonMapper.from_dictionary()` sur une instance et de `BeaconCatalog.register()`.
+
+### Risque 20 — code inline interprété comme lien Markdown
+
+**Correction :** le validateur de liens ignore désormais les blocs clôturés et les expressions placées entre backticks, par exemple `Array[StringName](...)`.
 
 ## 7. Vérification des doublons
 

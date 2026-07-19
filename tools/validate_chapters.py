@@ -14,6 +14,7 @@ import yaml
 
 CHAPTER_RE = re.compile(r"Livre-(I|II)/CHAPITRE-(\d{2})-.+\.md$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
+INLINE_CODE_RE = re.compile(r"(`+)([^\n]*?)\1")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
@@ -173,6 +174,7 @@ def validate_local_links(
     errors: list[str],
 ) -> None:
     markdown_text = text_without_fenced_code(text)
+    markdown_text = INLINE_CODE_RE.sub("", markdown_text)
     for raw_target in LINK_RE.findall(markdown_text):
         target = unquote(raw_target.strip().split()[0].strip("<>"))
         if not target or target.startswith(("#", "http://", "https://", "mailto:")):

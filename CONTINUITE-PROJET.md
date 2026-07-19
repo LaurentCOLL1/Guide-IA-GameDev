@@ -252,7 +252,7 @@ La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA
 - appel de méthode ;
 - résultat concret.
 
-Les rappels courts sont permis. Les duplications intégrales sont interdites.
+Les rappels courts sont permis. Les duplications intégrales sont interdites. Toute section intitulée « Erreurs fréquentes et corrections » doit fournir, pour chaque erreur, au moins un exemple fautif, un exemple corrigé et l’explication de la différence.
 
 ## 11. Décisions d’architecture de `Project Asteria`
 
