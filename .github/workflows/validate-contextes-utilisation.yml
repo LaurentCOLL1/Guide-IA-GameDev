@@ -10,7 +10,7 @@ on:
       - "Livre-I/**/*.md"
       - "Livre-II/**/*.md"
       - "STYLE_GUIDE.md"
-      - "tools/audit_contextes_utilisation.py"
+      - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-contextes-utilisation.yml"
@@ -26,11 +26,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Audit marker presence and web contexts
+      - name: Audit marker presence and metadata
         run: |
           mkdir -p dist
           set -o pipefail
-          python3 tools/audit_contextes_utilisation.py --check | tee dist/QA-CONTEXTES.log
+          python3 tools/check_context_markers.py --check | tee dist/QA-CONTEXTES.log
 
       - name: Audit semantic marker consistency
         run: |
@@ -48,7 +48,7 @@ jobs:
         with:
           name: usage-context-audit
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 30
           path: |
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
