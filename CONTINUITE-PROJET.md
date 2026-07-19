@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.8.0"
+version: "3.9.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -98,7 +98,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 8 chapitres sur 30.**
+**En cours : 9 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -110,7 +110,7 @@ Chaque procédure doit expliquer :
 6. Entrées, contrôleurs, caméras et interactions — terminé au niveau `static-review`.
 7. Données avec Resources, JSON et configurations — terminé au niveau `static-review`.
 8. SQLite, migrations et données persistantes — terminé au niveau `static-review`.
-9. Sauvegardes, chargements et compatibilité des versions — prochain chapitre.
+9. Sauvegardes, chargements et compatibilité des versions — terminé au niveau `static-review`.
 
 #### Partie B — Plateforme IA locale
 
@@ -184,7 +184,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 8 : **Élevée**.
+Chapitres 3 à 9 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -289,7 +289,15 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - schéma futur refusé avant toute mutation ;
 - `quick_check` et `foreign_key_check` exécutés après migration ;
 - absence de ligne distinguée d’une panne SQL ;
-- format de sauvegarde complet réservé au chapitre 9.
+- snapshot de partie distinct des dépôts SQLite ;
+- format JSON versionné sous `user://saves/` ;
+- empreinte canonique du payload avec précision numérique contrôlée ;
+- slots validés, fichier temporaire, copie `.bak` et remplacement contrôlé ;
+- sauvegarde future refusée et protégée contre l’écrasement ;
+- migrations de sauvegarde linéaires et append-only ;
+- validation complète avant application au monde ;
+- verrou de chargement maintenu jusqu’à application ou annulation ;
+- mémoire vectorielle réservée au chapitre 10.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -407,7 +415,61 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-08.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 16. Erreurs à ne pas reproduire
+## 16. Chapitre 9 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- sauvegarde définie comme snapshot logique, distinct de SQLite ;
+- document JSON `project-asteria-save`, version courante `2` ;
+- slots `manual`, `auto` et `quick` avec identifiants validés ;
+- métadonnées d’affichage séparées du payload d’autorité ;
+- types Godot convertis explicitement ;
+- représentation canonique et SHA-256 du payload ;
+- entiers JSON exacts limités à 53 bits ;
+- taille de fichier limitée avant parsing ;
+- écriture dans `.tmp`, relecture et validation avant remplacement ;
+- copie `.bak` uniquement depuis un principal valide ;
+- sauvegarde future refusée et jamais écrasée par un ancien build ;
+- principal corrompu incapable de remplacer une bonne copie de secours ;
+- migrations `N` vers `N + 1` appliquées sur une copie en mémoire ;
+- validation du format courant et de toutes les sections avant application ;
+- section inconnue refusée en mode strict ;
+- identité du slot comparée au fichier demandé ;
+- verrou conservé jusqu’à `finish_apply()` ou `cancel_load()` ;
+- restauration multi-repositories encore réservée à un lot transactionnel runtime ;
+- mémoire vectorielle réservée au chapitre 10.
+
+Livrables documentés :
+
+- `src/core/save/save_slot_id.gd` ;
+- `src/core/save/save_value_codec.gd` ;
+- `src/core/save/canonical_json.gd` ;
+- `src/core/save/save_integrity.gd` ;
+- `src/core/save/save_section.gd` ;
+- `src/core/save/save_document_builder.gd` ;
+- `src/core/save/save_document_validator.gd` ;
+- `src/core/save/save_document_reader.gd` ;
+- `src/core/save/save_file_store.gd` ;
+- `src/core/save/save_migration.gd` ;
+- `src/core/save/save_migration_v1_to_v2.gd` ;
+- `src/core/save/save_migration_runner.gd` ;
+- `src/core/save/save_section_registry.gd` ;
+- `src/core/save/save_coordinator.gd` ;
+- `src/features/beacons/infrastructure/beacon_save_section.gd` ;
+- `src/app/save_bootstrap.gd` ;
+- `scenes/learning/ch09_save_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-09.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-09.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 17. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -431,54 +493,75 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas copier une base WAL encore ouverte ;
 - ne pas masquer une panne SQL comme une absence de ligne ;
 - ne pas traiter le fichier SQLite comme un slot de sauvegarde complet ;
+- ne pas écrire directement dans le fichier final ;
+- ne pas promettre une atomicité universelle non documentée ;
+- ne pas laisser une sauvegarde future tomber silencieusement sur son `.bak` ;
+- ne pas écraser une sauvegarde future avec un ancien build ;
+- ne pas copier un principal corrompu vers une bonne copie `.bak` ;
+- ne pas appliquer une section avant la validation globale ;
+- ne pas libérer le verrou avant application ou annulation ;
 - ne pas utiliser les `.tres` comme sauvegarde du joueur ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 17. État courant
+## 18. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 8 chapitres sur 30 ;
+- progression : 9 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
 - chapitre 7 : version `1.1.1` ;
 - chapitre 8 : version `1.0.0` ;
+- chapitre 9 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 18. Prochaine action
+## 19. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
+Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md
 ```
 
 Périmètre attendu :
 
-- rôle d’une sauvegarde par rapport aux dépôts SQLite ;
-- définition d’un snapshot cohérent de partie ;
-- slots manuels, autosaves et quicksaves ;
-- métadonnées, miniatures et temps de jeu ;
-- format de sauvegarde versionné ;
-- écriture atomique par fichier temporaire et remplacement ;
-- validation avant application au monde ;
-- chargement en plusieurs phases ;
-- compatibilité ascendante et migrations de sauvegarde ;
-- gestion des sauvegardes futures ou corrompues ;
-- rotation, rétention et copies de secours ;
-- séparation entre données de conception, base persistante et snapshot ;
+- rôle de la mémoire vectorielle dans `Project Asteria` ;
+- embeddings locaux et choix d’un modèle compatible avec la plateforme AMD ;
+- découpage des documents et taille des segments ;
+- métadonnées, identifiants stables et provenance ;
+- création et mise à jour d’un index vectoriel ;
+- recherche par similarité et filtres ;
+- séparation entre connaissance source, index dérivé et sauvegarde ;
+- gestion des suppressions et réindexations ;
+- évaluation de la qualité de récupération ;
+- confidentialité et fonctionnement local ;
+- chemin déterministe lorsque le service vectoriel est indisponible ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 19. Journal
+## 20. Journal
+
+### 2026-07-19 — version 3.9.0
+
+- création et audit statique du chapitre 9 ;
+- distinction entre dépôts SQLite et snapshots de partie ;
+- format JSON versionné avec empreinte canonique ;
+- slots validés, fichier temporaire, copie `.bak` et remplacement contrôlé ;
+- sauvegardes futures protégées contre le fallback et l’écrasement ;
+- migrations en mémoire et validation avant application ;
+- chargement en plusieurs phases avec verrou jusqu’à fin ou annulation ;
+- première partie du Livre II terminée, 9 chapitres sur 9 ;
+- progression globale à 9 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 10 ;
+- PDF non construit.
 
 ### 2026-07-19 — version 3.8.0
 
