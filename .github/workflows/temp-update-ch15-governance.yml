@@ -1,0 +1,39 @@
+name: Temporary Update Chapter 15 Governance
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch15-relations-sociales
+    paths:
+      - .github/workflows/temp-update-ch15-governance.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch15-relations-sociales
+          fetch-depth: 0
+
+      - name: Apply governance update
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tmp/update_ch15_governance.py
+          rm tmp/update_ch15_governance.py
+          rm .github/workflows/temp-update-ch15-governance.yml
+
+      - name: Commit governance update
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(project): record audited chapter 15"
+          git push
