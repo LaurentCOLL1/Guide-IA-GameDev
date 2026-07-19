@@ -1,12 +1,14 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH15
 status: complete
-validation-date: 2026-07-19
+validation-date: 2026-07-20
 validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
+enrichment-base-commit: b603dcee25bdef01b9d6e47f4eddf441672a905c
+validated-head-commit: 22446295f0e0c839a9732923dcd902a85a39d149
 chapter:
   id: DOC-L2-CH15
   path: Livre-II/CHAPITRE-15-Relations-sociales.md
-  version: 1.0.0
+  version: 1.1.0
   audit-level: static-review
 scope:
   - markdown integrity
@@ -35,16 +37,16 @@ results:
   clickable-technical-source-links: 15
   official-web-source-links: 14
   local-chapter-links: 1
-  sources: 72
-  unique-identifiers: 69
+  sources: 75
+  unique-identifiers: 71
   livre-i-chapters: 10
-  livre-ii-chapters: 15
-  chapter-lines: 2177
+  livre-ii-chapters: 16
+  chapter-lines: 2883
   chapter-headings: 69
   chapter-significant-code-blocks: 29
   chapter-code-and-data-blocks: 66
-  total-context-blocks: 1573
-  marked-context-blocks: 1573
+  total-context-blocks: 1642
+  marked-context-blocks: 1642
   context-nonconformities: 0
   semantic-inconsistencies: 0
   duplicate-headings: 0
@@ -100,17 +102,18 @@ corrections:
   - Vérification de l’index logique d’identités avant décodage.
   - Ajout de deux repères LECTURE manquants.
   - Présentation des sources sous forme de liens Markdown nommés.
+  - Enrichissement pédagogique de tous les blocs GDScript et données significatifs selon QA Q1.1.
 ci:
   validate-chapters-without-pdf:
-    run-id: 29704145533
+    run-id: 29707351671
     conclusion: success
   validate-usage-contexts:
-    run-id: 29704145535
+    run-id: 29707351667
     conclusion: success
   artifact:
-    id: 8447357305
+    id: 8448308094
     name: chapter-validation-without-pdf
-    digest: sha256:2bccd226bfb7946c3208e1f81e3faab5b5c142db638e218626e66489cb938a91
+    digest: sha256:97eeb31fd5a7db8a0f11a7212d7ca128a54239bbfd8c18bd8eaa683b1d3c6a27
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - La scène de démonstration n’a pas été instanciée.
@@ -123,3 +126,21 @@ reservations:
   - Le multijoueur reste hors périmètre.
   - Le packaging multi-plateforme reste à qualifier.
   - Le PDF reste différé jusqu’à la fin du Livre II.
+
+code-explanation-enrichment:
+  policy: QA-Q1.1
+  chapter: 15
+  significant-code-or-data-blocks: 56
+  explanations-added: 56
+  explanation-marker: qa:code-explanation
+  explanations-refined-after-second-review: 44
+  previously-missing-explanations-added: 12
+  static-functions-detected: true
+  one-line-gdscript-blocks-covered: true
+  faulty-examples-explicitly-explained: true
+  role-and-location-covered: true
+  parameters-types-and-returns-covered: true
+  effects-and-invariants-covered: true
+  expected-result-covered: true
+  runtime-executed: false
+  ci-status: success

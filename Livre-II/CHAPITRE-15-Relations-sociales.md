@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 15 : Relations sociales"
 id: "DOC-L2-CH15"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 15
-last-verified: "2026-07-19"
+last-verified: "2026-07-20"
 audit-status: "complete"
-audit-date: "2026-07-19"
+audit-date: "2026-07-20"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-15.md"
 audit-level: "static-review"
 reference-engine:
@@ -34,6 +34,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-15.md`.
+> **Explications de code :** enrichies bloc par bloc selon la porte QA Q1.1.
 
 ## 1. Rôle du chapitre
 
@@ -245,6 +246,18 @@ func validate() -> Error:
 func to_storage_key() -> String:
 	return "%s->%s" % [String(source_id), String(target_id)]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipKey` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_relationship_key.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(p_source_id: StringName, p_target_id: StringName,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `to_storage_key(aucun paramètre) -> String` est une méthode qui convertit l’objet vers une représentation de transport ou de stockage. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `source_id: StringName`, `target_id: StringName`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Explication :
 
@@ -265,6 +278,19 @@ Trier les identifiants détruirait l’orientation.
 var ids := [source_id, target_id]
 ids.sort()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_relationship_key.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `ids := [source_id, target_id]`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** l’ordre des identifiants conserve la direction de la relation.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** constater que deux relations opposées produisent la même paire triée, ce qui prouve la perte d’orientation ; ce bloc ne doit pas être intégré au projet. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Cette approche convient uniquement à une paire réellement non orientée. Elle ne convient pas à une perception sociale.
 
@@ -332,6 +358,18 @@ func apply_delta(
 		MAX_FEAR,
 	)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialAxes` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_axes.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `duplicate_axes(aucun paramètre) -> SocialAxes` est une méthode qui produit une copie défensive indépendante de l’original ; `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `apply_delta(affinity_delta: int, trust_delta: int, respect_delta: int, fear_delta: int,) -> void` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `MIN_SIGNED := -100`, `MAX_SIGNED := 100`, `MIN_FEAR := 0`, `MAX_FEAR := 100` ; variables `affinity: int = 0`, `trust: int = 0`, `respect: int = 0`, `fear: int = 0`, `copy := SocialAxes.new()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les parcours et historiques sont bornés ; les lectures ne doivent pas exposer directement un objet interne mutable ; les valeurs numériques restent dans leurs bornes métier.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `duplicate_axes()` évite de partager le même objet mutable entre un état courant, un événement et une vue d’interface.
 
@@ -388,6 +426,18 @@ func validate() -> Error:
 
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialChangeCause` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_change_cause.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(p_cause_id: StringName, p_source_system: StringName, p_context_id: StringName = &"",) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `cause_id: StringName`, `source_system: StringName`, `context_id: StringName`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `source_system` indique la provenance applicative, par exemple :
 
@@ -453,6 +503,18 @@ func validate() -> Error:
 
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `ChangeSocialRelationshipCommand` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/change_social_relationship_command.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `MAX_ABSOLUTE_DELTA := 100` ; variables `relationship_key: SocialRelationshipKey`, `cause: SocialChangeCause`, `affinity_delta: int = 0`, `trust_delta: int = 0`, `respect_delta: int = 0`, `fear_delta: int = 0` et 2 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les parcours et historiques sont bornés ; les transitions utilisent des ticks logiques cohérents ; les valeurs numériques restent dans leurs bornes métier.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La commande :
 
@@ -529,6 +591,18 @@ func duplicate_record() -> SocialChangeRecord:
 	copy.fear_delta = fear_delta
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialChangeRecord` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_change_record.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `duplicate_record(aucun paramètre) -> SocialChangeRecord` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `MAX_ABSOLUTE_DELTA := 100` ; variables `revision: int`, `logical_tick: int`, `cause_id: StringName`, `source_system: StringName`, `context_id: StringName`, `affinity_delta: int` et 6 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les parcours et historiques sont bornés ; les transitions utilisent des ticks logiques cohérents ; les lectures ne doivent pas exposer directement un objet interne mutable ; les valeurs numériques restent dans leurs bornes métier.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 10.2 Pourquoi l’historique reste borné
 
@@ -635,6 +709,18 @@ func apply_validated(
 
 	return record
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipState` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/domain/social_relationship_state.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(p_key: SocialRelationshipKey) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide ; `get_history_copy(aucun paramètre) -> Array[SocialChangeRecord]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `apply_validated(command: ChangeSocialRelationshipCommand,) -> SocialChangeRecord` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `MAX_HISTORY := 32` ; variables `key: SocialRelationshipKey`, `axes := SocialAxes.new()`, `revision: int = 0`, `last_changed_tick: int = 0`, `_history: Array[SocialChangeRecord] = []`, `previous_revision := 0` et 3 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique ; modifie un état temporel ou une révision ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les parcours et historiques sont bornés ; les transitions utilisent des ticks logiques cohérents ; les lectures ne doivent pas exposer directement un objet interne mutable ; les valeurs numériques restent dans leurs bornes métier.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `apply_validated()` suppose que la commande a déjà réussi `validate()`. Cette précondition est assurée par le service applicatif.
 
@@ -679,6 +765,18 @@ func get_all() -> Array[SocialRelationshipState]:
 	push_error("get_all() doit être implémentée.")
 	return []
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipRepository` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/social_relationship_repository.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `get_state(source_id: StringName, target_id: StringName,) -> SocialRelationshipState` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `replace_one(state: SocialRelationshipState,) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé ; `replace_all(states: Array[SocialRelationshipState],) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé ; `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_all(aucun paramètre) -> Array[SocialRelationshipState]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** remplace l’état autoritaire ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 12.2 Implémentation en mémoire
 
@@ -773,6 +871,18 @@ func _index_outgoing(
 		_outgoing_keys[source_id] = []
 	_outgoing_keys[source_id].append(storage_key)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `InMemorySocialRelationshipRepository` et l’appuie sur `SocialRelationshipRepository`.
+- **Emplacement :** place ce code dans `res://src/features/social/infrastructure/in_memory_social_relationship_repository.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `get_state(source_id: StringName, target_id: StringName,) -> SocialRelationshipState` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `replace_one(state: SocialRelationshipState,) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé ; `replace_all(states: Array[SocialRelationshipState],) -> Error` est une méthode qui remplace l’état autoritaire à partir d’un candidat déjà validé ; `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_all(aucun paramètre) -> Array[SocialRelationshipState]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `_index_outgoing(source_id: StringName, storage_key: String,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `_states: Dictionary[String, SocialRelationshipState] = {}`, `_outgoing_keys: Dictionary[StringName, Array] = {}`, `key := SocialRelationshipKey.new(source_id, target_id)`, `storage_key := state.key.to_storage_key()`, `is_new := not _states.has(storage_key)`, `candidate_states: Dictionary[String, SocialRelationshipState] = {}` et 6 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** remplace l’état autoritaire ; ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `replace_all()` prépare deux dictionnaires candidats. Les données courantes ne sont remplacées qu’après validation complète.
 
@@ -794,6 +904,18 @@ func contains(character_id: StringName) -> bool:
 	push_error("contains() doit être implémentée.")
 	return false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `CharacterIdentityIndex` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/characters/application/character_identity_index.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `contains(character_id: StringName) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Une implémentation peut agréger :
 
@@ -837,6 +959,18 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipChangedEvent` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/social_relationship_changed_event.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `validate(aucun paramètre) -> Error` est une méthode qui vérifie les préconditions et signale toute donnée invalide. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `source_id: StringName`, `target_id: StringName`, `revision: int`, `logical_tick: int`, `cause_id: StringName`, `before_axes: SocialAxes` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène ; les transitions utilisent des ticks logiques cohérents.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 L’événement transporte des copies des axes avant et après. Un observateur ne peut donc pas modifier l’état interne du dépôt.
 
@@ -919,6 +1053,18 @@ func apply_change(
 	relationship_changed.emit(event)
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipService` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/social_relationship_service.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(repository: SocialRelationshipRepository, character_index: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `apply_change(command: ChangeSocialRelationshipCommand,) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `_repository: SocialRelationshipRepository`, `_character_index: CharacterIdentityIndex`, `key := command.relationship_key`, `current := _repository.get_state(`, `candidate := current.duplicate_state()`, `before := candidate.axes.duplicate_axes()` et 3 autre(s) ; signaux `relationship_changed(`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** émet un événement observable après succès ; remplace l’état autoritaire ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents ; un candidat complet est validé avant mutation de l’état actif ; les lectures ne doivent pas exposer directement un objet interne mutable.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le service vérifie :
 
@@ -958,6 +1104,18 @@ func duplicate_state() -> SocialRelationshipState:
 
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 16. Éviter une mutation partielle ».
+- **Emplacement :** place ce code dans `social_relationship_state.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `duplicate_state(aucun paramètre) -> SocialRelationshipState` est une méthode qui produit une copie défensive indépendante de l’original. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `copy := SocialRelationshipState.new(`, `history_copy: Array[SocialChangeRecord] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `duplicate_state()` duplique aussi chaque enregistrement. Une simple duplication du tableau aurait conservé les mêmes objets mutables.
 
@@ -1021,6 +1179,18 @@ func get_targets_above_affinity(
 	result.sort()
 	return result
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipQuery` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/social_relationship_query.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(repository: SocialRelationshipRepository) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_targets_above_affinity(source_id: StringName, minimum_affinity: int,) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `_repository: SocialRelationshipRepository`, `threshold := clampi(`, `result: Array[StringName] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène ; les parcours et historiques sont bornés ; les valeurs numériques restent dans leurs bornes métier ; l’ordre des identifiants conserve la direction de la relation.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La requête retourne des identifiants, pas des nœuds.
 
@@ -1047,6 +1217,18 @@ var mutual_respect: int
 var maximum_fear: int
 var complete: bool = false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `MutualSocialView` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/application/mutual_social_view.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `first_id: StringName`, `second_id: StringName`, `mutual_affinity: int`, `mutual_trust: int`, `mutual_respect: int`, `maximum_fear: int` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 > **[VSC] Visual Studio Code — Ajouter à `social_relationship_query.gd`.**
 
@@ -1093,6 +1275,18 @@ func get_mutual_view(
 	view.complete = true
 	return view
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 18. Vue mutuelle ».
+- **Emplacement :** place ce code dans `social_relationship_query.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `get_mutual_view(first_id: StringName, second_id: StringName,) -> MutualSocialView` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `view := MutualSocialView.new()`, `forward := _repository.get_state(first_id, second_id)`, `reverse := _repository.get_state(second_id, first_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Une vue incomplète ne remplace pas une direction absente par des zéros. Zéro pourrait signifier une neutralité connue, alors que l’absence signifie « aucune relation enregistrée ».
 
@@ -1166,6 +1360,18 @@ Le service social ne parcourt pas spontanément tous les personnages. Cette sép
   ]
 }
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc montre la forme JSON attendue par « 21.1 Forme JSON ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Résultat attendu et vérification :** obtenir un document décodable avec exactement les clés, types et identifiants attendus, sans cache ni valeur dérivée persistée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le snapshot ne contient :
 
@@ -1280,6 +1486,18 @@ func _has_exact_keys(
 			return false
 	return true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipSnapshotCodec` et l’appuie sur `RefCounted`.
+- **Emplacement :** place ce code dans `res://src/features/social/infrastructure/social_relationship_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `encode(state: SocialRelationshipState,) -> Dictionary` est une méthode qui convertit l’objet vers une représentation de transport ou de stockage ; `decode(payload: Variant) -> SocialRelationshipState` est une méthode qui reconstruit une valeur typée après validation de la représentation externe ; `_has_exact_keys(data: Dictionary, required: Array[String],) -> bool` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `REQUIRED_KEYS: Array[String] = [` ; variables `history_payload: Array[Dictionary] = []`, `data := payload as Dictionary`, `key := SocialRelationshipKey.new(`, `axes := _decode_axes(data["axes"])`, `state := SocialRelationshipState.new(key)`, `records: Array[SocialChangeRecord] = []` et 2 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le codec montre les contrôles principaux. Les méthodes `_encode_record()`, `_decode_axes()`, `_decode_record()` et `set_history_for_restore()` sont détaillées dans la section suivante.
 
@@ -1303,6 +1521,18 @@ func set_history_for_restore(
 	_history = candidate
 	return validate()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 23. Restaurer l’historique sans exposer la collection ».
+- **Emplacement :** place ce code dans `social_relationship_state.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `set_history_for_restore(records: Array[SocialChangeRecord],) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `candidate: Array[SocialChangeRecord] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les parcours et historiques sont bornés ; un candidat complet est validé avant mutation de l’état actif ; les valeurs numériques restent dans leurs bornes métier.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Cette méthode n’est utilisée que par l’infrastructure de restauration.
 
@@ -1341,6 +1571,18 @@ func _decode_axes(payload: Variant) -> SocialAxes:
 		return null
 	return axes
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 24. Encoder et décoder les axes ».
+- **Emplacement :** place ce code dans `social_relationship_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_decode_axes(payload: Variant) -> SocialAxes` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `data := payload as Dictionary`, `keys: Array[String] = [`, `axes := SocialAxes.new()`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Les nombres décimaux sont refusés même s’ils pourraient être convertis vers des entiers. La sauvegarde doit respecter le contrat exact.
 
@@ -1366,6 +1608,18 @@ func _encode_record(
 		},
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 25. Encoder un enregistrement ».
+- **Emplacement :** place ce code dans `social_relationship_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_encode_record(record: SocialChangeRecord,) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le décodage applique les mêmes validations strictes :
 
@@ -1452,6 +1706,18 @@ func _decode_delta_dictionary(payload: Variant) -> Dictionary:
 		"fear": data["fear"],
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « le passage courant ».
+- **Emplacement :** place ce code dans `social_relationship_snapshot_codec.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_decode_record(payload: Variant) -> SocialChangeRecord` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_decode_delta_dictionary(payload: Variant) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `data := payload as Dictionary`, `required: Array[String] = [`, `deltas := _decode_delta_dictionary(data["deltas"])`, `record := SocialChangeRecord.new()`, `data := payload as Dictionary`, `keys: Array[String] = [`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ## 26. Section de sauvegarde indépendante
 
@@ -1558,6 +1824,18 @@ func cancel_load() -> void:
 	_prepared_states.clear()
 	_has_prepared_load = false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc définit le contrat `SocialRelationshipSaveSection` et l’appuie sur `SaveSection`.
+- **Emplacement :** place ce code dans `res://src/features/social/infrastructure/social_relationship_save_section.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_init(repository: SocialRelationshipRepository, character_index: CharacterIdentityIndex,) -> void` est une méthode qui initialise l’objet et copie les arguments dans son état interne ; `get_section_id(aucun paramètre) -> StringName` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `capture(aucun paramètre) -> Dictionary` est une méthode qui encapsule l’opération métier indiquée par son nom ; `prepare_load(payload: Variant) -> Error` est une méthode qui encapsule l’opération métier indiquée par son nom ; `apply_prepared(aucun paramètre) -> Error` est une méthode qui valide puis ajoute ou applique une mutation métier ; `cancel_load(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** constantes `SECTION_ID: StringName = &"social_relationships"`, `FORMAT_VERSION := 1` ; variables `_repository: SocialRelationshipRepository`, `_character_index: CharacterIdentityIndex`, `_codec := SocialRelationshipSnapshotCodec.new()`, `_prepared_states: Array[SocialRelationshipState] = []`, `_has_prepared_load := false`, `entries: Array[Dictionary] = []` et 7 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique ; retire ou réinitialise des données en mémoire. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La section sociale est indépendante de la section des personnages.
 
@@ -1640,6 +1918,18 @@ func _on_relationship_changed(
 		]
 	)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 28. Démonstration pédagogique ».
+- **Emplacement :** place ce code dans `res://scenes/learning/ch15_social_relationships_demo.gd`. Ce fichier appartient à la couche indiquée par le chemin ; le déplacer vers une scène ou un état de personnage rendrait les responsabilités moins nettes.
+- **Fonctions, paramètres et retours :** `_ready(aucun paramètre) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom ; `_on_relationship_changed(event: SocialRelationshipChangedEvent,) -> void` est une méthode qui encapsule l’opération métier indiquée par son nom. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** variables `_output: RichTextLabel = %DemoOutput`, `_repository := InMemorySocialRelationshipRepository.new()`, `_character_index := DemoCharacterIdentityIndex.new()`, `_service := SocialRelationshipService.new(`, `_query := SocialRelationshipQuery.new(_repository)`, `command := ChangeSocialRelationshipCommand.new()` et 1 autre(s). Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La démonstration vérifie seulement le flux applicatif. Elle ne constitue pas un test de sauvegarde, de migration ou de charge.
 
@@ -1724,6 +2014,19 @@ Une règle de décroissance temporelle, si elle est ajoutée plus tard, doit con
 extends CharacterBody3D
 var affinity_by_node: Dictionary[Node, int] = {}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.1 Stocker la relation sur le nœud du personnage ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `affinity_by_node: Dictionary[Node, int] = {}`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** utiliser des identifiants stables dans un dépôt indépendant.
 
@@ -1733,6 +2036,19 @@ var affinity_by_node: Dictionary[Node, int] = {}
 var key := SocialRelationshipKey.new(source_id, target_id)
 var state := repository.get_state(source_id, target_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.1 Stocker la relation sur le nœud du personnage ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `key := SocialRelationshipKey.new(source_id, target_id)`, `state := repository.get_state(source_id, target_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le second exemple survit au déchargement des scènes.
 
@@ -1745,6 +2061,19 @@ var state := repository.get_state(source_id, target_id)
 ```gdscript
 relations["Aster->Brann"] = 50
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.2 Utiliser le nom affiché comme clé ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** employer deux `CharacterId`.
 
@@ -1753,6 +2082,19 @@ relations["Aster->Brann"] = 50
 ```gdscript
 var key := SocialRelationshipKey.new(aster_id, brann_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.2 Utiliser le nom affiché comme clé ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `key := SocialRelationshipKey.new(aster_id, brann_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’identité n’est plus liée au texte affiché.
 
@@ -1766,6 +2108,19 @@ var key := SocialRelationshipKey.new(aster_id, brann_id)
 set_affinity(a, b, value)
 set_affinity(b, a, value)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.3 Forcer une relation symétrique ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** appliquer une commande distincte par direction.
 
@@ -1775,6 +2130,19 @@ set_affinity(b, a, value)
 service.apply_change(command_a_to_b)
 service.apply_change(command_b_to_a)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.3 Forcer une relation symétrique ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** chaque direction conserve sa cause et sa valeur.
 
@@ -1788,6 +2156,19 @@ service.apply_change(command_b_to_a)
 state.is_friend = true
 state.axes.affinity = -80
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.4 Stocker `is_friend` séparément ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** calculer une vue selon une règle documentée.
 
@@ -1796,6 +2177,19 @@ state.axes.affinity = -80
 ```gdscript
 var view := query.get_mutual_view(first_id, second_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.4 Stocker `is_friend` séparément ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `view := query.get_mutual_view(first_id, second_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la vue reste dérivée des données d’autorité.
 
@@ -1808,6 +2202,19 @@ var view := query.get_mutual_view(first_id, second_id)
 ```gdscript
 state.axes.trust += 500
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.5 Laisser les axes hors limites ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** passer par `apply_delta()`.
 
@@ -1816,6 +2223,19 @@ state.axes.trust += 500
 ```gdscript
 state.axes.apply_delta(0, 500, 0, 0)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.5 Laisser les axes hors limites ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la confiance est bornée à `100`.
 
@@ -1829,6 +2249,19 @@ state.axes.apply_delta(0, 500, 0, 0)
 command.cause = null
 service.apply_change(command)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.6 Accepter une commande sans cause ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** fournir une cause stable et une provenance.
 
@@ -1840,6 +2273,19 @@ command.cause = SocialChangeCause.new(
 	&"system.world.event",
 )
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.6 Accepter une commande sans cause ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’historique possède une origine vérifiable.
 
@@ -1852,6 +2298,19 @@ command.cause = SocialChangeCause.new(
 ```gdscript
 command.logical_tick = int(Time.get_unix_time_from_system())
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.7 Utiliser l’heure système comme ordre de simulation ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** injecter le tick logique de la simulation.
 
@@ -1860,6 +2319,19 @@ command.logical_tick = int(Time.get_unix_time_from_system())
 ```gdscript
 command.logical_tick = simulation_clock.current_tick
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.7 Utiliser l’heure système comme ordre de simulation ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’ordre dépend de la partie, pas de l’ordinateur.
 
@@ -1872,6 +2344,19 @@ command.logical_tick = simulation_clock.current_tick
 ```gdscript
 _history.append(record)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.8 Conserver un historique illimité ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** retirer les entrées les plus anciennes.
 
@@ -1882,6 +2367,19 @@ _history.append(record)
 while _history.size() > MAX_HISTORY:
 	_history.pop_front()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.8 Conserver un historique illimité ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** la boucle `while` poursuit un parcours dont le budget doit rester borné. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les parcours et historiques sont bornés ; les valeurs numériques restent dans leurs bornes métier.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la taille maximale est explicite.
 
@@ -1895,6 +2393,19 @@ while _history.size() > MAX_HISTORY:
 func get_history() -> Array:
 	return _history
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 32.9 Retourner le tableau interne ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Fonctions, paramètres et retours :** `get_history(aucun paramètre) -> Array` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** retourner une copie.
 
@@ -1904,6 +2415,19 @@ func get_history() -> Array:
 func get_history_copy() -> Array[SocialChangeRecord]:
 	return _history.duplicate()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc regroupe les opérations nécessaires à « 32.9 Retourner le tableau interne ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Fonctions, paramètres et retours :** `get_history_copy(aucun paramètre) -> Array[SocialChangeRecord]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes. Les annotations après `:` typent les paramètres ; l’annotation après `->` impose le résultat que l’appelant doit gérer.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
+- **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le tableau interne reste encapsulé.
 
@@ -1917,6 +2441,19 @@ func get_history_copy() -> Array[SocialChangeRecord]:
 for node in get_tree().get_nodes_in_group("characters"):
 	find_relationship(node)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.10 Parcourir tous les nœuds pour trouver les voisins ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les boucles `for` parcourent explicitement les collections. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** interroger l’index du dépôt.
 
@@ -1925,6 +2462,19 @@ for node in get_tree().get_nodes_in_group("characters"):
 ```gdscript
 var outgoing := repository.get_outgoing(source_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.10 Parcourir tous les nœuds pour trouver les voisins ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `outgoing := repository.get_outgoing(source_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la requête porte sur les données du monde.
 
@@ -1939,6 +2489,19 @@ for source in all_characters:
 	for target in all_characters:
 		create_relation(source, target)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.11 Créer toutes les paires possibles ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les boucles `for` parcourent explicitement les collections. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** créer une relation au premier événement pertinent.
 
@@ -1949,6 +2512,19 @@ var state := repository.get_state(source_id, target_id)
 if state == null:
 	state = SocialRelationshipState.new(command.relationship_key)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.11 Créer toutes les paires possibles ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `state := repository.get_state(source_id, target_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** seules les relations existantes occupent de la mémoire.
 
@@ -1961,6 +2537,19 @@ if state == null:
 ```gdscript
 axes.trust = int(data["trust"])
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.12 Décoder avec des conversions silencieuses ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** vérifier le type exact avant affectation.
 
@@ -1971,6 +2560,19 @@ if not data["trust"] is int:
 	return null
 axes.trust = data["trust"]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.12 Décoder avec des conversions silencieuses ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** une sauvegarde invalide est refusée.
 
@@ -1984,6 +2586,19 @@ axes.trust = data["trust"]
 for entry in entries:
 	repository.add(codec.decode(entry))
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.13 Appliquer avant validation complète ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les boucles `for` parcourent explicitement les collections. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** préparer un tableau candidat puis appeler `replace_all()`.
 
@@ -1994,6 +2609,19 @@ var prepare_error := section.prepare_load(payload)
 if prepare_error == OK:
 	section.apply_prepared()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.13 Appliquer avant validation complète ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `prepare_error := section.prepare_load(payload)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** aucune mutation ne précède la validation globale de la section.
 
@@ -2007,6 +2635,19 @@ if prepare_error == OK:
 if active_registry.get_actor(target_id) == null:
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.14 Valider contre les seuls personnages actifs ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** consulter l’index logique des identités.
 
@@ -2016,6 +2657,19 @@ if active_registry.get_actor(target_id) == null:
 if not character_identity_index.contains(target_id):
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.14 Valider contre les seuls personnages actifs ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la présence visuelle n’est pas confondue avec l’existence.
 
@@ -2028,6 +2682,19 @@ if not character_identity_index.contains(target_id):
 ```gdscript
 state.is_parent = state.axes.affinity > 50
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.15 Mélanger famille et relation sociale ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** garder la parenté dans le système du chapitre 16.
 
@@ -2037,6 +2704,19 @@ state.is_parent = state.axes.affinity > 50
 var kinship := family_query.get_relationship(first_id, second_id)
 var social := social_query.get_mutual_view(first_id, second_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.15 Mélanger famille et relation sociale ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `kinship := family_query.get_relationship(first_id, second_id)`, `social := social_query.get_mutual_view(first_id, second_id)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le fait familial et la perception sociale restent indépendants.
 
@@ -2049,6 +2729,19 @@ var social := social_query.get_mutual_view(first_id, second_id)
 ```gdscript
 state.axes.trust = ai_response["trust"]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.16 Utiliser l’IA comme autorité de la relation ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
+- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Correction :** convertir une décision autorisée en commande bornée et traçable.
 
@@ -2058,6 +2751,19 @@ state.axes.trust = ai_response["trust"]
 var command := policy.map_suggestion_to_command(ai_suggestion)
 var result := social_service.apply_change(command)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc illustre la règle technique de « 32.16 Utiliser l’IA comme autorité de la relation ».
+- **Emplacement :** ce bloc est un exemple à lire dans le contexte pédagogique indiqué juste avant le bloc ; il ne faut pas créer un fichier supplémentaire tant qu’aucun chemin `[VSC]` n’est fourni.
+- **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
+- **Données et types :** variables `command := policy.map_suggestion_to_command(ai_suggestion)`, `result := social_service.apply_change(command)`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
+- **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
+- **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
+- **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le domaine valide la mutation et peut refuser la suggestion.
 

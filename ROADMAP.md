@@ -77,15 +77,15 @@
 - [x] Chapitre 14 — identité stable, définition, état runtime, statistiques dérivées, scène, contrôleurs, apparition, registre actif, événements et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 15 — relations orientées, axes bornés, causes, historique, vues mutuelles, requêtes, événements et sauvegarde indépendante — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
-- [ ] Correction pédagogique du chapitre 15 — expliquer chaque bloc de code significatif avec rôle, types, paramètres, retours, effets, invariants et résultat attendu.
-- [ ] Correction pédagogique du chapitre 16 — expliquer chaque bloc de code significatif avec rôle, types, paramètres, retours, effets, invariants et résultat attendu.
-- [ ] Fermer les audits et preuves QA corrigés des chapitres 15 et 16 avant de commencer le chapitre 17.
+- [x] Correction pédagogique du chapitre 15 — blocs de code expliqués selon QA Q1.1.
+- [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
+- [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17.
 - [x] Audit rétroactif des sections d’erreurs, diagnostics et anti-patterns des chapitres 1 à 6 — 52 cas avec exemples fautifs et corrigés.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 16 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Trois des douze systèmes de gameplay sont documentés : personnages, relations sociales et famille. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. Avant le chapitre 17, une correction pédagogique bloquante doit enrichir les explications des blocs de code des chapitres 15 et 16, puis fermer leurs audits et preuves QA mis à jour. Le chapitre 17 traitera ensuite les agents IA et comportements autonomes derrière des contrats et budgets explicites. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 16 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Trois des douze systèmes de gameplay sont documentés : personnages, relations sociales et famille. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. La correction pédagogique des chapitres 15 et 16 est terminée et leurs audits et preuves QA sont révisés. Le chapitre 17 traitera désormais les agents IA et comportements autonomes derrière des contrats et budgets explicites. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

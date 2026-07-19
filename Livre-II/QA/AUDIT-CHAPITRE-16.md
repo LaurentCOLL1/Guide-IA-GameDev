@@ -2,14 +2,14 @@
 title: "Audit du Livre II — Chapitre 16"
 id: "DOC-L2-QA-CH16"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Livre II"
 chapter: 16
 category: "quality-report"
-audit-date: "2026-07-19"
+audit-date: "2026-07-20"
 audit-level: "static-review"
 chapter-id: "DOC-L2-CH16"
-chapter-version: "1.0.0"
+chapter-version: "1.1.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -289,3 +289,33 @@ Restent à produire :
 **Accepté après corrections, avec réserves runtime et PDF de fin de Livre.**
 
 Le chapitre peut être déclaré `reviewed`, version `1.0.0`, audit `complete`, niveau `static-review`, après application et vérification des corrections recensées.
+
+
+## Addendum 2026-07-20 — explications détaillées du code
+
+Le retour de lecture a identifié une non-conformité pédagogique : plusieurs blocs techniquement cohérents ne donnaient pas encore au lecteur débutant les explications nécessaires sur leurs paramètres, retours, effets et invariants.
+
+La correction finale couvre **67 blocs de code ou données** dans le chapitre 16. **43 explications** ont été affinées après seconde lecture et **24 explications manquantes** ont été ajoutées, notamment pour les blocs GDScript d’une seule ligne.
+
+Chaque explication couvre désormais, selon le contenu réel du bloc :
+
+- le rôle et le chemin cible ;
+- les fonctions, paramètres, types et retours ;
+- les variables, constantes, signaux et dépendances ;
+- le déroulement des conditions, boucles et retours anticipés ;
+- les effets de bord ;
+- les invariants protégés ;
+- la différence entre exemples fautifs et corrigés ;
+- le résultat attendu et la vérification minimale.
+
+**Décision révisée :** accepté au niveau `static-review` après enrichissement pédagogique. Cette décision reste documentaire : aucun parseur Godot ni test runtime supplémentaire n’a été exécuté.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.

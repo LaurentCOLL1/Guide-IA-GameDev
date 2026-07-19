@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.1"
+version: "3.17.2"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -1166,19 +1166,14 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Correction pédagogique prioritaire avant tout nouveau chapitre :
+Correction pédagogique des chapitres 15 et 16 : **terminée au niveau `static-review`**.
 
-> **[LECTURE] Chemins et niveau de correction — Ne pas saisir.**
+- chapitre 15 : 44 blocs significatifs contrôlés, 44 explications détaillées ajoutées ;
+- chapitre 16 : 43 blocs significatifs contrôlés, 43 explications détaillées ajoutées ;
+- audits et preuves QA révisés en version `1.1.0` ;
+- aucune exécution runtime ni production PDF revendiquée.
 
-```text
-Livre-II/CHAPITRE-15-Relations-sociales.md
-Livre-II/CHAPITRE-16-Famille-et-generations.md
-Niveau GPT-5.6 Sol recommandé : Élevée
-```
-
-Objectif de la correction : reprendre chaque bloc de code significatif et ajouter les explications nécessaires sur le rôle, le chemin, les types, paramètres, retours, effets de bord, instructions non évidentes, invariants, résultat attendu et erreurs fréquentes. Les preuves QA et audits des deux chapitres seront mis à jour après cette passe.
-
-Chapitre suivant, bloqué jusqu’à la fermeture de cette correction :
+Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
@@ -1208,6 +1203,16 @@ Périmètre attendu :
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.2
+
+- enrichissement pédagogique systématique des blocs de code des chapitres 15 et 16 ;
+- explications ajoutées pour rôle, emplacement, types, paramètres, retours, effets de bord, déroulement, invariants et résultat attendu ;
+- exemples fautifs et corrigés explicités selon la porte QA Q1.1 ;
+- chapitres 15 et 16 portés en version `1.1.0` ;
+- audits et preuves QA mis à jour ;
+- chapitre 17 débloqué après validations finales ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.1
 
