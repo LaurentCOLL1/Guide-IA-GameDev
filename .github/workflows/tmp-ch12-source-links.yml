@@ -1,0 +1,97 @@
+name: Temporary Chapter 12 Source Links
+
+on:
+  push:
+    branches:
+      - docs/ch12-clickable-source-links
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/ch12-clickable-source-links
+      - name: Apply source-link correction
+        shell: python
+        run: |
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding="utf-8")
+              if old not in text:
+                  raise SystemExit(f"Missing pattern in {path}: {old[:100]!r}")
+              p.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          chapter = "Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md"
+          replace_once(chapter, 'version: "1.0.1"', 'version: "1.0.2"')
+          old_sources = '''- Godot Engine 4.7 — `HTTPRequest` : `https://docs.godotengine.org/en/4.7/classes/class_httprequest.html` ;
+          - Godot Engine 4.7 — `HTTPClient` : `https://docs.godotengine.org/en/4.7/classes/class_httpclient.html` ;
+          - Godot Engine 4.7 — `WebSocketPeer` : `https://docs.godotengine.org/en/4.7/classes/class_websocketpeer.html` ;
+          - Godot Engine 4.7 — tutoriel WebSocket : `https://docs.godotengine.org/en/4.7/tutorials/networking/websocket.html` ;
+          - Godot Engine 4.7 — `JSON` : `https://docs.godotengine.org/en/4.7/classes/class_json.html` ;
+          - Python 3.12 — files `asyncio` : `https://docs.python.org/3.12/library/asyncio-queue.html` ;
+          - Python 3.12 — `dataclasses` : `https://docs.python.org/3.12/library/dataclasses.html` ;
+          - Python 3.12 — `enum.StrEnum` : `https://docs.python.org/3.12/library/enum.html` ;
+          - OpenAI API — Responses et événements de streaming : `https://platform.openai.com/docs/api-reference/responses-streaming` ;'''.replace("          ", "")
+          new_sources = '''- [Godot Engine 4.7 — `HTTPRequest`](https://docs.godotengine.org/en/4.7/classes/class_httprequest.html) ;
+          - [Godot Engine 4.7 — `HTTPClient`](https://docs.godotengine.org/en/4.7/classes/class_httpclient.html) ;
+          - [Godot Engine 4.7 — `WebSocketPeer`](https://docs.godotengine.org/en/4.7/classes/class_websocketpeer.html) ;
+          - [Godot Engine 4.7 — tutoriel WebSocket](https://docs.godotengine.org/en/4.7/tutorials/networking/websocket.html) ;
+          - [Godot Engine 4.7 — `JSON`](https://docs.godotengine.org/en/4.7/classes/class_json.html) ;
+          - [Python 3.12 — files `asyncio`](https://docs.python.org/3.12/library/asyncio-queue.html) ;
+          - [Python 3.12 — `dataclasses`](https://docs.python.org/3.12/library/dataclasses.html) ;
+          - [Python 3.12 — `enum.StrEnum`](https://docs.python.org/3.12/library/enum.html) ;
+          - [OpenAI API — Responses et événements de streaming](https://platform.openai.com/docs/api-reference/responses-streaming) ;'''.replace("          ", "")
+          replace_once(chapter, old_sources, new_sources)
+
+          audit = "Livre-II/QA/AUDIT-CHAPITRE-12.md"
+          replace_once(audit, 'version: "1.0.0"', 'version: "1.0.1"')
+          replace_once(audit, 'chapter-version: "1.0.1"', 'chapter-version: "1.0.2"')
+          addendum = '''## 11. Correction post-audit — liens des sources techniques
+
+          Une relecture utilisateur a détecté que les neuf adresses de la section 51 étaient placées entre backticks au lieu d’être exposées comme liens Markdown. Cette présentation obligeait le lecteur à copier manuellement les URL et n’était pas cohérente avec les chapitres voisins.
+
+          Correction appliquée : chaque référence possède désormais un libellé descriptif cliquable au format `[nom de la source](URL)`. Les destinations et les versions documentaires restent inchangées.
+
+          Contrôles associés :
+
+          - les neuf références web sont des liens Markdown ;
+          - aucun lien technique n’est laissé sous forme d’URL entre backticks dans la section 51 ;
+          - les intitulés permettent d’identifier la documentation avant l’ouverture ;
+          - la section conserve la source non déterminée du serveur local comme exigence à compléter lors de sa matérialisation.
+
+          ## 12. Décision'''.replace("          ", "")
+          replace_once(audit, "## 11. Décision", addendum)
+
+          evidence = "Livre-II/QA/VALIDATION-FINALE-CHAPITRE-12.yaml"
+          replace_once(evidence, "status: complete", "status: pending-ci")
+          replace_once(evidence, "  version: 1.0.1", "  version: 1.0.2")
+          replace_once(evidence, "  process-continuity-paths-verified: true", "  process-continuity-paths-verified: true\n  clickable-technical-source-links: true")
+          replace_once(evidence, "  - Correction des chemins du chapitre détaillé et de la prochaine action.", "  - Correction des chemins du chapitre détaillé et de la prochaine action.\n  - Conversion des neuf adresses de la section Sources techniques en liens Markdown nommés.")
+          replace_once(evidence, "ci:\n  validate-chapters-without-pdf:", "ci:\n  source-links-follow-up:\n    validate-chapters-run-id: null\n    validate-chapters-conclusion: pending\n    validate-contexts-run-id: null\n    validate-contexts-conclusion: pending\n  validate-chapters-without-pdf:")
+
+          continuity = "CONTINUITE-PROJET.md"
+          replace_once(continuity, 'version: "3.13.0"', 'version: "3.13.1"')
+          replace_once(continuity, "- chapitre 12 : version `1.0.1` ;", "- chapitre 12 : version `1.0.2` ;")
+          journal = '''### 2026-07-19 — version 3.13.1
+
+          - correction post-audit de la section 51 du chapitre 12 ;
+          - conversion de neuf URL techniques en liens Markdown nommés et directement cliquables ;
+          - mise à jour du chapitre 12 vers la version `1.0.2` et de son audit vers `1.0.1` ;
+          - aucun changement de périmètre, aucune exécution runtime et aucun PDF construit.
+
+          ### 2026-07-19 — version 3.13.0'''.replace("          ", "")
+          replace_once(continuity, "### 2026-07-19 — version 3.13.0", journal)
+      - name: Commit corrected documentation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md Livre-II/QA/AUDIT-CHAPITRE-12.md Livre-II/QA/VALIDATION-FINALE-CHAPITRE-12.yaml CONTINUITE-PROJET.md
+          git commit -m "docs(livre-ii): make chapter 12 source links clickable"
+          git push origin HEAD:docs/ch12-clickable-source-links
