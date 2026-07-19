@@ -58,10 +58,10 @@
 ## M3 — Livre II : Développement et architecture
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
-- [ ] Plateforme IA locale — 0 chapitre sur 4.
+- [ ] Plateforme IA locale — 1 chapitre sur 4.
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 9.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 10.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -70,12 +70,13 @@
 - [x] Chapitre 7 — Resources, JSON, catalogues, identifiants stables et configurations — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 8 — SQLite, schéma relationnel, dépôts, transactions, migrations et intégrité — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 9 — snapshots, slots, remplacement contrôlé, copies de secours et migrations de sauvegarde — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 10 — sources canoniques, découpage, embeddings locaux, Qdrant dérivé, repli lexical et évaluation — rédigé et audité au niveau `static-review`.
 - [x] Audit rétroactif des sections d’erreurs, diagnostics et anti-patterns des chapitres 1 à 6 — 52 cas avec exemples fautifs et corrigés.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 9 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. La première partie du Livre II est complète. Les données de conception restent dans des Resources typées ; SQLite fournit une persistance relationnelle locale derrière des contrats ; les sauvegardes capturent désormais un snapshot JSON versionné, validé et migrable, distinct de la base, avec fichier temporaire, copie de secours et chargement en plusieurs phases. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 10 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. La première partie du Livre II est complète. La plateforme IA locale commence par une mémoire vectorielle reconstruisible : sources Markdown et manifeste versionnés, fragments identifiés, embeddings multilingues locaux, index Qdrant dérivé, filtres de provenance, repli lexical et métriques de récupération. Le CPU reste le chemin de référence sur Windows/AMD ; l’accès depuis Godot et les protocoles réseau restent réservés aux chapitres 11 et 12. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 
