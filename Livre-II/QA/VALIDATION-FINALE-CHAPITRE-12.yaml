@@ -1,0 +1,108 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH12
+status: pending-ci
+validation-date: 2026-07-19
+validated-base-commit: 64989c7faf6521becd7ddb13f7d4ffabc24abef1
+chapter:
+  id: DOC-L2-CH12
+  path: Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
+  version: 1.0.1
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - technical static review
+  - GDScript static review
+  - Python syntax review
+  - HTTP transport review
+  - WebSocket event-channel review
+  - OpenAI-compatible adapter review
+  - task queue and worker review
+  - idempotency review
+  - retry and backpressure review
+  - timeout and cancellation review
+  - deterministic fallback review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 17
+  detailed-error-cases: 16
+  chapter-lines: 2018
+  chapter-headings: 79
+  chapter-code-and-data-blocks: 71
+  marked-context-blocks: 71
+  context-nonconformities: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  local-markdown-links: 1
+  broken-local-links: 0
+  json-blocks-parsed: 10
+  json-parse-errors: 0
+  complete-python-modules: 5
+  documented-python-syntax-compilation: success
+  application-port-name-canonical: true
+  application-port-transport-independent: true
+  http-contract-versioned: true
+  http-body-size-bounded-before-download: true
+  http-status-and-transport-result-separated: true
+  websocket-polling-nonblocking: true
+  websocket-close-before-open-handled: true
+  websocket-packets-bounded: true
+  task-event-state-validated: true
+  task-event-payload-validated: true
+  task-queue-bounded: true
+  worker-payload-preserved: true
+  task-states-explicit: true
+  idempotency-conflicts-documented: true
+  retry-backoff-bounded: true
+  deterministic-feature-fallback: true
+  openai-schema-isolated: true
+  responses-api-and-sse-boundary-documented: true
+  chapter-13-boundary-preserved: true
+  blocking-errors: 0
+  warnings: 1
+  pdf-produced: false
+corrections:
+  - Remplacement de LocalAiPort par le port canonique LocalAiGateway.
+  - Suppression du double niveau de port dans le schéma d’architecture.
+  - Validation stricte de la boucle locale, du port et de la route WebSocket.
+  - Configuration de HTTPRequest.body_size_limit avant téléchargement.
+  - Traitement spécifique de RESULT_BODY_SIZE_LIMIT_EXCEEDED.
+  - Plafonnement du délai HTTP par la configuration.
+  - Gestion d’une fermeture WebSocket avant l’état OPEN.
+  - Validation de l’état et du payload des événements de tâche.
+  - Transmission du payload de QueueEntry au handler Python.
+  - Actualisation de TaskRecord.updated_at.
+  - Remplacement de deadline_ms par timeout_ms relatif.
+  - Clarification du sous-ensemble chat/completions et de l’API Responses.
+  - Épinglage des sources officielles Godot 4.7, Python 3.12 et OpenAI.
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
+  - HTTPRequest et body_size_limit n’ont pas été exécutés sous Windows 11.
+  - Aucun serveur HTTP ou WebSocket n’a été matérialisé.
+  - Les reconnexions, paquets fragmentés et réponses tardives n’ont pas été exécutés.
+  - Les workers concurrents et la backpressure n’ont pas été exécutés.
+  - L’idempotence et l’empreinte canonique n’ont pas été exécutées.
+  - Les timeouts et annulations distantes n’ont pas été exécutés.
+  - Les priorités, la famine et l’expiration n’ont pas été exécutées.
+  - Le streaming SSE ou WebSocket n’a pas été exécuté.
+  - Le mapper n’a pas été testé contre un serveur compatible OpenAI réel.
+  - Le packaging et les exports restent à qualifier.
+  - Le durcissement production/runtime reste réservé au chapitre 13.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
