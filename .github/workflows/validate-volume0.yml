@@ -45,7 +45,7 @@ jobs:
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
-          python3 tools/audit_contextes_utilisation.py --check \
+          python3 tools/check_context_markers.py --check \
             | tee dist/QA-CONTEXTES.log
           python3 tools/audit_contextes_semantiques.py --check \
             | tee dist/QA-CONTEXTES-SEMANTIQUES.log
