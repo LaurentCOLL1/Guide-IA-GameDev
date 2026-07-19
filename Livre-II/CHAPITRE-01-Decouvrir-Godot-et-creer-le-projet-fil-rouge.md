@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 1 : Découvrir Godot et créer le projet fil rouge"
 id: "DOC-L2-CH01"
 status: "reviewed"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 1
@@ -10,6 +10,7 @@ last-verified: "2026-07-18"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRES-01-02.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -1385,88 +1386,184 @@ Un studio ne doit pas laisser chaque membre adopter une version différente de l
 
 ## 28. Erreurs fréquentes
 
+<!-- qa:error-correction-section -->
+
+Chaque cas associe désormais une situation fautive, une correction observable et l’explication de la différence.
+
 ### 28.1 Le projet n’apparaît pas dans le Project Manager
 
-Vérifier :
+**Symptôme ou risque :** le mauvais dossier est importé et `project.godot` se trouve un niveau plus bas.
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+C:\IA-GameDev\projects\project-asteria\project-asteria\project.godot
+```
+
+**Correction :** importer le dossier qui contient directement `project.godot` et vérifier son existence avant l’ouverture.
+
+> **[PS] PowerShell 7 — Exemple corrigé depuis le dossier supposé du projet.**
 
 ```powershell
+Set-Location C:\IA-GameDev\projects\project-asteria
 Test-Path .\project.godot
 ```
 
-Le dossier importé doit contenir directement `project.godot`, et non un sous-dossier supplémentaire créé par une extraction incorrecte.
+**Différence :** le premier exemple montre une extraction imbriquée ; le second vérifie la racine exacte attendue par Godot.
 
 ### 28.2 L’éditeur utilise une autre version
 
-Vérifier :
+**Symptôme ou risque :** un double-clic ouvre le projet avec l’association Windows, qui peut viser une version non approuvée.
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-```powershell
-& $env:GODOT_EXE --version
+```text
+Double-cliquer sur project.godot sans vérifier l’exécutable associé.
 ```
 
-Ne pas ouvrir le projet par double-clic si l’association Windows pointe vers une autre version non contrôlée.
+**Correction :** lancer explicitement l’exécutable de référence et contrôler sa version.
+
+> **[PS] PowerShell 7 — Exemple corrigé avec l’exécutable approuvé.**
+
+```powershell
+$env:GODOT_EXE = 'C:\IA-GameDev\apps\godot\4.7.1-standard\Godot_v4.7.1-stable_win64.exe'
+& $env:GODOT_EXE --version
+& $env:GODOT_EXE --editor --path .
+```
+
+**Différence :** le lancement explicite rend la version reproductible, alors que l’association de fichiers reste implicite.
 
 ### 28.3 Écran vide au lancement
 
-Vérifier :
+**Symptôme ou risque :** la scène principale ne contient aucune caméra active ou la caméra ne regarde pas le marqueur.
 
-- qu’une scène principale est définie ;
-- qu’une `Camera3D` est active ;
-- que la caméra regarde vers les objets ;
-- qu’une lumière ou un environnement éclaire la scène ;
-- que le marqueur n’est pas derrière la caméra ;
-- que le projet n’exécute pas une autre scène.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Main
+└── Marker
+```
+
+**Correction :** utiliser une scène minimale qui contient une caméra active, une lumière et le marqueur visible.
+
+> **[LECTURE] Structure corrigée à reproduire dans Godot.**
+
+```text
+Main
+├── Camera3D (Current = On)
+├── DirectionalLight3D
+└── Marker
+```
+
+**Différence :** la scène corrigée fournit les éléments indispensables au rendu ; la scène fautive ne définit aucun point de vue.
 
 ### 28.4 La scène courante fonctionne, mais pas le projet
 
-`F6` lance la scène courante. `F5` lance la scène principale.
+**Symptôme ou risque :** `F6` valide une scène isolée alors que `F5` lance une autre scène principale ou aucune scène.
 
-Définir `main.tscn` comme scène principale.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+F6 → res://scenes/learning/bootstrap_test.tscn
+F5 → scène principale absente
+```
+
+**Correction :** définir `main.tscn` comme scène principale et vérifier aussi le lancement du projet.
+
+> **[APP] Godot — Exemple corrigé dans Project > Project Settings > Run.**
+
+```text
+Main Scene = res://src/features/bootstrap/main.tscn
+F5 → main.tscn
+```
+
+**Différence :** le test corrigé valide le vrai point d’entrée du jeu, pas seulement une scène ouverte dans l’éditeur.
 
 ### 28.5 Le script ne trouve pas `Marker`
 
-L’instruction :
+**Symptôme ou risque :** le chemin suppose un enfant direct alors que le nœud a été renommé ou déplacé.
 
-> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
 ```gdscript
 @onready var marker: MeshInstance3D = $Marker
 ```
 
-suppose qu’un enfant direct nommé exactement `Marker` existe.
+**Correction :** aligner l’arbre et le chemin, ou rendre la dépendance explicite avec un nœud exporté.
 
-Vérifier la casse et la position dans l’arbre.
+> **[VSC] Visual Studio Code — Exemple corrigé avec une dépendance assignée dans l’Inspector.**
+
+```gdscript
+@export_node_path('MeshInstance3D') var marker_path: NodePath
+@onready var marker := get_node(marker_path) as MeshInstance3D
+```
+
+**Différence :** le chemin fautif est caché dans le script ; la version corrigée expose le chemin et permet sa vérification dans l’Inspector.
 
 ### 28.6 Le rendu Forward+ ne démarre pas
 
-- mettre à jour le pilote AMD ;
-- vérifier Vulkan et Direct3D 12 ;
-- lancer Godot avec `--verbose` ;
-- tester temporairement Mobile ;
-- tester Compatibility pour isoler le problème ;
-- ne pas modifier plusieurs couches simultanément.
+**Symptôme ou risque :** le projet est relancé sans journal et plusieurs paramètres sont modifiés simultanément.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Changer le pilote, le renderer et la scène en même temps, puis relancer sans --verbose.
+```
+
+**Correction :** isoler le moteur de rendu avec un journal, puis tester un seul profil de secours à la fois.
+
+> **[PS] PowerShell 7 — Exemple corrigé de diagnostic contrôlé.**
+
+```powershell
+& $env:GODOT_EXE --verbose --editor --path . --rendering-method mobile --log-file .\logs\mobile-test.log
+```
+
+**Différence :** le diagnostic corrigé conserve une trace et ne change qu’une variable, ce qui permet d’identifier la couche fautive.
 
 ### 28.7 Git suit `.godot/`
 
-Si le dossier a été ajouté avant `.gitignore` :
+**Symptôme ou risque :** le cache a été ajouté à l’index avant la création ou la correction de `.gitignore`.
 
-> **[PS] PowerShell 7 - Exécuter :** utiliser PowerShell sur l’hôte Windows.
+> **[LECTURE] Exemple fautif — Ne pas recopier ni exécuter.**
 
-```powershell
-git rm -r --cached .godot
-git commit -m "chore(git): stop tracking Godot cache"
+```text
+git add .
+git commit -m 'chore: add every generated file'
 ```
 
-Le dossier local reste présent, mais disparaît du suivi Git.
+**Correction :** ignorer le dossier et le retirer seulement de l’index Git, sans supprimer le cache local.
+
+> **[PS] PowerShell 7 — Exemple corrigé depuis la racine du projet.**
+
+```powershell
+Add-Content .gitignore '/.godot/'
+git rm -r --cached .godot
+git add .gitignore
+git commit -m 'chore(git): stop tracking Godot cache'
+```
+
+**Différence :** `--cached` cesse le suivi tout en conservant les fichiers sur le poste ; l’exemple fautif versionne des données régénérables.
 
 ### 28.8 Déplacement de fichier cassant une scène
 
-> **[APP] Godot - FileSystem :** effectuer le déplacement depuis le dock de l’éditeur.
+**Symptôme ou risque :** une scène ou Resource est déplacée dans l’Explorateur Windows sans mise à jour des références Godot.
 
-Déplacer les ressources depuis le dock FileSystem de Godot, puis relancer le projet et examiner le diff.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Explorateur Windows : déplacer status_beacon.tscn vers un autre dossier pendant que Godot est fermé.
+```
+
+**Correction :** effectuer le déplacement depuis le dock FileSystem, puis rechercher les anciens chemins et relancer l’import.
+
+> **[APP] Godot — Exemple corrigé à exécuter depuis le dock FileSystem.**
+
+```text
+FileSystem : Move To…
+Puis vérifier Output, les scènes dépendantes et git diff.
+```
+
+**Différence :** Godot peut mettre à jour les références connues lors du déplacement corrigé ; l’Explorateur ne connaît pas ces dépendances.
 
 ## 29. Diagnostic par couches
 

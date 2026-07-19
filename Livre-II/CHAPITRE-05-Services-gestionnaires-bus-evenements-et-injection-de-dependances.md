@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 5 : Services, gestionnaires, bus d’événements et injection de dépendances"
 id: "DOC-L2-CH05"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 5
@@ -10,6 +10,7 @@ last-verified: "2026-07-19"
 audit-status: "complete"
 audit-date: "2026-07-19"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-05.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -1032,47 +1033,184 @@ Cette commande détecte de nombreuses erreurs d’analyse et de ressources, mais
 
 ## 15. Anti-patterns et corrections
 
+<!-- qa:error-correction-section -->
+
+Le titre « Anti-patterns » désigne ici des erreurs de conception récurrentes. Chaque cas possède donc les mêmes preuves pédagogiques qu’une section « Erreurs fréquentes ».
+
 ### 15.1 Un Autoload par service
 
-**Problème :** tous les services deviennent globaux et leur ordre implicite dépend de la liste des Autoloads.
+**Symptôme ou risque :** chaque capacité devient globale et son ordre dépend de la liste Project Settings.
 
-**Correction :** un composition root crée et injecte les services. Seul ce root peut être persistant lorsque nécessaire.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Autoloads :
+- AudioService
+- SaveService
+- QuestService
+- BeaconService
+- InventoryService
+```
+
+**Correction :** conserver un composition root persistant et construire les services ordinaires sous son contrôle.
+
+> **[LECTURE] Organisation corrigée — Ne pas saisir.**
+
+```text
+Autoload : AppRuntime
+AppRuntime crée :
+- GameEventBus
+- BeaconActivationService
+- autres services nécessaires
+```
+
+**Différence :** la version corrigée limite le point global et rend le cycle de vie des services explicite.
 
 ### 15.2 Le registre injecté partout
 
-**Problème :** chaque objet appelle `registry.require_service()` et cache sa dépendance réelle.
+**Symptôme ou risque :** un objet métier recherche lui-même sa dépendance dans le registre.
 
-**Correction :** seul le bootstrap ou une factory utilise le registre ; l’objet métier reçoit directement le service typé.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func activate() -> void:
+	var bus := registry.require_service(&'event_bus')
+	bus.beacon_activated.emit(id)
+```
+
+**Correction :** résoudre la dépendance dans le bootstrap puis injecter le type attendu.
+
+> **[VSC] Visual Studio Code — Exemple corrigé par constructeur.**
+
+```gdscript
+var _events: GameEventBus
+
+func _init(events: GameEventBus) -> void:
+	_events = events
+```
+
+**Différence :** la dépendance corrigée est visible et typée ; le registre reste un outil du point de composition.
 
 ### 15.3 Un bus générique à dictionnaires
 
-**Problème :** fautes de frappe, absence d’autocomplétion, schémas implicites.
+**Symptôme ou risque :** un seul signal transporte un nom libre et un payload sans schéma.
 
-**Correction :** déclarer des signaux nommés et typés.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+signal event_published(name: String, payload: Dictionary)
+
+event_published.emit('becon_actvated', {'id': 42})
+```
+
+**Correction :** déclarer des signaux nommés avec des paramètres typés.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans `GameEventBus`.**
+
+```gdscript
+signal beacon_activated(beacon_id: StringName)
+
+beacon_activated.emit(&'beacon.training')
+```
+
+**Différence :** le moteur peut vérifier le nom du signal et la forme de ses arguments ; la faute de frappe du bus générique reste invisible.
 
 ### 15.4 Des événements pour chaque appel local
 
-**Problème :** le flux devient difficile à suivre.
+**Symptôme ou risque :** un enfant demande à son parent une action simple par le bus global.
 
-**Correction :** utiliser une fonction ou un signal direct dans une scène ; réserver le bus aux frontières transversales.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+_events.event_published.emit('label_text_requested', {'text': message})
+```
+
+**Correction :** utiliser un appel direct ou un signal local lorsque les composants appartiennent à la même scène.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans la présentation locale.**
+
+```gdscript
+result_label.text = message
+```
+
+**Différence :** la correction conserve un flux direct et traçable ; le bus reste réservé aux frontières transversales.
 
 ### 15.5 Un service qui connaît l’interface graphique
 
-**Problème :** le domaine dépend de `Label`, `Button` ou de chemins de nœuds.
+**Symptôme ou risque :** le service cherche et modifie un `Label`.
 
-**Correction :** le service renvoie une valeur ou émet un événement ; la présentation décide comment l’afficher.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func request_activation(id: StringName) -> void:
+	get_node('/root/Main/UI/ResultLabel').text = 'Activation demandée'
+```
+
+**Correction :** retourner une valeur ou émettre un événement que la présentation traduit en affichage.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec retour métier.**
+
+```gdscript
+func request_activation(id: StringName) -> bool:
+	if id.is_empty():
+		return false
+	_events.beacon_activation_requested.emit(id)
+	return true
+```
+
+**Différence :** le service corrigé ne dépend plus de l’arbre d’interface et peut être testé sans scène graphique.
 
 ### 15.6 Un démarrage non idempotent
 
-**Problème :** un second appel crée deux bus ou deux connexions.
+**Symptôme ou risque :** chaque appel recrée le bus et reconnecte les signaux.
 
-**Correction :** conserver `_started`, renvoyer une erreur et rendre `stop_application()` sûr lorsqu’il est appelé plusieurs fois.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func start_application() -> void:
+	_events = GameEventBus.new()
+	add_child(_events)
+```
+
+**Correction :** refuser un second démarrage ou retourner l’état existant.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec garde.**
+
+```gdscript
+func start_application() -> Error:
+	if _started:
+		return ERR_ALREADY_IN_USE
+	_started = true
+	return OK
+```
+
+**Différence :** la garde rend le cycle de vie déterministe et empêche les doublons de nœuds ou de connexions.
 
 ### 15.7 Un arrêt dans le mauvais ordre
 
-**Problème :** un service émet vers un bus déjà supprimé.
+**Symptôme ou risque :** le bus est supprimé avant les services susceptibles d’émettre pendant leur arrêt.
 
-**Correction :** arrêter dans l’ordre inverse du démarrage.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func stop_application() -> void:
+	_events.queue_free()
+	_beacon_activation.stop()
+```
+
+**Correction :** arrêter les consommateurs avant leurs dépendances.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans l’ordre inverse du démarrage.**
+
+```gdscript
+func stop_application() -> void:
+	_beacon_activation.stop()
+	_beacon_activation = null
+	_events.queue_free()
+	_events = null
+```
+
+**Différence :** le service termine alors que le bus existe encore ; la version fautive peut émettre vers un objet déjà libéré.
 
 ## 16. Parcours Solo
 

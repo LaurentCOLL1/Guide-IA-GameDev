@@ -1,0 +1,46 @@
+schema-version: 1
+review-id: DOC-L2-QA-SEMANTIC-ERROR-SECTIONS
+status: complete
+review-date: 2026-07-19
+review-level: static-review
+validated-base-commit: ed6c4cb3b269c9306c89a38e39594723fa9e3410
+scope:
+  books:
+    - Livre II
+  chapters:
+    from: 1
+    to: 7
+rule:
+  title-independent: true
+  recognized-functions:
+    - erreurs fréquentes
+    - erreurs et diagnostics
+    - anti-patterns et corrections
+    - éviter les anti-patterns
+    - symptômes fréquents
+    - pièges
+    - mauvaises pratiques
+    - problèmes fréquents
+  detailed-case-requires:
+    - symptôme ou risque
+    - exemple fautif
+    - correction
+    - exemple corrigé ou équivalent sémantique
+    - explication comparative, étiquetée ou rédigée en prose
+results:
+  retrofitted-detailed-cases-chapters-1-to-6: 52
+  chapter-7-existing-detailed-cases: 8
+  chapter-6-diagnostic-index-linked: true
+  semantic-section-markers-present: true
+  semantic-index-markers-present: true
+  validator-enforcement-added: true
+  corrected-example-labels-title-independent: true
+  comparative-prose-accepted: true
+  fenced-code-headings-ignored: true
+  non-executable-faulty-commands-marked-as-text: true
+  temporary-workflows-removed: true
+  temporary-scripts-removed: true
+  pdf-produced: false
+reservations:
+  - Les exemples restent au niveau static-review jusqu’à leur matérialisation dans le Starter Kit.
+  - La publication PDF demeure différée à la fin du Livre II.

@@ -74,6 +74,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 5](QA/AUDIT-CHAPITRE-05.md) ;
 - [audit du chapitre 6](QA/AUDIT-CHAPITRE-06.md) ;
 - [audit du chapitre 7](QA/AUDIT-CHAPITRE-07.md).
+- [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
 

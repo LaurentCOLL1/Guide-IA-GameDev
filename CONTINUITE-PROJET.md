@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.6.0"
+version: "3.7.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -252,7 +252,11 @@ La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA
 - appel de méthode ;
 - résultat concret.
 
-Les rappels courts sont permis. Les duplications intégrales sont interdites. Toute section intitulée « Erreurs fréquentes et corrections » doit fournir, pour chaque erreur, au moins un exemple fautif, un exemple corrigé et l’explication de la différence.
+Les rappels courts sont permis. Les duplications intégrales sont interdites.
+
+La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence. Le titre peut être « Erreurs fréquentes », « Erreurs fréquentes et diagnostics », « Anti-patterns et corrections », « Éviter les anti-patterns » ou toute formulation équivalente.
+
+Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un index compact de symptômes peut porter `<!-- qa:error-correction-index -->` uniquement s’il renvoie vers des exemples détaillés conformes.
 
 ## 11. Décisions d’architecture de `Project Asteria`
 
@@ -373,8 +377,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
 - progression : 7 chapitres sur 30 ;
-- chapitre 2 : version `1.3.0` ;
-- chapitres 3 à 7 : version `1.0.0` ;
+- chapitre 1 : version `1.3.0` ;
+- chapitre 2 : version `1.5.0` ;
+- chapitres 3 à 6 : version `1.1.0` ;
+- chapitre 7 : version `1.1.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -409,6 +415,15 @@ Périmètre attendu :
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
 ## 18. Journal
+
+### 2026-07-19 — version 3.7.0
+
+- généralisation sémantique de la règle « erreur fautive / correction » ;
+- audit rétroactif des chapitres 1 à 6 ;
+- 52 cas détaillés enrichis ;
+- ajout des marqueurs QA de section et d’index ;
+- validation automatique renforcée ;
+- aucun PDF intermédiaire construit.
 
 ### 2026-07-19 — version 3.6.0
 

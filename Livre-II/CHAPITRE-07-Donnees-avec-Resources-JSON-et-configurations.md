@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 7 : Données avec Resources, JSON et configurations"
 id: "DOC-L2-CH07"
 status: "reviewed"
-version: "1.1.0"
+version: "1.1.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 7
@@ -10,6 +10,7 @@ last-verified: "2026-07-19"
 audit-status: "complete"
 audit-date: "2026-07-19"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-07.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -1558,6 +1559,8 @@ Restaurer ensuite les fichiers valides.
 
 ## 35. Erreurs fréquentes et corrections
 
+<!-- qa:error-correction-section -->
+
 Chaque erreur ci-dessous comporte un exemple fautif et un exemple corrigé. Les fragments sont volontairement courts afin d’isoler la différence importante.
 
 ### 35.1 Modifier une Resource partagée pendant le gameplay
@@ -1768,8 +1771,12 @@ for path: String in paths:
 	if profile == null:
 		push_error("Resource BeaconProfile invalide : %s" % path)
 		continue
-	catalog.add_profile(profile)
+	var register_error := catalog.register(profile)
+	if register_error != OK:
+		push_error("Profil refusé : %s" % error_string(register_error))
 ```
+
+Le chargeur corrigé utilise la méthode publique `register()` du catalogue et contrôle son code `Error` au lieu d’appeler une méthode inexistante.
 
 Le chapitre privilégie malgré tout `BeaconCatalogPaths.PATHS` tant que la collection reste petite, car cette liste rend les changements explicites dans Git.
 

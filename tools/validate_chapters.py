@@ -20,6 +20,9 @@ FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
+ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
+ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
+ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
 
 
 @dataclass
@@ -99,6 +102,114 @@ def text_without_fenced_code(text: str) -> str:
         result.append("" if in_fence else line)
 
     return "\n".join(result)
+
+
+def validate_error_correction_sections(text: str, rel: str, errors: list[str]) -> None:
+    """Valide les sections pédagogiques d'erreurs indépendamment de leur titre."""
+    lines = text.splitlines()
+    headings: list[tuple[int, int, str]] = []
+    in_fence = False
+    fence_char = ""
+    fence_length = 0
+    for index, line in enumerate(lines):
+        fence_match = FENCE_RE.match(line.strip())
+        if fence_match:
+            fence = fence_match.group("fence")
+            if not in_fence:
+                in_fence = True
+                fence_char = fence[0]
+                fence_length = len(fence)
+            elif fence[0] == fence_char and len(fence) >= fence_length:
+                in_fence = False
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if match:
+            headings.append((index, len(match.group(1)), match.group(2).strip()))
+
+    for position, (start, level, title) in enumerate(headings):
+        if level < 2 or not ERROR_HEADING_RE.search(title):
+            continue
+        end = len(lines)
+        for next_start, next_level, _ in headings[position + 1:]:
+            if next_level <= level:
+                end = next_start
+                break
+        body = "\n".join(lines[start + 1:end])
+        has_detail = ERROR_SECTION_MARKER in body
+        has_index = ERROR_INDEX_MARKER in body
+        if not has_detail and not has_index:
+            errors.append(
+                f"Section d’erreurs non qualifiée dans {rel} : {title}. "
+                "Ajouter un marqueur détaillé ou d’index."
+            )
+            continue
+        if has_index:
+            normalized = body.casefold()
+            if "exemples" not in normalized or "section" not in normalized:
+                errors.append(f"Index de diagnostic sans renvoi explicite dans {rel} : {title}")
+            continue
+
+        children = [
+            (child_start, child_title)
+            for child_start, child_level, child_title in headings[position + 1:]
+            if child_start < end and child_level == level + 1
+        ]
+        if not children:
+            errors.append(f"Section détaillée sans sous-cas dans {rel} : {title}")
+            continue
+        for child_index, (child_start, child_title) in enumerate(children):
+            child_end = children[child_index + 1][0] if child_index + 1 < len(children) else end
+            child_body = "\n".join(lines[child_start + 1:child_end])
+            missing: list[str] = []
+            if "Exemple fautif" not in child_body:
+                missing.append("exemple fautif")
+            corrected_match = re.search(
+                r"(?:exemple|structure|organisation|chemin|dépendances?|arbre|lot)[^\n]{0,100}corrig(?:é|ée|és|ées)",
+                child_body,
+                re.IGNORECASE,
+            )
+            if corrected_match is None:
+                missing.append("exemple corrigé")
+            has_labeled_difference = "**Différence :**" in child_body
+            trailing_prose = ""
+            if corrected_match is not None:
+                corrected_part = child_body[corrected_match.end():]
+                outside_fence: list[str] = []
+                current_after_fence: list[str] = []
+                in_fence = False
+                saw_closed_fence = False
+                fence_char = ""
+                fence_length = 0
+                for line in corrected_part.splitlines():
+                    fence_match = FENCE_RE.match(line.strip())
+                    if fence_match:
+                        fence = fence_match.group("fence")
+                        if not in_fence:
+                            in_fence = True
+                            fence_char = fence[0]
+                            fence_length = len(fence)
+                        elif fence[0] == fence_char and len(fence) >= fence_length:
+                            in_fence = False
+                            saw_closed_fence = True
+                            current_after_fence = []
+                        continue
+                    if saw_closed_fence and not in_fence:
+                        current_after_fence.append(line)
+                outside_fence = [
+                    line.strip()
+                    for line in current_after_fence
+                    if line.strip() and not line.lstrip().startswith((">", "<!--"))
+                ]
+                trailing_prose = normalize_paragraph(" ".join(outside_fence))
+            if not has_labeled_difference and len(trailing_prose) < 45:
+                missing.append("explication de la différence")
+            if missing:
+                errors.append(
+                    f"Cas pédagogique incomplet dans {rel} — {child_title} : "
+                    + ", ".join(missing)
+                )
 
 
 def inspect_duplicates(text: str, rel: str) -> ChapterStats:
@@ -299,6 +410,7 @@ def main() -> int:
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
 
+                validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)
                 stats.append(chapter_stats)
                 if chapter_stats.duplicate_headings:

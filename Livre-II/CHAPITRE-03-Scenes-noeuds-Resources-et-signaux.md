@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 3 : Scènes, nœuds, Resources et signaux"
 id: "DOC-L2-CH03"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 3
@@ -10,6 +10,7 @@ last-verified: "2026-07-18"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-03.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -973,75 +974,193 @@ Après la libération, ne pas conserver ni utiliser la référence comme si l’
 
 ## 21. Erreurs fréquentes et diagnostics
 
+<!-- qa:error-correction-section -->
+
+Le diagnostic reste associé à une correction concrète. Les exemples utilisent les contrats introduits dans le chapitre.
+
 ### 21.1 `Node not found`
 
-Causes possibles :
+**Symptôme ou risque :** un chemin exige un enfant qui n’existe pas à cet emplacement.
 
-- nom ou casse incorrects ;
-- nœud déplacé dans une autre branche ;
-- chemin résolu avant l’ajout des enfants ;
-- référence utilisée depuis la mauvaise scène ;
-- `%NomUnique` utilisé au-delà de sa scène propriétaire.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Corrections :
+```gdscript
+@onready var label: Label = $Panel/StatusLabel
+```
 
-- vérifier le dock Scene ;
-- utiliser `@onready` ;
-- préférer une fonction publique du composant ;
-- utiliser un nom unique uniquement dans sa frontière prévue ;
-- traiter les dépendances optionnelles avec `get_node_or_null()`.
+**Correction :** rendre le chemin cohérent avec la scène ou traiter explicitement une dépendance optionnelle.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec contrôle nullable.**
+
+```gdscript
+@onready var label := get_node_or_null('Panel/StatusLabel') as Label
+
+func _ready() -> void:
+	if label == null:
+		push_error('StatusLabel est absent.')
+```
+
+**Différence :** `$...` échoue immédiatement ; `get_node_or_null()` permet de produire un diagnostic adapté avant l’usage.
 
 ### 21.2 `Invalid access to property` sur `null`
 
-La variable contient `null` au lieu d’un objet valide.
+**Symptôme ou risque :** le résultat d’un cast est utilisé sans vérifier qu’il a réussi.
 
-Vérifier :
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-- l’assignation dans l’Inspector ;
-- le type de la racine instanciée ;
-- le résultat d’un cast `as` ;
-- la présence de la Resource ;
-- l’ordre d’initialisation.
+```gdscript
+var beacon := node as StatusBeacon
+beacon.activate(&'player')
+```
+
+**Correction :** tester la référence avant d’accéder à ses propriétés ou méthodes.
+
+> **[VSC] Visual Studio Code — Exemple corrigé après le cast.**
+
+```gdscript
+var beacon := node as StatusBeacon
+if beacon == null:
+	push_error('La racine instanciée doit être un StatusBeacon.')
+	return
+beacon.activate(&'player')
+```
+
+**Différence :** la version corrigée traite le résultat nullable du cast et rapproche l’erreur de sa cause.
 
 ### 21.3 Signal connecté deux fois
 
-Symptômes :
+**Symptôme ou risque :** la même connexion est créée à chaque réactivation de la scène.
 
-- callback exécuté plusieurs fois ;
-- erreur de connexion invalide ;
-- sortie dupliquée.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Correction : utiliser `is_connected()` avant `connect()`.
+```gdscript
+func enable() -> void:
+	beacon.activated.connect(_on_beacon_activated)
+```
+
+**Correction :** vérifier la connexion avant de l’ajouter.
+
+> **[VSC] Visual Studio Code — Exemple corrigé idempotent.**
+
+```gdscript
+func enable() -> void:
+	if not beacon.activated.is_connected(_on_beacon_activated):
+		beacon.activated.connect(_on_beacon_activated)
+```
+
+**Différence :** le second appel corrigé ne crée pas une nouvelle liaison et ne duplique pas le callback.
 
 ### 21.4 Signal émis avant la connexion
 
-Un signal n’est pas une file d’attente historique. Un abonné connecté après l’émission ne reçoit pas l’événement passé.
+**Symptôme ou risque :** l’action est lancée avant que l’abonné soit enregistré.
 
-Connecter les abonnés avant d’appeler l’action qui émet le signal.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+beacon.activate(&'player')
+beacon.activated.connect(_on_beacon_activated)
+```
+
+**Correction :** connecter d’abord, puis déclencher l’action.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans l’ordre observable.**
+
+```gdscript
+beacon.activated.connect(_on_beacon_activated)
+beacon.activate(&'player')
+```
+
+**Différence :** un signal ne conserve pas l’historique ; seul l’ordre corrigé permet au récepteur d’observer cette émission.
 
 ### 21.5 Signature incompatible
 
-Le signal transmet un nombre et des types d’arguments incompatibles avec la fonction réceptrice.
+**Symptôme ou risque :** le callback ne reçoit pas le même nombre de paramètres que le signal.
 
-Comparer la déclaration du signal, l’appel `.emit()` et la signature du callback.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+signal activated(beacon_id: StringName, message: String)
+
+func _on_activated(beacon_id: StringName) -> void:
+	print(beacon_id)
+```
+
+**Correction :** aligner la signature du callback sur la déclaration du signal.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec les deux paramètres.**
+
+```gdscript
+func _on_activated(beacon_id: StringName, message: String) -> void:
+	print('%s : %s' % [beacon_id, message])
+```
+
+**Différence :** la version corrigée accepte exactement les valeurs envoyées par `emit()`.
 
 ### 21.6 Resource partagée modifiée par erreur
 
-Symptôme : plusieurs instances changent ensemble.
+**Symptôme ou risque :** le cooldown courant est écrit dans la définition partagée.
 
-Correction : conserver l’état runtime dans le nœud ou dupliquer la Resource lorsque l’état doit être indépendant.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+profile.cooldown_seconds -= delta
+```
+
+**Correction :** conserver la configuration dans la Resource et l’état courant dans le nœud.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec une variable runtime.**
+
+```gdscript
+_remaining_cooldown = maxf(_remaining_cooldown - delta, 0.0)
+```
+
+**Différence :** la Resource reste identique pour toutes les instances ; seule la variable propre au nœud évolue.
 
 ### 21.7 Mauvaise scène exécutée
 
-`F6` lance la scène courante. `F5` lance la scène principale.
+**Symptôme ou risque :** `F6` lance l’onglet courant alors que le test attendu concerne la scène principale.
 
-Vérifier le titre de l’onglet et le chemin de la scène exécutée.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Onglet actif : status_beacon.tscn
+F6 → seule la balise est exécutée
+```
+
+**Correction :** lancer explicitement la scène de démonstration ou utiliser `F5` pour la scène principale.
+
+> **[PS] PowerShell 7 — Exemple corrigé avec une cible explicite.**
+
+```powershell
+godot --headless --path . --scene 'res://scenes/learning/ch03_scene_signals_demo.tscn' --quit-after 180
+```
+
+**Différence :** la commande corrigée nomme la scène testée et rend le résultat reproductible.
 
 ### 21.8 Nœud ajouté mais absent après enregistrement
 
-Ce problème concerne surtout les outils d’éditeur : le parent runtime est correct, mais `owner` n’a pas été défini pour l’enregistrement dans la scène.
+**Symptôme ou risque :** un outil d’éditeur ajoute un enfant sans propriétaire de scène.
 
-Ne pas ajouter des changements d’ownership dans le code runtime ordinaire sans besoin d’enregistrement.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+var marker := Marker3D.new()
+scene_root.add_child(marker)
+ResourceSaver.save(packed_scene, path)
+```
+
+**Correction :** dans un outil d’éditeur, définir `owner` vers la racine enregistrée avant le conditionnement de la scène.
+
+> **[VSC] Visual Studio Code — Exemple corrigé réservé à un outil d’éditeur.**
+
+```gdscript
+var marker := Marker3D.new()
+scene_root.add_child(marker)
+marker.owner = scene_root
+ResourceSaver.save(packed_scene, path)
+```
+
+**Différence :** `add_child()` suffit au runtime, mais `owner` indique au sérialiseur que l’enfant appartient à la scène enregistrée.
 
 ## 22. Validation dans Godot
 

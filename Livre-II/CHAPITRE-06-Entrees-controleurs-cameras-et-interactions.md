@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 6 : Entrées, contrôleurs, caméras et interactions"
 id: "DOC-L2-CH06"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 6
@@ -10,6 +10,7 @@ last-verified: "2026-07-19"
 audit-status: "complete"
 audit-date: "2026-07-19"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-06.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -1281,6 +1282,10 @@ Elle ne valide pas :
 
 ### 21.3 Symptômes fréquents
 
+<!-- qa:error-correction-index -->
+
+Ce tableau constitue un index de diagnostic rapide. Les exemples fautifs et corrigés détaillés se trouvent dans la section 22 ; les lignes propres au confort de caméra, aux couches physiques ou au matériel renvoient aussi aux sections techniques correspondantes du chapitre.
+
 | Symptôme | Cause probable | Vérification |
 |---|---|---|
 | le personnage avance quand on recule | signe Y inversé deux fois | inspecter `-frame.move.y` |
@@ -1296,53 +1301,204 @@ Elle ne valide pas :
 
 ## 22. Anti-patterns et corrections
 
+<!-- qa:error-correction-section -->
+
+La section 21.3 reste un index de symptômes. Les cas ci-dessous constituent les explications détaillées exigées par la règle pédagogique.
+
 ### 22.1 Touches codées en dur
 
-**Problème :** `if event.keycode == KEY_E`.
+**Symptôme ou risque :** le gameplay dépend directement d’une touche physique et ne peut pas être remappé.
 
-**Correction :** action `interact` dans l’Input Map.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+if event is InputEventKey and event.keycode == KEY_E:
+	try_interact()
+```
+
+**Correction :** interroger une action logique définie dans l’Input Map.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans `_unhandled_input()`.**
+
+```gdscript
+if event.is_action_pressed(&'interact'):
+	try_interact()
+```
+
+**Différence :** l’action corrigée peut recevoir plusieurs touches ou boutons et être remappée sans modifier le gameplay.
 
 ### 22.2 Déplacement dans `_input()`
 
-**Problème :** le nombre d’événements varie selon le périphérique.
+**Symptôme ou risque :** la position change une fois par événement reçu, donc selon le périphérique et sa fréquence.
 
-**Correction :** lire l’état dans une trame, puis appliquer la physique dans `_physics_process()`.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func _input(event: InputEvent) -> void:
+	if event.is_action(&'move_forward'):
+		position.z -= speed
+```
+
+**Correction :** lire l’intention puis appliquer le mouvement pendant le pas physique.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec séparation des responsabilités.**
+
+```gdscript
+func _physics_process(delta: float) -> void:
+	var frame := input_reader.sample(delta)
+	motor.apply_input(frame, delta)
+```
+
+**Différence :** la version corrigée produit une vitesse stable à chaque tick physique au lieu de dépendre du nombre d’événements.
 
 ### 22.3 Multiplier `velocity` par `delta`
 
-**Problème :** `move_and_slide()` attend une vitesse et utilise déjà le pas de physique.
+**Symptôme ou risque :** la vitesse finale est transformée en déplacement avant `move_and_slide()`.
 
-**Correction :** multiplier les accélérations et la gravité par `delta`, pas la vitesse finale avant l’appel.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+velocity = direction * speed * delta
+move_and_slide()
+```
+
+**Correction :** conserver une vitesse en unités par seconde et multiplier seulement les accélérations par `delta`.
+
+> **[VSC] Visual Studio Code — Exemple corrigé pour `CharacterBody3D`.**
+
+```gdscript
+velocity.x = direction.x * speed
+velocity.z = direction.z * speed
+velocity.y -= gravity * delta
+move_and_slide()
+```
+
+**Différence :** `move_and_slide()` utilise déjà le pas physique pour la vitesse ; seul le changement de vitesse dû à la gravité dépend ici de `delta`.
 
 ### 22.4 Une classe qui lit les entrées et modifie tout
 
-**Problème :** clavier, caméra, physique, animation et interactions deviennent inséparables.
+**Symptôme ou risque :** un seul script interroge les touches, tourne la caméra, déplace le corps et déclenche les interactions.
 
-**Correction :** lecteur, trame, contrôleur, moteur, rig et interactor spécialisés.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func _physics_process(delta: float) -> void:
+	read_keyboard()
+	rotate_camera()
+	move_character(delta)
+	check_interaction()
+	update_ui()
+```
+
+**Correction :** déléguer à des composants spécialisés reliés par un contrôleur.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans `PlayerController`.**
+
+```gdscript
+func _physics_process(delta: float) -> void:
+	var frame := input_reader.sample(delta)
+	camera_rig.apply_look(frame.look, delta)
+	motor.apply_input(frame, delta)
+	interactor.try_interact(frame.interact_pressed)
+```
+
+**Différence :** le contrôleur corrigé orchestre des contrats séparés ; chaque composant peut évoluer et être testé indépendamment.
 
 ### 22.5 Bus global pour une interaction locale
 
-**Problème :** le flux devient invisible.
+**Symptôme ou risque :** une balise et son contrôleur de scène communiquent par un événement transversal.
 
-**Correction :** signal direct ou appel de composant dans la même fonctionnalité.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+_events.event_published.emit('local_beacon_clicked', {'id': id})
+```
+
+**Correction :** utiliser un signal direct ou un appel entre composants de la même fonctionnalité.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec signal local typé.**
+
+```gdscript
+interaction_target.accepted.connect(_on_beacon_interaction_accepted)
+```
+
+**Différence :** la connexion corrigée rend l’émetteur et le récepteur visibles dans la scène ; le bus n’ajoute aucune valeur pour ce trajet local.
 
 ### 22.6 Interaction par nom de méthode libre
 
-**Problème :** `has_method("interact")` accepte des signatures incompatibles.
+**Symptôme ou risque :** n’importe quel objet possédant une méthode du même nom est appelé sans contrat de signature.
 
-**Correction :** composant typé `InteractionTarget`.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+if collider.has_method('interact'):
+	collider.call('interact', player)
+```
+
+**Correction :** utiliser un composant ou une classe typée représentant une cible interactive.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec cast.**
+
+```gdscript
+var target := collider as InteractionTarget
+if target != null:
+	target.interact(player)
+```
+
+**Différence :** le cast corrigé vérifie le type attendu et l’éditeur connaît la méthode publique et ses paramètres.
 
 ### 22.7 Caméra enfant directe du personnage sans pivot
 
-**Problème :** lacet et tangage se mélangent.
+**Symptôme ou risque :** le même transform mélange rotation horizontale, verticale et déplacement du corps.
 
-**Correction :** rig de lacet, pivot de tangage, spring arm, caméra.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+PlayerCharacter
+└── Camera3D
+```
+
+**Correction :** séparer le lacet, le tangage et l’évitement d’obstacles dans un rig.
+
+> **[LECTURE] Arbre corrigé de caméra — Ne pas saisir.**
+
+```text
+PlayerCharacter
+└── CameraYaw
+    └── CameraPitch
+        └── SpringArm3D
+            └── Camera3D
+```
+
+**Différence :** chaque nœud corrigé porte un axe ou une responsabilité, ce qui permet de limiter le tangage sans incliner le personnage.
 
 ### 22.8 Remappage destructif sans voie de secours
 
-**Problème :** le joueur perd la commande de validation ou de retour.
+**Symptôme ou risque :** les événements existants sont effacés avant de vérifier la nouvelle liste.
 
-**Correction :** vérifier les conflits, proposer l’annulation et conserver une liaison sûre.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+InputMap.action_erase_events(action)
+for event in events:
+	InputMap.action_add_event(action, event)
+```
+
+**Correction :** valider l’action et conserver au moins une liaison avant toute suppression.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec garde préalable.**
+
+```gdscript
+if not InputMap.has_action(action) or events.is_empty():
+	return false
+
+InputMap.action_erase_events(action)
+for event: InputEvent in events:
+	InputMap.action_add_event(action, event)
+return true
+```
+
+**Différence :** la version corrigée ne détruit jamais la dernière commande lorsque la proposition est vide ou l’action inconnue.
 
 ## 23. Parcours Solo
 
