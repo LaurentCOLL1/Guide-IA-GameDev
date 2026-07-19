@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  apply-rule:
+  diagnose-rule:
     if: github.head_ref == 'docs/governance-code-explanations' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -20,12 +20,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply permanent governance rule
-        run: python tools/qa/tmp_apply_code_explanation_rule.py
-      - name: Commit governance updates
+      - name: Capture assertion
+        run: |
+          python tools/qa/tmp_apply_code_explanation_rule.py > tmp_code_explanation_rule_error.txt 2>&1 || true
+          git checkout -- CONTINUITE-PROJET.md ROADMAP.md Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
+      - name: Commit diagnostic
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CONTINUITE-PROJET.md ROADMAP.md Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
-          git commit -m "docs(qa): require detailed code explanations"
+          git add tmp_code_explanation_rule_error.txt
+          git commit -m "chore(qa): capture code explanation rule assertion"
           git push origin HEAD:docs/governance-code-explanations
