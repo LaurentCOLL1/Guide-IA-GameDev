@@ -658,7 +658,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 19. Chapitre 12 — état détaillé
 
-Fichier : `Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md`.
+Fichier : `Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md`.
 
 Niveau : **GPT-5.6 Sol — Élevée**.
 
@@ -818,7 +818,7 @@ Chapitre :
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
+Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md
 ```
 
 Périmètre attendu :
