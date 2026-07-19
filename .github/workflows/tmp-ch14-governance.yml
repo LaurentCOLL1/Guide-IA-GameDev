@@ -1,0 +1,25 @@
+name: Temporary Chapter 14 Governance
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch14-personnages
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update governance
+        run: python .tmp/update_ch14_governance.py
+      - name: Commit governance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/index.md ROADMAP.md contents.txt CONTINUITE-PROJET.md
+          git commit -m "docs: advance Livre II after audited chapter 14"
+          git push
