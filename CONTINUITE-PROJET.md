@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.10.0"
+version: "3.11.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 9 chapitres sur 30.**
+**En cours : 10 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -116,9 +116,9 @@ Chaque procédure doit expliquer :
 
 #### Partie B — Plateforme IA locale
 
-10. Mémoire vectorielle, connaissances et recherche sémantique.
-11. Communication Godot avec les services IA locaux.
-12. HTTP, WebSocket, API OpenAI-compatible et files de tâches.
+10. Mémoire vectorielle, connaissances et recherche sémantique — terminé au niveau `static-review`.
+11. Communication Godot avec les services IA locaux — prochain chapitre.
+12. HTTP, WebSocket, API compatibles OpenAI et files de tâches.
 13. Sécurité et séparation production/runtime de l’IA.
 
 #### Partie C — Systèmes de gameplay
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 9 : **Élevée**.
+Chapitres 3 à 10 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -229,7 +229,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.4.0`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.5.0`.
 
 Deux workflows sont séparés :
 
@@ -299,7 +299,24 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - migrations de sauvegarde linéaires et append-only ;
 - validation complète avant application au monde ;
 - verrou de chargement maintenu jusqu’à application ou annulation ;
-- mémoire vectorielle réservée au chapitre 10.
+- connaissances sources séparées de l’index vectoriel dérivé ;
+- mémoire vectorielle exclue de l’autorité des sauvegardes ;
+- manifeste de corpus et `source_id` stables comme sources d’identité ;
+- fragments limités avec le tokenizer réel et identifiés par UUID déterministe ;
+- modèle de référence `intfloat/multilingual-e5-small`, dimension `384`, préfixes `query:` et `passage:` ;
+- CPU comme chemin de référence Windows/AMD ;
+- accélération DirectML, WinML ou MIGraphX uniquement après mesure runtime ;
+- Qdrant utilisé en mode local Python pour le chapitre 10 ;
+- stockage Qdrant sous `var/knowledge/`, dérivé et non versionné ;
+- provenance, langue, visibilité, tags, modèle et version de schéma conservés dans le payload ;
+- remplacement complet d’une source dans le parcours Solo ;
+- suppressions propagées depuis le manifeste sans supprimer les sources ;
+- visibilités calculées par une politique d’autorisation ;
+- score de similarité jamais présenté comme probabilité de vérité ;
+- repli lexical construit directement depuis les sources ;
+- évaluation par questions de référence, `hit-rate@k` et MRR ;
+- accès Godot à la mémoire vectorielle réservé au chapitre 11 ;
+- HTTP, WebSocket et mode serveur réservés au chapitre 12.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -471,7 +488,59 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-09.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 17. Erreurs à ne pas reproduire
+## 17. Chapitre 10 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- sources Markdown et manifeste JSON comme autorité ;
+- index Qdrant entièrement dérivé et reconstructible ;
+- `intfloat/multilingual-e5-small` comme modèle pédagogique ;
+- dimension `384` et distance cosinus ;
+- CPU comme chemin Windows/AMD de référence ;
+- fragments mesurés avec le tokenizer réel ;
+- cible `420`, overlap `60`, maximum `480` tokens ;
+- titres Markdown et provenance conservés ;
+- `source_id` stable et `chunk_id` UUIDv5 déterministe ;
+- préfixes `passage:` et `query:` obligatoires ;
+- payload avec révision, hash, langue, visibilité, tags, modèle et schéma ;
+- remplacement complet des points d’une source dans le parcours Solo ;
+- suppression des sources obsolètes par différence avec le manifeste ;
+- filtres de visibilité imposés ;
+- repli lexical indépendant du modèle et de Qdrant ;
+- évaluation par cas versionnés, `hit-rate@k` et MRR ;
+- accélérations DirectML, WinML et MIGraphX non revendiquées ;
+- communication Godot réservée au chapitre 11 ;
+- HTTP, WebSocket et serveur Qdrant réservés au chapitre 12.
+
+Livrables documentés :
+
+- `knowledge/manifest.json` ;
+- `knowledge/sources/**/*.md` ;
+- `knowledge/evaluation/retrieval-cases.json` ;
+- `tools/knowledge/knowledge_config.py` ;
+- `tools/knowledge/knowledge_models.py` ;
+- `tools/knowledge/source_loader.py` ;
+- `tools/knowledge/chunker.py` ;
+- `tools/knowledge/embedding_provider.py` ;
+- `tools/knowledge/knowledge_index.py` ;
+- `tools/knowledge/qdrant_index.py` ;
+- `tools/knowledge/lexical_index.py` ;
+- `tools/knowledge/retrieval_service.py` ;
+- `tools/knowledge/index_knowledge.py` ;
+- `tools/knowledge/search_knowledge.py` ;
+- `tools/knowledge/evaluate_retrieval.py`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-10.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-10.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 18. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -503,53 +572,83 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas appliquer une section avant la validation globale ;
 - ne pas libérer le verrou avant application ou annulation ;
 - ne pas utiliser les `.tres` comme sauvegarde du joueur ;
+- ne pas traiter un index vectoriel comme une source canonique ;
+- ne pas inclure Qdrant dans l’autorité d’une sauvegarde ;
+- ne pas découper par caractères lorsque le modèle consomme des tokens ;
+- ne pas tronquer silencieusement un passage ;
+- ne pas omettre les préfixes E5 ;
+- ne pas mélanger des dimensions de vecteurs ;
+- ne pas conserver plusieurs révisions actives d’une source ;
+- ne pas laisser une requête élargir sa visibilité ;
+- ne pas présenter un score de similarité comme probabilité ;
+- ne pas promettre l’accélération AMD sans exécution ;
+- ne pas masquer toute erreur par le repli lexical ;
+- ne pas versionner le stockage Qdrant dérivé ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 18. État courant
+## 19. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 9 chapitres sur 30 ;
+- progression : 10 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
 - chapitre 7 : version `1.1.1` ;
 - chapitre 8 : version `1.0.0` ;
 - chapitre 9 : version `1.0.0` ;
+- chapitre 10 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 19. Prochaine action
+## 20. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md
+Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md
 ```
 
 Périmètre attendu :
 
-- rôle de la mémoire vectorielle dans `Project Asteria` ;
-- embeddings locaux et choix d’un modèle compatible avec la plateforme AMD ;
-- découpage des documents et taille des segments ;
-- métadonnées, identifiants stables et provenance ;
-- création et mise à jour d’un index vectoriel ;
-- recherche par similarité et filtres ;
-- séparation entre connaissance source, index dérivé et sauvegarde ;
-- gestion des suppressions et réindexations ;
-- évaluation de la qualité de récupération ;
-- confidentialité et fonctionnement local ;
-- chemin déterministe lorsque le service vectoriel est indisponible ;
+- rôle d’une frontière de service entre Godot et les outils IA locaux ;
+- contrats de requête, réponse, erreur et capacité ;
+- port applicatif indépendant de HTTP ;
+- adaptateur local ou processus compagnon ;
+- disponibilité facultative et découverte de capacités ;
+- appels asynchrones sans bloquer la boucle principale ;
+- délais, annulation et erreurs structurées ;
+- corrélation des requêtes ;
+- repli déterministe lorsque le service est absent ;
+- aucune lecture directe du stockage Qdrant par Godot ;
+- aucune exposition détaillée HTTP ou WebSocket avant le chapitre 12 ;
+- cycle de vie du service et arrêt contrôlé ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 20. Journal
+## 21. Journal
+
+### 2026-07-19 — version 3.11.0
+
+- création et audit statique du chapitre 10 ;
+- séparation permanente entre sources canoniques, index vectoriel dérivé et sauvegardes ;
+- choix pédagogique de `multilingual-e5-small`, dimension `384`, CPU de référence ;
+- découpage avec tokenizer réel, provenance et UUID déterministes ;
+- Qdrant Local Mode pour l’outil Python, sans serveur ni accès Godot direct ;
+- synchronisation des modifications et suppressions ;
+- filtres de visibilité, langue et tags ;
+- repli lexical indépendant du modèle ;
+- évaluation par `hit-rate@k` et MRR ;
+- progression à 10 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 11 ;
+- correction de la version déclarée du protocole QA vers `1.5.0` ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.10.0
 

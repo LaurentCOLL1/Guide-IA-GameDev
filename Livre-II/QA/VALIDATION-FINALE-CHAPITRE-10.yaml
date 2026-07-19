@@ -1,0 +1,87 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH10
+status: complete
+validation-date: 2026-07-19
+validated-base-commit: d7b24a3bf1c14661603b2dad10eabf52cb428500
+chapter:
+  id: DOC-L2-CH10
+  path: Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - technical static review
+  - Python syntax review
+  - embedding-model review
+  - vector-index review
+  - chunking review
+  - provenance review
+  - deletion and reindexing review
+  - lexical-fallback review
+  - retrieval-evaluation review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 14
+  detailed-error-cases: 14
+  sources: 60
+  unique-identifiers: 59
+  livre-i-chapters: 10
+  livre-ii-chapters: 10
+  chapter-lines: 1619
+  chapter-headings: 62
+  chapter-significant-code-blocks: 21
+  total-context-blocks: 1252
+  marked-context-blocks: 1252
+  semantic-inconsistencies: 0
+  blocking-errors: 0
+  warnings: 1
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  documented-python-syntax-compilation: success
+  source-index-save-separation: true
+  multilingual-local-model: true
+  vector-size-validated-statically: true
+  token-aware-chunking-documented: true
+  stable-chunk-identifiers: true
+  provenance-payload: true
+  source-replacement: true
+  stale-source-deletion: true
+  filtered-similarity-search: true
+  deterministic-lexical-fallback: true
+  retrieval-evaluation: true
+  cpu-reference-path: true
+  amd-acceleration-not-claimed: true
+  chapter-11-boundary-preserved: true
+  chapter-12-boundary-preserved: true
+  pdf-produced: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29693610538
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29693610522
+    conclusion: success
+  artifact:
+    id: 8444315981
+    name: chapter-validation-without-pdf
+    digest: sha256:99caf509bcae70a95ab429fab93ffda1d73bb5990df2030d3b6bf44aeb5dcf99
+reservations:
+  - Les dépendances Python n’ont pas été installées sous Windows 11.
+  - Le modèle multilingual-e5-small n’a pas été téléchargé ni exécuté.
+  - La dimension 384 n’a pas été vérifiée au runtime.
+  - Le découpage avec le tokenizer réel n’a pas été exécuté.
+  - Qdrant Local Mode n’a pas été créé ni interrogé dans le Starter Kit.
+  - Les insertions, filtres, remplacements et suppressions n’ont pas été exécutés.
+  - Le repli lexical n’a pas été comparé à la recherche vectorielle.
+  - La campagne d’évaluation n’a pas été exécutée.
+  - Le fonctionnement hors ligne n’a pas été qualifié.
+  - DirectML, WinML et MIGraphX n’ont pas été exécutés.
+  - L’intégration avec Godot reste réservée au chapitre 11.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
