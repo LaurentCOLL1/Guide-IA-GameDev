@@ -1,8 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH16
-status: pending-ci
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: 47ec5d7312f9c53af6e570b3b2cc355bba1f2f26
+validated-head-commit: b6ae14528c6c28a4ecbf071873555081ff9a72a2
 chapter:
   id: DOC-L2-CH16
   path: Livre-II/CHAPITRE-16-Famille-et-generations.md
@@ -36,16 +37,16 @@ results:
   clickable-technical-source-links: 15
   official-web-source-links: 15
   local-chapter-links: 1
-  sources: null
-  unique-identifiers: null
+  sources: 75
+  unique-identifiers: 71
   livre-i-chapters: 10
   livre-ii-chapters: 16
-  chapter-lines: 2206
+  chapter-lines: 2304
   chapter-headings: 89
-  chapter-significant-code-blocks: null
+  chapter-significant-code-blocks: 36
   chapter-code-and-data-blocks: 69
-  total-context-blocks: null
-  marked-context-blocks: null
+  total-context-blocks: 1642
+  marked-context-blocks: 1642
   context-nonconformities: 0
   semantic-inconsistencies: 0
   duplicate-headings: 0
@@ -58,6 +59,11 @@ results:
   gdscript-code-blocks: 66
   documented-gdscript-static-review: success
   godot-parser-executed: false
+  chapter-context-markers:
+    VSC: 17
+    APP: 1
+    SORTIE: 1
+    LECTURE: 52
   stable-family-link-id: true
   family-state-separated-from-character-state: true
   parent-child-links-directed: true
@@ -85,6 +91,8 @@ results:
   future-gameplay-systems-separated: true
   process-audit-report-present: true
   process-distinct-draft-gate-recorded: true
+  process-continuity-paths-verified: true
+  next-action-includes-reasoning-level: true
   blocking-errors: 0
   warnings: 1
   pdf-produced: false
@@ -99,17 +107,18 @@ corrections:
   - Restauration de l'historique avec séquences strictement croissantes.
   - Convention temporelle inclusive documentée.
   - Conservation des quinze sources sous forme de liens Markdown nommés.
+  - Ajout de quarante-neuf repères LECTURE aux extraits et exemples GDScript.
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29705380654
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29705380638
+    conclusion: success
   artifact:
-    id: null
+    id: 8447728301
     name: chapter-validation-without-pdf
-    digest: null
+    digest: sha256:47f4340195d798257e2cac2e743ccbb7b2e2d18a33edad3bc1e2e8c70f3c1ab9
 reservations:
   - Les scripts GDScript n'ont pas été analysés par Godot 4.7.1.
   - Les classes n'ont pas été matérialisées dans le Starter Kit.
