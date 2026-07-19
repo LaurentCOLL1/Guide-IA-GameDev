@@ -57,21 +57,22 @@
 
 ## M3 — Livre II : Développement et architecture
 
-- [ ] Fondations Godot, GDScript, architecture et données — 6 chapitres rédigés, repérés et audités sur 9.
+- [ ] Fondations Godot, GDScript, architecture et données — 7 chapitres rédigés, repérés et audités sur 9.
 - [ ] Plateforme IA locale — 0 chapitre sur 4.
 - [ ] Douze grands systèmes de jeu — 0 chapitre sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 6.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 7.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 5 — services, Autoloads, bus d’événements, registre et injection de dépendances — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 6 — Input Map, contrôleurs, caméra et interactions — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 7 — Resources, JSON, catalogues, identifiants stables et configurations — rédigé et audité au niveau `static-review`.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 6 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Le joueur est désormais défini comme un assemblage séparant lecture des entrées, trame d’intention, contrôleur, moteur physique, rig de caméra et interaction typée. Le workflow léger valide désormais chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 7 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les données de conception utilisent désormais des Resources typées et cataloguées ; JSON et ConfigFile sont validés aux frontières, tandis que l’état runtime et la persistance restent séparés. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 
