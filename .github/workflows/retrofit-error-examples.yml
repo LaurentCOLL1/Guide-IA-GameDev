@@ -1,6 +1,12 @@
 name: Retrofit Error Examples
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tools/retrofit_error_examples.py
+      - .github/workflows/retrofit-error-examples.yml
   push:
     branches:
       - qa/retrofit-error-examples-ch01-ch06
