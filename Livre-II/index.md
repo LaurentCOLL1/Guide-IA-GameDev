@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.1.0"
+version: "1.2.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -34,7 +34,7 @@ Project Asteria
 6. [Entrées, contrôleurs, caméras et interactions](CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md) — **rédigé, repéré et audité au niveau static-review**
 7. [Données avec Resources, JSON et configurations](CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md) — **rédigé, repéré et audité au niveau static-review**
 8. [SQLite, migrations et données persistantes](CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md) — **rédigé, repéré et audité au niveau static-review**
-9. Sauvegardes, chargements et compatibilité des versions — à rédiger
+9. [Sauvegardes, chargements et compatibilité des versions](CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md) — **rédigé, repéré et audité au niveau static-review**
 10. Mémoire vectorielle, connaissances et recherche sémantique — à rédiger
 11. Communication Godot avec les services IA locaux — à rédiger
 12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — à rédiger
@@ -75,6 +75,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 6](QA/AUDIT-CHAPITRE-06.md) ;
 - [audit du chapitre 7](QA/AUDIT-CHAPITRE-07.md) ;
 - [audit du chapitre 8](QA/AUDIT-CHAPITRE-08.md) ;
+- [audit du chapitre 9](QA/AUDIT-CHAPITRE-09.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -104,7 +105,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 8 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 9 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -132,4 +133,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Huit chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Neuf chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. La première partie, consacrée aux fondations Godot, à l’architecture et aux données, est complète avec neuf chapitres sur neuf.
