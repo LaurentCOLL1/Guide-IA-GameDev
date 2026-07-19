@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.11.0"
+version: "3.12.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 10 chapitres sur 30.**
+**En cours : 11 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -117,8 +117,8 @@ Chaque procédure doit expliquer :
 #### Partie B — Plateforme IA locale
 
 10. Mémoire vectorielle, connaissances et recherche sémantique — terminé au niveau `static-review`.
-11. Communication Godot avec les services IA locaux — prochain chapitre.
-12. HTTP, WebSocket, API compatibles OpenAI et files de tâches.
+11. Communication Godot avec les services IA locaux — terminé au niveau `static-review`.
+12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — prochain chapitre.
 13. Sécurité et séparation production/runtime de l’IA.
 
 #### Partie C — Systèmes de gameplay
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 10 : **Élevée**.
+Chapitres 3 à 11 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -203,7 +203,7 @@ Chaque chapitre suit :
 9. contrôle des frontières ;
 10. mise à jour de la gouvernance ;
 11. rapport QA ;
-12. workflow `Validate Chapters Without PDF` ;
+12. workflows légers ;
 13. statut `static-review` ou `runtime-tested`.
 
 Métadonnées minimales :
@@ -231,9 +231,10 @@ Décision utilisateur du 19 juillet 2026 :
 
 Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.5.0`.
 
-Deux workflows sont séparés :
+Les workflows ont des responsabilités séparées :
 
-- `Validate Chapters Without PDF` : validation automatique légère à chaque chapitre ;
+- `Validate Chapters Without PDF` : structure, métadonnées, liens, doublons et assertion d’absence de PDF ;
+- `Validate Usage Contexts` : présence et cohérence sémantique des repères ;
 - `Validate Documentation PDF` : construction manuelle de fin de Livre ou validation exceptionnelle de la chaîne PDF.
 
 La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
@@ -256,11 +257,13 @@ La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA
 
 Les rappels courts sont permis. Les duplications intégrales sont interdites.
 
-La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence. Le titre peut être « Erreurs fréquentes », « Erreurs fréquentes et diagnostics », « Erreurs fréquentes et corrections », « Anti-patterns et corrections », « Éviter les anti-patterns » ou toute formulation équivalente.
+La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence.
 
 Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un index compact de symptômes peut porter `<!-- qa:error-correction-index -->` uniquement s’il renvoie vers des exemples détaillés conformes.
 
 ## 11. Décisions d’architecture de `Project Asteria`
+
+### 11.1 Architecture générale
 
 - organisation feature-first ;
 - couches locales non spéculatives ;
@@ -275,13 +278,19 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - registre limité au point de composition ;
 - bus d’événements typé et limité ;
 - un Autoload par nécessité de durée de vie, pas par commodité ;
-- démarrage déterministe et arrêt dans l’ordre inverse ;
+- démarrage déterministe et arrêt dans l’ordre inverse.
+
+### 11.2 Entrées et données
+
 - touches physiques absentes du code métier ;
 - données de conception séparées de l’état runtime ;
 - `Resource` partagées considérées comme immuables pendant le gameplay ;
 - identifiants métier stables indépendants des noms affichés et des chemins ;
 - JSON validé puis converti vers des types du domaine ;
-- configuration mappée vers `AppConfig` avant injection ;
+- configuration mappée vers `AppConfig` avant injection.
+
+### 11.3 SQLite
+
 - base SQLite mutable sous `user://` ;
 - Godot-SQLite encapsulé derrière `DatabaseConnection` ;
 - requêtes paramétrées obligatoires pour toute valeur dynamique ;
@@ -290,7 +299,10 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - copie fermée créée uniquement avant une migration réellement en attente ;
 - schéma futur refusé avant toute mutation ;
 - `quick_check` et `foreign_key_check` exécutés après migration ;
-- absence de ligne distinguée d’une panne SQL ;
+- absence de ligne distinguée d’une panne SQL.
+
+### 11.4 Sauvegardes
+
 - snapshot de partie distinct des dépôts SQLite ;
 - format JSON versionné sous `user://saves/` ;
 - empreinte canonique du payload avec précision numérique contrôlée ;
@@ -298,7 +310,10 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - sauvegarde future refusée et protégée contre l’écrasement ;
 - migrations de sauvegarde linéaires et append-only ;
 - validation complète avant application au monde ;
-- verrou de chargement maintenu jusqu’à application ou annulation ;
+- verrou de chargement maintenu jusqu’à application ou annulation.
+
+### 11.5 Mémoire vectorielle
+
 - connaissances sources séparées de l’index vectoriel dérivé ;
 - mémoire vectorielle exclue de l’autorité des sauvegardes ;
 - manifeste de corpus et `source_id` stables comme sources d’identité ;
@@ -314,9 +329,31 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - visibilités calculées par une politique d’autorisation ;
 - score de similarité jamais présenté comme probabilité de vérité ;
 - repli lexical construit directement depuis les sources ;
-- évaluation par questions de référence, `hit-rate@k` et MRR ;
-- accès Godot à la mémoire vectorielle réservé au chapitre 11 ;
-- HTTP, WebSocket et mode serveur réservés au chapitre 12.
+- évaluation par questions de référence, `hit-rate@k` et MRR.
+
+### 11.6 Communication Godot avec l’IA locale
+
+- `LocalAiGateway` constitue le port applicatif indépendant du transport ;
+- Godot ne dépend ni de Qdrant, ni du modèle d’embeddings, ni de Python dans le domaine ;
+- le chapitre 11 utilise un processus compagnon local et un transport JSON par lignes sur stdio ;
+- stdout est réservé au protocole et stderr aux journaux ;
+- les enveloppes requête et réponse possèdent format, version et `request_id` ;
+- chaque réponse doit corréler une requête encore en attente ;
+- les messages et tampons sont bornés ;
+- la lecture non bloquante accumule les fragments jusqu’au saut de ligne ;
+- le service découvre ses capacités avant de devenir prêt ;
+- l’état distingue `STOPPED`, `STARTING`, `READY`, `DEGRADED`, `FAILED` et `STOPPING` ;
+- les délais utilisent `Time.get_ticks_msec()` ;
+- une réponse tardive après délai ou annulation est ignorée ;
+- l’annulation reste coopérative et ne promet pas l’interruption immédiate d’une bibliothèque ;
+- le repli déterministe appartient à la fonctionnalité, pas au transport ;
+- le repli masque uniquement les indisponibilités prévues, jamais une erreur de contrat ;
+- le gameplay essentiel reste autoritaire et indépendant du service IA ;
+- les chemins d’exécution proviennent d’une configuration fiable et les arguments restent séparés ;
+- le processus compagnon reçoit un arrêt coopératif puis un arrêt forcé seulement après délai ;
+- les exports Web et les plateformes non qualifiées utilisent le repli ;
+- HTTP, WebSocket, API compatibles OpenAI et files de tâches restent réservés au chapitre 12 ;
+- secrets, isolation, signature et durcissement de production restent réservés au chapitre 13.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -540,7 +577,66 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-10.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 18. Erreurs à ne pas reproduire
+## 18. Chapitre 11 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- port `LocalAiGateway` indépendant du transport ;
+- processus compagnon Python local ;
+- protocole JSON par lignes sur entrée et sortie standard ;
+- formats requête et réponse versionnés ;
+- erreurs et capacités structurées ;
+- `request_id` unique par session et compteur ;
+- appels non bloquants sondés depuis `_process()` ;
+- tampon des lignes partielles et limite en octets ;
+- stdout réservé au protocole, stderr aux journaux ;
+- handshake `capabilities.describe` avant l’état prêt ;
+- états `STOPPED`, `STARTING`, `READY`, `DEGRADED`, `FAILED` et `STOPPING` ;
+- délais fondés sur `Time.get_ticks_msec()` ;
+- tickets résolus une seule fois ;
+- réponses tardives ignorées après retrait du registre ;
+- annulation coopérative, sans promesse d’interruption immédiate ;
+- repli déterministe au niveau de la fonctionnalité `beacons` ;
+- repli limité à indisponibilité, timeout et capacité absente ;
+- règles de gameplay essentielles indépendantes du service ;
+- arrêt par `system.shutdown`, puis `OS.kill()` uniquement après délai ;
+- export Web et plateformes non qualifiées orientés vers le repli ;
+- HTTP, WebSocket, API compatibles OpenAI et files de tâches réservés au chapitre 12 ;
+- durcissement production/runtime réservé au chapitre 13.
+
+Livrables documentés :
+
+- `src/core/ai/ai_service_config.gd` ;
+- `src/core/ai/ai_service_error.gd` ;
+- `src/core/ai/ai_capability.gd` ;
+- `src/core/ai/ai_request.gd` ;
+- `src/core/ai/ai_response.gd` ;
+- `src/core/ai/ai_call_ticket.gd` ;
+- `src/core/ai/ai_service_status.gd` ;
+- `src/core/ai/ai_envelope_codec.gd` ;
+- `src/core/ai/ai_transport.gd` ;
+- `src/core/ai/local_ai_gateway.gd` ;
+- `src/core/ai/stdio_companion_transport.gd` ;
+- `src/core/ai/local_ai_gateway_service.gd` ;
+- `src/features/beacons/application/beacon_knowledge_service.gd` ;
+- `src/features/beacons/infrastructure/beacon_knowledge_fallback.gd` ;
+- `src/app/ai_bootstrap.gd` ;
+- `tools/ai/companion_protocol.py` ;
+- `tools/ai/knowledge_service_adapter.py` ;
+- `tools/ai/companion_service.py` ;
+- `scenes/learning/ch11_local_ai_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-11.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-11.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 19. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -584,14 +680,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas promettre l’accélération AMD sans exécution ;
 - ne pas masquer toute erreur par le repli lexical ;
 - ne pas versionner le stockage Qdrant dérivé ;
+- ne pas bloquer la boucle principale pour attendre un service IA ;
+- ne pas exposer `FileAccess` ou le transport dans les scènes de gameplay ;
+- ne pas lire directement le stockage Qdrant depuis Godot ;
+- ne pas construire une commande depuis une saisie utilisateur ;
+- ne pas mélanger les journaux et le protocole sur stdout ;
+- ne pas analyser une ligne JSON partielle ;
+- ne pas laisser un tampon de protocole sans limite ;
+- ne pas réutiliser un `request_id` ;
+- ne pas appliquer une réponse tardive ;
+- ne pas présenter un timeout comme une interruption garantie ;
+- ne pas masquer une erreur de protocole par le repli ;
+- ne pas rendre l’IA obligatoire pour une règle essentielle ;
+- ne pas oublier l’arrêt du processus compagnon ;
+- ne pas confondre processus vivant et capacité disponible ;
+- ne pas coupler le port applicatif à HTTP avant le chapitre 12 ;
+- ne pas utiliser `OS.kill()` avant la tentative d’arrêt coopératif ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 19. État courant
+## 20. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 10 chapitres sur 30 ;
+- progression : 11 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -599,40 +711,60 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 8 : version `1.0.0` ;
 - chapitre 9 : version `1.0.0` ;
 - chapitre 10 : version `1.0.0` ;
+- chapitre 11 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 20. Prochaine action
+## 21. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md
+Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md
 ```
 
 Périmètre attendu :
 
-- rôle d’une frontière de service entre Godot et les outils IA locaux ;
-- contrats de requête, réponse, erreur et capacité ;
-- port applicatif indépendant de HTTP ;
-- adaptateur local ou processus compagnon ;
-- disponibilité facultative et découverte de capacités ;
-- appels asynchrones sans bloquer la boucle principale ;
-- délais, annulation et erreurs structurées ;
-- corrélation des requêtes ;
-- repli déterministe lorsque le service est absent ;
-- aucune lecture directe du stockage Qdrant par Godot ;
-- aucune exposition détaillée HTTP ou WebSocket avant le chapitre 12 ;
-- cycle de vie du service et arrêt contrôlé ;
+- mise en œuvre du port du chapitre 11 avec des transports réseau ;
+- choix entre `HTTPRequest`, `HTTPClient` et `WebSocketPeer` ;
+- contrats HTTP versionnés, en-têtes, types de contenu et codes de statut ;
+- API compatibles OpenAI sans dépendance directe à un fournisseur ;
+- streaming de réponses et événements ;
+- files de tâches locales ou serveur ;
+- identifiants de tâches, états et résultats ;
+- idempotence, retries bornés et backoff ;
+- délais et annulation à travers le transport ;
+- polling, notification et reprise ;
+- backpressure et limites de concurrence ;
+- erreurs réseau structurées ;
+- découverte de santé et de capacités ;
+- aucun secret réel dans les exemples ;
+- durcissement production/runtime réservé au chapitre 13 ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 21. Journal
+## 22. Journal
+
+### 2026-07-19 — version 3.12.0
+
+- création et audit statique du chapitre 11 ;
+- adoption d’un port applicatif indépendant du transport ;
+- ajout d’un processus compagnon Python local par JSON sur stdio ;
+- séparation stdout protocolaire et stderr de diagnostic ;
+- requêtes et réponses versionnées avec corrélation ;
+- découverte de capacités et états explicites ;
+- appels non bloquants, délais monotones et réponses tardives ignorées ;
+- annulation coopérative sans promesse d’interruption immédiate ;
+- repli déterministe au niveau de la fonctionnalité ;
+- arrêt coopératif puis forcé après délai ;
+- progression à 11 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 12 ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.11.0
 
