@@ -1566,7 +1566,7 @@ Toute opération passe par WebSocket.
 
 **Correction :** choisir selon le cycle de vie.
 
-> **[LECTURE] Choix corrigé — Référence.**
+> **[LECTURE] Exemple corrigé — Référence.**
 
 ```text
 santé et réponse unique : HTTP
