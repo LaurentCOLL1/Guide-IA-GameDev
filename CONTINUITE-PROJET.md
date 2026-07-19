@@ -28,7 +28,7 @@ Une nouvelle conversation doit :
 8. comparer le périmètre au plan maître ;
 9. rédiger, auditer, corriger et lancer la validation légère ;
 10. mettre à jour index, roadmap, `contents.txt` et ce fichier ;
-11. ne construire le PDF qu’à la fin du Livre, sauf modification directe de la chaîne PDF.
+11. ne construire le PDF qu’à la fin d'un Livre ou du Companion Pack, sauf modification directe de la chaîne PDF.
 
 ## 2. Sources maîtres
 
