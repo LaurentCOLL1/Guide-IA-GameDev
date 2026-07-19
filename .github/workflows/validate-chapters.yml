@@ -12,7 +12,7 @@ on:
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
       - "tools/validate_chapters.py"
-      - "tools/audit_contextes_utilisation.py"
+      - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-chapters.yml"
@@ -45,7 +45,7 @@ jobs:
       - name: Audit usage marker presence
         run: |
           set -o pipefail
-          python3 tools/audit_contextes_utilisation.py --check \
+          python3 tools/check_context_markers.py --check \
             | tee dist/QA-CONTEXTES.log
 
       - name: Audit semantic marker consistency
