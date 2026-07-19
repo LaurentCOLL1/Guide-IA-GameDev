@@ -44,6 +44,7 @@ Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md
 Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
 Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
 Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md
+Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md
 Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
 Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-II/QA/AUDIT-CHAPITRE-03.md
@@ -54,6 +55,7 @@ Livre-II/QA/AUDIT-CHAPITRE-07.md
 Livre-II/QA/AUDIT-CHAPITRE-08.md
 Livre-II/QA/AUDIT-CHAPITRE-09.md
 Livre-II/QA/AUDIT-CHAPITRE-10.md
+Livre-II/QA/AUDIT-CHAPITRE-11.md
 Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md
 Livre-III/index.md
 Livre-IV/index.md
