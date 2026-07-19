@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.2"
+version: "3.17.3"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -1158,8 +1158,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 : version `1.0.2` ;
 - chapitre 13 : version `1.0.0` ;
 - chapitre 14 : version `1.0.0` ;
-- chapitre 15 : version `1.0.0` ;
-- chapitre 16 : version `1.0.0` ;
+- chapitre 15 : version `1.1.0` ;
+- chapitre 16 : version `1.1.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1168,8 +1168,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 Correction pédagogique des chapitres 15 et 16 : **terminée au niveau `static-review`**.
 
-- chapitre 15 : 44 blocs significatifs contrôlés, 44 explications détaillées ajoutées ;
-- chapitre 16 : 43 blocs significatifs contrôlés, 43 explications détaillées ajoutées ;
+- chapitre 15 : 56 blocs de code ou données contrôlés, 56 explications détaillées présentes ;
+- chapitre 16 : 67 blocs de code ou données contrôlés, 67 explications détaillées présentes ;
 - audits et preuves QA révisés en version `1.1.0` ;
 - aucune exécution runtime ni production PDF revendiquée.
 
@@ -1203,6 +1203,14 @@ Périmètre attendu :
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.3
+
+- correction post-fusion de la source de vérité de continuité ;
+- versions courantes des chapitres 15 et 16 corrigées de `1.0.0` vers `1.1.0` ;
+- comptage final corrigé à 56 blocs expliqués pour le chapitre 15 et 67 pour le chapitre 16 ;
+- aucune modification du contenu technique des chapitres ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.2
 
