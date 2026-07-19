@@ -1,0 +1,33 @@
+name: Finalize Chapter 8 Evidence
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch08-sqlite-migrations
+    paths:
+      - tools/finalize_chapter08_evidence.py
+      - .github/workflows/finalize-chapter08-evidence.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch08-sqlite-migrations
+          fetch-depth: 0
+
+      - name: Finalize evidence
+        run: python tools/finalize_chapter08_evidence.py
+
+      - name: Commit final evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(qa): record chapter 8 validation results"
+          git push origin HEAD:docs/livre-ii-ch08-sqlite-migrations
