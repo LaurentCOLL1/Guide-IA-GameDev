@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.13.1"
+version: "3.14.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -100,7 +100,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 12 chapitres sur 30.**
+**En cours : 13 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -119,7 +119,7 @@ Chaque procédure doit expliquer :
 10. Mémoire vectorielle, connaissances et recherche sémantique — terminé au niveau `static-review`.
 11. Communication Godot avec les services IA locaux — terminé au niveau `static-review`.
 12. HTTP, WebSocket, API compatibles OpenAI et files de tâches — terminé au niveau `static-review`.
-13. Sécurité et séparation production/runtime de l’IA — prochain chapitre.
+13. Sécurité et séparation production/runtime de l’IA — terminé au niveau `static-review`.
 
 #### Partie C — Systèmes de gameplay
 
@@ -186,7 +186,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 12 : **Élevée**.
+Chapitres 3 à 13 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -373,7 +373,27 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - l’exemple `chat/completions` constitue un sous-ensemble historique et l’API Responses peut être ciblée séparément ;
 - la file en mémoire est volatile et ne promet aucune reprise après panne ;
 - le repli déterministe masque seulement les indisponibilités prévues ;
-- le durcissement de production reste réservé au chapitre 13.
+- le durcissement de production est traité au chapitre 13.
+
+### 11.8 Sécurité et séparation production/runtime
+
+- modèle de menaces maintenu avec actifs, frontières et menaces prioritaires ;
+- quatre zones séparées : production, livraison, runtime distribué et données du joueur ;
+- capacités de production exclues du package runtime ;
+- profils `development`, `test` et `production` distincts ;
+- secrets hors dépôt, hors `res://`, hors payloads métier et hors journaux ;
+- écoute sur `127.0.0.1` par défaut, adresses non spécifiées refusées ;
+- authentification et TLS obligatoires lorsque le service quitte la boucle locale ;
+- autorisation par défaut refusée pour opérations, modèles et chemins ;
+- `task_id` et identifiants similaires ne valent jamais autorisation ;
+- chemins canoniques résolus sous des racines autorisées ;
+- processus exécuté sans privilège administrateur ni clé de publication ;
+- payloads, résultats, délais, débit, tâches et concurrence bornés ;
+- journaux rédigés, rotatifs et sans en-tête `Authorization` ;
+- dépendances épinglées et licences inventoriées ;
+- SBOM, provenance, signature et rollback préparés pour la publication ;
+- violation de sécurité refusée sans contournement par le repli ;
+- repli déterministe conservé uniquement pour les indisponibilités fonctionnelles prévues.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -714,7 +734,65 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-12.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 20. Erreurs à ne pas reproduire
+## 20. Chapitre 13 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Décisions enregistrées :
+
+- modèle de menaces versionné et relu lors des changements de surface ;
+- production, livraison, runtime et données du joueur séparés par des frontières explicites ;
+- outils d’indexation, diagnostics et secrets de signature absents du package runtime ;
+- profils d’environnement avec debug, journaux, administration, TLS et authentification explicites ;
+- secrets exclus du dépôt, de `res://`, des payloads métier et des journaux ;
+- `.godot/export_credentials.cfg`, fichiers `.env`, clés et certificats privés ignorés ;
+- jetons générés avec `secrets` et comparés avec `hmac.compare_digest` ;
+- boucle locale par défaut et refus des adresses non spécifiées ;
+- authentification et TLS exigés hors loopback ;
+- autorisation `deny-by-default` par identité et capacité ;
+- listes d’autorisation pour opérations, modèles, extensions et racines de chemins ;
+- résolution canonique des chemins sous une racine autorisée ;
+- `TLSOptions.client_unsafe()` exclu du profil production ;
+- moindre privilège pour fichiers, réseau, variables, temps et mémoire ;
+- limites de corps, résultat, tâches, débit et timeout ;
+- journaux structurés avec rédaction des champs sensibles ;
+- dépendances réelles épinglées sans faux fichier de verrouillage ;
+- SBOM CycloneDX ou SPDX choisi selon l’outillage réel ;
+- provenance reliant commit, outils, paramètres non secrets et hachages ;
+- signature de publication distincte d’un simple hachage ;
+- mise à jour versionnée avec vérification et rollback ;
+- échec fermé pour authentification, autorisation, signature et validation ;
+- repli déterministe réservé aux indisponibilités fonctionnelles ;
+- systèmes de gameplay réservés à partir du chapitre 14.
+
+Livrables documentés :
+
+- `docs/security/threat-model.md` ;
+- `config/ai-capabilities.yaml` ;
+- `config/ai-server-production.toml` ;
+- `config/runtime-models.yaml` ;
+- `res://src/core/security/runtime_profile.gd` ;
+- `res://src/core/security/tls_policy.gd` ;
+- `res://src/core/security/security_policy.gd` ;
+- `tools/security/secret_provider.py` ;
+- `tools/security/generate_local_token.py` ;
+- `tools/security/redaction.py` ;
+- `tools/ai_server/security_config.py` ;
+- `tools/ai_server/authentication.py` ;
+- `tools/ai_server/authorization.py` ;
+- `tools/ai_server/safe_paths.py` ;
+- `tools/ai_server/tls_context.py` ;
+- `tools/ai_server/security_limits.py`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-13.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-13.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 21. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -790,14 +868,28 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un identifiant de tâche comme autorisation ;
 - ne pas promettre une reprise après panne avec une file volatile ;
 - ne pas masquer une erreur de protocole par le repli ;
+- ne pas livrer les outils de production dans le runtime ;
+- ne pas écouter sur `0.0.0.0` ou `::` par défaut ;
+- ne pas stocker un jeton dans `res://` ou dans le dépôt ;
+- ne pas confondre authentification, autorisation et chiffrement ;
+- ne pas utiliser un identifiant de tâche comme permission ;
+- ne pas utiliser `TLSOptions.client_unsafe()` en production ;
+- ne pas ouvrir directement un chemin fourni par le client ;
+- ne pas journaliser `Authorization`, jetons ou payloads complets ;
+- ne pas utiliser `random` pour un jeton de sécurité ;
+- ne pas inclure une clé privée dans le package client ;
+- ne pas publier sans inventaire des dépendances et SBOM ;
+- ne pas présenter un hachage seul comme preuve d’origine ;
+- ne pas contourner un refus de sécurité par un repli ;
+- ne pas conserver le debug de développement en production ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 21. État courant
+## 22. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 12 chapitres sur 30 ;
+- progression : 13 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -807,42 +899,59 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 10 : version `1.0.0` ;
 - chapitre 11 : version `1.0.0` ;
 - chapitre 12 : version `1.0.2` ;
+- chapitre 13 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 22. Prochaine action
+## 23. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md
+Livre-II/CHAPITRE-14-Personnages.md
 ```
 
 Périmètre attendu :
 
-- modèle de menaces et frontières de confiance ;
-- séparation stricte entre outils de production et services autorisés au runtime ;
-- configurations distinctes développement, test et production ;
-- secrets hors versionnement et hors payloads de gameplay ;
-- écoute sur boucle locale par défaut et refus de l’exposition implicite ;
-- authentification obligatoire dès qu’un service quitte la boucle locale ;
-- TLS et certificats lorsque le réseau l’exige ;
-- listes d’autorisation pour opérations, modèles et chemins ;
-- moindre privilège pour processus, fichiers et réseau ;
-- limites de payload, débit, concurrence et quotas ;
-- rédaction des journaux et politique de conservation ;
-- dépendances épinglées, inventaire, licences et SBOM ;
-- packaging, signature et stratégie de mise à jour ;
-- échec fermé pour la sécurité avec repli déterministe du gameplay ;
+- premier des douze systèmes de gameplay ;
+- identité stable d’un personnage indépendante de son nom affiché ;
+- séparation entre définition de conception, état runtime et persistance ;
+- données de base, attributs, statistiques dérivées et validation ;
+- composition de la scène de personnage et responsabilités des composants ;
+- séparation entre personnage, contrôleur, représentation visuelle et corps physique ;
+- réutilisation des entrées, caméra et interactions du chapitre 6 ;
+- création, apparition, désapparition et registre limité des personnages actifs ;
+- événements typés pour les changements importants ;
+- sérialisation vers le système de sauvegarde sans inclure les caches dérivés ;
+- frontières explicites avec relations sociales, famille, agents autonomes, combat et compétences ;
+- démonstration pédagogique, critères d’acceptation et tests à préparer ;
 - parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 23. Journal
+## 24. Journal
+
+### 2026-07-19 — version 3.14.0
+
+- création, correction et audit statique du chapitre 13 ;
+- modèle de menaces et frontières de confiance documentés ;
+- séparation stricte entre production, livraison, runtime et données du joueur ;
+- profils développement, test et production ;
+- secrets hors dépôt et hors package ;
+- boucle locale par défaut, authentification et TLS hors loopback ;
+- autorisation par défaut refusée et listes d’autorisation ;
+- chemins canoniques, moindre privilège, limites et quotas ;
+- journaux rédigés et rétention distincte Solo/Studio ;
+- dépendances épinglées, licences, SBOM, provenance et signature préparés ;
+- échec fermé sans contournement par le repli déterministe ;
+- plateforme IA locale terminée à quatre chapitres sur quatre ;
+- progression à 13 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 14 — Personnages ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.13.1
 
