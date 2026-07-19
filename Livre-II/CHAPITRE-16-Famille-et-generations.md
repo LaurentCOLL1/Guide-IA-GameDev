@@ -497,6 +497,8 @@ Les index secondaires contiennent des identifiants de liens, pas des copies d’
 
 ### 11.2 Ajouter une filiation
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func add_parent_link(link: ParentChildLink) -> Error:
 	if link == null:
@@ -525,6 +527,8 @@ L’ordre est important :
 5. mutation des trois structures.
 
 ### 11.3 Cycle d’ascendance
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func _would_create_ancestry_cycle(
@@ -561,6 +565,8 @@ Ajouter `parent → enfant` crée un cycle si `parent` est déjà descendant de 
 Le dépassement de budget est traité comme un refus conservateur, pas comme une absence de cycle.
 
 ### 11.4 Helpers d’index
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func _append_index(
@@ -606,6 +612,8 @@ func get_union_links() -> Array[UnionLink]:
 
 ### 12.1 Parents et enfants directs
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func get_parents(child_id: StringName) -> Array[StringName]:
 	var result: Array[StringName] = []
@@ -630,6 +638,8 @@ Les tableaux retournés sont nouveaux. L’appelant ne reçoit jamais les collec
 
 ### 12.2 Fratrie calculée
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func get_siblings(character_id: StringName) -> Array[StringName]:
 	var siblings: Dictionary[StringName, bool] = {}
@@ -650,6 +660,8 @@ Cette définition retourne les demi-frères et demi-sœurs dès qu’au moins un
 Une politique plus stricte peut comparer l’ensemble complet des parents, mais elle doit être explicitement nommée.
 
 ### 12.3 Ancêtres bornés
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func get_ancestors(
@@ -697,6 +709,8 @@ La valeur associée est la distance minimale :
 - `3` : arrière-grand-parent.
 
 ### 12.4 Descendants bornés
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func get_descendants(
@@ -752,6 +766,8 @@ On calcule plutôt :
 
 ### 13.2 Distance générationnelle
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func get_generation_distance(
 	ancestor_id: StringName,
@@ -767,6 +783,8 @@ func get_generation_distance(
 ## 14. Tutelles et unions actives
 
 ### 14.1 Ajouter une tutelle
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func add_guardianship(link: GuardianshipLink) -> Error:
@@ -788,6 +806,8 @@ func add_guardianship(link: GuardianshipLink) -> Error:
 ```
 
 ### 14.2 Ajouter une union
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func add_union(link: UnionLink) -> Error:
@@ -811,6 +831,8 @@ func add_union(link: UnionLink) -> Error:
 ```
 
 ### 14.3 Chevauchement d’intervalles
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func _intervals_overlap(
@@ -1003,6 +1025,8 @@ func duplicate_value() -> FamilyHistoryRecord:
 
 ### 16.2 Journal borné
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 class_name FamilyEventLog
 extends RefCounted
@@ -1143,6 +1167,8 @@ Le snapshot ne contient pas :
 
 ### 18.2 Limites du codec
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 class_name FamilySnapshotCodec
 extends RefCounted
@@ -1234,6 +1260,8 @@ func _encode_history(record: FamilyHistoryRecord) -> Dictionary:
 
 ### 18.4 Décodage strict d’une filiation
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func _decode_parent_link(
 	value: Variant,
@@ -1290,6 +1318,8 @@ func _decode_parent_link(
 ```
 
 ### 18.5 Intervalles, tutelles et unions
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func _decode_interval(value: Variant) -> LogicalInterval:
@@ -1406,6 +1436,8 @@ func _decode_union(
 
 ### 18.6 Historique et utilitaires
 
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
+
 ```gdscript
 func _decode_history(value: Variant) -> FamilyHistoryRecord:
 	if not value is Dictionary:
@@ -1458,6 +1490,8 @@ func _types_match(
 ```
 
 ## 19. Construction atomique du graphe candidat
+
+> **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
 
 ```gdscript
 func decode_snapshot(
@@ -1833,6 +1867,8 @@ Le chapitre est accepté au niveau documentaire et statique si :
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 parents_by_name["Aster"] = ["Mira"]
 ```
@@ -1840,6 +1876,8 @@ parents_by_name["Aster"] = ["Mira"]
 **Correction :** utiliser les `CharacterId`.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 parents_by_child[child_id] = [parent_id]
@@ -1853,6 +1891,8 @@ parents_by_child[child_id] = [parent_id]
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 player_node.children_ids.append(child_id)
 ```
@@ -1860,6 +1900,8 @@ player_node.children_ids.append(child_id)
 **Correction :** conserver les liens dans `FamilyGraph`.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 family_graph.add_parent_link(link)
@@ -1873,6 +1915,8 @@ family_graph.add_parent_link(link)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 if affinity > 80:
 	is_parent = true
@@ -1881,6 +1925,8 @@ if affinity > 80:
 **Correction :** créer une commande familiale explicite.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 family_service.add_parent_link(command)
@@ -1894,6 +1940,8 @@ family_service.add_parent_link(command)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 snapshot["siblings"] = sibling_ids
 ```
@@ -1901,6 +1949,8 @@ snapshot["siblings"] = sibling_ids
 **Correction :** calculer la fratrie depuis les parents partagés.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var sibling_ids := graph.get_siblings(character_id)
@@ -1914,6 +1964,8 @@ var sibling_ids := graph.get_siblings(character_id)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 character.generation = 4
 ```
@@ -1921,6 +1973,8 @@ character.generation = 4
 **Correction :** calculer une distance relative à un ancêtre.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var distance := graph.get_generation_distance(founder_id, character_id)
@@ -1934,6 +1988,8 @@ var distance := graph.get_generation_distance(founder_id, character_id)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 _parent_links[link.link_id] = link
 ```
@@ -1941,6 +1997,8 @@ _parent_links[link.link_id] = link
 **Correction :** rechercher si le parent est déjà descendant de l’enfant.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 if _would_create_ancestry_cycle(link.parent_id, link.child_id):
@@ -1955,6 +2013,8 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 if visited.size() > limit:
 	return false
@@ -1963,6 +2023,8 @@ if visited.size() > limit:
 **Correction :** refuser conservativement.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 if visited.size() >= MAX_TRAVERSAL_NODES:
@@ -1977,6 +2039,8 @@ if visited.size() >= MAX_TRAVERSAL_NODES:
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 var key := "%s>%s" % [left_id, right_id]
 ```
@@ -1984,6 +2048,8 @@ var key := "%s>%s" % [left_id, right_id]
 **Correction :** canoniser la paire.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var key := CharacterPair.create(left_id, right_id).key()
@@ -1997,6 +2063,8 @@ var key := CharacterPair.create(left_id, right_id).key()
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 started_at_tick = Time.get_unix_time_from_system()
 ```
@@ -2004,6 +2072,8 @@ started_at_tick = Time.get_unix_time_from_system()
 **Correction :** utiliser le tick logique.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 started_at_tick = simulation_clock.current_tick
@@ -2017,6 +2087,8 @@ started_at_tick = simulation_clock.current_tick
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 interval.ended_at_tick = 10
 ```
@@ -2024,6 +2096,8 @@ interval.ended_at_tick = 10
 **Correction :** passer par `close_at()`.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var result := interval.close_at(current_tick)
@@ -2037,6 +2111,8 @@ var result := interval.close_at(current_tick)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 if not active_registry.has(parent_id):
 	return ERR_DOES_NOT_EXIST
@@ -2045,6 +2121,8 @@ if not active_registry.has(parent_id):
 **Correction :** utiliser l’index logique.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 if not identity_index.contains(parent_id):
@@ -2059,6 +2137,8 @@ if not identity_index.contains(parent_id):
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 return _children_by_parent[parent_id]
 ```
@@ -2066,6 +2146,8 @@ return _children_by_parent[parent_id]
 **Correction :** construire un nouveau tableau.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 return result
@@ -2079,6 +2161,8 @@ return result
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 for raw_link in payload.parent_links:
 	_graph.add_parent_link(decode(raw_link))
@@ -2087,6 +2171,8 @@ for raw_link in payload.parent_links:
 **Correction :** construire un candidat complet.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var candidate := codec.decode_graph(payload, identities)
@@ -2100,6 +2186,8 @@ var candidate := codec.decode_graph(payload, identities)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 snapshot["parents_by_child"] = _parents_by_child
 ```
@@ -2107,6 +2195,8 @@ snapshot["parents_by_child"] = _parents_by_child
 **Correction :** persister uniquement les liens autoritaires.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 snapshot["parent_links"] = encoded_links
@@ -2120,6 +2210,8 @@ snapshot["parent_links"] = encoded_links
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 family_graph.add_parent_link(ai_response)
 ```
@@ -2127,6 +2219,8 @@ family_graph.add_parent_link(ai_response)
 **Correction :** mapper vers une commande validée et soumise à l’autorité du jeu.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 var result := family_service.add_parent_link(validated_command)
@@ -2140,6 +2234,8 @@ var result := family_service.add_parent_link(validated_command)
 
 **Exemple fautif :**
 
+> **[LECTURE] Exemple fautif — Ne pas utiliser.**
+
 ```gdscript
 func add_child(child_id):
 	next_ruler_id = child_id
@@ -2148,6 +2244,8 @@ func add_child(child_id):
 **Correction :** publier un événement familial consommable par le chapitre 23.
 
 **Exemple corrigé :**
+
+> **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
 family_link_added.emit(event)
