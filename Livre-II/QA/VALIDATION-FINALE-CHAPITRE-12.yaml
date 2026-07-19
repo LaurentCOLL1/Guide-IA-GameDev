@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH12
-status: validating
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: 64989c7faf6521becd7ddb13f7d4ffabc24abef1
 chapter:
@@ -31,11 +31,18 @@ scope:
 results:
   master-plan-items-covered: 17
   detailed-error-cases: 16
+  sources: 64
+  unique-identifiers: 63
+  livre-i-chapters: 10
+  livre-ii-chapters: 12
   chapter-lines: 2018
   chapter-headings: 79
+  chapter-significant-code-blocks: 38
   chapter-code-and-data-blocks: 71
-  marked-context-blocks: 71
+  total-context-blocks: 1390
+  marked-context-blocks: 1390
   context-nonconformities: 0
+  semantic-inconsistencies: 0
   duplicate-headings: 0
   duplicate-significant-blocks: 0
   duplicate-long-paragraphs: 0
@@ -87,15 +94,15 @@ corrections:
   - Correction des chemins du chapitre détaillé et de la prochaine action.
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29700629472
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29700629477
+    conclusion: success
   artifact:
-    id: null
+    id: 8446332249
     name: chapter-validation-without-pdf
-    digest: null
+    digest: sha256:7d81f0bf03819f441dd283a2ee8c7f18d2baf39ae58cc2863ee41d837d8f5d40
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - HTTPRequest et body_size_limit n’ont pas été exécutés sous Windows 11.
