@@ -27,31 +27,45 @@ jobs:
           ref: qa/retrofit-error-examples-ch01-ch06
           fetch-depth: 0
 
-      - name: Apply retroactive pedagogical audit
-        id: apply
-        continue-on-error: true
+      - name: Patch literal regex replacement
         run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/retrofit_error_examples.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'updated, count = pattern.subn(replacement + "\\n", text, count=1)'
+          new = 'updated, count = pattern.subn(lambda _match: replacement + "\\n", text, count=1)'
+          if old not in text:
+              raise SystemExit('replacement call not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Apply retroactive pedagogical audit
+        run: |
+          set +e
           python tools/retrofit_error_examples.py > retrofit.log 2>&1
-          status=$?
-          echo "status=$status" >> "$GITHUB_OUTPUT"
-          exit $status
+          echo $? > retrofit.status
+          exit 0
 
       - name: Upload retrofit diagnostic
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: retrofit-error-diagnostic
-          path: retrofit.log
+          path: |
+            retrofit.log
+            retrofit.status
           if-no-files-found: error
 
       - name: Stop after retrofit failure
-        if: steps.apply.outputs.status != '0'
         run: |
-          cat retrofit.log
-          exit 1
+          status=$(cat retrofit.status)
+          if [ "$status" -ne 0 ]; then
+            cat retrofit.log
+            exit "$status"
+          fi
 
       - name: Commit corrected chapters and governance
-        if: steps.apply.outputs.status == '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
