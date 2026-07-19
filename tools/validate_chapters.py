@@ -15,7 +15,7 @@ import yaml
 CHAPTER_RE = re.compile(r"Livre-(I|II)/CHAPITRE-(\d{2})-.+\.md$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
-FENCE_RE = re.compile(r"^```")
+FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
@@ -71,12 +71,43 @@ def normalize_paragraph(value: str) -> str:
     return re.sub(r"\s+", " ", value.strip().casefold())
 
 
+def text_without_fenced_code(text: str) -> str:
+    """Remplace le contenu des blocs clôturés par des lignes vides.
+
+    Les exemples de code peuvent contenir une séquence ``](`` qui ressemble à
+    un lien Markdown. Les liens locaux ne doivent être contrôlés que dans le
+    texte Markdown interprétable, pas dans les exemples littéraux.
+    """
+    result: list[str] = []
+    in_fence = False
+    fence_char = ""
+    fence_length = 0
+
+    for line in text.splitlines():
+        match = FENCE_RE.match(line.strip())
+        if match:
+            fence = match.group("fence")
+            if not in_fence:
+                in_fence = True
+                fence_char = fence[0]
+                fence_length = len(fence)
+            elif fence[0] == fence_char and len(fence) >= fence_length:
+                in_fence = False
+            result.append("")
+            continue
+        result.append("" if in_fence else line)
+
+    return "\n".join(result)
+
+
 def inspect_duplicates(text: str, rel: str) -> ChapterStats:
     lines = text.splitlines()
     headings: list[str] = []
     blocks: list[str] = []
     paragraphs: list[str] = []
     in_fence = False
+    fence_char = ""
+    fence_length = 0
     block_lines: list[str] = []
     paragraph_lines: list[str] = []
 
@@ -89,32 +120,37 @@ def inspect_duplicates(text: str, rel: str) -> ChapterStats:
             paragraph_lines = []
 
     for line in lines:
-        if FENCE_RE.match(line):
+        match_fence = FENCE_RE.match(line.strip())
+        if match_fence:
             flush_paragraph()
-            if in_fence:
+            fence = match_fence.group("fence")
+            if in_fence and fence[0] == fence_char and len(fence) >= fence_length:
                 normalized = normalize_block(block_lines)
                 meaningful = [item for item in normalized.splitlines() if item.strip()]
                 if len(meaningful) >= 4 or len(normalized) >= 180:
                     blocks.append(normalized)
                 block_lines = []
                 in_fence = False
-            else:
+            elif not in_fence:
                 in_fence = True
+                fence_char = fence[0]
+                fence_length = len(fence)
             continue
         if in_fence:
             block_lines.append(line)
             continue
-        match = HEADING_RE.match(line)
-        if match:
+
+        match_heading = HEADING_RE.match(line)
+        if match_heading:
             flush_paragraph()
-            headings.append(normalize_heading(match.group(2)))
+            headings.append(normalize_heading(match_heading.group(2)))
             continue
         if not line.strip() or line.lstrip().startswith((">", "- ", "* ", "|")):
             flush_paragraph()
             continue
         paragraph_lines.append(line.strip())
-    flush_paragraph()
 
+    flush_paragraph()
     heading_counts = Counter(headings)
     block_counts = Counter(blocks)
     paragraph_counts = Counter(paragraphs)
@@ -127,6 +163,31 @@ def inspect_duplicates(text: str, rel: str) -> ChapterStats:
         duplicate_blocks=sum(v - 1 for v in block_counts.values() if v > 1),
         duplicate_paragraphs=sum(v - 1 for v in paragraph_counts.values() if v > 1),
     )
+
+
+def validate_local_links(
+    text: str,
+    source: Path,
+    root: Path,
+    rel: str,
+    errors: list[str],
+) -> None:
+    markdown_text = text_without_fenced_code(text)
+    for raw_target in LINK_RE.findall(markdown_text):
+        target = unquote(raw_target.strip().split()[0].strip("<>"))
+        if not target or target.startswith(("#", "http://", "https://", "mailto:")):
+            continue
+        target_path = target.split("#", 1)[0]
+        if not target_path:
+            continue
+        resolved = (source.parent / target_path).resolve()
+        try:
+            resolved.relative_to(root)
+        except ValueError:
+            errors.append(f"Lien sortant du dépôt dans {rel} : {target}")
+            continue
+        if not resolved.exists():
+            errors.append(f"Lien local cassé dans {rel} : {target}")
 
 
 def main() -> int:
@@ -165,14 +226,12 @@ def main() -> int:
         if match:
             chapter_entries[match.group(1)].append((entry, int(match.group(2))))
 
-    expected_i = list(range(1, 11))
     actual_i = [number for _, number in chapter_entries["I"]]
-    if actual_i != expected_i:
+    if actual_i != list(range(1, 11)):
         errors.append(f"Le Livre I doit déclarer les chapitres 01 à 10 dans l’ordre ; détectés : {actual_i}.")
 
     actual_ii = [number for _, number in chapter_entries["II"]]
-    expected_ii = list(range(1, len(actual_ii) + 1))
-    if actual_ii != expected_ii:
+    if actual_ii != list(range(1, len(actual_ii) + 1)):
         errors.append(f"Les chapitres présents du Livre II doivent être continus depuis 01 ; détectés : {actual_ii}.")
 
     ids: dict[str, str] = {}
@@ -247,21 +306,7 @@ def main() -> int:
                 if chapter_stats.duplicate_paragraphs:
                     errors.append(f"Paragraphes longs dupliqués dans {rel} : {chapter_stats.duplicate_paragraphs}")
 
-        for raw_target in LINK_RE.findall(text):
-            target = unquote(raw_target.strip().split()[0].strip("<>"))
-            if not target or target.startswith(("#", "http://", "https://", "mailto:")):
-                continue
-            target_path = target.split("#", 1)[0]
-            if not target_path:
-                continue
-            resolved = (source.parent / target_path).resolve()
-            try:
-                resolved.relative_to(root)
-            except ValueError:
-                errors.append(f"Lien sortant du dépôt dans {rel} : {target}")
-                continue
-            if not resolved.exists():
-                errors.append(f"Lien local cassé dans {rel} : {target}")
+        validate_local_links(text, source, root, rel, errors)
 
     metadata_file = root / "metadata.yaml"
     if not metadata_file.is_file():
@@ -276,19 +321,15 @@ def main() -> int:
             warnings.append("La licence globale reste à définir avant publication officielle.")
 
     lines = [
-        "# Validation automatique légère des chapitres",
-        "",
-        "Cette validation ne construit aucun PDF.",
-        "",
+        "# Validation automatique légère des chapitres", "",
+        "Cette validation ne construit aucun PDF.", "",
         f"- Sources déclarées : **{len(sources)}**",
         f"- Chapitres du Livre I : **{len(chapter_entries['I'])}**",
         f"- Chapitres du Livre II : **{len(chapter_entries['II'])}**",
         f"- Identifiants uniques : **{len(ids)}**",
         f"- Erreurs bloquantes : **{len(errors)}**",
-        f"- Avertissements : **{len(warnings)}**",
-        "",
-        "## Doublons par chapitre du Livre II",
-        "",
+        f"- Avertissements : **{len(warnings)}**", "",
+        "## Doublons par chapitre du Livre II", "",
         "| Chapitre | Lignes | Titres | Blocs significatifs | Titres dupliqués | Blocs dupliqués | Paragraphes dupliqués |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
