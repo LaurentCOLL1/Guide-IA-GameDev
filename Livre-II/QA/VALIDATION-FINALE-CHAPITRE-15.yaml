@@ -1,0 +1,118 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH15
+status: pending-ci
+validation-date: 2026-07-19
+validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
+chapter:
+  id: DOC-L2-CH15
+  path: Livre-II/CHAPITRE-15-Relations-sociales.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - directed relationship identity review
+  - mutual-view separation review
+  - bounded social axes review
+  - causal history review
+  - atomic mutation review
+  - logical character identity review
+  - typed event review
+  - neighborhood query review
+  - strict snapshot review
+  - save-section preparation review
+  - chapter-boundary review
+  - GDScript static review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 16
+  detailed-error-cases: 16
+  clickable-technical-source-links: 15
+  official-web-source-links: 14
+  local-chapter-links: 1
+  sources: null
+  unique-identifiers: null
+  livre-i-chapters: 10
+  livre-ii-chapters: 15
+  chapter-lines: 2177
+  chapter-headings: 69
+  chapter-significant-code-blocks: null
+  chapter-code-and-data-blocks: 66
+  total-context-blocks: null
+  marked-context-blocks: null
+  context-nonconformities: 0
+  semantic-inconsistencies: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  local-markdown-links: 2
+  broken-local-links: 0
+  json-blocks-parsed: 1
+  json-parse-errors: 0
+  gdscript-code-blocks: 55
+  documented-gdscript-static-review: success
+  godot-parser-executed: false
+  directed-source-target-key: true
+  self-relationship-refused: true
+  bidirectional-perceptions-independent: true
+  mutual-view-derived: true
+  bounded-affinity-trust-respect-fear: true
+  bounded-command-deltas: true
+  causal-provenance-required: true
+  logical-tick-used: true
+  bounded-history: true
+  deep-history-copy: true
+  atomic-single-relation-replacement: true
+  logical-character-index-used: true
+  active-scene-independence: true
+  typed-events-documented: true
+  outgoing-index-documented: true
+  lazy-relation-creation: true
+  strict-snapshot-types: true
+  exact-json-keys: true
+  save-section-prepared-before-apply: true
+  future-gameplay-systems-separated: true
+  process-audit-report-present: true
+  process-distinct-draft-gate-recorded: true
+  blocking-errors: 0
+  warnings: 1
+  pdf-produced: false
+corrections:
+  - Remplacement de la mutation directe par un candidat et replace_one atomique.
+  - Copie profonde des enregistrements historiques.
+  - Validation des deltas et refus des enregistrements sans effet.
+  - Cohérence renforcée entre révision, tick et historique.
+  - Implémentation complète du décodage des records et deltas.
+  - Contrôle du retour de set_history_for_restore.
+  - Refus de apply_prepared sans préparation réussie.
+  - Vérification de l’index logique d’identités avant décodage.
+  - Ajout de deux repères LECTURE manquants.
+  - Présentation des sources sous forme de liens Markdown nommés.
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
+  - La scène de démonstration n’a pas été instanciée.
+  - Les signaux n’ont pas été exécutés.
+  - L’index logique réel des identités n’a pas été matérialisé.
+  - La restauration transactionnelle entre sections n’a pas été exécutée.
+  - Les migrations de section sociale n’ont pas été testées.
+  - Les performances proches de N au carré n’ont pas été mesurées.
+  - Les lots d’événements mondiaux n’ont pas été exécutés.
+  - Le multijoueur reste hors périmètre.
+  - Le packaging multi-plateforme reste à qualifier.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
