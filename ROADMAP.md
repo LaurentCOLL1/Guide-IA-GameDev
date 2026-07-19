@@ -70,6 +70,7 @@
 - [x] Chapitre 7 — Resources, JSON, catalogues, configuration typée et repositories — rédigé et audité au niveau `static-review`.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
+- [x] Validation automatique sans PDF du chapitre 7.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
 **Statut M3 : en cours — 7 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle de `Project Asteria`. Le projet distingue désormais données de conception, configuration, état runtime et persistance ; il valide un catalogue de balises et injecte un repository sans exposer les chemins de fichiers au gameplay. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
