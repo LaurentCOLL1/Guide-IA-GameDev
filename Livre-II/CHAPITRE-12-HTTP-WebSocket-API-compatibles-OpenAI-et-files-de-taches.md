@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 12 : HTTP, WebSocket, API compatibles OpenAI et files de tâches"
 id: "DOC-L2-CH12"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 12
@@ -47,7 +47,7 @@ Ce chapitre ajoute les transports réseau locaux et la gestion des travaux qui n
 - une file de tâches bornée pour les opérations longues ;
 - des règles de backpressure, d’idempotence, d’annulation et de reprise.
 
-L’objectif n’est pas de rendre le gameplay dépendant d’un serveur. `LocalAiPort` reste le contrat. Les adaptateurs HTTP et WebSocket sont remplaçables, et le repli déterministe du chapitre 11 reste disponible.
+L’objectif n’est pas de rendre le gameplay dépendant d’un serveur. `LocalAiGateway` reste le contrat. Les adaptateurs HTTP et WebSocket sont remplaçables, et le repli déterministe du chapitre 11 reste disponible.
 
 ## 2. Prérequis
 
@@ -59,7 +59,7 @@ Le lecteur doit connaître :
 - les services, contrats et bootstrap du chapitre 5 ;
 - la configuration typée du chapitre 7 ;
 - la mémoire vectorielle du chapitre 10 ;
-- `LocalAiPort`, la corrélation, les délais et le repli du chapitre 11.
+- `LocalAiGateway`, la corrélation, les délais et le repli du chapitre 11.
 
 Le présent chapitre reste au niveau `static-review`. Aucun serveur, socket, flux de tokens ou worker n’est exécuté dans le Starter Kit.
 
@@ -68,7 +68,7 @@ Le présent chapitre reste au niveau `static-review`. Aucun serveur, socket, flu
 Ce chapitre définit :
 
 - les rôles respectifs de HTTP et WebSocket ;
-- un adaptateur HTTP Godot derrière `LocalAiPort` ;
+- un adaptateur HTTP Godot derrière `LocalAiGateway` ;
 - un canal WebSocket pour événements et flux progressifs ;
 - des enveloppes réseau versionnées ;
 - une traduction isolée vers un sous-ensemble compatible OpenAI ;
@@ -148,8 +148,6 @@ fonctionnalité Godot
         ↓
 LocalAiGateway
         ↓
-LocalAiPort
-        ↓
 ┌───────────────────────────────┐
 │ StdioCompanionTransport       │
 │ HttpLocalAiTransport          │
@@ -202,22 +200,18 @@ res://scenes/learning/
 class_name AiNetworkConfig
 extends RefCounted
 
-var enabled := false
 var base_url := "http://127.0.0.1:8765"
-var websocket_url := "ws://127.0.0.1:8765/events"
-var connect_timeout_seconds := 3.0
+var websocket_url := "ws://127.0.0.1:8765/v1/events"
 var request_timeout_seconds := 15.0
 var max_response_bytes := 4 * 1024 * 1024
 var max_in_flight := 8
 
 func validate() -> PackedStringArray:
 	var errors := PackedStringArray()
-	if not base_url.begins_with("http://127.0.0.1"):
-		errors.append("base_url doit utiliser la boucle locale dans ce chapitre")
-	if not websocket_url.begins_with("ws://127.0.0.1"):
-		errors.append("websocket_url doit utiliser la boucle locale")
-	if connect_timeout_seconds < 0.1 or connect_timeout_seconds > 30.0:
-		errors.append("connect_timeout_seconds hors limites")
+	if not _is_loopback_url(base_url, "http", ""):
+		errors.append("base_url doit viser exactement 127.0.0.1 avec un port valide")
+	if not _is_loopback_url(websocket_url, "ws", "/v1/events"):
+		errors.append("websocket_url doit viser 127.0.0.1 et /v1/events")
 	if request_timeout_seconds < 0.1 or request_timeout_seconds > 120.0:
 		errors.append("request_timeout_seconds hors limites")
 	if max_response_bytes < 1024 or max_response_bytes > 32 * 1024 * 1024:
@@ -225,9 +219,27 @@ func validate() -> PackedStringArray:
 	if max_in_flight < 1 or max_in_flight > 64:
 		errors.append("max_in_flight hors limites")
 	return errors
+
+func _is_loopback_url(value: String, scheme: String, path: String) -> bool:
+	var prefix := scheme + "://127.0.0.1:"
+	if not value.begins_with(prefix):
+		return false
+
+	var remainder := value.trim_prefix(prefix)
+	var slash_index := remainder.find("/")
+	var port_text := remainder
+	var actual_path := ""
+	if slash_index >= 0:
+		port_text = remainder.left(slash_index)
+		actual_path = remainder.substr(slash_index)
+
+	if not port_text.is_valid_int():
+		return false
+	var port := port_text.to_int()
+	return port >= 1 and port <= 65535 and actual_path == path
 ```
 
-`base_url` et `websocket_url` restent des données d’infrastructure. `max_in_flight` limite les requêtes simultanées. Le chapitre 13 généralisera les hôtes autorisés et TLS.
+`base_url` et `websocket_url` restent des données d’infrastructure. La validation refuse les noms ressemblant à la boucle locale, comme `127.0.0.1.example.org`, et contrôle le port. `max_in_flight` limite les requêtes simultanées. Le chapitre 13 généralisera les hôtes autorisés, TLS et les politiques réseau.
 
 ## 9. Enveloppe réseau
 
@@ -329,7 +341,11 @@ func submit(request: AiRequest) -> Error:
 		return ERR_ALREADY_EXISTS
 
 	var http := HTTPRequest.new()
-	http.timeout = request.timeout_seconds
+	http.timeout = minf(
+		request.timeout_seconds,
+		_config.request_timeout_seconds
+	)
+	http.body_size_limit = _config.max_response_bytes
 	http.download_file = ""
 	http.use_threads = true
 	_owner.add_child(http)
@@ -356,7 +372,7 @@ func submit(request: AiRequest) -> Error:
 	return error
 ```
 
-`HTTPRequest.new()` crée le nœud. `timeout` est exprimé en secondes. `CONNECT_ONE_SHOT` déconnecte le signal après le premier appel. `bind()` ajoute `request_id` aux arguments du callback.
+`HTTPRequest.new()` crée le nœud. `timeout` est exprimé en secondes et plafonné par la configuration. `body_size_limit` interrompt le téléchargement lorsque le corps décompressé dépasse la limite, au lieu d’attendre son chargement complet. `CONNECT_ONE_SHOT` déconnecte le signal après le premier appel. `bind()` ajoute `request_id` aux arguments du callback.
 
 ## 12. Lire une réponse HTTP
 
@@ -377,6 +393,17 @@ func _on_request_completed(
 			AiResponse.failure(
 				request_id,
 				AiServiceError.protocol("Réponse HTTP trop volumineuse.")
+			)
+		)
+		return
+
+	if result == HTTPRequest.RESULT_BODY_SIZE_LIMIT_EXCEEDED:
+		response_received.emit(
+			AiResponse.failure(
+				request_id,
+				AiServiceError.protocol(
+					"Réponse HTTP au-delà de la limite autorisée."
+				)
 			)
 		)
 		return
@@ -555,6 +582,10 @@ func start() -> Error:
 	if _url.is_empty():
 		return ERR_UNCONFIGURED
 	_stopping = false
+	_connected = false
+	_peer = WebSocketPeer.new()
+	_peer.inbound_buffer_size = MAX_PACKET_BYTES
+	_peer.max_queued_packets = 128
 	var error := _peer.connect_to_url(_url)
 	if error != OK:
 		return error
@@ -571,14 +602,13 @@ func _process(_delta: float) -> void:
 
 	if state == WebSocketPeer.STATE_OPEN:
 		_read_packets()
-	elif state == WebSocketPeer.STATE_CLOSED and _connected:
+	elif state == WebSocketPeer.STATE_CLOSED:
 		_connected = false
+		set_process(false)
 		disconnected.emit(
 			_peer.get_close_code(),
 			_peer.get_close_reason()
 		)
-		if _stopping:
-			set_process(false)
 ```
 
 `poll()` fait progresser le protocole. `get_ready_state()` retourne l’état courant. Le chapitre ne promet pas une reconnexion automatique infinie.
@@ -732,7 +762,7 @@ Une demande d’annulation n’est pas un état terminal. Le worker doit atteind
     "max_tokens": 300
   },
   "priority": 50,
-  "deadline_ms": 30000
+  "timeout_ms": 30000
 }
 ```
 
@@ -913,6 +943,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable, Callable
+from time import time
 from typing import Any
 
 from task_models import TaskRecord, TaskState
@@ -939,11 +970,15 @@ class TaskWorker:
         while True:
             entry = await self._queue.get()
             try:
-                await self._execute(entry.task_id)
+                await self._execute(entry.task_id, entry.payload)
             finally:
                 self._queue.task_done()
 
-    async def _execute(self, task_id: str) -> None:
+    async def _execute(
+        self,
+        task_id: str,
+        payload: dict[str, Any],
+    ) -> None:
         record = self._records.get(task_id)
         if record is None:
             return
@@ -961,8 +996,9 @@ class TaskWorker:
             return
 
         record.state = TaskState.RUNNING
+        record.updated_at = time()
         try:
-            record.result = await handler(record, {})
+            record.result = await handler(record, payload)
         except asyncio.CancelledError:
             record.state = TaskState.CANCELLED
             raise
@@ -978,9 +1014,11 @@ class TaskWorker:
                 if record.cancel_requested
                 else TaskState.SUCCEEDED
             )
+        finally:
+            record.updated_at = time()
 ```
 
-Le message d’erreur ne recopie pas automatiquement des données sensibles. Un handler long doit consulter `record.cancel_requested` à des points sûrs.
+Le worker transmet le payload copié depuis la file au handler et actualise `updated_at` à chaque fin de tentative. Le message d’erreur ne recopie pas automatiquement des données sensibles. Un handler long doit consulter `record.cancel_requested` à des points sûrs.
 
 ## 27. Événements de progression
 
@@ -1012,15 +1050,35 @@ static func from_dictionary(document: Dictionary) -> AiTaskEvent:
 		0.0,
 		1.0
 	)
-	result.payload = (
-		document.get("payload", {}) as Dictionary
-	).duplicate(true)
+
+	match String(document.get("state", "")):
+		"queued":
+			result.state = AiTaskStatus.State.QUEUED
+		"running":
+			result.state = AiTaskStatus.State.RUNNING
+		"succeeded":
+			result.state = AiTaskStatus.State.SUCCEEDED
+		"failed":
+			result.state = AiTaskStatus.State.FAILED
+		"cancel_requested":
+			result.state = AiTaskStatus.State.CANCEL_REQUESTED
+		"cancelled":
+			result.state = AiTaskStatus.State.CANCELLED
+		"expired":
+			result.state = AiTaskStatus.State.EXPIRED
+		_:
+			return null
+
+	var payload_value: Variant = document.get("payload", {})
+	if not payload_value is Dictionary:
+		return null
+	result.payload = (payload_value as Dictionary).duplicate(true)
 	if result.task_id.is_empty() or result.sequence < 0:
 		return null
 	return result
 ```
 
-`sequence` permet d’ignorer un événement ancien reçu après un événement plus récent.
+`sequence` permet d’ignorer un événement ancien reçu après un événement plus récent. L’état et le payload sont validés avant création de l’objet typé.
 
 ## 28. Ordonnancer les événements
 
@@ -1063,9 +1121,12 @@ Une API « compatible OpenAI » reproduit une partie des chemins et schémas att
 
 L’adaptateur prend un `AiRequest` interne et produit par exemple :
 
-- `/v1/chat/completions` ;
+- `/v1/chat/completions` pour une cible de compatibilité historique ;
+- `/v1/responses` lorsque le serveur local l’implémente ;
 - `/v1/embeddings` ;
 - `/v1/models`.
+
+L’exemple détaillé ci-dessous cible volontairement le sous-ensemble `chat/completions`. Il ne prétend pas reproduire toute l’API OpenAI actuelle. Les intégrations directes avec la plateforme OpenAI privilégient désormais l’API Responses et diffusent notamment des événements Server-Sent Events ; le mapper local doit donc être versionné selon la cible réellement choisie.
 
 Le port interne conserve ses propres opérations : `text.generate`, `embedding.create`, `knowledge.search`.
 
@@ -1233,7 +1294,7 @@ Le Studio peut appliquer des quotas par équipe et opération. La famine des fai
 Trois durées sont distinctes :
 
 - délai HTTP de transport ;
-- deadline métier d’une tâche ;
+- durée maximale métier d’une tâche, transportée ici par `timeout_ms` puis convertie en échéance monotone côté serveur ;
 - durée de conservation du résultat.
 
 Une tâche `EXPIRED` peut avoir été supprimée avant lecture. Le client ne doit pas la présenter comme `FAILED` sans distinction.
@@ -1488,7 +1549,7 @@ http.request("http://127.0.0.1:8765/v1/tasks")
 > **[LECTURE] Architecture corrigée — Référence.**
 
 ```text
-fonctionnalité → LocalAiPort → adaptateur HTTP
+fonctionnalité → LocalAiGateway → adaptateur HTTP
 ```
 
 **Différence :** le gameplay ne dépend plus de la route.
@@ -1867,7 +1928,7 @@ Conserver les cas :
 
 Le lecteur peut expliquer et montrer statiquement que :
 
-- le gameplay dépend de `LocalAiPort`, pas des routes ;
+- le gameplay dépend de `LocalAiGateway`, pas des routes ;
 - HTTP gère les échanges bornés ;
 - WebSocket gère les événements et flux pertinents ;
 - santé et capacités sont distinctes ;
@@ -1913,17 +1974,20 @@ Le lecteur peut expliquer et montrer statiquement que :
 
 ## 51. Sources techniques
 
-Sources principales à vérifier lors de la matérialisation :
+Sources principales relues pour l’audit statique du 19 juillet 2026 :
 
-- documentation Godot 4.7 de `HTTPRequest` ;
-- documentation Godot 4.7 de `HTTPClient` ;
-- documentation Godot 4.7 de `WebSocketPeer` ;
-- documentation Godot 4.7 de `JSON` ;
-- documentation Python 3 de `asyncio.Queue`, `PriorityQueue`, `dataclasses` et `enum` ;
-- documentation du serveur Python choisi lors de sa matérialisation ;
-- schémas de l’API compatible OpenAI réellement ciblée.
+- Godot Engine 4.7 — `HTTPRequest` : `https://docs.godotengine.org/en/4.7/classes/class_httprequest.html` ;
+- Godot Engine 4.7 — `HTTPClient` : `https://docs.godotengine.org/en/4.7/classes/class_httpclient.html` ;
+- Godot Engine 4.7 — `WebSocketPeer` : `https://docs.godotengine.org/en/4.7/classes/class_websocketpeer.html` ;
+- Godot Engine 4.7 — tutoriel WebSocket : `https://docs.godotengine.org/en/4.7/tutorials/networking/websocket.html` ;
+- Godot Engine 4.7 — `JSON` : `https://docs.godotengine.org/en/4.7/classes/class_json.html` ;
+- Python 3.12 — files `asyncio` : `https://docs.python.org/3.12/library/asyncio-queue.html` ;
+- Python 3.12 — `dataclasses` : `https://docs.python.org/3.12/library/dataclasses.html` ;
+- Python 3.12 — `enum.StrEnum` : `https://docs.python.org/3.12/library/enum.html` ;
+- OpenAI API — Responses et événements de streaming : `https://platform.openai.com/docs/api-reference/responses-streaming` ;
+- schéma de l’API compatible OpenAI réellement ciblée par le serveur local.
 
-Le chapitre n’impose pas un framework serveur Python. Cette décision doit être prise au moment de matérialiser le Starter Kit.
+Le chapitre n’impose pas un framework serveur Python. Cette décision doit être prise au moment de matérialiser le Starter Kit, puis la documentation officielle de ce framework doit être ajoutée au rapport runtime.
 
 ## 52. Réserves de validation
 
@@ -1938,7 +2002,7 @@ Ne sont pas exécutés :
 - les annulations ;
 - les priorités ;
 - le streaming ;
-- le mapper compatible OpenAI face à un serveur réel ;
+- le mapper compatible OpenAI face à un serveur réel et à une version de schéma explicitement choisie ;
 - le polling de secours ;
 - l’arrêt avec tâches en cours ;
 - le packaging et les exports.
