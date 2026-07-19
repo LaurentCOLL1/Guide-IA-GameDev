@@ -362,6 +362,11 @@ static func dictionary_to_vector3(
 			errors.append("%s.%s doit être numérique" % [path, key])
 			return Vector3.ZERO
 
+		var number := float(data[key])
+		if is_nan(number) or is_inf(number):
+			errors.append("%s.%s doit être fini" % [path, key])
+			return Vector3.ZERO
+
 	return Vector3(
 		float(data["x"]),
 		float(data["y"]),
@@ -389,6 +394,8 @@ Une empreinte doit être calculée sur une représentation déterministe.
 class_name CanonicalJson
 extends RefCounted
 
+const MAX_EXACT_JSON_INTEGER := 9007199254740991.0
+
 static func encode(value: Variant) -> String:
 	match typeof(value):
 		TYPE_NIL:
@@ -398,6 +405,8 @@ static func encode(value: Variant) -> String:
 		TYPE_INT, TYPE_FLOAT:
 			var number := float(value)
 			if is_nan(number) or is_inf(number):
+				return ""
+			if value is int and absf(number) > MAX_EXACT_JSON_INTEGER:
 				return ""
 			return JSON.stringify(number, "", true, true)
 		TYPE_STRING, TYPE_STRING_NAME:
@@ -818,6 +827,43 @@ func validate_envelope(document: Dictionary) -> PackedStringArray:
 			errors.append("Empreinte du payload invalide")
 
 	return errors
+
+func validate_current_payload(document: Dictionary) -> PackedStringArray:
+	var errors := PackedStringArray()
+	if int(document.get("format_version", -1)) != CURRENT_FORMAT_VERSION:
+		errors.append("Le document n’est pas au format courant")
+		return errors
+
+	if not document.get("payload", null) is Dictionary:
+		errors.append("payload doit être un objet")
+		return errors
+
+	var payload := document["payload"] as Dictionary
+	for key: String in ["world", "player", "features"]:
+		if not payload.get(key, null) is Dictionary:
+			errors.append("payload.%s doit être un objet" % key)
+
+	if not errors.is_empty():
+		return errors
+
+	var world := payload["world"] as Dictionary
+	var world_id := StringName(String(world.get("id", "")))
+	if not StableId.is_valid(world_id):
+		errors.append("payload.world.id est invalide")
+
+	var player := payload["player"] as Dictionary
+	if not player.get("position", null) is Dictionary:
+		errors.append("payload.player.position doit être un objet")
+	else:
+		var position_errors := PackedStringArray()
+		SaveValueCodec.dictionary_to_vector3(
+			player["position"] as Dictionary,
+			position_errors,
+			"payload.player.position"
+		)
+		errors.append_array(position_errors)
+
+	return errors
 ```
 
 ### 17.1 Refus des versions futures
@@ -901,6 +947,9 @@ class_name SaveFileStore
 extends RefCounted
 
 func write_document(path: String, document: Dictionary) -> Error:
+	if not path.begins_with("user://saves/"):
+		return ERR_INVALID_PARAMETER
+
 	var directory_error := DirAccess.make_dir_recursive_absolute(
 		path.get_base_dir()
 	)
@@ -928,10 +977,23 @@ func write_document(path: String, document: Dictionary) -> Error:
 		return ERR_FILE_CORRUPT
 
 	if FileAccess.file_exists(path):
-		var backup_error := DirAccess.copy_absolute(path, backup_path)
-		if backup_error != OK:
+		var current_document := reader.read(path)
+		if _is_future_document(current_document):
 			_remove_if_exists(temporary_path)
-			return backup_error
+			push_error("Un build ancien refuse d’écraser une sauvegarde future.")
+			return ERR_UNAVAILABLE
+
+		var current_errors := validator.validate_envelope(current_document)
+		if not current_document.is_empty() and current_errors.is_empty():
+			var backup_error := DirAccess.copy_absolute(path, backup_path)
+			if backup_error != OK:
+				_remove_if_exists(temporary_path)
+				return backup_error
+		else:
+			push_warning(
+				"Le fichier principal existant est invalide ; "
+				+ "la copie .bak actuelle est conservée."
+			)
 
 	var replace_error := DirAccess.rename_absolute(temporary_path, path)
 	if replace_error != OK:
@@ -1009,13 +1071,17 @@ func read_with_backup(path: String) -> Dictionary:
 
 	var primary := reader.read(path)
 	if not primary.is_empty():
+		if _is_future_document(primary):
+			push_error("Sauvegarde créée par une version plus récente.")
+			return {}
+
 		var errors := validator.validate_envelope(primary)
 		if errors.is_empty():
 			return primary
 
 	var backup_path := path + ".bak"
 	var backup := reader.read(backup_path)
-	if backup.is_empty():
+	if backup.is_empty() or _is_future_document(backup):
 		return {}
 
 	var backup_errors := validator.validate_envelope(backup)
@@ -1024,6 +1090,19 @@ func read_with_backup(path: String) -> Dictionary:
 
 	push_warning("Le slot principal est invalide ; la copie de secours est utilisée.")
 	return backup
+
+func _is_future_document(document: Dictionary) -> bool:
+	var value: Variant = document.get("format_version", null)
+	if not value is int and not value is float:
+		return false
+
+	var number := float(value)
+	if is_nan(number) or is_inf(number):
+		return false
+	if not is_equal_approx(number, floor(number)):
+		return false
+
+	return int(number) > SaveDocumentValidator.CURRENT_FORMAT_VERSION
 ```
 
 L’interface doit informer le joueur qu’une récupération a eu lieu.
@@ -1122,7 +1201,9 @@ const CURRENT_FORMAT_VERSION := 2
 var _migrations: Dictionary[int, SaveMigration] = {}
 
 func _init() -> void:
-	register_migration(SaveMigrationV1ToV2.new())
+	var error := register_migration(SaveMigrationV1ToV2.new())
+	if error != OK:
+		push_error("Enregistrement de la migration V1 vers V2 impossible.")
 
 func register_migration(migration: SaveMigration) -> Error:
 	if migration == null:
@@ -1217,6 +1298,13 @@ func validate_features(features: Dictionary) -> PackedStringArray:
 		)
 		for message: String in section_errors:
 			errors.append("%s : %s" % [key, message])
+
+	for serialized_key: Variant in features.keys():
+		if not serialized_key is String and not serialized_key is StringName:
+			errors.append("Une clé de section n’est pas textuelle")
+			continue
+		if not _sections.has(StringName(String(serialized_key))):
+			errors.append("Section inconnue : %s" % serialized_key)
 
 	return errors
 
@@ -1413,7 +1501,17 @@ func load_slot(slot_id: StringName) -> Dictionary:
 		return {}
 
 	var current_errors := _validator.validate_envelope(migrated)
+	current_errors.append_array(
+		_validator.validate_current_payload(migrated)
+	)
 	if not current_errors.is_empty():
+		_load_in_progress = false
+		return {}
+
+	var slot := migrated["slot"] as Dictionary
+	var document_slot := StringName(String(slot.get("id", "")))
+	if document_slot != slot_id:
+		push_error("Le contenu du slot ne correspond pas au fichier demandé.")
 		_load_in_progress = false
 		return {}
 
@@ -1424,16 +1522,23 @@ func load_slot(slot_id: StringName) -> Dictionary:
 		_load_in_progress = false
 		return {}
 
-	_load_in_progress = false
 	return migrated
 
 func finish_apply(document: Dictionary) -> Error:
+	if not _load_in_progress:
+		return ERR_UNCONFIGURED
 	if document.is_empty():
+		_load_in_progress = false
 		return ERR_INVALID_PARAMETER
 
 	var payload := document["payload"] as Dictionary
 	var features := payload["features"] as Dictionary
-	return _sections.apply_features(features)
+	var error := _sections.apply_features(features)
+	_load_in_progress = false
+	return error
+
+func cancel_load() -> void:
+	_load_in_progress = false
 
 func _is_configured() -> bool:
 	return (
@@ -1447,20 +1552,23 @@ func _is_configured() -> bool:
 
 ### 26.1 Pourquoi `load_slot()` ne modifie pas le monde
 
-La méthode retourne un document migré et validé.
+La méthode retourne un document migré et validé tout en conservant le verrou de chargement.
 
 Le contrôleur de transition doit ensuite :
 
 1. précharger le monde ;
 2. créer les objets cibles ;
 3. appliquer le document ;
-4. basculer l’affichage.
+4. appeler `finish_apply()` puis basculer l’affichage ;
+5. appeler `cancel_load()` si la préparation du monde échoue.
+
+`finish_apply()` applique ici les sections de fonctionnalités. Le contrôleur du monde reste responsable de la position du joueur, de la scène cible et de la bascule entre ancien et nouveau monde.
 
 ### 26.2 Verrou logique
 
 `_save_in_progress` et `_load_in_progress` évitent deux opérations concurrentes dans ce service.
 
-Une implémentation asynchrone devra garantir le nettoyage du verrou dans tous les chemins d’erreur.
+Le verrou de chargement reste actif entre `load_slot()` et `finish_apply()` ou `cancel_load()`. Une implémentation asynchrone devra garantir l’appel de l’une de ces deux sorties dans tous les chemins d’erreur.
 
 ## 27. Bootstrap
 
