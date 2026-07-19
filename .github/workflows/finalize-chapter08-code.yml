@@ -1,0 +1,38 @@
+name: Finalize Chapter 8 Code
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch08-sqlite-migrations
+    paths:
+      - tools/finalize_chapter08_code.py
+      - .github/workflows/finalize-chapter08-code.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch08-sqlite-migrations
+          fetch-depth: 0
+
+      - name: Apply final code corrections
+        run: python tools/finalize_chapter08_code.py
+
+      - name: Remove temporary files
+        run: |
+          rm tools/finalize_chapter08_code.py
+          rm .github/workflows/finalize-chapter08-code.yml
+
+      - name: Commit corrections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(livre-ii): reject future schemas before mutation"
+          git push origin HEAD:docs/livre-ii-ch08-sqlite-migrations
