@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Correct context classifier
+        run: python tools/qa/tmp_patch_refiner_classifier.py
       - name: Refine and complete explanations
         run: python tools/qa/tmp_refine_code_explanations_ch15_ch16.py
       - name: Commit refined explanations
@@ -34,5 +36,5 @@ jobs:
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
             tmp_ch15_ch16_code_explanation_metrics.txt
-          git commit -m "docs(livre-ii): refine chapter 15 and 16 code explanations"
+          git commit -m "docs(livre-ii): correct chapter explanation classification"
           git push origin HEAD:docs/enrich-code-explanations-ch15-ch16
