@@ -3,7 +3,7 @@ review-id: DOC-L2-QA-SEMANTIC-ERROR-SECTIONS
 status: complete
 review-date: 2026-07-19
 review-level: static-review
-validated-base-commit: 9cef74e35b60ab53aa3eb04d68f41d11e70cc484
+validated-base-commit: 640a5ba29fe645624bd316228faf0bf57439a586
 scope:
   books:
     - Livre II
@@ -25,8 +25,8 @@ rule:
     - symptôme ou risque
     - exemple fautif
     - correction
-    - exemple corrigé
-    - explication comparative
+    - exemple corrigé ou équivalent sémantique
+    - explication comparative, étiquetée ou rédigée en prose
 results:
   retrofitted-detailed-cases-chapters-1-to-6: 52
   chapter-7-existing-detailed-cases: 8
@@ -34,6 +34,8 @@ results:
   semantic-section-markers-present: true
   semantic-index-markers-present: true
   validator-enforcement-added: true
+  corrected-example-labels-title-independent: true
+  comparative-prose-accepted: true
   temporary-workflows-removed: true
   temporary-scripts-removed: true
   pdf-produced: false
