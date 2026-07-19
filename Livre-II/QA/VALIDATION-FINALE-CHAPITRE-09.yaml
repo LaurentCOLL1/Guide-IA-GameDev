@@ -75,7 +75,11 @@ ci:
     duplicate-headings: 0
     duplicate-significant-blocks: 0
     duplicate-long-paragraphs: 0
-  final-nonregression: pending
+  final-nonregression:
+    validate-chapters-run-id: 29688108640
+    validate-chapters-conclusion: success
+    validate-contexts-run-id: 29688108582
+    validate-contexts-conclusion: success
 reservations:
   - L’écriture réelle des slots n’a pas encore été exécutée sous Windows 11.
   - Le remplacement contrôlé n’a pas encore été qualifié sur NTFS.
