@@ -1579,13 +1579,10 @@ Le code modifie la définition de conception `profile`. Toute autre balise utili
 
 ```gdscript
 func update_cooldown(delta: float) -> void:
-	runtime_state.remaining_cooldown = maxf(
-		runtime_state.remaining_cooldown - delta,
-		0.0
-	)
+	runtime_state.tick(delta)
 ```
 
-`delta` représente le temps écoulé. `maxf(..., 0.0)` empêche une durée négative. La Resource reste inchangée.
+`delta` représente le temps écoulé. La méthode `tick()` soustrait cette durée de `cooldown_remaining` et utilise `maxf()` pour empêcher une valeur négative. La Resource reste inchangée.
 
 ### 35.2 Utiliser le nom affiché comme identifiant
 
@@ -1639,7 +1636,7 @@ if not row.has("activation_radius"):
 	return null
 
 var raw_radius: Variant = row["activation_radius"]
-if not raw_radius is float and not raw_radius is int:
+if not (raw_radius is float or raw_radius is int):
 	push_error("activation_radius doit être numérique.")
 	return null
 
@@ -1694,7 +1691,7 @@ var document: Variant = parser.data
 > **[LECTURE] Exemple fautif — Ne pas recopier.**
 
 ```gdscript
-profile.is_active = true
+profile.enabled_by_default = false
 ResourceSaver.save(profile, "res://data/beacons/beacon_training.tres")
 ```
 
@@ -1705,9 +1702,8 @@ La définition versionnée est utilisée comme sauvegarde et reçoit en plus une
 > **[VSC] Visual Studio Code - Exemple corrigé pour le chapitre 7.**
 
 ```gdscript
-var runtime_state := BeaconRuntimeState.new()
-runtime_state.is_active = true
-runtime_state.remaining_cooldown = profile.cooldown_seconds
+var runtime_state := BeaconRuntimeState.new(profile)
+runtime_state.record_activation(profile.cooldown_seconds)
 ```
 
 Ce chapitre ne persiste pas encore cet objet. Le chapitre 9 créera un format versionné sous `user://` et une procédure de migration.
@@ -1796,11 +1792,12 @@ Chaque appelant doit connaître l’orthographe des clés et les conversions att
 > **[VSC] Visual Studio Code - Exemple corrigé dans le mapper puis le service.**
 
 ```gdscript
-var profile := BeaconJsonMapper.to_profile(data)
+var mapper := BeaconJsonMapper.new()
+var profile := mapper.from_dictionary(data)
 if profile == null:
 	return
 
-catalog.add_profile(profile)
+catalog.register(profile)
 activation_service.configure(event_bus, catalog)
 ```
 

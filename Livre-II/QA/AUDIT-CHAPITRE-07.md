@@ -194,6 +194,10 @@ La configuration :
 
 **Correction :** chaque erreur de la section 35 possède maintenant un exemple fautif, un exemple corrigé et une explication de la différence.
 
+### Risque 19 — exemples corrigés incompatibles avec les contrats déjà définis
+
+**Correction :** seconde relecture des noms publics : utilisation de `cooldown_remaining`, `tick()`, `record_activation()`, du constructeur `BeaconRuntimeState.new(profile)`, de `BeaconJsonMapper.from_dictionary()` sur une instance et de `BeaconCatalog.register()`.
+
 ## 7. Vérification des doublons
 
 La seconde lecture a recherché :
