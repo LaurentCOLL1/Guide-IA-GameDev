@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH12
-status: pending-ci
+status: validating
 validation-date: 2026-07-19
 validated-base-commit: 64989c7faf6521becd7ddb13f7d4ffabc24abef1
 chapter:
@@ -64,6 +64,8 @@ results:
   openai-schema-isolated: true
   responses-api-and-sse-boundary-documented: true
   chapter-13-boundary-preserved: true
+  process-audit-report-present: true
+  process-continuity-paths-verified: true
   blocking-errors: 0
   warnings: 1
   pdf-produced: false
@@ -81,6 +83,8 @@ corrections:
   - Remplacement de deadline_ms par timeout_ms relatif.
   - Clarification du sous-ensemble chat/completions et de l’API Responses.
   - Épinglage des sources officielles Godot 4.7, Python 3.12 et OpenAI.
+  - Normalisation du libellé Exemple corrigé dans le cas 46.2.
+  - Correction des chemins du chapitre détaillé et de la prochaine action.
 ci:
   validate-chapters-without-pdf:
     run-id: null
