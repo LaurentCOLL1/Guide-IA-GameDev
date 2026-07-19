@@ -2,14 +2,14 @@
 title: "Audit du Livre II — Chapitre 15"
 id: "DOC-L2-QA-CH15"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 book: "Livre II"
 chapter: 15
 category: "quality-report"
-audit-date: "2026-07-19"
+audit-date: "2026-07-20"
 audit-level: "static-review"
 chapter-id: "DOC-L2-CH15"
-chapter-version: "1.0.0"
+chapter-version: "1.1.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -252,3 +252,23 @@ Le chapitre peut être déclaré :
 - `audit-level: static-review`.
 
 La preuve finale reste `pending-ci` jusqu’à la réussite des workflows permanents.
+
+
+## Addendum 2026-07-20 — explications détaillées du code
+
+Le retour de lecture a identifié une non-conformité pédagogique : plusieurs blocs techniquement cohérents ne donnaient pas encore au lecteur débutant les explications nécessaires sur leurs paramètres, retours, effets et invariants.
+
+La correction a repris les **44 blocs de code ou données significatifs** détectés dans le chapitre 15. **44 explications détaillées** ont été ajoutées à proximité immédiate des blocs qui n’en possédaient pas sous la nouvelle forme normative `qa:code-explanation`.
+
+Chaque explication couvre désormais, selon le contenu réel du bloc :
+
+- le rôle et le chemin cible ;
+- les fonctions, paramètres, types et retours ;
+- les variables, constantes, signaux et dépendances ;
+- le déroulement des conditions, boucles et retours anticipés ;
+- les effets de bord ;
+- les invariants protégés ;
+- la différence entre exemples fautifs et corrigés ;
+- le résultat attendu et la vérification minimale.
+
+**Décision révisée :** accepté au niveau `static-review` après enrichissement pédagogique. Cette décision reste documentaire : aucun parseur Godot ni test runtime supplémentaire n’a été exécuté.

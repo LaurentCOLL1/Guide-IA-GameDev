@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 16 : Famille et générations"
 id: "DOC-L2-CH16"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 16
-last-verified: "2026-07-19"
+last-verified: "2026-07-20"
 audit-status: "complete"
-audit-date: "2026-07-19"
+audit-date: "2026-07-20"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-16.md"
 audit-level: "static-review"
 reference-engine:
@@ -34,6 +34,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-16.md`.
+> **Explications de code :** enrichies bloc par bloc selon la porte QA Q1.1.
 
 ## 1. Rôle du chapitre
 
@@ -180,6 +181,18 @@ static func is_valid(value: StringName) -> bool:
 			return false
 	return true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyLinkId`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/family_link_id.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare constantes `PREFIX := "fam_"`, `HEX_LENGTH := 32` ; état `bytes := Crypto.new().generate_random_bytes(16)`, `text := String(value)`, `suffix := text.substr(PREFIX.length())`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** enregistre une erreur exploitable par l’appelant. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 L’identifiant :
 
@@ -217,6 +230,18 @@ static func is_known(value: int) -> bool:
 		int(Value.UNION),
 	]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyLinkKind`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/family_link_kind.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Une tutelle ne devient pas automatiquement une adoption. Une union ne crée pas automatiquement une filiation.
 
@@ -262,6 +287,18 @@ func close_at(tick: int) -> Error:
 func duplicate_value() -> LogicalInterval:
 	return LogicalInterval.new(started_at_tick, ended_at_tick)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `LogicalInterval`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/logical_interval.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(start_tick: int, end_tick: int = OPEN_END) -> void`, `is_valid(aucun paramètre) -> bool`, `is_active_at(tick: int) -> bool`, `close_at(tick: int) -> Error`, `duplicate_value(aucun paramètre) -> LogicalInterval`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `OPEN_END := -1` ; état `started_at_tick: int`, `ended_at_tick: int`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Les ticks proviennent de l’horloge logique de la simulation, jamais de l’heure système de l’ordinateur. L’intervalle est inclusif : `[started_at_tick, ended_at_tick]`. `OPEN_END` signifie qu’aucune fin n’est encore connue.
 
@@ -325,6 +362,18 @@ func duplicate_value() -> ParentChildLink:
 		provenance,
 	)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `ParentChildLink`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/parent_child_link.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(new_link_id: StringName, new_parent_id: StringName, new_child_id: StringName, new_kind: FamilyLinkKind.Value, new_tick: int, new_provenance: StringName,) -> void`, `validate(aucun paramètre) -> PackedStringArray`, `duplicate_value(aucun paramètre) -> ParentChildLink`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `link_id: StringName`, `parent_id: StringName`, `child_id: StringName`, `kind: FamilyLinkKind.Value`, `established_at_tick: int` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; un auto-lien entre une identité et elle-même est refusé.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 7.2 Identité métier de la filiation
 
@@ -371,6 +420,18 @@ func duplicate_value() -> GuardianshipLink:
 	copy.provenance = provenance
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `GuardianshipLink`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/guardianship_link.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> PackedStringArray`, `duplicate_value(aucun paramètre) -> GuardianshipLink`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `link_id: StringName`, `guardian_id: StringName`, `ward_id: StringName`, `interval: LogicalInterval`, `provenance: StringName` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Deux tutelles historiques peuvent exister entre la même paire si leurs intervalles ne se chevauchent pas. Deux tutelles actives identiques sont refusées.
 
@@ -407,6 +468,18 @@ static func create(left_id: StringName, right_id: StringName) -> CharacterPair:
 func key() -> StringName:
 	return StringName("%s|%s" % [first_id, second_id])
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `CharacterPair`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/character_pair.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `key(aucun paramètre) -> StringName`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `first_id: StringName`, `second_id: StringName`, `pair := CharacterPair.new()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La paire `{A, B}` produit la même clé que `{B, A}`.
 
@@ -447,6 +520,18 @@ func duplicate_value() -> UnionLink:
 	copy.provenance = provenance
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `UnionLink`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/union_link.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> PackedStringArray`, `duplicate_value(aucun paramètre) -> UnionLink`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `link_id: StringName`, `pair: CharacterPair`, `interval: LogicalInterval`, `union_type: StringName`, `provenance: StringName` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le chapitre n’impose ni exclusivité, ni monogamie, ni règles culturelles universelles. Ces politiques appartiennent à des données ou règles de monde explicites.
 
@@ -462,6 +547,18 @@ Le chapitre 16 ne redéfinit pas cette classe. Il consomme le même contrat logi
 if not identity_index.contains(character_id):
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « ce passage ».
+- **Emplacement :** il appartient à `src/features/characters/application/character_identity_index.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 L’index contient les identités logiques :
 
@@ -492,6 +589,18 @@ var _parents_by_child: Dictionary[StringName, Array] = {}
 var _children_by_parent: Dictionary[StringName, Array] = {}
 var _unions_by_pair: Dictionary[StringName, Array] = {}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyGraph`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/family_graph.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare constantes `MAX_TRAVERSAL_NODES := 4096` ; état `_parent_links: Dictionary[StringName, ParentChildLink] = {}`, `_guardian_links: Dictionary[StringName, GuardianshipLink] = {}`, `_union_links: Dictionary[StringName, UnionLink] = {}`, `_parents_by_child: Dictionary[StringName, Array] = {}`, `_children_by_parent: Dictionary[StringName, Array] = {}` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Les index secondaires contiennent des identifiants de liens, pas des copies d’objets.
 
@@ -517,6 +626,18 @@ func add_parent_link(link: ParentChildLink) -> Error:
 	_append_index(_children_by_parent, link.parent_id, link.link_id)
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `add_parent_link()` utilisées dans « 11.2 Ajouter une filiation ».
+- **Emplacement :** il appartient à `src/features/families/domain/family_graph.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `add_parent_link(link: ParentChildLink) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 L’ordre est important :
 
@@ -559,6 +680,18 @@ func _would_create_ancestry_cycle(
 
 	return false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_would_create_ancestry_cycle()` utilisées dans « 11.3 Cycle d’ascendance ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_would_create_ancestry_cycle(parent_id: StringName, child_id: StringName,) -> bool`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `pending: Array[StringName] = [child_id]`, `visited: Dictionary[StringName, bool] = {}`, `current: StringName = pending.pop_back()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; enregistre une erreur exploitable par l’appelant. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** un auto-lien entre une identité et elle-même est refusé ; les doublons et références déjà connues sont détectés ; les parcours ou historiques restent bornés ; la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Ajouter `parent → enfant` crée un cycle si `parent` est déjà descendant de `enfant`.
 
@@ -607,6 +740,18 @@ func get_union_links() -> Array[UnionLink]:
 		result.append(link.duplicate_value())
 	return result
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_append_index()`, `_has_parent_edge()`, `get_parent_links()`, `get_guardianship_links()` utilisées dans « 11.4 Helpers d’index ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_append_index(index: Dictionary[StringName, Array], character_id: StringName, link_id: StringName,) -> void`, `_has_parent_edge(parent_id: StringName, child_id: StringName,) -> bool`, `get_parent_links(aucun paramètre) -> Array[ParentChildLink]`, `get_guardianship_links(aucun paramètre) -> Array[GuardianshipLink]`, `get_union_links(aucun paramètre) -> Array[UnionLink]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `ids: Array = index.get(character_id, [])`, `link := _parent_links.get(link_id) as ParentChildLink`, `result: Array[ParentChildLink] = []`, `result: Array[GuardianshipLink] = []`, `result: Array[UnionLink] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** un auto-lien entre une identité et elle-même est refusé ; les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ## 12. Requêtes de filiation
 
@@ -633,6 +778,18 @@ func get_children(parent_id: StringName) -> Array[StringName]:
 	result.sort()
 	return result
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_parents()`, `get_children()` utilisées dans « 12.1 Parents et enfants directs ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_parents(child_id: StringName) -> Array[StringName]`, `get_children(parent_id: StringName) -> Array[StringName]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`, `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Les tableaux retournés sont nouveaux. L’appelant ne reçoit jamais les collections internes mutables.
 
@@ -654,6 +811,18 @@ func get_siblings(character_id: StringName) -> Array[StringName]:
 	result.sort()
 	return result
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_siblings()` utilisées dans « 12.2 Fratrie calculée ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_siblings(character_id: StringName) -> Array[StringName]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `siblings: Dictionary[StringName, bool] = {}`, `result: Array[StringName] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Cette définition retourne les demi-frères et demi-sœurs dès qu’au moins un parent est partagé.
 
@@ -701,6 +870,18 @@ func get_ancestors(
 
 	return distances
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_ancestors()` utilisées dans « 12.3 Ancêtres bornés ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_ancestors(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `distances: Dictionary[StringName, int] = {}`, `pending: Array[Dictionary] = [`, `visited_nodes := 0`, `entry: Dictionary = pending.pop_front()`, `current: StringName = entry["id"]` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; enregistre une erreur exploitable par l’appelant. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés ; les parcours ou historiques restent bornés ; la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La valeur associée est la distance minimale :
 
@@ -750,6 +931,18 @@ func get_descendants(
 
 	return distances
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_descendants()` utilisées dans « 12.4 Descendants bornés ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_descendants(character_id: StringName, max_depth: int = 32,) -> Dictionary[StringName, int]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `distances: Dictionary[StringName, int] = {}`, `pending: Array[Dictionary] = [`, `visited_nodes := 0`, `entry: Dictionary = pending.pop_front()`, `current: StringName = entry["id"]` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; enregistre une erreur exploitable par l’appelant. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés ; les parcours ou historiques restent bornés ; la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ## 13. Générations dérivées
 
@@ -777,6 +970,18 @@ func get_generation_distance(
 	var descendants := get_descendants(ancestor_id, max_depth)
 	return int(descendants.get(descendant_id, -1))
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_generation_distance()` utilisées dans « 13.2 Distance générationnelle ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_generation_distance(ancestor_id: StringName, descendant_id: StringName, max_depth: int = 32,) -> int`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `descendants := get_descendants(ancestor_id, max_depth)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés ; la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `-1` signifie qu’aucun chemin n’a été trouvé dans la profondeur autorisée.
 
@@ -804,6 +1009,18 @@ func add_guardianship(link: GuardianshipLink) -> Error:
 	_guardian_links[link.link_id] = link.duplicate_value()
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `add_guardianship()` utilisées dans « 14.1 Ajouter une tutelle ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `add_guardianship(link: GuardianshipLink) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 14.2 Ajouter une union
 
@@ -829,6 +1046,18 @@ func add_union(link: UnionLink) -> Error:
 	_append_index(_unions_by_pair, pair_key, link.link_id)
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `add_union()` utilisées dans « 14.2 Ajouter une union ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `add_union(link: UnionLink) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `pair_key := link.pair.key()`, `existing := _union_links.get(existing_id) as UnionLink`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 14.3 Chevauchement d’intervalles
 
@@ -880,6 +1109,18 @@ func replace_all_from(source: FamilyGraph) -> Error:
 	_unions_by_pair = candidate._unions_by_pair
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_intervals_overlap()`, `replace_all_from()` utilisées dans « 14.3 Chevauchement d’intervalles ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_intervals_overlap(left: LogicalInterval, right: LogicalInterval,) -> bool`, `replace_all_from(source: FamilyGraph) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `left_end := (`, `right_end := (`, `candidate := FamilyGraph.new()`, `parent_result := candidate.add_parent_link(link)`, `guardian_result := candidate.add_guardianship(link)` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** remplace l’état autoritaire seulement après validation du candidat ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** un auto-lien entre une identité et elle-même est refusé ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ## 15. Service applicatif
 
@@ -913,6 +1154,18 @@ func validate() -> PackedStringArray:
 		errors.append("provenance obligatoire")
 	return errors
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `AddParentLinkCommand`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/application/add_parent_link_command.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> PackedStringArray`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `parent_id: StringName`, `child_id: StringName`, `kind: FamilyLinkKind.Value`, `tick: int`, `provenance: StringName` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; un auto-lien entre une identité et elle-même est refusé.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 15.2 Événement typé
 
@@ -929,6 +1182,18 @@ var second_character_id: StringName
 var tick: int
 var provenance: StringName
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyLinkAddedEvent`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/application/family_link_added_event.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `link_id: StringName`, `kind: FamilyLinkKind.Value`, `first_character_id: StringName`, `second_character_id: StringName`, `tick: int` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 15.3 Orchestration
 
@@ -985,6 +1250,18 @@ func add_parent_link(command: AddParentLinkCommand) -> Error:
 	family_link_added.emit(event)
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyGraphService`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/application/family_graph_service.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> void`, `add_parent_link(command: AddParentLinkCommand) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `_graph: FamilyGraph`, `_identities: CharacterIdentityIndex`, `link := ParentChildLink.new(`, `result := _graph.add_parent_link(link)`, `event := FamilyLinkAddedEvent.new()` ; signaux `family_link_added(event: FamilyLinkAddedEvent)`, `family_link_closed(`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** émet un signal ou un événement après la mutation ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le service vérifie les identités logiques avant le graphe. Le graphe conserve néanmoins ses propres invariants structurels.
 
@@ -1022,6 +1299,18 @@ func duplicate_value() -> FamilyHistoryRecord:
 	copy.provenance = provenance
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyHistoryRecord`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/domain/family_history_record.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> bool`, `duplicate_value(aucun paramètre) -> FamilyHistoryRecord`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `sequence: int`, `event_type: StringName`, `link_id: StringName`, `tick: int`, `provenance: StringName` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 16.2 Journal borné
 
@@ -1082,6 +1371,18 @@ func restore(records: Array[FamilyHistoryRecord]) -> Error:
 	_next_sequence = previous_sequence + 1
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyEventLog`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `append(event_type: StringName, link_id: StringName, tick: int, provenance: StringName,) -> Error`, `snapshot(aucun paramètre) -> Array[FamilyHistoryRecord]`, `restore(records: Array[FamilyHistoryRecord]) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `MAX_RECORDS := 256` ; état `_records: Array[FamilyHistoryRecord] = []`, `_next_sequence := 0`, `record := FamilyHistoryRecord.new()`, `result: Array[FamilyHistoryRecord] = []`, `candidate: Array[FamilyHistoryRecord] = []` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le journal n’est pas un journal légal exhaustif. Il fournit un historique borné utile au gameplay et au diagnostic.
 
@@ -1136,6 +1437,18 @@ func validate(
 
 	return errors
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilyGraphValidator`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `src/features/families/application/family_graph_validator.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(graph: FamilyGraph, identities: CharacterIdentityIndex,) -> PackedStringArray`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `errors := PackedStringArray()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le validateur de restauration sera exécuté sur un graphe candidat complet avant remplacement de l’état courant.
 
@@ -1154,6 +1467,18 @@ Le validateur de restauration sera exécuté sur un graphe candidat complet avan
   "history": []
 }
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à montrer la structure de données sérialisée attendue dans « 18.1 Structure JSON ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Résultat attendu :** le document peut être décodé strictement, avec les clés et types attendus et sans valeur dérivée persistée. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le snapshot ne contient pas :
 
@@ -1179,6 +1504,18 @@ const MAX_GUARDIANSHIPS := 4096
 const MAX_UNIONS := 4096
 const MAX_HISTORY_RECORDS := 256
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilySnapshotCodec`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare constantes `FORMAT_VERSION := 1`, `MAX_PARENT_LINKS := 8192`, `MAX_GUARDIANSHIPS := 4096`, `MAX_UNIONS := 4096` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 18.3 Encodeurs
 
@@ -1257,6 +1594,18 @@ func _encode_history(record: FamilyHistoryRecord) -> Dictionary:
 		"provenance": String(record.provenance),
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `encode_graph()`, `_encode_parent_link()`, `_encode_interval()`, `_encode_guardianship()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `src/features/families/infrastructure/family_snapshot_codec.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `encode_graph(graph: FamilyGraph, history: FamilyEventLog,) -> Dictionary`, `_encode_parent_link(link: ParentChildLink) -> Dictionary`, `_encode_interval(interval: LogicalInterval) -> Dictionary`, `_encode_guardianship(link: GuardianshipLink) -> Dictionary`, `_encode_union(link: UnionLink) -> Dictionary`, `_encode_history(record: FamilyHistoryRecord) -> Dictionary`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `parent_links: Array[Dictionary] = []`, `guardianships: Array[Dictionary] = []`, `unions: Array[Dictionary] = []`, `history_records: Array[Dictionary] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 18.4 Décodage strict d’une filiation
 
@@ -1316,6 +1665,18 @@ func _decode_parent_link(
 		return null
 	return link
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_decode_parent_link()` utilisées dans « 18.4 Décodage strict d’une filiation ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_decode_parent_link(value: Variant, identities: CharacterIdentityIndex,) -> ParentChildLink`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := value as Dictionary`, `required := [`, `parent_id := StringName(data["parent_id"])`, `child_id := StringName(data["child_id"])`, `kind_value: int = data["kind"]` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 18.5 Intervalles, tutelles et unions
 
@@ -1433,6 +1794,18 @@ func _decode_union(
 	link.provenance = StringName(data["provenance"])
 	return link if link.validate().is_empty() else null
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_decode_interval()`, `_decode_guardianship()`, `_decode_union()` utilisées dans « 18.5 Intervalles, tutelles et unions ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_decode_interval(value: Variant) -> LogicalInterval`, `_decode_guardianship(value: Variant, identities: CharacterIdentityIndex,) -> GuardianshipLink`, `_decode_union(value: Variant, identities: CharacterIdentityIndex,) -> UnionLink`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := value as Dictionary`, `interval := LogicalInterval.new(`, `data := value as Dictionary`, `required := [`, `guardian_id := StringName(data["guardian_id"])` et 10 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 18.6 Historique et utilitaires
 
@@ -1488,6 +1861,18 @@ func _types_match(
 			return false
 	return true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_decode_history()`, `_has_exact_keys()`, `_types_match()` utilisées dans « 18.6 Historique et utilitaires ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_decode_history(value: Variant) -> FamilyHistoryRecord`, `_has_exact_keys(data: Dictionary, required: Array) -> bool`, `_types_match(data: Dictionary, expected: Dictionary,) -> bool`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := value as Dictionary`, `required := [`, `record := FamilyHistoryRecord.new()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; les parcours ou historiques restent bornés ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ## 19. Construction atomique du graphe candidat
 
@@ -1570,6 +1955,18 @@ func decode_snapshot(
 		"history": history,
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `decode_snapshot()` utilisées dans « 19. Construction atomique du graphe candidat ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `decode_snapshot(payload: Variant, identities: CharacterIdentityIndex,) -> Dictionary`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := payload as Dictionary`, `root_keys := [`, `candidate := FamilyGraph.new()`, `parent_link := _decode_parent_link(raw_link, identities)`, `guardianship := _decode_guardianship(raw_link, identities)` et 4 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** un auto-lien entre une identité et elle-même est refusé ; les parcours ou historiques restent bornés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La fonction ne modifie jamais le graphe actif. Tout échec retourne un dictionnaire vide et abandonne le candidat.
 
@@ -1659,6 +2056,18 @@ func cancel_prepared() -> void:
 	_prepared_graph = null
 	_prepared_history = null
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `FamilySaveSection`, dérivée de `SaveSection`.
+- **Emplacement :** il appartient à `src/features/families/infrastructure/family_save_section.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(graph: FamilyGraph, history: FamilyEventLog, codec: FamilySnapshotCodec, identities: CharacterIdentityIndex,) -> void`, `get_section_id(aucun paramètre) -> StringName`, `capture(aucun paramètre) -> Dictionary`, `prepare_apply(payload: Variant) -> Error`, `apply_prepared(aucun paramètre) -> Error`, `cancel_prepared(aucun paramètre) -> void`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `SECTION_ID := &"families"` ; état `_graph: FamilyGraph`, `_history: FamilyEventLog`, `_codec: FamilySnapshotCodec`, `_identities: CharacterIdentityIndex`, `_prepared_graph: FamilyGraph` et 7 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** remplace l’état autoritaire seulement après validation du candidat ; enregistre une erreur exploitable par l’appelant ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `replace_all_from()` reconstruit les index secondaires à partir des liens du candidat. La section propage son retour `Error` et ne considère la préparation terminée qu’après remplacement du graphe et restauration de l’historique.
 
@@ -1739,6 +2148,18 @@ func _add_parent(
 	)
 	return graph.add_parent_link(link)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_ready()`, `demonstrate_cycle_refusal()`, `_add_parent()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `scenes/learning/ch16_family_demo.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_ready(aucun paramètre) -> void`, `demonstrate_cycle_refusal(grandparent_id: StringName, parent_id: StringName, child_id: StringName,) -> void`, `_add_parent(parent_id: StringName, child_id: StringName, tick: int,) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `output: RichTextLabel = %Output`, `graph := FamilyGraph.new()`, `result := _add_parent(child_id, grandparent_id, 30)`, `link := ParentChildLink.new(`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La démonstration n’est pas un test runtime tant que la scène n’a pas été matérialisée et exécutée.
 
@@ -1921,6 +2342,19 @@ family_graph.add_parent_link(link)
 if affinity > 80:
 	is_parent = true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.3 Déduire la filiation depuis l’affinité ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** créer une commande familiale explicite.
 
@@ -2004,6 +2438,19 @@ _parent_links[link.link_id] = link
 if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 	return ERR_CYCLIC_LINK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.6 Oublier la détection de cycle ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** la structure hiérarchique ne peut pas introduire de cycle d’ascendance.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** le graphe reste acyclique.
 
@@ -2019,6 +2466,19 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 if visited.size() > limit:
 	return false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.7 Traiter un dépassement de budget comme une absence de cycle ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** refuser conservativement.
 
@@ -2030,6 +2490,19 @@ if visited.size() > limit:
 if visited.size() >= MAX_TRAVERSAL_NODES:
 	return true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.7 Traiter un dépassement de budget comme une absence de cycle ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Pourquoi la correction fonctionne :** elle déplace la décision vers le bon contrat, valide les données avant mutation et rend l’échec observable par l’appelant.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** l’incertitude n’autorise pas la mutation.
 
@@ -2117,6 +2590,19 @@ var result := interval.close_at(current_tick)
 if not active_registry.has(parent_id):
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.11 Valider uniquement contre les personnages actifs ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** utiliser l’index logique.
 
@@ -2128,6 +2614,19 @@ if not active_registry.has(parent_id):
 if not identity_index.contains(parent_id):
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.11 Valider uniquement contre les personnages actifs ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Pourquoi la correction fonctionne :** elle déplace la décision vers le bon contrat, valide les données avant mutation et rend l’échec observable par l’appelant.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** la présence en scène n’est pas l’existence métier.
 
@@ -2167,6 +2666,19 @@ return result
 for raw_link in payload.parent_links:
 	_graph.add_parent_link(decode(raw_link))
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 28.13 Charger directement dans le graphe actif ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** construire un candidat complet.
 
@@ -2240,6 +2752,19 @@ var result := family_service.add_parent_link(validated_command)
 func add_child(child_id):
 	next_ruler_id = child_id
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `add_child()` utilisées dans « 28.16 Mélanger succession et famille ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `add_child(child_id) -> Variant implicite`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** publier un événement familial consommable par le chapitre 23.
 

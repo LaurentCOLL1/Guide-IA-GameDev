@@ -1,13 +1,13 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH16
-status: complete
+status: pending-ci
 validation-date: 2026-07-19
 validated-base-commit: 47ec5d7312f9c53af6e570b3b2cc355bba1f2f26
 validated-head-commit: b6ae14528c6c28a4ecbf071873555081ff9a72a2
 chapter:
   id: DOC-L2-CH16
   path: Livre-II/CHAPITRE-16-Famille-et-generations.md
-  version: 1.0.0
+  version: 1.1.0
   audit-level: static-review
 scope:
   - markdown integrity
@@ -132,3 +132,16 @@ reservations:
   - Le multijoueur reste hors périmètre.
   - Le packaging multi-plateforme reste à qualifier.
   - Le PDF reste différé jusqu'à la fin du Livre II.
+
+code-explanation-enrichment:
+  policy: QA-Q1.1
+  chapter: 16
+  significant-code-or-data-blocks: 43
+  explanations-added: 43
+  explanation-marker: qa:code-explanation
+  role-and-location-covered: true
+  parameters-types-and-returns-covered: true
+  effects-and-invariants-covered: true
+  expected-result-covered: true
+  runtime-executed: false
+  ci-status: pending

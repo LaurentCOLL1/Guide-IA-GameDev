@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 15 : Relations sociales"
 id: "DOC-L2-CH15"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 15
-last-verified: "2026-07-19"
+last-verified: "2026-07-20"
 audit-status: "complete"
-audit-date: "2026-07-19"
+audit-date: "2026-07-20"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-15.md"
 audit-level: "static-review"
 reference-engine:
@@ -34,6 +34,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-15.md`.
+> **Explications de code :** enrichies bloc par bloc selon la porte QA Q1.1.
 
 ## 1. Rôle du chapitre
 
@@ -245,6 +246,18 @@ func validate() -> Error:
 func to_storage_key() -> String:
 	return "%s->%s" % [String(source_id), String(target_id)]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipKey`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/domain/social_relationship_key.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(p_source_id: StringName, p_target_id: StringName,) -> void`, `validate(aucun paramètre) -> Error`, `to_storage_key(aucun paramètre) -> String`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `source_id: StringName`, `target_id: StringName`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; un auto-lien entre une identité et elle-même est refusé.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Explication :
 
@@ -265,6 +278,18 @@ Trier les identifiants détruirait l’orientation.
 var ids := [source_id, target_id]
 ids.sort()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 6.2 Pourquoi ne pas trier les identifiants ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `ids := [source_id, target_id]`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Cette approche convient uniquement à une paire réellement non orientée. Elle ne convient pas à une perception sociale.
 
@@ -332,6 +357,18 @@ func apply_delta(
 		MAX_FEAR,
 	)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialAxes`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/domain/social_axes.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `duplicate_axes(aucun paramètre) -> SocialAxes`, `validate(aucun paramètre) -> Error`, `apply_delta(affinity_delta: int, trust_delta: int, respect_delta: int, fear_delta: int,) -> void`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `MIN_SIGNED := -100`, `MAX_SIGNED := 100`, `MIN_FEAR := 0`, `MAX_FEAR := 100` ; état `affinity: int = 0`, `trust: int = 0`, `respect: int = 0`, `fear: int = 0`, `copy := SocialAxes.new()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite ; borne une valeur avant de l’accepter. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `duplicate_axes()` évite de partager le même objet mutable entre un état courant, un événement et une vue d’interface.
 
@@ -388,6 +425,18 @@ func validate() -> Error:
 
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialChangeCause`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/domain/social_change_cause.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(p_cause_id: StringName, p_source_system: StringName, p_context_id: StringName = &"",) -> void`, `validate(aucun paramètre) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `cause_id: StringName`, `source_system: StringName`, `context_id: StringName`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `source_system` indique la provenance applicative, par exemple :
 
@@ -453,6 +502,18 @@ func validate() -> Error:
 
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `ChangeSocialRelationshipCommand`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/change_social_relationship_command.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `MAX_ABSOLUTE_DELTA := 100` ; état `relationship_key: SocialRelationshipKey`, `cause: SocialChangeCause`, `affinity_delta: int = 0`, `trust_delta: int = 0`, `respect_delta: int = 0` et 3 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La commande :
 
@@ -529,6 +590,18 @@ func duplicate_record() -> SocialChangeRecord:
 	copy.fear_delta = fear_delta
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialChangeRecord`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/domain/social_change_record.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> Error`, `duplicate_record(aucun paramètre) -> SocialChangeRecord`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `MAX_ABSOLUTE_DELTA := 100` ; état `revision: int`, `logical_tick: int`, `cause_id: StringName`, `source_system: StringName`, `context_id: StringName` et 7 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite ; produit une copie défensive pour éviter les mutations externes. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 10.2 Pourquoi l’historique reste borné
 
@@ -635,6 +708,18 @@ func apply_validated(
 
 	return record
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipState`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/domain/social_relationship_state.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(p_key: SocialRelationshipKey) -> void`, `validate(aucun paramètre) -> Error`, `get_history_copy(aucun paramètre) -> Array[SocialChangeRecord]`, `apply_validated(command: ChangeSocialRelationshipCommand,) -> SocialChangeRecord`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `MAX_HISTORY := 32` ; état `key: SocialRelationshipKey`, `axes := SocialAxes.new()`, `revision: int = 0`, `last_changed_tick: int = 0`, `_history: Array[SocialChangeRecord] = []` et 4 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; retourne un code `Error` explicite ; produit une copie défensive pour éviter les mutations externes. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `apply_validated()` suppose que la commande a déjà réussi `validate()`. Cette précondition est assurée par le service applicatif.
 
@@ -679,6 +764,18 @@ func get_all() -> Array[SocialRelationshipState]:
 	push_error("get_all() doit être implémentée.")
 	return []
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipRepository`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/social_relationship_repository.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_state(source_id: StringName, target_id: StringName,) -> SocialRelationshipState`, `replace_one(state: SocialRelationshipState,) -> Error`, `replace_all(states: Array[SocialRelationshipState],) -> Error`, `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]`, `get_all(aucun paramètre) -> Array[SocialRelationshipState]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** remplace l’état autoritaire seulement après validation du candidat ; enregistre une erreur exploitable par l’appelant ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ### 12.2 Implémentation en mémoire
 
@@ -773,6 +870,18 @@ func _index_outgoing(
 		_outgoing_keys[source_id] = []
 	_outgoing_keys[source_id].append(storage_key)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `InMemorySocialRelationshipRepository`, dérivée de `SocialRelationshipRepository`.
+- **Emplacement :** il appartient à `res://src/features/social/infrastructure/in_memory_social_relationship_repository.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_state(source_id: StringName, target_id: StringName,) -> SocialRelationshipState`, `replace_one(state: SocialRelationshipState,) -> Error`, `replace_all(states: Array[SocialRelationshipState],) -> Error`, `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]`, `get_all(aucun paramètre) -> Array[SocialRelationshipState]`, `_index_outgoing(source_id: StringName, storage_key: String,) -> void`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `_states: Dictionary[String, SocialRelationshipState] = {}`, `_outgoing_keys: Dictionary[StringName, Array] = {}`, `key := SocialRelationshipKey.new(source_id, target_id)`, `storage_key := state.key.to_storage_key()`, `is_new := not _states.has(storage_key)` et 7 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** remplace l’état autoritaire seulement après validation du candidat ; ajoute des éléments à une collection ou à un historique borné ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `replace_all()` prépare deux dictionnaires candidats. Les données courantes ne sont remplacées qu’après validation complète.
 
@@ -794,6 +903,18 @@ func contains(character_id: StringName) -> bool:
 	push_error("contains() doit être implémentée.")
 	return false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `CharacterIdentityIndex`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/characters/application/character_identity_index.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `contains(character_id: StringName) -> bool`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** enregistre une erreur exploitable par l’appelant. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Une implémentation peut agréger :
 
@@ -837,6 +958,18 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipChangedEvent`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/social_relationship_changed_event.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `validate(aucun paramètre) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `source_id: StringName`, `target_id: StringName`, `revision: int`, `logical_tick: int`, `cause_id: StringName` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; un auto-lien entre une identité et elle-même est refusé ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 L’événement transporte des copies des axes avant et après. Un observateur ne peut donc pas modifier l’état interne du dépôt.
 
@@ -919,6 +1052,18 @@ func apply_change(
 	relationship_changed.emit(event)
 	return OK
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipService`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/social_relationship_service.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(repository: SocialRelationshipRepository, character_index: CharacterIdentityIndex,) -> void`, `apply_change(command: ChangeSocialRelationshipCommand,) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `_repository: SocialRelationshipRepository`, `_character_index: CharacterIdentityIndex`, `key := command.relationship_key`, `current := _repository.get_state(`, `candidate := current.duplicate_state()` et 4 autre(s) ; signaux `relationship_changed(`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** émet un signal ou un événement après la mutation ; remplace l’état autoritaire seulement après validation du candidat ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le service vérifie :
 
@@ -958,6 +1103,18 @@ func duplicate_state() -> SocialRelationshipState:
 
 	return copy
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `duplicate_state()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_state.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `duplicate_state(aucun paramètre) -> SocialRelationshipState`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `copy := SocialRelationshipState.new(`, `history_copy: Array[SocialChangeRecord] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; produit une copie défensive pour éviter les mutations externes. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 `duplicate_state()` duplique aussi chaque enregistrement. Une simple duplication du tableau aurait conservé les mêmes objets mutables.
 
@@ -1021,6 +1178,18 @@ func get_targets_above_affinity(
 	result.sort()
 	return result
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipQuery`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/social_relationship_query.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(repository: SocialRelationshipRepository) -> void`, `get_outgoing(source_id: StringName,) -> Array[SocialRelationshipState]`, `get_targets_above_affinity(source_id: StringName, minimum_affinity: int,) -> Array[StringName]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `_repository: SocialRelationshipRepository`, `threshold := clampi(`, `result: Array[StringName] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; borne une valeur avant de l’accepter. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La requête retourne des identifiants, pas des nœuds.
 
@@ -1047,6 +1216,18 @@ var mutual_respect: int
 var maximum_fear: int
 var complete: bool = false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `MutualSocialView`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/application/mutual_social_view.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `first_id: StringName`, `second_id: StringName`, `mutual_affinity: int`, `mutual_trust: int`, `mutual_respect: int` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 > **[VSC] Visual Studio Code — Ajouter à `social_relationship_query.gd`.**
 
@@ -1093,6 +1274,18 @@ func get_mutual_view(
 	view.complete = true
 	return view
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_mutual_view()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_query.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_mutual_view(first_id: StringName, second_id: StringName,) -> MutualSocialView`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `view := MutualSocialView.new()`, `forward := _repository.get_state(first_id, second_id)`, `reverse := _repository.get_state(second_id, first_id)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; un auto-lien entre une identité et elle-même est refusé.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Une vue incomplète ne remplace pas une direction absente par des zéros. Zéro pourrait signifier une neutralité connue, alors que l’absence signifie « aucune relation enregistrée ».
 
@@ -1166,6 +1359,18 @@ Le service social ne parcourt pas spontanément tous les personnages. Cette sép
   ]
 }
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à montrer la structure de données sérialisée attendue dans « 21.1 Forme JSON ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** le document peut être décodé strictement, avec les clés et types attendus et sans valeur dérivée persistée. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le snapshot ne contient :
 
@@ -1280,6 +1485,18 @@ func _has_exact_keys(
 			return false
 	return true
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipSnapshotCodec`, dérivée de `RefCounted`.
+- **Emplacement :** il appartient à `res://src/features/social/infrastructure/social_relationship_snapshot_codec.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `encode(state: SocialRelationshipState,) -> Dictionary`, `decode(payload: Variant) -> SocialRelationshipState`, `_has_exact_keys(data: Dictionary, required: Array[String],) -> bool`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `REQUIRED_KEYS: Array[String] = [` ; état `history_payload: Array[Dictionary] = []`, `data := payload as Dictionary`, `key := SocialRelationshipKey.new(`, `axes := _decode_axes(data["axes"])`, `state := SocialRelationshipState.new(key)` et 3 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les doublons et références déjà connues sont détectés ; les parcours ou historiques restent bornés ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le codec montre les contrôles principaux. Les méthodes `_encode_record()`, `_decode_axes()`, `_decode_record()` et `set_history_for_restore()` sont détaillées dans la section suivante.
 
@@ -1303,6 +1520,18 @@ func set_history_for_restore(
 	_history = candidate
 	return validate()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `set_history_for_restore()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_state.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `set_history_for_restore(records: Array[SocialChangeRecord],) -> Error`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `candidate: Array[SocialChangeRecord] = []`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les parcours ou historiques restent bornés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Cette méthode n’est utilisée que par l’infrastructure de restauration.
 
@@ -1341,6 +1570,18 @@ func _decode_axes(payload: Variant) -> SocialAxes:
 		return null
 	return axes
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_decode_axes()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_snapshot_codec.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_decode_axes(payload: Variant) -> SocialAxes`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := payload as Dictionary`, `keys: Array[String] = [`, `axes := SocialAxes.new()`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Les nombres décimaux sont refusés même s’ils pourraient être convertis vers des entiers. La sauvegarde doit respecter le contrat exact.
 
@@ -1366,6 +1607,18 @@ func _encode_record(
 		},
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_encode_record()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_snapshot_codec.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_encode_record(record: SocialChangeRecord,) -> Dictionary`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 Le décodage applique les mêmes validations strictes :
 
@@ -1452,6 +1705,18 @@ func _decode_delta_dictionary(payload: Variant) -> Dictionary:
 		"fear": data["fear"],
 	}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_decode_record()`, `_decode_delta_dictionary()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `social_relationship_snapshot_codec.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_decode_record(payload: Variant) -> SocialChangeRecord`, `_decode_delta_dictionary(payload: Variant) -> Dictionary`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `data := payload as Dictionary`, `required: Array[String] = [`, `deltas := _decode_delta_dictionary(data["deltas"])`, `record := SocialChangeRecord.new()`, `data := payload as Dictionary` et 1 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les objets sont validés avant leur insertion ou leur application ; l’ordre temporel repose sur des ticks logiques et non sur l’heure système ; les clés ou types inattendus sont refusés au lieu d’être convertis silencieusement.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 ## 26. Section de sauvegarde indépendante
 
@@ -1558,6 +1823,18 @@ func cancel_load() -> void:
 	_prepared_states.clear()
 	_has_prepared_load = false
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à définir la classe `SocialRelationshipSaveSection`, dérivée de `SaveSection`.
+- **Emplacement :** il appartient à `res://src/features/social/infrastructure/social_relationship_save_section.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_init(repository: SocialRelationshipRepository, character_index: CharacterIdentityIndex,) -> void`, `get_section_id(aucun paramètre) -> StringName`, `capture(aucun paramètre) -> Dictionary`, `prepare_load(payload: Variant) -> Error`, `apply_prepared(aucun paramètre) -> Error`, `cancel_load(aucun paramètre) -> void`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare constantes `SECTION_ID: StringName = &"social_relationships"`, `FORMAT_VERSION := 1` ; état `_repository: SocialRelationshipRepository`, `_character_index: CharacterIdentityIndex`, `_codec := SocialRelationshipSnapshotCodec.new()`, `_prepared_states: Array[SocialRelationshipState] = []`, `_has_prepared_load := false` et 8 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les boucles `for` parcourent les collections de façon explicite ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné ; retire ou réinitialise des données en mémoire ; retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés ; la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La section sociale est indépendante de la section des personnages.
 
@@ -1640,6 +1917,18 @@ func _on_relationship_changed(
 		]
 	)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `_ready()`, `_on_relationship_changed()` utilisées dans « ce passage ».
+- **Emplacement :** il appartient à `res://scenes/learning/ch15_social_relationships_demo.gd`. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `_ready(aucun paramètre) -> void`, `_on_relationship_changed(event: SocialRelationshipChangedEvent,) -> void`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** le bloc déclare état `_output: RichTextLabel = %DemoOutput`, `_repository := InMemorySocialRelationshipRepository.new()`, `_character_index := DemoCharacterIdentityIndex.new()`, `_service := SocialRelationshipService.new(`, `_query := SocialRelationshipQuery.new(_repository)` et 2 autre(s). Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** l’ordre temporel repose sur des ticks logiques et non sur l’heure système.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 La démonstration vérifie seulement le flux applicatif. Elle ne constitue pas un test de sauvegarde, de migration ou de charge.
 
@@ -1724,6 +2013,19 @@ Une règle de décroissance temporelle, si elle est ajoutée plus tard, doit con
 extends CharacterBody3D
 var affinity_by_node: Dictionary[Node, int] = {}
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.1 Stocker la relation sur le nœud du personnage ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `affinity_by_node: Dictionary[Node, int] = {}`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** utiliser des identifiants stables dans un dépôt indépendant.
 
@@ -1733,6 +2035,19 @@ var affinity_by_node: Dictionary[Node, int] = {}
 var key := SocialRelationshipKey.new(source_id, target_id)
 var state := repository.get_state(source_id, target_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.1 Stocker la relation sur le nœud du personnage ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `key := SocialRelationshipKey.new(source_id, target_id)`, `state := repository.get_state(source_id, target_id)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** le second exemple survit au déchargement des scènes.
 
@@ -1766,6 +2081,19 @@ var key := SocialRelationshipKey.new(aster_id, brann_id)
 set_affinity(a, b, value)
 set_affinity(b, a, value)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.3 Forcer une relation symétrique ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** appliquer une commande distincte par direction.
 
@@ -1775,6 +2103,19 @@ set_affinity(b, a, value)
 service.apply_change(command_a_to_b)
 service.apply_change(command_b_to_a)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.3 Forcer une relation symétrique ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** chaque direction conserve sa cause et sa valeur.
 
@@ -1788,6 +2129,19 @@ service.apply_change(command_b_to_a)
 state.is_friend = true
 state.axes.affinity = -80
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.4 Stocker `is_friend` séparément ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** calculer une vue selon une règle documentée.
 
@@ -1829,6 +2183,19 @@ state.axes.apply_delta(0, 500, 0, 0)
 command.cause = null
 service.apply_change(command)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.6 Accepter une commande sans cause ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** fournir une cause stable et une provenance.
 
@@ -1840,6 +2207,19 @@ command.cause = SocialChangeCause.new(
 	&"system.world.event",
 )
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.6 Accepter une commande sans cause ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** l’historique possède une origine vérifiable.
 
@@ -1882,6 +2262,19 @@ _history.append(record)
 while _history.size() > MAX_HISTORY:
 	_history.pop_front()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.8 Conserver un historique illimité ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** la boucle `while` poursuit un parcours borné jusqu’à épuisement de la file.
+- **Effets de bord :** ajoute des éléments à une collection ou à un historique borné. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** la taille maximale est explicite.
 
@@ -1895,6 +2288,19 @@ while _history.size() > MAX_HISTORY:
 func get_history() -> Array:
 	return _history
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_history()` utilisées dans « 32.9 Retourner le tableau interne ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_history(aucun paramètre) -> Array`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** retourner une copie.
 
@@ -1904,6 +2310,19 @@ func get_history() -> Array:
 func get_history_copy() -> Array[SocialChangeRecord]:
 	return _history.duplicate()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à implémenter les opérations `get_history_copy()` utilisées dans « 32.9 Retourner le tableau interne ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** `get_history_copy(aucun paramètre) -> Array[SocialChangeRecord]`. Les paramètres typés limitent les appels ambigus ; le type placé après `->` décrit ce que l’appelant doit traiter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** produit une copie défensive pour éviter les mutations externes. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les parcours ou historiques restent bornés.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** le tableau interne reste encapsulé.
 
@@ -1917,6 +2336,19 @@ func get_history_copy() -> Array[SocialChangeRecord]:
 for node in get_tree().get_nodes_in_group("characters"):
 	find_relationship(node)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.10 Parcourir tous les nœuds pour trouver les voisins ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** interroger l’index du dépôt.
 
@@ -1939,6 +2371,19 @@ for source in all_characters:
 	for target in all_characters:
 		create_relation(source, target)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.11 Créer toutes les paires possibles ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** créer une relation au premier événement pertinent.
 
@@ -1949,6 +2394,19 @@ var state := repository.get_state(source_id, target_id)
 if state == null:
 	state = SocialRelationshipState.new(command.relationship_key)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.11 Créer toutes les paires possibles ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `state := repository.get_state(source_id, target_id)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** seules les relations existantes occupent de la mémoire.
 
@@ -1971,6 +2429,19 @@ if not data["trust"] is int:
 	return null
 axes.trust = data["trust"]
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.12 Décoder avec des conversions silencieuses ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** une sauvegarde invalide est refusée.
 
@@ -1984,6 +2455,19 @@ axes.trust = data["trust"]
 for entry in entries:
 	repository.add(codec.decode(entry))
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.13 Appliquer avant validation complète ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les boucles `for` parcourent les collections de façon explicite.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** préparer un tableau candidat puis appeler `replace_all()`.
 
@@ -1994,6 +2478,19 @@ var prepare_error := section.prepare_load(payload)
 if prepare_error == OK:
 	section.apply_prepared()
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.13 Appliquer avant validation complète ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `prepare_error := section.prepare_load(payload)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** la donnée candidate est préparée entièrement avant toute mutation de l’état actif.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** aucune mutation ne précède la validation globale de la section.
 
@@ -2007,6 +2504,19 @@ if prepare_error == OK:
 if active_registry.get_actor(target_id) == null:
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.14 Valider contre les seuls personnages actifs ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** un auto-lien entre une identité et elle-même est refusé.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Correction :** consulter l’index logique des identités.
 
@@ -2016,6 +2526,19 @@ if active_registry.get_actor(target_id) == null:
 if not character_identity_index.contains(target_id):
 	return ERR_DOES_NOT_EXIST
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.14 Valider contre les seuls personnages actifs ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** aucune donnée mutable durable n’est déclarée ici ; l’extrait dépend surtout des objets reçus en paramètres et des contrats cités dans les annotations de type.
+- **Déroulement :** les conditions `if` refusent les entrées invalides avant la mutation ; les retours anticipés réduisent le risque de modifier un état après une erreur.
+- **Effets de bord :** retourne un code `Error` explicite. Ces effets ne doivent survenir qu’après le succès des validations précédentes.
+- **Invariants protégés :** les doublons et références déjà connues sont détectés.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** la présence visuelle n’est pas confondue avec l’existence.
 
@@ -2037,6 +2560,19 @@ state.is_parent = state.axes.affinity > 50
 var kinship := family_query.get_relationship(first_id, second_id)
 var social := social_query.get_mutual_view(first_id, second_id)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.15 Mélanger famille et relation sociale ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `kinship := family_query.get_relationship(first_id, second_id)`, `social := social_query.get_mutual_view(first_id, second_id)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** le fait familial et la perception sociale restent indépendants.
 
@@ -2058,6 +2594,19 @@ state.axes.trust = ai_response["trust"]
 var command := policy.map_suggestion_to_command(ai_suggestion)
 var result := social_service.apply_change(command)
 ```
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc sert à illustrer concrètement la règle présentée dans « 32.16 Utiliser l’IA comme autorité de la relation ».
+- **Emplacement :** il appartient à le fichier indiqué juste avant le bloc. Le chemin est une partie du contrat pédagogique : déplacer ce code dans une autre couche peut créer un couplage non prévu.
+- **Entrées et retours :** ce bloc ne déclare pas de fonction publique ; ses données sont consommées par le code qui l’instancie ou le décode. Les types visibles dans les déclarations constituent néanmoins le contrat à respecter.
+- **État et dépendances :** le bloc déclare état `command := policy.map_suggestion_to_command(ai_suggestion)`, `result := social_service.apply_change(command)`. Les champs préfixés par `_` sont internes et ne doivent pas devenir une API implicite.
+- **Déroulement :** les instructions sont exécutées dans l’ordre, de la construction des données vers leur validation puis leur exposition.
+- **Effets de bord :** l’extrait est principalement déclaratif ou calculatoire ; il ne doit pas modifier un nœud actif, une ressource partagée ou une collection appartenant à l’appelant sans copie explicite.
+- **Invariants protégés :** les identifiants et types reçus doivent déjà être valides, et le résultat ne doit pas exposer directement une collection interne mutable.
+- **Pourquoi cet exemple est fautif :** il montre volontairement une violation de contrat. Il ne doit pas être copié tel quel ; la section corrigée qui suit rétablit la validation, le bornage ou la séparation des responsabilités manquante.
+- **Résultat attendu :** l’appelant obtient un résultat typé ou un code d’erreur explicite, sans état partiellement appliqué. La vérification minimale consiste à tester un cas valide, un cas limite et un cas refusé, puis à confirmer que l’état actif reste inchangé après l’échec.
 
 **Différence :** le domaine valide la mutation et peut refuser la suggestion.
 
