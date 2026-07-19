@@ -1,0 +1,91 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH08
+status: complete
+validation-date: 2026-07-19
+validated-base-commit: 6c0bf3621c4a6a7a57eaad0d74cf76da0aebe950
+chapter:
+  id: DOC-L2-CH08
+  path: Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - technical static review
+  - SQL schema and migration review
+  - GDScript static review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+reference-addon:
+  name: Godot-SQLite
+  version: "4.7"
+  license: MIT
+  asset-library-engine-target: "4.5"
+  source-api-commit: 019027732dc03d1a3b3ce4c3166d98961f4e066f
+results:
+  master-plan-items-covered: 13
+  detailed-error-cases: 11
+  migrations-documented: 2
+  schema-tables:
+    - schema_migrations
+    - beacon_state
+    - beacon_activation_event
+  parameter-bindings-required: true
+  transactions-required: true
+  migration-checksums-required: true
+  future-schema-rejected-before-mutation: true
+  backup-only-when-migration-pending: true
+  wal-sidecars-removed-before-restore: true
+  query-error-distinct-from-no-row: true
+  chapter-9-boundary-preserved: true
+  semantic-corrected-labels:
+    - exemple corrigé
+    - structure corrigée
+    - organisation corrigée
+    - architecture corrigée
+    - flux corrigé
+  temporary-workflows-removed: true
+  temporary-scripts-removed: true
+  pdf-produced: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29684886165
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29684886159
+    conclusion: success
+  artifact:
+    id: 8441749891
+    name: chapter-validation-without-pdf
+    digest: sha256:f3a6caa0688c6171906f35f181abceace5b3b1115d29b1ffe0945280d0851d0c
+  metrics:
+    sources: 56
+    unique-identifiers: 55
+    livre-i-chapters: 10
+    livre-ii-chapters: 8
+    chapter-08-lines: 2334
+    chapter-08-headings: 102
+    chapter-08-significant-code-blocks: 28
+    total-context-blocks: 1143
+    marked-context-blocks: 1143
+    semantic-inconsistencies: 0
+    blocking-errors: 0
+    warnings: 1
+    duplicate-headings: 0
+    duplicate-significant-blocks: 0
+    duplicate-long-paragraphs: 0
+  final-nonregression:
+    validate-chapters-run-id: 29684985129
+    validate-chapters-conclusion: success
+    validate-contexts-run-id: 29684985106
+    validate-contexts-conclusion: success
+reservations:
+  - Godot-SQLite 4.7 n’a pas encore été chargé dans Godot 4.7.1 sur Windows 11.
+  - Les migrations et rollbacks n’ont pas encore été exécutés dans le Starter Kit.
+  - La copie et la restauration WAL n’ont pas encore été testées sur fichiers réels.
+  - L’export Windows n’a pas encore été qualifié sur une machine propre.
+  - Le PDF reste différé jusqu’à la fin du Livre II.

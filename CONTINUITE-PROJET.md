@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.7.0"
+version: "3.8.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -98,7 +98,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 7 chapitres sur 30.**
+**En cours : 8 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -109,8 +109,8 @@ Chaque procédure doit expliquer :
 5. Services, gestionnaires, bus d’événements et injection de dépendances — terminé au niveau `static-review`.
 6. Entrées, contrôleurs, caméras et interactions — terminé au niveau `static-review`.
 7. Données avec Resources, JSON et configurations — terminé au niveau `static-review`.
-8. SQLite, migrations et données persistantes — prochain chapitre.
-9. Sauvegardes, chargements et compatibilité des versions.
+8. SQLite, migrations et données persistantes — terminé au niveau `static-review`.
+9. Sauvegardes, chargements et compatibilité des versions — prochain chapitre.
 
 #### Partie B — Plateforme IA locale
 
@@ -184,7 +184,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 7 : **Élevée**.
+Chapitres 3 à 8 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -280,7 +280,16 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - identifiants métier stables indépendants des noms affichés et des chemins ;
 - JSON validé puis converti vers des types du domaine ;
 - configuration mappée vers `AppConfig` avant injection ;
-- SQLite réservé au chapitre 8 et sauvegardes au chapitre 9.
+- base SQLite mutable sous `user://` ;
+- Godot-SQLite encapsulé derrière `DatabaseConnection` ;
+- requêtes paramétrées obligatoires pour toute valeur dynamique ;
+- clés étrangères, WAL, timeout et synchronisation vérifiés par connexion ;
+- migrations numérotées, append-only, transactionnelles et vérifiées par checksum ;
+- copie fermée créée uniquement avant une migration réellement en attente ;
+- schéma futur refusé avant toute mutation ;
+- `quick_check` et `foreign_key_check` exécutés après migration ;
+- absence de ligne distinguée d’une panne SQL ;
+- format de sauvegarde complet réservé au chapitre 9.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -350,7 +359,55 @@ Audit : `Livre-II/QA/AUDIT-CHAPITRE-07.md`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 15. Erreurs à ne pas reproduire
+## 15. Chapitre 8 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md`.
+
+Niveau : **GPT-5.6 Sol — Élevée**.
+
+Intégration de référence : Godot-SQLite `4.7`, licence MIT, distribuée par la Godot Asset Library et encapsulée derrière une abstraction du projet.
+
+Décisions enregistrées :
+
+- base principale sous `user://data/asteria.sqlite3` ;
+- aucune dépendance SQLite dans le domaine ou les services applicatifs ;
+- `DatabaseConnection` et `BeaconStateRepository` comme contrats ;
+- schéma initial `beacon_state` et `beacon_activation_event` ;
+- clés étrangères activées et vérifiées sur chaque connexion ;
+- requêtes paramétrées pour toutes les valeurs dynamiques ;
+- transactions `BEGIN IMMEDIATE`, `COMMIT` et `ROLLBACK` ;
+- manifeste de migrations continu à partir de `1` ;
+- table `schema_migrations`, `PRAGMA user_version` et SHA-256 ;
+- refus d’un schéma futur avant toute écriture ;
+- copie préalable seulement lorsqu’une migration est en attente ;
+- checkpoint WAL, fermeture et suppression des sidecars avant restauration ;
+- `quick_check` et `foreign_key_check` après migration ;
+- erreurs de requête distinctes des recherches sans résultat ;
+- fichiers `*.sql` explicitement inclus dans l’export ;
+- sauvegardes complètes, slots et snapshots réservés au chapitre 9.
+
+Livrables documentés :
+
+- `src/core/persistence/database_connection.gd` ;
+- `src/core/persistence/sqlite_database_connection.gd` ;
+- `src/core/persistence/database_backup_service.gd` ;
+- `src/core/persistence/sql_migration_runner.gd` ;
+- `src/features/beacons/application/beacon_state_record.gd` ;
+- `src/features/beacons/application/beacon_state_repository.gd` ;
+- `src/features/beacons/application/beacon_persistence_service.gd` ;
+- `src/features/beacons/infrastructure/sqlite_beacon_state_repository.gd` ;
+- `src/app/database_bootstrap.gd` ;
+- `data/sql/migrations/001_create_beacon_state.sql` ;
+- `data/sql/migrations/002_add_beacon_activation_event.sql` ;
+- `scenes/learning/ch08_sqlite_demo.gd`.
+
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-08.md`.
+
+Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-08.yaml`.
+
+Décision : accepté avec réserves runtime et PDF de fin de Livre.
+
+## 16. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -367,54 +424,78 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un nom affiché comme identifiant métier ;
 - ne pas accepter un JSON sans validation de structure et de version ;
 - ne pas stocker un secret dans un fichier versionné ;
-- ne pas introduire SQLite avant le chapitre 8 ;
+- ne pas écrire une base mutable dans `res://` ;
+- ne pas concaténer une valeur dynamique dans SQL ;
+- ne pas modifier une migration déjà appliquée ;
+- ne pas démarrer le gameplay après une migration incomplète ;
+- ne pas copier une base WAL encore ouverte ;
+- ne pas masquer une panne SQL comme une absence de ligne ;
+- ne pas traiter le fichier SQLite comme un slot de sauvegarde complet ;
 - ne pas utiliser les `.tres` comme sauvegarde du joueur ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 16. État courant
+## 17. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 7 chapitres sur 30 ;
+- progression : 8 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
 - chapitre 7 : version `1.1.1` ;
+- chapitre 8 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 17. Prochaine action
+## 18. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
+Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
 ```
 
 Périmètre attendu :
 
-- rôle de SQLite dans `Project Asteria` ;
-- choix d’une intégration Godot compatible avec la plateforme de référence ;
-- schéma relationnel et types SQLite ;
-- clés primaires et étrangères ;
-- contraintes et index ;
-- transactions ;
-- requêtes paramétrées ;
-- repository derrière un contrat ;
-- migrations numérotées et table de version ;
-- rollback et sauvegarde avant migration ;
-- séparation données de conception, base persistante et sauvegarde ;
-- diagnostic et intégrité ;
-- différences Solo/Studio ;
+- rôle d’une sauvegarde par rapport aux dépôts SQLite ;
+- définition d’un snapshot cohérent de partie ;
+- slots manuels, autosaves et quicksaves ;
+- métadonnées, miniatures et temps de jeu ;
+- format de sauvegarde versionné ;
+- écriture atomique par fichier temporaire et remplacement ;
+- validation avant application au monde ;
+- chargement en plusieurs phases ;
+- compatibilité ascendante et migrations de sauvegarde ;
+- gestion des sauvegardes futures ou corrompues ;
+- rotation, rétention et copies de secours ;
+- séparation entre données de conception, base persistante et snapshot ;
+- parcours Solo et Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 18. Journal
+## 19. Journal
+
+### 2026-07-19 — version 3.8.0
+
+- création et audit statique du chapitre 8 ;
+- choix de Godot-SQLite `4.7` sous licence MIT avec réserve Godot 4.7.1 ;
+- ajout des contrats de connexion et de dépôt ;
+- schéma relationnel des états et événements de balise ;
+- requêtes paramétrées et transactions explicites ;
+- migrations numérotées, checksums et refus des schémas futurs ;
+- backup fermé seulement avant migration et restauration sans sidecars WAL ;
+- contrôles `quick_check` et `foreign_key_check` ;
+- validateur sémantique étendu aux libellés « Architecture corrigée » et « Flux corrigé » ;
+- validations finales `29684886165` et `29684886159` réussies ;
+- 56 sources, 55 identifiants uniques et 1 143 blocs sur 1 143 repérés ;
+- progression à 8 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 9 ;
+- PDF non construit.
 
 ### 2026-07-19 — version 3.7.0
 
