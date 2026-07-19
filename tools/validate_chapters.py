@@ -150,12 +150,17 @@ def validate_error_correction_sections(text: str, rel: str, errors: list[str]) -
             missing: list[str] = []
             if "Exemple fautif" not in child_body:
                 missing.append("exemple fautif")
-            if "Exemple corrigé" not in child_body:
+            corrected_match = re.search(
+                r"(?:exemple|structure|organisation|chemin|dépendances?|arbre|lot)[^\n]{0,100}corrig(?:é|ée|és|ées)",
+                child_body,
+                re.IGNORECASE,
+            )
+            if corrected_match is None:
                 missing.append("exemple corrigé")
             has_labeled_difference = "**Différence :**" in child_body
             trailing_prose = ""
-            if "Exemple corrigé" in child_body:
-                corrected_part = child_body.split("Exemple corrigé", 1)[1]
+            if corrected_match is not None:
+                corrected_part = child_body[corrected_match.end():]
                 outside_fence: list[str] = []
                 current_after_fence: list[str] = []
                 in_fence = False
