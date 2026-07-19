@@ -40,6 +40,10 @@ jobs:
                   '("version: \\"1.4.0\\"", "version: \\"1.5.0\\"")',
               '- [x] Chapitre 7 — Resources, JSON, catalogues et configurations — rédigé et audité au niveau `static-review`.\\n':
                   '- [x] Chapitre 7 — Resources, JSON, catalogues, identifiants stables et configurations — rédigé et audité au niveau `static-review`.\\n',
+              'journal_heading = "## 16. Journal\\n"':
+                  'journal_heading = "## 18. Journal\\n"',
+              "entry = '''## 16. Journal":
+                  "entry = '''## 18. Journal",
           }
           for old, new in replacements.items():
               if old not in text:
