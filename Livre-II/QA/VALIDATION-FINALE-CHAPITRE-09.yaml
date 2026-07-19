@@ -2,7 +2,7 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH09
 status: awaiting-ci
 validation-date: 2026-07-19
-reviewed-head: 438dc7caacf907ae43264aa4e6a8e6129f9cdc85
+reviewed-head: 2ae6539ba821b82a683e72768884626e59d4ce61
 chapter:
   id: DOC-L2-CH09
   path: Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
@@ -38,6 +38,13 @@ results:
   unknown-sections-rejected: true
   load-lock-held-through-apply: true
   chapter-10-boundary-preserved: true
+  semantic-corrected-labels:
+    - exemple corrigé
+    - architecture corrigée
+    - flux corrigé
+    - formulation corrigée
+    - ordre corrigé
+    - historique corrigé
   temporary-workflows-removed: true
   temporary-scripts-removed: true
   pdf-produced: false
