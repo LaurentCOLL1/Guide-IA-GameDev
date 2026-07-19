@@ -1,0 +1,112 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH13
+status: pending-ci
+validation-date: 2026-07-19
+validated-base-commit: 729335f791cbf5ff36897e5937d6f71ba57965fa
+chapter:
+  id: DOC-L2-CH13
+  path: Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md
+  version: 1.0.0
+  audit-level: static-review
+scope:
+  - markdown integrity
+  - master-plan coverage
+  - threat-model review
+  - production-runtime separation review
+  - environment-profile review
+  - secrets and authentication review
+  - authorization and allowlist review
+  - network and TLS review
+  - path-safety review
+  - least-privilege review
+  - resource-limit review
+  - log-redaction review
+  - dependency and license review
+  - SBOM and provenance review
+  - packaging, signature and update review
+  - fail-closed and deterministic-fallback review
+  - GDScript static review
+  - Python syntax review
+  - semantic error-section rule
+  - usage-context markers
+  - duplicate detection
+  - local links
+  - governance continuity
+  - no-PDF assertion
+results:
+  master-plan-items-covered: 16
+  detailed-error-cases: 16
+  clickable-technical-source-links: 16
+  chapter-lines: null
+  chapter-headings: null
+  chapter-significant-code-blocks: null
+  chapter-code-and-data-blocks: null
+  total-context-blocks: null
+  marked-context-blocks: null
+  context-nonconformities: null
+  semantic-inconsistencies: null
+  duplicate-headings: null
+  duplicate-significant-blocks: null
+  duplicate-long-paragraphs: null
+  local-markdown-links: null
+  broken-local-links: null
+  json-blocks-parsed: 1
+  json-parse-errors: 0
+  complete-python-modules: 9
+  documented-python-syntax-compilation: success
+  threat-model-present: true
+  production-runtime-separated: true
+  environment-profiles-explicit: true
+  secrets-outside-repository: true
+  loopback-default: true
+  remote-authentication-required: true
+  remote-tls-required: true
+  authorization-deny-by-default: true
+  operation-model-path-allowlists: true
+  canonical-path-check-documented: true
+  least-privilege-documented: true
+  resource-limits-explicit: true
+  log-redaction-documented: true
+  dependency-pinning-documented: true
+  sbom-provenance-documented: true
+  packaging-signature-update-documented: true
+  fail-closed-security: true
+  deterministic-gameplay-fallback-preserved: true
+  chapter-12-boundary-preserved: true
+  chapter-14-boundary-preserved: true
+  process-audit-report-present: true
+  blocking-errors: 0
+  warnings: 1
+  pdf-produced: false
+corrections:
+  - Remplacement d’une saisie SecureString non compatible avec une variable d’environnement par Read-Host -MaskInput.
+  - Suppression d’un faux fichier de verrouillage avant le choix des dépendances réelles.
+  - Qualification de python -I pour un paquet installé dans l’environnement virtuel.
+  - Épinglage des sources Godot 4.7 et Python 3.12.
+  - Qualification du SSDF 1.1 comme version finale et du SSDF 1.2 comme brouillon.
+  - Présentation des seize sources techniques sous forme de liens Markdown nommés.
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
+  - L’écoute et le pare-feu Windows n’ont pas été configurés.
+  - Aucun serveur authentifié ou TLS n’a été matérialisé.
+  - Les certificats et secrets n’ont pas été émis, rotés ou révoqués.
+  - Les restrictions d’un compte de service n’ont pas été exécutées.
+  - Les limites CPU, mémoire, débit et concurrence n’ont pas été exécutées.
+  - La rédaction n’a pas été vérifiée sur des journaux réels.
+  - La détection de secrets et le scan de vulnérabilités n’ont pas été exécutés.
+  - Aucun SBOM réel ni provenance attestée n’a été produit.
+  - Aucune signature de code n’a été créée ou vérifiée.
+  - La mise à jour et le rollback n’ont pas été exécutés.
+  - Le packaging multi-plateforme reste à qualifier.
+  - Le PDF reste différé jusqu’à la fin du Livre II.
