@@ -1,0 +1,40 @@
+name: Temporary Refine Chapter 15-16 Explanation Style
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    if: github.head_ref == 'docs/refine-code-explanations-ch15-ch16' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/refine-code-explanations-ch15-ch16
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refine explanation style
+        run: python tools/qa/tmp_refine_explanation_style_ch15_ch16.py
+      - name: Commit editorial refinements
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            Livre-II/CHAPITRE-15-Relations-sociales.md \
+            Livre-II/CHAPITRE-16-Famille-et-generations.md \
+            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+            Livre-II/QA/AUDIT-CHAPITRE-15.md \
+            Livre-II/QA/AUDIT-CHAPITRE-16.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
+            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+            tmp_ch15_ch16_explanation_style_metrics.txt
+          git commit -m "docs(livre-ii): make chapter 15 and 16 explanations concise"
+          git push origin HEAD:docs/refine-code-explanations-ch15-ch16
