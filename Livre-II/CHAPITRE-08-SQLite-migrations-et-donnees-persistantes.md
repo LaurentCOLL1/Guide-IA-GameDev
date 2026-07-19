@@ -518,7 +518,10 @@ func query(_sql: String, _bindings: Array = []) -> Array[Dictionary]:
 	var rows: Array[Dictionary] = []
 	return rows
 
-func last_error() -> String:
+func last_error_code() -> Error:
+	return ERR_UNAVAILABLE
+
+func last_error_message() -> String:
 	return "Connexion non configurée"
 ```
 
@@ -538,6 +541,8 @@ Cela permet :
 
 `_path`, `_sql` et `_bindings` indiquent que la classe de base ne les utilise pas. Les sous-classes les utilisent réellement.
 
+`last_error_code()` distingue une requête réussie sans ligne d’une requête qui a échoué. `last_error_message()` fournit le diagnostic humain complémentaire. Un tableau vide ne doit jamais être interprété seul.
+
 ## 14. Adaptateur Godot-SQLite
 
 > **[VSC] Visual Studio Code — Créer :** `res://src/core/persistence/sqlite_database_connection.gd`.
@@ -546,79 +551,117 @@ Cela permet :
 class_name SqliteDatabaseConnection
 extends DatabaseConnection
 
+const SQLITE_CLASS := &"SQLite"
+const SQLITE_VERBOSITY_NORMAL := 1
 const BUSY_TIMEOUT_MS := 3000
 
-var _sqlite: SQLite
+var _sqlite: Object
+var _last_error_code: Error = OK
 var _last_error_message: String = ""
 
 func open(path: String) -> Error:
 	if _sqlite != null:
-		return ERR_ALREADY_IN_USE
+		return _fail(ERR_ALREADY_IN_USE, "Une connexion est déjà ouverte.")
 
-	if not ClassDB.class_exists(&"SQLite"):
-		_last_error_message = "La classe SQLite est absente."
-		push_error(_last_error_message)
-		return ERR_CANT_OPEN
+	if not ClassDB.class_exists(SQLITE_CLASS):
+		return _fail(ERR_CANT_OPEN, "La classe SQLite est absente.")
+	if not ClassDB.can_instantiate(SQLITE_CLASS):
+		return _fail(ERR_CANT_OPEN, "La classe SQLite ne peut pas être instanciée.")
 
 	var directory_error := DirAccess.make_dir_recursive_absolute(
 		path.get_base_dir()
 	)
 	if directory_error != OK and directory_error != ERR_ALREADY_EXISTS:
-		_last_error_message = "Impossible de créer le dossier de la base."
-		return directory_error
+		return _fail(
+			directory_error,
+			"Impossible de créer le dossier de la base."
+		)
 
-	_sqlite = SQLite.new()
-	_sqlite.path = path
-	_sqlite.foreign_keys = true
-	_sqlite.verbosity_level = SQLite.NORMAL
+	var instance: Variant = ClassDB.instantiate(SQLITE_CLASS)
+	if not instance is Object:
+		return _fail(ERR_CANT_CREATE, "Instanciation SQLite impossible.")
 
-	if not _sqlite.open_db():
-		_last_error_message = _sqlite.error_message
+	_sqlite = instance as Object
+	_sqlite.set("path", path)
+	_sqlite.set("foreign_keys", true)
+	_sqlite.set("verbosity_level", SQLITE_VERBOSITY_NORMAL)
+
+	if not bool(_sqlite.call("open_db")):
+		var message := _read_native_error()
 		_sqlite = null
-		return ERR_CANT_OPEN
+		return _fail(ERR_CANT_OPEN, message)
 
-	var setup_statements: PackedStringArray = [
-		"PRAGMA foreign_keys = ON;",
-		"PRAGMA busy_timeout = %d;" % BUSY_TIMEOUT_MS,
-		"PRAGMA journal_mode = WAL;",
-		"PRAGMA synchronous = FULL;",
-	]
+	var error := execute(
+		"PRAGMA busy_timeout = %d;" % BUSY_TIMEOUT_MS
+	)
+	if error != OK:
+		close()
+		return error
 
-	for statement: String in setup_statements:
-		var error := execute(statement)
-		if error != OK:
-			close()
-			return error
+	var journal_rows := query("PRAGMA journal_mode = WAL;")
+	if last_error_code() != OK:
+		close()
+		return _last_error_code
+	if journal_rows.size() != 1 or not journal_rows[0].has("journal_mode"):
+		close()
+		return _fail(FAILED, "SQLite n’a pas confirmé le journal WAL.")
+	if String(journal_rows[0]["journal_mode"]).to_lower() != "wal":
+		close()
+		return _fail(ERR_UNAVAILABLE, "Le mode WAL n’est pas disponible.")
 
+	error = execute("PRAGMA synchronous = FULL;")
+	if error != OK:
+		close()
+		return error
+
+	error = execute("PRAGMA foreign_keys = ON;")
+	if error != OK:
+		close()
+		return error
+
+	var foreign_key_rows := query("PRAGMA foreign_keys;")
+	if last_error_code() != OK:
+		close()
+		return _last_error_code
+	if foreign_key_rows.size() != 1:
+		close()
+		return _fail(FAILED, "État des clés étrangères illisible.")
+	if int(foreign_key_rows[0].get("foreign_keys", 0)) != 1:
+		close()
+		return _fail(FAILED, "Les clés étrangères ne sont pas actives.")
+
+	_clear_error()
 	return OK
 
 func close() -> void:
 	if _sqlite == null:
 		return
 
-	if not _sqlite.close_db():
-		_last_error_message = _sqlite.error_message
-		push_warning("Fermeture SQLite incomplète : %s" % _last_error_message)
+	if not bool(_sqlite.call("close_db")):
+		_last_error_code = FAILED
+		_last_error_message = _read_native_error()
+		push_warning(
+			"Fermeture SQLite incomplète : %s" % _last_error_message
+		)
 
 	_sqlite = null
 
 func execute(sql: String, bindings: Array = []) -> Error:
 	if _sqlite == null:
-		_last_error_message = "La base n’est pas ouverte."
-		return ERR_UNCONFIGURED
+		return _fail(ERR_UNCONFIGURED, "La base n’est pas ouverte.")
 
 	var success := false
 	if bindings.is_empty():
-		success = _sqlite.query(sql)
+		success = bool(_sqlite.call("query", sql))
 	else:
-		success = _sqlite.query_with_bindings(sql, bindings)
+		success = bool(
+			_sqlite.call("query_with_bindings", sql, bindings)
+		)
 
 	if not success:
-		_last_error_message = _sqlite.error_message
-		push_error("SQLite : %s" % _last_error_message)
-		return FAILED
+		return _fail(FAILED, _read_native_error())
 
-	_last_error_message = ""
+	_clear_error()
 	return OK
 
 func query(sql: String, bindings: Array = []) -> Array[Dictionary]:
@@ -627,19 +670,46 @@ func query(sql: String, bindings: Array = []) -> Array[Dictionary]:
 	if error != OK:
 		return rows
 
-	for value: Variant in _sqlite.query_result:
-		if value is Dictionary:
-			rows.append(value as Dictionary)
+	var native_result: Variant = _sqlite.get("query_result")
+	if not native_result is Array:
+		_fail(ERR_INVALID_DATA, "Résultat SQLite non tabulaire.")
+		return rows
 
+	for value: Variant in native_result as Array:
+		if value is Dictionary:
+			rows.append((value as Dictionary).duplicate(true))
+		else:
+			_fail(ERR_INVALID_DATA, "Ligne SQLite non mappée.")
+			return []
+
+	_clear_error()
 	return rows
 
-func last_error() -> String:
+func last_error_code() -> Error:
+	return _last_error_code
+
+func last_error_message() -> String:
 	return _last_error_message
+
+func _read_native_error() -> String:
+	if _sqlite == null:
+		return "Connexion SQLite absente."
+	return String(_sqlite.get("error_message"))
+
+func _fail(code: Error, message: String) -> Error:
+	_last_error_code = code
+	_last_error_message = message
+	push_error("SQLite : %s" % message)
+	return code
+
+func _clear_error() -> void:
+	_last_error_code = OK
+	_last_error_message = ""
 ```
 
 ### 14.1 `foreign_keys` avant l’ouverture
 
-L’addon demande d’activer `foreign_keys` avant `open_db()`. Le code exécute aussi `PRAGMA foreign_keys = ON` après l’ouverture pour rendre l’intention visible et vérifiable.
+L’addon demande d’activer `foreign_keys` avant `open_db()`. L’adaptateur crée la classe native par `ClassDB.instantiate()` afin de pouvoir diagnostiquer proprement son absence sans référencer statiquement le type tiers. Il exécute aussi `PRAGMA foreign_keys = ON` après l’ouverture et vérifie que la valeur lue vaut `1`.
 
 SQLite active les clés étrangères par connexion. Une seconde connexion doit donc recevoir la même configuration.
 
@@ -651,13 +721,13 @@ SQLite ne permet qu’un écrivain simultané. Une écriture peut rencontrer une
 
 ### 14.3 Mode WAL
 
-Le mode WAL utilise un journal d’écriture séparé. Il améliore généralement la coexistence entre lectures et écriture.
+Le mode WAL utilise un journal d’écriture séparé. Il améliore généralement la coexistence entre lectures et écriture. L’adaptateur lit le résultat de `PRAGMA journal_mode = WAL` et refuse de poursuivre si SQLite ne confirme pas réellement `wal`.
 
 Le projet conserve `synchronous = FULL` comme défaut prudent. Une réduction vers `NORMAL` doit être justifiée par des mesures et une politique explicite de durabilité.
 
 ### 14.4 `query_result`
 
-L’addon expose le résultat de la dernière requête sous forme de tableau de dictionnaires. L’adaptateur copie les dictionnaires valides dans un tableau typé.
+L’addon expose le résultat de la dernière requête sous forme de tableau de dictionnaires. L’adaptateur duplique les dictionnaires valides dans un tableau typé et conserve séparément le dernier code d’erreur.
 
 Aucun dictionnaire brut ne doit quitter l’infrastructure pour atteindre directement le gameplay.
 
@@ -768,32 +838,82 @@ var _database: DatabaseConnection
 func configure(database: DatabaseConnection) -> void:
 	_database = database
 
+func latest_version() -> int:
+	if MIGRATIONS.is_empty():
+		return 0
+	return int(MIGRATIONS[MIGRATIONS.size() - 1]["version"])
+
+func current_version() -> int:
+	if _database == null:
+		return -1
+
+	var rows := _database.query("PRAGMA user_version;")
+	if _database.last_error_code() != OK:
+		return -1
+	if rows.size() != 1 or not rows[0].has("user_version"):
+		push_error("PRAGMA user_version n’a pas retourné une ligne valide.")
+		return -1
+
+	return int(rows[0]["user_version"])
+
 func migrate() -> Error:
 	if _database == null:
 		return ERR_UNCONFIGURED
 
-	var error := _ensure_history_table()
+	var error := _validate_manifest()
 	if error != OK:
 		return error
 
-	var current_version := _read_user_version()
-	if current_version < 0:
-		return FAILED
+	error = _ensure_history_table()
+	if error != OK:
+		return error
 
-	error = _verify_applied_migrations(current_version)
+	var installed_version := current_version()
+	if installed_version < 0:
+		return FAILED
+	if installed_version > latest_version():
+		push_error(
+			"Schéma plus récent que l’application : %d > %d"
+			% [installed_version, latest_version()]
+		)
+		return ERR_INVALID_DATA
+
+	error = _verify_applied_migrations(installed_version)
 	if error != OK:
 		return error
 
 	for migration: Dictionary in MIGRATIONS:
 		var version := int(migration["version"])
-		if version <= current_version:
+		if version <= installed_version:
 			continue
 
 		error = _apply_migration(migration)
 		if error != OK:
 			return error
 
-		current_version = version
+		installed_version = version
+
+	return OK
+
+func _validate_manifest() -> Error:
+	var expected_version := 1
+	var known_names: Dictionary[String, bool] = {}
+	for migration: Dictionary in MIGRATIONS:
+		var version := int(migration.get("version", -1))
+		var name := String(migration.get("name", ""))
+		var path := String(migration.get("path", ""))
+		if version != expected_version:
+			push_error("Version de migration attendue : %d" % expected_version)
+			return ERR_INVALID_DATA
+		if name.is_empty() or known_names.has(name):
+			push_error("Nom de migration vide ou dupliqué : %s" % name)
+			return ERR_INVALID_DATA
+		if path.is_empty():
+			push_error("Chemin de migration vide pour la version %d" % version)
+			return ERR_INVALID_DATA
+
+		known_names[name] = true
+		expected_version += 1
 
 	return OK
 
@@ -802,22 +922,14 @@ func _ensure_history_table() -> Error:
 		"""
 		CREATE TABLE IF NOT EXISTS schema_migrations (
 			version INTEGER PRIMARY KEY,
-			name TEXT NOT NULL,
-			checksum TEXT NOT NULL,
+			name TEXT NOT NULL UNIQUE,
+			checksum TEXT NOT NULL CHECK (length(checksum) = 64),
 			applied_at_utc TEXT NOT NULL
 		);
 		"""
 	)
 
-func _read_user_version() -> int:
-	var rows := _database.query("PRAGMA user_version;")
-	if rows.size() != 1 or not rows[0].has("user_version"):
-		push_error("PRAGMA user_version n’a pas retourné une ligne valide.")
-		return -1
-
-	return int(rows[0]["user_version"])
-
-func _verify_applied_migrations(current_version: int) -> Error:
+func _verify_applied_migrations(installed_version: int) -> Error:
 	var rows := _database.query(
 		"""
 		SELECT version, name, checksum
@@ -825,13 +937,21 @@ func _verify_applied_migrations(current_version: int) -> Error:
 		ORDER BY version;
 		"""
 	)
+	if _database.last_error_code() != OK:
+		return _database.last_error_code()
+
 	var applied_by_version: Dictionary[int, Dictionary] = {}
 	for row: Dictionary in rows:
-		applied_by_version[int(row["version"])] = row
+		if not row.has("version"):
+			return ERR_FILE_CORRUPT
+		var version := int(row["version"])
+		if applied_by_version.has(version):
+			return ERR_FILE_CORRUPT
+		applied_by_version[version] = row
 
 	for migration: Dictionary in MIGRATIONS:
 		var version := int(migration["version"])
-		if version > current_version:
+		if version > installed_version:
 			continue
 
 		if not applied_by_version.has(version):
@@ -843,10 +963,14 @@ func _verify_applied_migrations(current_version: int) -> Error:
 			return ERR_FILE_CANT_READ
 
 		var expected_checksum := _sha256(sql)
-		var stored_checksum := String(
-			applied_by_version[version]["checksum"]
-		)
-		if expected_checksum != stored_checksum:
+		if expected_checksum.is_empty():
+			return ERR_CANT_CREATE
+
+		var stored := applied_by_version[version]
+		if String(stored.get("name", "")) != String(migration["name"]):
+			push_error("Nom divergent pour la migration %d" % version)
+			return ERR_FILE_CORRUPT
+		if String(stored.get("checksum", "")) != expected_checksum:
 			push_error("Checksum divergent pour la migration %d" % version)
 			return ERR_FILE_CORRUPT
 
@@ -861,6 +985,9 @@ func _apply_migration(migration: Dictionary) -> Error:
 		return ERR_FILE_CANT_READ
 
 	var checksum := _sha256(sql)
+	if checksum.is_empty():
+		return ERR_CANT_CREATE
+
 	var error := _database.execute("BEGIN IMMEDIATE;")
 	if error != OK:
 		return error
@@ -932,7 +1059,7 @@ func _sha256(text: String) -> String:
 
 ### 18.1 Ordre des migrations
 
-La liste est triée par version croissante. Une version ne doit jamais être réutilisée.
+La liste est triée par version croissante. `_validate_manifest()` impose ici une séquence continue à partir de `1`, ainsi que des noms uniques et des chemins non vides. Une version ne doit jamais être réutilisée.
 
 Convention :
 
@@ -947,7 +1074,7 @@ NNN_verbe_objet.sql
 
 ### 18.2 SQL multiligne
 
-L’adaptateur transmet le fichier complet à `query()`. Godot-SQLite utilise l’API SQLite capable d’exécuter une chaîne contenant plusieurs instructions.
+L’adaptateur transmet le fichier complet à `query()`. Dans l’implémentation relue de Godot-SQLite, `query_with_bindings()` prépare une première instruction avec `sqlite3_prepare_v2`, exécute celle-ci, puis traite récursivement la queue SQL `pzTail` tant qu’elle n’est pas vide. Une migration multi-instructions est donc prise en charge par cette version de l’addon.
 
 Une migration ne reçoit aucune donnée utilisateur. Les valeurs dynamiques de l’historique utilisent toutefois des paramètres liés.
 
@@ -969,7 +1096,7 @@ Une transaction protège les changements SQL de la migration. Une copie séparé
 - un addon ou disque défaillant ;
 - un besoin de retour à la version précédente de l’application.
 
-La copie simple d’un fichier ouvert en mode WAL n’est pas sûre. Le projet doit :
+La copie simple d’un fichier ouvert en mode WAL n’est pas sûre. Lorsqu’une migration est réellement nécessaire, le projet doit :
 
 1. ouvrir la base ;
 2. demander un checkpoint ;
@@ -984,6 +1111,8 @@ La copie simple d’un fichier ouvert en mode WAL n’est pas sûre. Le projet d
 class_name DatabaseBackupService
 extends RefCounted
 
+const SIDE_CAR_SUFFIXES: PackedStringArray = ["-wal", "-shm"]
+
 func create_closed_copy(database_path: String) -> String:
 	if not FileAccess.file_exists(database_path):
 		return ""
@@ -994,10 +1123,12 @@ func create_closed_copy(database_path: String) -> String:
 		push_error("Impossible de créer le dossier de sauvegarde technique.")
 		return ""
 
-	var timestamp := int(Time.get_unix_time_from_system())
-	var backup_path := "%s/asteria-pre-migration-%d.sqlite3" % [
+	var unix_seconds := int(Time.get_unix_time_from_system())
+	var millisecond_part := Time.get_ticks_msec() % 1000
+	var backup_path := "%s/asteria-pre-migration-%d-%03d.sqlite3" % [
 		backup_dir,
-		timestamp,
+		unix_seconds,
+		millisecond_part,
 	]
 	var copy_error := DirAccess.copy_absolute(database_path, backup_path)
 	if copy_error != OK:
@@ -1010,12 +1141,19 @@ func restore_closed_copy(backup_path: String, database_path: String) -> Error:
 	if not FileAccess.file_exists(backup_path):
 		return ERR_FILE_NOT_FOUND
 
+	for suffix: String in SIDE_CAR_SUFFIXES:
+		var side_car_path := database_path + suffix
+		if FileAccess.file_exists(side_car_path):
+			var remove_error := DirAccess.remove_absolute(side_car_path)
+			if remove_error != OK:
+				return remove_error
+
 	return DirAccess.copy_absolute(backup_path, database_path)
 ```
 
 `DirAccess.copy_absolute()` accepte `user://` comme chemin absolu dans la portée Godot.
 
-Cette classe exige que toutes les connexions soient fermées. Le nom de méthode le rappelle explicitement.
+Cette classe exige que toutes les connexions soient fermées. Le nom de méthode le rappelle explicitement. La restauration supprime aussi les anciens fichiers auxiliaires `-wal` et `-shm` afin qu’ils ne soient jamais rejoués sur la copie restaurée.
 
 ## 20. Objet typé persistant
 
@@ -1094,11 +1232,14 @@ func list_all() -> Array[BeaconStateRecord]:
 
 func delete(_profile_id: StringName) -> Error:
 	return ERR_UNAVAILABLE
+
+func last_error_code() -> Error:
+	return ERR_UNAVAILABLE
 ```
 
 Le contrat appartient à la fonctionnalité `beacons`. L’implémentation SQLite appartient à son infrastructure.
 
-Le nom `Repository` désigne ici une collection persistante d’objets métier. Il ne désigne ni un dépôt Git, ni un Service Locator.
+Le nom `Repository` désigne ici une collection persistante d’objets métier. Il ne désigne ni un dépôt Git, ni un Service Locator. `last_error_code()` permet au service de distinguer `ERR_DOES_NOT_EXIST` d’une panne de lecture.
 
 ## 22. Dépôt SQLite des balises
 
@@ -1127,30 +1268,38 @@ ON CONFLICT(beacon_id) DO UPDATE SET
 """
 
 var _database: DatabaseConnection
+var _last_error_code: Error = OK
 
 func configure(database: DatabaseConnection) -> void:
 	_database = database
+	_last_error_code = OK if database != null else ERR_UNCONFIGURED
 
 func save(record: BeaconStateRecord) -> Error:
 	if _database == null:
-		return ERR_UNCONFIGURED
+		return _set_error(ERR_UNCONFIGURED)
 	if record == null or not StableId.is_valid(record.profile_id):
-		return ERR_INVALID_PARAMETER
+		return _set_error(ERR_INVALID_PARAMETER)
 
-	return _database.execute(
-		UPSERT_SQL,
-		[
-			String(record.profile_id),
-			int(record.is_enabled),
-			record.activation_count,
-			record.cooldown_remaining,
-			record.last_activated_at_utc,
-			record.updated_at_utc,
-		]
+	return _set_error(
+		_database.execute(
+			UPSERT_SQL,
+			[
+				String(record.profile_id),
+				int(record.is_enabled),
+				record.activation_count,
+				record.cooldown_remaining,
+				record.last_activated_at_utc,
+				record.updated_at_utc,
+			]
+		)
 	)
 
 func find(profile_id: StringName) -> BeaconStateRecord:
-	if _database == null or not StableId.is_valid(profile_id):
+	if _database == null:
+		_set_error(ERR_UNCONFIGURED)
+		return null
+	if not StableId.is_valid(profile_id):
+		_set_error(ERR_INVALID_PARAMETER)
 		return null
 
 	var rows := _database.query(
@@ -1167,14 +1316,24 @@ func find(profile_id: StringName) -> BeaconStateRecord:
 		""",
 		[String(profile_id)]
 	)
+	if _database.last_error_code() != OK:
+		_set_error(_database.last_error_code())
+		return null
+	if rows.is_empty():
+		_set_error(ERR_DOES_NOT_EXIST)
+		return null
 	if rows.size() != 1:
+		_set_error(ERR_FILE_CORRUPT)
 		return null
 
-	return _map_row(rows[0])
+	var record := _map_row(rows[0])
+	_set_error(OK if record != null else ERR_FILE_CORRUPT)
+	return record
 
 func list_all() -> Array[BeaconStateRecord]:
 	var records: Array[BeaconStateRecord] = []
 	if _database == null:
+		_set_error(ERR_UNCONFIGURED)
 		return records
 
 	var rows := _database.query(
@@ -1190,21 +1349,39 @@ func list_all() -> Array[BeaconStateRecord]:
 		ORDER BY beacon_id;
 		"""
 	)
+	if _database.last_error_code() != OK:
+		_set_error(_database.last_error_code())
+		return records
+
 	for row: Dictionary in rows:
 		var record := _map_row(row)
-		if record != null:
-			records.append(record)
+		if record == null:
+			_set_error(ERR_FILE_CORRUPT)
+			return []
+		records.append(record)
 
+	_set_error(OK)
 	return records
 
 func delete(profile_id: StringName) -> Error:
-	if _database == null or not StableId.is_valid(profile_id):
-		return ERR_INVALID_PARAMETER
+	if _database == null:
+		return _set_error(ERR_UNCONFIGURED)
+	if not StableId.is_valid(profile_id):
+		return _set_error(ERR_INVALID_PARAMETER)
 
-	return _database.execute(
-		"DELETE FROM beacon_state WHERE beacon_id = ?;",
-		[String(profile_id)]
+	return _set_error(
+		_database.execute(
+			"DELETE FROM beacon_state WHERE beacon_id = ?;",
+			[String(profile_id)]
+		)
 	)
+
+func last_error_code() -> Error:
+	return _last_error_code
+
+func _set_error(code: Error) -> Error:
+	_last_error_code = code
+	return code
 
 func _map_row(row: Dictionary) -> BeaconStateRecord:
 	var required: PackedStringArray = [
@@ -1253,7 +1430,8 @@ La base peut provenir d’une ancienne version ou avoir été modifiée par un o
 - la présence des colonnes obligatoires ;
 - la syntaxe de l’identifiant ;
 - les conversions de types ;
-- les bornes dans le constructeur du record.
+- les bornes dans le constructeur du record ;
+- le code d’erreur de la connexion, afin qu’un tableau vide valide ne masque jamais une panne SQL.
 
 ## 23. Service applicatif
 
@@ -1287,12 +1465,12 @@ func restore_runtime_state(state: BeaconRuntimeState) -> Error:
 
 	var record := _repository.find(state.profile_id)
 	if record == null:
-		return ERR_DOES_NOT_EXIST
+		return _repository.last_error_code()
 
 	return record.apply_to(state)
 ```
 
-Le service ignore SQL et SQLite. Il reçoit un dépôt injecté depuis le bootstrap.
+Le service ignore SQL et SQLite. Il reçoit un dépôt injecté depuis le bootstrap. Lorsqu’une recherche retourne `null`, il propage le code du dépôt : `ERR_DOES_NOT_EXIST` reste distinct d’une erreur de requête ou d’une ligne corrompue.
 
 Il ne sauvegarde pas à chaque image. L’application choisit des points cohérents :
 
@@ -1317,6 +1495,7 @@ var migration_runner := SqlMigrationRunner.new()
 var backup_service := DatabaseBackupService.new()
 var beacon_repository := SqliteBeaconStateRepository.new()
 var beacon_persistence := BeaconPersistenceService.new()
+var last_backup_path: String = ""
 
 func start() -> Error:
 	var database_exists := FileAccess.file_exists(DATABASE_PATH)
@@ -1325,23 +1504,37 @@ func start() -> Error:
 	if error != OK:
 		return error
 
-	if database_exists:
+	migration_runner.configure(database)
+	var installed_version := migration_runner.current_version()
+	if installed_version < 0:
+		database.close()
+		return FAILED
+
+	var migration_pending := (
+		installed_version < migration_runner.latest_version()
+	)
+	if database_exists and migration_pending:
 		error = database.execute("PRAGMA wal_checkpoint(TRUNCATE);")
 		if error != OK:
 			database.close()
 			return error
 
 		database.close()
-		var backup_path := backup_service.create_closed_copy(DATABASE_PATH)
-		if backup_path.is_empty():
+		last_backup_path = backup_service.create_closed_copy(DATABASE_PATH)
+		if last_backup_path.is_empty():
 			return ERR_CANT_CREATE
 
 		error = database.open(DATABASE_PATH)
 		if error != OK:
 			return error
+		migration_runner.configure(database)
 
-	migration_runner.configure(database)
 	error = migration_runner.migrate()
+	if error != OK:
+		database.close()
+		return error
+
+	error = _validate_integrity()
 	if error != OK:
 		database.close()
 		return error
@@ -1352,23 +1545,45 @@ func start() -> Error:
 
 func stop() -> void:
 	database.close()
+
+func _validate_integrity() -> Error:
+	var quick_rows := database.query("PRAGMA quick_check;")
+	if database.last_error_code() != OK:
+		return database.last_error_code()
+	if quick_rows.size() != 1:
+		return ERR_FILE_CORRUPT
+	if String(quick_rows[0].get("quick_check", "")) != "ok":
+		return ERR_FILE_CORRUPT
+
+	var foreign_key_rows := database.query("PRAGMA foreign_key_check;")
+	if database.last_error_code() != OK:
+		return database.last_error_code()
+	if not foreign_key_rows.is_empty():
+		push_error("Violation de clé étrangère détectée.")
+		return ERR_FILE_CORRUPT
+
+	return OK
 ```
 
 ### 24.1 Première création
 
-Si la base n’existe pas, aucune copie préalable n’est nécessaire. L’ouverture crée le fichier, puis les migrations créent le schéma.
+Si la base n’existe pas, aucune copie préalable n’est nécessaire. L’ouverture crée le fichier, puis les migrations créent le schéma. Le runner refuse aussi une base dont `user_version` est plus récent que la version maximale connue par l’application.
 
 ### 24.2 Base existante
 
-Le bootstrap :
+Lorsqu’une migration est en attente, le bootstrap :
 
 1. ouvre la base pour permettre la récupération SQLite ;
-2. force un checkpoint WAL ;
-3. ferme la connexion ;
-4. crée une copie ;
-5. rouvre la base ;
-6. applique les migrations ;
-7. injecte le dépôt.
+2. lit `PRAGMA user_version` ;
+3. force un checkpoint WAL ;
+4. ferme la connexion ;
+5. crée une copie et conserve son chemin ;
+6. rouvre la base ;
+7. applique les migrations ;
+8. exécute `quick_check` et `foreign_key_check` ;
+9. injecte le dépôt.
+
+Si le schéma est déjà à jour, aucune nouvelle copie n’est créée, mais les checksums historiques et l’intégrité sont tout de même vérifiés.
 
 ### 24.3 Échec de démarrage
 
@@ -1947,6 +2162,32 @@ Slot de sauvegarde
 
 **Différence :** le flux corrigé définit ce qui constitue une partie et quand la capturer ; l’exemple fautif manipule un fichier ouvert sans contrat de cohérence.
 
+### 33.11 Confondre absence de ligne et erreur SQL
+
+**Symptôme ou risque :** une requête échoue, retourne un tableau vide par convention, puis le service annonce à tort que l’objet n’existe pas.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+var rows := database.query(sql, bindings)
+if rows.is_empty():
+	return ERR_DOES_NOT_EXIST
+```
+
+**Correction :** vérifier d’abord le code d’erreur, puis seulement la cardinalité du résultat.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans le dépôt.**
+
+```gdscript
+var rows := database.query(sql, bindings)
+if database.last_error_code() != OK:
+	return database.last_error_code()
+if rows.is_empty():
+	return ERR_DOES_NOT_EXIST
+```
+
+**Différence :** la version corrigée conserve deux états distincts — lecture réussie sans ligne et lecture impossible — alors que l’exemple fautif masque une panne de base derrière un résultat métier normal.
+
 ## 34. Parcours Solo
 
 Le parcours Solo retient :
@@ -2002,10 +2243,11 @@ Une migration relue uniquement sur une base vide ne suffit pas. Elle doit être 
 - [ ] Les migrations sont numérotées et append-only.
 - [ ] `PRAGMA user_version` est mis à jour dans la transaction.
 - [ ] `schema_migrations` conserve le checksum.
-- [ ] Une copie fermée est créée avant migration.
+- [ ] Une copie fermée est créée uniquement lorsqu’une migration est en attente.
 - [ ] Un échec déclenche un rollback.
 - [ ] Le gameplay ne démarre pas après une migration incomplète.
-- [ ] `quick_check` et `foreign_key_check` sont documentés.
+- [ ] `quick_check` et `foreign_key_check` sont exécutés après les migrations.
+- [ ] Une absence de ligne reste distincte d’une erreur de requête.
 - [ ] Les fichiers `*.sql` sont inclus dans l’export.
 - [ ] Les DLL de l’extension sont testées hors éditeur.
 - [ ] La base ne duplique pas les `Resource` de conception.
@@ -2024,7 +2266,7 @@ Le chapitre est accepté au niveau `static-review` lorsque :
 - les requêtes utilisent des bindings ;
 - le runner gère version, historique, checksum, transaction et rollback ;
 - la copie préalable respecte le mode WAL ;
-- le dépôt mappe les lignes vers un type applicatif ;
+- le dépôt mappe les lignes vers un type applicatif et propage les erreurs de lecture ;
 - les diagnostics d’intégrité sont fournis ;
 - les procédures d’export sont expliquées ;
 - les erreurs fréquentes respectent la règle sémantique ;
@@ -2070,6 +2312,7 @@ La base et les scripts ne sont pas encore matérialisés dans le Starter Kit. Le
 - Godot Engine, **HashingContext**, référence 4.x : <https://docs.godotengine.org/fr/4.x/classes/class_hashingcontext.html>
 - Godot Asset Library, **Godot-SQLite 4.7** : <https://godotengine.org/asset-library/asset?user=2shady4u>
 - 2shady4u, **godot-sqlite**, dépôt et API primaire : <https://github.com/2shady4u/godot-sqlite>
+- 2shady4u, **implémentation de `query_with_bindings()` relue au commit `019027732dc03d1a3b3ce4c3166d98961f4e066f`** : <https://github.com/2shady4u/godot-sqlite/blob/019027732dc03d1a3b3ce4c3166d98961f4e066f/src/gdsqlite.cpp>
 - SQLite, **Datatypes in SQLite** : <https://www.sqlite.org/datatype3.html>
 - SQLite, **Transaction** : <https://www.sqlite.org/lang_transaction.html>
 - SQLite, **Foreign Key Support** : <https://www.sqlite.org/foreignkeys.html>
