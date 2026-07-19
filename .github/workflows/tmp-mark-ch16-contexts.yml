@@ -1,0 +1,31 @@
+name: Temporary Mark Chapter 16 Contexts
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  mark-contexts:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch16-famille-generations
+          show-progress: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Add context markers
+        run: python tools/qa/tmp_mark_ch16_contexts.py
+      - name: Commit marked chapter
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-16-Famille-et-generations.md
+          git commit -m "docs(livre-ii): mark chapter 16 usage contexts"
+          git push origin HEAD:docs/livre-ii-ch16-famille-generations
