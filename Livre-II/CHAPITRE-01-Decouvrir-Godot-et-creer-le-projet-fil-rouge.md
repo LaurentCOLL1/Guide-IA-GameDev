@@ -1524,9 +1524,9 @@ Changer le pilote, le renderer et la scène en même temps, puis relancer sans -
 
 **Symptôme ou risque :** le cache a été ajouté à l’index avant la création ou la correction de `.gitignore`.
 
-> **[LECTURE] Exemple fautif — Ne pas recopier.**
+> **[LECTURE] Exemple fautif — Ne pas recopier ni exécuter.**
 
-```powershell
+```text
 git add .
 git commit -m 'chore: add every generated file'
 ```
