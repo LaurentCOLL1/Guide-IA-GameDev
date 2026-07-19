@@ -1,2 +1,0 @@
-chapter 15: total=56, refined=56, newly_added=0
-chapter 16: total=67, refined=67, newly_added=0
