@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+# Déclencheur du correctif rétroactif sur la branche QA.
+
 import re
 from pathlib import Path
 
@@ -268,14 +270,12 @@ ch6 = section(
 )
 replace_section("Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md", "## 22. Anti-patterns et corrections", "## 23. Parcours Solo", ch6)
 
-# Transformer le tableau de symptômes du chapitre 6 en index explicitement relié à la section détaillée.
 replace_once(
     "Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md",
     "### 21.3 Symptômes fréquents\n\n| Symptôme | Cause probable | Vérification |",
     "### 21.3 Symptômes fréquents\n\n<!-- qa:error-correction-index -->\n\nCe tableau constitue un index de diagnostic rapide. Les exemples fautifs et corrigés détaillés se trouvent dans la section 22 ; les lignes propres au confort de caméra, aux couches physiques ou au matériel renvoient aussi aux sections techniques correspondantes du chapitre.\n\n| Symptôme | Cause probable | Vérification |",
 )
 
-# Marquer la section déjà conforme du chapitre 7.
 replace_once(
     "Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md",
     "## 35. Erreurs fréquentes et corrections\n\nChaque erreur ci-dessous",
@@ -295,7 +295,6 @@ for path, (old, new) in versions.items():
     replace_once(path, old, new)
     add_supplemental_audit(path)
 
-# Renforcer le protocole QA.
 protocol = ROOT / "Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md"
 text = protocol.read_text(encoding="utf-8")
 text = text.replace('version: "1.4.0"', 'version: "1.5.0"', 1)
@@ -336,7 +335,6 @@ if needle not in text:
 text = text.replace(needle, addition, 1)
 protocol.write_text(text, encoding="utf-8")
 
-# Renforcer le validateur léger avec les marqueurs sémantiques.
 validator = ROOT / "tools/validate_chapters.py"
 text = validator.read_text(encoding="utf-8")
 constant_needle = 'VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}\n'
@@ -413,7 +411,6 @@ if call_needle not in text:
 text = text.replace(call_needle, call_add, 1)
 validator.write_text(text, encoding="utf-8")
 
-# Créer la preuve d'audit rétroactif.
 audit_path = ROOT / "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit_path.write_text('''---
 title: "Audit rétroactif — exemples d’erreurs et corrections, chapitres 1 à 6"
@@ -493,7 +490,6 @@ Le marqueur `<!-- qa:error-correction-section -->` qualifie une section détaill
 - les comportements seront qualifiés `runtime-tested` après exécution réelle.
 ''', encoding="utf-8")
 
-# Index et ordre de compilation.
 contents = ROOT / "contents.txt"
 text = contents.read_text(encoding="utf-8")
 needle = "Livre-II/QA/AUDIT-CHAPITRE-07.md\n"
@@ -548,7 +544,6 @@ if journal_heading not in text:
 text = text.replace(journal_heading, entry, 1)
 continuity.write_text(text, encoding="utf-8")
 
-# Supprimer l'infrastructure temporaire avant le commit automatique.
 for relative in (
     "tools/retrofit_error_examples.py",
     ".github/workflows/retrofit-error-examples.yml",
