@@ -241,8 +241,7 @@ static func is_known(value: int) -> bool:
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Une tutelle ne devient pas automatiquement une adoption. Une union ne crée pas automatiquement une filiation.
 
@@ -299,8 +298,7 @@ func duplicate_value() -> LogicalInterval:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** modifie un état temporel ou une révision ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les transitions utilisent des ticks logiques cohérents ; les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Les ticks proviennent de l’horloge logique de la simulation, jamais de l’heure système de l’ordinateur. L’intervalle est inclusif : `[started_at_tick, ended_at_tick]`. `OPEN_END` signifie qu’aucune fin n’est encore connue.
 
@@ -375,8 +373,7 @@ func duplicate_value() -> ParentChildLink:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène ; les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 7.2 Identité métier de la filiation
 
@@ -434,8 +431,7 @@ func duplicate_value() -> GuardianshipLink:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène ; les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Deux tutelles historiques peuvent exister entre la même paire si leurs intervalles ne se chevauchent pas. Deux tutelles actives identiques sont refusées.
 
@@ -483,8 +479,7 @@ func key() -> StringName:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La paire `{A, B}` produit la même clé que `{B, A}`.
 
@@ -536,8 +531,7 @@ func duplicate_value() -> UnionLink:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le chapitre n’impose ni exclusivité, ni monogamie, ni règles culturelles universelles. Ces politiques appartiennent à des données ou règles de monde explicites.
 
@@ -564,8 +558,7 @@ if not identity_index.contains(character_id):
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 L’index contient les identités logiques :
 
@@ -607,8 +600,7 @@ var _unions_by_pair: Dictionary[StringName, Array] = {}
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les parcours et historiques sont bornés ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Les index secondaires contiennent des identifiants de liens, pas des copies d’objets.
 
@@ -645,8 +637,7 @@ func add_parent_link(link: ParentChildLink) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** aucun cycle d’ascendance ne peut être introduit ; les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 L’ordre est important :
 
@@ -700,8 +691,7 @@ func _would_create_ancestry_cycle(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; les parcours et historiques sont bornés ; aucun cycle d’ascendance ne peut être introduit ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Ajouter `parent → enfant` crée un cycle si `parent` est déjà descendant de `enfant`.
 
@@ -761,8 +751,7 @@ func get_union_links() -> Array[UnionLink]:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ## 12. Requêtes de filiation
 
@@ -800,8 +789,7 @@ func get_children(parent_id: StringName) -> Array[StringName]:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** l’ordre des identifiants conserve la direction de la relation.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** constater que deux relations opposées produisent la même paire triée, ce qui prouve la perte d’orientation ; ce bloc ne doit pas être intégré au projet. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Les tableaux retournés sont nouveaux. L’appelant ne reçoit jamais les collections internes mutables.
 
@@ -834,8 +822,7 @@ func get_siblings(character_id: StringName) -> Array[StringName]:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les clés et types externes sont contrôlés strictement ; l’ordre des identifiants conserve la direction de la relation.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** constater que deux relations opposées produisent la même paire triée, ce qui prouve la perte d’orientation ; ce bloc ne doit pas être intégré au projet. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Cette définition retourne les demi-frères et demi-sœurs dès qu’au moins un parent est partagé.
 
@@ -894,8 +881,7 @@ func get_ancestors(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les parcours et historiques sont bornés ; aucun cycle d’ascendance ne peut être introduit ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La valeur associée est la distance minimale :
 
@@ -956,8 +942,7 @@ func get_descendants(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les parcours et historiques sont bornés ; aucun cycle d’ascendance ne peut être introduit ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ## 13. Générations dérivées
 
@@ -1035,8 +1020,7 @@ func add_guardianship(link: GuardianshipLink) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 14.2 Ajouter une union
 
@@ -1073,8 +1057,7 @@ func add_union(link: UnionLink) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 14.3 Chevauchement d’intervalles
 
@@ -1137,8 +1120,7 @@ func replace_all_from(source: FamilyGraph) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** remplace l’état autoritaire ; modifie un état temporel ou une révision. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les transitions utilisent des ticks logiques cohérents ; un candidat complet est validé avant mutation de l’état actif.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ## 15. Service applicatif
 
@@ -1183,8 +1165,7 @@ func validate() -> PackedStringArray:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 15.2 Événement typé
 
@@ -1212,8 +1193,7 @@ var provenance: StringName
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 15.3 Orchestration
 
@@ -1281,8 +1261,7 @@ func add_parent_link(command: AddParentLinkCommand) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** émet un événement observable après succès. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le service vérifie les identités logiques avant le graphe. Le graphe conserve néanmoins ses propres invariants structurels.
 
@@ -1331,8 +1310,7 @@ func duplicate_value() -> FamilyHistoryRecord:
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les lectures ne doivent pas exposer directement un objet interne mutable.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 16.2 Journal borné
 
@@ -1404,8 +1382,7 @@ func restore(records: Array[FamilyHistoryRecord]) -> Error:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; la boucle `while` poursuit un parcours dont le budget doit rester borné ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique ; modifie un état temporel ou une révision ; crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les parcours et historiques sont bornés ; un candidat complet est validé avant mutation de l’état actif ; les lectures ne doivent pas exposer directement un objet interne mutable ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le journal n’est pas un journal légal exhaustif. Il fournit un historique borné utile au gameplay et au diagnostic.
 
@@ -1501,8 +1478,7 @@ Le validateur de restauration sera exécuté sur un graphe candidat complet avan
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir un document décodable avec exactement les clés, types et identifiants attendus, sans cache ni valeur dérivée persistée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 Le snapshot ne contient pas :
 
@@ -1539,8 +1515,7 @@ const MAX_HISTORY_RECORDS := 256
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les parcours et historiques sont bornés ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 18.3 Encodeurs
 
@@ -1630,8 +1605,7 @@ func _encode_history(record: FamilyHistoryRecord) -> Dictionary:
 - **Déroulement :** les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 18.4 Décodage strict d’une filiation
 
@@ -1702,8 +1676,7 @@ func _decode_parent_link(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les clés et types externes sont contrôlés strictement.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 18.5 Intervalles, tutelles et unions
 
@@ -1832,8 +1805,7 @@ func _decode_union(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ### 18.6 Historique et utilitaires
 
@@ -1900,8 +1872,7 @@ func _types_match(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 ## 19. Construction atomique du graphe candidat
 
@@ -1995,8 +1966,7 @@ func decode_snapshot(
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** ajoute une entrée à une collection ou à un historique. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les parcours et historiques sont bornés ; un candidat complet est validé avant mutation de l’état actif ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 La fonction ne modifie jamais le graphe actif. Tout échec retourne un dictionnaire vide et abandonne le candidat.
 
@@ -2097,8 +2067,7 @@ func cancel_prepared() -> void:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** remplace l’état autoritaire ; mémorise une erreur consultable. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 `replace_all_from()` reconstruit les index secondaires à partir des liens du candidat. La section propage son retour `Error` et ne considère la préparation terminée qu’après remplacement du graphe et restauration de l’historique.
 
@@ -2358,8 +2327,8 @@ parents_by_child[child_id] = [parent_id]
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’identité reste stable et indépendante de l’affichage.
 
@@ -2408,8 +2377,8 @@ family_graph.add_parent_link(link)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le graphe survit à la scène.
 
@@ -2459,8 +2428,8 @@ family_service.add_parent_link(command)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la structure et la perception restent séparées.
 
@@ -2509,8 +2478,8 @@ var sibling_ids := graph.get_siblings(character_id)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** une seule autorité est persistée.
 
@@ -2559,8 +2528,8 @@ var distance := graph.get_generation_distance(founder_id, character_id)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la valeur dépend explicitement du point de référence.
 
@@ -2610,8 +2579,8 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** aucun cycle d’ascendance ne peut être introduit.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le graphe reste acyclique.
 
@@ -2662,8 +2631,8 @@ if visited.size() >= MAX_TRAVERSAL_NODES:
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les parcours et historiques sont bornés ; aucun cycle d’ascendance ne peut être introduit ; les valeurs numériques restent dans leurs bornes métier.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’incertitude n’autorise pas la mutation.
 
@@ -2712,8 +2681,8 @@ var key := CharacterPair.create(left_id, right_id).key()
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’ordre des partenaires ne change pas l’identité métier.
 
@@ -2762,8 +2731,8 @@ started_at_tick = simulation_clock.current_tick
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les transitions utilisent des ticks logiques cohérents.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’ordre dépend de la simulation.
 
@@ -2812,8 +2781,8 @@ var result := interval.close_at(current_tick)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’invariant temporel est contrôlé.
 
@@ -2864,8 +2833,8 @@ if not identity_index.contains(parent_id):
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** chaque référence doit correspondre à une identité logique connue, même hors scène.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la présence en scène n’est pas l’existence métier.
 
@@ -2914,8 +2883,8 @@ return result
 - **Déroulement :** les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** le graphe garde le contrôle de ses structures.
 
@@ -2965,8 +2934,8 @@ var candidate := codec.decode_graph(payload, identities)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** un candidat complet est validé avant mutation de l’état actif.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** aucun état actif n’est modifié avant succès global.
 
@@ -3015,8 +2984,8 @@ snapshot["parent_links"] = encoded_links
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** les index sont reconstruits.
 
@@ -3065,8 +3034,8 @@ var result := family_service.add_parent_link(validated_command)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** l’IA ne devient pas autorité métier.
 
@@ -3116,8 +3085,8 @@ family_link_added.emit(event)
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
 - **Effets de bord :** émet un événement observable après succès. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
-- **Pourquoi cet exemple est fautif :** il est volontairement présenté comme contre-exemple. La ligne problématique supprime une information métier, contourne une validation ou écrit dans la mauvaise couche ; elle ne doit pas être copiée dans le projet.
-- **Résultat attendu et vérification :** identifier précisément l’invariant violé, puis vérifier que l’exemple corrigé refuse ou encadre le même cas. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+- **Pourquoi la correction fonctionne :** elle rétablit l’ordre validation → construction du candidat → mutation autoritaire → événement, ou replace la responsabilité dans la couche qui possède réellement l’invariant.
+- **Résultat attendu et vérification :** observer le comportement décrit par la section sans modifier de donnée autoritaire non concernée. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
 **Différence :** la famille décrit le lien ; la politique décide de la succession.
 
