@@ -1,0 +1,32 @@
+name: Patch Chapter 9 Continuity
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch09-saves-versioning
+    paths:
+      - .github/workflows/patch-ch09-continuity.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch09-saves-versioning
+          fetch-depth: 0
+
+      - name: Apply continuity update
+        run: python tools/patch_ch09_continuity.py
+
+      - name: Commit continuity and remove temporary tooling
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(project): update continuity for chapter 9 [skip ci]"
+          git push origin HEAD:docs/livre-ii-ch09-saves-versioning
