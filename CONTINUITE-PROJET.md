@@ -491,6 +491,8 @@ Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier
 - backup fermé seulement avant migration et restauration sans sidecars WAL ;
 - contrôles `quick_check` et `foreign_key_check` ;
 - validateur sémantique étendu aux libellés « Architecture corrigée » et « Flux corrigé » ;
+- validations finales `29684886165` et `29684886159` réussies ;
+- 56 sources, 55 identifiants uniques et 1 143 blocs sur 1 143 repérés ;
 - progression à 8 chapitres sur 30 ;
 - prochaine action déplacée vers le chapitre 9 ;
 - PDF non construit.

@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH08
-status: awaiting-ci
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: f93945c9ef259855aa057853da28d987f30e6d49
 chapter:
@@ -52,8 +52,32 @@ results:
   temporary-scripts-removed: true
   pdf-produced: false
 ci:
-  validate-chapters-without-pdf: pending
-  validate-usage-contexts: pending
+  validate-chapters-without-pdf:
+    run-id: 29684886165
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29684886159
+    conclusion: success
+  artifact:
+    id: 8441749891
+    name: chapter-validation-without-pdf
+    digest: sha256:f3a6caa0688c6171906f35f181abceace5b3b1115d29b1ffe0945280d0851d0c
+  metrics:
+    sources: 56
+    unique-identifiers: 55
+    livre-i-chapters: 10
+    livre-ii-chapters: 8
+    chapter-08-lines: 2334
+    chapter-08-headings: 102
+    chapter-08-significant-code-blocks: 28
+    total-context-blocks: 1143
+    marked-context-blocks: 1143
+    semantic-inconsistencies: 0
+    blocking-errors: 0
+    warnings: 1
+    duplicate-headings: 0
+    duplicate-significant-blocks: 0
+    duplicate-long-paragraphs: 0
 reservations:
   - Godot-SQLite 4.7 n’a pas encore été chargé dans Godot 4.7.1 sur Windows 11.
   - Les migrations et rollbacks n’ont pas encore été exécutés dans le Starter Kit.

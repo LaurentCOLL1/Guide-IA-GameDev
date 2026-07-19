@@ -2,7 +2,7 @@
 title: "Audit du Livre II — Chapitre 8"
 id: "DOC-L2-QA-CH08"
 status: "complete"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 audit-date: "2026-07-19"
@@ -31,6 +31,18 @@ Le chapitre doit introduire une persistance relationnelle locale sans confondre 
 Aucune non-conformité documentaire ou technique majeure n’est laissée ouverte dans le texte. Les réserves concernent l’installation et l’exécution réelles de la GDExtension, les migrations sur une base matérialisée, la restauration d’une copie et la qualification d’un export Windows.
 
 Aucun PDF intermédiaire n’a été construit, conformément à la politique du Livre II.
+
+La validation finale légère a réussi :
+
+- `Validate Chapters Without PDF`, run `29684886165` ;
+- `Validate Usage Contexts`, run `29684886159` ;
+- 56 sources déclarées ;
+- 55 identifiants uniques ;
+- 8 chapitres du Livre II continus ;
+- 0 erreur bloquante ;
+- 0 incohérence sémantique ;
+- 1 143 blocs sur 1 143 précédés d’un repère ;
+- aucun titre, bloc significatif ou paragraphe long dupliqué dans le Livre II.
 
 ## 3. Correspondance avec le plan maître
 
@@ -231,4 +243,4 @@ Justification : politique de validation légère par chapitre
 
 Le chapitre couvre le périmètre prévu, respecte l’architecture du projet, enseigne les garanties et limites de SQLite, protège les migrations et maintient une séparation nette avec le système de sauvegarde.
 
-Il peut être déclaré **rédigé, repéré et audité au niveau `static-review`**, sous réserve de la réussite du workflow léger et des tests runtime différés.
+Les portes documentaires et statiques ont réussi. Il est déclaré **rédigé, repéré et audité au niveau `static-review`**, sous réserve des seuls tests runtime différés et du PDF de fin de Livre.
