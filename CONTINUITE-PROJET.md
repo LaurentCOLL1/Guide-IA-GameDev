@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.5.0"
+version: "3.6.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -10,7 +10,7 @@ update-policy: "mandatory-on-every-project-change"
 
 # Continuité du projet Guide IA GameDev
 
-> **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les erreurs corrigées, les règles QA et la prochaine action.
+> **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les règles QA, les erreurs à ne pas reproduire et la prochaine action.
 
 > **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot.
 
@@ -21,12 +21,12 @@ Une nouvelle conversation doit :
 1. lire entièrement `CONTINUITE-PROJET.md` ;
 2. lire `ROADMAP.md`, `contents.txt` et l’index du Livre actif ;
 3. lire le plan maître du Livre ou Pack actif ;
-4. vérifier les derniers commits et pull requests ;
+4. vérifier les derniers commits, branches, pull requests et workflows ;
 5. ne pas recréer un chapitre, audit ou choix déjà présent ;
 6. identifier le prochain chapitre ;
 7. annoncer **GPT-5.6 Sol — Moyenne ou Élevée** et justifier le choix ;
 8. comparer le périmètre au plan maître ;
-9. rédiger, auditer et corriger ;
+9. rédiger, auditer, corriger et lancer la validation légère ;
 10. mettre à jour index, roadmap, `contents.txt` et ce fichier ;
 11. ne construire le PDF qu’à la fin du Livre, sauf modification directe de la chaîne PDF.
 
@@ -98,7 +98,7 @@ Chaque procédure doit expliquer :
 
 ### Livre II
 
-**En cours : 6 chapitres sur 30.**
+**En cours : 7 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -108,8 +108,8 @@ Chaque procédure doit expliquer :
 4. Architecture modulaire du projet — terminé au niveau `static-review`.
 5. Services, gestionnaires, bus d’événements et injection de dépendances — terminé au niveau `static-review`.
 6. Entrées, contrôleurs, caméras et interactions — terminé au niveau `static-review`.
-7. Données avec Resources, JSON et configurations.
-8. SQLite, migrations et données persistantes.
+7. Données avec Resources, JSON et configurations — terminé au niveau `static-review`.
+8. SQLite, migrations et données persistantes — prochain chapitre.
 9. Sauvegardes, chargements et compatibilité des versions.
 
 #### Partie B — Plateforme IA locale
@@ -144,7 +144,7 @@ Chaque procédure doit expliquer :
 
 ### Livres III à V et Companion Pack
 
-Le détail chapitre par chapitre ou pack par pack se trouve exclusivement dans les quatre plans maîtres. Chaque entrée y possède objectifs, livrables, dépendances, frontières et critères de validation.
+Le détail chapitre par chapitre ou pack par pack se trouve dans les quatre plans maîtres. Chaque entrée y possède objectifs, livrables, dépendances, frontières et critères de validation.
 
 ## 6. Repères d’utilisation
 
@@ -184,7 +184,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3, 4, 5 et 6 : **Élevée**.
+Chapitres 3 à 7 : **Élevée**.
 
 ## 8. Audit par chapitre
 
@@ -195,13 +195,14 @@ Chaque chapitre suit :
 3. audit de complétude ;
 4. explication détaillée du code ;
 5. contrôle des doublons ;
-6. vérification technique et sources officielles ;
+6. vérification technique contre les sources officielles ;
 7. contrôle des repères ;
 8. correction des omissions ;
 9. contrôle des frontières ;
 10. mise à jour de la gouvernance ;
 11. rapport QA ;
-12. statut `static-review` ou `runtime-tested`.
+12. workflow `Validate Chapters Without PDF` ;
+13. statut `static-review` ou `runtime-tested`.
 
 Métadonnées minimales :
 
@@ -228,12 +229,12 @@ Décision utilisateur du 19 juillet 2026 :
 
 Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.4.0`.
 
-Deux workflows sont désormais séparés :
+Deux workflows sont séparés :
 
 - `Validate Chapters Without PDF` : validation automatique légère à chaque chapitre ;
-- `Validate Documentation PDF` : construction manuelle de fin de Livre ou validation d’une modification directe de la chaîne PDF.
+- `Validate Documentation PDF` : construction manuelle de fin de Livre ou validation exceptionnelle de la chaîne PDF.
 
-La campagne rétroactive des chapitres 5 et 6 a réussi dans l’exécution `29666380972`. Elle a validé 51 sources, 6 chapitres du Livre II, 50 identifiants uniques, 926 blocs avec repère, zéro erreur bloquante, zéro incohérence sémantique et zéro PDF produit. La preuve se trouve dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
+La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
 
 ## 10. Règle pédagogique du code
 
@@ -268,99 +269,84 @@ Les rappels courts sont permis. Les duplications intégrales sont interdites.
 - registre limité au point de composition ;
 - bus d’événements typé et limité ;
 - un Autoload par nécessité de durée de vie, pas par commodité ;
-- démarrage déterministe et arrêt dans l’ordre inverse.
+- démarrage déterministe et arrêt dans l’ordre inverse ;
+- touches physiques absentes du code métier ;
+- données de conception séparées de l’état runtime ;
+- `Resource` partagées considérées comme immuables pendant le gameplay ;
+- identifiants métier stables indépendants des noms affichés et des chemins ;
+- JSON validé puis converti vers des types du domaine ;
+- configuration mappée vers `AppConfig` avant injection ;
+- SQLite réservé au chapitre 8 et sauvegardes au chapitre 9.
 
-## 12. Chapitre 5 — état détaillé
+## 12. Chapitre 5 — état résumé
 
-Fichier :
-
-> **[LECTURE] Chemin de référence — Ne pas saisir.**
-
-```text
-Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md
-```
+Fichier : `Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md`.
 
 Niveau : **GPT-5.6 Sol — Élevée**.
 
-Contenu :
-
-- vocabulaire service, manager, système, controller et repository ;
-- critères `Node`, `RefCounted`, `Resource` et Autoload ;
-- injection par constructeur, méthode et propriété exportée ;
-- `GameEventBus` typé ;
-- `ServiceRegistry` minimal ;
-- contrat de cycle de vie ;
-- `AppBootstrap` comme composition root ;
-- démarrage et rollback ;
-- arrêt en ordre inverse ;
-- exercice `beacons` ;
-- doubles de test préparatoires ;
-- parcours Solo et Studio.
-
-Livrables documentés :
-
-- `src/app/app_bootstrap.gd` ;
-- `src/core/events/game_event_bus.gd` ;
-- `src/core/services/service_registry.gd` ;
-- `src/core/services/service_lifecycle.gd` ;
-- `src/features/beacons/application/beacon_activation_service.gd` ;
-- `scenes/learning/ch05_services_demo.gd` ;
-- `scenes/learning/ch05_services_demo.tscn` ;
-- `docs/architecture/service-catalog.md`.
+Décisions : registre limité au bootstrap, bus typé, cycle de vie explicite, démarrage déterministe, arrêt inverse et nettoyage des démarrages partiels.
 
 Audit : `Livre-II/QA/AUDIT-CHAPITRE-05.md`.
 
-Résultats : 78 titres, 18 blocs, 18 repères, zéro doublon de titre, bloc significatif ou paragraphe long.
+## 13. Chapitre 6 — état résumé
 
-Décision : accepté avec réserve runtime et PDF de fin de Livre.
+Fichier : `Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md`.
 
-## 13. Chapitre 6 — état détaillé
+Niveau : **GPT-5.6 Sol — Élevée**.
 
-Fichier :
+Décisions : `InputMap`, séparation entrée/intention/contrôleur/moteur, `CharacterBody3D`, caméra troisième personne, interaction typée, remappage préparatoire et accessibilité.
 
-> **[LECTURE] Chemin de référence — Ne pas saisir.**
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-06.md`.
 
-```text
-Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md
-```
+## 14. Chapitre 7 — état détaillé
+
+Fichier : `Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md`.
 
 Niveau : **GPT-5.6 Sol — Élevée**.
 
 Décisions enregistrées :
 
-- actions Input Map nommées, jamais de touches physiques dans le code métier ;
-- séparation `PlayerInputReader` → `PlayerInputFrame` → `PlayerController` ;
-- mouvement avec `CharacterBody3D` dans `_physics_process()` ;
-- déplacement relatif à la base horizontale de la caméra ;
-- souris en delta relatif, stick en vitesse multipliée par `delta` ;
-- caméra yaw/pitch avec `SpringArm3D` ;
-- `PlayerInteractor` descendant de `Camera3D` ;
-- cible typée `InteractionTarget` ;
-- interaction locale sans bus global obligatoire ;
-- remappage en mémoire seulement ;
-- accessibilité prévue dès la conception.
+- quatre catégories séparées : conception, configuration, runtime et persistance ;
+- `BeaconProfile` comme `Resource` de conception ;
+- `BeaconRuntimeState` comme état vivant distinct ;
+- ressources externes privilégiées pour les données identifiées et cataloguées ;
+- cache et partage des `Resource` explicités ;
+- duplication superficielle et profonde documentées ;
+- `resource_local_to_scene` réservé à des cas locaux ciblés ;
+- identifiants `StableId` indépendants de l’affichage ;
+- `BeaconCatalog` typé, validé et sans doublons ;
+- liste explicite de chemins pour un chargement déterministe ;
+- JSON lu avec `FileAccess`, analysé avec `JSON`, validé puis mappé ;
+- `format_version` obligatoire pour les documents externes ;
+- `ConfigFile` utilisé pour une configuration INI non secrète ;
+- valeurs par défaut dans `res://`, surcharge locale dans `user://` ;
+- configuration convertie vers `AppConfig` avant injection ;
+- SQLite et migrations réservés au chapitre 8 ;
+- sauvegardes et compatibilité réservées au chapitre 9.
 
 Livrables documentés :
 
-- `src/features/player/input/player_input_actions.gd` ;
-- `src/features/player/input/player_input_frame.gd` ;
-- `src/features/player/input/player_input_reader.gd` ;
-- `src/features/player/movement/player_motor.gd` ;
-- `src/features/player/camera/third_person_camera_rig.gd` ;
-- `src/features/player/presentation/player_controller.gd` ;
-- `src/features/player/presentation/player_character.tscn` ;
-- `src/features/interactions/domain/interaction_target.gd` ;
-- `src/features/interactions/presentation/player_interactor.gd` ;
-- `src/features/settings/input/input_rebinder.gd` ;
-- `docs/architecture/input-contract.md`.
+- `src/features/beacons/domain/beacon_profile.gd` ;
+- `src/features/beacons/domain/beacon_runtime_state.gd` ;
+- `src/features/beacons/application/beacon_catalog.gd` ;
+- `src/features/beacons/infrastructure/beacon_catalog_loader.gd` ;
+- `src/features/beacons/infrastructure/beacon_json_mapper.gd` ;
+- `src/features/beacons/infrastructure/beacon_json_importer.gd` ;
+- `src/core/data/stable_id.gd` ;
+- `src/core/data/json_file_reader.gd` ;
+- `src/core/data/dictionary_reader.gd` ;
+- `src/core/config/app_config.gd` ;
+- `src/core/config/app_config_loader.gd` ;
+- `data/beacons/*.tres` ;
+- `data/import/beacons.json` ;
+- `config/default.cfg` ;
+- `scenes/learning/ch07_data_demo.gd`.
 
-Audit : `Livre-II/QA/AUDIT-CHAPITRE-06.md`.
-
-Résultats : 81 titres, 17 blocs, 17 repères, zéro doublon de titre, bloc significatif ou paragraphe long.
+Audit : `Livre-II/QA/AUDIT-CHAPITRE-07.md`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
-## 14. Erreurs à ne pas reproduire
+## 15. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
 - ne pas donner un fichier sans éditeur et chemin ;
@@ -373,96 +359,91 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser le registre comme Service Locator ;
 - ne pas créer un Autoload par service ;
 - ne pas utiliser un bus générique à dictionnaires ;
-- ne pas oublier de nettoyer un démarrage partiel ;
+- ne pas modifier une `Resource` de conception partagée comme état runtime ;
+- ne pas utiliser un nom affiché comme identifiant métier ;
+- ne pas accepter un JSON sans validation de structure et de version ;
+- ne pas stocker un secret dans un fichier versionné ;
+- ne pas introduire SQLite avant le chapitre 8 ;
+- ne pas utiliser les `.tres` comme sauvegarde du joueur ;
 - ne pas construire le PDF à chaque chapitre ;
 - ne pas oublier la mise à jour de ce fichier.
 
-## 15. État courant
+## 16. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 6 chapitres sur 30 ;
+- progression : 7 chapitres sur 30 ;
 - chapitre 2 : version `1.3.0` ;
-- chapitre 3 : version `1.0.0` ;
-- chapitre 4 : version `1.0.0` ;
-- chapitre 5 : version `1.0.0` ;
-- chapitre 6 : version `1.0.0` ;
+- chapitres 3 à 7 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
-## 16. Prochaine action
+## 17. Prochaine action
 
 Chapitre :
 
 > **[LECTURE] Chemin prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md
+Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
 ```
 
 Périmètre attendu :
 
-- données de conception contre état runtime ;
-- Resources personnalisées et sous-ressources ;
-- partage, duplication et `resource_local_to_scene` ;
-- JSON, schémas, validation et erreurs ;
-- catalogues et identifiants stables ;
-- configurations par environnement ;
-- chargement synchrone et différé ;
-- versionnement des formats sans SQLite ;
-- injection des repositories ou catalogues ;
+- rôle de SQLite dans `Project Asteria` ;
+- choix d’une intégration Godot compatible avec la plateforme de référence ;
+- schéma relationnel et types SQLite ;
+- clés primaires et étrangères ;
+- contraintes et index ;
+- transactions ;
+- requêtes paramétrées ;
+- repository derrière un contrat ;
+- migrations numérotées et table de version ;
+- rollback et sauvegarde avant migration ;
+- séparation données de conception, base persistante et sauvegarde ;
+- diagnostic et intégrité ;
 - différences Solo/Studio ;
 - audit statique sans PDF intermédiaire.
 
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
-## 17. Journal
+## 18. Journal
+
+### 2026-07-19 — version 3.6.0
+
+- création et audit statique du chapitre 7 ;
+- séparation données de conception, configuration, runtime et persistance ;
+- adoption de Resources typées et catalogues à identifiants stables ;
+- validation JSON et versionnement des formats ;
+- configuration par défaut et surcharge locale avec `ConfigFile` ;
+- progression à 7 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 8 ;
+- PDF non construit.
 
 ### 2026-07-19 — version 3.5.0
 
 - séparation permanente des workflows chapitre et PDF ;
 - ajout de `tools/validate_chapters.py` et `tools/check_context_markers.py` ;
 - validation automatique rétroactive des chapitres 5 et 6 ;
-- 51 sources, 50 identifiants et 926 blocs contrôlés sans erreur ;
-- aucun PDF produit par la validation légère ;
-- preuve enregistrée dans `Livre-II/QA/VALIDATION-AUTOMATIQUE-CHAPITRES-05-06.yaml`.
+- aucun PDF produit par la validation légère.
 
 ### 2026-07-19 — version 3.4.0
 
 - création et audit statique du chapitre 6 ;
 - séparation lecture des entrées, intention, contrôleur et moteur ;
-- adoption de `Input.get_vector()` et d’une trame indépendante du périphérique ;
-- caméra troisième personne avec yaw, pitch et `SpringArm3D` ;
-- interaction typée par rayon et alternative de proximité ;
-- préparation du remappage et de l’accessibilité ;
-- progression à 6 chapitres sur 30 ;
-- prochaine action déplacée vers le chapitre 7.
+- caméra troisième personne et interaction typée ;
+- progression à 6 chapitres sur 30.
 
 ### 2026-07-19 — version 3.3.0
 
 - création et audit statique du chapitre 5 ;
-- adoption du registre limité au bootstrap ;
-- adoption du bus d’événements typé ;
-- définition du cycle de vie des services ;
-- Autoload `AppRuntime` distinct de la classe `AppBootstrap` ;
-- progression à 5 chapitres sur 30 ;
-- politique PDF différée enregistrée ;
-- prochaine action déplacée vers le chapitre 6.
+- registre limité au bootstrap ;
+- bus d’événements typé ;
+- cycle de vie des services et politique PDF différée.
 
-### 2026-07-18 — version 3.2.0
+### 2026-07-18 — versions 3.0.0 à 3.2.0
 
-- création du chapitre 4 ;
-- architecture feature-first ;
-- matrice de dépendances et ADR ;
-- `src/app` défini comme point de composition.
-
-### 2026-07-18 — version 3.1.0
-
+- plans maîtres détaillés des Livres III à V et du Companion Pack ;
 - création du chapitre 3 ;
-- ajout de `StatusBeacon` et `BeaconProfile` ;
-- règle Moyenne/Élevée avant chaque chapitre.
-
-### 2026-07-18 — version 3.0.0
-
-- création des plans maîtres détaillés des Livres III à V et du Companion Pack.
+- création du chapitre 4 et architecture feature-first.
