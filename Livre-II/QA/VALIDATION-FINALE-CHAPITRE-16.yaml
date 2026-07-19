@@ -136,9 +136,14 @@ reservations:
 code-explanation-enrichment:
   policy: QA-Q1.1
   chapter: 16
-  significant-code-or-data-blocks: 43
-  explanations-added: 43
+  significant-code-or-data-blocks: 67
+  explanations-added: 67
   explanation-marker: qa:code-explanation
+  explanations-refined-after-second-review: 43
+  previously-missing-explanations-added: 24
+  static-functions-detected: true
+  one-line-gdscript-blocks-covered: true
+  faulty-examples-explicitly-explained: true
   role-and-location-covered: true
   parameters-types-and-returns-covered: true
   effects-and-invariants-covered: true

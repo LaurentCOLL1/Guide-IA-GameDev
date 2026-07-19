@@ -1,2 +1,2 @@
-chapter 15: significant=44, explanations_added=44
-chapter 16: significant=43, explanations_added=43
+chapter 15: total=56, refined=44, newly_added=12
+chapter 16: total=67, refined=43, newly_added=24

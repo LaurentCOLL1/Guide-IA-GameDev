@@ -295,7 +295,7 @@ Le chapitre peut être déclaré `reviewed`, version `1.0.0`, audit `complete`, 
 
 Le retour de lecture a identifié une non-conformité pédagogique : plusieurs blocs techniquement cohérents ne donnaient pas encore au lecteur débutant les explications nécessaires sur leurs paramètres, retours, effets et invariants.
 
-La correction a repris les **43 blocs de code ou données significatifs** détectés dans le chapitre 16. **43 explications détaillées** ont été ajoutées à proximité immédiate des blocs qui n’en possédaient pas sous la nouvelle forme normative `qa:code-explanation`.
+La correction finale couvre **67 blocs de code ou données** dans le chapitre 16. **43 explications** ont été affinées après seconde lecture et **24 explications manquantes** ont été ajoutées, notamment pour les blocs GDScript d’une seule ligne.
 
 Chaque explication couvre désormais, selon le contenu réel du bloc :
 
@@ -309,3 +309,5 @@ Chaque explication couvre désormais, selon le contenu réel du bloc :
 - le résultat attendu et la vérification minimale.
 
 **Décision révisée :** accepté au niveau `static-review` après enrichissement pédagogique. Cette décision reste documentaire : aucun parseur Godot ni test runtime supplémentaire n’a été exécuté.
+
+La seconde lecture a aussi corrigé la détection des `static func`, les contre-exemples nommés « mauvaise pratique » et les formulations génériques de résultat attendu.
