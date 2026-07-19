@@ -287,3 +287,5 @@ La passe précédente était complète mais trop répétitive. Cette correction 
 - 11 renvois contextuels ajoutés avant des erreurs lorsque le chapitre avait déjà établi la règle concernée.
 
 Les rôles qui nomment un contrat, une classe, une fonction ou une responsabilité concrète sont conservés. La décision reste `static-review` : aucune exécution Godot supplémentaire n’est revendiquée.
+
+- suppression des lignes autonomes `Correction` et `Différence` lorsque leur contenu est déjà intégré aux deux justifications ;

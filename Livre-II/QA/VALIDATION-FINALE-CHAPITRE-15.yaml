@@ -41,7 +41,7 @@ results:
   unique-identifiers: 71
   livre-i-chapters: 10
   livre-ii-chapters: 16
-  chapter-lines: 2612
+  chapter-lines: 2548
   chapter-headings: 69
   chapter-significant-code-blocks: 29
   chapter-code-and-data-blocks: 66
@@ -154,6 +154,8 @@ code-explanation-style-refinement:
   generic-role-lines-removed: 7
   faulty-explanations-simplified: 17
   corrected-explanations-simplified: 16
+  standalone-correction-lines-removed: 16
+  standalone-difference-lines-removed: 16
   contextual-references-added: 11
   runtime-executed: false
   ci-status: pending

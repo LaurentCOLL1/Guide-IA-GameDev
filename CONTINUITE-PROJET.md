@@ -1213,6 +1213,7 @@ La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avan
 - suppression des rappels répétés sur les annotations `:` et `->` ;
 - conservation des rôles uniquement lorsqu’ils apportent une responsabilité concrète ;
 - simplification des exemples fautifs et corrigés ;
+- suppression des lignes autonomes `Correction` et `Différence` lorsqu’elles répètent déjà les deux justifications ;
 - ajout de renvois contextuels avant certaines erreurs ;
 - chapitres, audits et preuves QA portés en version `1.2.0` ;
 - aucun PDF construit et aucun test runtime revendiqué.

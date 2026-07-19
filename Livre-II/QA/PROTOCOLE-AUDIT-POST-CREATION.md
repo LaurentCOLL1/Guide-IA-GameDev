@@ -199,10 +199,10 @@ Une section détaillée porte le marqueur invisible suivant :
 Chaque sous-cas doit alors contenir :
 
 1. un symptôme ou risque ;
-2. un **exemple fautif** ;
-3. une **correction** ;
-4. un **exemple corrigé** ;
-5. une explication explicite de la différence.
+2. un **exemple fautif** suivi de `Pourquoi cet exemple est fautif` ;
+3. un **exemple corrigé** suivi de `Pourquoi la correction fonctionne`.
+
+Une ligne autonome `Correction` ou `Différence` n’est pas exigée lorsque son contenu est déjà intégré à ces deux explications. Le but est d’éviter la répétition sans supprimer l’analyse de l’invariant violé puis rétabli.
 
 Un tableau servant uniquement d’index de diagnostic peut rester compact s’il porte `<!-- qa:error-correction-index -->` et renvoie clairement vers une section détaillée conforme. Il ne peut pas remplacer les exemples détaillés.
 

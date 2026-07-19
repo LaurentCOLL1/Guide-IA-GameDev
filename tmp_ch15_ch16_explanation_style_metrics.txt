@@ -1,2 +1,4 @@
 chapter 15: blocks=56, placements_removed=23, syntax_reminders_removed=21, generic_roles_removed=7, faulty_simplified=17, corrected_simplified=16, references_added=11, lines=2612
 chapter 16: blocks=67, placements_removed=35, syntax_reminders_removed=30, generic_roles_removed=16, faulty_simplified=16, corrected_simplified=16, references_added=12, lines=2859
+chapter 15 polish: standalone_corrections_removed=16, standalone_differences_removed=16, lines=2548
+chapter 16 polish: standalone_corrections_removed=16, standalone_differences_removed=16, lines=2795

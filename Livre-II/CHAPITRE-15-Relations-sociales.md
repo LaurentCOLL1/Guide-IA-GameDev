@@ -1983,8 +1983,6 @@ var affinity_by_node: Dictionary[Node, int] = {}
 
 - **Pourquoi cet exemple est fautif :** la relation disparaît lorsque le nœud est déchargé.
 
-**Correction :** utiliser des identifiants stables dans un dépôt indépendant.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -1995,9 +1993,7 @@ var state := repository.get_state(source_id, target_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** utiliser des identifiants stables dans un dépôt indépendant. le second exemple survit au déchargement des scènes.
-
-**Différence :** le second exemple survit au déchargement des scènes.
+- **Pourquoi la correction fonctionne :** utiliser des identifiants stables dans un dépôt indépendant. Le second exemple survit au déchargement des scènes.
 
 ### 32.2 Utiliser le nom affiché comme clé
 
@@ -2016,8 +2012,6 @@ relations["Aster->Brann"] = 50
 
 - **Pourquoi cet exemple est fautif :** un renommage ou une traduction casse la relation.
 
-**Correction :** employer deux `CharacterId`.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2027,9 +2021,7 @@ var key := SocialRelationshipKey.new(aster_id, brann_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** employer deux `CharacterId`. l’identité n’est plus liée au texte affiché.
-
-**Différence :** l’identité n’est plus liée au texte affiché.
+- **Pourquoi la correction fonctionne :** employer deux `CharacterId`. L’identité n’est plus liée au texte affiché.
 
 ### 32.3 Forcer une relation symétrique
 
@@ -2049,8 +2041,6 @@ set_affinity(b, a, value)
 
 - **Pourquoi cet exemple est fautif :** les perceptions divergentes sont écrasées.
 
-**Correction :** appliquer une commande distincte par direction.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2061,9 +2051,7 @@ service.apply_change(command_b_to_a)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** appliquer une commande distincte par direction. chaque direction conserve sa cause et sa valeur.
-
-**Différence :** chaque direction conserve sa cause et sa valeur.
+- **Pourquoi la correction fonctionne :** appliquer une commande distincte par direction. Chaque direction conserve sa cause et sa valeur.
 
 ### 32.4 Stocker `is_friend` séparément
 
@@ -2081,8 +2069,6 @@ state.axes.affinity = -80
 
 - **Pourquoi cet exemple est fautif :** le booléen contredit les axes.
 
-**Correction :** calculer une vue selon une règle documentée.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2092,9 +2078,7 @@ var view := query.get_mutual_view(first_id, second_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** calculer une vue selon une règle documentée. la vue reste dérivée des données d’autorité.
-
-**Différence :** la vue reste dérivée des données d’autorité.
+- **Pourquoi la correction fonctionne :** calculer une vue selon une règle documentée. La vue reste dérivée des données d’autorité.
 
 ### 32.5 Laisser les axes hors limites
 
@@ -2113,8 +2097,6 @@ state.axes.trust += 500
 
 - **Pourquoi cet exemple est fautif :** l’équilibrage et l’interface reçoivent des valeurs imprévues.
 
-**Correction :** passer par `apply_delta()`.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2124,9 +2106,7 @@ state.axes.apply_delta(0, 500, 0, 0)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** passer par `apply_delta()`. la confiance est bornée à `100`.
-
-**Différence :** la confiance est bornée à `100`.
+- **Pourquoi la correction fonctionne :** passer par `apply_delta()`. La confiance est bornée à `100`.
 
 ### 32.6 Accepter une commande sans cause
 
@@ -2146,8 +2126,6 @@ service.apply_change(command)
 
 - **Pourquoi cet exemple est fautif :** le changement devient impossible à expliquer.
 
-**Correction :** fournir une cause stable et une provenance.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2160,9 +2138,7 @@ command.cause = SocialChangeCause.new(
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** fournir une cause stable et une provenance. l’historique possède une origine vérifiable.
-
-**Différence :** l’historique possède une origine vérifiable.
+- **Pourquoi la correction fonctionne :** fournir une cause stable et une provenance. L’historique possède une origine vérifiable.
 
 ### 32.7 Utiliser l’heure système comme ordre de simulation
 
@@ -2179,8 +2155,6 @@ command.logical_tick = int(Time.get_unix_time_from_system())
 
 - **Pourquoi cet exemple est fautif :** deux machines ou relectures produisent un ordre différent.
 
-**Correction :** injecter le tick logique de la simulation.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2190,9 +2164,7 @@ command.logical_tick = simulation_clock.current_tick
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** injecter le tick logique de la simulation. l’ordre dépend de la partie, pas de l’ordinateur.
-
-**Différence :** l’ordre dépend de la partie, pas de l’ordinateur.
+- **Pourquoi la correction fonctionne :** injecter le tick logique de la simulation. L’ordre dépend de la partie, pas de l’ordinateur.
 
 ### 32.8 Conserver un historique illimité
 
@@ -2211,8 +2183,6 @@ _history.append(record)
 
 - **Pourquoi cet exemple est fautif :** la sauvegarde grossit sans borne.
 
-**Correction :** retirer les entrées les plus anciennes.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2224,9 +2194,7 @@ while _history.size() > MAX_HISTORY:
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** retirer les entrées les plus anciennes. la taille maximale est explicite.
-
-**Différence :** la taille maximale est explicite.
+- **Pourquoi la correction fonctionne :** retirer les entrées les plus anciennes. La taille maximale est explicite.
 
 ### 32.9 Retourner le tableau interne
 
@@ -2246,8 +2214,6 @@ func get_history() -> Array:
 
 - **Pourquoi cet exemple est fautif :** un appelant modifie l’historique sans validation.
 
-**Correction :** retourner une copie.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2258,9 +2224,7 @@ func get_history_copy() -> Array[SocialChangeRecord]:
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** retourner une copie. le tableau interne reste encapsulé.
-
-**Différence :** le tableau interne reste encapsulé.
+- **Pourquoi la correction fonctionne :** retourner une copie. Le tableau interne reste encapsulé.
 
 ### 32.10 Parcourir tous les nœuds pour trouver les voisins
 
@@ -2280,8 +2244,6 @@ for node in get_tree().get_nodes_in_group("characters"):
 
 - **Pourquoi cet exemple est fautif :** les personnages hors scène sont ignorés.
 
-**Correction :** interroger l’index du dépôt.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2291,9 +2253,7 @@ var outgoing := repository.get_outgoing(source_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** interroger l’index du dépôt. la requête porte sur les données du monde.
-
-**Différence :** la requête porte sur les données du monde.
+- **Pourquoi la correction fonctionne :** interroger l’index du dépôt. La requête porte sur les données du monde.
 
 ### 32.11 Créer toutes les paires possibles
 
@@ -2312,8 +2272,6 @@ for source in all_characters:
 
 - **Pourquoi cet exemple est fautif :** la mémoire croît en `N²` sans utilité.
 
-**Correction :** créer une relation au premier événement pertinent.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2325,9 +2283,7 @@ if state == null:
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** créer une relation au premier événement pertinent. seules les relations existantes occupent de la mémoire.
-
-**Différence :** seules les relations existantes occupent de la mémoire.
+- **Pourquoi la correction fonctionne :** créer une relation au premier événement pertinent. Seules les relations existantes occupent de la mémoire.
 
 ### 32.12 Décoder avec des conversions silencieuses
 
@@ -2346,8 +2302,6 @@ axes.trust = int(data["trust"])
 
 - **Pourquoi cet exemple est fautif :** une chaîne `"20"` devient un entier sans contrat clair.
 
-**Correction :** vérifier le type exact avant affectation.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2359,9 +2313,7 @@ axes.trust = data["trust"]
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** vérifier le type exact avant affectation. une sauvegarde invalide est refusée.
-
-**Différence :** une sauvegarde invalide est refusée.
+- **Pourquoi la correction fonctionne :** vérifier le type exact avant affectation. Une sauvegarde invalide est refusée.
 
 ### 32.13 Appliquer avant validation complète
 
@@ -2381,8 +2333,6 @@ for entry in entries:
 
 - **Pourquoi cet exemple est fautif :** une relation valide est remplacée avant la découverte d’une entrée corrompue.
 
-**Correction :** préparer un tableau candidat puis appeler `replace_all()`.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2394,9 +2344,7 @@ if prepare_error == OK:
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** préparer un tableau candidat puis appeler `replace_all()`. aucune mutation ne précède la validation globale de la section.
-
-**Différence :** aucune mutation ne précède la validation globale de la section.
+- **Pourquoi la correction fonctionne :** préparer un tableau candidat puis appeler `replace_all()`. Aucune mutation ne précède la validation globale de la section.
 
 ### 32.14 Valider contre les seuls personnages actifs
 
@@ -2414,8 +2362,6 @@ if active_registry.get_actor(target_id) == null:
 
 - **Pourquoi cet exemple est fautif :** une relation vers un personnage hors zone est supprimée.
 
-**Correction :** consulter l’index logique des identités.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2426,9 +2372,7 @@ if not character_identity_index.contains(target_id):
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** consulter l’index logique des identités. la présence visuelle n’est pas confondue avec l’existence.
-
-**Différence :** la présence visuelle n’est pas confondue avec l’existence.
+- **Pourquoi la correction fonctionne :** consulter l’index logique des identités. La présence visuelle n’est pas confondue avec l’existence.
 
 ### 32.15 Mélanger famille et relation sociale
 
@@ -2447,8 +2391,6 @@ state.is_parent = state.axes.affinity > 50
 
 - **Pourquoi cet exemple est fautif :** une baisse d’affinité efface un lien de parenté.
 
-**Correction :** garder la parenté dans le système du chapitre 16.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2459,9 +2401,7 @@ var social := social_query.get_mutual_view(first_id, second_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** garder la parenté dans le système du chapitre 16. le fait familial et la perception sociale restent indépendants.
-
-**Différence :** le fait familial et la perception sociale restent indépendants.
+- **Pourquoi la correction fonctionne :** garder la parenté dans le système du chapitre 16. Le fait familial et la perception sociale restent indépendants.
 
 ### 32.16 Utiliser l’IA comme autorité de la relation
 
@@ -2480,8 +2420,6 @@ state.axes.trust = ai_response["trust"]
 
 - **Pourquoi cet exemple est fautif :** une réponse non déterministe modifie directement l’état persistant.
 
-**Correction :** convertir une décision autorisée en commande bornée et traçable.
-
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
@@ -2492,9 +2430,7 @@ var result := social_service.apply_change(command)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** convertir une décision autorisée en commande bornée et traçable. le domaine valide la mutation et peut refuser la suggestion.
-
-**Différence :** le domaine valide la mutation et peut refuser la suggestion.
+- **Pourquoi la correction fonctionne :** convertir une décision autorisée en commande bornée et traçable. Le domaine valide la mutation et peut refuser la suggestion.
 
 ## 33. Checklist de réalisation
 

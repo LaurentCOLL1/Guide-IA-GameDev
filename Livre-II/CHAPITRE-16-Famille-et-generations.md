@@ -2251,8 +2251,6 @@ parents_by_name["Aster"] = ["Mira"]
 
 - **Pourquoi cet exemple est fautif :** un renommage casse les liens.
 
-**Correction :** utiliser les `CharacterId`.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2264,9 +2262,7 @@ parents_by_child[child_id] = [parent_id]
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** utiliser les `CharacterId`. l’identité reste stable et indépendante de l’affichage.
-
-**Différence :** l’identité reste stable et indépendante de l’affichage.
+- **Pourquoi la correction fonctionne :** utiliser les `CharacterId`. L’identité reste stable et indépendante de l’affichage.
 
 ### 28.2 Stocker la famille dans le nœud actif
 
@@ -2287,8 +2283,6 @@ player_node.children_ids.append(child_id)
 
 - **Pourquoi cet exemple est fautif :** les liens disparaissent lors du déchargement.
 
-**Correction :** conserver les liens dans `FamilyGraph`.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2300,9 +2294,7 @@ family_graph.add_parent_link(link)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** conserver les liens dans `FamilyGraph`. le graphe survit à la scène.
-
-**Différence :** le graphe survit à la scène.
+- **Pourquoi la correction fonctionne :** conserver les liens dans `FamilyGraph`. Le graphe survit à la scène.
 
 ### 28.3 Déduire la filiation depuis l’affinité
 
@@ -2324,8 +2316,6 @@ if affinity > 80:
 
 - **Pourquoi cet exemple est fautif :** une valeur sociale devient une autorité familiale.
 
-**Correction :** créer une commande familiale explicite.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2337,9 +2327,7 @@ family_service.add_parent_link(command)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** créer une commande familiale explicite. la structure et la perception restent séparées.
-
-**Différence :** la structure et la perception restent séparées.
+- **Pourquoi la correction fonctionne :** créer une commande familiale explicite. La structure et la perception restent séparées.
 
 ### 28.4 Persister la fratrie
 
@@ -2358,8 +2346,6 @@ snapshot["siblings"] = sibling_ids
 
 - **Pourquoi cet exemple est fautif :** les données deviennent contradictoires après ajout d’un parent.
 
-**Correction :** calculer la fratrie depuis les parents partagés.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2371,9 +2357,7 @@ var sibling_ids := graph.get_siblings(character_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** calculer la fratrie depuis les parents partagés. une seule autorité est persistée.
-
-**Différence :** une seule autorité est persistée.
+- **Pourquoi la correction fonctionne :** calculer la fratrie depuis les parents partagés. Une seule autorité est persistée.
 
 ### 28.5 Persister un numéro de génération absolu
 
@@ -2392,8 +2376,6 @@ character.generation = 4
 
 - **Pourquoi cet exemple est fautif :** plusieurs lignées produisent des numéros incompatibles.
 
-**Correction :** calculer une distance relative à un ancêtre.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2405,9 +2387,7 @@ var distance := graph.get_generation_distance(founder_id, character_id)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** calculer une distance relative à un ancêtre. la valeur dépend explicitement du point de référence.
-
-**Différence :** la valeur dépend explicitement du point de référence.
+- **Pourquoi la correction fonctionne :** calculer une distance relative à un ancêtre. La valeur dépend explicitement du point de référence.
 
 ### 28.6 Oublier la détection de cycle
 
@@ -2428,8 +2408,6 @@ _parent_links[link.link_id] = link
 
 - **Pourquoi cet exemple est fautif :** un personnage devient son propre ancêtre.
 
-**Correction :** rechercher si le parent est déjà descendant de l’enfant.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2442,9 +2420,7 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** rechercher si le parent est déjà descendant de l’enfant. le graphe reste acyclique.
-
-**Différence :** le graphe reste acyclique.
+- **Pourquoi la correction fonctionne :** rechercher si le parent est déjà descendant de l’enfant. Le graphe reste acyclique.
 
 ### 28.7 Traiter un dépassement de budget comme une absence de cycle
 
@@ -2466,8 +2442,6 @@ if visited.size() > limit:
 
 - **Pourquoi cet exemple est fautif :** un grand graphe contourne la sécurité structurelle.
 
-**Correction :** refuser conservativement.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2480,9 +2454,7 @@ if visited.size() >= MAX_TRAVERSAL_NODES:
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** refuser conservativement. l’incertitude n’autorise pas la mutation.
-
-**Différence :** l’incertitude n’autorise pas la mutation.
+- **Pourquoi la correction fonctionne :** refuser conservativement. L’incertitude n’autorise pas la mutation.
 
 ### 28.8 Orienter une union
 
@@ -2503,8 +2475,6 @@ var key := "%s>%s" % [left_id, right_id]
 
 - **Pourquoi cet exemple est fautif :** `{A, B}` et `{B, A}` deviennent deux unions.
 
-**Correction :** canoniser la paire.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2516,9 +2486,7 @@ var key := CharacterPair.create(left_id, right_id).key()
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** canoniser la paire. l’ordre des partenaires ne change pas l’identité métier.
-
-**Différence :** l’ordre des partenaires ne change pas l’identité métier.
+- **Pourquoi la correction fonctionne :** canoniser la paire. L’ordre des partenaires ne change pas l’identité métier.
 
 ### 28.9 Utiliser l’heure système
 
@@ -2539,8 +2507,6 @@ started_at_tick = Time.get_unix_time_from_system()
 
 - **Pourquoi cet exemple est fautif :** les sauvegardes et simulations ne sont pas reproductibles.
 
-**Correction :** utiliser le tick logique.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2552,9 +2518,7 @@ started_at_tick = simulation_clock.current_tick
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** utiliser le tick logique. l’ordre dépend de la simulation.
-
-**Différence :** l’ordre dépend de la simulation.
+- **Pourquoi la correction fonctionne :** utiliser le tick logique. L’ordre dépend de la simulation.
 
 ### 28.10 Accepter un intervalle inversé
 
@@ -2575,8 +2539,6 @@ interval.ended_at_tick = 10
 
 - **Pourquoi cet exemple est fautif :** un lien se termine avant de commencer.
 
-**Correction :** passer par `close_at()`.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2588,9 +2550,7 @@ var result := interval.close_at(current_tick)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** passer par `close_at()`. l’invariant temporel est contrôlé.
-
-**Différence :** l’invariant temporel est contrôlé.
+- **Pourquoi la correction fonctionne :** passer par `close_at()`. L’invariant temporel est contrôlé.
 
 ### 28.11 Valider uniquement contre les personnages actifs
 
@@ -2610,8 +2570,6 @@ if not active_registry.has(parent_id):
 
 - **Pourquoi cet exemple est fautif :** un parent déchargé devient « inconnu ».
 
-**Correction :** utiliser l’index logique.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2624,9 +2582,7 @@ if not identity_index.contains(parent_id):
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** utiliser l’index logique. la présence en scène n’est pas l’existence métier.
-
-**Différence :** la présence en scène n’est pas l’existence métier.
+- **Pourquoi la correction fonctionne :** utiliser l’index logique. La présence en scène n’est pas l’existence métier.
 
 ### 28.12 Retourner une collection interne mutable
 
@@ -2647,8 +2603,6 @@ return _children_by_parent[parent_id]
 
 - **Pourquoi cet exemple est fautif :** l’appelant désynchronise les index.
 
-**Correction :** construire un nouveau tableau.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2660,9 +2614,7 @@ return result
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** construire un nouveau tableau. le graphe garde le contrôle de ses structures.
-
-**Différence :** le graphe garde le contrôle de ses structures.
+- **Pourquoi la correction fonctionne :** construire un nouveau tableau. Le graphe garde le contrôle de ses structures.
 
 ### 28.13 Charger directement dans le graphe actif
 
@@ -2684,8 +2636,6 @@ for raw_link in payload.parent_links:
 
 - **Pourquoi cet exemple est fautif :** une erreur tardive laisse une restauration partielle.
 
-**Correction :** construire un candidat complet.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2697,9 +2647,7 @@ var candidate := codec.decode_graph(payload, identities)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** construire un candidat complet. aucun état actif n’est modifié avant succès global.
-
-**Différence :** aucun état actif n’est modifié avant succès global.
+- **Pourquoi la correction fonctionne :** construire un candidat complet. Aucun état actif n’est modifié avant succès global.
 
 ### 28.14 Sauvegarder les index secondaires
 
@@ -2718,8 +2666,6 @@ snapshot["parents_by_child"] = _parents_by_child
 
 - **Pourquoi cet exemple est fautif :** liens et index divergent.
 
-**Correction :** persister uniquement les liens autoritaires.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2731,9 +2677,7 @@ snapshot["parent_links"] = encoded_links
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** persister uniquement les liens autoritaires. les index sont reconstruits.
-
-**Différence :** les index sont reconstruits.
+- **Pourquoi la correction fonctionne :** persister uniquement les liens autoritaires. Les index sont reconstruits.
 
 ### 28.15 Laisser une sortie IA créer un lien directement
 
@@ -2754,8 +2698,6 @@ family_graph.add_parent_link(ai_response)
 
 - **Pourquoi cet exemple est fautif :** un texte généré contourne les invariants.
 
-**Correction :** mapper vers une commande validée et soumise à l’autorité du jeu.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2767,9 +2709,7 @@ var result := family_service.add_parent_link(validated_command)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** mapper vers une commande validée et soumise à l’autorité du jeu. l’IA ne devient pas autorité métier.
-
-**Différence :** l’IA ne devient pas autorité métier.
+- **Pourquoi la correction fonctionne :** mapper vers une commande validée et soumise à l’autorité du jeu. L’IA ne devient pas autorité métier.
 
 ### 28.16 Mélanger succession et famille
 
@@ -2791,8 +2731,6 @@ func add_child(child_id):
 
 - **Pourquoi cet exemple est fautif :** le graphe impose prématurément des règles politiques.
 
-**Correction :** publier un événement familial consommable par le chapitre 23.
-
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
@@ -2804,9 +2742,7 @@ family_link_added.emit(event)
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi la correction fonctionne :** publier un événement familial consommable par le chapitre 23. la famille décrit le lien ; la politique décide de la succession.
-
-**Différence :** la famille décrit le lien ; la politique décide de la succession.
+- **Pourquoi la correction fonctionne :** publier un événement familial consommable par le chapitre 23. La famille décrit le lien ; la politique décide de la succession.
 
 ## 29. Sources techniques
 
