@@ -490,6 +490,7 @@ Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier
 - migrations numérotées, checksums et refus des schémas futurs ;
 - backup fermé seulement avant migration et restauration sans sidecars WAL ;
 - contrôles `quick_check` et `foreign_key_check` ;
+- validateur sémantique étendu aux libellés « Architecture corrigée » et « Flux corrigé » ;
 - progression à 8 chapitres sur 30 ;
 - prochaine action déplacée vers le chapitre 9 ;
 - PDF non construit.
