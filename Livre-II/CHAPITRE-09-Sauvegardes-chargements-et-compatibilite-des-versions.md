@@ -395,13 +395,11 @@ static func encode(value: Variant) -> String:
 			return "null"
 		TYPE_BOOL:
 			return "true" if bool(value) else "false"
-		TYPE_INT:
-			return str(int(value))
-		TYPE_FLOAT:
+		TYPE_INT, TYPE_FLOAT:
 			var number := float(value)
 			if is_nan(number) or is_inf(number):
 				return ""
-			return JSON.stringify(number)
+			return JSON.stringify(number, "", true, true)
 		TYPE_STRING, TYPE_STRING_NAME:
 			return JSON.stringify(String(value))
 		TYPE_ARRAY:
@@ -422,17 +420,22 @@ static func _encode_array(values: Array) -> String:
 	return "[" + ",".join(parts) + "]"
 
 static func _encode_dictionary(values: Dictionary) -> String:
-	var keys := PackedStringArray()
-	for key: Variant in values.keys():
-		if not key is String and not key is StringName:
+	var normalized: Dictionary[String, Variant] = {}
+	for original_key: Variant in values.keys():
+		if not original_key is String and not original_key is StringName:
 			return ""
-		keys.append(String(key))
 
+		var text_key := String(original_key)
+		if normalized.has(text_key):
+			return ""
+		normalized[text_key] = values[original_key]
+
+	var keys := PackedStringArray(normalized.keys())
 	keys.sort()
 
 	var parts := PackedStringArray()
 	for key: String in keys:
-		var encoded_value := encode(values[key])
+		var encoded_value := encode(normalized[key])
 		if encoded_value.is_empty():
 			return ""
 		parts.append(
@@ -447,6 +450,8 @@ static func _encode_dictionary(values: Dictionary) -> String:
 Deux dictionnaires logiquement identiques peuvent avoir été construits dans un ordre différent.
 
 Le tri produit une représentation stable avant SHA-256.
+
+Les entiers et flottants sont tous normalisés vers un nombre JSON en précision complète. Cette règle est nécessaire parce que le parseur JSON restitue les nombres sous une représentation numérique commune. Sans cette normalisation, un compteur entier pourrait produire une empreinte différente après écriture et relecture.
 
 ### 12.2 Valeurs refusées
 
@@ -561,7 +566,10 @@ func key() -> StringName:
 func capture() -> Dictionary:
 	var records: Array[Dictionary] = []
 	for profile_id: StringName in _runtime_states.keys():
-		var state := _runtime_states[profile_id]
+		var state := _runtime_states[profile_id] as BeaconRuntimeState
+		if state == null:
+			push_error("État runtime invalide : %s" % profile_id)
+			return {}
 		records.append(
 			{
 				"profile_id": String(state.profile_id),
@@ -584,9 +592,14 @@ func validate_data(data: Dictionary) -> PackedStringArray:
 		errors.append("beacons.records doit être un tableau")
 		return errors
 
+	var records := data["records"] as Array
+	if records.size() > 10000:
+		errors.append("beacons.records dépasse la limite de 10 000 entrées")
+		return errors
+
 	var seen: Dictionary[StringName, bool] = {}
-	for index: int in data["records"].size():
-		var value: Variant = data["records"][index]
+	for index: int in records.size():
+		var value: Variant = records[index]
 		if not value is Dictionary:
 			errors.append("beacons.records[%d] doit être un objet" % index)
 			continue
@@ -600,14 +613,38 @@ func validate_data(data: Dictionary) -> PackedStringArray:
 		else:
 			seen[profile_id] = true
 
-		if not row.get("is_enabled", null) is bool:
+		if not (row.get("is_enabled", null) is bool):
 			errors.append("is_enabled invalide pour %s" % profile_id)
-		if int(row.get("activation_count", -1)) < 0:
+
+		var count_value: Variant = row.get("activation_count", null)
+		if not _is_non_negative_integer(count_value):
 			errors.append("activation_count invalide pour %s" % profile_id)
-		if float(row.get("cooldown_remaining", -1.0)) < 0.0:
+
+		var cooldown_value: Variant = row.get("cooldown_remaining", null)
+		if not _is_non_negative_number(cooldown_value):
 			errors.append("cooldown_remaining invalide pour %s" % profile_id)
 
 	return errors
+
+func _is_non_negative_integer(value: Variant) -> bool:
+	if not value is int and not value is float:
+		return false
+
+	var number := float(value)
+	return (
+		not is_nan(number)
+		and not is_inf(number)
+		and number >= 0.0
+		and number <= 9007199254740991.0
+		and is_equal_approx(number, floor(number))
+	)
+
+func _is_non_negative_number(value: Variant) -> bool:
+	if not value is int and not value is float:
+		return false
+
+	var number := float(value)
+	return not is_nan(number) and not is_inf(number) and number >= 0.0
 ```
 
 ### 15.1 Ordre déterministe
@@ -648,17 +685,28 @@ func build(
 	if not SaveSlotId.is_valid(slot_id):
 		return {}
 
+	var world_value: Variant = metadata.get("world_snapshot", {})
+	var player_value: Variant = metadata.get("player_snapshot", {})
+	if not world_value is Dictionary or not player_value is Dictionary:
+		push_error("Les snapshots world et player doivent être des dictionnaires.")
+		return {}
+
 	var feature_payload: Dictionary = {}
 	for section: SaveSection in _sections:
-		var section_key := section.key()
+		var section_key := String(section.key())
 		if section_key.is_empty() or feature_payload.has(section_key):
 			push_error("Clé de section absente ou dupliquée : %s" % section_key)
 			return {}
-		feature_payload[section_key] = section.capture()
+
+		var section_data := section.capture()
+		if section_data.is_empty():
+			push_error("Capture vide ou invalide : %s" % section_key)
+			return {}
+		feature_payload[section_key] = section_data
 
 	var payload := {
-		"world": metadata.get("world_snapshot", {}),
-		"player": metadata.get("player_snapshot", {}),
+		"world": world_value as Dictionary,
+		"player": player_value as Dictionary,
 		"features": feature_payload,
 	}
 
@@ -729,7 +777,17 @@ func validate_envelope(document: Dictionary) -> PackedStringArray:
 	if String(document.get("format", "")) != EXPECTED_FORMAT:
 		errors.append("Format de sauvegarde inconnu")
 
-	var version := int(document.get("format_version", -1))
+	var version_value: Variant = document.get("format_version", null)
+	var version := -1
+	if version_value is int or version_value is float:
+		var version_number := float(version_value)
+		if (
+			not is_nan(version_number)
+			and not is_inf(version_number)
+			and is_equal_approx(version_number, floor(version_number))
+		):
+			version = int(version_number)
+
 	if version < 1:
 		errors.append("format_version absent ou invalide")
 	elif version > CURRENT_FORMAT_VERSION:
@@ -789,9 +847,16 @@ La validation complète suit cet ordre :
 class_name SaveDocumentReader
 extends RefCounted
 
+const MAX_SAVE_BYTES := 16 * 1024 * 1024
+
 func read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		push_error("Sauvegarde absente : %s" % path)
+		return {}
+
+	var file_size := FileAccess.get_size(path)
+	if file_size < 1 or file_size > MAX_SAVE_BYTES:
+		push_error("Taille de sauvegarde refusée : %d octets" % file_size)
 		return {}
 
 	var file := FileAccess.open(path, FileAccess.READ)
@@ -842,7 +907,7 @@ func write_document(path: String, document: Dictionary) -> Error:
 	if directory_error != OK and directory_error != ERR_ALREADY_EXISTS:
 		return directory_error
 
-	var text := JSON.stringify(document, "\t", false)
+	var text := JSON.stringify(document, "\t", true, true)
 	var temporary_path := path + ".tmp"
 	var backup_path := path + ".bak"
 
@@ -1142,12 +1207,13 @@ func validate_features(features: Dictionary) -> PackedStringArray:
 	var errors := PackedStringArray()
 
 	for key: StringName in _sections.keys():
-		if not features.get(key, null) is Dictionary:
+		var serialized_key := String(key)
+		if not features.get(serialized_key, null) is Dictionary:
 			errors.append("Section absente ou invalide : %s" % key)
 			continue
 
 		var section_errors := _sections[key].validate_data(
-			features[key] as Dictionary
+			features[serialized_key] as Dictionary
 		)
 		for message: String in section_errors:
 			errors.append("%s : %s" % [key, message])
@@ -1156,8 +1222,9 @@ func validate_features(features: Dictionary) -> PackedStringArray:
 
 func apply_features(features: Dictionary) -> Error:
 	for key: StringName in _sections.keys():
+		var serialized_key := String(key)
 		var error := _sections[key].apply_data(
-			features[key] as Dictionary
+			features[serialized_key] as Dictionary
 		)
 		if error != OK:
 			return error
@@ -1580,6 +1647,7 @@ Règles :
 - aucune concaténation SQL ;
 - limites de taille ;
 - limites de nombre d’éléments ;
+- entiers JSON limités à la plage exacte de 53 bits lorsqu’une précision entière est requise ;
 - validation des nombres ;
 - refus de `NaN` et de l’infini ;
 - pas de secret dans le fichier ;
