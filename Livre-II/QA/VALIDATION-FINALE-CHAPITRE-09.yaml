@@ -1,8 +1,8 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH09
-status: awaiting-ci
+status: complete
 validation-date: 2026-07-19
-reviewed-head: 2ae6539ba821b82a683e72768884626e59d4ce61
+validated-base-commit: c406cd7fc2d0f51df356c57cde799ef865515efe
 chapter:
   id: DOC-L2-CH09
   path: Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md
@@ -49,8 +49,33 @@ results:
   temporary-scripts-removed: true
   pdf-produced: false
 ci:
-  validate-chapters-without-pdf: pending
-  validate-usage-contexts: pending
+  validate-chapters-without-pdf:
+    run-id: 29688057267
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29688057245
+    conclusion: success
+  artifact:
+    id: 8442701181
+    name: chapter-validation-without-pdf
+    digest: sha256:1bf91228d294099f2efb92153515eb27c744043dcd06a75f77c1a07f81f91624
+  metrics:
+    sources: 58
+    unique-identifiers: 57
+    livre-i-chapters: 10
+    livre-ii-chapters: 9
+    chapter-09-lines: 2324
+    chapter-09-headings: 111
+    chapter-09-significant-code-blocks: 27
+    total-context-blocks: 1195
+    marked-context-blocks: 1195
+    semantic-inconsistencies: 0
+    blocking-errors: 0
+    warnings: 1
+    duplicate-headings: 0
+    duplicate-significant-blocks: 0
+    duplicate-long-paragraphs: 0
+  final-nonregression: pending
 reservations:
   - L’écriture réelle des slots n’a pas encore été exécutée sous Windows 11.
   - Le remplacement contrôlé n’a pas encore été qualifié sur NTFS.
