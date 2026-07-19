@@ -1,0 +1,33 @@
+name: Retrofit Error Examples
+
+on:
+  push:
+    branches:
+      - qa/retrofit-error-examples-ch01-ch06
+    paths:
+      - tools/retrofit_error_examples.py
+      - .github/workflows/retrofit-error-examples.yml
+
+permissions:
+  contents: write
+
+jobs:
+  retrofit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: qa/retrofit-error-examples-ch01-ch06
+          fetch-depth: 0
+
+      - name: Apply retroactive pedagogical audit
+        run: python tools/retrofit_error_examples.py
+
+      - name: Commit corrected chapters and governance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): retrofit error and correction examples" || exit 0
+          git push origin HEAD:qa/retrofit-error-examples-ch01-ch06
