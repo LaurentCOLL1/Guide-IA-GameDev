@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.9.0"
+version: "3.10.0"
 lang: "fr-FR"
 last-updated: "2026-07-19"
 update-policy: "mandatory-on-every-project-change"
@@ -13,6 +13,8 @@ update-policy: "mandatory-on-every-project-change"
 > **Document de reprise prioritaire.** Ce fichier permet de reprendre le projet dans une nouvelle conversation sans recommencer la conception. Il résume les décisions permanentes, l’état du dépôt, les règles QA, les erreurs à ne pas reproduire et la prochaine action.
 
 > **Règle obligatoire :** toute modification documentaire, technique, structurelle ou QA doit mettre à jour ce fichier dans le même lot.
+
+> **Point d’entrée recommandé :** `REPRISE-NOUVELLE-CONVERSATION.md` fournit le prompt stable à copier dans une nouvelle conversation. Il pointe vers le présent document sans recopier l’état courant ; `CONTINUITE-PROJET.md` reste l’unique source de vérité de la reprise.
 
 ## 1. Procédure obligatoire lors d’une reprise
 
@@ -548,6 +550,15 @@ Périmètre attendu :
 Recommandation probable : **GPT-5.6 Sol — Élevée**, à annoncer et justifier avant rédaction.
 
 ## 20. Journal
+
+### 2026-07-19 — version 3.10.0
+
+- ajout de `REPRISE-NOUVELLE-CONVERSATION.md` comme point d’entrée stable pour une nouvelle conversation ;
+- rappel que le dépôt puis `CONTINUITE-PROJET.md` prévalent sur les anciens résumés ;
+- interdiction de recopier la progression et la prochaine action dans le fichier de reprise ;
+- procédure de confirmation obligatoire avant toute nouvelle rédaction ;
+- ajout du fichier de reprise aux chemins du workflow léger ;
+- aucun PDF construit.
 
 ### 2026-07-19 — version 3.9.0
 

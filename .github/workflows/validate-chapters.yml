@@ -11,6 +11,7 @@ on:
       - "contents.txt"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
+      - "REPRISE-NOUVELLE-CONVERSATION.md"
       - "tools/validate_chapters.py"
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
