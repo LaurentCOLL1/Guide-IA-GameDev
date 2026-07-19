@@ -864,10 +864,6 @@ func migrate() -> Error:
 	if error != OK:
 		return error
 
-	error = _ensure_history_table()
-	if error != OK:
-		return error
-
 	var installed_version := current_version()
 	if installed_version < 0:
 		return FAILED
@@ -877,6 +873,10 @@ func migrate() -> Error:
 			% [installed_version, latest_version()]
 		)
 		return ERR_INVALID_DATA
+
+	error = _ensure_history_table()
+	if error != OK:
+		return error
 
 	error = _verify_applied_migrations(installed_version)
 	if error != OK:
@@ -945,6 +945,9 @@ func _verify_applied_migrations(installed_version: int) -> Error:
 		if not row.has("version"):
 			return ERR_FILE_CORRUPT
 		var version := int(row["version"])
+		if version < 1 or version > installed_version:
+			push_error("Historique incohérent pour la version %d" % version)
+			return ERR_FILE_CORRUPT
 		if applied_by_version.has(version):
 			return ERR_FILE_CORRUPT
 		applied_by_version[version] = row
@@ -1567,7 +1570,7 @@ func _validate_integrity() -> Error:
 
 ### 24.1 Première création
 
-Si la base n’existe pas, aucune copie préalable n’est nécessaire. L’ouverture crée le fichier, puis les migrations créent le schéma. Le runner refuse aussi une base dont `user_version` est plus récent que la version maximale connue par l’application.
+Si la base n’existe pas, aucune copie préalable n’est nécessaire. L’ouverture crée le fichier, puis les migrations créent le schéma. Le runner lit `user_version` avant de créer ou modifier sa table d’historique. Il refuse ainsi une base dont le schéma est plus récent que la version maximale connue, sans écrire quoi que ce soit dans ce fichier futur.
 
 ### 24.2 Base existante
 
@@ -1674,6 +1677,15 @@ func record_activation(
 	record: BeaconStateRecord,
 	actor_id: StringName
 ) -> Error:
+	if record == null:
+		return ERR_INVALID_PARAMETER
+	if not StableId.is_valid(record.profile_id):
+		return ERR_INVALID_PARAMETER
+	if not StableId.is_valid(actor_id):
+		return ERR_INVALID_PARAMETER
+	if record.last_activated_at_utc.is_empty():
+		return ERR_INVALID_PARAMETER
+
 	var error := _database.execute("BEGIN IMMEDIATE;")
 	if error != OK:
 		return error
@@ -1705,7 +1717,7 @@ func record_activation(
 	return error if error != OK else FAILED
 ```
 
-Le dépôt orchestre la transaction, car il connaît les deux opérations SQL. Le service applicatif demande une intention métier unique : enregistrer une activation.
+Le dépôt orchestre la transaction, car il connaît les deux opérations SQL. Il valide les deux identifiants et la date avant `BEGIN IMMEDIATE`, afin qu’une erreur de paramètre ne démarre aucune transaction. Le service applicatif demande une intention métier unique : enregistrer une activation.
 
 ## 27. Intégrité et diagnostic
 
