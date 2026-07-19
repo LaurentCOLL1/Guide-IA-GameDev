@@ -1,0 +1,25 @@
+name: Temporary Finalize Chapter 14
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch14-personnages
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply audited patch
+        run: git apply .tmp/ch14-final.patch
+      - name: Commit audited chapter
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/CHAPITRE-14-Personnages.md
+          git commit -m "docs(livre-ii): finalize audited chapter 14"
+          git push
