@@ -1,0 +1,42 @@
+name: Temporary Fix Chapter 12 Continuity
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch12-http-websocket-tasks
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch12-http-websocket-tasks
+      - name: Correct detailed and next-action paths
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('CONTINUITE-PROJET.md')
+          text = path.read_text(encoding='utf-8')
+          wrong_detail = '## 19. Chapitre 12 — état détaillé\n\nFichier : `Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md`.'
+          right_detail = '## 19. Chapitre 12 — état détaillé\n\nFichier : `Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md`.'
+          wrong_next = '## 22. Prochaine action\n\nChapitre :\n\n> **[LECTURE] Chemin prévisionnel — Ne pas saisir.**\n\n```text\nLivre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md\n```'
+          right_next = '## 22. Prochaine action\n\nChapitre :\n\n> **[LECTURE] Chemin prévisionnel — Ne pas saisir.**\n\n```text\nLivre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md\n```'
+          if wrong_detail not in text or wrong_next not in text:
+              raise SystemExit('Références attendues absentes')
+          text = text.replace(wrong_detail, right_detail, 1)
+          text = text.replace(wrong_next, right_next, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+          rm -f .github/workflows/tmp-fix-ch12-continuity.yml
+      - name: Commit correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(project): correct chapter 12 continuity paths"
+          git push origin HEAD:docs/livre-ii-ch12-http-websocket-tasks
