@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 2 : Fondamentaux de GDScript"
 id: "DOC-L2-CH02"
 status: "reviewed"
-version: "1.4.0"
+version: "1.5.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 2
@@ -10,6 +10,7 @@ last-verified: "2026-07-18"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRES-01-02.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -2200,79 +2201,225 @@ Les calculs métiers importants seront progressivement déplacés vers des class
 
 ## 35. Erreurs fréquentes
 
+<!-- qa:error-correction-section -->
+
+Le titre reste volontairement court. La règle s’applique à son contenu : chaque erreur possède une faute, une correction et une comparaison.
+
 ### 35.1 Confondre `=` et `==`
 
-> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+**Symptôme ou risque :** une affectation est écrite à la place d’une comparaison dans une condition.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
 ```gdscript
-health = 0   # affectation
-health == 0  # comparaison
+if health = 0:
+	queue_free()
 ```
+
+**Correction :** utiliser `==` pour comparer et réserver `=` à l’affectation.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans une condition.**
+
+```gdscript
+if health == 0:
+	queue_free()
+```
+
+**Différence :** `=` change une variable ; `==` produit un booléen utilisé par `if`.
 
 ### 35.2 Mauvaise indentation
 
-Symptômes :
+**Symptôme ou risque :** une ligne destinée à la fonction se retrouve hors de son bloc ou au mauvais niveau.
 
-- erreur d’analyse ;
-- bloc exécuté au mauvais niveau ;
-- `return` placé hors de la fonction.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Utiliser l’indentation automatique de l’éditeur.
+```gdscript
+func can_act() -> bool:
+if stunned:
+	return false
+return true
+```
+
+**Correction :** indenter chaque bloc avec les tabulations configurées par le projet.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec des blocs cohérents.**
+
+```gdscript
+func can_act() -> bool:
+	if stunned:
+		return false
+	return true
+```
+
+**Différence :** l’indentation corrigée détermine clairement quelles instructions appartiennent à la fonction et à la condition.
 
 ### 35.3 Type trop vague
 
-> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+**Symptôme ou risque :** une variable sans type accepte n’importe quelle valeur et reporte les erreurs à l’exécution.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
 ```gdscript
 var data
+data = 42
+data = {'name': 'Aster'}
 ```
 
-Préférer :
+**Correction :** déclarer le contrat réel ou créer une classe métier dédiée.
 
-> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+> **[VSC] Visual Studio Code — Exemple corrigé avec un dictionnaire typé.**
 
 ```gdscript
-var data: Dictionary = {}
+var data: Dictionary[StringName, Variant] = {
+	&'name': 'Aster',
+}
 ```
 
-ou une classe métier dédiée.
+**Différence :** la version corrigée limite la forme générale et permet à l’éditeur de détecter des usages incompatibles.
 
 ### 35.4 Dépendance cachée à un nœud
 
-> **[LECTURE] Exemple GDScript - Ne pas recopier automatiquement :** étudier la syntaxe et l’adapter uniquement lorsque l’étape le demande.
+**Symptôme ou risque :** le script cherche un chemin absolu appartenant à une scène extérieure.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
 ```gdscript
-var player = get_node("/root/Main/World/Player")
+var player := get_node('/root/Main/World/Player')
 ```
 
-Ce chemin absolu fragilise la scène. Le chapitre 3 montrera les références, scènes instanciées et signaux ; le chapitre 4 définira les frontières architecturales.
+**Correction :** recevoir la dépendance depuis la scène ou le point de composition.
+
+> **[VSC] Visual Studio Code — Exemple corrigé par configuration explicite.**
+
+```gdscript
+var _player: Node3D
+
+func configure(player: Node3D) -> void:
+	_player = player
+```
+
+**Différence :** la dépendance corrigée apparaît dans l’interface du composant et peut être remplacée dans une scène de test.
 
 ### 35.5 Travail lourd dans `_process()`
 
-Éviter à chaque image :
+**Symptôme ou risque :** un fichier ou une Resource est chargé à chaque image.
 
-- lecture de fichier ;
-- requête réseau ;
-- recherche complète de l’arbre ;
-- chargement de Resource ;
-- reconstruction d’un grand tableau ;
-- sérialisation JSON complète.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func _process(_delta: float) -> void:
+	var profile := load('res://data/profile.tres')
+```
+
+**Correction :** charger une fois à l’initialisation ou utiliser un cache explicite.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec préchargement fixe.**
+
+```gdscript
+const PROFILE := preload('res://data/profile.tres')
+
+func _process(_delta: float) -> void:
+	use_profile(PROFILE)
+```
+
+**Différence :** le chargement corrigé est réalisé une fois ; la boucle d’image ne répète plus une opération d’E/S ou de résolution.
 
 ### 35.6 Utiliser `Variant` partout
 
-Le typage dynamique reste utile aux frontières externes, mais il ne doit pas effacer les contrats internes du projet.
+**Symptôme ou risque :** les paramètres et retours internes n’expriment plus aucun contrat.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+func add_score(value: Variant) -> Variant:
+	return value + 1
+```
+
+**Correction :** conserver `Variant` aux frontières dynamiques et typer le cœur métier.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec un contrat numérique.**
+
+```gdscript
+func add_score(value: int) -> int:
+	return value + 1
+```
+
+**Différence :** la fonction corrigée refuse immédiatement une chaîne ou un nœud au lieu de produire une erreur tardive.
 
 ### 35.7 Modifier un tableau partagé sans le savoir
 
-Utiliser `duplicate()` lorsqu’une copie indépendante est nécessaire.
+**Symptôme ou risque :** deux variables référencent le même tableau et une modification affecte les deux.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+var copy := original
+copy.append('nouveau')
+```
+
+**Correction :** dupliquer la collection lorsqu’une copie indépendante est nécessaire.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec duplication explicite.**
+
+```gdscript
+var copy: Array[String] = original.duplicate()
+copy.append('nouveau')
+```
+
+**Différence :** l’affectation fautive partage la référence ; `duplicate()` crée un conteneur séparé.
 
 ### 35.8 Masquer tous les avertissements
 
-Un projet silencieux n’est pas forcément correct. Corriger la cause avant de désactiver un contrôle.
+**Symptôme ou risque :** une annotation globale désactive un contrôle sans corriger sa cause.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+@warning_ignore('unused_parameter')
+func _process(delta: float) -> void:
+	pass
+```
+
+**Correction :** exprimer l’intention locale, par exemple avec un nom de paramètre commençant par `_`.
+
+> **[VSC] Visual Studio Code — Exemple corrigé sans suppression globale.**
+
+```gdscript
+func _process(_delta: float) -> void:
+	pass
+```
+
+**Différence :** le nom `_delta` indique que le paramètre imposé par Godot est volontairement inutilisé ; le reste des avertissements demeure actif.
 
 ### 35.9 Utiliser `@tool` trop tôt
 
-Un script éditeur peut modifier les données pendant la conception. Il reste optionnel jusqu’au chapitre consacré aux outils internes.
+**Symptôme ou risque :** un script d’éditeur modifie une Resource dès son chargement, y compris pendant la conception.
+
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+@tool
+extends Node
+
+func _process(_delta: float) -> void:
+	profile.cooldown_seconds -= 1.0
+```
+
+**Correction :** rester en runtime normal ou protéger explicitement les effets d’éditeur.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec garde d’éditeur.**
+
+```gdscript
+@tool
+extends Node
+
+func refresh_preview() -> void:
+	if not Engine.is_editor_hint():
+		return
+	update_preview_without_saving_source_data()
+```
+
+**Différence :** la version corrigée limite l’exécution à une action de prévisualisation et évite de muter silencieusement les données sources.
 
 ## 36. Principes de conception retenus
 

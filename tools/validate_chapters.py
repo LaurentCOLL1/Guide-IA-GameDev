@@ -20,6 +20,9 @@ FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
+ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
+ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
+ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges fréquents)", re.IGNORECASE)
 
 
 @dataclass
@@ -99,6 +102,63 @@ def text_without_fenced_code(text: str) -> str:
         result.append("" if in_fence else line)
 
     return "\n".join(result)
+
+
+def validate_error_correction_sections(text: str, rel: str, errors: list[str]) -> None:
+    """Valide les sections pédagogiques d'erreurs indépendamment de leur titre."""
+    lines = text.splitlines()
+    headings: list[tuple[int, int, str]] = []
+    for index, line in enumerate(lines):
+        match = HEADING_RE.match(line)
+        if match:
+            headings.append((index, len(match.group(1)), match.group(2).strip()))
+
+    for position, (start, level, title) in enumerate(headings):
+        if level < 2 or not ERROR_HEADING_RE.search(title):
+            continue
+        end = len(lines)
+        for next_start, next_level, _ in headings[position + 1:]:
+            if next_level <= level:
+                end = next_start
+                break
+        body = "\n".join(lines[start + 1:end])
+        has_detail = ERROR_SECTION_MARKER in body
+        has_index = ERROR_INDEX_MARKER in body
+        if not has_detail and not has_index:
+            errors.append(
+                f"Section d’erreurs non qualifiée dans {rel} : {title}. "
+                "Ajouter un marqueur détaillé ou d’index."
+            )
+            continue
+        if has_index:
+            normalized = body.casefold()
+            if "exemples" not in normalized or "section" not in normalized:
+                errors.append(f"Index de diagnostic sans renvoi explicite dans {rel} : {title}")
+            continue
+
+        children = [
+            (child_start, child_title)
+            for child_start, child_level, child_title in headings[position + 1:]
+            if child_start < end and child_level == level + 1
+        ]
+        if not children:
+            errors.append(f"Section détaillée sans sous-cas dans {rel} : {title}")
+            continue
+        for child_index, (child_start, child_title) in enumerate(children):
+            child_end = children[child_index + 1][0] if child_index + 1 < len(children) else end
+            child_body = "\n".join(lines[child_start + 1:child_end])
+            missing: list[str] = []
+            if "Exemple fautif" not in child_body:
+                missing.append("exemple fautif")
+            if "Exemple corrigé" not in child_body:
+                missing.append("exemple corrigé")
+            if "**Différence :**" not in child_body:
+                missing.append("explication de la différence")
+            if missing:
+                errors.append(
+                    f"Cas pédagogique incomplet dans {rel} — {child_title} : "
+                    + ", ".join(missing)
+                )
 
 
 def inspect_duplicates(text: str, rel: str) -> ChapterStats:
@@ -299,6 +359,7 @@ def main() -> int:
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
 
+                validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)
                 stats.append(chapter_stats)
                 if chapter_stats.duplicate_headings:

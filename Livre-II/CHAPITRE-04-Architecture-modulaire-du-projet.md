@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 4 : Architecture modulaire du projet"
 id: "DOC-L2-CH04"
 status: "reviewed"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 4
@@ -10,6 +10,7 @@ last-verified: "2026-07-18"
 audit-status: "complete"
 audit-date: "2026-07-18"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-04.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -846,83 +847,160 @@ Le chapitre 5 décidera quels systèmes doivent être des nœuds persistants, de
 
 ## 14. Éviter les anti-patterns
 
+<!-- qa:error-correction-section -->
+
+Cette section est soumise à la même règle que les sections nommées « Erreurs fréquentes » : le titre diffère, mais la fonction pédagogique est identique.
+
 ### 14.1 Le dossier `managers/`
 
-Un dossier rempli de `SomethingManager.gd` cache souvent des responsabilités imprécises.
+**Symptôme ou risque :** un `GameManager` accumule des responsabilités sans frontière.
 
-Avant de créer un manager, préciser :
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-- quelles données il possède ;
-- quelle action unique il réalise ;
-- pourquoi cette action ne vit pas dans un module existant ;
-- qui le crée ;
-- qui peut l’appeler ;
-- comment le tester.
+```gdscript
+class_name GameManager
+extends Node
+
+func save_game(): pass
+func play_music(): pass
+func complete_quest(): pass
+```
+
+**Correction :** nommer et placer chaque capacité selon sa responsabilité réelle.
+
+> **[LECTURE] Exemple corrigé d’organisation — Ne pas créer tous les fichiers sans besoin.**
+
+```text
+features/quests/application/quest_service.gd
+features/audio/presentation/voice_playback_manager.gd
+features/saves/application/save_service.gd
+```
+
+**Différence :** la structure corrigée révèle les propriétaires et évite un objet central qui change pour toutes les fonctionnalités.
 
 ### 14.2 Le singleton omniprésent
 
-Un Autoload est accessible depuis tout le projet. Cette facilité peut créer :
+**Symptôme ou risque :** un module accède directement à un Autoload pour toutes ses dépendances.
 
-- un état global ;
-- des appels impossibles à tracer ;
-- des tests dépendants de l’ordre de démarrage ;
-- une responsabilité excessive.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Le chapitre 5 expliquera les cas où un Autoload reste justifié.
+```gdscript
+func buy(item_id: StringName) -> void:
+	Global.inventory.remove_currency(10)
+	Global.audio.play('buy')
+```
 
-Dans ce chapitre, la règle est :
+**Correction :** injecter seulement les contrats nécessaires depuis le point de composition.
 
-> ne pas choisir un Autoload uniquement pour éviter de transmettre une dépendance.
+> **[VSC] Visual Studio Code — Exemple corrigé avec dépendance explicite.**
+
+```gdscript
+var _wallet: WalletService
+
+func configure(wallet: WalletService) -> void:
+	_wallet = wallet
+```
+
+**Différence :** le module corrigé déclare ce dont il dépend et peut recevoir un remplacement de test.
 
 ### 14.3 La scène monolithique
 
-Une scène devient monolithique lorsque :
+**Symptôme ou risque :** le script racine manipule directement des branches indépendantes.
 
-- elle contient de nombreux sous-systèmes indépendants ;
-- son script racine modifie directement des dizaines d’enfants ;
-- elle ne peut pas être testée partiellement ;
-- toute modification produit des conflits de fusion.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Extraire une branche en sous-scène lorsque cette branche :
+```gdscript
+func _ready() -> void:
+	$Player.setup()
+	$Inventory.load_items()
+	$Quests.start_all()
+	$Weather.update_world()
+```
 
-- possède une responsabilité ;
-- peut exposer une interface ;
-- peut être testée ou prévisualisée seule ;
-- est réutilisable ou maintenue séparément.
+**Correction :** extraire des sous-scènes cohérentes et les assembler depuis un point d’entrée.
+
+> **[LECTURE] Structure corrigée de composition — Ne pas saisir.**
+
+```text
+Main
+├── PlayerFeature
+├── InventoryFeature
+├── QuestFeature
+└── WorldSimulation
+```
+
+**Différence :** la scène corrigée conserve des interfaces de composants plutôt qu’un accès direct à tous leurs enfants internes.
 
 ### 14.4 Le dossier `shared/` sans règle
 
-Un dossier partagé devient facilement une décharge.
+**Symptôme ou risque :** une classe spécifique à une fonctionnalité est placée dans un espace partagé par commodité.
 
-Une classe ne rejoint `core` ou un espace partagé que si :
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-- au moins deux modules réels l’utilisent ;
-- son sens est identique dans ces modules ;
-- elle ne dépend pas d’un module particulier ;
-- son contrat est stable ;
-- son propriétaire est identifié.
+```text
+src/shared/beacon_cooldown_calculator.gd
+```
+
+**Correction :** laisser le code dans son module tant qu’un second usage réellement générique n’existe pas.
+
+> **[LECTURE] Chemin corrigé selon le propriétaire fonctionnel — Ne pas saisir.**
+
+```text
+src/features/beacons/domain/beacon_cooldown_calculator.gd
+```
+
+**Différence :** le chemin corrigé indique le vocabulaire et le propriétaire ; un déplacement vers `core` exigera plus tard un contrat réellement transversal.
 
 ### 14.5 Les couches qui se contournent
 
-Exemple interdit : la présentation ouvre directement SQLite parce que cela semble plus rapide.
+**Symptôme ou risque :** la présentation ouvre directement une base ou un fichier d’infrastructure.
 
-Ce raccourci lie l’interface à la base, rend les tests difficiles et empêche une autre source de données.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-La présentation doit demander une action à l’application ; l’infrastructure fournit l’accès concret.
+```gdscript
+func _on_refresh_pressed() -> void:
+	var db := SQLite.new()
+	result_label.text = str(db.query('SELECT * FROM quests'))
+```
+
+**Correction :** la présentation demande une action à un service ou contrôleur d’application.
+
+> **[VSC] Visual Studio Code — Exemple corrigé avec une dépendance d’application.**
+
+```gdscript
+func _on_refresh_pressed() -> void:
+	var quests := _quest_query_service.list_active_quests()
+	_render_quests(quests)
+```
+
+**Différence :** l’interface corrigée ne connaît ni SQLite ni le format de stockage et peut fonctionner avec une autre implémentation.
 
 ### 14.6 L’architecture spéculative
 
-Créer immédiatement :
+**Symptôme ou risque :** des interfaces, fabriques et dossiers vides sont créés avant tout besoin concret.
 
-- vingt interfaces ;
-- un bus global ;
-- plusieurs fabriques ;
-- une hiérarchie abstraite profonde ;
-- des dossiers vides pour tous les systèmes futurs ;
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-n’est pas une preuve de qualité.
+```text
+src/features/future_system/
+├── factories/
+├── interfaces/
+├── adapters/
+└── implementations/
+```
 
-Appliquer YAGNI : créer une abstraction lorsque deux besoins concrets révèlent une variation ou une frontière utile.
+**Correction :** commencer par la responsabilité actuelle et extraire une abstraction lorsqu’une variation observée la justifie.
+
+> **[LECTURE] Structure corrigée minimale — Ne pas saisir.**
+
+```text
+src/features/beacons/
+├── domain/
+├── presentation/
+└── README.md
+```
+
+**Différence :** la structure corrigée correspond à des fichiers et frontières existants ; l’exemple fautif anticipe des besoins inconnus.
 
 ## 15. Architecture Decision Records
 
@@ -1252,60 +1330,152 @@ Une équipe Studio ne doit pas utiliser la matrice comme justification bureaucra
 
 ## 22. Erreurs fréquentes et diagnostics
 
+<!-- qa:error-correction-section -->
+
+Ces diagnostics portent sur le placement et les dépendances. Chaque correction montre une différence architecturale observable.
+
 ### 22.1 « Je ne sais pas où mettre ce fichier »
 
-Demander d’abord sa responsabilité et son propriétaire fonctionnel.
+**Symptôme ou risque :** un fichier spécifique aux balises est placé dans `core` parce que ce dossier semble central.
 
-- spécifique à une fonctionnalité : module de cette fonctionnalité ;
-- contrat stable partagé : `core/contracts` ;
-- détail de stockage ou réseau : `infrastructure` ;
-- scène d’assemblage : `scenes/app` ou `src/app` ;
-- outil absent du runtime : `tools`.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+src/core/beacon_profile.gd
+```
+
+**Correction :** identifier d’abord le vocabulaire et le propriétaire fonctionnel.
+
+> **[LECTURE] Chemin corrigé — Ne pas saisir.**
+
+```text
+src/features/beacons/domain/beacon_profile.gd
+```
+
+**Différence :** le chemin corrigé limite la dépendance au module qui possède ce concept ; `core` reste indépendant des fonctionnalités.
 
 ### 22.2 Dépendance circulaire
 
-Symptômes :
+**Symptôme ou risque :** deux modules chargent mutuellement leurs classes concrètes.
 
-- module A charge B ;
-- B charge A ;
-- ordre d’analyse ou d’initialisation fragile ;
-- responsabilité impossible à attribuer.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
 
-Corrections :
+```text
+inventory → quests/quest_reward.gd
+quests → inventory/inventory_service.gd
+```
 
-- extraire un contrat stable ;
-- déplacer l’orchestration dans `app` ou application ;
-- utiliser un signal pour une réaction ;
-- fusionner les modules si leur séparation est artificielle.
+**Correction :** extraire un contrat stable ou déplacer l’orchestration dans `src/app`.
+
+> **[LECTURE] Dépendances corrigées — Ne pas saisir.**
+
+```text
+inventory → core/contracts/item_grant.gd
+quests → core/contracts/item_grant.gd
+app → assemble quests + inventory
+```
+
+**Différence :** les modules corrigés convergent vers un contrat et ne se connaissent plus directement.
 
 ### 22.3 Trop de petits fichiers
 
-Une fonction privée de trois lignes n’a pas besoin de sa propre classe.
+**Symptôme ou risque :** une opération privée triviale devient une classe sans état ni réutilisation.
 
-Regrouper ce qui change ensemble et possède la même responsabilité.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+class_name AddOne
+extends RefCounted
+
+func run(value: int) -> int:
+	return value + 1
+```
+
+**Correction :** conserver la fonction privée dans la classe qui porte la responsabilité.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans le service concerné.**
+
+```gdscript
+func _increment_activation_count() -> void:
+	_activation_count += 1
+```
+
+**Différence :** la version corrigée réduit la navigation et garde ensemble ce qui change pour la même raison.
 
 ### 22.4 Module trop gros
 
-Un module qui possède plusieurs vocabulaires et plusieurs cycles de vie peut cacher plusieurs capacités.
+**Symptôme ou risque :** un module `characters` contient apparence, locomotion, relations et sauvegarde avec un seul propriétaire.
 
-Exemple : un module `characters` pourra plus tard séparer apparence, locomotion et relations si ces parties évoluent indépendamment.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+features/characters/character_everything.gd
+```
+
+**Correction :** séparer seulement les capacités qui possèdent des vocabulaires et cycles de vie indépendants.
+
+> **[LECTURE] Organisation corrigée lorsque le besoin est réel — Ne pas saisir.**
+
+```text
+features/characters/appearance/
+features/characters/locomotion/
+features/relationships/
+```
+
+**Différence :** la séparation corrigée suit des responsabilités évoluant indépendamment au lieu d’un découpage arbitraire par taille.
 
 ### 22.5 `core` dépend d’une fonctionnalité
 
-`core` ne doit pas importer `beacons`, `inventory` ou `quests`.
+**Symptôme ou risque :** un utilitaire central importe un type `BeaconProfile`.
 
-Déplacer le type vers son module ou reformuler un contrat réellement générique.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```gdscript
+# res://src/core/validation.gd
+func validate(profile: BeaconProfile) -> bool:
+	return not profile.id.is_empty()
+```
+
+**Correction :** déplacer la règle dans le module ou reformuler un contrat réellement générique.
+
+> **[VSC] Visual Studio Code — Exemple corrigé dans le domaine des balises.**
+
+```gdscript
+# res://src/features/beacons/domain/beacon_profile.gd
+func validate() -> PackedStringArray:
+	var errors := PackedStringArray()
+	if id.is_empty():
+		errors.append('id est obligatoire')
+	return errors
+```
+
+**Différence :** `core` ne connaît plus la fonctionnalité ; l’invariant reste auprès du modèle qui le définit.
 
 ### 22.6 Documentation et code divergent
 
-Mettre à jour dans la même pull request :
+**Symptôme ou risque :** un module est déplacé sans mettre à jour sa matrice ni son README.
 
-- README du module ;
-- matrice ;
-- ADR si décision modifiée ;
-- diagramme ;
-- fichiers déplacés ;
-- tests et scènes de démonstration.
+> **[LECTURE] Exemple fautif — Ne pas recopier.**
+
+```text
+Commit : déplacer beacons vers src/features/status/
+Documentation : conserve src/features/beacons/
+```
+
+**Correction :** modifier code, chemins et sources d’architecture dans la même pull request.
+
+> **[LECTURE] Lot corrigé — Ne pas saisir.**
+
+```text
+PR unique :
+- fichiers déplacés
+- README du module
+- dependency-matrix.md
+- ADR si la décision change
+- tests et scènes corrigés
+```
+
+**Différence :** le lot corrigé maintient une seule source de vérité vérifiable ; le lot fautif laisse des instructions obsolètes.
 
 ## 23. Checklist de fin de chapitre
 

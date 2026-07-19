@@ -2,7 +2,7 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.4.0"
+version: "1.5.0"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-19"
@@ -152,6 +152,35 @@ recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 - [ ] Les sujets exclus sont renvoyés au bon chapitre.
 - [ ] Les modes Solo et Studio sont présents lorsque pertinents.
 - [ ] Une checklist et un critère d’acceptation sont fournis.
+- [ ] Toute section qui enseigne des erreurs, anti-patterns, pièges ou corrections fournit un exemple fautif, un exemple corrigé et leur différence pour chaque cas.
+
+#### Q1.1 — Règle sémantique des erreurs et corrections
+
+La règle dépend de la fonction pédagogique, jamais du titre exact. Elle couvre notamment les sections nommées :
+
+- `Erreurs fréquentes` ;
+- `Erreurs fréquentes et diagnostics` ;
+- `Anti-patterns et corrections` ;
+- `Éviter les anti-patterns` ;
+- `Pièges`, `Mauvaises pratiques` ou toute formulation équivalente.
+
+Une section détaillée porte le marqueur invisible suivant :
+
+> **[LECTURE] Marqueur QA — Ne pas saisir dans un terminal.**
+
+```html
+<!-- qa:error-correction-section -->
+```
+
+Chaque sous-cas doit alors contenir :
+
+1. un symptôme ou risque ;
+2. un **exemple fautif** ;
+3. une **correction** ;
+4. un **exemple corrigé** ;
+5. une explication explicite de la différence.
+
+Un tableau servant uniquement d’index de diagnostic peut rester compact s’il porte `<!-- qa:error-correction-index -->` et renvoie clairement vers une section détaillée conforme. Il ne peut pas remplacer les exemples détaillés.
 
 ### Q2 — Cohérence de collection
 

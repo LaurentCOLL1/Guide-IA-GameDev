@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 7 : Données avec Resources, JSON et configurations"
 id: "DOC-L2-CH07"
 status: "reviewed"
-version: "1.1.0"
+version: "1.1.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 7
@@ -10,6 +10,7 @@ last-verified: "2026-07-19"
 audit-status: "complete"
 audit-date: "2026-07-19"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-07.md"
+supplemental-audit: "Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md"
 audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
@@ -1557,6 +1558,8 @@ Modifier temporairement une copie de test pour vérifier que le système détect
 Restaurer ensuite les fichiers valides.
 
 ## 35. Erreurs fréquentes et corrections
+
+<!-- qa:error-correction-section -->
 
 Chaque erreur ci-dessous comporte un exemple fautif et un exemple corrigé. Les fragments sont volontairement courts afin d’isoler la différence importante.
 
