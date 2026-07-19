@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  diagnose:
+  enrich:
     if: github.head_ref == 'docs/enrich-code-explanations-ch15-ch16' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -20,23 +20,48 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Capture remaining error
+      - name: Repair exact governance anchors
         run: |
           sed -i 's/Correction pédagogique prioritaire avant tout nouveau chapitre:/Correction pédagogique prioritaire avant tout nouveau chapitre :/' tools/qa/tmp_enrich_code_explanations_ch15_ch16.py
           sed -i 's/Chapitre suivant, bloqué jusqu’à la fermeture de cette correction:/Chapitre suivant, bloqué jusqu’à la fermeture de cette correction :/' tools/qa/tmp_enrich_code_explanations_ch15_ch16.py
-          python tools/qa/tmp_enrich_code_explanations_ch15_ch16.py > tmp_ch15_ch16_enrichment_error_2.txt 2>&1 || true
-          git checkout -- \
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/qa/tmp_enrich_code_explanations_ch15_ch16.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''    pending = "- [ ] Correction pédagogique des blocs de code des chapitres 15 et 16 avant le chapitre 17."
+    done = "- [x] Correction pédagogique des blocs de code des chapitres 15 et 16 — explications détaillées, audits et preuves QA révisés."
+    roadmap = replace_once(roadmap, pending, done, "roadmap correction")
+'''
+          new = '''    pending = """- [ ] Correction pédagogique du chapitre 15 — expliquer chaque bloc de code significatif avec rôle, types, paramètres, retours, effets, invariants et résultat attendu.
+- [ ] Correction pédagogique du chapitre 16 — expliquer chaque bloc de code significatif avec rôle, types, paramètres, retours, effets, invariants et résultat attendu.
+- [ ] Fermer les audits et preuves QA corrigés des chapitres 15 et 16 avant de commencer le chapitre 17."""
+    done = """- [x] Correction pédagogique du chapitre 15 — blocs de code expliqués selon QA Q1.1.
+- [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
+- [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17."""
+    roadmap = replace_once(roadmap, pending, done, "roadmap correction")
+    roadmap = roadmap.replace(
+        "Avant le chapitre 17, une correction pédagogique bloquante doit enrichir les explications des blocs de code des chapitres 15 et 16, puis fermer leurs audits et preuves QA mis à jour. Le chapitre 17 traitera ensuite",
+        "La correction pédagogique des chapitres 15 et 16 est terminée et leurs audits et preuves QA sont révisés. Le chapitre 17 traitera désormais",
+    )
+'''
+          if old not in text:
+              raise SystemExit('roadmap source anchor not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Enrich code explanations
+        run: python tools/qa/tmp_enrich_code_explanations_ch15_ch16.py
+      - name: Commit chapter corrections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
             Livre-II/CHAPITRE-15-Relations-sociales.md \
             Livre-II/CHAPITRE-16-Famille-et-generations.md \
             Livre-II/QA/AUDIT-CHAPITRE-15.md \
             Livre-II/QA/AUDIT-CHAPITRE-16.md \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
-            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md
-      - name: Commit diagnostic
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tmp_ch15_ch16_enrichment_error_2.txt
-          git commit -m "chore(qa): capture remaining enrichment assertion"
+            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+            tmp_ch15_ch16_code_explanation_metrics.txt
+          git commit -m "docs(livre-ii): explain chapter 15 and 16 code blocks"
           git push origin HEAD:docs/enrich-code-explanations-ch15-ch16
