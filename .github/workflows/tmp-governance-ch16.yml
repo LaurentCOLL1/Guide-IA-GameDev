@@ -1,0 +1,30 @@
+name: Temporary Chapter 16 Governance
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch16-famille-generations
+
+permissions:
+  contents: write
+
+jobs:
+  update-governance:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch16-famille-generations
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply governance updates
+        run: python tools/qa/tmp_update_ch16_governance.py
+      - name: Commit governance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-II/index.md ROADMAP.md contents.txt CONTINUITE-PROJET.md
+          git commit -m "docs(project): record chapter 16 governance"
+          git push origin HEAD:docs/livre-ii-ch16-famille-generations
