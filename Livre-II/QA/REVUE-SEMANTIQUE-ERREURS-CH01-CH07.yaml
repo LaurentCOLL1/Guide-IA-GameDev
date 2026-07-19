@@ -3,7 +3,7 @@ review-id: DOC-L2-QA-SEMANTIC-ERROR-SECTIONS
 status: complete
 review-date: 2026-07-19
 review-level: static-review
-validated-base-commit: 640a5ba29fe645624bd316228faf0bf57439a586
+validated-base-commit: 09eab30ffdcd9737819b123d8ef3195340295d48
 scope:
   books:
     - Livre II
@@ -36,6 +36,7 @@ results:
   validator-enforcement-added: true
   corrected-example-labels-title-independent: true
   comparative-prose-accepted: true
+  fenced-code-headings-ignored: true
   temporary-workflows-removed: true
   temporary-scripts-removed: true
   pdf-produced: false
