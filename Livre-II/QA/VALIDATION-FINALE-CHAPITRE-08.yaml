@@ -2,7 +2,7 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH08
 status: complete
 validation-date: 2026-07-19
-validated-base-commit: 0938281aaff295f84bdadbac802699f983028ccb
+validated-base-commit: 6c0bf3621c4a6a7a57eaad0d74cf76da0aebe950
 chapter:
   id: DOC-L2-CH08
   path: Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
@@ -78,7 +78,11 @@ ci:
     duplicate-headings: 0
     duplicate-significant-blocks: 0
     duplicate-long-paragraphs: 0
-  final-nonregression: pending
+  final-nonregression:
+    validate-chapters-run-id: 29684985129
+    validate-chapters-conclusion: success
+    validate-contexts-run-id: 29684985106
+    validate-contexts-conclusion: success
 reservations:
   - Godot-SQLite 4.7 n’a pas encore été chargé dans Godot 4.7.1 sur Windows 11.
   - Les migrations et rollbacks n’ont pas encore été exécutés dans le Starter Kit.
