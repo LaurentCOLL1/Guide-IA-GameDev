@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH10
-status: pending-ci
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: d7b24a3bf1c14661603b2dad10eabf52cb428500
 chapter:
@@ -29,6 +29,22 @@ scope:
 results:
   master-plan-items-covered: 14
   detailed-error-cases: 14
+  sources: 60
+  unique-identifiers: 59
+  livre-i-chapters: 10
+  livre-ii-chapters: 10
+  chapter-lines: 1619
+  chapter-headings: 62
+  chapter-significant-code-blocks: 21
+  total-context-blocks: 1252
+  marked-context-blocks: 1252
+  semantic-inconsistencies: 0
+  blocking-errors: 0
+  warnings: 1
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  documented-python-syntax-compilation: success
   source-index-save-separation: true
   multilingual-local-model: true
   vector-size-validated-statically: true
@@ -47,11 +63,15 @@ results:
   pdf-produced: false
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29693610538
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29693610522
+    conclusion: success
+  artifact:
+    id: 8444315981
+    name: chapter-validation-without-pdf
+    digest: sha256:99caf509bcae70a95ab429fab93ffda1d73bb5990df2030d3b6bf44aeb5dcf99
 reservations:
   - Les dépendances Python n’ont pas été installées sous Windows 11.
   - Le modèle multilingual-e5-small n’a pas été téléchargé ni exécuté.
