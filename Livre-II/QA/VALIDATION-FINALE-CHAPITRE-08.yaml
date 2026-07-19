@@ -2,6 +2,7 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH08
 status: awaiting-ci
 validation-date: 2026-07-19
+validated-base-commit: f93945c9ef259855aa057853da28d987f30e6d49
 chapter:
   id: DOC-L2-CH08
   path: Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md
@@ -41,6 +42,14 @@ results:
   wal-sidecars-removed-before-restore: true
   query-error-distinct-from-no-row: true
   chapter-9-boundary-preserved: true
+  semantic-corrected-labels:
+    - exemple corrigé
+    - structure corrigée
+    - organisation corrigée
+    - architecture corrigée
+    - flux corrigé
+  temporary-workflows-removed: true
+  temporary-scripts-removed: true
   pdf-produced: false
 ci:
   validate-chapters-without-pdf: pending
