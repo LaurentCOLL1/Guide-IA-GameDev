@@ -1,0 +1,33 @@
+name: Ignore Fenced Headings
+
+on:
+  push:
+    branches:
+      - qa/retrofit-error-examples-ch01-ch06
+    paths:
+      - tools/ignore_fenced_headings.py
+      - .github/workflows/ignore-fenced-headings.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: qa/retrofit-error-examples-ch01-ch06
+          fetch-depth: 0
+
+      - name: Patch validator
+        run: python tools/ignore_fenced_headings.py
+
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(qa): ignore headings inside fenced code" || exit 0
+          git push origin HEAD:qa/retrofit-error-examples-ch01-ch06
