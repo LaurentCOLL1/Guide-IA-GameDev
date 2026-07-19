@@ -1,14 +1,16 @@
 ---
 title: "Livre II — Chapitre 15 : Relations sociales"
 id: "DOC-L2-CH15"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 15
 last-verified: "2026-07-19"
-audit-status: "pending"
-audit-level: "not-audited"
+audit-status: "complete"
+audit-date: "2026-07-19"
+audit-report: "Livre-II/QA/AUDIT-CHAPITRE-15.md"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -31,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** à réaliser immédiatement après cette rédaction.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-15.md`.
 
 ## 1. Rôle du chapitre
 
@@ -126,6 +128,8 @@ Brann → Aster : confiance 15, respect 65
 ```
 
 Le système conserve donc deux états :
+
+> **[LECTURE] Deux clés orientées — Ne pas saisir.**
 
 ```text
 (source = Aster, cible = Brann)
@@ -387,6 +391,8 @@ func validate() -> Error:
 
 `source_system` indique la provenance applicative, par exemple :
 
+> **[LECTURE] Exemples de systèmes sources — Ne pas saisir.**
+
 ```text
 system.social.dialogue
 system.quest
@@ -469,6 +475,8 @@ Le tick logique appartient à la simulation ou au coordinateur de partie. Il ne 
 class_name SocialChangeRecord
 extends RefCounted
 
+const MAX_ABSOLUTE_DELTA := 100
+
 var revision: int
 var logical_tick: int
 var cause_id: StringName
@@ -490,7 +498,36 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not context_id.is_empty() and not StableId.is_valid(context_id):
 		return ERR_INVALID_DATA
+
+	var deltas: Array[int] = [
+		affinity_delta,
+		trust_delta,
+		respect_delta,
+		fear_delta,
+	]
+	var has_effect := false
+	for delta: int in deltas:
+		if absi(delta) > MAX_ABSOLUTE_DELTA:
+			return ERR_INVALID_DATA
+		has_effect = has_effect or delta != 0
+
+	if not has_effect:
+		return ERR_INVALID_DATA
+
 	return OK
+
+func duplicate_record() -> SocialChangeRecord:
+	var copy := SocialChangeRecord.new()
+	copy.revision = revision
+	copy.logical_tick = logical_tick
+	copy.cause_id = cause_id
+	copy.source_system = source_system
+	copy.context_id = context_id
+	copy.affinity_delta = affinity_delta
+	copy.trust_delta = trust_delta
+	copy.respect_delta = respect_delta
+	copy.fear_delta = fear_delta
+	return copy
 ```
 
 ### 10.2 Pourquoi l’historique reste borné
@@ -549,7 +586,12 @@ func validate() -> Error:
 		previous_revision = record.revision
 		previous_tick = record.logical_tick
 
-	if not _history.is_empty():
+	if revision == 0:
+		if last_changed_tick != 0 or not _history.is_empty():
+			return ERR_INVALID_DATA
+	elif _history.is_empty():
+		return ERR_INVALID_DATA
+	else:
 		if _history.back().revision != revision:
 			return ERR_INVALID_DATA
 		if _history.back().logical_tick != last_changed_tick:
@@ -558,7 +600,10 @@ func validate() -> Error:
 	return OK
 
 func get_history_copy() -> Array[SocialChangeRecord]:
-	return _history.duplicate()
+	var copy: Array[SocialChangeRecord] = []
+	for record: SocialChangeRecord in _history:
+		copy.append(record.duplicate_record())
+	return copy
 
 func apply_validated(
 	command: ChangeSocialRelationshipCommand,
@@ -612,11 +657,11 @@ func get_state(
 	push_error("get_state() doit être implémentée.")
 	return null
 
-func get_or_create(
-	key: SocialRelationshipKey,
-) -> SocialRelationshipState:
-	push_error("get_or_create() doit être implémentée.")
-	return null
+func replace_one(
+	state: SocialRelationshipState,
+) -> Error:
+	push_error("replace_one() doit être implémentée.")
+	return ERR_UNAVAILABLE
 
 func replace_all(
 	states: Array[SocialRelationshipState],
@@ -655,21 +700,20 @@ func get_state(
 		return null
 	return _states.get(key.to_storage_key()) as SocialRelationshipState
 
-func get_or_create(
-	key: SocialRelationshipKey,
-) -> SocialRelationshipState:
-	if key == null or key.validate() != OK:
-		return null
+func replace_one(
+	state: SocialRelationshipState,
+) -> Error:
+	if state == null or state.validate() != OK:
+		return ERR_INVALID_DATA
 
-	var storage_key := key.to_storage_key()
-	var existing := _states.get(storage_key) as SocialRelationshipState
-	if existing != null:
-		return existing
-
-	var state := SocialRelationshipState.new(key)
+	var storage_key := state.key.to_storage_key()
+	var is_new := not _states.has(storage_key)
 	_states[storage_key] = state
-	_index_outgoing(key.source_id, storage_key)
-	return state
+
+	if is_new:
+		_index_outgoing(state.key.source_id, storage_key)
+
+	return OK
 
 func replace_all(
 	states: Array[SocialRelationshipState],
@@ -834,17 +878,26 @@ func apply_change(
 	if not _character_index.contains(key.target_id):
 		return ERR_DOES_NOT_EXIST
 
-	var state := _repository.get_or_create(key)
-	if state == null:
-		return ERR_CANT_CREATE
+	var current := _repository.get_state(
+		key.source_id,
+		key.target_id,
+	)
+	if current == null:
+		current = SocialRelationshipState.new(
+			SocialRelationshipKey.new(
+				key.source_id,
+				key.target_id,
+			)
+		)
 
-	if command.logical_tick < state.last_changed_tick:
+	if command.logical_tick < current.last_changed_tick:
 		return ERR_INVALID_DATA
 
-	var before := state.axes.duplicate_axes()
-	var record := state.apply_validated(command)
+	var candidate := current.duplicate_state()
+	var before := candidate.axes.duplicate_axes()
+	var record := candidate.apply_validated(command)
 
-	if state.validate() != OK:
+	if candidate.validate() != OK:
 		return ERR_INVALID_DATA
 
 	var event := SocialRelationshipChangedEvent.new()
@@ -854,10 +907,14 @@ func apply_change(
 	event.logical_tick = record.logical_tick
 	event.cause_id = record.cause_id
 	event.before_axes = before
-	event.after_axes = state.axes.duplicate_axes()
+	event.after_axes = candidate.axes.duplicate_axes()
 
 	if event.validate() != OK:
 		return ERR_INVALID_DATA
+
+	var replace_error := _repository.replace_one(candidate)
+	if replace_error != OK:
+		return replace_error
 
 	relationship_changed.emit(event)
 	return OK
@@ -876,9 +933,9 @@ L’absence d’un personnage dans la scène n’est jamais une erreur. Seule l�
 
 ## 16. Éviter une mutation partielle
 
-Le service précédent modifie l’état avant sa validation finale. Une implémentation de production doit pouvoir revenir en arrière si un invariant interne échoue.
+Le service ne modifie jamais directement l’objet conservé dans le dépôt.
 
-La stratégie retenue pour le chapitre est de calculer un candidat.
+Il calcule un candidat, le valide, prépare l’événement, puis demande au dépôt de remplacer une seule relation.
 
 > **[VSC] Visual Studio Code — Ajouter à `social_relationship_state.gd`.**
 
@@ -893,32 +950,36 @@ func duplicate_state() -> SocialRelationshipState:
 	copy.axes = axes.duplicate_axes()
 	copy.revision = revision
 	copy.last_changed_tick = last_changed_tick
-	copy._history = _history.duplicate()
+
+	var history_copy: Array[SocialChangeRecord] = []
+	for record: SocialChangeRecord in _history:
+		history_copy.append(record.duplicate_record())
+	copy._history = history_copy
+
 	return copy
 ```
 
-> **[VSC] Visual Studio Code — Remplacer la mutation directe dans `social_relationship_service.gd`.**
+`duplicate_state()` duplique aussi chaque enregistrement. Une simple duplication du tableau aurait conservé les mêmes objets mutables.
 
-```gdscript
-var current := _repository.get_or_create(key)
-if current == null:
-	return ERR_CANT_CREATE
+Le service applique ensuite la commande au candidat :
 
-var candidate := current.duplicate_state()
-var before := candidate.axes.duplicate_axes()
-var record := candidate.apply_validated(command)
+> **[LECTURE] Ordre atomique d’une mutation — Ne pas saisir.**
 
-if candidate.validate() != OK:
-	return ERR_INVALID_DATA
-
-var replace_error := _replace_one(candidate)
-if replace_error != OK:
-	return replace_error
+```text
+lire l’état courant
+    ↓
+dupliquer l’état et son historique
+    ↓
+appliquer la commande au candidat
+    ↓
+valider le candidat et l’événement
+    ↓
+replace_one(candidat)
+    ↓
+émettre l’événement
 ```
 
-La méthode `_replace_one()` sera ajoutée au contrat du dépôt pendant l’audit post-création afin de garantir une mutation atomique par relation.
-
-Cette réserve volontaire empêche de déclarer prématurément le chapitre audité.
+Si la validation échoue, l’état courant n’a pas été modifié. Si `replace_one()` échoue, aucun événement n’est émis.
 
 ## 17. Requêtes de voisinage
 
@@ -1201,7 +1262,9 @@ func decode(payload: Variant) -> SocialRelationshipState:
 			return null
 		records.append(record)
 
-	state.set_history_for_restore(records)
+	var history_error := state.set_history_for_restore(records)
+	if history_error != OK:
+		return null
 	if state.validate() != OK:
 		return null
 	return state
@@ -1313,6 +1376,83 @@ Le décodage applique les mêmes validations strictes :
 - tick non négatif ;
 - deltas dans les bornes d’une commande.
 
+> **[VSC] Visual Studio Code — Ajouter à `social_relationship_snapshot_codec.gd`.**
+
+```gdscript
+func _decode_record(payload: Variant) -> SocialChangeRecord:
+	if not payload is Dictionary:
+		return null
+
+	var data := payload as Dictionary
+	var required: Array[String] = [
+		"revision",
+		"logical_tick",
+		"cause_id",
+		"source_system",
+		"context_id",
+		"deltas",
+	]
+	if not _has_exact_keys(data, required):
+		return null
+
+	if not data["revision"] is int:
+		return null
+	if not data["logical_tick"] is int:
+		return null
+	if not data["cause_id"] is String:
+		return null
+	if not data["source_system"] is String:
+		return null
+	if not data["context_id"] is String:
+		return null
+	if not data["deltas"] is Dictionary:
+		return null
+
+	var deltas := _decode_delta_dictionary(data["deltas"])
+	if deltas.is_empty():
+		return null
+
+	var record := SocialChangeRecord.new()
+	record.revision = data["revision"]
+	record.logical_tick = data["logical_tick"]
+	record.cause_id = StringName(data["cause_id"])
+	record.source_system = StringName(data["source_system"])
+	record.context_id = StringName(data["context_id"])
+	record.affinity_delta = deltas["affinity"]
+	record.trust_delta = deltas["trust"]
+	record.respect_delta = deltas["respect"]
+	record.fear_delta = deltas["fear"]
+
+	if record.validate() != OK:
+		return null
+	return record
+
+func _decode_delta_dictionary(payload: Variant) -> Dictionary:
+	if not payload is Dictionary:
+		return {}
+
+	var data := payload as Dictionary
+	var keys: Array[String] = [
+		"affinity",
+		"trust",
+		"respect",
+		"fear",
+	]
+	if not _has_exact_keys(data, keys):
+		return {}
+
+	for key: String in keys:
+		if not data[key] is int:
+			return {}
+
+	return {
+		"affinity": data["affinity"],
+		"trust": data["trust"],
+		"respect": data["respect"],
+		"fear": data["fear"],
+	}
+```
+
 ## 26. Section de sauvegarde indépendante
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/social/infrastructure/social_relationship_save_section.gd`.**
@@ -1328,6 +1468,7 @@ var _repository: SocialRelationshipRepository
 var _character_index: CharacterIdentityIndex
 var _codec := SocialRelationshipSnapshotCodec.new()
 var _prepared_states: Array[SocialRelationshipState] = []
+var _has_prepared_load := false
 
 func _init(
 	repository: SocialRelationshipRepository,
@@ -1357,6 +1498,10 @@ func capture() -> Dictionary:
 
 func prepare_load(payload: Variant) -> Error:
 	_prepared_states.clear()
+	_has_prepared_load = false
+
+	if _character_index == null:
+		return ERR_UNCONFIGURED
 
 	if not payload is Dictionary:
 		return ERR_INVALID_DATA
@@ -1394,19 +1539,24 @@ func prepare_load(payload: Variant) -> Error:
 		candidate.append(state)
 
 	_prepared_states = candidate
+	_has_prepared_load = true
 	return OK
 
 func apply_prepared() -> Error:
 	if _repository == null:
 		return ERR_UNCONFIGURED
+	if not _has_prepared_load:
+		return ERR_INVALID_DATA
 
 	var result := _repository.replace_all(_prepared_states)
 	if result == OK:
 		_prepared_states.clear()
+		_has_prepared_load = false
 	return result
 
 func cancel_load() -> void:
 	_prepared_states.clear()
+	_has_prepared_load = false
 ```
 
 La section sociale est indépendante de la section des personnages.
@@ -1581,7 +1731,7 @@ var affinity_by_node: Dictionary[Node, int] = {}
 
 ```gdscript
 var key := SocialRelationshipKey.new(source_id, target_id)
-var state := repository.get_or_create(key)
+var state := repository.get_state(source_id, target_id)
 ```
 
 **Différence :** le second exemple survit au déchargement des scènes.
@@ -1795,7 +1945,9 @@ for source in all_characters:
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```gdscript
-var state := repository.get_or_create(command.relationship_key)
+var state := repository.get_state(source_id, target_id)
+if state == null:
+	state = SocialRelationshipState.new(command.relationship_key)
 ```
 
 **Différence :** seules les relations existantes occupent de la mémoire.
@@ -2001,7 +2153,7 @@ Le dépôt :
 
 - ne dépend pas des scènes ;
 - indexe les relations sortantes ;
-- crée les états à la demande ;
+- crée un candidat lors du premier changement pertinent ;
 - remplace les données après validation.
 
 Les vues mutuelles sont calculées. Les relations familiales, factions et réputations restent dans leurs systèmes propres.
