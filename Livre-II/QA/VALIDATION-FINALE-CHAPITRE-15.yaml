@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH15
-status: pending-ci
+status: complete
 validation-date: 2026-07-19
 validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
 chapter:
@@ -35,16 +35,16 @@ results:
   clickable-technical-source-links: 15
   official-web-source-links: 14
   local-chapter-links: 1
-  sources: null
-  unique-identifiers: null
+  sources: 72
+  unique-identifiers: 69
   livre-i-chapters: 10
   livre-ii-chapters: 15
   chapter-lines: 2177
   chapter-headings: 69
-  chapter-significant-code-blocks: null
+  chapter-significant-code-blocks: 29
   chapter-code-and-data-blocks: 66
-  total-context-blocks: null
-  marked-context-blocks: null
+  total-context-blocks: 1573
+  marked-context-blocks: 1573
   context-nonconformities: 0
   semantic-inconsistencies: 0
   duplicate-headings: 0
@@ -57,6 +57,11 @@ results:
   gdscript-code-blocks: 55
   documented-gdscript-static-review: success
   godot-parser-executed: false
+  chapter-context-markers:
+    VSC: 22
+    APP: 1
+    SORTIE: 1
+    LECTURE: 43
   directed-source-target-key: true
   self-relationship-refused: true
   bidirectional-perceptions-independent: true
@@ -79,6 +84,8 @@ results:
   future-gameplay-systems-separated: true
   process-audit-report-present: true
   process-distinct-draft-gate-recorded: true
+  process-continuity-paths-verified: true
+  next-action-includes-reasoning-level: true
   blocking-errors: 0
   warnings: 1
   pdf-produced: false
@@ -95,15 +102,15 @@ corrections:
   - Présentation des sources sous forme de liens Markdown nommés.
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29704145533
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29704145535
+    conclusion: success
   artifact:
-    id: null
+    id: 8447357305
     name: chapter-validation-without-pdf
-    digest: null
+    digest: sha256:2bccd226bfb7946c3208e1f81e3faab5b5c142db638e218626e66489cb938a91
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - La scène de démonstration n’a pas été instanciée.
