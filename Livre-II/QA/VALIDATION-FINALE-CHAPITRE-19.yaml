@@ -1,0 +1,46 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH19
+status: pending
+validation-date: 2026-07-20
+validated-base-commit: 4f46510c3988474b007341e1004232bd6a3c2776
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH19
+  path: Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2419
+  chapter-headings: 56
+  chapter-code-and-data-blocks: 58
+  code-explanation-markers: 58
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  definitions-runtime-separated: true
+  logical-tick-cooldowns: true
+  closed-effect-dispatch: true
+  shared-unit-of-work-contract: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+reservations:
+  - Godot parser not executed.
+  - Demo scene not instantiated.
+  - Multi-authority unit of work not run.
+  - Combat and character effect ports not run.
+  - Performance budgets not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
