@@ -1,0 +1,29 @@
+name: Temporary Audit Section Paraphrases and Links
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: github.head_ref == 'docs/fix-section-paraphrases-and-links-ch15-ch16'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/fix-section-paraphrases-and-links-ch15-ch16
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit section paraphrases and reread links
+        run: python tools/qa/tmp_audit_section_paraphrases_links_ch15_ch16.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: section-paraphrases-links-audit
+          path: tmp_section_paraphrases_links_audit.txt
+          if-no-files-found: error
