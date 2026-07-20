@@ -1,7 +1,12 @@
 Traceback (most recent call last):
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_ch17_closure.py", line 113, in <module>
-    index = replace_once(index, '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée et audité au niveau static-review**', '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée, clôturé par les décisions Project Asteria et audité au niveau static-review**', 'index chapter status')
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_ch17_closure.py", line 16, in replace_once
-    raise RuntimeError(f'{label}: expected one occurrence, found {count}')
-RuntimeError: index chapter status: expected one occurrence, found 0
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_run_ch17_closure_fix.py", line 9, in <module>
+    marker_index = lines.index(needle)
+                   ^^^^^^^^^^^^^^^^^^^
+ValueError: "    'index chapter status'," is not in list
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_run_ch17_closure_fix.py", line 11, in <module>
+    raise RuntimeError('index replacement marker missing') from exc
+RuntimeError: index replacement marker missing
