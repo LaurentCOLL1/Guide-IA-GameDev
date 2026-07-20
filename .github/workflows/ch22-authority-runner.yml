@@ -3,7 +3,7 @@ name: Chapter 22 Authority Runner
 on:
   pull_request:
     branches:
-      - qa/ch22-authority-runner
+      - main
     types: [opened, synchronize, reopened, edited]
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   apply:
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch22-monde-vivant'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
