@@ -10,7 +10,11 @@ def once(text, old, new, label):
 
 
 def version(text, old, new, label):
-    return once(text, f'version: "{old}"', f'version: "{new}"', label)
+    pattern = rf'(?m)^version: "{re.escape(old)}"$'
+    count = len(re.findall(pattern, text))
+    if count != 1:
+        raise RuntimeError(f'{label}: expected 1 exact version line, got {count}')
+    return re.sub(pattern, f'version: "{new}"', text, count=1)
 
 metrics = {}
 for line in Path('tmp_precise_section_references_metrics.txt').read_text(encoding='utf-8').splitlines():
