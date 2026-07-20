@@ -2,12 +2,12 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
 status: complete
 validation-date: 2026-07-20
-validated-base-commit: a61ea9e5378e270e1db98d9f83e6fe6cef847318
-validated-head-commit: b59d014414dcc6ea059cb4954152d9181c683cc2
+validated-base-commit: 2424919ab4e15ff6d2e60b2fafd2635e9bcab8e7
+validated-head-commit: 58f090584911a5f30a585334a66a40e477a88955
 chapter:
   id: DOC-L2-CH17
   path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   sources-declared: 78
@@ -16,7 +16,7 @@ results:
   unique-identifiers: 73
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2560
+  chapter-lines: 2564
   chapter-headings: 67
   chapter-significant-code-blocks: 35
   chapter-code-and-data-blocks: 69
@@ -44,19 +44,23 @@ results:
   durable-state-only-persisted: true
   strict-codec-documented: true
   prepared-save-section-documented: true
+  terminology-clarified: true
+  nominal-intervals-explicit: true
+  overdue-decisions-preserved: true
+  ambiguous-error-labels-outside-section-37: 0
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29713123511
+    run-id: 29725806307
     conclusion: success
   validate-usage-contexts:
-    run-id: 29713123492
+    run-id: 29725806301
     conclusion: success
   artifact:
-    id: 8449447048
+    id: 8454174626
     name: chapter-validation-without-pdf
-    digest: sha256:ec57baa2e8bab4c82f6ad4f5c604fc4885c9de395ae2950d4d7f1b887f74204a
+    digest: sha256:c98e63b798fbcd999252353724165cb956dd0f28b5d1e65e5811b21f03fcf5f0
 reservations:
   - Godot parser not executed.
   - Demo scene not instantiated.

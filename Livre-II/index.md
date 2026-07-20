@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.12.1"
+version: "1.12.2"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -45,7 +45,7 @@ Project Asteria
 14. [Personnages](CHAPITRE-14-Personnages.md) — **rédigé, repéré et audité au niveau static-review**
 15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**
 16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**
-17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc et audité au niveau static-review**
+17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée et audité au niveau static-review**
 18. Combat — à rédiger
 19. Compétences et pouvoirs — à rédiger
 20. Inventaire et réputation des objets — à rédiger

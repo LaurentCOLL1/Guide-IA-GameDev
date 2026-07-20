@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.7"
+version: "3.17.8"
 lang: "fr-FR"
 last-updated: "2026-07-20"
 update-policy: "mandatory-on-every-project-change"
@@ -463,6 +463,7 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - planificateur déterministe borné à `256` expansions et profondeur `8` ;
 - snapshots détachés et révision du monde contrôlée avant émission ;
 - ordonnanceur round-robin limité à `8` décisions par tick physique ;
+- échéance conservée avec `logical_tick >= next_due_tick` lorsqu’un agent est reporté par le budget ;
 - modes actif, arrière-plan et dormant sans confondre scène et existence ;
 - invalidation et annulation coopérative corrélées par `request_id` ;
 - RNG local restaurable réservé aux variantes métier équivalentes ;
@@ -1180,7 +1181,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
-- chapitre 17 : version `1.0.0` ;
+- chapitre 17 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1201,6 +1202,16 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : règles de combat séparées du planificateur, commandes typées, initiative, portée, dégâts, défense, états, ciblage, historique, persistance, budgets et frontières avec compétences et agents.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.8
+
+- chapitre 17 porté en version `1.0.1` ;
+- intervalles `ACTIVE`, `BACKGROUND` et `DORMANT` explicitement reliés à `6`, `60` et `600` ticks ;
+- fréquences qualifiées de nominales et dépendantes de la fréquence physique configurée ;
+- six libellés ambigus remplacés par valeurs ou codes de retour, refus contrôlé, statuts à distinguer et traitement du résultat ;
+- politique de tick corrigée afin de conserver une échéance reportée par le budget ;
+- protocole QA porté en version `1.7.2` ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.7
 
