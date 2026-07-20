@@ -93,10 +93,12 @@ for chapter, path in FILES.items():
             '- **Rôle :** ce bloc montre la forme JSON attendue par « 18.1 Structure JSON ».',
             '- **Rôle :** ce bloc décrit le snapshot du graphe familial, séparé en filiations, tutelles, unions et historique.', 'ch16 JSON role')
         bad = '- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.'
-        text = once(text, bad,
-            '- **Rôle :** ces deux requêtes reconstruisent les parents et les enfants depuis les liens autoritaires sans exposer les index internes.', 'ch16 parent queries role')
-        text = once(text, bad,
-            '- **Rôle :** cette requête dérive la fratrie depuis les parents partagés au lieu de la persister.', 'ch16 siblings role')
+        if text.count(bad) != 2:
+            raise RuntimeError(f'ch16 incorrect role count: expected 2, got {text.count(bad)}')
+        text = text.replace(bad,
+            '- **Rôle :** ces deux requêtes reconstruisent les parents et les enfants depuis les liens autoritaires sans exposer les index internes.', 1)
+        text = text.replace(bad,
+            '- **Rôle :** cette requête dérive la fratrie depuis les parents partagés au lieu de la persister.', 1)
         for old, new in links16:
             text = once(text, old, new, old)
         cycle = '> **À relire :** [§ 11.3 Cycle d’ascendance](#113-cycle-dascendance).'
