@@ -18,12 +18,46 @@ on:
       - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "tmp_trigger_ch17_terminology.txt"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  apply-ch17-terminology:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/clarify-ch17-error-terminology
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply correction and scan
+        run: |
+          python tools/qa/tmp_fix_ch17_terminology.py
+          python tools/qa/tmp_scan_ch17_terms.py
+      - name: Commit corrected branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md \
+            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+            Livre-II/QA/AUDIT-CHAPITRE-17.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
+            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+            tmp_ch17_terminology_report.md
+          git commit -m "docs(livre-ii): clarify chapter 17 results and scheduling"
+          git push origin HEAD:docs/clarify-ch17-error-terminology
+
   validate-chapters:
+    if: github.event_name != 'push'
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
     timeout-minutes: 10
