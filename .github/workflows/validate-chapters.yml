@@ -20,34 +20,9 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  apply-ch18-final:
-    if: github.event_name == 'pull_request' && github.head_ref == 'docs/livre-ii-ch18-combat'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: docs/livre-ii-ch18-combat
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Apply audited chapter and governance
-        run: python tools/qa/tmp_apply_ch18_final.py
-      - name: Commit permanent chapter 18 files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            Livre-II/CHAPITRE-18-Combat.md \
-            Livre-II/index.md \
-            ROADMAP.md \
-            contents.txt \
-            CONTINUITE-PROJET.md
-          git commit -m "docs(livre-ii): finalize chapter 18 combat"
-          git push origin HEAD:docs/livre-ii-ch18-combat
-
   validate-chapters:
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
