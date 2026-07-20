@@ -1,7 +1,7 @@
 Traceback (most recent call last):
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 60, in <module>
-    index = version(index, '1.10.0', '1.10.1', 'index version')
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 16, in version
-    raise RuntimeError(f'{label}: expected 1 exact version line, got {count}')
-RuntimeError: index version: expected 1 exact version line, got 0
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 82, in <module>
+    continuity = once(continuity, 'version `1.5.0`', 'version `1.7.1`', 'continuity protocol version')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 8, in once
+    raise RuntimeError(f'{label}: expected 1, got {count}')
+RuntimeError: continuity protocol version: expected 1, got 2
