@@ -20,7 +20,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
@@ -29,132 +29,12 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout correction branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
 
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
-
-      - name: Apply reader-focused chapter correction
-        if: github.actor != 'github-actions[bot]'
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-
-          timestamp = "2026-07-20T16:52:26+02:00"
-
-          chapter_path = Path("Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md")
-          chapter = chapter_path.read_text(encoding="utf-8")
-          start = chapter.index("## 34. Validation légère sans PDF\n")
-          end = chapter.index("## 35. Réserves runtime\n")
-          chapter = chapter[:start] + chapter[end:]
-          for old, new in {
-              'version: "1.0.0"': 'version: "1.0.1"',
-              'last-verified: "2026-07-20T15:27:31+02:00"': f'last-verified: "{timestamp}"',
-              'audit-date: "2026-07-20T15:27:31+02:00"': f'audit-date: "{timestamp}"',
-              '## 35. Réserves runtime': '## 34. Réserves runtime',
-              '## 36. Sources techniques': '## 35. Sources techniques',
-              '## 37. Synthèse opérationnelle pour Project Asteria': '## 36. Synthèse opérationnelle pour Project Asteria',
-          }.items():
-              if old not in chapter:
-                  raise SystemExit(f"chapter replacement missing: {old}")
-              chapter = chapter.replace(old, new, 1)
-          chapter_path.write_text(chapter, encoding="utf-8")
-
-          audit_path = Path("Livre-II/QA/AUDIT-CHAPITRE-19.md")
-          audit = audit_path.read_text(encoding="utf-8")
-          for old, new in {
-              'version: "1.0.0"': 'version: "1.0.1"',
-              'chapter-version: "1.0.0"': 'chapter-version: "1.0.1"',
-              'audit-date: "2026-07-20T15:27:31+02:00"': f'audit-date: "{timestamp}"',
-              'last-verified: "2026-07-20T15:27:31+02:00"': f'last-verified: "{timestamp}"',
-              '- lignes finales : **2 419** ;': '- lignes finales : **2 386** ;',
-              '- titres Markdown : **56** ;': '- titres Markdown : **55** ;',
-              '- blocs de code ou de données : **58** ;': '- blocs de code ou de données : **56** ;',
-              '- marqueurs d’explication : **58** ;': '- marqueurs d’explication : **56** ;',
-              'Les **58** blocs possèdent chacun': 'Les **56** blocs possèdent chacun',
-          }.items():
-              if old not in audit:
-                  raise SystemExit(f"audit replacement missing: {old}")
-              audit = audit.replace(old, new, 1)
-          marker = "## 5. Revue statique du code\n"
-          note = (
-              "11. retiré du chapitre lecteur la procédure interne `Validation légère sans PDF`, "
-              "qui appartient au rapport QA, à la preuve et aux workflows.\n\n"
-          )
-          if marker not in audit:
-              raise SystemExit("audit insertion marker missing")
-          audit = audit.replace(marker, note + marker, 1)
-          audit_path.write_text(audit, encoding="utf-8")
-
-          proof_path = Path("Livre-II/QA/VALIDATION-FINALE-CHAPITRE-19.yaml")
-          proof = proof_path.read_text(encoding="utf-8")
-          for old, new in {
-              "status: complete": "status: pending",
-              "validated-head-commit: 27396b59c056bd64741b67fbc6b440178f0483b6": "validated-head-commit: pending",
-              "  blocking-errors: 0": "  blocking-errors: pending",
-              "  warnings: 0": "  warnings: pending",
-              "  chapter-lines: 2419": "  chapter-lines: 2386",
-              "  chapter-headings: 56": "  chapter-headings: 55",
-              "  chapter-code-and-data-blocks: 58": "  chapter-code-and-data-blocks: 56",
-              "  code-explanation-markers: 58": "  code-explanation-markers: 56",
-          }.items():
-              if old not in proof:
-                  raise SystemExit(f"proof replacement missing: {old}")
-              proof = proof.replace(old, new, 1)
-          ci_start = proof.index("ci:\n")
-          reservations_start = proof.index("reservations:\n")
-          ci_block = (
-              "ci:\n"
-              "  validate-chapters-without-pdf:\n"
-              "    run-id: pending\n"
-              "    conclusion: pending\n"
-              "  validate-usage-contexts:\n"
-              "    run-id: pending\n"
-              "    conclusion: pending\n"
-          )
-          proof = proof[:ci_start] + ci_block + proof[reservations_start:]
-          proof_path.write_text(proof, encoding="utf-8")
-
-          continuity_path = Path("CONTINUITE-PROJET.md")
-          continuity = continuity_path.read_text(encoding="utf-8")
-          for old, new in {
-              'version: "3.19.0"': 'version: "3.19.1"',
-              'last-updated: "2026-07-20T15:27:31+02:00"': f'last-updated: "{timestamp}"',
-              '- chapitre 19 : version `1.0.0` ;': '- chapitre 19 : version `1.0.1` ;',
-          }.items():
-              if old not in continuity:
-                  raise SystemExit(f"continuity replacement missing: {old}")
-              continuity = continuity.replace(old, new, 1)
-          anchor = "- ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;\n"
-          rule = "- ne pas placer les commandes de validation documentaire ou la procédure QA dans un chapitre destiné au lecteur ;\n"
-          if anchor not in continuity:
-              raise SystemExit("continuity error anchor missing")
-          continuity = continuity.replace(anchor, rule + anchor, 1)
-          journal_anchor = "## 27. Journal\n\n"
-          journal = (
-              f"### {timestamp} — version 3.19.1\n\n"
-              "- retrait de la section interne `Validation légère sans PDF` du chapitre 19 destiné au lecteur ;\n"
-              "- conservation de cette procédure dans le protocole, le rapport d’audit, la preuve QA et les workflows ;\n"
-              "- chapitre 19 et audit portés en version `1.0.1` ;\n"
-              "- règle ajoutée aux erreurs à ne pas reproduire ;\n"
-              "- aucune exécution runtime et aucun PDF construit.\n\n"
-          )
-          if journal_anchor not in continuity:
-              raise SystemExit("continuity journal anchor missing")
-          continuity = continuity.replace(journal_anchor, journal_anchor + journal, 1)
-          continuity_path.write_text(continuity, encoding="utf-8")
-          PY
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add CONTINUITE-PROJET.md Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md Livre-II/QA/AUDIT-CHAPITRE-19.md Livre-II/QA/VALIDATION-FINALE-CHAPITRE-19.yaml
-          git commit -m "fix(livre-ii): keep chapter 19 reader-focused"
-          git push origin HEAD:${{ github.head_ref }}
 
       - name: Validate structure, metadata, links and duplicates
         run: |
