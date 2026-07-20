@@ -1,0 +1,67 @@
+---
+title: "Audit du Livre II — Chapitre 17"
+id: "DOC-L2-QA-AUDIT-CH17"
+status: "complete"
+version: "1.0.0"
+chapter-id: "DOC-L2-CH17"
+chapter-version: "1.0.0"
+audit-level: "static-review"
+audit-date: "2026-07-20"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+---
+
+# Audit du chapitre 17 — Agents IA et comportements autonomes
+
+## 1. Porte de brouillon observée
+
+Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audit-status: pending` et `audit-level: not-audited`. Le présent rapport appartient à une passe distincte.
+
+## 2. Résultats
+
+- lignes finales : **2560** ;
+- blocs clôturés : **69** ;
+- marqueurs d’explication : **69** ;
+- cas d’erreurs détaillés : **16** ;
+- auto-paraphrases du titre courant : **0** ;
+- fragments internes non résolus : **0** ;
+- sources Godot 4.7 nommées : **13** ;
+- doublons de titres ou blocs significatifs : à confirmer par CI ;
+- PDF produit : **non** ;
+- exécution runtime : **non**.
+
+## 3. Corrections issues de la seconde lecture
+
+1. ajout de l’ancre précise `ch17-agent-state` ;
+2. conversion explicite des `StringName` pour la signature d’un chemin ;
+3. documentation des six ports applicatifs utilisés ;
+4. implémentation stricte de `AgentSnapshotCodec` ;
+5. réutilisation de `SaveValueCodec` pour `Vector3` ;
+6. refus des clés, types, versions, identités et buts dupliqués ;
+7. ajout d’un drapeau de préparation à `AgentSaveSection` ;
+8. conversion explicite vers `Array[AgentState]` ;
+9. consommation du candidat seulement après succès ;
+10. explication du bloc de prochaine étape ;
+11. maintien de l’IA générative dans un rôle consultatif ;
+12. séparation conservée avec combat, compétences, économie, monde vivant et narration.
+
+## 4. Audit du déterminisme
+
+Le chemin de référence utilise :
+
+- snapshots détachés ;
+- actions et buts triés ;
+- clés d’état canoniques ;
+- limites d’expansions et de profondeur ;
+- nombre d’agents par tick ;
+- phases stables ;
+- ticks et séquences logiques ;
+- RNG local restaurable seulement pour variantes équivalentes ;
+- microsecondes limitées à la télémétrie.
+
+## 5. Réserves
+
+Aucun script n’a été analysé par le parseur Godot. La scène, les signaux, le contrôleur, le planificateur, le codec, la restauration, les performances, la parallélisation et le packaging n’ont pas été exécutés.
+
+## 6. Décision
+
+**Accepté au niveau `static-review`**, sous réserve des validations documentaires permanentes et des tests runtime futurs du chapitre 27.

@@ -1,0 +1,67 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH17
+status: complete
+validation-date: 2026-07-20
+validated-base-commit: a61ea9e5378e270e1db98d9f83e6fe6cef847318
+validated-head-commit: b59d014414dcc6ea059cb4954152d9181c683cc2
+chapter:
+  id: DOC-L2-CH17
+  path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  sources-declared: 78
+  livre-i-chapters: 10
+  livre-ii-chapters: 17
+  unique-identifiers: 73
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2560
+  chapter-headings: 67
+  chapter-significant-code-blocks: 35
+  chapter-code-and-data-blocks: 69
+  code-explanation-markers: 69
+  detailed-error-cases: 16
+  self-title-paraphrases: 0
+  broken-explicit-fragments: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  official-godot-source-links: 13
+  chapter-context-markers:
+    VSC: 24
+    APP: 1
+    LECTURE: 44
+  total-context-blocks: 1711
+  marked-context-blocks: 1711
+  context-nonconformities: 0
+  semantic-inconsistencies: 0
+  deterministic-planner-documented: true
+  logical-budgets-documented: true
+  microseconds-telemetry-only: true
+  active-background-dormant-modes: true
+  generative-ai-advisory-only: true
+  durable-state-only-persisted: true
+  strict-codec-documented: true
+  prepared-save-section-documented: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29713123511
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29713123492
+    conclusion: success
+  artifact:
+    id: 8449447048
+    name: chapter-validation-without-pdf
+    digest: sha256:ec57baa2e8bab4c82f6ad4f5c604fc4885c9de395ae2950d4d7f1b887f74204a
+reservations:
+  - Godot parser not executed.
+  - Demo scene not instantiated.
+  - Signals and action executors not run.
+  - Planner and scheduler performance not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
