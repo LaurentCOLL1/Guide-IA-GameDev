@@ -59,9 +59,9 @@
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
-- [ ] Douze grands systèmes de jeu — 3 chapitres rédigés, repérés et audités sur 12.
+- [ ] Douze grands systèmes de jeu — 4 chapitres rédigés, repérés et audités sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 16.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 17.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -77,7 +77,7 @@
 - [x] Chapitre 14 — identité stable, définition, état runtime, statistiques dérivées, scène, contrôleurs, apparition, registre actif, événements et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 15 — relations orientées, axes bornés, causes, historique, vues mutuelles, requêtes, événements et sauvegarde indépendante — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
-- [ ] Chapitre 17 — agents IA et comportements autonomes — brouillon `0.9.0` créé, audit post-création en attente.
+- [x] Chapitre 17 — perceptions, mémoire bornée, buts, planification déterministe, ordonnanceur, simulation hors écran, invalidation, IA consultative et sauvegarde minimale — rédigé et audité au niveau `static-review`.
 - [x] Correction pédagogique du chapitre 15 — blocs de code expliqués selon QA Q1.1.
 - [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
 - [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17.
@@ -88,7 +88,7 @@
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 16 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Trois des douze systèmes de gameplay sont documentés : personnages, relations sociales et famille. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. La correction pédagogique des chapitres 15 et 16 est terminée et leurs audits et preuves QA sont révisés. Le chapitre 17 traitera désormais les agents IA et comportements autonomes derrière des contrats et budgets explicites. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 17 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Quatre des douze systèmes de gameplay sont documentés : personnages, relations sociales, famille et agents autonomes. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. La correction pédagogique des chapitres 15 et 16 est terminée et leurs audits et preuves QA sont révisés. Le chapitre 17 sépare l’état d’agent, les snapshots, la mémoire, les buts, le plan transitoire et les exécuteurs ; le chapitre 18 traitera désormais le combat. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

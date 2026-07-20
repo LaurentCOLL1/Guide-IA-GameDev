@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.6"
+version: "3.17.7"
 lang: "fr-FR"
 last-updated: "2026-07-20"
 update-policy: "mandatory-on-every-project-change"
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante. Elle s’applique aux nouveaux c
 
 ### Livre II
 
-**En cours : 16 chapitres sur 30.**
+**En cours : 17 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -130,7 +130,7 @@ Cette règle est une porte d’audit bloquante. Elle s’applique aux nouveaux c
 14. Personnages — terminé au niveau `static-review`.
 15. Relations sociales — terminé au niveau `static-review`.
 16. Famille et générations — terminé au niveau `static-review`.
-17. Agents IA et comportements autonomes.
+17. Agents IA et comportements autonomes — terminé au niveau `static-review`.
 18. Combat.
 19. Compétences et pouvoirs.
 20. Inventaire et réputation des objets.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 16 : **Élevée**.
+Chapitres 3 à 17 : **Élevée**.
 
 À chaque clôture de chapitre, le bloc **Prochaine action** doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`.
 
@@ -452,6 +452,24 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 - snapshots stricts pour filiation, tutelle, union et historique ;
 - graphe candidat complet validé avant remplacement de l’état actif ;
 - succession, héritage, politique, narration et décisions d’agents maintenus dans leurs systèmes propres.
+
+### 11.12 Agents IA et comportements autonomes
+
+- état `AgentState` séparé de `CharacterRuntimeState`, du social et de la famille ;
+- faits structurés avec provenance, confiance, observation et expiration ;
+- mémoire bornée à `128` faits et tableau noir à `32` clés déclarées ;
+- buts durables séparés des intentions, plans et requêtes transitoires ;
+- catalogue d’actions validé avec préconditions, effets, coût et exécuteur ;
+- planificateur déterministe borné à `256` expansions et profondeur `8` ;
+- snapshots détachés et révision du monde contrôlée avant émission ;
+- ordonnanceur round-robin limité à `8` décisions par tick physique ;
+- modes actif, arrière-plan et dormant sans confondre scène et existence ;
+- invalidation et annulation coopérative corrélées par `request_id` ;
+- RNG local restaurable réservé aux variantes métier équivalentes ;
+- IA générative limitée à des suggestions filtrées par le catalogue ;
+- persistance des buts et compteurs durables, sans perceptions ni plans ;
+- codec strict et section préparée avant remplacement atomique ;
+- combat, compétences, économie, monde vivant, politique et narration séparés.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1148,7 +1166,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 16 chapitres sur 30 ;
+- progression : 17 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1162,36 +1180,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
-- chapitre 17 : brouillon version `0.9.0`, audit en attente ;
+- chapitre 17 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le brouillon du chapitre 17 est créé au jalon `0.9.0`. La prochaine opération obligatoire est une passe d’audit distincte, sans modifier silencieusement le périmètre.
+Le chapitre 17 est terminé au niveau `static-review`. Les agents produisent des requêtes d’action déterministes et bornées, sans devenir autorités des systèmes métier.
 
-Points prioritaires :
+Chapitre suivant :
 
-- vérifier chaque bloc GDScript contre Godot `4.7.1-stable` ;
-- remplacer les contrats incomplets du codec et de la section de sauvegarde ;
-- vérifier les conversions de collections typées ;
-- contrôler les ports annoncés par le service de décision ;
-- auditer le déterminisme, les budgets et les invalidations ;
-- vérifier les 16 cas d’erreurs et leurs renvois ;
-- fermer les preuves QA et lancer les workflows légers ;
-- ne produire aucun PDF.
-
-Chapitre en cours :
-
-> **[LECTURE] Chemin et niveau — Ne pas saisir.**
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
+Livre-II/CHAPITRE-18-Combat.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
+Périmètre attendu : règles de combat séparées du planificateur, commandes typées, initiative, portée, dégâts, défense, états, ciblage, historique, persistance, budgets et frontières avec compétences et agents.
+
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.7
+
+- chapitre 17 porté de la porte de brouillon `0.9.0` à `1.0.0` ;
+- audit distinct terminé au niveau `static-review` ;
+- codec d’agent complété et section de sauvegarde sécurisée ;
+- planification déterministe, budgets logiques et ordonnanceur documentés ;
+- IA générative maintenue dans un rôle consultatif ;
+- index, roadmap, `contents.txt`, audit et preuve mis à jour ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.6
 

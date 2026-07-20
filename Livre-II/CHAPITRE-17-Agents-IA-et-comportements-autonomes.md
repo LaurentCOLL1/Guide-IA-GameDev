@@ -1,16 +1,16 @@
 ---
 title: "Livre II — Chapitre 17 : Agents IA et comportements autonomes"
 id: "DOC-L2-CH17"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
 last-verified: "2026-07-20"
-audit-status: "pending"
-audit-date: null
+audit-status: "complete"
+audit-date: "2026-07-20"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-17.md"
-audit-level: "not-audited"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -33,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** en attente — le premier commit constitue la porte de brouillon `0.9.0`.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-17.md`.
 
 ## 1. Rôle du chapitre
 
@@ -176,6 +176,8 @@ res://src/features/agents/
 - **Rôle :** l’arborescence place les règles pures dans `domain`, l’orchestration dans `application`, la persistance dans `infrastructure` et l’adaptation au personnage actif dans `presentation`.
 - **Dépendances :** `domain` ne dépend ni d’un nœud, ni d’un transport IA, ni d’une scène ; `presentation` peut dépendre des contrats de mouvement du chapitre 6.
 - **Résultat attendu :** une simulation hors écran peut utiliser le même domaine et le même service de décision sans instancier `autonomous_character_controller.gd`.
+
+<a id="ch17-agent-state"></a>
 
 ## 6. État logique de l’agent
 
@@ -849,7 +851,10 @@ func depth() -> int:
 	return action_ids.size()
 
 func signature() -> String:
-	return ",".join(PackedStringArray(action_ids))
+	var parts := PackedStringArray()
+	for action_id: StringName in action_ids:
+		parts.append(String(action_id))
+	return ",".join(parts)
 ```
 
 <!-- qa:code-explanation -->
@@ -1147,7 +1152,21 @@ func decide(
 - **Révision concurrente :** si le monde change pendant le calcul, le plan n’est pas appliqué ; `ERR_BUSY` invite l’ordonnanceur à reprogrammer une décision.
 - **Absence de but :** retourner `OK` sans signal signifie que l’attente est une issue normale, distincte d’un échec de planification.
 - **Effets de bord :** la séquence de l’agent avance et un signal typé peut être émis. Aucun état social, familial, physique ou de combat n’est modifié ici.
-- **Limite du brouillon :** les catalogues `AgentGoalPolicy`, `AgentGoalConditionCatalog`, `AgentSnapshotBuilder` et `WorldRevisionSource` sont des ports à documenter dans le projet matérialisé.
+- **Ports :** `AgentSnapshotBuilder`, `AgentGoalPolicy`, `AgentGoalConditionCatalog` et `WorldRevisionSource` sont définis par les signatures immédiatement suivantes ; leurs implémentations restent injectées.
+
+
+### 22.1 Signatures des ports de décision
+
+| Port | Signature minimale | Responsabilité |
+|---|---|---|
+| `AgentSnapshotBuilder` | `build_snapshot(character_id: StringName, logical_tick: int) -> AgentWorldSnapshot` | agréger des lectures autorisées dans un snapshot détaché |
+| `AgentGoalPolicy` | `select_goal(goals: Array[AgentGoal], logical_tick: int) -> AgentGoal` | choisir un but avec un ordre stable |
+| `AgentGoalConditionCatalog` | `get_for(goal_type: StringName) -> Array[AgentCondition]` | fournir les conditions validées d’un type de but |
+| `WorldRevisionSource` | `current_revision() -> int` | exposer la révision monotone utilisée pour l’invalidation |
+| `AgentStateRepository` | `replace_all(states: Array[AgentState]) -> Error` | remplacer atomiquement les états durables |
+| `AgentRuntimeRegistry` | `all_character_ids_sorted() -> Array[StringName]` et `get_runtime(character_id: StringName) -> AgentRuntime` | fournir les runtimes transitoires dans un ordre canonique |
+
+Ces ports ne sont pas des Service Locators. Ils sont construits au bootstrap et injectés uniquement dans les services qui en ont besoin.
 
 ## 23. Exécuteurs et systèmes propriétaires
 
@@ -1605,7 +1624,7 @@ Il exclut :
       "goal_id": "agent.goal.return_home.01",
       "goal_type": "agent.goal.return_home",
       "target_character_id": "",
-      "target_position": [12.0, 0.0, -4.0],
+      "target_position": {"x": 12.0, "y": 0.0, "z": -4.0},
       "priority": 200,
       "created_tick": 7200,
       "deadline_tick": -1,
@@ -1622,7 +1641,7 @@ Il exclut :
 
 - **Rôle :** ce document décrit les données nécessaires pour reprendre les motivations durables et la suite pseudo-aléatoire de l’agent.
 - **Version :** `format` et `version` sont contrôlés avant tout décodage ; une version future est refusée.
-- **Vecteur :** `target_position` est encodé sous forme de trois nombres finis et reconstruit explicitement en `Vector3`.
+- **Vecteur :** `target_position` utilise le dictionnaire `{x, y, z}` du `SaveValueCodec` introduit au chapitre 9 ; chaque composante doit être numérique et finie.
 - **Statut :** la chaîne `active` est mappée vers l’énumération ; une valeur inconnue n’est pas convertie silencieusement.
 - **Données absentes :** après chargement, le premier passage reconstruit perceptions et plan depuis le monde restauré.
 
@@ -1636,23 +1655,153 @@ Le codec suit les mêmes règles que les chapitres 14 à 16 : clés exactes, typ
 class_name AgentSnapshotCodec
 extends RefCounted
 
+const FORMAT := "project-asteria-agent-state"
+const VERSION := 1
+const REQUIRED_KEYS := PackedStringArray([
+	"format",
+	"version",
+	"owner_character_id",
+	"policy_id",
+	"decision_sequence",
+	"random_seed",
+	"random_state",
+	"last_decision_tick",
+	"durable_goals",
+])
+
 func encode(state: AgentState) -> Dictionary:
-	return {}
+	if state == null or state.validate() != OK:
+		return {}
+	var encoded_goals: Array[Dictionary] = []
+	for goal: AgentGoal in state.durable_goals:
+		if goal.status != AgentGoal.Status.ACTIVE:
+			continue
+		encoded_goals.append(_encode_goal(goal))
+	return {
+		"format": FORMAT,
+		"version": VERSION,
+		"owner_character_id": String(state.owner_character_id),
+		"policy_id": String(state.policy_id),
+		"decision_sequence": state.decision_sequence,
+		"random_seed": state.random_seed,
+		"random_state": state.random_state,
+		"last_decision_tick": state.last_decision_tick,
+		"durable_goals": encoded_goals,
+	}
 
 func decode(
 	raw: Dictionary,
 	identities: CharacterIdentityIndex,
 ) -> AgentState:
-	return null
+	if identities == null or not _has_exact_keys(raw, REQUIRED_KEYS):
+		return null
+	if raw.get("format") != FORMAT or raw.get("version") != VERSION:
+		return null
+	for key: String in [
+		"decision_sequence",
+		"random_seed",
+		"random_state",
+		"last_decision_tick",
+	]:
+		if not raw[key] is int:
+			return null
+	if not raw["owner_character_id"] is String:
+		return null
+	if not raw["policy_id"] is String or not raw["durable_goals"] is Array:
+		return null
+
+	var owner_id := StringName(raw["owner_character_id"])
+	if not CharacterId.is_valid(owner_id) or not identities.contains(owner_id):
+		return null
+	var state := AgentState.new()
+	state.owner_character_id = owner_id
+	state.policy_id = StringName(raw["policy_id"])
+	state.decision_sequence = raw["decision_sequence"]
+	state.random_seed = raw["random_seed"]
+	state.random_state = raw["random_state"]
+	state.last_decision_tick = raw["last_decision_tick"]
+
+	var goal_ids: Dictionary[StringName, bool] = {}
+	for item: Variant in raw["durable_goals"]:
+		if not item is Dictionary:
+			return null
+		var goal := _decode_goal(item, identities)
+		if goal == null or goal_ids.has(goal.goal_id):
+			return null
+		goal_ids[goal.goal_id] = true
+		state.durable_goals.append(goal)
+	return state if state.validate() == OK else null
+
+func _encode_goal(goal: AgentGoal) -> Dictionary:
+	return {
+		"goal_id": String(goal.goal_id),
+		"goal_type": String(goal.goal_type),
+		"target_character_id": String(goal.target_character_id),
+		"target_position": SaveValueCodec.vector3_to_dictionary(goal.target_position),
+		"priority": goal.priority,
+		"created_tick": goal.created_tick,
+		"deadline_tick": goal.deadline_tick,
+		"status": "active",
+		"provenance": String(goal.provenance),
+	}
+
+func _decode_goal(
+	raw: Dictionary,
+	identities: CharacterIdentityIndex,
+) -> AgentGoal:
+	var required := PackedStringArray([
+		"goal_id", "goal_type", "target_character_id", "target_position",
+		"priority", "created_tick", "deadline_tick", "status", "provenance",
+	])
+	if not _has_exact_keys(raw, required):
+		return null
+	for key: String in ["goal_id", "goal_type", "target_character_id", "status", "provenance"]:
+		if not raw[key] is String:
+			return null
+	for key: String in ["priority", "created_tick", "deadline_tick"]:
+		if not raw[key] is int:
+			return null
+	if not raw["target_position"] is Dictionary or raw["status"] != "active":
+		return null
+
+	var errors := PackedStringArray()
+	var goal := AgentGoal.new()
+	goal.goal_id = StringName(raw["goal_id"])
+	goal.goal_type = StringName(raw["goal_type"])
+	goal.target_character_id = StringName(raw["target_character_id"])
+	if not goal.target_character_id.is_empty() and not identities.contains(goal.target_character_id):
+		return null
+	goal.target_position = SaveValueCodec.dictionary_to_vector3(
+		raw["target_position"], errors, "durable_goals.target_position"
+	)
+	if not errors.is_empty():
+		return null
+	goal.priority = raw["priority"]
+	goal.created_tick = raw["created_tick"]
+	goal.deadline_tick = raw["deadline_tick"]
+	goal.status = AgentGoal.Status.ACTIVE
+	goal.provenance = StringName(raw["provenance"])
+	return goal if goal.validate() == OK else null
+
+func _has_exact_keys(raw: Dictionary, expected: PackedStringArray) -> bool:
+	if raw.size() != expected.size():
+		return false
+	for key: String in expected:
+		if not raw.has(key):
+			return false
+	return true
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce contrat sépare la représentation JSON de `AgentState` et reçoit l’index logique nécessaire pour vérifier le propriétaire et les cibles de buts.
-- **Valeurs de repli :** les corps vides ne sont pas une implémentation fonctionnelle ; ils marquent le contrat minimal du brouillon et doivent être remplacés avant le passage d’audit.
-- **Erreur attendue :** `decode()` retourne `null` au premier champ inconnu, type incorrect, identifiant absent, doublon de but ou état pseudo-aléatoire invalide.
+- **Rôle :** le codec encode les données durables et reconstruit un candidat après contrôle exact du format, de la version, des clés, des types et des identités.
+- **Encodage :** seuls les buts actifs sont écrits ; les positions passent par `SaveValueCodec` et les identifiants deviennent des chaînes JSON.
+- **Décodage :** les entiers sont exigés comme tels dans le dictionnaire déjà normalisé par la chaîne de sauvegarde ; chaque but possède des clés exactes et une cible connue lorsqu’elle est renseignée.
+- **Doublons :** `goal_ids` refuse deux buts portant le même identifiant avant leur insertion dans l’état candidat.
+- **Retours :** `{}` signale un état source invalide à l’appelant d’encodage ; `null` signale un payload refusé sans mutation du dépôt.
+- **Limite :** l’état interne du RNG ne peut pas être validé par sa forme seule ; il doit provenir d’un snapshot produit par cette version du projet et reste couvert par les tests de reprise.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/agents/infrastructure/agent_save_section.gd`.**
 
@@ -1661,12 +1810,16 @@ class_name AgentSaveSection
 extends SaveSection
 
 var _prepared_states: Dictionary[StringName, AgentState] = {}
+var _is_prepared: bool = false
 var _codec: AgentSnapshotCodec
 var _identity_index: CharacterIdentityIndex
 var _repository: AgentStateRepository
 
 func prepare_load(raw: Variant) -> Error:
 	_prepared_states.clear()
+	_is_prepared = false
+	if _codec == null or _identity_index == null or _repository == null:
+		return ERR_UNCONFIGURED
 	if not raw is Array:
 		return ERR_INVALID_DATA
 	for item: Variant in raw:
@@ -1678,13 +1831,23 @@ func prepare_load(raw: Variant) -> Error:
 			_prepared_states.clear()
 			return ERR_INVALID_DATA
 		_prepared_states[state.owner_character_id] = state
+	_is_prepared = true
 	return OK
 
 func apply_prepared() -> Error:
-	return _repository.replace_all(_prepared_states.values())
+	if not _is_prepared:
+		return ERR_UNCONFIGURED
+	var states: Array[AgentState] = []
+	states.assign(_prepared_states.values())
+	var result := _repository.replace_all(states)
+	if result == OK:
+		_prepared_states.clear()
+		_is_prepared = false
+	return result
 
 func cancel_load() -> void:
 	_prepared_states.clear()
+	_is_prepared = false
 ```
 
 <!-- qa:code-explanation -->
@@ -1692,10 +1855,11 @@ func cancel_load() -> void:
 **Explication détaillée du bloc :**
 
 - **Rôle :** la section décode tous les agents dans un candidat avant de demander un remplacement global au dépôt.
-- **Échec fermé :** une entrée invalide ou dupliquée vide le candidat et interrompt la préparation.
-- **Application :** `replace_all()` doit lui-même valider l’ensemble et ne remplacer l’état actif qu’après succès.
-- **Annulation :** le candidat est supprimé sans effet sur le dépôt.
-- **Réserve :** le brouillon doit encore vérifier les dépendances nulles et convertir explicitement `_prepared_states.values()` vers `Array[AgentState]` avant l’audit final.
+- **Dépendances :** l’absence du codec, de l’index ou du dépôt produit `ERR_UNCONFIGURED` avant lecture du payload.
+- **Échec fermé :** une entrée invalide ou dupliquée vide le candidat et laisse `_is_prepared` à `false`.
+- **Conversion typée :** `states.assign()` construit explicitement un `Array[AgentState]` depuis les valeurs du dictionnaire.
+- **Application :** aucune application n’est possible avant une préparation réussie ; le candidat est consommé seulement après remplacement réussi.
+- **Annulation :** les données préparées et le drapeau sont supprimés sans effet sur le dépôt.
 
 ## 34. Démonstration pédagogique
 
@@ -2387,3 +2551,10 @@ Le chapitre 18 utilisera les requêtes d’action et les frontières établies i
 Livre-II/CHAPITRE-18-Combat.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce bloc enregistre le chemin canonique et le niveau conseillé pour la prochaine étape de la collection.
+- **Frontière :** le chapitre 18 consommera les requêtes d’action sans déplacer ses règles de combat dans le système d’agents.

@@ -1,17 +1,30 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
-status: draft-gate
+status: pending-ci
 validation-date: 2026-07-20
 validated-base-commit: a61ea9e5378e270e1db98d9f83e6fe6cef847318
-validated-head-commit: pending-audit
+validated-head-commit: pending-ci
 chapter:
   id: DOC-L2-CH17
   path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
-  version: 0.9.0
-  audit-level: not-audited
-process:
-  draft-gate-recorded: true
-  distinct-audit-required: true
+  version: 1.0.0
+  audit-level: static-review
+results:
+  chapter-lines: 2560
+  chapter-code-and-data-blocks: 69
+  code-explanation-markers: 69
+  detailed-error-cases: 16
+  self-title-paraphrases: 0
+  broken-explicit-fragments: 0
+  official-godot-source-links: 13
+  deterministic-planner-documented: true
+  logical-budgets-documented: true
+  microseconds-telemetry-only: true
+  active-background-dormant-modes: true
+  generative-ai-advisory-only: true
+  durable-state-only-persisted: true
+  strict-codec-documented: true
+  prepared-save-section-documented: true
   pdf-produced: false
   runtime-executed: false
 ci:
@@ -21,3 +34,15 @@ ci:
   validate-usage-contexts:
     run-id: pending
     conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Godot parser not executed.
+  - Demo scene not instantiated.
+  - Signals and action executors not run.
+  - Planner and scheduler performance not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.

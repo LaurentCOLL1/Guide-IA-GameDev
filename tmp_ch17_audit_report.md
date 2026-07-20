@@ -1,32 +1,26 @@
 # Audit post-création du chapitre 17 — brouillon 0.9.0
 
-- lignes : 2389
-- titres : 65
+- lignes : 2560
+- titres : 66
 - blocs clôturés : 69
-- blocs expliqués : 68
-- blocs sans explication détectée : 1
+- blocs expliqués : 69
+- blocs sans explication détectée : 0
 - cas d’erreurs : 16
 - explications fautives : 16
 - explications corrigées : 16
 - sources Godot 4.7 nommées : 13
-- ancres explicites : 2
+- ancres explicites : 3
 - fragments internes : 2
-- fragments sans ancre : 1
+- fragments sans ancre : 0
 - auto-paraphrases détectées : 0
 
 ## Fragments sans ancre
-- ch17-agent-state
+- aucun
 
 ## Risques techniques ciblés
-- codec-placeholder-encode
-- codec-placeholder-decode
-- packed-stringname-conversion
-- untyped-values-apply
-- missing-prepare-guard
-- draft-reserve-text
+- aucun
 
 ## Blocs sans explication
-- lignes 2386-2389 (text)
 
 ## Auto-paraphrases
 
