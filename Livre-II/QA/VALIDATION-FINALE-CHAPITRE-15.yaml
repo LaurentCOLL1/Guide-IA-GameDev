@@ -4,11 +4,11 @@ status: complete
 validation-date: 2026-07-20
 validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
 enrichment-base-commit: b603dcee25bdef01b9d6e47f4eddf441672a905c
-validated-head-commit: 22446295f0e0c839a9732923dcd902a85a39d149
+validated-head-commit: 23999def3d2cea328c2b16ade0922129d509867e
 chapter:
   id: DOC-L2-CH15
   path: Livre-II/CHAPITRE-15-Relations-sociales.md
-  version: 1.1.0
+  version: 1.2.0
   audit-level: static-review
 scope:
   - markdown integrity
@@ -41,7 +41,7 @@ results:
   unique-identifiers: 71
   livre-i-chapters: 10
   livre-ii-chapters: 16
-  chapter-lines: 2883
+  chapter-lines: 2548
   chapter-headings: 69
   chapter-significant-code-blocks: 29
   chapter-code-and-data-blocks: 66
@@ -103,17 +103,18 @@ corrections:
   - Ajout de deux repères LECTURE manquants.
   - Présentation des sources sous forme de liens Markdown nommés.
   - Enrichissement pédagogique de tous les blocs GDScript et données significatifs selon QA Q1.1.
+  - Révision éditoriale concise des explications selon QA Q1.1 et Q1.2.
 ci:
   validate-chapters-without-pdf:
-    run-id: 29707351671
+    run-id: 29709187164
     conclusion: success
   validate-usage-contexts:
-    run-id: 29707351667
+    run-id: 29709187157
     conclusion: success
   artifact:
-    id: 8448308094
+    id: 8448660847
     name: chapter-validation-without-pdf
-    digest: sha256:97eeb31fd5a7db8a0f11a7212d7ca128a54239bbfd8c18bd8eaa683b1d3c6a27
+    digest: sha256:84d8efe85a15ec05493d232be4ba67f7ac6ee358234155f5dc68ced08ab4a55d
 reservations:
   - Les scripts GDScript n’ont pas été analysés par Godot 4.7.1.
   - La scène de démonstration n’a pas été instanciée.
@@ -142,5 +143,20 @@ code-explanation-enrichment:
   parameters-types-and-returns-covered: true
   effects-and-invariants-covered: true
   expected-result-covered: true
+  runtime-executed: false
+  ci-status: success
+
+code-explanation-style-refinement:
+  policy: QA-Q1.1-concise
+  chapter: 15
+  explanation-blocks-reviewed: 56
+  repeated-location-lines-removed: 23
+  repeated-syntax-reminders-removed: 21
+  generic-role-lines-removed: 7
+  faulty-explanations-simplified: 17
+  corrected-explanations-simplified: 16
+  standalone-correction-lines-removed: 16
+  standalone-difference-lines-removed: 16
+  contextual-references-added: 11
   runtime-executed: false
   ci-status: success

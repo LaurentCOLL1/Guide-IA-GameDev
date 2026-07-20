@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.6.0"
+version: "1.7.0"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-19"
+last-verified: "2026-07-20"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -159,20 +159,22 @@ recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 
 Un bloc de code ne peut pas être considéré comme expliqué par une simple phrase générique. L’explication doit donner au lecteur les informations nécessaires pour comprendre, adapter et diagnostiquer l’extrait.
 
-Pour chaque bloc significatif, vérifier explicitement :
+Pour chaque bloc significatif, vérifier explicitement, selon ce que le bloc exige réellement :
 
-1. son rôle et la raison de sa présence ;
-2. le fichier et le chemin où le placer, ou le contexte dans lequel il est seulement lu ;
-3. les entrées, paramètres, types, valeurs par défaut et dépendances utilisées ;
+1. son rôle uniquement lorsque cette formulation ajoute une information propre au code ;
+2. son emplacement seulement lorsqu’il n’est pas déjà donné par la consigne `[VSC]` ou par le contexte adjacent ;
+3. les entrées, paramètres, types, valeurs par défaut et dépendances qui demandent une explication ;
 4. les sorties, valeurs de retour, erreurs, signaux et effets de bord ;
 5. le déroulement des instructions importantes, ligne par ligne ou par groupes cohérents ;
 6. les opérateurs, conversions, conditions et appels non évidents ;
 7. les préconditions, invariants et postconditions protégés ;
 8. le résultat attendu et la manière de le vérifier ;
 9. les variantes raisonnables, limites et erreurs fréquentes pour un débutant ;
-10. le lien avec le bloc précédent, le bloc suivant et l’architecture générale.
+10. le lien avec l’architecture générale lorsqu’il éclaire réellement l’extrait.
 
-Une explication peut être placée avant ou après le bloc, mais elle doit être immédiatement identifiable. Pour un exemple fautif, elle doit aussi expliquer précisément pourquoi il échoue ou devient dangereux. Pour un exemple corrigé, elle doit montrer quelle modification rétablit l’invariant.
+Une explication peut être placée avant ou après le bloc, mais elle doit être immédiatement identifiable. Elle ne répète ni le chemin déjà affiché avant le code, ni une règle générale de syntaxe déjà présentée dans un chapitre de référence. Une rubrique `Rôle` qui reformule seulement le titre de la section est supprimée ; elle est conservée lorsqu’elle nomme un contrat, une fonction, une transformation ou une responsabilité concrète.
+
+Dans une section d’erreurs, d’anti-patterns, de pièges ou de corrections, le format privilégié est plus court : `Pourquoi cet exemple est fautif` sous le contre-exemple et `Pourquoi la correction fonctionne` sous la version corrigée. Un renvoi vers une section ou un chapitre antérieur peut être placé avant le code fautif lorsqu’il évite de répéter une règle déjà établie.
 
 **Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
 
@@ -197,10 +199,10 @@ Une section détaillée porte le marqueur invisible suivant :
 Chaque sous-cas doit alors contenir :
 
 1. un symptôme ou risque ;
-2. un **exemple fautif** ;
-3. une **correction** ;
-4. un **exemple corrigé** ;
-5. une explication explicite de la différence.
+2. un **exemple fautif** suivi de `Pourquoi cet exemple est fautif` ;
+3. un **exemple corrigé** suivi de `Pourquoi la correction fonctionne`.
+
+Une ligne autonome `Correction` ou `Différence` n’est pas exigée lorsque son contenu est déjà intégré à ces deux explications. Le but est d’éviter la répétition sans supprimer l’analyse de l’invariant violé puis rétabli.
 
 Un tableau servant uniquement d’index de diagnostic peut rester compact s’il porte `<!-- qa:error-correction-index -->` et renvoie clairement vers une section détaillée conforme. Il ne peut pas remplacer les exemples détaillés.
 
