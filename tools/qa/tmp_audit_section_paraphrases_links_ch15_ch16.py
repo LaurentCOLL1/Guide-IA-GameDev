@@ -23,6 +23,8 @@ for path in FILES:
             label = link.group(1) if link else '<missing>'
             target = link.group(2) if link else '<missing>'
             out.append(f'{path}:{idx}:REREAD:{current[1] if current else "<none>"}::{label}::{target}')
+    out.append(f'HEADINGS::{path}')
+    out.extend(f'{path}:{line_no}:HEADING:H{level}:{title}' for level, title, line_no in headings)
 
 Path('tmp_section_paraphrases_links_audit.txt').write_text('\n'.join(out) + '\n', encoding='utf-8')
 print('\n'.join(out))
