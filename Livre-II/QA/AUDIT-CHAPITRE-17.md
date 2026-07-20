@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 17"
 id: "DOC-L2-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.2"
+version: "1.0.3"
 chapter-id: "DOC-L2-CH17"
-chapter-version: "1.0.2"
+chapter-version: "1.0.3"
 audit-level: "static-review"
-audit-date: "2026-07-20T10:19:05+02:00"
-last-verified: "2026-07-20T10:19:05+02:00"
+audit-date: "2026-07-20T11:27:57+02:00"
+last-verified: "2026-07-20T11:27:57+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,9 +19,9 @@ Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audi
 
 ## 2. Résultats
 
-- lignes finales : **2564** ;
-- blocs clôturés : **69** ;
-- marqueurs d’explication : **69** ;
+- lignes finales : **2565** ;
+- blocs clôturés : **68** ;
+- marqueurs d’explication : **68** ;
 - cas d’erreurs détaillés : **16** ;
 - auto-paraphrases du titre courant : **0** ;
 - fragments internes non résolus : **0** ;
@@ -86,3 +86,9 @@ L’audit a également détecté un défaut fonctionnel dans l’exemple de `Age
 La vérification corrective est horodatée en heure locale `Europe/Paris` avec le format ISO 8601 et son décalage UTC : `2026-07-20T10:19:05+02:00`. Les métadonnées `audit-date` et `last-verified` portent désormais l’heure, les minutes, les secondes et l’offset.
 
 Les anciens audits qui ne disposent que d’une date ne reçoivent pas d’heure reconstruite artificiellement. Ils adopteront ce format lors de leur prochaine modification auditée.
+
+## 9. Addendum de clôture — version 1.0.3
+
+La section `44. Prochaine étape` a été retirée du chapitre. Le chemin et le niveau du chapitre suivant sont des informations de pilotage du projet et restent dans `CONTINUITE-PROJET.md`, pas dans le texte destiné au lecteur.
+
+La fin du chapitre porte désormais une synthèse opérationnelle des décisions retenues pour `Project Asteria`, conformément aux chapitres de systèmes précédents. La vérification corrective est horodatée `2026-07-20T11:27:57+02:00`.

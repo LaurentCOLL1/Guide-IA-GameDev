@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.9"
+version: "3.17.10"
 lang: "fr-FR"
-last-updated: "2026-07-20T10:19:05+02:00"
+last-updated: "2026-07-20T11:27:57+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -192,7 +192,7 @@ Justification : …
 
 Chapitres 3 à 17 : **Élevée**.
 
-À chaque clôture de chapitre, le bloc **Prochaine action** doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`.
+À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
 ## 8. Audit par chapitre
 
@@ -236,7 +236,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.3`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.4`.
 
 Les workflows ont des responsabilités séparées :
 
@@ -273,6 +273,8 @@ Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un ind
 Hors d’une section pédagogique d’erreurs ou de corrections, le mot `erreur` ne sert pas de libellé générique. Employer `Valeurs de retour` pour des résultats ou sentinelles, `Codes de retour` pour les valeurs `Error`, `Refus contrôlé` pour un rejet normal par contrat, `Statuts à distinguer` pour comparer des états métier, et `Traitement du résultat` lorsque l’appelant doit consommer ou journaliser le retour. `Erreur fréquente` est réservé à un piège reproductible accompagné d’un exemple fautif et d’une correction.
 
 À partir du chapitre 17 version `1.0.2`, `last-verified` et `audit-date` sont des chaînes ISO 8601 complètes avec heure, secondes et décalage UTC, dans le fuseau `Europe/Paris`. Une heure historique inconnue n’est jamais reconstruite : les documents antérieurs passent au format horodaté seulement lors de leur prochaine révision réellement auditée.
+
+Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décisions retenues pour `Project Asteria`. Les informations de pilotage éditorial et la préparation du chapitre suivant restent dans la section `Prochaine action` de ce fichier, jamais dans le chapitre destiné au lecteur.
 
 ## 11. Décisions d’architecture de `Project Asteria`
 
@@ -1166,6 +1168,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas considérer une phrase générique comme une explication suffisante d’un bloc complexe ;
 - ne pas démarrer un nouveau chapitre tant que les corrections pédagogiques prioritaires des chapitres précédents ne sont pas fermées ;
 - ne pas construire le PDF à chaque chapitre ;
+- ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;
+- ne pas terminer un chapitre de système sans synthèse opérationnelle de `Project Asteria` ;
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
@@ -1186,7 +1190,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
-- chapitre 17 : version `1.0.2` ;
+- chapitre 17 : version `1.0.3` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1207,6 +1211,16 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : règles de combat séparées du planificateur, commandes typées, initiative, portée, dégâts, défense, états, ciblage, historique, persistance, budgets et frontières avec compétences et agents.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.10
+
+- chapitre 17 porté en version `1.0.3` ;
+- section `Prochaine étape` retirée du texte destiné au lecteur ;
+- chemin et niveau du chapitre suivant conservés uniquement dans `CONTINUITE-PROJET.md` ;
+- clôture remplacée par une synthèse opérationnelle de `Project Asteria` ;
+- règle rendue obligatoire pour les chapitres de systèmes 14 à 25 ;
+- protocole QA porté en version `1.7.4` ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20T10:19:05+02:00 — version 3.17.9
 
