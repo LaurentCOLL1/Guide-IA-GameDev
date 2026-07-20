@@ -16,20 +16,16 @@ on:
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
-      - ".github/workflows/validate-chapters.yml"
+      - "tools/qa/**"
+      - ".github/workflows/**"
       - ".qa/**"
-  push:
-    branches:
-      - main
-    paths:
-      - "tmp_trigger_ch17_terminology.txt"
 
 permissions:
   contents: write
 
 jobs:
   apply-ch17-terminology:
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request' && github.head_ref == 'docs/clarify-ch17-error-terminology'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,11 +34,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply correction and scan
-        run: |
-          python tools/qa/tmp_fix_ch17_terminology.py
-          python tools/qa/tmp_scan_ch17_terms.py
-      - name: Commit corrected branch
+      - name: Apply pending correction and scan
+        run: python tools/qa/tmp_scan_ch17_terms.py
+      - name: Commit corrected branch when changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -53,11 +47,14 @@ jobs:
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
             Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
             tmp_ch17_terminology_report.md
-          git commit -m "docs(livre-ii): clarify chapter 17 results and scheduling"
-          git push origin HEAD:docs/clarify-ch17-error-terminology
+          if git diff --cached --quiet; then
+            echo "Aucune correction supplémentaire à committer."
+          else
+            git commit -m "docs(livre-ii): clarify chapter 17 results and scheduling"
+            git push origin HEAD:docs/clarify-ch17-error-terminology
+          fi
 
   validate-chapters:
-    if: github.event_name != 'push'
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
     timeout-minutes: 10
