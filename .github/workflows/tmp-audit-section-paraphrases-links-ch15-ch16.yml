@@ -1,4 +1,4 @@
-name: Temporary Fix Section Paraphrases and Links
+name: Temporary Close Section Reference Evidence
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  fix:
+  close-evidence:
     if: github.head_ref == 'docs/fix-section-paraphrases-and-links-ch15-ch16' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -20,26 +20,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Correct chapter explanations and anchors
-        run: python tools/qa/tmp_fix_ch15_ch16_section_references.py
-      - name: Update governance and QA records
-        run: python tools/qa/tmp_fix_section_reference_governance.py
-      - name: Re-audit section paraphrases and links
-        run: python tools/qa/tmp_audit_section_paraphrases_links_ch15_ch16.py
-      - name: Commit corrections
+      - name: Close evidence
+        run: python tools/qa/tmp_close_section_reference_evidence.py
+      - name: Commit evidence closure
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            Livre-II/CHAPITRE-15-Relations-sociales.md \
-            Livre-II/CHAPITRE-16-Famille-et-generations.md \
-            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
-            Livre-II/QA/AUDIT-CHAPITRE-15.md \
-            Livre-II/QA/AUDIT-CHAPITRE-16.md \
             Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
-            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml \
-            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
-            tmp_precise_section_references_metrics.txt \
-            tmp_section_paraphrases_links_audit.txt
-          git commit -m "docs(livre-ii): fix section self-references and precise anchors"
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml
+          git commit -m "docs(qa): close precise section-reference evidence"
           git push origin HEAD:docs/fix-section-paraphrases-and-links-ch15-ch16
