@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 import runpy
 
-# Temporary entry point: apply the pending correction before measuring it.
+# Temporary entry point: apply the pending correction, then measure its result.
 path = Path('Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md')
 text = path.read_text(encoding='utf-8')
 if 'version: "1.0.0"' in text:
