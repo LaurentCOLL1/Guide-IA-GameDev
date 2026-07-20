@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 19 : Compétences et pouvoirs"
 id: "DOC-L2-CH19"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 19
-last-verified: "2026-07-20T15:27:31+02:00"
+last-verified: "2026-07-20T16:52:26+02:00"
 audit-status: "complete"
-audit-date: "2026-07-20T15:27:31+02:00"
+audit-date: "2026-07-20T16:52:26+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-19.md"
 audit-level: "static-review"
 reference-engine:
@@ -2334,40 +2334,7 @@ if not result.is_success():
 - plusieurs personnages partageant une définition ;
 - progression jusqu’au rang maximal.
 
-## 34. Validation légère sans PDF
-
-> **[PS] PowerShell 7 — Depuis la racine du dépôt, lancer les validations légères.**
-
-```powershell
-python tools/validate_chapters.py
-python tools/check_context_markers.py
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- La première commande vérifie structure, métadonnées, liens et doublons.
-- La seconde vérifie les repères et leur cohérence sémantique.
-- Elles ne construisent aucun PDF.
-- Elles ne remplacent pas le parseur Godot.
-
-> **[SORTIE] Résultat attendu — Ne pas saisir.**
-
-```text
-Aucune erreur bloquante.
-Aucun PDF produit.
-Les repères d’utilisation sont cohérents.
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Cette sortie est un critère de lecture.
-- La preuve officielle référence uniquement les runs réellement exécutés.
-
-## 35. Réserves runtime
+## 34. Réserves runtime
 
 Cette revue statique ne prouve pas :
 
@@ -2381,7 +2348,7 @@ Cette revue statique ne prouve pas :
 - le replay entre plateformes ou versions ;
 - la génération d’un PDF intermédiaire.
 
-## 36. Sources techniques
+## 35. Sources techniques
 
 - [Godot 4.7 — `Resource`](https://docs.godotengine.org/en/4.7/classes/class_resource.html)
 - [Godot 4.7 — `RefCounted`](https://docs.godotengine.org/en/4.7/classes/class_refcounted.html)
@@ -2398,7 +2365,7 @@ Cette revue statique ne prouve pas :
 - [Chapitre 17 — Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md)
 - [Chapitre 18 — Combat](CHAPITRE-18-Combat.md)
 
-## 37. Synthèse opérationnelle pour Project Asteria
+## 36. Synthèse opérationnelle pour Project Asteria
 
 Le système de compétences et pouvoirs de `Project Asteria` retient les décisions suivantes :
 

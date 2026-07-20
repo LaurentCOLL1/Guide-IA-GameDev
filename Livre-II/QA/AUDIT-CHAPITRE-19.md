@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 19"
 id: "DOC-L2-QA-AUDIT-CH19"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH19"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-20T15:27:31+02:00"
-last-verified: "2026-07-20T15:27:31+02:00"
+audit-date: "2026-07-20T16:52:26+02:00"
+last-verified: "2026-07-20T16:52:26+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,10 +19,10 @@ Le chapitre a d’abord été matérialisé avec un rapport d’audit à l’ét
 
 ## 2. Résultats
 
-- lignes finales : **2 419** ;
-- titres Markdown : **56** ;
-- blocs de code ou de données : **58** ;
-- marqueurs d’explication : **58** ;
+- lignes finales : **2 386** ;
+- titres Markdown : **55** ;
+- blocs de code ou de données : **56** ;
+- marqueurs d’explication : **56** ;
 - cas d’erreurs détaillés : **10** ;
 - contre-exemples expliqués : **10** ;
 - corrections expliquées : **10** ;
@@ -69,6 +69,8 @@ La seconde lecture a notamment :
 9. limité la persistance aux données durables ;
 10. maintenu les objets du chapitre 20 hors de la progression et de l’état runtime des compétences.
 
+11. retiré du chapitre lecteur la procédure interne `Validation légère sans PDF`, qui appartient au rapport QA, à la preuve et aux workflows.
+
 ## 5. Revue statique du code
 
 Les extraits ont été relus pour vérifier :
@@ -88,7 +90,7 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **58** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur :
+Les **56** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur :
 
 - le rôle concret ;
 - les entrées et types ;
