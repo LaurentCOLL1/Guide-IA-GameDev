@@ -34,23 +34,41 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply pending correction and scan
-        run: python tools/qa/tmp_scan_ch17_terms.py
-      - name: Commit corrected branch when changed
+      - name: Apply pending correction and capture diagnostic
+        run: |
+          set +e
+          python tools/qa/tmp_scan_ch17_terms.py > tmp_ch17_apply.log 2>&1
+          status=$?
+          cat tmp_ch17_apply.log
+          printf '%s\n' "$status" > tmp_ch17_apply.status
+          exit 0
+      - name: Commit corrected branch or diagnostic
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md \
-            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
-            Livre-II/QA/AUDIT-CHAPITRE-17.md \
-            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
-            Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
-            tmp_ch17_terminology_report.md
-          if git diff --cached --quiet; then
-            echo "Aucune correction supplémentaire à committer."
+          status="$(cat tmp_ch17_apply.status)"
+          git add -f tmp_ch17_apply.log tmp_ch17_apply.status
+          if [ "$status" = "0" ]; then
+            git add \
+              Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md \
+              Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+              Livre-II/QA/AUDIT-CHAPITRE-17.md \
+              Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
+              Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+              tmp_ch17_terminology_report.md
           else
-            git commit -m "docs(livre-ii): clarify chapter 17 results and scheduling"
+            git restore \
+              Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md \
+              Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+              Livre-II/QA/AUDIT-CHAPITRE-17.md \
+              Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
+              Livre-II/index.md ROADMAP.md CONTINUITE-PROJET.md \
+              tmp_ch17_terminology_report.md || true
+          fi
+          if git diff --cached --quiet; then
+            echo "Aucun changement à committer."
+          else
+            git commit -m "chore(qa): record chapter 17 correction diagnostic"
             git push origin HEAD:docs/clarify-ch17-error-terminology
           fi
 
