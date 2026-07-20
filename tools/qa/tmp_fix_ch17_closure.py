@@ -20,7 +20,7 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 # Chapter 17.
 chapter_path = ROOT / 'Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md'
 chapter = chapter_path.read_text(encoding='utf-8')
-chapter = replace_once(chapter, 'version: "1.0.2"', 'version: "1.0.3"', 'chapter version')
+chapter = re.sub(r'^version: "1\.0\.2"$', 'version: "1.0.3"', chapter, count=1, flags=re.M)
 chapter = re.sub(r'^last-verified: ".+"$', f'last-verified: "{NOW}"', chapter, count=1, flags=re.M)
 chapter = re.sub(r'^audit-date: ".+"$', f'audit-date: "{NOW}"', chapter, count=1, flags=re.M)
 marker = '## 44. Prochaine étape\n'
@@ -58,8 +58,8 @@ chapter_lecture = len(re.findall(r'^> \*\*\[LECTURE\]', chapter, flags=re.M))
 # Audit report.
 audit_path = ROOT / 'Livre-II/QA/AUDIT-CHAPITRE-17.md'
 audit = audit_path.read_text(encoding='utf-8')
-audit = replace_once(audit, 'version: "1.0.2"', 'version: "1.0.3"', 'audit version')
-audit = replace_once(audit, 'chapter-version: "1.0.2"', 'chapter-version: "1.0.3"', 'audit chapter version')
+audit = re.sub(r'^version: "1\.0\.2"$', 'version: "1.0.3"', audit, count=1, flags=re.M)
+audit = re.sub(r'^chapter-version: "1\.0\.2"$', 'chapter-version: "1.0.3"', audit, count=1, flags=re.M)
 audit = re.sub(r'^audit-date: ".+"$', f'audit-date: "{NOW}"', audit, count=1, flags=re.M)
 audit = re.sub(r'^last-verified: ".+"$', f'last-verified: "{NOW}"', audit, count=1, flags=re.M)
 audit = re.sub(r'- lignes finales : \*\*\d+\*\* ;', f'- lignes finales : **{chapter_lines}** ;', audit, count=1)
@@ -134,7 +134,7 @@ roadmap_path.write_text(roadmap, encoding='utf-8')
 evidence_path = ROOT / 'Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml'
 evidence = evidence_path.read_text(encoding='utf-8')
 evidence = replace_once(evidence, 'status: complete', 'status: pending-ci', 'evidence status')
-evidence = replace_once(evidence, f'validated-base-commit: 253f30c2ef869f36ac094b85c3bc60f666ded858', f'validated-base-commit: {BASE_COMMIT}', 'evidence base')
+evidence = re.sub(r'^validated-base-commit: .+$', f'validated-base-commit: {BASE_COMMIT}', evidence, count=1, flags=re.M)
 evidence = re.sub(r'^validated-head-commit: .+$', 'validated-head-commit: pending-ci', evidence, count=1, flags=re.M)
 evidence = replace_once(evidence, 'version: 1.0.2', 'version: 1.0.3', 'evidence chapter version')
 evidence = re.sub(r'^  chapter-lines: \d+$', f'  chapter-lines: {chapter_lines}', evidence, count=1, flags=re.M)
