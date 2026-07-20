@@ -114,7 +114,7 @@ EconomyService
     ├── prépare débit, crédits et journal
     └── demande à l’inventaire un transfert candidat
             ↓
-EconomyTradeCommitPort
+EconomyTransactionCommitPort
     ├── revalide économie et inventaire
     ├── refuse avant toute mutation si un candidat échoue
     ├── remplace les agrégats comme un même lot
@@ -163,7 +163,7 @@ res://src/features/economy/
 │   ├── economy_access_port.gd
 │   ├── pricing_context_port.gd
 │   ├── economy_inventory_trade_port.gd
-│   ├── economy_trade_commit_port.gd
+│   ├── economy_transaction_commit_port.gd
 │   ├── economy_mutation_candidate.gd
 │   ├── money_math.gd
 │   ├── pricing_policy.gd
@@ -336,7 +336,7 @@ const MAX_SAFE_INTEGER := 9007199254740991
 @export var display_name_key: StringName
 @export var symbol_key: StringName
 @export_range(1, 1000000, 1) var minor_units_per_major: int = 100
-@export_range(1, 9007199254740991, 1) var maximum_balance_minor: int = 1000000000000
+@export var maximum_balance_minor: int = 1000000000000
 @export var transferable := true
 
 func validate() -> Error:
@@ -375,8 +375,10 @@ var currency_id: StringName
 var minor_units: int = 0
 
 func validate(catalog: CurrencyCatalog) -> Error:
-	if catalog == null or not StableId.is_valid(currency_id):
+	if catalog == null:
 		return ERR_UNCONFIGURED
+	if not StableId.is_valid(currency_id):
+		return ERR_INVALID_DATA
 	var definition := catalog.get_definition(currency_id)
 	if definition == null or definition.validate() != OK:
 		return ERR_DOES_NOT_EXIST
@@ -536,7 +538,9 @@ func validate(catalog: CurrencyCatalog) -> Error:
 		return ERR_DOES_NOT_EXIST
 	if delta_minor_units == 0:
 		return ERR_INVALID_DATA
-	if abs(delta_minor_units) > definition.maximum_balance_minor:
+	if delta_minor_units < -definition.maximum_balance_minor:
+		return ERR_INVALID_DATA
+	if delta_minor_units > definition.maximum_balance_minor:
 		return ERR_INVALID_DATA
 	if resulting_balance_minor < 0:
 		return ERR_INVALID_DATA
@@ -632,9 +636,9 @@ extends Resource
 @export var value_id: StringName
 @export var item_definition_id: StringName
 @export var currency_id: StringName
-@export_range(1, 9007199254740991, 1) var base_unit_price_minor: int = 1
-@export_range(1, 9007199254740991, 1) var minimum_unit_price_minor: int = 1
-@export_range(1, 9007199254740991, 1) var maximum_unit_price_minor: int = 1000000000
+@export var base_unit_price_minor: int = 1
+@export var minimum_unit_price_minor: int = 1
+@export var maximum_unit_price_minor: int = 1000000000
 
 func validate(currency_catalog: CurrencyCatalog) -> Error:
 	if not StableId.is_valid(value_id):
@@ -763,6 +767,68 @@ func unit_price(
 - La fonction renvoie `null` lorsqu’un contrat ou un calcul est invalide.
 - Aucun contexte ne modifie la ressource de valeur elle-même.
 
+### 17.1 Créer une offre verrouillée
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/trade_offer_factory.gd`.**
+
+```gdscript
+class_name TradeOfferFactory
+extends RefCounted
+
+var _pricing_policy := PricingPolicy.new()
+
+func create_sell_offer(
+	offer_id: StringName,
+	seller_wallet_id: StringName,
+	source_container_id: StringName,
+	source_entry: InventoryEntryRef,
+	value_definition: ItemValueDefinition,
+	context: PricingContext,
+	quantity: int,
+	minimum_quantity: int,
+	valid_from_tick: int,
+	expires_tick: int,
+	currency_catalog: CurrencyCatalog,
+) -> TradeOfferState:
+	if source_entry == null or source_entry.validate() != OK:
+		return null
+	if quantity < 1 or minimum_quantity < 1 or minimum_quantity > quantity:
+		return null
+	var unit_price_value: Variant = _pricing_policy.unit_price(
+		value_definition,
+		context,
+		currency_catalog,
+	)
+	if unit_price_value == null:
+		return null
+	var offer := TradeOfferState.new()
+	offer.offer_id = offer_id
+	offer.seller_wallet_id = seller_wallet_id
+	offer.source_container_id = source_container_id
+	offer.source_entry = source_entry.duplicate_detached()
+	offer.item_definition_id = value_definition.item_definition_id
+	offer.currency_id = value_definition.currency_id
+	offer.unit_price_minor = int(unit_price_value)
+	offer.remaining_quantity = quantity
+	offer.minimum_quantity = minimum_quantity
+	offer.valid_from_tick = valid_from_tick
+	offer.expires_tick = expires_tick
+	offer.active = true
+	offer.revision = 0
+	offer.pricing_revision = context.revision
+	return offer if offer.validate(currency_catalog) == OK else null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- La politique de prix est appliquée lors de la création ou du renouvellement de l’offre.
+- L’offre conserve ensuite un prix unitaire verrouillé jusqu’à son expiration ou sa révision.
+- L’entrée d’inventaire est copiée comme référence, sans déplacer l’objet.
+- La révision du contexte de prix reste traçable dans l’offre.
+- Une offre invalide n’est jamais enregistrée dans le dépôt.
+
 ## 18. Devis temporaire
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/domain/price_quote.gd`.**
@@ -794,7 +860,10 @@ func validate(catalog: CurrencyCatalog) -> Error:
 		return ERR_INVALID_DATA
 	if subtotal_minor < 1 or seller_net_minor != subtotal_minor:
 		return ERR_INVALID_DATA
-	if tax_minor < 0 or total_minor != subtotal_minor + tax_minor:
+	if tax_minor < 0:
+		return ERR_INVALID_DATA
+	var checked_total: Variant = MoneyMath.checked_add(subtotal_minor, tax_minor)
+	if checked_total == null or total_minor != int(checked_total):
 		return ERR_INVALID_DATA
 	if expected_offer_revision < 0 or pricing_revision < 0 or valid_until_tick < 0:
 		return ERR_INVALID_DATA
@@ -851,7 +920,7 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 		return ERR_DOES_NOT_EXIST
 	if unit_price_minor < 1 or remaining_quantity < 0 or minimum_quantity < 1:
 		return ERR_INVALID_DATA
-	if minimum_quantity > max(remaining_quantity, 1):
+	if active and remaining_quantity < minimum_quantity:
 		return ERR_INVALID_DATA
 	if valid_from_tick < 0 or expires_tick < valid_from_tick:
 		return ERR_INVALID_DATA
@@ -917,6 +986,9 @@ var expected_offer_revision: int = 0
 var expected_buyer_wallet_revision: int = 0
 var expected_seller_wallet_revision: int = 0
 var expected_tax_wallet_revision: int = 0
+var expected_source_container_revision: int = 0
+var expected_destination_container_revision: int = 0
+var expected_entry_revision: int = 0
 var created_stack_id: StringName
 var actor_character_id: StringName
 var cause_id: StringName
@@ -939,6 +1011,10 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if expected_tax_wallet_revision < 0:
 		return ERR_INVALID_DATA
+	if expected_source_container_revision < 0:
+		return ERR_INVALID_DATA
+	if expected_destination_container_revision < 0 or expected_entry_revision < 0:
+		return ERR_INVALID_DATA
 	if not created_stack_id.is_empty() and not StableId.is_valid(created_stack_id):
 		return ERR_INVALID_DATA
 	if not actor_character_id.is_empty() and not CharacterId.is_valid(actor_character_id):
@@ -956,7 +1032,7 @@ func validate() -> Error:
 
 - La commande contient le total affiché afin que le service puisse refuser un prix changé.
 - Elle ne contient ni delta de portefeuille, ni taxe calculée, ni propriété finale de l’objet.
-- Les révisions protègent l’offre et chaque portefeuille concerné.
+- Les révisions protègent l’offre, chaque portefeuille, les deux conteneurs et l’entrée d’inventaire.
 - `created_stack_id` est utilisé uniquement lorsqu’un lot doit être divisé par l’inventaire.
 - L’empreinte est calculée depuis une représentation canonique avant l’appel du service.
 
@@ -1050,6 +1126,8 @@ func validate() -> Error:
 	if not transaction_id.is_empty() and not StableId.is_valid(transaction_id):
 		return ERR_INVALID_DATA
 	if total_minor < 0:
+		return ERR_INVALID_DATA
+	if total_minor > 0 and not StableId.is_valid(currency_id):
 		return ERR_INVALID_DATA
 	var seen: Dictionary[StringName, bool] = {}
 	for wallet_id: StringName in affected_wallet_ids:
@@ -1281,6 +1359,19 @@ func validate(
 		return ERR_INVALID_DATA
 	if result == null or result.validate() != OK:
 		return ERR_INVALID_DATA
+	if result.transaction_id != transaction_id:
+		return ERR_INVALID_DATA
+	var posted_wallets: Dictionary[StringName, bool] = {}
+	for posting: EconomyPosting in ledger_record.postings:
+		if not wallets.has(posting.wallet_id):
+			return ERR_INVALID_DATA
+		var posted_wallet: WalletState = wallets[posting.wallet_id]
+		if posted_wallet.balance_for(posting.currency_id) != posting.resulting_balance_minor:
+			return ERR_INVALID_DATA
+		posted_wallets[posting.wallet_id] = true
+	for wallet_id: StringName in wallets:
+		if not posted_wallets.has(wallet_id):
+			return ERR_INVALID_DATA
 	for aggregate_id: StringName in expected_revisions:
 		if not StableId.is_valid(aggregate_id):
 			return ERR_INVALID_DATA
@@ -1295,6 +1386,7 @@ func validate(
 
 - Le candidat regroupe portefeuilles, offre, journal, résultat et révisions.
 - Le résultat idempotent est enregistré dans le même lot que les mutations.
+- Chaque écriture est recoupée avec le solde candidat du portefeuille visé.
 - Une récompense peut laisser `offer` à `null`.
 - Tous les portefeuilles sont revalidés contre les devises.
 - Aucun état actif n’est modifié par la validation.
@@ -1311,6 +1403,10 @@ func _prepare_payment(
 	seller: WalletState,
 	tax_wallet: WalletState,
 ) -> EconomyMutationCandidate:
+	if buyer.wallet_id == seller.wallet_id:
+		return null
+	if tax_wallet != null and tax_wallet.wallet_id in [buyer.wallet_id, seller.wallet_id]:
+		return null
 	if buyer.balance_for(quote.currency_id) < quote.total_minor:
 		return null
 
@@ -1459,7 +1555,6 @@ class PreparedTrade:
 func prepare_purchase_transfer(
 	_offer: TradeOfferState,
 	_command: PurchaseCommand,
-	_expected_inventory_revision: int,
 ) -> PreparedTrade:
 	return null
 ```
@@ -1471,13 +1566,13 @@ func prepare_purchase_transfer(
 - Le port demande à l’inventaire de préparer source, destination, quantité, propriété et éventuelle division de pile.
 - Le payload opaque est construit par un adaptateur fiable, jamais par le joueur.
 - L’économie ne modifie ni `ItemInstanceState`, ni `ItemStackState`, ni conteneur.
-- La révision d’inventaire est relue par l’adaptateur avant la préparation.
+- Les révisions de la source, de la destination et de l’entrée sont portées par la commande puis relues par l’adaptateur.
 - `null` représente un refus contrôlé de l’inventaire.
 
-> **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_trade_commit_port.gd`.**
+> **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_transaction_commit_port.gd`.**
 
 ```gdscript
-class_name EconomyTradeCommitPort
+class_name EconomyTransactionCommitPort
 extends RefCounted
 
 func commit(
@@ -1512,12 +1607,9 @@ var _repository: EconomyRepository
 var _access: EconomyAccessPort
 var _pricing_context: PricingContextPort
 var _inventory: EconomyInventoryTradePort
-var _commit_port: EconomyTradeCommitPort
+var _commit_port: EconomyTransactionCommitPort
 
-func purchase(
-	command: PurchaseCommand,
-	expected_inventory_revision: int,
-) -> EconomyResult:
+func purchase(command: PurchaseCommand) -> EconomyResult:
 	if command == null or command.validate() != OK:
 		return _result(
 			EconomyResult.Status.REJECTED_INVALID_COMMAND,
@@ -1548,10 +1640,7 @@ func purchase(
 			"identifiant réutilisé avec un autre contenu",
 		)
 
-	var prepared: Dictionary = _prepare_purchase(
-		command,
-		expected_inventory_revision,
-	)
+	var prepared: Dictionary = _prepare_purchase(command)
 	if prepared.is_empty():
 		return _result(
 			EconomyResult.Status.REJECTED_INTERNAL,
@@ -1586,10 +1675,7 @@ func purchase(
 > **[LECTURE] Préparation complète — Suite de `economy_service.gd`.**
 
 ```gdscript
-func _prepare_purchase(
-	command: PurchaseCommand,
-	expected_inventory_revision: int,
-) -> Dictionary:
+func _prepare_purchase(command: PurchaseCommand) -> Dictionary:
 	var offer := _repository.get_offer(command.offer_id)
 	if offer == null or offer.validate(_currency_catalog) != OK:
 		return {"result": _result_not_found(command, "offre absente")}
@@ -1629,6 +1715,8 @@ func _prepare_purchase(
 		tax_wallet = _repository.get_wallet(quote.tax_wallet_id)
 		if tax_wallet == null:
 			return {"result": _result_internal(command, "trésorerie absente")}
+		if tax_wallet.wallet_id in [buyer.wallet_id, seller.wallet_id]:
+			return {"result": _result_internal(command, "trésorerie non distincte")}
 		if tax_wallet.revision != command.expected_tax_wallet_revision:
 			return {"result": _result_stale(command, "trésorerie obsolète")}
 
@@ -1645,7 +1733,7 @@ func _prepare_purchase(
 	var offer_candidate := offer.duplicate_detached()
 	offer_candidate.remaining_quantity -= command.quantity
 	offer_candidate.revision += 1
-	if offer_candidate.remaining_quantity == 0:
+	if offer_candidate.remaining_quantity < offer_candidate.minimum_quantity:
 		offer_candidate.active = false
 	economy_candidate.offer = offer_candidate
 	economy_candidate.expected_revisions[offer.offer_id] = offer.revision
@@ -1654,7 +1742,6 @@ func _prepare_purchase(
 	var inventory_candidate := _inventory.prepare_purchase_transfer(
 		offer,
 		command,
-		expected_inventory_revision,
 	)
 	if inventory_candidate == null or inventory_candidate.validate() != OK:
 		return {"result": _result_inventory(command)}
@@ -1676,6 +1763,136 @@ func _prepare_purchase(
 - L’offre est décrémentée sur une copie et désactivée à quantité nulle.
 - Le candidat économique n’atteint le commit qu’après validation du candidat d’inventaire.
 
+### 30.1 Fabriques internes et résultats précis
+
+> **[LECTURE] Helpers de service — Suite de `economy_service.gd`.**
+
+```gdscript
+func _is_configured() -> bool:
+	return (
+		_currency_catalog != null
+		and _repository != null
+		and _access != null
+		and _pricing_context != null
+		and _inventory != null
+		and _commit_port != null
+	)
+
+func _posting(
+	command: PurchaseCommand,
+	index: int,
+	wallet: WalletState,
+	delta: int,
+) -> EconomyPosting:
+	var posting := EconomyPosting.new()
+	posting.posting_id = EconomyId.posting(command.transaction_id, index)
+	posting.wallet_id = wallet.wallet_id
+	posting.currency_id = _repository.get_offer(command.offer_id).currency_id
+	posting.delta_minor_units = delta
+	posting.resulting_balance_minor = wallet.balance_for(posting.currency_id)
+	return posting
+
+func _ledger_record(
+	command: PurchaseCommand,
+	postings: Array[EconomyPosting],
+) -> EconomyLedgerRecord:
+	var record := EconomyLedgerRecord.new()
+	record.transaction_id = command.transaction_id
+	record.cause_id = command.cause_id
+	record.source_system_id = command.source_system_id
+	record.logical_tick = command.logical_tick
+	record.command_fingerprint = command.command_fingerprint
+	for posting: EconomyPosting in postings:
+		record.postings.append(posting.duplicate_detached())
+	return record
+
+func _result(
+	status: EconomyResult.Status,
+	command: PurchaseCommand,
+	message: String,
+	currency_id: StringName = &"",
+	total_minor: int = 0,
+) -> EconomyResult:
+	var result := EconomyResult.new()
+	result.status = status
+	result.message = message
+	result.currency_id = currency_id
+	result.total_minor = total_minor
+	if command != null:
+		result.transaction_id = command.transaction_id
+	return result
+
+func _result_not_found(command: PurchaseCommand, message: String) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_NOT_FOUND, command, message)
+
+func _result_stale(command: PurchaseCommand, message: String) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_STALE_REVISION, command, message)
+
+func _result_offer(command: PurchaseCommand, message: String) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_OFFER, command, message)
+
+func _result_unauthorized(command: PurchaseCommand) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_UNAUTHORIZED, command, "achat non autorisé")
+
+func _result_internal(command: PurchaseCommand, message: String) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_INTERNAL, command, message)
+
+func _result_price_changed(command: PurchaseCommand, quote: PriceQuote) -> EconomyResult:
+	return _result(
+		EconomyResult.Status.REJECTED_PRICE_CHANGED,
+		command,
+		"prix modifié",
+		quote.currency_id,
+		quote.total_minor,
+	)
+
+func _result_insufficient(command: PurchaseCommand, quote: PriceQuote) -> EconomyResult:
+	return _result(
+		EconomyResult.Status.REJECTED_INSUFFICIENT_FUNDS,
+		command,
+		"fonds insuffisants",
+		quote.currency_id,
+		quote.total_minor,
+	)
+
+func _result_inventory(command: PurchaseCommand) -> EconomyResult:
+	return _result(EconomyResult.Status.REJECTED_INVENTORY, command, "transfert refusé")
+
+func _committed_result(
+	command: PurchaseCommand,
+	quote: PriceQuote,
+	candidate: EconomyMutationCandidate,
+) -> EconomyResult:
+	var result := _result(
+		EconomyResult.Status.COMMITTED,
+		command,
+		"achat committé",
+		quote.currency_id,
+		quote.total_minor,
+	)
+	result.affected_wallet_ids.assign(candidate.wallets.keys())
+	result.affected_wallet_ids.sort()
+	return result
+
+func _commit_failure(command: PurchaseCommand, code: Error) -> EconomyResult:
+	var status := EconomyResult.Status.REJECTED_INTERNAL
+	if code == ERR_BUSY:
+		status = EconomyResult.Status.REJECTED_STALE_REVISION
+	elif code == ERR_UNAUTHORIZED:
+		status = EconomyResult.Status.REJECTED_UNAUTHORIZED
+	return _result(status, command, error_string(code))
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Les helpers centralisent les statuts sans masquer leur signification métier.
+- `_posting()` relit la devise de l’offre et enregistre le solde candidat résultant.
+- Le journal copie les écritures pour ne conserver aucune référence mutable.
+- Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
+- `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
+
 ## 31. Récompenses monétaires
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/reward_service.gd`.**
@@ -1689,7 +1906,7 @@ signal reward_committed(result: EconomyResult)
 var _currency_catalog: CurrencyCatalog
 var _repository: EconomyRepository
 var _access: EconomyAccessPort
-var _commit_port: EconomyTradeCommitPort
+var _commit_port: EconomyTransactionCommitPort
 
 func transfer_reward(command: RewardCommand) -> EconomyResult:
 	if command == null or command.validate(_currency_catalog) != OK:
@@ -1716,8 +1933,11 @@ func transfer_reward(command: RewardCommand) -> EconomyResult:
 		return _stale_reward(command)
 	if recipient.revision != command.expected_recipient_revision:
 		return _stale_reward(command)
-	if _access.can_reward(command, issuer, recipient) != OK:
+	var access_code := _access.can_reward(command, issuer, recipient)
+	if access_code == ERR_UNAUTHORIZED:
 		return _unauthorized_reward(command)
+	if access_code != OK:
+		return _reward_internal(command, error_string(access_code))
 
 	var candidate := _prepare_reward_candidate(command, issuer, recipient)
 	if candidate == null:
@@ -1739,6 +1959,131 @@ func transfer_reward(command: RewardCommand) -> EconomyResult:
 - L’émetteur doit disposer des fonds, y compris lorsqu’il s’agit d’une trésorerie système.
 - Une récompense d’objet sera orchestrée avec un candidat d’inventaire par le chapitre narratif concerné.
 
+### 31.1 Préparer une récompense équilibrée
+
+> **[LECTURE] Helpers de récompense — Suite de `reward_service.gd`.**
+
+```gdscript
+func _prepare_reward_candidate(
+	command: RewardCommand,
+	issuer: WalletState,
+	recipient: WalletState,
+) -> EconomyMutationCandidate:
+	var currency_id := command.amount.currency_id
+	var amount_minor := command.amount.minor_units
+	if issuer.balance_for(currency_id) < amount_minor:
+		return null
+	var issuer_candidate := issuer.duplicate_detached()
+	var recipient_candidate := recipient.duplicate_detached()
+	issuer_candidate.balances[currency_id] = (
+		issuer.balance_for(currency_id) - amount_minor
+	)
+	var recipient_value: Variant = MoneyMath.checked_add(
+		recipient.balance_for(currency_id),
+		amount_minor,
+	)
+	if recipient_value == null:
+		return null
+	recipient_candidate.balances[currency_id] = int(recipient_value)
+	issuer_candidate.revision += 1
+	recipient_candidate.revision += 1
+	issuer_candidate.posting_sequence += 1
+	recipient_candidate.posting_sequence += 1
+
+	var debit := EconomyPosting.new()
+	debit.posting_id = EconomyId.posting(command.transaction_id, 0)
+	debit.wallet_id = issuer.wallet_id
+	debit.currency_id = currency_id
+	debit.delta_minor_units = -amount_minor
+	debit.resulting_balance_minor = issuer_candidate.balance_for(currency_id)
+	var credit := EconomyPosting.new()
+	credit.posting_id = EconomyId.posting(command.transaction_id, 1)
+	credit.wallet_id = recipient.wallet_id
+	credit.currency_id = currency_id
+	credit.delta_minor_units = amount_minor
+	credit.resulting_balance_minor = recipient_candidate.balance_for(currency_id)
+
+	var record := EconomyLedgerRecord.new()
+	record.transaction_id = command.transaction_id
+	record.cause_id = command.cause_id
+	record.source_system_id = command.source_system_id
+	record.logical_tick = command.logical_tick
+	record.command_fingerprint = command.command_fingerprint
+	record.postings = [debit, credit]
+
+	var result := EconomyResult.new()
+	result.status = EconomyResult.Status.COMMITTED
+	result.transaction_id = command.transaction_id
+	result.currency_id = currency_id
+	result.total_minor = amount_minor
+	result.affected_wallet_ids = [issuer.wallet_id, recipient.wallet_id]
+	result.affected_wallet_ids.sort()
+	result.message = "récompense committée"
+
+	var candidate := EconomyMutationCandidate.new()
+	candidate.transaction_id = command.transaction_id
+	candidate.command_fingerprint = command.command_fingerprint
+	candidate.wallets[issuer.wallet_id] = issuer_candidate
+	candidate.wallets[recipient.wallet_id] = recipient_candidate
+	candidate.ledger_record = record
+	candidate.result = result
+	candidate.expected_revisions[issuer.wallet_id] = command.expected_issuer_revision
+	candidate.expected_revisions[recipient.wallet_id] = command.expected_recipient_revision
+	return candidate if candidate.validate(_currency_catalog) == OK else null
+
+func _reward_result(
+	status: EconomyResult.Status,
+	command: RewardCommand,
+	message: String,
+) -> EconomyResult:
+	var result := EconomyResult.new()
+	result.status = status
+	result.message = message
+	if command != null:
+		result.transaction_id = command.transaction_id
+		if command.amount != null:
+			result.currency_id = command.amount.currency_id
+			result.total_minor = command.amount.minor_units
+	return result
+
+func _invalid_reward(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_INVALID_COMMAND, command, "commande invalide")
+
+func _idempotency_conflict(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_IDEMPOTENCY_CONFLICT, command, "conflit d’idempotence")
+
+func _missing_wallet(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_NOT_FOUND, command, "portefeuille absent")
+
+func _stale_reward(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_STALE_REVISION, command, "révision obsolète")
+
+func _unauthorized_reward(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_UNAUTHORIZED, command, "récompense non autorisée")
+
+func _insufficient_reward(command: RewardCommand) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_INSUFFICIENT_FUNDS, command, "trésorerie insuffisante")
+
+func _reward_internal(command: RewardCommand, message: String) -> EconomyResult:
+	return _reward_result(EconomyResult.Status.REJECTED_INTERNAL, command, message)
+
+func _reward_commit_failure(command: RewardCommand, code: Error) -> EconomyResult:
+	var status := EconomyResult.Status.REJECTED_INTERNAL
+	if code == ERR_BUSY:
+		status = EconomyResult.Status.REJECTED_STALE_REVISION
+	return _reward_result(status, command, error_string(code))
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- L’émetteur est débité et le destinataire crédité sur des copies détachées.
+- Les deux écritures sont égales et opposées dans la même devise.
+- Le résultat, le journal et l’empreinte sont inclus dans le candidat idempotent.
+- Les helpers conservent des refus précis pour commande, accès, fonds, révision et commit.
+- La validation finale recoupe soldes candidats et écritures avant le port de commit.
+
 ## 32. Adapter une action d’agent
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_agent_context_port.gd`.**
@@ -1756,7 +2101,9 @@ class Context:
 	var offer_revision: int = 0
 	var displayed_total_minor: int = 0
 	var destination_container_id: StringName
-	var inventory_revision: int = 0
+	var source_container_revision: int = 0
+	var destination_container_revision: int = 0
+	var entry_revision: int = 0
 
 	func validate() -> Error:
 		if not StableId.is_valid(wallet_id) or wallet_revision < 0:
@@ -1767,7 +2114,9 @@ class Context:
 			return ERR_INVALID_DATA
 		if not StableId.is_valid(destination_container_id):
 			return ERR_INVALID_DATA
-		return OK if inventory_revision >= 0 else ERR_INVALID_DATA
+		if source_container_revision < 0 or destination_container_revision < 0:
+			return ERR_INVALID_DATA
+		return OK if entry_revision >= 0 else ERR_INVALID_DATA
 
 func snapshot_for(
 	_character_id: StringName,
@@ -1784,7 +2133,7 @@ func snapshot_for(
 - Il ne donne pas au planificateur un accès direct aux dépôts.
 - L’agent devra encore soumettre une commande au même service que le joueur.
 - Le total peut devenir obsolète et être refusé sans débit.
-- La révision d’inventaire protège le conteneur de destination.
+- Les trois révisions d’inventaire protègent la source, la destination et l’entrée.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_agent_action_executor.gd`.**
 
@@ -1819,7 +2168,7 @@ func start(request: AgentActionRequest) -> Error:
 	var command := _command_from_request(request, context)
 	if command == null:
 		return ERR_INVALID_DATA
-	var result := _service.purchase(command, context.inventory_revision)
+	var result := _service.purchase(command)
 	return OK if result.is_success() else ERR_CANT_RESOLVE
 ```
 
@@ -2204,7 +2553,7 @@ func _on_buy_pressed() -> void:
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
-var result := economy_service.purchase(command, inventory_revision)
+var result := economy_service.purchase(command)
 show_result(result)
 ```
 
