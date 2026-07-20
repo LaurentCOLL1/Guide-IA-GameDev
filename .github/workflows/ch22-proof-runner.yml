@@ -1,0 +1,49 @@
+name: Chapter 22 Proof Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  close-proof:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch22-monde-vivant'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Detect pending proof closure
+        id: gate
+        shell: bash
+        run: |
+          if test -f .qa/ch22-proof-close.py; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Close evidence and validate
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          python3 .qa/ch22-proof-close.py
+          python3 tools/validate_chapters.py
+          python3 tools/check_context_markers.py --check
+
+      - name: Commit closed evidence
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          rm -f .qa/ch22-proof-close.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "qa(livre-ii): close chapter 22 validation evidence"
+          git push origin HEAD:${{ github.head_ref }}
