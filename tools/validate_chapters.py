@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import re
 import sys
 from collections import Counter
@@ -20,6 +21,7 @@ FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
+ISO_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
 ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
@@ -54,6 +56,22 @@ def parse_front_matter(text: str, rel: str, errors: list[str]) -> dict[str, obje
         errors.append(f"Front matter YAML non mappé : {rel}")
         return {}
     return loaded
+
+
+def validate_timestamp(value: object, field_name: str, rel: str, errors: list[str]) -> None:
+    if not isinstance(value, str) or ISO_TIMESTAMP_RE.fullmatch(value) is None:
+        errors.append(
+            f"Métadonnée {field_name} hors format ISO 8601 horodaté "
+            f"(secondes et décalage UTC obligatoires) : {rel} — {value}"
+        )
+        return
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        errors.append(f"Métadonnée {field_name} invalide : {rel} — {value}")
+        return
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        errors.append(f"Métadonnée {field_name} sans décalage UTC : {rel} — {value}")
 
 
 def normalize_heading(value: str) -> str:
@@ -398,6 +416,9 @@ def main() -> int:
                     errors.append(f"Audit post-création incomplet : {rel}")
                 if not metadata.get("audit-date"):
                     errors.append(f"Métadonnée audit-date absente : {rel}")
+                if number >= 17:
+                    validate_timestamp(metadata.get("last-verified"), "last-verified", rel, errors)
+                    validate_timestamp(metadata.get("audit-date"), "audit-date", rel, errors)
                 if metadata.get("audit-level") not in VALID_AUDIT_LEVELS:
                     errors.append(f"Métadonnée audit-level invalide : {rel}")
                 if metadata.get("usage-context-standard") != "DOC-V0-ANN-CONTEXTES":
@@ -409,6 +430,12 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-report absente : {rel}")
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
+                elif number >= 17:
+                    audit_path = root / str(audit_report)
+                    audit_text = audit_path.read_text(encoding="utf-8")
+                    audit_metadata = parse_front_matter(audit_text, str(audit_report), errors)
+                    validate_timestamp(audit_metadata.get("last-verified"), "last-verified", str(audit_report), errors)
+                    validate_timestamp(audit_metadata.get("audit-date"), "audit-date", str(audit_report), errors)
 
                 validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)

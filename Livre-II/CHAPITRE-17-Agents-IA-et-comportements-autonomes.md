@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 17 : Agents IA et comportements autonomes"
 id: "DOC-L2-CH17"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
-last-verified: "2026-07-20"
+last-verified: "2026-07-20T10:19:05+02:00"
 audit-status: "complete"
-audit-date: "2026-07-20"
+audit-date: "2026-07-20T10:19:05+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-17.md"
 audit-level: "static-review"
 reference-engine:

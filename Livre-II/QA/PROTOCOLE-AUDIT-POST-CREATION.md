@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.2"
+version: "1.7.3"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-20"
+last-verified: "2026-07-20T10:19:05+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -122,15 +122,16 @@ Un chapitre audité porte au minimum :
 > **[LECTURE] Exemple YAML — Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
+last-verified: "AAAA-MM-JJTHH:MM:SS±HH:MM"
 audit-status: "complete"
-audit-date: "AAAA-MM-JJ"
+audit-date: "AAAA-MM-JJTHH:MM:SS±HH:MM"
 audit-report: "Livre-II/QA/<rapport>.md"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
-`static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
+Les champs `last-verified` et `audit-date` sont des chaînes ISO 8601 entre guillemets et incluent obligatoirement les secondes ainsi qu’un décalage UTC explicite. `static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
 
 ## 5. Matrice de contrôle
 
@@ -186,6 +187,14 @@ Hors de ces sections pédagogiques, le mot `erreur` ne sert pas de libellé gén
 - `Traitement du résultat` lorsque l’appelant doit consommer, journaliser ou propager la valeur renvoyée.
 
 Le libellé `Erreur fréquente` est réservé à un véritable piège que le lecteur pourrait reproduire. S’il apparaît, il relève de Q1.2 et doit être accompagné d’un exemple fautif et d’une correction, ou être reformulé avec l’un des libellés précis ci-dessus.
+
+### Q1.1.1 — Horodatage des vérifications et audits
+
+À partir du chapitre 17 version `1.0.2`, et pour tout nouveau chapitre ou document d’audit, `last-verified` et `audit-date` utilisent une chaîne ISO 8601 complète et entre guillemets : date, heure, minutes, secondes et décalage UTC. Le fuseau de référence du projet est `Europe/Paris` ; l’offset enregistré suit donc l’heure légale applicable, par exemple `+01:00` ou `+02:00`.
+
+Une heure ne doit jamais être inventée rétroactivement. Les documents historiques qui portent seulement `YYYY-MM-DD` conservent cette valeur jusqu’à leur prochaine révision réellement vérifiée. Dès qu’un chapitre ou son audit est modifié et revalidé, les deux champs sont actualisés avec l’heure effective de cette nouvelle vérification.
+
+Le validateur impose ce format au chapitre 17 et aux chapitres suivants, ainsi qu’à leurs rapports d’audit.
 
 **Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
 

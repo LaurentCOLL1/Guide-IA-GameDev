@@ -79,6 +79,7 @@
 - [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 17 — perceptions, mémoire bornée, buts, planification déterministe, ordonnanceur, simulation hors écran, invalidation, IA consultative et sauvegarde minimale — rédigé et audité au niveau `static-review`.
 - [x] Clarification du chapitre 17 — intervalles nominaux explicités, codes de retour distingués des erreurs pédagogiques et échéances reportées conservées.
+- [x] Horodatage des audits — `last-verified` et `audit-date` utilisent ISO 8601 avec heure et offset à partir du chapitre 17, sans heure rétroactive inventée.
 - [x] Correction pédagogique du chapitre 15 — blocs de code expliqués selon QA Q1.1.
 - [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
 - [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17.
