@@ -1,1 +1,1 @@
-trigger explanation style polish diagnostic
+trigger printed explanation style polish diagnostic
