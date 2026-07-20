@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH19
-status: pending
+status: complete
 validation-date: 2026-07-20
 validated-base-commit: 4f46510c3988474b007341e1004232bd6a3c2776
-validated-head-commit: pending
+validated-head-commit: 27396b59c056bd64741b67fbc6b440178f0483b6
 chapter:
   id: DOC-L2-CH19
   path: Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 0
   chapter-lines: 2419
   chapter-headings: 56
   chapter-code-and-data-blocks: 58
@@ -30,11 +30,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29750498789
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29750499008
+    conclusion: success
+  artifact:
+    id: 8464297017
+    name: chapter-validation-without-pdf
+    digest: sha256:bade5a4c207ebda1654d96f4b48cfaacb1fc10f137db8a77f6b489276fabf1ad
 reservations:
   - Godot parser not executed.
   - Demo scene not instantiated.
