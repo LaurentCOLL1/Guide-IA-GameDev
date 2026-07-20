@@ -16,13 +16,11 @@ on:
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
-      - "tools/materialize_ch19_continuity.py"
       - ".github/workflows/validate-chapters.yml"
-      - ".github/workflows/tmp-ch19-static-corrections.yml"
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
@@ -31,29 +29,12 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout chapter branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
 
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
-
-      - name: Apply chapter 19 continuity
-        if: github.actor != 'github-actions[bot]'
-        shell: bash
-        run: |
-          mkdir -p dist
-          python3 tools/materialize_ch19_continuity.py
-          cp dist/CONTINUITE-PROJET.updated.md CONTINUITE-PROJET.md
-          git rm tools/materialize_ch19_continuity.py
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add CONTINUITE-PROJET.md
-          git commit -m "docs(continuity): record chapter 19 completion"
-          git push origin HEAD:${{ github.head_ref }}
 
       - name: Validate structure, metadata, links and duplicates
         run: |
