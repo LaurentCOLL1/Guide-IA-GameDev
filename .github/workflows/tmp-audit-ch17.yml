@@ -1,0 +1,30 @@
+name: Temporary Audit Chapter 17
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch17-agents-ia-comportements-autonomes
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch17-agents-ia-comportements-autonomes
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit frozen draft
+        run: python tools/qa/tmp_audit_ch17.py
+      - name: Commit audit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f tmp_ch17_audit_report.md
+          git commit -m "chore(qa): record chapter 17 post-creation audit"
+          git push origin HEAD:docs/livre-ii-ch17-agents-ia-comportements-autonomes
