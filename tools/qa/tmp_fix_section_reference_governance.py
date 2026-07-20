@@ -57,13 +57,13 @@ for chapter in (15, 16):
 
 index_path = Path('Livre-II/index.md')
 index = index_path.read_text(encoding='utf-8')
-index = version(index, '1.10.0', '1.10.1', 'index version')
+index = version(index, '1.11.0', '1.11.1', 'index version')
 index = once(index,
-    '15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc et audité au niveau static-review**',
-    '15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc avec renvois internes précis et audité au niveau static-review**', 'index ch15')
+    '15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales et audité au niveau static-review**',
+    '15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**', 'index ch15')
 index = once(index,
-    '16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc et audité au niveau static-review**',
-    '16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc avec renvois internes précis et audité au niveau static-review**', 'index ch16')
+    '16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales et audité au niveau static-review**',
+    '16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**', 'index ch16')
 index_path.write_text(index, encoding='utf-8')
 
 roadmap_path = Path('ROADMAP.md')
