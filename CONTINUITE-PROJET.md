@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.19.1"
+version: "3.20.0"
 lang: "fr-FR"
-last-updated: "2026-07-20T16:52:26+02:00"
+last-updated: "2026-07-20T17:50:09+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 19 : **Élevée**.
+Chapitres 3 à 20 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -511,6 +511,26 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - les recharges utilisent des ticks logiques, jamais un `Timer` autoritaire ;
 - plans, réservations, candidats, cibles dérivées, caches et présentation sont exclus de la persistance ;
 - l’inventaire peut accorder une compétence sans devenir propriétaire de ses règles.
+
+### 11.15 Inventaire et réputation des objets
+
+- `ItemDefinition` constitue une `Resource` de conception partagée et immuable ;
+- instances uniques et lots fongibles possèdent des états distincts ;
+- une définition empilable exclut durabilité, équipement, compétence accordée et réputation individuelle ;
+- propriété métier et garde matérielle sont séparées ;
+- les conteneurs référencent des entrées par identifiants stables et la masse totale reste dérivée ;
+- l’origine complète d’un lot comprend `lot_id`, cause, système source et tick logique ;
+- les fusions exigent définition, origine complète et propriétaire identiques ;
+- source, destination et entrée sont préparées sur des copies avec révisions séparées ;
+- `InventoryAccessPort` autorise la demande sans contourner les invariants d’inventaire ;
+- un objet équipé doit être déséquipé avant transfert ;
+- seuls les objets uniques compatibles et non brisés peuvent être équipés ;
+- les compétences accordées restent sous l’autorité du système de compétences ;
+- le combat prépare une demande de durabilité sans écrire l’inventaire ;
+- provenance et réputation utilisent des causes validées et des ticks logiques ;
+- `InventoryMutationUnitOfWork` reçoit les candidats d’inventaire et des autorités externes avant tout événement ;
+- définitions, masse dérivée, commandes, candidats, caches et présentation sont exclus de la persistance ;
+- prix, monnaies, paiements, achats et ventes restent réservés au chapitre 21.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1220,6 +1240,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas traiter une prévisualisation comme validation autoritaire ;
 - ne pas persister plans, réservations, candidats, cibles dérivées ou caches ;
 - ne pas utiliser un nom affiché comme identité de compétence ;
+- ne pas modifier une `ItemDefinition` partagée comme état d’instance ;
+- ne pas confondre propriété métier et garde matérielle ;
+- ne pas fusionner des objets individualisés ou des lots d’origines différentes ;
+- ne pas retirer une entrée de la source avant validation complète de la destination ;
+- ne pas autoriser un transfert sans politique d’accès explicite ;
+- ne pas transférer directement un objet encore équipé ;
+- ne pas laisser le combat écrire directement la durabilité ;
+- ne pas laisser l’inventaire écrire progression, charges ou recharge d’une compétence ;
+- ne pas persister masse dérivée, tris, filtres ou sélection d’interface ;
+- ne pas laisser une sortie IA modifier directement la réputation d’un objet ;
 - ne pas retenter automatiquement une utilisation partiellement résolue ;
 - ne pas placer les commandes de validation documentaire ou la procédure QA dans un chapitre destiné au lecteur ;
 - ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;
@@ -1230,7 +1260,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 19 chapitres sur 30 ;
+- progression : 20 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1247,26 +1277,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 17 : version `1.0.3` ;
 - chapitre 18 : version `1.0.0` ;
 - chapitre 19 : version `1.0.1` ;
+- chapitre 20 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 19 est terminé au niveau `static-review`. Les compétences séparent définitions, progression et état runtime, préparent coûts et effets derrière leurs autorités propriétaires et exigent un commit commun avant tout événement.
+Le chapitre 20 est terminé au niveau `static-review`. L’inventaire sépare définitions, instances et lots, prépare les transferts sur des copies révisionnées, distingue propriété et garde, et conserve combat, compétences et économie derrière leurs autorités.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md
+Livre-II/CHAPITRE-21-Economie.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : définitions et instances d’objets, conteneurs d’inventaire, empilement, équipement, durabilité, propriété, provenance et réputation des objets, en réutilisant les contrats des personnages, du combat et des compétences sans déplacer leurs autorités.
+Périmètre attendu : monnaies et portefeuilles, valeurs et politiques de prix, offres, achats, ventes, récompenses, paiements et transactions atomiques avec l’inventaire, sans déplacer l’identité, la quantité, la propriété ou le transfert des objets hors du système du chapitre 20.
 
 ## 27. Journal
+
+### 2026-07-20T17:50:09+02:00 — version 3.20.0
+
+- chapitre 20 créé, relu, corrigé et audité au niveau `static-review` ;
+- définitions, instances, lots, conteneurs, équipement, durabilité, propriété, provenance et réputation documentés ;
+- autorisation des transferts, statuts de préparation et révisions multi-agrégats explicités ;
+- frontières avec combat, compétences, agents, justice future et économie maintenues ;
+- index, roadmap, `contents.txt`, audit et preuve QA mis à jour ;
+- prochaine action déplacée vers le chapitre 21 — Économie, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-20T16:52:26+02:00 — version 3.19.1
 

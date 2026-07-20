@@ -59,9 +59,9 @@
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
-- [ ] Douze grands systèmes de jeu — 6 chapitres rédigés, repérés et audités sur 12.
+- [ ] Douze grands systèmes de jeu — 7 chapitres rédigés, repérés et audités sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 19.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 20.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -80,6 +80,7 @@
 - [x] Chapitre 17 — perceptions, mémoire bornée, buts, planification déterministe, ordonnanceur, simulation hors écran, invalidation, IA consultative et sauvegarde minimale — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 18 — commandes typées, côtés, initiative déterministe, ciblage, portée, ligne de vue, dégâts, garde, états, commit préparé, simulation hors écran et sauvegarde stricte — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 19 — définitions de compétences, coûts, ciblages, effets composables, progression, charges, recharges, unité de travail commune et sauvegarde stricte — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 20 — définitions et instances d’objets, lots fongibles, conteneurs, transferts autorisés, équipement, durabilité, propriété, provenance, réputation et sauvegarde stricte — rédigé et audité au niveau `static-review`.
 - [x] Clarification du chapitre 17 — intervalles nominaux explicités, codes de retour distingués des erreurs pédagogiques et échéances reportées conservées.
 - [x] Correction de clôture du chapitre 17 — prochaine étape réservée à la continuité et synthèse finale consacrée à `Project Asteria`.
 - [x] Horodatage des audits — `last-verified` et `audit-date` utilisent ISO 8601 avec heure et offset à partir du chapitre 17, sans heure rétroactive inventée.

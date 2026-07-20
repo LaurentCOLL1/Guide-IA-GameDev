@@ -1,0 +1,57 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH20
+status: complete
+validation-date: 2026-07-20
+validated-base-commit: ce4e5e48e3659f0de2ffcfffede4b9c2dbe7ecd4
+validated-head-commit: 4a11c3f24928f3d81e10a345cfb1907774bdf044
+chapter:
+  id: DOC-L2-CH20
+  path: Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 2692
+  chapter-headings: 59
+  chapter-code-and-data-blocks: 56
+  code-explanation-markers: 56
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  definitions-instances-stacks-separated: true
+  ownership-custody-separated: true
+  strict-stack-compatibility: true
+  transfer-authorization-port: true
+  multi-aggregate-unit-of-work-contract: true
+  external-authorities-preserved: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29757923697
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29757923957
+    conclusion: success
+  artifact:
+    id: 8467495229
+    name: chapter-validation-without-pdf
+    digest: sha256:258f5f4a9397f0dc8ffb3b75237823ac428e268da4c4ddd41fb2a43cb4acf14a
+reservations:
+  - Godot parser not executed.
+  - Typed Dictionary signatures not runtime-verified.
+  - Inventory unit of work not run.
+  - Transfer authorization adapter not materialized.
+  - Ability grant integration not run.
+  - Combat durability integration not run.
+  - Demo scene not instantiated.
+  - Performance budgets not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
