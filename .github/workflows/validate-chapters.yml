@@ -16,6 +16,7 @@ on:
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
+      - "tools/materialize_ch19_continuity.py"
       - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
 
@@ -35,6 +36,11 @@ jobs:
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Materialize chapter 19 continuity candidate
+        run: |
+          mkdir -p dist
+          python3 tools/materialize_ch19_continuity.py
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -76,6 +82,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
+            dist/CONTINUITE-PROJET.updated.md
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
             dist/QA-CONTEXTES.log
