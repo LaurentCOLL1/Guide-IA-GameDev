@@ -10,6 +10,75 @@ Livre-II/CHAPITRE-15-Relations-sociales.md:2290:REREAD:32.12 Décoder avec des c
 Livre-II/CHAPITRE-15-Relations-sociales.md:2320:REREAD:32.13 Appliquer avant validation complète::§ 27. Ordre de restauration::#27-ordre-de-restauration
 Livre-II/CHAPITRE-15-Relations-sociales.md:2379:REREAD:32.15 Mélanger famille et relation sociale::§ 14. Événement social typé::#14-evenement-social-type
 Livre-II/CHAPITRE-15-Relations-sociales.md:2408:REREAD:32.16 Utiliser l’IA comme autorité de la relation::§ 14. Événement social typé::#14-evenement-social-type
+HEADINGS::Livre-II/CHAPITRE-15-Relations-sociales.md
+Livre-II/CHAPITRE-15-Relations-sociales.md:40:HEADING:H2:1. Rôle du chapitre
+Livre-II/CHAPITRE-15-Relations-sociales.md:73:HEADING:H2:2. Prérequis
+Livre-II/CHAPITRE-15-Relations-sociales.md:92:HEADING:H2:3. Périmètre et frontières
+Livre-II/CHAPITRE-15-Relations-sociales.md:119:HEADING:H2:4. Modèle conceptuel
+Livre-II/CHAPITRE-15-Relations-sociales.md:121:HEADING:H3:4.1 Une relation est dirigée
+Livre-II/CHAPITRE-15-Relations-sociales.md:141:HEADING:H3:4.2 Une vue mutuelle est calculée
+Livre-II/CHAPITRE-15-Relations-sociales.md:156:HEADING:H3:4.3 Les axes ne sont pas des vérités absolues
+Livre-II/CHAPITRE-15-Relations-sociales.md:175:HEADING:H2:5. Architecture retenue
+Livre-II/CHAPITRE-15-Relations-sociales.md:212:HEADING:H2:6. Identifier une relation dirigée
+Livre-II/CHAPITRE-15-Relations-sociales.md:214:HEADING:H3:6.1 Clé de relation
+Livre-II/CHAPITRE-15-Relations-sociales.md:271:HEADING:H3:6.2 Pourquoi ne pas trier les identifiants
+Livre-II/CHAPITRE-15-Relations-sociales.md:289:HEADING:H2:7. Représenter les axes sociaux
+Livre-II/CHAPITRE-15-Relations-sociales.md:369:HEADING:H2:8. Décrire la cause d’un changement
+Livre-II/CHAPITRE-15-Relations-sociales.md:371:HEADING:H3:8.1 Identifiant de cause
+Livre-II/CHAPITRE-15-Relations-sociales.md:387:HEADING:H3:8.2 Type de cause
+Livre-II/CHAPITRE-15-Relations-sociales.md:444:HEADING:H2:9. Commander un changement social
+Livre-II/CHAPITRE-15-Relations-sociales.md:519:HEADING:H2:10. Conserver un historique borné
+Livre-II/CHAPITRE-15-Relations-sociales.md:521:HEADING:H3:10.1 Enregistrement de changement
+Livre-II/CHAPITRE-15-Relations-sociales.md:595:HEADING:H3:10.2 Pourquoi l’historique reste borné
+Livre-II/CHAPITRE-15-Relations-sociales.md:609:HEADING:H2:11. État d’une relation
+Livre-II/CHAPITRE-15-Relations-sociales.md:716:HEADING:H2:12. Dépôt de relations
+Livre-II/CHAPITRE-15-Relations-sociales.md:718:HEADING:H3:12.1 Contrat
+Livre-II/CHAPITRE-15-Relations-sociales.md:767:HEADING:H3:12.2 Implémentation en mémoire
+Livre-II/CHAPITRE-15-Relations-sociales.md:876:HEADING:H2:13. Vérifier les personnages référencés
+Livre-II/CHAPITRE-15-Relations-sociales.md:913:HEADING:H2:14. Événement social typé
+Livre-II/CHAPITRE-15-Relations-sociales.md:960:HEADING:H2:15. Service applicatif
+Livre-II/CHAPITRE-15-Relations-sociales.md:1062:HEADING:H2:16. Éviter une mutation partielle
+Livre-II/CHAPITRE-15-Relations-sociales.md:1122:HEADING:H2:17. Requêtes de voisinage
+Livre-II/CHAPITRE-15-Relations-sociales.md:1183:HEADING:H2:18. Vue mutuelle
+Livre-II/CHAPITRE-15-Relations-sociales.md:1269:HEADING:H2:19. Relations symétriques explicites
+Livre-II/CHAPITRE-15-Relations-sociales.md:1284:HEADING:H2:20. Modificateurs et événements du monde
+Livre-II/CHAPITRE-15-Relations-sociales.md:1304:HEADING:H2:21. Snapshot persistant
+Livre-II/CHAPITRE-15-Relations-sociales.md:1306:HEADING:H3:21.1 Forme JSON
+Livre-II/CHAPITRE-15-Relations-sociales.md:1361:HEADING:H2:22. Codec strict
+Livre-II/CHAPITRE-15-Relations-sociales.md:1478:HEADING:H2:23. Restaurer l’historique sans exposer la collection
+Livre-II/CHAPITRE-15-Relations-sociales.md:1513:HEADING:H2:24. Encoder et décoder les axes
+Livre-II/CHAPITRE-15-Relations-sociales.md:1559:HEADING:H2:25. Encoder un enregistrement
+Livre-II/CHAPITRE-15-Relations-sociales.md:1688:HEADING:H2:26. Section de sauvegarde indépendante
+Livre-II/CHAPITRE-15-Relations-sociales.md:1811:HEADING:H2:27. Ordre de restauration
+Livre-II/CHAPITRE-15-Relations-sociales.md:1825:HEADING:H2:28. Démonstration pédagogique
+Livre-II/CHAPITRE-15-Relations-sociales.md:1899:HEADING:H2:29. Mode Solo et Mode Studio
+Livre-II/CHAPITRE-15-Relations-sociales.md:1901:HEADING:H3:29.1 Mode Solo
+Livre-II/CHAPITRE-15-Relations-sociales.md:1912:HEADING:H3:29.2 Mode Studio
+Livre-II/CHAPITRE-15-Relations-sociales.md:1928:HEADING:H2:30. Budgets et complexité
+Livre-II/CHAPITRE-15-Relations-sociales.md:1947:HEADING:H2:31. Déterminisme
+Livre-II/CHAPITRE-15-Relations-sociales.md:1966:HEADING:H2:32. Erreurs fréquentes et corrections
+Livre-II/CHAPITRE-15-Relations-sociales.md:1970:HEADING:H3:32.1 Stocker la relation sur le nœud du personnage
+Livre-II/CHAPITRE-15-Relations-sociales.md:1998:HEADING:H3:32.2 Utiliser le nom affiché comme clé
+Livre-II/CHAPITRE-15-Relations-sociales.md:2026:HEADING:H3:32.3 Forcer une relation symétrique
+Livre-II/CHAPITRE-15-Relations-sociales.md:2056:HEADING:H3:32.4 Stocker `is_friend` séparément
+Livre-II/CHAPITRE-15-Relations-sociales.md:2083:HEADING:H3:32.5 Laisser les axes hors limites
+Livre-II/CHAPITRE-15-Relations-sociales.md:2111:HEADING:H3:32.6 Accepter une commande sans cause
+Livre-II/CHAPITRE-15-Relations-sociales.md:2143:HEADING:H3:32.7 Utiliser l’heure système comme ordre de simulation
+Livre-II/CHAPITRE-15-Relations-sociales.md:2169:HEADING:H3:32.8 Conserver un historique illimité
+Livre-II/CHAPITRE-15-Relations-sociales.md:2199:HEADING:H3:32.9 Retourner le tableau interne
+Livre-II/CHAPITRE-15-Relations-sociales.md:2229:HEADING:H3:32.10 Parcourir tous les nœuds pour trouver les voisins
+Livre-II/CHAPITRE-15-Relations-sociales.md:2258:HEADING:H3:32.11 Créer toutes les paires possibles
+Livre-II/CHAPITRE-15-Relations-sociales.md:2288:HEADING:H3:32.12 Décoder avec des conversions silencieuses
+Livre-II/CHAPITRE-15-Relations-sociales.md:2318:HEADING:H3:32.13 Appliquer avant validation complète
+Livre-II/CHAPITRE-15-Relations-sociales.md:2349:HEADING:H3:32.14 Valider contre les seuls personnages actifs
+Livre-II/CHAPITRE-15-Relations-sociales.md:2377:HEADING:H3:32.15 Mélanger famille et relation sociale
+Livre-II/CHAPITRE-15-Relations-sociales.md:2406:HEADING:H3:32.16 Utiliser l’IA comme autorité de la relation
+Livre-II/CHAPITRE-15-Relations-sociales.md:2435:HEADING:H2:33. Checklist de réalisation
+Livre-II/CHAPITRE-15-Relations-sociales.md:2455:HEADING:H2:34. Critères d’acceptation
+Livre-II/CHAPITRE-15-Relations-sociales.md:2472:HEADING:H2:35. Tests à préparer
+Livre-II/CHAPITRE-15-Relations-sociales.md:2495:HEADING:H2:36. Réserves runtime
+Livre-II/CHAPITRE-15-Relations-sociales.md:2512:HEADING:H2:37. Résumé
+Livre-II/CHAPITRE-15-Relations-sociales.md:2532:HEADING:H2:38. Sources techniques
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2237:REREAD:28.1 Utiliser le nom affiché comme identité::§ 7.2 Identité métier de la filiation::#72-identite-metier-de-la-filiation
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2269:REREAD:28.2 Stocker la famille dans le nœud actif::§ 11. Graphe familial::#11-graphe-familial
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2301:REREAD:28.3 Déduire la filiation depuis l’affinité::§ 7. Filiation dirigée::#7-filiation-dirigee
@@ -22,3 +91,92 @@ Livre-II/CHAPITRE-16-Famille-et-generations.md:2589:REREAD:28.12 Retourner une c
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2621:REREAD:28.13 Charger directement dans le graphe actif::§ 19. Construction atomique du graphe candidat::#19-construction-atomique-du-graphe-candidat
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2684:REREAD:28.15 Laisser une sortie IA créer un lien directement::§ 18.4 Décodage strict d’une filiation::#184-decodage-strict-dune-filiation
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2716:REREAD:28.16 Mélanger succession et famille::§ 3. Périmètre et frontières::#3-perimetre-et-frontieres
+HEADINGS::Livre-II/CHAPITRE-16-Famille-et-generations.md
+Livre-II/CHAPITRE-16-Famille-et-generations.md:40:HEADING:H2:1. Rôle du chapitre
+Livre-II/CHAPITRE-16-Famille-et-generations.md:62:HEADING:H2:2. Prérequis
+Livre-II/CHAPITRE-16-Famille-et-generations.md:81:HEADING:H2:3. Périmètre et frontières
+Livre-II/CHAPITRE-16-Famille-et-generations.md:106:HEADING:H2:4. Modèle conceptuel
+Livre-II/CHAPITRE-16-Famille-et-generations.md:108:HEADING:H3:4.1 Trois familles de liens
+Livre-II/CHAPITRE-16-Famille-et-generations.md:120:HEADING:H3:4.2 Pourquoi ne pas utiliser un booléen `is_parent`
+Livre-II/CHAPITRE-16-Famille-et-generations.md:133:HEADING:H3:4.3 Architecture retenue
+Livre-II/CHAPITRE-16-Famille-et-generations.md:153:HEADING:H2:5. Identifiants et types de liens
+Livre-II/CHAPITRE-16-Famille-et-generations.md:155:HEADING:H3:5.1 Identifiant stable du lien
+Livre-II/CHAPITRE-16-Famille-et-generations.md:204:HEADING:H3:5.2 Types explicites
+Livre-II/CHAPITRE-16-Famille-et-generations.md:247:HEADING:H2:6. Valeur temporelle commune
+Livre-II/CHAPITRE-16-Famille-et-generations.md:249:HEADING:H3:6.1 Intervalle logique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:303:HEADING:H2:7. Filiation dirigée
+Livre-II/CHAPITRE-16-Famille-et-generations.md:305:HEADING:H3:7.1 Modèle de lien
+Livre-II/CHAPITRE-16-Famille-et-generations.md:375:HEADING:H3:7.2 Identité métier de la filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:381:HEADING:H2:8. Tutelle temporelle
+Livre-II/CHAPITRE-16-Famille-et-generations.md:434:HEADING:H2:9. Union canonique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:436:HEADING:H3:9.1 Paire non orientée
+Livre-II/CHAPITRE-16-Famille-et-generations.md:481:HEADING:H3:9.2 Lien d’union
+Livre-II/CHAPITRE-16-Famille-et-generations.md:532:HEADING:H2:10. Contrat de l’index logique des personnages
+Livre-II/CHAPITRE-16-Famille-et-generations.md:564:HEADING:H2:11. Graphe familial
+Livre-II/CHAPITRE-16-Famille-et-generations.md:566:HEADING:H3:11.1 Stockages internes
+Livre-II/CHAPITRE-16-Famille-et-generations.md:598:HEADING:H3:11.2 Ajouter une filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:639:HEADING:H3:11.3 Cycle d’ascendance
+Livre-II/CHAPITRE-16-Famille-et-generations.md:687:HEADING:H3:11.4 Helpers d’index
+Livre-II/CHAPITRE-16-Famille-et-generations.md:741:HEADING:H2:12. Requêtes de filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:743:HEADING:H3:12.1 Parents et enfants directs
+Livre-II/CHAPITRE-16-Famille-et-generations.md:780:HEADING:H3:12.2 Fratrie calculée
+Livre-II/CHAPITRE-16-Famille-et-generations.md:814:HEADING:H3:12.3 Ancêtres bornés
+Livre-II/CHAPITRE-16-Famille-et-generations.md:873:HEADING:H3:12.4 Descendants bornés
+Livre-II/CHAPITRE-16-Famille-et-generations.md:926:HEADING:H2:13. Générations dérivées
+Livre-II/CHAPITRE-16-Famille-et-generations.md:928:HEADING:H3:13.1 Pourquoi ne pas persister `generation_number`
+Livre-II/CHAPITRE-16-Famille-et-generations.md:939:HEADING:H3:13.2 Distance générationnelle
+Livre-II/CHAPITRE-16-Famille-et-generations.md:965:HEADING:H2:14. Tutelles et unions actives
+Livre-II/CHAPITRE-16-Famille-et-generations.md:967:HEADING:H3:14.1 Ajouter une tutelle
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1000:HEADING:H3:14.2 Ajouter une union
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1035:HEADING:H3:14.3 Chevauchement d’intervalles
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1096:HEADING:H2:15. Service applicatif
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1098:HEADING:H3:15.1 Commande de filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1140:HEADING:H3:15.2 Événement typé
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1167:HEADING:H3:15.3 Orchestration
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1236:HEADING:H2:16. Historique familial
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1238:HEADING:H3:16.1 Événement persistant minimal
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1282:HEADING:H3:16.2 Journal borné
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1355:HEADING:H2:17. Validation globale
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1357:HEADING:H3:17.1 Pourquoi valider le graphe entier
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1368:HEADING:H3:17.2 Validateur
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1420:HEADING:H2:18. Snapshot persistant
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1422:HEADING:H3:18.1 Structure JSON
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1457:HEADING:H3:18.2 Limites du codec
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1483:HEADING:H3:18.3 Encodeurs
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1571:HEADING:H3:18.4 Décodage strict d’une filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1640:HEADING:H3:18.5 Intervalles, tutelles et unions
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1767:HEADING:H3:18.6 Historique et utilitaires
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1832:HEADING:H2:19. Construction atomique du graphe candidat
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1926:HEADING:H2:20. Section de sauvegarde
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2026:HEADING:H2:21. Personnages décédés, absents ou archivés
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2046:HEADING:H2:22. Démonstration pédagogique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2048:HEADING:H3:22.1 Scène
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2064:HEADING:H3:22.2 Script de démonstration
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2116:HEADING:H2:23. Parcours Solo
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2130:HEADING:H2:24. Parcours Studio
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2147:HEADING:H2:25. Complexité et budgets
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2169:HEADING:H2:26. Tests à préparer
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2171:HEADING:H3:26.1 Tests unitaires
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2190:HEADING:H3:26.2 Tests d’intégration
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2201:HEADING:H3:26.3 Tests de charge
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2210:HEADING:H2:27. Critères d’acceptation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2231:HEADING:H2:28. Erreurs fréquentes et corrections
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2235:HEADING:H3:28.1 Utiliser le nom affiché comme identité
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2267:HEADING:H3:28.2 Stocker la famille dans le nœud actif
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2299:HEADING:H3:28.3 Déduire la filiation depuis l’affinité
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2332:HEADING:H3:28.4 Persister la fratrie
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2362:HEADING:H3:28.5 Persister un numéro de génération absolu
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2392:HEADING:H3:28.6 Oublier la détection de cycle
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2425:HEADING:H3:28.7 Traiter un dépassement de budget comme une absence de cycle
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2459:HEADING:H3:28.8 Orienter une union
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2491:HEADING:H3:28.9 Utiliser l’heure système
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2523:HEADING:H3:28.10 Accepter un intervalle inversé
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2555:HEADING:H3:28.11 Valider uniquement contre les personnages actifs
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2587:HEADING:H3:28.12 Retourner une collection interne mutable
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2619:HEADING:H3:28.13 Charger directement dans le graphe actif
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2652:HEADING:H3:28.14 Sauvegarder les index secondaires
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2682:HEADING:H3:28.15 Laisser une sortie IA créer un lien directement
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2714:HEADING:H3:28.16 Mélanger succession et famille
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2747:HEADING:H2:29. Sources techniques
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2765:HEADING:H2:30. Limites de l’audit statique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2780:HEADING:H2:31. Résumé opérationnel
