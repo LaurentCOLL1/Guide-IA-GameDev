@@ -2,7 +2,7 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
 status: pending-ci
 validation-date: 2026-07-20
-validated-base-commit: a61ea9e5378e270e1db98d9f83e6fe6cef847318
+validated-base-commit: 2424919ab4e15ff6d2e60b2fafd2635e9bcab8e7
 validated-head-commit: pending-ci
 chapter:
   id: DOC-L2-CH17
@@ -16,7 +16,7 @@ results:
   unique-identifiers: 73
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2560
+  chapter-lines: 2564
   chapter-headings: 67
   chapter-significant-code-blocks: 35
   chapter-code-and-data-blocks: 69
