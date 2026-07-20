@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_ch15_ch16_section_references.py", line 96, in <module>
+    text = once(text, bad,
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_ch15_ch16_section_references.py", line 13, in once
+    raise RuntimeError(f'{label}: expected 1, got {count}')
+RuntimeError: ch16 parent queries role: expected 1, got 2
