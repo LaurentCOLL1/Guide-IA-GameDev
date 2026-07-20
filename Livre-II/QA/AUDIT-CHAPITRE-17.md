@@ -18,14 +18,14 @@ Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audi
 
 ## 2. Résultats
 
-- lignes finales : **2560** ;
+- lignes finales : **2564** ;
 - blocs clôturés : **69** ;
 - marqueurs d’explication : **69** ;
 - cas d’erreurs détaillés : **16** ;
 - auto-paraphrases du titre courant : **0** ;
 - fragments internes non résolus : **0** ;
 - sources Godot 4.7 nommées : **13** ;
-- doublons de titres ou blocs significatifs : à confirmer par CI ;
+- doublons de titres ou blocs significatifs : **0 selon la validation automatique** ;
 - PDF produit : **non** ;
 - exécution runtime : **non**.
 
@@ -65,7 +65,6 @@ Aucun script n’a été analysé par le parseur Godot. La scène, les signaux, 
 ## 6. Décision
 
 **Accepté au niveau `static-review`**, sous réserve des validations documentaires permanentes et des tests runtime futurs du chapitre 27.
-
 
 ## 7. Addendum terminologique et ordonnanceur — version 1.0.1
 
