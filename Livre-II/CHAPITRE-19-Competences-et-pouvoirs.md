@@ -37,28 +37,19 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 
 ## 1. Rôle du chapitre
 
-Le chapitre 18 a construit l’autorité du combat : une commande typée est validée, la cible, la portée et la ligne de vue sont contrôlées, les dégâts sont calculés, puis les candidats sont committés avant les événements.
+Le chapitre 18 a défini l’autorité du combat : commandes typées, initiative, cibles, portée, ligne de vue, défense, dégâts, états temporaires et commit préparé.
 
-Ce chapitre ajoute le système qui décrit **ce qu’un personnage sait faire**. Une compétence ou un pouvoir peut :
+Ce chapitre définit **ce qu’un personnage sait utiliser**. Une compétence ou un pouvoir possède une définition de conception, un état de progression, des charges, une recharge, des coûts, une forme de ciblage et une suite d’effets demandés.
 
-- posséder une définition de conception stable ;
-- exiger un coût ;
-- entrer en recharge ;
-- imposer un mode de ciblage spécialisé ;
-- produire plusieurs effets composables ;
-- être débloqué et amélioré ;
-- demander au combat d’appliquer un impact sans lui retirer son autorité ;
-- être sauvegardé sans persister les caches, prévisualisations ou requêtes en attente.
+Le système doit rester compatible avec les décisions déjà prises :
 
-À la fin du chapitre, le lecteur saura distinguer cinq responsabilités :
-
-| Responsabilité | Autorité |
-|---|---|
-| définir une compétence | `AbilityDefinition` et ses effets de conception |
-| savoir si un personnage la connaît | progression des compétences |
-| réserver coût et recharge | service de compétences |
-| valider cible, portée, défense et dégâts | système de combat |
-| afficher animation, icône et VFX | présentation |
+- la santé et l’endurance restent dans `CharacterRuntimeState` ;
+- la portée, la ligne de vue, la défense, les dégâts et les états de combat restent sous l’autorité du combat ;
+- une `Resource` de conception n’est jamais utilisée comme état runtime ;
+- les identifiants sont stables et indépendants des textes affichés ;
+- les mutations sont préparées puis committées comme un lot ;
+- un agent ou une interface propose une utilisation sans imposer son résultat ;
+- les plans, sélections et prévisualisations sont transitoires.
 
 ## 2. Prérequis
 
@@ -68,63 +59,56 @@ Le lecteur doit avoir parcouru :
 - le chapitre 5 pour les services injectés et le point de composition ;
 - le chapitre 7 pour les `Resource`, catalogues et identifiants stables ;
 - le chapitre 9 pour les sections de sauvegarde préparées avant application ;
-- le chapitre 14 pour `CharacterId`, `CharacterRuntimeState` et `CharacterRules` ;
+- le chapitre 14 pour les règles de personnage ;
 - le chapitre 17 pour les requêtes d’action des agents ;
-- le chapitre 18 pour `CombatService`, les cibles, la portée, les dégâts, les états, les révisions et le commit.
+- le chapitre 18 pour l’autorité de combat.
 
 ## 3. Périmètre et frontières
 
-Ce chapitre définit :
+Ce chapitre couvre :
 
-- les identifiants de compétences et de pouvoirs ;
-- les définitions de conception ;
-- les coûts et ressources de pouvoir ;
-- les charges et temps de recharge ;
-- les modes de ciblage déclaratifs ;
-- les effets composables ;
-- les commandes d’utilisation ;
-- la validation d’apprentissage et d’utilisation ;
-- la réservation atomique du coût et de la recharge ;
-- l’adaptation vers le combat ;
-- la progression par rang et expérience ;
-- les événements, diagnostics, budgets et persistance.
+- définitions de compétences et pouvoirs ;
+- coûts par ressource ;
+- charges et recharges en ticks logiques ;
+- ciblage sur soi, personnage, point ou zone ;
+- effets composables de dégâts, d’état et de ressource ;
+- déblocage, rang et expérience ;
+- commandes d’utilisation et résultats métier ;
+- préparation atomique du coût, des effets et de l’état de compétence ;
+- adaptation des joueurs et agents ;
+- sauvegarde stricte et restauration préparée.
 
-Il ne définit pas :
+Il ne couvre pas :
 
-- l’inventaire, l’équipement, les armes possédées ou les consommables du chapitre 20 ;
-- les prix, achats et récompenses du chapitre 21 ;
-- les règles écologiques du chapitre 22 ;
+- l’inventaire, l’équipement, les armes possédées et les consommables du chapitre 20 ;
+- les prix et transactions du chapitre 21 ;
 - les lois, factions et sanctions du chapitre 23 ;
-- les quêtes et choix narratifs du chapitre 25 ;
-- les arbres d’édition visuels et pipelines du chapitre 26 ;
-- les campagnes de tests exécutés du chapitre 27 ;
-- le multijoueur et l’autorité réseau du Livre IV.
+- les quêtes et conséquences narratives du chapitre 25 ;
+- les outils d’édition du chapitre 26 ;
+- les campagnes exécutées du chapitre 27 ;
+- le multijoueur du Livre IV.
 
-> **Frontière essentielle :** une compétence décrit une intention et des effets demandés. Le combat conserve la décision finale sur cible, portée, ligne de vue, défense, dégâts, état de vie et commit.
-
-<a id="ch19-authority-chain"></a>
+> **Frontière essentielle :** une compétence décrit et orchestre des demandes. Elle ne recalcule jamais les règles propriétaires du combat ou des personnages.
 
 ## 4. Chaîne d’autorité
 
-> **[LECTURE] Flux d’utilisation d’une compétence — Ne pas saisir.**
+> **[LECTURE] Flux d’utilisation — Ne pas saisir.**
 
 ```text
 joueur / agent / scénario
     ↓ AbilityUseCommand
 AbilityService
-    ├── vérifie apprentissage, rang et définition
-    ├── vérifie coût, charges et recharge
-    ├── prépare la réservation
-    └── construit un AbilityExecutionPlan
-            ↓ demandes d’effets typées
-CombatAbilityPort / CharacterEffectPort
-    ├── relisent le monde autoritaire
-    ├── valident cible, portée et règles propriétaires
-    └── préparent puis commit les mutations
-            ↓ résultat
-AbilityService
-    ├── confirme coût et recharge
-    └── publie événements de compétence
+    ├── relit définition, progression et recharge
+    ├── prépare les coûts
+    ├── prépare les candidats d’effets
+    └── prépare le nouvel état de compétence
+            ↓
+AbilityMutationUnitOfWork
+    ├── revalide révisions et candidats
+    ├── commit ressources, effets et état de compétence
+    └── refuse le lot entier si une précondition échoue
+            ↓
+AbilityResult + événements typés
             ↓
 présentation, journal, agents, narration
 ```
@@ -133,10 +117,11 @@ présentation, journal, agents, narration
 
 **Explication détaillée du bloc :**
 
-- **Entrée :** une commande indique l’utilisateur, la compétence, les cibles demandées et les révisions attendues.
-- **Sortie :** le service renvoie un résultat métier stable ; les ports propriétaires renvoient leurs propres résultats.
-- **Invariant :** aucun effet n’est considéré comme appliqué tant que l’autorité concernée n’a pas committé ses candidats.
-- **Frontière :** la compétence orchestre ; elle ne recalcule ni armure, ni résistance, ni mort.
+- **Entrée :** la commande contient l’utilisateur, la compétence, les cibles proposées, le tick et les révisions attendues.
+- **Préparation :** aucune autorité active n’est modifiée avant l’unité de travail.
+- **Commit :** coût, effets, charge et recharge sont validés ensemble.
+- **Sortie :** les consommateurs reçoivent seulement un résultat déjà committé.
+- **Invariant :** une animation, un agent ou une prévisualisation ne devient jamais autorité.
 
 ## 5. Architecture retenue
 
@@ -146,13 +131,13 @@ présentation, journal, agents, narration
 res://src/features/abilities/
 ├── domain/
 │   ├── ability_id.gd
-│   ├── ability_definition.gd
 │   ├── ability_cost_definition.gd
 │   ├── ability_target_definition.gd
 │   ├── ability_effect_definition.gd
 │   ├── damage_effect_definition.gd
 │   ├── status_effect_definition.gd
 │   ├── resource_effect_definition.gd
+│   ├── ability_definition.gd
 │   ├── ability_progression_state.gd
 │   ├── ability_runtime_state.gd
 │   ├── ability_use_command.gd
@@ -164,6 +149,8 @@ res://src/features/abilities/
 │   ├── ability_resource_port.gd
 │   ├── combat_ability_port.gd
 │   ├── character_effect_port.gd
+│   ├── ability_mutation_unit_of_work.gd
+│   ├── ability_context_port.gd
 │   ├── ability_progression_policy.gd
 │   ├── ability_service.gd
 │   └── ability_agent_action_executor.gd
@@ -187,25 +174,27 @@ res://scenes/learning/
 
 **Explication détaillée du bloc :**
 
-- `domain` contient les règles et données sans dépendance à une scène.
-- `application` orchestre catalogues, progression, ressources et ports propriétaires.
-- `infrastructure` encode la sauvegarde stricte.
-- `presentation` traduit des événements committés en interface et animation.
-- Le chapitre 20 pourra fournir des objets qui accordent une compétence sans déplacer la compétence dans l’inventaire.
+- `domain` contient les données et invariants indépendants des scènes.
+- `application` orchestre les ports et l’unité de travail.
+- `infrastructure` encode la persistance.
+- `presentation` consomme les résultats sans appliquer les règles.
+- Le chapitre 20 pourra accorder une compétence depuis un objet sans déplacer son autorité dans l’inventaire.
 
 ## 6. Vocabulaire
 
-Une **compétence** est une capacité apprise ou entraînée. Un **pouvoir** est une capacité dont la source peut être magique, biologique, technologique ou narrative. Le système utilise le terme générique `ability` pour traiter les deux avec les mêmes contrats.
+Une **définition** est une `Resource` partagée et immuable pendant le gameplay.
 
-Une **définition** est une `Resource` de conception partagée et immuable pendant le gameplay.
+Une **progression** indique si une compétence est débloquée, son rang et son expérience.
 
-Un **état runtime** contient les charges et la prochaine disponibilité d’une compétence pour un personnage.
+Un **état runtime** contient les charges disponibles, le prochain tick de récupération et la séquence d’utilisation.
 
-Une **progression** contient le rang, l’expérience et l’état de déblocage.
+Un **coût** est une quantité demandée à une ressource identifiée.
 
-Un **effet** est une demande structurée : dégâts, état de combat, soin ou variation d’une ressource. Il n’est pas encore une mutation.
+Un **effet** est une demande de mutation destinée à l’autorité propriétaire.
 
-Un **plan d’exécution** est une copie détachée des demandes d’effets calculées pour une utilisation précise.
+Un **candidat** est une mutation validée mais encore non committée.
+
+Un **plan d’exécution** fige les données d’une utilisation précise.
 
 ## 7. Identifiants stables
 
@@ -224,11 +213,9 @@ static func definition(slug: String) -> StringName:
 	if normalized.is_empty():
 		return &""
 	for character: String in normalized:
-		if not (
-			character >= "a" and character <= "z"
-			or character >= "0" and character <= "9"
-			or character == "_"
-		):
+		var is_letter := character >= "a" and character <= "z"
+		var is_digit := character >= "0" and character <= "9"
+		if not is_letter and not is_digit and character != "_":
 			return &""
 	return StringName(DEFINITION_PREFIX + normalized)
 
@@ -256,15 +243,14 @@ static func event(use_id: StringName, sequence: int) -> StringName:
 
 **Explication détaillée du bloc :**
 
-- `definition()` transforme un slug limité en identifiant de contenu stable.
-- `strip_edges()` retire les espaces de début et de fin ; `to_lower()` normalise la casse.
-- La boucle refuse tout caractère hors lettres ASCII minuscules, chiffres et `_`.
-- `use()` combine définition, personnage et séquence ; les mêmes arguments produisent le même résultat.
-- Une entrée invalide renvoie la sentinelle `&""`, jamais un identifiant partiel.
+- `definition()` normalise un slug en minuscules après suppression des espaces périphériques.
+- `is_letter` et `is_digit` sont des booléens calculés pour chaque caractère.
+- Seuls lettres ASCII minuscules, chiffres et `_` sont acceptés.
+- `use()` corrèle définition, personnage et séquence.
+- `event()` ajoute une séquence d’événement à l’utilisation.
+- Une entrée invalide renvoie `&""`, jamais un identifiant partiel.
 
-## 8. Types de ressources consommables
-
-Le système ne duplique pas la santé ou l’endurance. Il passe par un port qui connaît l’autorité réelle de chaque ressource.
+## 8. Décrire un coût
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_cost_definition.gd`.**
 
@@ -272,22 +258,15 @@ Le système ne duplique pas la santé ou l’endurance. Il passe par un port qui
 class_name AbilityCostDefinition
 extends Resource
 
-enum Timing {
-	ON_COMMIT,
-	PER_TICK,
-}
-
 @export var resource_id: StringName
 @export_range(0, 1000000, 1) var base_amount: int = 0
 @export_range(0, 1000000, 1) var amount_per_rank: int = 0
-@export var timing: Timing = Timing.ON_COMMIT
 @export var allow_zero := false
 
 func amount_for_rank(rank: int) -> int:
 	if rank < 1:
 		return -1
-	var extra := amount_per_rank * (rank - 1)
-	return base_amount + extra
+	return base_amount + amount_per_rank * (rank - 1)
 
 func validate() -> Error:
 	if not StableId.is_valid(resource_id):
@@ -296,8 +275,6 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not allow_zero and base_amount == 0:
 		return ERR_INVALID_DATA
-	if timing < Timing.ON_COMMIT or timing > Timing.PER_TICK:
-		return ERR_INVALID_DATA
 	return OK
 ```
 
@@ -305,13 +282,13 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- `resource_id` peut désigner `character.resource.stamina`, `ability.resource.focus` ou une autre ressource enregistrée.
-- `amount_for_rank()` renvoie `-1` pour un rang invalide ; le service transforme cette sentinelle en refus contrôlé.
-- `amount_per_rank * (rank - 1)` ajoute le supplément seulement après le premier rang.
-- `PER_TICK` prépare les canalisations futures, mais une utilisation instantanée n’en dépend pas.
-- La définition ne retire aucune ressource : elle décrit seulement un coût.
+- `resource_id` désigne l’autorité réelle, par exemple endurance ou concentration.
+- `base_amount` est le coût du rang 1.
+- `amount_per_rank` ajoute un supplément pour chaque rang suivant.
+- `amount_for_rank()` renvoie `-1` lorsque le rang est invalide.
+- La définition ne retire aucune ressource ; elle décrit seulement un montant.
 
-## 9. Modes de ciblage
+## 9. Décrire le ciblage
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_target_definition.gd`.**
 
@@ -365,15 +342,14 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- `mode` décrit la forme de la demande, pas la validation finale du monde.
-- `allegiance` exprime l’intention de conception ; le combat relit les côtés réels.
-- `range_m` et `radius_m` utilisent les mètres Godot et doivent être finis.
-- `maximum_targets` borne une sélection de zone avant toute allocation importante.
-- Une compétence `SELF` impose une cohérence stricte afin d’éviter une cible externe cachée dans une définition prétendument personnelle.
+- `mode` décrit la forme de la commande.
+- `allegiance` indique l’intention de conception ; le combat relit les côtés réels.
+- `range_m` et `radius_m` utilisent les mètres Godot.
+- `is_finite()` refuse `NaN` et les infinis.
+- `maximum_targets` borne une sélection de zone.
+- Le mode `SELF` impose une cible personnelle sans portée ni rayon.
 
-## 10. Effets composables
-
-La classe de base fournit une identité et un ordre. Chaque sous-type transporte uniquement les données nécessaires à son autorité propriétaire.
+## 10. Définir des effets composables
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_effect_definition.gd`.**
 
@@ -400,12 +376,13 @@ func duplicate_detached() -> AbilityEffectDefinition:
 
 **Explication détaillée du bloc :**
 
-- `effect_id` identifie l’effet dans les diagnostics et la sauvegarde de contenu, pas une classe à charger dynamiquement.
-- `order` produit un ordre explicite entre effets.
-- `required` indique si l’échec de l’effet doit faire échouer l’ensemble de l’utilisation.
-- `duplicate(true)` demande une duplication profonde des sous-ressources ; le plan n’expose pas la définition partagée à une mutation runtime.
+- `effect_id` sert à la corrélation et au diagnostic.
+- `order` fixe un ordre canonique.
+- `required` distingue un effet principal d’un effet optionnel.
+- `duplicate(true)` demande une copie profonde des sous-ressources.
+- Aucun nom de classe ou chemin externe n’est exécuté.
 
-### 10.1 Effet de dégâts
+### 10.1 Dégâts demandés
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/damage_effect_definition.gd`.**
 
@@ -417,7 +394,6 @@ extends AbilityEffectDefinition
 @export_range(0, 100000000, 1) var base_amount: int = 0
 @export_range(0, 100000000, 1) var amount_per_rank: int = 0
 @export_range(0, 1000, 1) var armor_penetration_permille: int = 0
-@export var tags: Array[StringName] = []
 
 func amount_for_rank(rank: int) -> int:
 	if rank < 1:
@@ -437,11 +413,6 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if armor_penetration_permille > 1000:
 		return ERR_INVALID_DATA
-	var seen: Dictionary[StringName, bool] = {}
-	for tag: StringName in tags:
-		if not StableId.is_valid(tag) or seen.has(tag):
-			return ERR_INVALID_DATA
-		seen[tag] = true
 	return OK
 ```
 
@@ -449,12 +420,12 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- L’effet calcule une quantité brute par rang.
-- Le type, la pénétration et les tags correspondent aux données attendues par le combat.
-- Il ne lit ni défense ni garde et ne produit pas la santé finale.
-- Les tags sont validés et uniques ; ils ne deviennent jamais des noms de méthodes.
+- L’effet fournit un montant brut par rang.
+- Le type et la pénétration réutilisent les contrats du combat.
+- Il ne lit ni armure, ni résistance, ni garde.
+- Le résultat final appartient à `DamageResolver`.
 
-### 10.2 Effet d’état
+### 10.2 État demandé
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/status_effect_definition.gd`.**
 
@@ -480,12 +451,12 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- La compétence désigne une définition d’état autorisée.
-- Le combat choisit la règle d’empilement et valide la capacité de la cible.
-- `duration_ticks` utilise la chronologie logique, jamais l’heure système.
-- `stacks` est une demande bornée qui peut encore être réduite ou refusée par la politique propriétaire.
+- `status_definition_id` référence un état autorisé.
+- `duration_ticks` utilise la chronologie logique.
+- `stacks` est une demande ; la politique de combat peut la borner ou la refuser.
+- La compétence ne modifie pas directement `active_statuses`.
 
-### 10.3 Effet de ressource
+### 10.3 Ressource demandée
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/resource_effect_definition.gd`.**
 
@@ -516,10 +487,10 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- Un delta positif restaure une ressource ; un delta négatif la consomme.
-- `Variant` permet de distinguer la valeur entière `0` d’un rang invalide représenté par `null`.
-- Le port propriétaire borne la valeur selon la ressource réelle.
-- Un soin de santé passe par `CharacterRules`; il n’écrit pas directement dans `CharacterRuntimeState`.
+- Un delta positif restaure ; un delta négatif consomme.
+- `Variant` permet de distinguer l’entier `0` de `null`.
+- Le port propriétaire borne la valeur.
+- Un soin de santé passe par `CharacterRules`.
 
 ## 11. Définition complète d’une compétence
 
@@ -539,7 +510,6 @@ extends Resource
 @export var costs: Array[AbilityCostDefinition] = []
 @export var target: AbilityTargetDefinition
 @export var effects: Array[AbilityEffectDefinition] = []
-@export var tags: Array[StringName] = []
 
 func cooldown_for_rank(rank: int) -> int:
 	if rank < 1 or rank > maximum_rank:
@@ -562,7 +532,7 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if target == null or target.validate() != OK:
 		return ERR_INVALID_DATA
-	if effects.is_empty():
+	if effects.is_empty() or effects.size() > 32:
 		return ERR_INVALID_DATA
 
 	var seen_costs: Dictionary[StringName, bool] = {}
@@ -573,8 +543,8 @@ func validate() -> Error:
 			return ERR_ALREADY_EXISTS
 		seen_costs[cost.resource_id] = true
 
-	var seen_effects: Dictionary[StringName, bool] = {}
 	var previous_order := -1
+	var seen_effects: Dictionary[StringName, bool] = {}
 	for effect: AbilityEffectDefinition in effects:
 		if effect == null or effect.validate() != OK:
 			return ERR_INVALID_DATA
@@ -591,26 +561,27 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- Les clés d’affichage sont distinctes des identifiants métier.
-- `cooldown_for_rank()` réduit la recharge sans produire une valeur négative.
-- Chaque ressource ne peut apparaître qu’une fois dans `costs`, ce qui évite deux réservations ambiguës.
-- Les effets sont déjà triés par `order`; le validateur refuse une définition non canonique au lieu de la réordonner silencieusement.
+- Les clés d’affichage restent séparées de l’identité métier.
+- `cooldown_for_rank()` ne renvoie jamais une recharge négative.
+- Les coûts d’une même ressource sont uniques.
+- Les effets sont bornés, uniques et déjà triés.
+- Le validateur refuse une définition incohérente au lieu de la corriger silencieusement.
 - La `Resource` reste immuable pendant le gameplay.
 
-## 12. Créer une définition dans Godot
+## 12. Créer une compétence dans Godot
 
 > **[APP] Godot — Créer `res://data/abilities/ember_bolt.tres` depuis `AbilityDefinition`.**
 
-Renseigner :
+Valeurs pédagogiques :
 
 - `ability_id` : `ability.definition.ember_bolt` ;
-- `maximum_rank` : `5` ;
-- `base_cooldown_ticks` : `180` ;
-- `cooldown_reduction_per_rank` : `12` ;
+- rang maximal : `5` ;
+- recharge : `180` ticks ;
+- réduction : `12` ticks par rang ;
 - une charge ;
-- un coût `ability.resource.focus` ;
-- une cible `SINGLE_CHARACTER`, `ENEMY`, portée `18.0` m, ligne de vue requise ;
-- un `DamageEffectDefinition` de type `FIRE`.
+- coût : `ability.resource.focus` ;
+- ciblage : personnage ennemi, portée `18.0` m, ligne de vue requise ;
+- effet : dégâts de feu.
 
 > **[LECTURE] Résultat attendu — Ne pas saisir.**
 
@@ -618,18 +589,18 @@ Renseigner :
 La ressource est acceptée seulement si :
 - tous les identifiants sont stables ;
 - les coûts sont uniques ;
-- la cible est cohérente ;
+- le ciblage est cohérent ;
 - les effets sont valides et ordonnés ;
-- le rang et la recharge restent dans leurs bornes.
+- les rangs, charges et recharges sont bornés.
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- Cette sortie décrit les invariants observables après `validate()`.
-- Aucun état de personnage, charge courante ou tick de recharge n’est enregistré dans le `.tres`.
-- Le fichier peut être partagé par tous les personnages sans mutation runtime.
+- Cette sortie décrit les invariants de `validate()`.
+- Le `.tres` ne contient ni charge courante ni tick runtime.
+- Plusieurs personnages peuvent partager la même définition.
 
 ## 13. Catalogue de définitions
 
@@ -658,22 +629,22 @@ func get_definition(ability_id: StringName) -> AbilityDefinition:
 	return stored.duplicate(true) as AbilityDefinition
 
 func all_ids_sorted() -> Array[StringName]:
-	var result: Array[StringName] = []
-	result.assign(_definitions.keys())
-	result.sort()
-	return result
+	var ids: Array[StringName] = []
+	ids.assign(_definitions.keys())
+	ids.sort()
+	return ids
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- `register()` refuse une définition invalide ou dupliquée.
-- Le catalogue conserve une copie profonde pour ne pas dépendre d’une ressource que l’appelant modifierait ensuite.
-- `get_definition()` renvoie également une copie.
-- `all_ids_sorted()` donne un ordre stable pour validation, affichage et sauvegarde.
+- Le catalogue refuse une définition invalide ou dupliquée.
+- Il conserve une copie profonde.
+- Il renvoie aussi une copie afin de protéger l’autorité interne.
+- Les identifiants triés donnent un ordre stable.
 
-## 14. Progression d’une compétence
+## 14. Progression et état runtime
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_progression_state.gd`.**
 
@@ -714,60 +685,10 @@ func duplicate_detached() -> AbilityProgressionState:
 
 **Explication détaillée du bloc :**
 
-- Une compétence verrouillée possède toujours un rang `0`.
-- Une compétence débloquée commence au rang `1`.
-- L’expérience reste un entier JSON sûr de 53 bits.
-- La définition fournit la borne supérieure du rang.
-- La copie détachée évite qu’une requête d’interface modifie l’état du dépôt.
-
-## 15. Politique de progression
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_progression_policy.gd`.**
-
-```gdscript
-class_name AbilityProgressionPolicy
-extends RefCounted
-
-func experience_required_for_rank(rank: int) -> int:
-	if rank < 1 or rank > 100:
-		return -1
-	return 100 * rank * rank
-
-func grant_experience(
-	state: AbilityProgressionState,
-	definition: AbilityDefinition,
-	amount: int,
-) -> Error:
-	if state == null or definition == null:
-		return ERR_INVALID_PARAMETER
-	if state.validate(definition) != OK:
-		return ERR_INVALID_DATA
-	if amount <= 0:
-		return ERR_INVALID_PARAMETER
-	if not state.unlocked:
-		return ERR_UNAVAILABLE
-
-	state.experience += amount
-	while state.rank < definition.maximum_rank:
-		var next_rank := state.rank + 1
-		var required := experience_required_for_rank(next_rank)
-		if required < 0 or state.experience < required:
-			break
-		state.rank = next_rank
-	return OK
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- La formule `100 * rank * rank` est un exemple pédagogique, pas une valeur d’équilibrage universelle.
-- Le rang augmente tant que l’expérience cumulée atteint le seuil suivant.
-- L’expérience n’est pas consommée ; elle représente un total.
-- La politique refuse l’expérience sur une compétence verrouillée.
-- Un changement de formule devra être versionné si la progression sauvegardée en dépend.
-
-## 16. État runtime : charges et recharge
+- Une compétence verrouillée possède un rang `0`.
+- Une compétence débloquée possède au moins le rang `1`.
+- L’expérience reste dans la plage entière JSON sûre.
+- La copie détachée protège le dépôt.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_runtime_state.gd`.**
 
@@ -833,13 +754,60 @@ func duplicate_detached() -> AbilityRuntimeState:
 
 **Explication détaillée du bloc :**
 
-- Les charges représentent le nombre d’utilisations immédiatement disponibles.
-- `next_charge_tick` désigne la prochaine récupération ; zéro signifie qu’aucune recharge n’est en cours.
-- La boucle restaure plusieurs charges lorsque beaucoup de ticks se sont écoulés hors écran.
-- Le calcul utilise le tick logique et reste sauvegardable.
-- L’état ne contient ni `Timer`, ni animation, ni référence de nœud.
+- `available_charges` compte les utilisations immédiates.
+- `next_charge_tick` est zéro lorsqu’aucune recharge n’est en cours.
+- La boucle récupère plusieurs charges après une longue simulation hors écran.
+- Le tick logique remplace l’heure système et les `Timer`.
+- L’état ne contient aucune référence de scène.
 
-## 17. Commande d’utilisation
+## 15. Politique de progression
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_progression_policy.gd`.**
+
+```gdscript
+class_name AbilityProgressionPolicy
+extends RefCounted
+
+func experience_required_for_rank(rank: int) -> int:
+	if rank < 1 or rank > 100:
+		return -1
+	return 100 * rank * rank
+
+func grant_experience(
+	state: AbilityProgressionState,
+	definition: AbilityDefinition,
+	amount: int,
+) -> Error:
+	if state == null or definition == null:
+		return ERR_INVALID_PARAMETER
+	if state.validate(definition) != OK:
+		return ERR_INVALID_DATA
+	if amount <= 0:
+		return ERR_INVALID_PARAMETER
+	if not state.unlocked:
+		return ERR_UNAVAILABLE
+
+	state.experience += amount
+	while state.rank < definition.maximum_rank:
+		var next_rank := state.rank + 1
+		var required := experience_required_for_rank(next_rank)
+		if required < 0 or state.experience < required:
+			break
+		state.rank = next_rank
+	return OK
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- La formule est un exemple d’équilibrage, pas une norme universelle.
+- L’expérience est cumulative.
+- La boucle peut gagner plusieurs rangs après une récompense importante.
+- La compétence doit être débloquée.
+- Un changement futur de formule devra être versionné si les sauvegardes en dépendent.
+
+## 16. Commande et résultat
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_use_command.gd`.**
 
@@ -872,36 +840,23 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	var seen: Dictionary[StringName, bool] = {}
 	for target_id: StringName in target_character_ids:
-		if not CharacterId.is_valid(target_id) or seen.has(target_id):
+		if not CharacterId.is_valid(target_id):
 			return ERR_INVALID_DATA
+		if seen.has(target_id):
+			return ERR_ALREADY_EXISTS
 		seen[target_id] = true
 	return OK
-
-func duplicate_detached() -> AbilityUseCommand:
-	var copy := AbilityUseCommand.new()
-	copy.use_id = use_id
-	copy.user_character_id = user_character_id
-	copy.ability_id = ability_id
-	copy.target_character_ids.assign(target_character_ids)
-	copy.target_point = target_point
-	copy.has_target_point = has_target_point
-	copy.requested_tick = requested_tick
-	copy.expected_world_revision = expected_world_revision
-	copy.expected_ability_revision = expected_ability_revision
-	return copy
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- La commande transporte une sélection demandée, jamais une liste de cibles déjà autorisées.
-- Les révisions rendent les décisions obsolètes détectables.
-- Les cibles sont uniques et typées par `CharacterId`.
-- `has_target_point` distingue le point `(0, 0, 0)` valide de l’absence de point.
-- La copie détachée protège la file et le service contre une modification ultérieure de l’appelant.
-
-## 18. Résultat métier
+- La commande contient des cibles proposées, pas des cibles déjà autorisées.
+- `has_target_point` distingue l’origine valide de l’absence de point.
+- Les deux révisions protègent contre un monde ou un état de compétence obsolète.
+- Les cibles sont valides et uniques.
+- La commande ne contient ni coût final ni dégâts.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_result.gd`.**
 
@@ -915,9 +870,7 @@ enum Status {
 	REJECTED_INVALID_COMMAND,
 	REJECTED_UNKNOWN_ABILITY,
 	REJECTED_LOCKED,
-	REJECTED_RANK,
 	REJECTED_NO_CHARGE,
-	REJECTED_COOLDOWN,
 	REJECTED_COST,
 	REJECTED_TARGET,
 	REJECTED_STALE_REVISION,
@@ -929,7 +882,7 @@ var status: Status
 var use_id: StringName
 var ability_id: StringName
 var user_character_id: StringName
-var applied_effect_ids: Array[StringName] = []
+var prepared_effect_ids: Array[StringName] = []
 var rejected_effect_ids: Array[StringName] = []
 var message: String = ""
 
@@ -950,12 +903,12 @@ func validate() -> Error:
 
 **Explication détaillée du bloc :**
 
-- `PARTIALLY_RESOLVED` n’est permis que lorsque des effets non requis échouent.
-- Un refus de coût ou de cible ne consomme aucune charge.
-- Les identifiants d’effets appliqués et refusés permettent un diagnostic sans sérialiser les objets complets.
-- `is_success()` évite de retenter une utilisation partiellement committée comme si rien ne s’était passé.
+- `RESOLVED` et `PARTIALLY_RESOLVED` sont des utilisations consommées.
+- Un effet optionnel peut être refusé sans annuler les candidats requis.
+- Les identifiants préparés deviennent observables seulement après commit.
+- `is_success()` empêche un retry gratuit d’un résultat partiel.
 
-## 19. Plan d’exécution détaché
+## 17. Plan d’exécution
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_execution_plan.gd`.**
 
@@ -976,7 +929,7 @@ var effects: Array[AbilityEffectDefinition] = []
 func validate(definition: AbilityDefinition) -> Error:
 	if definition == null or definition.validate() != OK:
 		return ERR_UNCONFIGURED
-	if use_id.is_empty() or not StableId.is_valid(use_id):
+	if not StableId.is_valid(use_id):
 		return ERR_INVALID_DATA
 	if ability_id != definition.ability_id:
 		return ERR_INVALID_DATA
@@ -991,10 +944,9 @@ func validate(definition: AbilityDefinition) -> Error:
 	if effects.size() != definition.effects.size():
 		return ERR_INVALID_DATA
 	for index in effects.size():
-		var effect := effects[index]
-		if effect == null or effect.validate() != OK:
+		if effects[index] == null or effects[index].validate() != OK:
 			return ERR_INVALID_DATA
-		if effect.effect_id != definition.effects[index].effect_id:
+		if effects[index].effect_id != definition.effects[index].effect_id:
 			return ERR_INVALID_DATA
 	return OK
 ```
@@ -1003,12 +955,13 @@ func validate(definition: AbilityDefinition) -> Error:
 
 **Explication détaillée du bloc :**
 
-- Le plan fige le rang, les cibles et les effets pour une utilisation précise.
-- L’ordre et les identifiants doivent correspondre à la définition validée.
-- Le plan ne contient aucun résultat de dégâts, aucune défense et aucune référence de scène.
-- Les effets sont des copies profondes ; modifier le catalogue après préparation ne change pas une utilisation déjà planifiée.
+- Le plan fige rang, tick, cibles et effets.
+- Les effets sont comparés à la définition par index et identifiant.
+- Le plan ne contient ni défense ni résultat de dégâts.
+- Il ne contient aucun nœud.
+- Il est traité comme immuable après construction.
 
-## 20. Port de ressources
+## 18. Ports de préparation
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_resource_port.gd`.**
 
@@ -1043,12 +996,6 @@ func prepare_reservation(
 ) -> Reservation:
 	return null
 
-func commit_reservation(
-	reservation: Reservation,
-	expected_world_revision: int,
-) -> Error:
-	return ERR_UNAVAILABLE
-
 func cancel_reservation(_reservation: Reservation) -> void:
 	pass
 ```
@@ -1057,66 +1004,41 @@ func cancel_reservation(_reservation: Reservation) -> void:
 
 **Explication détaillée du bloc :**
 
-- `prepare_reservation()` vérifie la disponibilité et renvoie un candidat sans retirer de ressource active.
-- `commit_reservation()` applique les coûts seulement avec la révision attendue.
-- `cancel_reservation()` libère le candidat lorsque la cible ou un effet requis échoue.
-- Le port peut coordonner endurance, santé et ressources propres aux pouvoirs sans les fusionner dans un même état.
+- La réservation vérifie les ressources sans les consommer.
+- Les montants sont positifs ou nuls et associés à des identifiants stables.
+- Le commit n’existe pas sur ce port afin d’éviter un coût isolé.
+- `cancel_reservation()` libère le candidat abandonné.
 
-## 21. Ports propriétaires des effets
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/combat_ability_port.gd`.**
+> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_mutation_unit_of_work.gd`.**
 
 ```gdscript
-class_name CombatAbilityPort
+class_name AbilityMutationUnitOfWork
 extends RefCounted
 
-class EffectResult:
+class EffectCandidate:
 	extends RefCounted
 
-	var code: Error = FAILED
-	var applied := false
-	var detail_id: StringName = &""
+	var effect_id: StringName
+	var authority_id: StringName
+	var payload: Dictionary = {}
 
-	func is_success() -> bool:
-		return code == OK and applied
+	func validate() -> Error:
+		if not StableId.is_valid(effect_id):
+			return ERR_INVALID_DATA
+		if not StableId.is_valid(authority_id):
+			return ERR_INVALID_DATA
+		if payload.is_empty():
+			return ERR_INVALID_DATA
+		return OK
 
-func apply_damage_effect(
-	plan: AbilityExecutionPlan,
-	effect: DamageEffectDefinition,
-	target_id: StringName,
+func commit(
+	reservation: AbilityResourcePort.Reservation,
+	effect_candidates: Array[EffectCandidate],
+	character_id: StringName,
+	progression: AbilityProgressionState,
+	runtime: AbilityRuntimeState,
 	expected_world_revision: int,
-) -> EffectResult:
-	return null
-
-func apply_status_effect(
-	plan: AbilityExecutionPlan,
-	effect: StatusEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> EffectResult:
-	return null
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Le port reçoit une demande structurée et délègue au système de combat.
-- Le combat reconstruit `DamagePacket`, valide cible, portée et ligne de vue, puis commit.
-- `EffectResult` distingue le code technique de l’effet réellement appliqué.
-- La classe de base ne réussit jamais silencieusement.
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/character_effect_port.gd`.**
-
-```gdscript
-class_name CharacterEffectPort
-extends RefCounted
-
-func apply_resource_effect(
-	plan: AbilityExecutionPlan,
-	effect: ResourceEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
+	expected_ability_revision: int,
 ) -> Error:
 	return ERR_UNAVAILABLE
 ```
@@ -1125,14 +1047,72 @@ func apply_resource_effect(
 
 **Explication détaillée du bloc :**
 
-- Ce port traite les ressources dont le propriétaire est le système de personnages ou un registre dédié.
-- Un soin de santé utilise les règles du chapitre 14.
-- Une restauration d’endurance ne contourne pas les bornes du personnage.
-- Le service de compétences ne connaît pas la disposition interne de ces états.
+- Un candidat possède l’identité de son effet et de son autorité.
+- `payload` est construit par un port fiable ; aucune donnée joueur ne choisit une méthode.
+- `commit()` reçoit coût, effets, progression, runtime et révisions.
+- L’implémentation revalide tous les candidats avant de préparer les swaps.
+- Aucun premier remplacement ne doit pouvoir réussir si un remplacement suivant peut encore échouer.
+- Cette atomicité est une exigence à tester au chapitre 27, pas un test runtime revendiqué ici.
 
-## 22. Dépôt de progression et d’état runtime
+> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/combat_ability_port.gd`.**
 
-> **[LECTURE] Contrat de dépôt — Structure de référence.**
+```gdscript
+class_name CombatAbilityPort
+extends RefCounted
+
+func prepare_damage_effect(
+	plan: AbilityExecutionPlan,
+	effect: DamageEffectDefinition,
+	target_id: StringName,
+	expected_world_revision: int,
+) -> AbilityMutationUnitOfWork.EffectCandidate:
+	return null
+
+func prepare_status_effect(
+	plan: AbilityExecutionPlan,
+	effect: StatusEffectDefinition,
+	target_id: StringName,
+	expected_world_revision: int,
+) -> AbilityMutationUnitOfWork.EffectCandidate:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le combat relit cible, portée, ligne de vue, défense et état de vie.
+- Il prépare un candidat, mais ne commit rien à cette étape.
+- `null` représente un refus contrôlé.
+- Le service de compétences ne connaît pas les calculs de combat.
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/character_effect_port.gd`.**
+
+```gdscript
+class_name CharacterEffectPort
+extends RefCounted
+
+func prepare_resource_effect(
+	plan: AbilityExecutionPlan,
+	effect: ResourceEffectDefinition,
+	target_id: StringName,
+	expected_world_revision: int,
+) -> AbilityMutationUnitOfWork.EffectCandidate:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le port prépare santé, endurance ou une ressource dédiée.
+- Les règles de personnage bornent les valeurs.
+- Aucun état actif n’est modifié.
+- Le candidat sera committé avec les autres autorités.
+
+## 19. Dépôt et contexte
+
+> **[LECTURE] Contrat du dépôt — Structure de référence.**
 
 ```gdscript
 class_name AbilityRepository
@@ -1150,14 +1130,6 @@ func get_runtime(
 ) -> AbilityRuntimeState:
 	return null
 
-func replace_pair(
-	character_id: StringName,
-	expected_revision: int,
-	progression: AbilityProgressionState,
-	runtime: AbilityRuntimeState,
-) -> Error:
-	return ERR_UNAVAILABLE
-
 func revision_for(character_id: StringName) -> int:
 	return -1
 
@@ -1169,14 +1141,41 @@ func replace_all(prepared: Dictionary) -> Error:
 
 **Explication détaillée du bloc :**
 
-- Les lectures renvoient des copies détachées.
-- `replace_pair()` remplace progression et runtime dans une même opération validée.
-- La révision est portée par personnage afin qu’une utilisation ne remplace pas une évolution concurrente.
-- `replace_all()` sert uniquement à une restauration préparée et complète.
+- Les lectures retournent des copies détachées.
+- La révision est portée par personnage.
+- Le dépôt ne calcule ni coûts ni effets.
+- `replace_all()` sert à une restauration complète préparée.
 
-## 23. Construire les coûts calculés
+> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_context_port.gd`.**
 
-> **[LECTURE] Fonction interne de `AbilityService` — Suite du même fichier.**
+```gdscript
+class_name AbilityContextPort
+extends RefCounted
+
+class Context:
+	extends RefCounted
+
+	var ability_revision: int = 0
+
+	func validate() -> Error:
+		return OK if ability_revision >= 0 else ERR_INVALID_DATA
+
+func snapshot_for(_character_id: StringName) -> Context:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le port fournit une révision fraîche à un adaptateur.
+- Il n’expose ni dépôt ni progression mutable.
+- `null` signifie qu’aucun contexte n’est disponible.
+- Le service et l’unité de travail recontrôlent ensuite la révision.
+
+## 20. Construire les coûts et la forme de cible
+
+> **[LECTURE] Fonctions internes de `AbilityService` — Ne pas saisir séparément.**
 
 ```gdscript
 func _build_costs(
@@ -1190,18 +1189,97 @@ func _build_costs(
 			return {}
 		result[cost.resource_id] = amount
 	return result
+
+func _validate_target_shape(
+	command: AbilityUseCommand,
+	target: AbilityTargetDefinition,
+) -> Error:
+	if target == null or target.validate() != OK:
+		return ERR_UNCONFIGURED
+	match target.mode:
+		AbilityTargetDefinition.Mode.SELF:
+			if not command.target_character_ids.is_empty():
+				return ERR_INVALID_DATA
+			if command.has_target_point:
+				return ERR_INVALID_DATA
+		AbilityTargetDefinition.Mode.SINGLE_CHARACTER:
+			if command.target_character_ids.size() != 1:
+				return ERR_INVALID_DATA
+			if command.has_target_point:
+				return ERR_INVALID_DATA
+		AbilityTargetDefinition.Mode.POINT:
+			if not command.target_character_ids.is_empty():
+				return ERR_INVALID_DATA
+			if not command.has_target_point:
+				return ERR_INVALID_DATA
+		AbilityTargetDefinition.Mode.AREA_AROUND_POINT:
+			if not command.has_target_point:
+				return ERR_INVALID_DATA
+			if command.target_character_ids.size() > target.maximum_targets:
+				return ERR_INVALID_DATA
+		_:
+			return ERR_INVALID_DATA
+	return OK
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- La fonction transforme les définitions en montants concrets pour le rang courant.
-- Les clés sont uniques grâce à `AbilityDefinition.validate()`.
-- Un dictionnaire vide peut représenter une compétence gratuite ; l’appelant connaît le nombre de coûts attendus et vérifie cette ambiguïté.
-- Aucun retrait n’a encore lieu.
+- `_build_costs()` calcule un montant par ressource.
+- Un dictionnaire vide peut être une compétence gratuite ; l’appelant compare aussi le nombre de coûts.
+- `_validate_target_shape()` vérifie la cohérence du payload.
+- Elle ne valide pas la portée ou l’allégeance réelle.
+- Un point à l’origine reste valide grâce à `has_target_point`.
 
-## 24. Préparer une utilisation
+## 21. Construire le plan et les cibles initiales
+
+> **[LECTURE] Construction déterministe — Suite de `ability_service.gd`.**
+
+```gdscript
+func _build_plan(
+	command: AbilityUseCommand,
+	definition: AbilityDefinition,
+	rank: int,
+) -> AbilityExecutionPlan:
+	var plan := AbilityExecutionPlan.new()
+	plan.use_id = command.use_id
+	plan.ability_id = command.ability_id
+	plan.user_character_id = command.user_character_id
+	plan.rank = rank
+	plan.logical_tick = command.requested_tick
+	plan.target_character_ids.assign(command.target_character_ids)
+	plan.target_character_ids.sort()
+	plan.target_point = command.target_point
+	plan.has_target_point = command.has_target_point
+	for effect: AbilityEffectDefinition in definition.effects:
+		plan.effects.append(effect.duplicate_detached())
+	return plan
+
+func _effective_targets(
+	plan: AbilityExecutionPlan,
+	target: AbilityTargetDefinition,
+) -> Array[StringName]:
+	var result: Array[StringName] = []
+	if target.mode == AbilityTargetDefinition.Mode.SELF:
+		result.append(plan.user_character_id)
+	else:
+		result.assign(plan.target_character_ids)
+	result.sort()
+	return result
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Les cibles sont triées afin de produire un ordre stable.
+- Les effets sont copiés profondément.
+- `SELF` produit explicitement l’utilisateur.
+- Une liste de zone reste candidate ; le combat la filtre.
+- Le plan ne lit aucun dépôt après construction.
+
+## 22. Préparer les effets
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_service.gd`.**
 
@@ -1211,12 +1289,126 @@ extends RefCounted
 
 signal ability_resolved(result: AbilityResult)
 
+class PreparedUse:
+	extends RefCounted
+
+	var result: AbilityResult
+	var candidates: Array[AbilityMutationUnitOfWork.EffectCandidate] = []
+
 var _catalog: AbilityCatalog
 var _repository: AbilityRepository
 var _resources: AbilityResourcePort
 var _combat_port: CombatAbilityPort
 var _character_port: CharacterEffectPort
+var _unit_of_work: AbilityMutationUnitOfWork
 
+func _prepare_one_effect(
+	plan: AbilityExecutionPlan,
+	effect: AbilityEffectDefinition,
+	target_id: StringName,
+	expected_world_revision: int,
+) -> AbilityMutationUnitOfWork.EffectCandidate:
+	if effect is DamageEffectDefinition:
+		if _combat_port == null:
+			return null
+		return _combat_port.prepare_damage_effect(
+			plan,
+			effect as DamageEffectDefinition,
+			target_id,
+			expected_world_revision,
+		)
+	if effect is StatusEffectDefinition:
+		if _combat_port == null:
+			return null
+		return _combat_port.prepare_status_effect(
+			plan,
+			effect as StatusEffectDefinition,
+			target_id,
+			expected_world_revision,
+		)
+	if effect is ResourceEffectDefinition:
+		if _character_port == null:
+			return null
+		return _character_port.prepare_resource_effect(
+			plan,
+			effect as ResourceEffectDefinition,
+			target_id,
+			expected_world_revision,
+		)
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- `PreparedUse` regroupe un résultat provisoire et des candidats.
+- Le dispatch est fermé sur trois types autorisés.
+- Aucun chemin ou nom de classe fourni par les données n’est chargé.
+- Chaque port prépare un candidat sans mutation active.
+- Un type inconnu renvoie `null`.
+
+> **[LECTURE] Agrégation des candidats — Suite du même fichier.**
+
+```gdscript
+func _prepare_effects(
+	plan: AbilityExecutionPlan,
+	definition: AbilityDefinition,
+	expected_world_revision: int,
+) -> PreparedUse:
+	var prepared := PreparedUse.new()
+	prepared.result = _result(
+		AbilityResult.Status.RESOLVED,
+		null,
+		"compétence préparée",
+	)
+	prepared.result.use_id = plan.use_id
+	prepared.result.ability_id = plan.ability_id
+	prepared.result.user_character_id = plan.user_character_id
+
+	var targets := _effective_targets(plan, definition.target)
+	for effect: AbilityEffectDefinition in plan.effects:
+		var effect_prepared := false
+		for target_id: StringName in targets:
+			var candidate := _prepare_one_effect(
+				plan,
+				effect,
+				target_id,
+				expected_world_revision,
+			)
+			if candidate != null and candidate.validate() == OK:
+				prepared.candidates.append(candidate)
+				effect_prepared = true
+			elif effect.required:
+				prepared.result.status = AbilityResult.Status.REJECTED_EFFECT
+				prepared.result.message = "effet requis refusé"
+				prepared.result.rejected_effect_ids.append(effect.effect_id)
+				return prepared
+		if effect_prepared:
+			prepared.result.prepared_effect_ids.append(effect.effect_id)
+		else:
+			prepared.result.rejected_effect_ids.append(effect.effect_id)
+
+	if not prepared.result.rejected_effect_ids.is_empty():
+		prepared.result.status = AbilityResult.Status.PARTIALLY_RESOLVED
+	return prepared
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Chaque effet est préparé pour les cibles initiales.
+- Un effet requis absent arrête la préparation.
+- Un effet optionnel absent produit un résultat partiel.
+- `prepared_effect_ids` signifie « candidat prêt » jusqu’au commit.
+- Les candidats ne deviennent observables qu’après réussite de l’unité de travail.
+
+## 23. Exécuter une utilisation
+
+> **[LECTURE] Entrée unique du service — Suite de `ability_service.gd`.**
+
+```gdscript
 func execute(command: AbilityUseCommand) -> AbilityResult:
 	if command == null or command.validate() != OK:
 		return _result(
@@ -1224,7 +1416,12 @@ func execute(command: AbilityUseCommand) -> AbilityResult:
 			command,
 			"commande invalide",
 		)
-	if _catalog == null or _repository == null or _resources == null:
+	if (
+		_catalog == null
+		or _repository == null
+		or _resources == null
+		or _unit_of_work == null
+	):
 		return _result(
 			AbilityResult.Status.REJECTED_RESOURCE,
 			command,
@@ -1291,82 +1488,26 @@ func execute(command: AbilityUseCommand) -> AbilityResult:
 			command,
 			"aucune charge disponible",
 		)
-
-	var target_code := _validate_target_shape(command, definition.target)
-	if target_code != OK:
+	if _validate_target_shape(command, definition.target) != OK:
 		return _result(
 			AbilityResult.Status.REJECTED_TARGET,
 			command,
 			"forme de cible invalide",
 		)
-
-	return _execute_prepared(
-		command,
-		definition,
-		progression,
-		runtime,
-	)
+	return _execute_prepared(command, definition, progression, runtime)
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- `execute()` effectue les validations communes avant toute réservation.
-- La recharge est recalculée sur une copie runtime, pas sur l’état actif.
-- La forme de cible est vérifiée ici ; la validité réelle de chaque cible appartient ensuite au port propriétaire.
-- Une révision obsolète produit un refus normal, pas une corruption.
-- Aucune charge ni ressource n’est consommée dans cette première phase.
+- Les validations communes précèdent toute réservation.
+- La recharge est recalculée sur une copie runtime.
+- La révision du dépôt est comparée à celle de la commande.
+- Une absence de charge est un refus normal.
+- La forme de cible est vérifiée avant les ports propriétaires.
 
-## 25. Valider la forme de la cible
-
-> **[LECTURE] Validation déclarative — Suite de `ability_service.gd`.**
-
-```gdscript
-func _validate_target_shape(
-	command: AbilityUseCommand,
-	target: AbilityTargetDefinition,
-) -> Error:
-	if target == null or target.validate() != OK:
-		return ERR_UNCONFIGURED
-	match target.mode:
-		AbilityTargetDefinition.Mode.SELF:
-			if not command.target_character_ids.is_empty():
-				return ERR_INVALID_DATA
-			if command.has_target_point:
-				return ERR_INVALID_DATA
-		AbilityTargetDefinition.Mode.SINGLE_CHARACTER:
-			if command.target_character_ids.size() != 1:
-				return ERR_INVALID_DATA
-			if command.has_target_point:
-				return ERR_INVALID_DATA
-		AbilityTargetDefinition.Mode.POINT:
-			if not command.target_character_ids.is_empty():
-				return ERR_INVALID_DATA
-			if not command.has_target_point:
-				return ERR_INVALID_DATA
-		AbilityTargetDefinition.Mode.AREA_AROUND_POINT:
-			if not command.has_target_point:
-				return ERR_INVALID_DATA
-			if command.target_character_ids.size() > target.maximum_targets:
-				return ERR_INVALID_DATA
-		_:
-			return ERR_INVALID_DATA
-	return OK
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- La méthode vérifie seulement la cohérence du payload avec le mode déclaré.
-- Une cible unique n’accepte ni zéro ni plusieurs identifiants.
-- Un point exige `has_target_point = true`, même si ses coordonnées valent zéro.
-- Une zone borne la liste proposée, mais le combat peut encore filtrer les cibles hors portée ou non autorisées.
-
-## 26. Réserver, exécuter et confirmer
-
-> **[LECTURE] Cœur de l’exécution — Suite de `ability_service.gd`.**
+> **[LECTURE] Préparation et commit — Suite de `ability_service.gd`.**
 
 ```gdscript
 func _execute_prepared(
@@ -1396,11 +1537,7 @@ func _execute_prepared(
 			"ressources insuffisantes",
 		)
 
-	var plan := _build_plan(
-		command,
-		definition,
-		progression.rank,
-	)
+	var plan := _build_plan(command, definition, progression.rank)
 	if plan == null or plan.validate(definition) != OK:
 		_resources.cancel_reservation(reservation)
 		return _result(
@@ -1409,25 +1546,21 @@ func _execute_prepared(
 			"plan invalide",
 		)
 
-	var effect_result := _apply_effects(
+	var prepared := _prepare_effects(
 		plan,
 		definition,
 		command.expected_world_revision,
 	)
-	if not effect_result.is_success():
+	if prepared == null or prepared.result == null:
 		_resources.cancel_reservation(reservation)
-		return effect_result
-
-	var resource_code := _resources.commit_reservation(
-		reservation,
-		command.expected_world_revision,
-	)
-	if resource_code != OK:
 		return _result(
-			AbilityResult.Status.REJECTED_STALE_REVISION,
+			AbilityResult.Status.REJECTED_RESOURCE,
 			command,
-			"réservation devenue obsolète",
+			"préparation des effets impossible",
 		)
+	if not prepared.result.is_success():
+		_resources.cancel_reservation(reservation)
+		return prepared.result
 
 	var runtime_candidate := runtime.duplicate_detached()
 	runtime_candidate.available_charges -= 1
@@ -1439,176 +1572,56 @@ func _execute_prepared(
 				command.requested_tick + cooldown
 			)
 
-	var replace_code := _repository.replace_pair(
+	var commit_code := _unit_of_work.commit(
+		reservation,
+		prepared.candidates,
 		command.user_character_id,
-		command.expected_ability_revision,
 		progression.duplicate_detached(),
 		runtime_candidate,
+		command.expected_world_revision,
+		command.expected_ability_revision,
 	)
-	if replace_code != OK:
+	if commit_code != OK:
+		_resources.cancel_reservation(reservation)
+		var status := AbilityResult.Status.REJECTED_RESOURCE
+		if commit_code == ERR_BUSY:
+			status = AbilityResult.Status.REJECTED_STALE_REVISION
 		return _result(
-			AbilityResult.Status.REJECTED_STALE_REVISION,
+			status,
 			command,
-			"état de compétence devenu obsolète",
+			"commit refusé : %s" % error_string(commit_code),
 		)
 
-	ability_resolved.emit(effect_result)
-	return effect_result
+	ability_resolved.emit(prepared.result)
+	return prepared.result
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- Les coûts sont préparés avant les effets.
-- Un plan invalide annule la réservation sans mutation.
-- Les effets requis sont appliqués avant la consommation définitive du coût.
+- Coûts, plan, effets et état runtime sont préparés avant toute mutation active.
+- Un refus annule la réservation.
 - La charge et la recharge sont modifiées sur un candidat.
-- **Limite statique importante :** pour une atomicité parfaite entre effets, coût et état de compétence, l’implémentation runtime doit fournir une unité de travail commune. Ce contrat est explicitement réservé aux tests du chapitre 27.
-- Aucun succès runtime n’est revendiqué ici.
+- L’unité de travail reçoit le lot complet.
+- `ERR_BUSY` représente une révision devenue obsolète.
+- Le signal est émis seulement après commit réussi.
 
-## 27. Construire le plan
-
-> **[LECTURE] Construction déterministe — Suite de `ability_service.gd`.**
+> **[LECTURE] Fabrique de résultat — Suite de `ability_service.gd`.**
 
 ```gdscript
-func _build_plan(
+func _result(
+	status: AbilityResult.Status,
 	command: AbilityUseCommand,
-	definition: AbilityDefinition,
-	rank: int,
-) -> AbilityExecutionPlan:
-	var plan := AbilityExecutionPlan.new()
-	plan.use_id = command.use_id
-	plan.ability_id = command.ability_id
-	plan.user_character_id = command.user_character_id
-	plan.rank = rank
-	plan.logical_tick = command.requested_tick
-	plan.target_character_ids.assign(command.target_character_ids)
-	plan.target_character_ids.sort()
-	plan.target_point = command.target_point
-	plan.has_target_point = command.has_target_point
-	for effect: AbilityEffectDefinition in definition.effects:
-		plan.effects.append(effect.duplicate_detached())
-	return plan
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Les cibles sont triées pour produire le même ordre avec les mêmes données.
-- Les effets conservent l’ordre canonique de la définition.
-- Le plan ne lit aucun dépôt supplémentaire.
-- Les copies profondes isolent l’utilisation des modifications d’éditeur ou de catalogue.
-
-## 28. Appliquer les effets par type autorisé
-
-> **[LECTURE] Dispatch fermé — Suite de `ability_service.gd`.**
-
-```gdscript
-func _apply_effects(
-	plan: AbilityExecutionPlan,
-	definition: AbilityDefinition,
-	expected_world_revision: int,
+	message: String,
 ) -> AbilityResult:
-	var result := _result(
-		AbilityResult.Status.RESOLVED,
-		null,
-		"compétence résolue",
-	)
-	result.use_id = plan.use_id
-	result.ability_id = plan.ability_id
-	result.user_character_id = plan.user_character_id
-
-	var targets := _effective_targets(plan, definition.target)
-	for effect: AbilityEffectDefinition in plan.effects:
-		var effect_applied := false
-		for target_id: StringName in targets:
-			var code := _apply_one_effect(
-				plan,
-				effect,
-				target_id,
-				expected_world_revision,
-			)
-			if code == OK:
-				effect_applied = true
-			elif effect.required:
-				result.status = AbilityResult.Status.REJECTED_EFFECT
-				result.message = "effet requis refusé"
-				result.rejected_effect_ids.append(effect.effect_id)
-				return result
-		if effect_applied:
-			result.applied_effect_ids.append(effect.effect_id)
-		else:
-			result.rejected_effect_ids.append(effect.effect_id)
-
-	if not result.rejected_effect_ids.is_empty():
-		result.status = AbilityResult.Status.PARTIALLY_RESOLVED
-	return result
-
-func _apply_one_effect(
-	plan: AbilityExecutionPlan,
-	effect: AbilityEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> Error:
-	if effect is DamageEffectDefinition:
-		if _combat_port == null:
-			return ERR_UNCONFIGURED
-		var damage_result := _combat_port.apply_damage_effect(
-			plan,
-			effect as DamageEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-		return OK if damage_result != null and damage_result.is_success() else FAILED
-	if effect is StatusEffectDefinition:
-		if _combat_port == null:
-			return ERR_UNCONFIGURED
-		var status_result := _combat_port.apply_status_effect(
-			plan,
-			effect as StatusEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-		return OK if status_result != null and status_result.is_success() else FAILED
-	if effect is ResourceEffectDefinition:
-		if _character_port == null:
-			return ERR_UNCONFIGURED
-		return _character_port.apply_resource_effect(
-			plan,
-			effect as ResourceEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-	return ERR_UNAVAILABLE
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Le dispatch utilise une liste fermée de types connus, jamais un nom de classe fourni par des données externes.
-- Un effet requis arrête l’utilisation dès son refus.
-- Un effet optionnel peut produire `PARTIALLY_RESOLVED`.
-- Chaque port reste propriétaire de sa validation et de son commit.
-- La version pédagogique applique les effets séquentiellement ; une unité de travail globale est nécessaire pour garantir un tout-ou-rien entre plusieurs autorités.
-
-## 29. Déterminer les cibles effectives
-
-> **[LECTURE] Cibles initiales — Suite de `ability_service.gd`.**
-
-```gdscript
-func _effective_targets(
-	plan: AbilityExecutionPlan,
-	target: AbilityTargetDefinition,
-) -> Array[StringName]:
-	var result: Array[StringName] = []
-	if target.mode == AbilityTargetDefinition.Mode.SELF:
-		result.append(plan.user_character_id)
-	else:
-		result.assign(plan.target_character_ids)
-	result.sort()
+	var result := AbilityResult.new()
+	result.status = status
+	result.message = message
+	if command != null:
+		result.use_id = command.use_id
+		result.ability_id = command.ability_id
+		result.user_character_id = command.user_character_id
 	return result
 ```
 
@@ -1616,12 +1629,12 @@ func _effective_targets(
 
 **Explication détaillée du bloc :**
 
-- `SELF` produit explicitement l’utilisateur comme cible.
-- Les autres modes utilisent les identifiants proposés et triés.
-- Une zone autour d’un point peut recevoir une liste candidate issue d’un port spatial ; le combat la revalide.
-- La fonction ne déduit jamais une cible depuis une proximité implicite.
+- La fonction centralise les statuts et messages.
+- Elle recopie uniquement des identifiants.
+- Elle accepte `null` pour construire un résultat depuis un plan déjà validé.
+- Elle ne conserve pas la commande mutable.
 
-## 30. Adapter une action d’agent
+## 24. Adapter une action d’agent
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_agent_action_executor.gd`.**
 
@@ -1649,7 +1662,9 @@ func start(request: AgentActionRequest) -> Error:
 	var check := can_execute(request)
 	if check != OK:
 		return check
-	var context := _ability_context.snapshot_for(request.owner_character_id)
+	var context := _ability_context.snapshot_for(
+		request.owner_character_id
+	)
 	if context == null or context.validate() != OK:
 		return ERR_DOES_NOT_EXIST
 
@@ -1675,24 +1690,24 @@ func start(request: AgentActionRequest) -> Error:
 
 **Explication détaillée du bloc :**
 
-- L’agent choisit une compétence et une cible ; il ne fournit ni coût final, ni recharge, ni dégâts.
-- La révision des compétences est relue au démarrage.
-- `action_id` doit correspondre à une définition du catalogue ; il ne devient pas une méthode.
-- Un résultat partiel est consommé comme une exécution valable.
-- Les champs de point ou de zone nécessitent un adaptateur spécialisé plutôt qu’une convention cachée.
+- L’agent choisit une définition connue et une cible proposée.
+- Il ne fournit ni coût, ni recharge, ni dégâts.
+- La révision de compétence est relue avant construction.
+- Un résultat partiel est une utilisation consommée.
+- Les ciblages par point ou zone exigent un adaptateur spécialisé.
 
-## 31. Entrée du joueur et prévisualisation
+## 25. Entrée du joueur et prévisualisation
 
 L’interface peut afficher :
 
 - coût estimé ;
-- nombre de charges ;
-- temps logique restant ;
+- charges ;
+- temps restant ;
 - portée et zone ;
 - cibles survolées ;
-- effets décrits par les clés de localisation.
+- description localisée.
 
-La prévisualisation n’est pas autoritaire. Entre l’affichage et le clic, une cible peut se déplacer, mourir, changer de côté ou rendre la révision obsolète.
+Elle ne garantit jamais le résultat. La cible peut se déplacer, mourir, changer de côté ou rendre la révision obsolète entre la prévisualisation et le clic.
 
 > **[LECTURE] Séparation interface / autorité — Ne pas saisir.**
 
@@ -1702,43 +1717,30 @@ interface :
 - affiche une estimation ;
 - construit AbilityUseCommand.
 
-AbilityService et ports propriétaires :
+service et ports :
 - relisent les révisions ;
-- valident les ressources ;
-- valident les cibles ;
-- commit les effets.
+- préparent ressources et effets ;
+- valident les règles propriétaires ;
+- commit le lot.
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- L’interface améliore l’expérience sans pouvoir garantir le résultat.
-- La même commande peut provenir du joueur, d’un agent ou d’un scénario.
-- Les règles métier ne sont pas dupliquées dans les boutons ou widgets.
+- La même commande peut venir d’un joueur, d’un agent ou d’un scénario.
+- L’interface ne duplique pas les règles métier.
+- Une couleur verte est une aide visuelle, pas une autorisation.
 
-## 32. Événements de compétences
+## 26. Persistance
 
-Les événements minimums sont :
+Sont persistés par `CharacterId` :
 
-- compétence débloquée ;
-- rang augmenté ;
-- utilisation acceptée ;
-- effet appliqué ;
-- effet optionnel refusé ;
-- charge consommée ;
-- charge récupérée ;
-- utilisation refusée.
-
-Ils transportent des identifiants, ticks, rangs et statuts. Ils ne transportent ni `Resource` mutable, ni nœud, ni texte localisé comme autorité.
-
-## 33. Sauvegarde : données persistées
-
-Sont persistés, par `CharacterId` :
-
-- révision de compétence ;
-- compétences débloquées ;
-- rang et expérience ;
+- révision ;
+- identifiant de compétence ;
+- déblocage ;
+- rang ;
+- expérience ;
 - charges disponibles ;
 - prochain tick de récupération ;
 - séquence d’utilisation.
@@ -1746,15 +1748,16 @@ Sont persistés, par `CharacterId` :
 Ne sont pas persistés :
 
 - définitions `.tres` ;
-- icônes, animations et VFX ;
-- plans d’exécution ;
-- réservations en attente ;
-- prévisualisations de cible ;
-- listes de cibles dérivées ;
-- résultats de portée ou ligne de vue ;
+- plans ;
+- réservations ;
+- candidats d’effets ;
+- prévisualisations ;
+- cibles dérivées ;
+- portée et ligne de vue ;
+- animations, sons et VFX ;
 - caches de catalogue.
 
-## 34. Codec strict
+## 27. Codec strict
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/infrastructure/ability_snapshot_codec.gd`.**
 
@@ -1794,9 +1797,12 @@ func decode(
 		return _failure(ERR_UNCONFIGURED, "catalogue absent")
 	if not _has_exact_keys(document, ROOT_KEYS):
 		return _failure(ERR_INVALID_DATA, "clés racine invalides")
+	if typeof(document.get("format")) != TYPE_STRING:
+		return _failure(ERR_INVALID_DATA, "format non textuel")
 	if String(document.get("format")) != FORMAT:
 		return _failure(ERR_FILE_UNRECOGNIZED, "format inconnu")
-	if _read_int(document.get("version"), 1, VERSION) != VERSION:
+	var version_value := _read_int(document.get("version"), 1, VERSION)
+	if version_value == null or int(version_value) != VERSION:
 		return _failure(ERR_FILE_UNRECOGNIZED, "version inconnue")
 	if typeof(document.get("characters")) != TYPE_ARRAY:
 		return _failure(ERR_INVALID_DATA, "characters non tabulaire")
@@ -1826,13 +1832,14 @@ func decode(
 
 **Explication détaillée du bloc :**
 
-- Le format et la version sont obligatoires.
-- Les clés exactes refusent silencieusement aucune extension inconnue.
-- Chaque personnage et compétence est validé contre le catalogue.
-- Un résultat structuré distingue un document vide valide d’un échec.
-- L’extrait montre l’entrée du codec ; les fonctions `_decode_character`, `_read_int`, `_has_exact_keys` et `_failure` suivent les mêmes règles strictes du chapitre 18.
+- Le format, la version et les clés exactes sont obligatoires.
+- Les types sont vérifiés avant conversion.
+- Chaque personnage est unique.
+- `_decode_character()` valide chaque entrée contre le catalogue et les bornes de sa définition.
+- `_read_int()` suit la règle des entiers JSON sûrs du chapitre 18.
+- `DecodeResult` distingue un document vide valide d’un refus.
 
-## 35. Section de sauvegarde
+## 28. Section de sauvegarde
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/infrastructure/ability_save_section.gd`.**
 
@@ -1880,13 +1887,13 @@ func cancel_restore() -> void:
 
 **Explication détaillée du bloc :**
 
-- `prepare_restore()` ne modifie pas le dépôt actif.
-- La préparation est dupliquée avant stockage et avant application.
-- `apply_prepared()` ne vide le candidat qu’après remplacement réussi.
-- Le coordinateur du chapitre 9 peut annuler l’ensemble si une autre section échoue.
-- Les définitions absentes ou incompatibles rendent la restauration non valide au lieu d’être ignorées silencieusement.
+- La préparation ne touche pas au dépôt actif.
+- Les données sont dupliquées avant stockage et application.
+- La préparation n’est vidée qu’après succès.
+- Le coordinateur peut annuler si une autre section échoue.
+- Une définition absente rend la restauration invalide.
 
-## 36. Présentation
+## 29. Présentation et scène pédagogique
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/presentation/ability_presentation_bridge.gd`.**
 
@@ -1911,60 +1918,46 @@ func on_ability_resolved(result: AbilityResult) -> void:
 
 **Explication détaillée du bloc :**
 
-- Le pont reçoit seulement un résultat déjà committé.
-- Un personnage hors écran ne provoque pas d’échec métier.
-- L’identifiant de compétence sert de clé de présentation, pas de nom de méthode dynamique.
-- L’animation ne retire aucune ressource et n’applique aucun effet.
+- Le pont reçoit seulement un résultat committé.
+- Un personnage hors écran reste valide sans animation.
+- L’identifiant sert de clé de présentation.
+- Aucune ressource ou santé n’est modifiée ici.
 
-## 37. Scène pédagogique
+La scène `ch19_abilities_demo.tscn` doit montrer :
 
-La scène `ch19_abilities_demo.tscn` contient :
+1. une compétence verrouillée refusée ;
+2. un coût insuffisant sans charge consommée ;
+3. une cible hors portée refusée par le combat ;
+4. une utilisation réussie consommant coût et charge ;
+5. une recharge par ticks logiques ;
+6. un rang modifiant coût, effet ou recharge ;
+7. un effet optionnel produisant un résultat partiel ;
+8. une sauvegarde restaurant progression et recharge.
 
-- deux personnages du chapitre 14 ;
-- un affrontement du chapitre 18 ;
-- trois compétences : projectile, posture et soin ;
-- une barre de ressources ;
-- des boutons d’utilisation ;
-- un affichage des charges, recharges et résultats ;
-- un panneau de progression ;
-- aucun service IA obligatoire.
+## 30. Modes Solo et Studio
 
-Elle doit permettre de constater :
-
-1. qu’une compétence verrouillée est refusée ;
-2. qu’un coût insuffisant ne consomme aucune charge ;
-3. qu’une cible hors portée est refusée par le combat ;
-4. qu’une utilisation réussie consomme coût et charge ;
-5. que la recharge dépend des ticks logiques ;
-6. qu’un rang supérieur modifie coût, effet ou recharge selon la définition ;
-7. qu’un effet optionnel peut produire un résultat partiel ;
-8. qu’une sauvegarde restaure progression, charges et ticks.
-
-## 38. Modes Solo et Studio
-
-### 38.1 Mode Solo
+### 30.1 Mode Solo
 
 - catalogue local de `.tres` ;
 - dépôt en mémoire ;
-- quelques ressources stables ;
 - progression simple ;
 - unité de travail locale ;
 - diagnostics lisibles ;
-- aucune génération dynamique de classe.
+- aucune classe chargée depuis les données.
 
-### 38.2 Mode Studio
+### 30.2 Mode Studio
 
-- catalogue versionné et validé en CI ;
-- identifiants réservés par domaine ;
-- feuilles d’équilibrage importées de manière contrôlée ;
-- tests de propriété sur coûts, recharges et progression ;
+- catalogue versionné ;
+- imports contrôlés ;
+- tests de propriété sur coûts et recharges ;
 - migrations explicites ;
-- télémétrie des refus et usages ;
-- revue séparée des effets requis et optionnels.
+- télémétrie des refus ;
+- revue des effets requis et optionnels ;
+- séparation entre équilibrage, domaine et présentation.
 
-Le Mode Studio ajoute des contrôles. Il ne transforme pas le catalogue en Service Locator et ne place pas les compétences dans un Autoload universel.
+Le Mode Studio renforce les contrôles. Il n’ajoute ni Service Locator ni Autoload universel.
 
-## 39. Budgets
+## 31. Budgets, sécurité et diagnostics
 
 Bornes pédagogiques :
 
@@ -1976,52 +1969,36 @@ Bornes pédagogiques :
 | cibles proposées | 128 |
 | rang maximal | 100 |
 | charges maximales | 99 |
-| événements récents | 512 |
 
-Ces valeurs ne sont pas des performances garanties. Le chapitre 27 devra mesurer les scènes et simulations sur la configuration AMD de référence.
+Ces valeurs devront être mesurées au chapitre 27.
 
-## 40. Sécurité des données externes
+Une définition externe doit :
 
-Une définition importée doit :
-
-- être limitée en taille avant parsing ;
+- être limitée avant parsing ;
 - utiliser un schéma versionné ;
-- référencer uniquement des types d’effets autorisés ;
-- employer des identifiants stables ;
-- refuser classes, scripts, chemins et méthodes fournis par les données ;
+- référencer uniquement des types autorisés ;
+- refuser chemins, scripts et méthodes dynamiques ;
 - borner coûts, rangs, ticks, cibles et montants ;
-- être validée avant enregistrement dans le catalogue.
+- être validée avant le catalogue.
 
-Une sortie d’IA peut suggérer une compétence connue. Elle ne crée pas une nouvelle classe, ne choisit pas un exécuteur arbitraire et ne fixe pas les dégâts finaux.
-
-## 41. Diagnostics
-
-Journaliser au minimum :
+Journaliser :
 
 - `use_id`, `ability_id`, utilisateur ;
 - rang, charge et tick ;
-- révisions attendues et observées ;
-- coûts préparés et code de réservation ;
-- identifiants d’effets appliqués ou refusés ;
-- statut final ;
-- durée de traitement comme télémétrie non autoritaire.
+- révisions ;
+- coûts préparés ;
+- effets préparés ou refusés ;
+- code de commit.
 
-Ne pas journaliser :
+Ne pas journaliser snapshots complets, nœuds, secrets ou texte génératif non filtré.
 
-- snapshots complets ;
-- ressources partagées ;
-- secrets ;
-- texte génératif non filtré ;
-- références de nœuds ;
-- historique illimité.
-
-## 42. Erreurs fréquentes et corrections
+## 32. Erreurs fréquentes et corrections
 
 <!-- qa:error-correction-section -->
 
-### 42.1 Écrire les dégâts dans la définition
+### 32.1 Écrire directement les dégâts
 
-**Symptôme ou risque :** le fichier de compétence devient une mutation et contourne le combat.
+**Symptôme ou risque :** la compétence contourne cible, portée, défense, garde et commit.
 
 **Exemple fautif :**
 
@@ -2033,14 +2010,14 @@ target.current_health -= ability.base_damage
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la définition ne valide ni portée, ni défense, ni garde, ni révision.
+**Pourquoi cet exemple est fautif :** la définition devient une autorité qu’elle ne possède pas.
 
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
-var effect_result := combat_port.apply_damage_effect(
+var candidate := combat_port.prepare_damage_effect(
 	plan,
 	damage_effect,
 	target_id,
@@ -2050,11 +2027,11 @@ var effect_result := combat_port.apply_damage_effect(
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** la compétence transmet une demande typée au système propriétaire.
+**Pourquoi la correction fonctionne :** le combat prépare l’impact après ses propres validations.
 
-### 42.2 Utiliser un `Timer` pour la recharge autoritaire
+### 32.2 Utiliser un `Timer` autoritaire
 
-**Symptôme ou risque :** pause, `time_scale` et déchargement de scène changent la disponibilité métier.
+**Symptôme ou risque :** pause, `time_scale` ou déchargement de scène changent la recharge métier.
 
 **Exemple fautif :**
 
@@ -2068,7 +2045,7 @@ ability_ready = true
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la recharge dépend d’un nœud et de secondes non persistées.
+**Pourquoi cet exemple est fautif :** le temps moteur et un nœud deviennent l’autorité persistante.
 
 **Exemple corrigé :**
 
@@ -2081,11 +2058,11 @@ runtime.refresh_charges(definition, rank, current_tick)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** la disponibilité utilise des ticks logiques sauvegardables.
+**Pourquoi la correction fonctionne :** la recharge dépend de ticks logiques sauvegardables.
 
-### 42.3 Consommer le coût avant la validation de cible
+### 32.3 Consommer le coût avant les effets
 
-**Symptôme ou risque :** le joueur perd une ressource alors que la cible est refusée.
+**Symptôme ou risque :** une ressource est perdue alors qu’une cible ou un effet requis est refusé.
 
 **Exemple fautif :**
 
@@ -2093,13 +2070,12 @@ runtime.refresh_charges(definition, rank, current_tick)
 
 ```gdscript
 focus -= cost
-if not target_is_valid:
-	return ERR_INVALID_DATA
+var effect_code := apply_effect()
 ```
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** une mutation active précède une validation susceptible d’échouer.
+**Pourquoi cet exemple est fautif :** la mutation active précède les validations restantes.
 
 **Exemple corrigé :**
 
@@ -2107,20 +2083,17 @@ if not target_is_valid:
 
 ```gdscript
 var reservation := resources.prepare_reservation(...)
-var effect_result := apply_effects(...)
-if effect_result.is_success():
-	resources.commit_reservation(reservation, world_revision)
-else:
-	resources.cancel_reservation(reservation)
+var candidate := combat_port.prepare_damage_effect(...)
+var code := unit_of_work.commit(reservation, [candidate], ...)
 ```
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le coût reste candidat tant que l’utilisation n’est pas acceptée.
+**Pourquoi la correction fonctionne :** coût et effet sont committés dans le même lot.
 
-### 42.4 Stocker la recharge dans la `Resource`
+### 32.4 Stocker la recharge dans la `Resource`
 
-**Symptôme ou risque :** tous les personnages partageant la définition partagent aussi la même recharge.
+**Symptôme ou risque :** tous les personnages partagent la même recharge.
 
 **Exemple fautif :**
 
@@ -2132,7 +2105,7 @@ ability_definition.remaining_cooldown = 120
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** une `Resource` de conception partagée devient état runtime mutable.
+**Pourquoi cet exemple est fautif :** une donnée de conception partagée devient état runtime.
 
 **Exemple corrigé :**
 
@@ -2144,11 +2117,11 @@ runtime_state.next_charge_tick = logical_tick + cooldown_ticks
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** chaque personnage possède son propre état détaché.
+**Pourquoi la correction fonctionne :** chaque personnage possède son état détaché.
 
-### 42.5 Charger une classe depuis un nom d’effet
+### 32.5 Charger une classe depuis les données
 
-**Symptôme ou risque :** une donnée externe choisit du code à exécuter.
+**Symptôme ou risque :** une définition externe choisit du code arbitraire.
 
 **Exemple fautif :**
 
@@ -2161,7 +2134,7 @@ script.new().apply(target)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le contenu peut charger un chemin ou une classe non autorisée.
+**Pourquoi cet exemple est fautif :** le contenu contrôle un chemin et une classe exécutée.
 
 **Exemple corrigé :**
 
@@ -2169,18 +2142,18 @@ script.new().apply(target)
 
 ```gdscript
 if effect is DamageEffectDefinition:
-	return combat_port.apply_damage_effect(...)
+	return combat_port.prepare_damage_effect(...)
 if effect is ResourceEffectDefinition:
-	return character_port.apply_resource_effect(...)
+	return character_port.prepare_resource_effect(...)
 ```
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le dispatch est fermé sur des types explicitement autorisés.
+**Pourquoi la correction fonctionne :** le dispatch est fermé sur des types autorisés.
 
-### 42.6 Confondre prévisualisation et validation
+### 32.6 Confondre prévisualisation et validation
 
-**Symptôme ou risque :** une cible affichée en vert est acceptée malgré un monde devenu obsolète.
+**Symptôme ou risque :** une cible affichée valide est acceptée après changement du monde.
 
 **Exemple fautif :**
 
@@ -2193,7 +2166,7 @@ if target_preview.valid:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la prévisualisation peut dater d’une ancienne position ou révision.
+**Pourquoi cet exemple est fautif :** la prévisualisation peut utiliser une ancienne position ou révision.
 
 **Exemple corrigé :**
 
@@ -2206,11 +2179,11 @@ var result := ability_service.execute(command)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** l’autorité relit les données au moment de l’exécution.
+**Pourquoi la correction fonctionne :** l’autorité relit toutes les données au moment de l’exécution.
 
-### 42.7 Persister un plan d’exécution
+### 32.7 Persister le plan
 
-**Symptôme ou risque :** une sauvegarde rejoue des cibles et révisions obsolètes.
+**Symptôme ou risque :** le chargement rejoue des cibles et révisions obsolètes.
 
 **Exemple fautif :**
 
@@ -2222,7 +2195,7 @@ payload["pending_plan"] = current_plan
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le plan dépend d’un instant du monde et contient des demandes transitoires.
+**Pourquoi cet exemple est fautif :** le plan est une décision transitoire liée à un instant.
 
 **Exemple corrigé :**
 
@@ -2236,11 +2209,11 @@ payload["next_charge_tick"] = runtime.next_charge_tick
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** seules les données durables sont restaurées ; une nouvelle commande sera reconstruite.
+**Pourquoi la correction fonctionne :** seules les données durables sont restaurées.
 
-### 42.8 Utiliser le nom affiché comme identité
+### 32.8 Utiliser le nom affiché comme identité
 
-**Symptôme ou risque :** une traduction ou un renommage casse les sauvegardes.
+**Symptôme ou risque :** traduction ou renommage casse les sauvegardes.
 
 **Exemple fautif :**
 
@@ -2266,9 +2239,9 @@ known_abilities[&"ability.definition.ember_bolt"] = 3
 
 **Pourquoi la correction fonctionne :** l’identifiant métier reste indépendant de l’affichage.
 
-### 42.9 Ignorer un effet requis
+### 32.9 Ignorer un effet requis
 
-**Symptôme ou risque :** une compétence est annoncée comme réussie alors que son effet principal a échoué.
+**Symptôme ou risque :** une utilisation réussit alors que son effet principal manque.
 
 **Exemple fautif :**
 
@@ -2276,88 +2249,31 @@ known_abilities[&"ability.definition.ember_bolt"] = 3
 
 ```gdscript
 for effect in effects:
-	apply_effect(effect)
+	prepare_effect(effect)
 return success_result()
 ```
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le code ne lit ni le retour ni le caractère requis de l’effet.
+**Pourquoi cet exemple est fautif :** aucun retour ni caractère requis n’est vérifié.
 
 **Exemple corrigé :**
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
 ```gdscript
-var code := apply_effect(effect)
-if code != OK and effect.required:
+var candidate := prepare_effect(effect)
+if candidate == null and effect.required:
 	return rejected_effect_result(effect.effect_id)
 ```
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** un effet principal refusé empêche une réussite mensongère.
+**Pourquoi la correction fonctionne :** un effet requis absent bloque le lot avant commit.
 
-### 42.10 Accorder un rang hors définition
+### 32.10 Retenter un résultat partiel
 
-**Symptôme ou risque :** une sauvegarde ou un outil crée un rang supérieur au maximum.
-
-**Exemple fautif :**
-
-> **[LECTURE] Exemple fautif — Ne pas utiliser.**
-
-```gdscript
-progression.rank += 1
-```
-
-<!-- qa:code-explanation -->
-
-**Pourquoi cet exemple est fautif :** aucune borne ni validation de la définition n’est consultée.
-
-**Exemple corrigé :**
-
-> **[LECTURE] Exemple corrigé — Structure de référence.**
-
-```gdscript
-if progression.rank < definition.maximum_rank:
-	progression.rank += 1
-```
-
-<!-- qa:code-explanation -->
-
-**Pourquoi la correction fonctionne :** la progression respecte la borne de conception et sera revalidée avant commit.
-
-### 42.11 Sauvegarder les définitions `.tres` dans le snapshot
-
-**Symptôme ou risque :** la sauvegarde du joueur devient dépendante de références de ressources et de chemins.
-
-**Exemple fautif :**
-
-> **[LECTURE] Exemple fautif — Ne pas utiliser.**
-
-```gdscript
-payload["ability_resource"] = definition
-```
-
-<!-- qa:code-explanation -->
-
-**Pourquoi cet exemple est fautif :** une `Resource` n’est pas une valeur JSON stable et duplique les données de conception.
-
-**Exemple corrigé :**
-
-> **[LECTURE] Exemple corrigé — Structure de référence.**
-
-```gdscript
-payload["ability_id"] = String(definition.ability_id)
-```
-
-<!-- qa:code-explanation -->
-
-**Pourquoi la correction fonctionne :** la sauvegarde conserve l’identité et le catalogue fournit la définition courante compatible.
-
-### 42.12 Retenter un résultat partiel
-
-**Symptôme ou risque :** un effet déjà appliqué est exécuté une seconde fois.
+**Symptôme ou risque :** des effets déjà committés sont exécutés deux fois.
 
 **Exemple fautif :**
 
@@ -2370,7 +2286,7 @@ if result.status != AbilityResult.Status.RESOLVED:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` peut déjà avoir committé des effets optionnels ou principaux.
+**Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` est une utilisation consommée.
 
 **Exemple corrigé :**
 
@@ -2383,48 +2299,44 @@ if not result.is_success():
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** les résultats partiels sont consommés et les vrais refus nécessitent une nouvelle décision.
+**Pourquoi la correction fonctionne :** seuls les vrais refus déclenchent une nouvelle décision.
 
-## 43. Tests à préparer
+## 33. Tests à préparer
 
-### 43.1 Tests unitaires
+### 33.1 Tests unitaires
 
-- identifiants stables ;
-- validation des coûts, cibles et définitions ;
-- ordre des effets ;
-- recharge par rang ;
-- récupération de plusieurs charges ;
-- progression et rang maximal ;
-- coût gratuit explicitement autorisé ;
+- identifiants ;
+- coûts et rangs ;
+- modes de cible ;
+- ordre et types d’effets ;
+- recharge et récupération de plusieurs charges ;
+- progression ;
 - résultat partiel ;
-- copie profonde des plans ;
-- refus de types d’effets inconnus ;
-- codec strict, doublons et clés inconnues.
+- candidats et copies détachées ;
+- codec strict.
 
-### 43.2 Tests d’intégration
+### 33.2 Tests d’intégration
 
-- compétence vers commande de combat ;
+- compétence vers combat ;
 - coût préparé puis cible refusée ;
-- coût et charge après succès ;
-- refus de commit sur révision obsolète ;
+- commit atomique coût, effet et charge ;
+- refus sur révision obsolète ;
 - soin borné par `CharacterRules` ;
-- état de combat appliqué par le port ;
-- action d’agent vers la même autorité ;
+- action d’agent ;
 - sauvegarde et restauration.
 
-### 43.3 Simulations
+### 33.3 Simulations
 
-- 1, 64 et 256 compétences par personnage ;
+- 1, 64 et 256 compétences ;
 - 1, 8 et 32 effets ;
-- 1, 16 et 128 cibles candidates ;
-- récupération hors écran sur de longues périodes ;
-- plusieurs personnages utilisant la même définition partagée ;
-- progression jusqu’au rang maximal ;
-- répétition depuis les mêmes snapshots.
+- 1, 16 et 128 cibles ;
+- récupération hors écran ;
+- plusieurs personnages partageant une définition ;
+- progression jusqu’au rang maximal.
 
-## 44. Validation légère sans PDF
+## 34. Validation légère sans PDF
 
-> **[PS] PowerShell 7 — Depuis la racine du dépôt, lancer les validations documentaires légères.**
+> **[PS] PowerShell 7 — Depuis la racine du dépôt, lancer les validations légères.**
 
 ```powershell
 python tools/validate_chapters.py
@@ -2435,10 +2347,10 @@ python tools/check_context_markers.py
 
 **Explication détaillée du bloc :**
 
-- La première commande contrôle structure, métadonnées, liens et doublons.
-- La seconde contrôle présence et cohérence sémantique des repères.
+- La première commande vérifie structure, métadonnées, liens et doublons.
+- La seconde vérifie les repères et leur cohérence sémantique.
 - Elles ne construisent aucun PDF.
-- Leur réussite ne remplace ni le parseur Godot ni une scène exécutée.
+- Elles ne remplacent pas le parseur Godot.
 
 > **[SORTIE] Résultat attendu — Ne pas saisir.**
 
@@ -2452,32 +2364,24 @@ Les repères d’utilisation sont cohérents.
 
 **Explication détaillée du bloc :**
 
-- Cette sortie est un critère de lecture, pas une preuve d’exécution locale.
-- La preuve officielle du lot doit référencer les runs GitHub Actions réellement terminés.
+- Cette sortie est un critère de lecture.
+- La preuve officielle référence uniquement les runs réellement exécutés.
 
-## 45. Réserves runtime
+## 35. Réserves runtime
 
-Cette rédaction est une revue statique. Elle ne prouve pas :
+Cette revue statique ne prouve pas :
 
-- que tous les scripts passent le parseur Godot 4.7.1 ;
-- que `duplicate(true)` recopie chaque sous-ressource comme attendu dans toutes les combinaisons ;
-- que l’unité de travail coordonne réellement effets, coût, charge et progression sans mutation partielle ;
-- que les ports de combat et de personnage sont exécutables ;
-- que la scène pédagogique est instanciable ;
-- que les recharges se comportent correctement avec pause et changement de fréquence ;
-- que les performances tiennent avec 256 compétences et 128 cibles ;
-- que le codec complet et ses migrations futures sont exécutables ;
-- que les animations et interfaces consomment correctement les résultats ;
-- qu’un replay reste identique entre plateformes et versions ;
-- qu’un PDF intermédiaire a été produit.
+- le passage de tous les extraits dans le parseur Godot 4.7.1 ;
+- le comportement de `duplicate(true)` avec toutes les sous-ressources ;
+- l’atomicité réelle de l’unité de travail ;
+- l’exécution des ports de combat et de personnage ;
+- l’instanciation de la scène pédagogique ;
+- la tenue des budgets ;
+- l’exécution du codec et d’une migration future ;
+- le replay entre plateformes ou versions ;
+- la génération d’un PDF intermédiaire.
 
-## 46. Résumé
-
-Les compétences et pouvoirs sont des définitions de conception associées à une progression et à un état runtime par personnage. Le service vérifie apprentissage, rang, coûts, charges, recharge et forme de cible, puis construit un plan d’effets détaché.
-
-Les systèmes propriétaires conservent leur autorité : le combat valide et applique dégâts ou états ; les personnages bornent santé et endurance ; l’inventaire futur pourra accorder des compétences sans les posséder. Les plans, réservations, prévisualisations et caches restent transitoires.
-
-## 47. Sources techniques
+## 36. Sources techniques
 
 - [Godot 4.7 — `Resource`](https://docs.godotengine.org/en/4.7/classes/class_resource.html)
 - [Godot 4.7 — `RefCounted`](https://docs.godotengine.org/en/4.7/classes/class_refcounted.html)
@@ -2486,7 +2390,6 @@ Les systèmes propriétaires conservent leur autorité : le combat valide et app
 - [Godot 4.7 — `StringName`](https://docs.godotengine.org/en/4.7/classes/class_stringname.html)
 - [Godot 4.7 — `Variant`](https://docs.godotengine.org/en/4.7/classes/class_variant.html)
 - [Godot 4.7 — `Vector3`](https://docs.godotengine.org/en/4.7/classes/class_vector3.html)
-- [Godot 4.7 — `Error`](https://docs.godotengine.org/en/4.7/classes/class_%40globalscope.html#enum-globalscope-error)
 - [Godot 4.7 — signaux](https://docs.godotengine.org/en/4.7/getting_started/step_by_step/signals.html)
 - [Godot 4.7 — `Timer`](https://docs.godotengine.org/en/4.7/classes/class_timer.html)
 - [Chapitre 7 — Données avec Resources, JSON et configurations](CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md)
@@ -2495,22 +2398,22 @@ Les systèmes propriétaires conservent leur autorité : le combat valide et app
 - [Chapitre 17 — Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md)
 - [Chapitre 18 — Combat](CHAPITRE-18-Combat.md)
 
-## 48. Synthèse opérationnelle pour Project Asteria
+## 37. Synthèse opérationnelle pour Project Asteria
 
-Le système de compétences et pouvoirs de `Project Asteria` repose sur les décisions suivantes :
+Le système de compétences et pouvoirs de `Project Asteria` retient les décisions suivantes :
 
-1. `AbilityDefinition` constitue une donnée de conception partagée et immuable ;
-2. progression et état runtime sont séparés de la définition et liés au `CharacterId` ;
+1. `AbilityDefinition` est une donnée de conception partagée et immuable ;
+2. progression et runtime sont séparés de la définition ;
 3. rang, expérience, charges et ticks de recharge sont persistés ;
-4. les coûts sont décrits par identifiants de ressources et réservés avant commit ;
-5. aucune ressource n’est retirée directement par la définition ou la présentation ;
-6. les ciblages `SELF`, personnage, point et zone sont déclaratifs et bornés ;
-7. la prévisualisation ne remplace jamais la validation autoritaire ;
-8. les effets sont composables, ordonnés, copiés et limités à des types autorisés ;
-9. les dégâts et états passent par le système de combat ;
-10. santé et endurance restent sous les règles des personnages ;
-11. un effet requis refusé empêche une réussite mensongère ;
-12. un résultat partiel est une exécution consommée et non un retry gratuit ;
-13. les recharges utilisent des ticks logiques, jamais un `Timer` autoritaire ;
-14. les plans, réservations, cibles dérivées, caches et VFX ne sont pas persistés ;
-15. le chapitre 20 pourra accorder des compétences par objets sans déplacer l’autorité des compétences ni du combat.
+4. les coûts sont préparés par identifiants de ressources ;
+5. les ciblages sont déclaratifs et bornés ;
+6. la prévisualisation ne remplace jamais la validation ;
+7. les effets sont composables, ordonnés, copiés et limités à des types autorisés ;
+8. dégâts et états restent sous l’autorité du combat ;
+9. santé et endurance restent sous les règles des personnages ;
+10. coût, effets, charge et recharge sont committés par une unité de travail commune ;
+11. un effet requis absent bloque le lot avant commit ;
+12. un résultat partiel est une utilisation consommée ;
+13. les recharges utilisent des ticks logiques ;
+14. plans, réservations, candidats, cibles dérivées et VFX ne sont pas persistés ;
+15. le chapitre 20 pourra accorder des compétences par objets sans déplacer leurs règles.
