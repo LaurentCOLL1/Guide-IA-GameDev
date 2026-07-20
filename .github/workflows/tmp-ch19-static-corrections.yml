@@ -1,482 +1,161 @@
-name: Temporary Chapter 19 Static Corrections
+name: Temporary Chapter 19 Continuity Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-ii-ch19-competences-pouvoirs
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
 
 jobs:
-  patch:
-    if: github.actor != 'github-actions[bot]'
+  finalize:
+    if: github.actor != 'github-actions[bot]' && github.head_ref == 'docs/livre-ii-ch19-competences-pouvoirs'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: docs/livre-ii-ch19-competences-pouvoirs
           fetch-depth: 0
-      - name: Apply second-reading corrections
+      - name: Update continuity without rewriting history
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
 
-          path = Path('Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md')
+          path = Path('CONTINUITE-PROJET.md')
           text = path.read_text(encoding='utf-8')
 
-          def replace_section(source: str, start: str, end: str, replacement: str) -> str:
-              pattern = re.compile(re.escape(start) + r'.*?(?=' + re.escape(end) + r')', re.S)
-              updated, count = pattern.subn(replacement.rstrip() + '\n\n', source, count=1)
-              if count != 1:
-                  raise SystemExit(f'section introuvable: {start}')
-              return updated
+          replacements = {
+              'version: "3.18.0"': 'version: "3.19.0"',
+              'last-updated: "2026-07-20T14:18:58+02:00"': 'last-updated: "2026-07-20T15:27:31+02:00"',
+              '**En cours : 18 chapitres sur 30.**': '**En cours : 19 chapitres sur 30.**',
+              '18. Combat — terminé au niveau `static-review`.\n19. Compétences et pouvoirs.': '18. Combat — terminé au niveau `static-review`.\n19. Compétences et pouvoirs — terminé au niveau `static-review`.',
+              'Chapitres 3 à 18 : **Élevée**.': 'Chapitres 3 à 19 : **Élevée**.',
+              '- progression : 18 chapitres sur 30 ;': '- progression : 19 chapitres sur 30 ;',
+              '- chapitre 18 : version `1.0.0` ;\n- Starter Kit non matérialisé ;': '- chapitre 18 : version `1.0.0` ;\n- chapitre 19 : version `1.0.0` ;\n- Starter Kit non matérialisé ;',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'passage introuvable: {old}')
+              text = text.replace(old, new, 1)
 
-          text = text.replace(
-              '│   ├── ability_resource_port.gd\n│   ├── combat_ability_port.gd\n│   ├── character_effect_port.gd',
-              '│   ├── ability_resource_port.gd\n│   ├── ability_mutation_unit_of_work.gd\n│   ├── ability_context_port.gd\n│   ├── combat_ability_port.gd\n│   ├── character_effect_port.gd',
-          )
+          architecture_anchor = '''### 11.13 Combat
 
-          section20 = r'''## 20. Candidat de réservation des ressources
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_resource_port.gd`.**
-
-```gdscript
-class_name AbilityResourcePort
-extends RefCounted
-
-class Reservation:
-	extends RefCounted
-
-	var reservation_id: StringName
-	var character_id: StringName
-	var amounts: Dictionary[StringName, int] = {}
-
-	func validate() -> Error:
-		if not StableId.is_valid(reservation_id):
-			return ERR_INVALID_DATA
-		if not CharacterId.is_valid(character_id):
-			return ERR_INVALID_DATA
-		for resource_id: StringName in amounts:
-			if not StableId.is_valid(resource_id):
-				return ERR_INVALID_DATA
-			if amounts[resource_id] < 0:
-				return ERR_INVALID_DATA
-		return OK
-
-func prepare_reservation(
-	character_id: StringName,
-	reservation_id: StringName,
-	costs: Dictionary[StringName, int],
-	expected_world_revision: int,
-) -> Reservation:
-	return null
-
-func cancel_reservation(_reservation: Reservation) -> void:
-	pass
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- `prepare_reservation()` vérifie la disponibilité et renvoie un candidat sans retirer de ressource active.
-- La réservation contient seulement des identifiants et montants validés ; elle ne contient aucun nœud.
-- `cancel_reservation()` libère le candidat lorsque la cible, le plan ou un effet requis échoue.
-- Le commit définitif appartient à l’unité de travail commune présentée plus bas ; le port ne peut donc pas consommer un coût isolément.
-- Le port peut préparer endurance, santé et ressources propres aux pouvoirs sans les fusionner dans un même état.
+- `CombatService` constitue l’autorité des commandes de combat ;
+- les joueurs, agents et scénarios soumettent des commandes typées sans imposer le résultat ;
+- santé, endurance et état de vie restent dans `CharacterRuntimeState` ;
+- initiative, côté, garde et états temporaires restent dans `CombatantState` ;
+- les côtés sont explicites et le tir allié dépend d’une règle de conception ;
+- l’initiative utilise des entiers bornés et un départage lexical stable, jamais `hash()` ;
+- portée logique et ligne de vue sont validées séparément ;
+- les mutations sont calculées sur des copies détachées puis committées comme un lot validé ;
+- l’historique candidat est écrit avant commit et les événements ne sont émis qu’après succès ;
+- les commandes sont corrélées, idempotentes, bornées et ordonnées ;
+- le codec de sauvegarde est strict et encode le RNG 64 bits sans perte par deux mots de 32 bits ;
+- file de commandes, raycasts, caches et présentation sont exclus de la persistance ;
+- compétences, objets, économie, politique et narration restent dans leurs systèmes propres.
 '''
-          text = replace_section(text, '## 20. Port de ressources', '## 21. Ports propriétaires des effets', section20)
+          ability_section = architecture_anchor + '''
+### 11.14 Compétences et pouvoirs
 
-          section21 = r'''## 21. Ports propriétaires des effets
-
-Les ports propriétaires préparent des candidats. Ils ne modifient jamais l’état actif avant le commit commun.
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/combat_ability_port.gd`.**
-
-```gdscript
-class_name CombatAbilityPort
-extends RefCounted
-
-func prepare_damage_effect(
-	plan: AbilityExecutionPlan,
-	effect: DamageEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> AbilityMutationUnitOfWork.EffectCandidate:
-	return null
-
-func prepare_status_effect(
-	plan: AbilityExecutionPlan,
-	effect: StatusEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> AbilityMutationUnitOfWork.EffectCandidate:
-	return null
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Le port traduit une demande de compétence vers un candidat appartenant au système de combat.
-- Le combat relit cible, portée, ligne de vue, défense et état de vie avant de préparer ce candidat.
-- La valeur `null` indique un refus contrôlé ou une donnée autoritaire indisponible.
-- Aucun dégât ou état actif n’est appliqué pendant cette préparation.
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/character_effect_port.gd`.**
-
-```gdscript
-class_name CharacterEffectPort
-extends RefCounted
-
-func prepare_resource_effect(
-	plan: AbilityExecutionPlan,
-	effect: ResourceEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> AbilityMutationUnitOfWork.EffectCandidate:
-	return null
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Ce port prépare les ressources dont le propriétaire est le système de personnages ou un registre dédié.
-- Un soin de santé utilise les règles du chapitre 14 sur une copie candidate.
-- Une restauration d’endurance ne contourne pas les bornes du personnage.
-- Le service de compétences ne connaît pas la disposition interne de ces états et ne les commit pas séparément.
-
-### 21.1 Unité de travail commune
-
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_mutation_unit_of_work.gd`.**
-
-```gdscript
-class_name AbilityMutationUnitOfWork
-extends RefCounted
-
-class EffectCandidate:
-	extends RefCounted
-
-	var effect_id: StringName
-	var authority_id: StringName
-	var payload: Dictionary = {}
-
-	func validate() -> Error:
-		if not StableId.is_valid(effect_id):
-			return ERR_INVALID_DATA
-		if not StableId.is_valid(authority_id):
-			return ERR_INVALID_DATA
-		if payload.is_empty():
-			return ERR_INVALID_DATA
-		return OK
-
-func commit(
-	reservation: AbilityResourcePort.Reservation,
-	effect_candidates: Array[EffectCandidate],
-	character_id: StringName,
-	progression: AbilityProgressionState,
-	runtime: AbilityRuntimeState,
-	expected_world_revision: int,
-	expected_ability_revision: int,
-) -> Error:
-	return ERR_UNAVAILABLE
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- `EffectCandidate` transporte une mutation préparée avec l’identité de son autorité propriétaire.
-- `payload` reste une structure interne construite par un port fiable, jamais une classe ou une méthode fournie par le joueur.
-- `commit()` revalide réservation, effets, progression, runtime et révisions avant tout remplacement actif.
-- L’implémentation possède les dépôts concernés ou une transaction applicative commune ; elle prépare tous les swaps avant d’en appliquer un seul.
-- Cette atomicité multi-autorités devra être exécutée et prouvée au chapitre 27 ; elle n’est pas revendiquée par la revue statique.
+- `AbilityDefinition` constitue une `Resource` de conception partagée et immuable ;
+- progression et état runtime sont séparés de la définition et liés au `CharacterId` ;
+- rang, expérience, charges, prochain tick de recharge et séquence d’utilisation sont persistés ;
+- les coûts sont décrits par identifiants de ressources et préparés sans mutation active ;
+- les ciblages sur soi, personnage, point et zone sont déclaratifs, bornés et revalidés par l’autorité propriétaire ;
+- les effets sont composables, ordonnés, copiés et limités à des types explicitement autorisés ;
+- dégâts et états temporaires restent sous l’autorité du combat ;
+- santé et endurance restent sous les règles des personnages ;
+- `AbilityMutationUnitOfWork` reçoit réservation, candidats d’effets, progression, runtime et révisions dans un même commit ;
+- un effet requis absent bloque le lot avant commit ;
+- un résultat partiel est une utilisation consommée et ne déclenche pas un retry gratuit ;
+- les recharges utilisent des ticks logiques, jamais un `Timer` autoritaire ;
+- plans, réservations, candidats, cibles dérivées, caches et présentation sont exclus de la persistance ;
+- l’inventaire peut accorder une compétence sans devenir propriétaire de ses règles.
 '''
-          text = replace_section(text, '## 21. Ports propriétaires des effets', '## 22. Dépôt de progression et d’état runtime', section21)
+          if '### 11.14 Compétences et pouvoirs' not in text:
+              if architecture_anchor not in text:
+                  raise SystemExit('ancre architecture combat introuvable')
+              text = text.replace(architecture_anchor, ability_section, 1)
 
-          text = text.replace(
-              'var _character_port: CharacterEffectPort\n\nfunc execute',
-              'var _character_port: CharacterEffectPort\nvar _unit_of_work: AbilityMutationUnitOfWork\n\nclass PreparedUse:\n\textends RefCounted\n\n\tvar result: AbilityResult\n\tvar candidates: Array[AbilityMutationUnitOfWork.EffectCandidate] = []\n\nfunc execute',
-          )
-          text = text.replace(
-              'if _catalog == null or _repository == null or _resources == null:',
-              'if (\n\t\t_catalog == null\n\t\tor _repository == null\n\t\tor _resources == null\n\t\tor _unit_of_work == null\n\t):',
-              1,
-          )
-
-          section26 = r'''## 26. Réserver, préparer et committer
-
-> **[LECTURE] Cœur de l’exécution — Suite de `ability_service.gd`.**
-
-```gdscript
-func _execute_prepared(
-	command: AbilityUseCommand,
-	definition: AbilityDefinition,
-	progression: AbilityProgressionState,
-	runtime: AbilityRuntimeState,
-) -> AbilityResult:
-	var costs := _build_costs(definition, progression.rank)
-	if costs.size() != definition.costs.size():
-		return _result(
-			AbilityResult.Status.REJECTED_COST,
-			command,
-			"coûts invalides",
-		)
-
-	var reservation := _resources.prepare_reservation(
-		command.user_character_id,
-		command.use_id,
-		costs,
-		command.expected_world_revision,
-	)
-	if reservation == null or reservation.validate() != OK:
-		return _result(
-			AbilityResult.Status.REJECTED_COST,
-			command,
-			"ressources insuffisantes",
-		)
-
-	var plan := _build_plan(command, definition, progression.rank)
-	if plan == null or plan.validate(definition) != OK:
-		_resources.cancel_reservation(reservation)
-		return _result(
-			AbilityResult.Status.REJECTED_RESOURCE,
-			command,
-			"plan invalide",
-		)
-
-	var prepared := _prepare_effects(
-		plan,
-		definition,
-		command.expected_world_revision,
-	)
-	if prepared == null or prepared.result == null:
-		_resources.cancel_reservation(reservation)
-		return _result(
-			AbilityResult.Status.REJECTED_RESOURCE,
-			command,
-			"préparation des effets impossible",
-		)
-	if not prepared.result.is_success():
-		_resources.cancel_reservation(reservation)
-		return prepared.result
-
-	var runtime_candidate := runtime.duplicate_detached()
-	runtime_candidate.available_charges -= 1
-	runtime_candidate.use_sequence += 1
-	if runtime_candidate.available_charges < definition.maximum_charges:
-		if runtime_candidate.next_charge_tick == 0:
-			var cooldown := definition.cooldown_for_rank(progression.rank)
-			runtime_candidate.next_charge_tick = (
-				command.requested_tick + cooldown
-			)
-
-	var commit_code := _unit_of_work.commit(
-		reservation,
-		prepared.candidates,
-		command.user_character_id,
-		progression.duplicate_detached(),
-		runtime_candidate,
-		command.expected_world_revision,
-		command.expected_ability_revision,
-	)
-	if commit_code != OK:
-		_resources.cancel_reservation(reservation)
-		var status := AbilityResult.Status.REJECTED_RESOURCE
-		if commit_code == ERR_BUSY:
-			status = AbilityResult.Status.REJECTED_STALE_REVISION
-		return _result(
-			status,
-			command,
-			"commit refusé : %s" % error_string(commit_code),
-		)
-
-	ability_resolved.emit(prepared.result)
-	return prepared.result
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Les coûts, le plan, les effets et l’état runtime sont tous préparés avant toute mutation active.
-- Un plan ou un effet requis invalide annule la réservation.
-- La charge et la recharge sont modifiées seulement sur `runtime_candidate`.
-- L’unité de travail reçoit tous les candidats et les deux révisions dans un seul appel.
-- `ERR_BUSY` distingue une concurrence normale d’une panne de ressource.
-- Les événements sont émis uniquement après un commit réussi.
+          error_anchor = '- ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;'
+          ability_errors = '''- ne pas écrire directement dégâts, santé ou états depuis une définition de compétence ;
+- ne pas stocker charges ou recharge dans une `Resource` de conception partagée ;
+- ne pas utiliser un `Timer` ou l’heure système comme recharge autoritaire ;
+- ne pas consommer un coût avant la validation et la préparation de tous les effets requis ;
+- ne pas committer séparément coût, effets et état de compétence ;
+- ne pas charger un script, une classe ou une méthode depuis une définition externe ;
+- ne pas traiter une prévisualisation comme validation autoritaire ;
+- ne pas persister plans, réservations, candidats, cibles dérivées ou caches ;
+- ne pas utiliser un nom affiché comme identité de compétence ;
+- ne pas retenter automatiquement une utilisation partiellement résolue ;
 '''
-          text = replace_section(text, '## 26. Réserver, exécuter et confirmer', '## 27. Construire le plan', section26)
+          if ability_errors.strip() not in text:
+              if error_anchor not in text:
+                  raise SystemExit('ancre erreurs introuvable')
+              text = text.replace(error_anchor, ability_errors + error_anchor, 1)
 
-          section28 = r'''## 28. Préparer les effets par type autorisé
+          old_next = '''Le chapitre 18 est terminé au niveau `static-review`. Le combat reçoit des commandes typées, valide leurs cibles et applique des mutations préparées sans transférer son autorité aux agents, à la physique ou à la présentation.
 
-> **[LECTURE] Dispatch fermé et sans mutation active — Suite de `ability_service.gd`.**
+Chapitre suivant :
 
-```gdscript
-func _prepare_effects(
-	plan: AbilityExecutionPlan,
-	definition: AbilityDefinition,
-	expected_world_revision: int,
-) -> PreparedUse:
-	var prepared := PreparedUse.new()
-	prepared.result = _result(
-		AbilityResult.Status.RESOLVED,
-		null,
-		"compétence préparée",
-	)
-	prepared.result.use_id = plan.use_id
-	prepared.result.ability_id = plan.ability_id
-	prepared.result.user_character_id = plan.user_character_id
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
-	var targets := _effective_targets(plan, definition.target)
-	for effect: AbilityEffectDefinition in plan.effects:
-		var effect_prepared := false
-		for target_id: StringName in targets:
-			var candidate := _prepare_one_effect(
-				plan,
-				effect,
-				target_id,
-				expected_world_revision,
-			)
-			if candidate != null and candidate.validate() == OK:
-				prepared.candidates.append(candidate)
-				effect_prepared = true
-			elif effect.required:
-				prepared.result.status = AbilityResult.Status.REJECTED_EFFECT
-				prepared.result.message = "effet requis refusé"
-				prepared.result.rejected_effect_ids.append(effect.effect_id)
-				return prepared
-		if effect_prepared:
-			prepared.result.applied_effect_ids.append(effect.effect_id)
-		else:
-			prepared.result.rejected_effect_ids.append(effect.effect_id)
-
-	if not prepared.result.rejected_effect_ids.is_empty():
-		prepared.result.status = AbilityResult.Status.PARTIALLY_RESOLVED
-	return prepared
-
-func _prepare_one_effect(
-	plan: AbilityExecutionPlan,
-	effect: AbilityEffectDefinition,
-	target_id: StringName,
-	expected_world_revision: int,
-) -> AbilityMutationUnitOfWork.EffectCandidate:
-	if effect is DamageEffectDefinition:
-		if _combat_port == null:
-			return null
-		return _combat_port.prepare_damage_effect(
-			plan,
-			effect as DamageEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-	if effect is StatusEffectDefinition:
-		if _combat_port == null:
-			return null
-		return _combat_port.prepare_status_effect(
-			plan,
-			effect as StatusEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-	if effect is ResourceEffectDefinition:
-		if _character_port == null:
-			return null
-		return _character_port.prepare_resource_effect(
-			plan,
-			effect as ResourceEffectDefinition,
-			target_id,
-			expected_world_revision,
-		)
-	return null
-
-func _result(
-	status: AbilityResult.Status,
-	command: AbilityUseCommand,
-	message: String,
-) -> AbilityResult:
-	var result := AbilityResult.new()
-	result.status = status
-	result.message = message
-	if command != null:
-		result.use_id = command.use_id
-		result.ability_id = command.ability_id
-		result.user_character_id = command.user_character_id
-	return result
+```text
+Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
+Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- Le dispatch utilise une liste fermée de types connus, jamais un nom de classe fourni par des données externes.
-- Chaque port renvoie un candidat validable et ne modifie aucun état actif.
-- Un effet requis absent arrête la préparation ; un effet optionnel peut produire `PARTIALLY_RESOLVED`.
-- Les identifiants ajoutés à `applied_effect_ids` signifient ici « candidat préparé » ; ils ne deviennent observables qu’après le commit et l’émission du résultat.
-- `_result()` centralise les statuts et recopie les identifiants de corrélation sans partager la commande mutable.
+Périmètre attendu : définitions de compétences et pouvoirs, coûts, temps de recharge, ciblage spécialisé, effets composables et progression, en réutilisant les contrats de combat sans déplacer les règles de portée, défense, dégâts ou commit hors du système propriétaire.
 '''
-          text = replace_section(text, '## 28. Appliquer les effets par type autorisé', '## 29. Déterminer les cibles effectives', section28)
+          new_next = '''Le chapitre 19 est terminé au niveau `static-review`. Les compétences séparent définitions, progression et état runtime, préparent coûts et effets derrière leurs autorités propriétaires et exigent un commit commun avant tout événement.
 
-          context_insert = r'''### 30.1 Port de contexte des compétences
+Chapitre suivant :
 
-> **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_context_port.gd`.**
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
-```gdscript
-class_name AbilityContextPort
-extends RefCounted
-
-class Context:
-	extends RefCounted
-
-	var ability_revision: int = 0
-
-	func validate() -> Error:
-		return OK if ability_revision >= 0 else ERR_INVALID_DATA
-
-func snapshot_for(_character_id: StringName) -> Context:
-	return null
+```text
+Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md
+Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-<!-- qa:code-explanation -->
+Périmètre attendu : définitions et instances d’objets, conteneurs d’inventaire, empilement, équipement, durabilité, propriété, provenance et réputation des objets, en réutilisant les contrats des personnages, du combat et des compétences sans déplacer leurs autorités.
+'''
+          if old_next not in text:
+              raise SystemExit('bloc prochaine action introuvable')
+          text = text.replace(old_next, new_next, 1)
 
-**Explication détaillée du bloc :**
+          journal_anchor = '### 2026-07-20T14:18:58+02:00 — version 3.18.0'
+          journal_entry = '''### 2026-07-20T15:27:31+02:00 — version 3.19.0
 
-- Le port fournit à l’adaptateur d’agent une révision fraîche sans exposer le dépôt complet.
-- `Context` ne contient ni progression mutable ni définition partagée.
-- La valeur `null` signifie que le personnage ne possède pas de contexte de compétence utilisable.
-- La révision sera recontrôlée par `AbilityService` avant préparation puis par l’unité de travail au commit.
+- chapitre 19 créé, corrigé et audité au niveau `static-review` ;
+- définitions, coûts, ciblages, effets composables, progression, charges et recharges documentés ;
+- commit séquentiel corrigé au profit d’une unité de travail commune ;
+- ports de combat, personnage, ressources et contexte séparés ;
+- sauvegarde limitée aux données durables et restauration préparée ;
+- index, roadmap, `contents.txt`, audit et preuve QA mis à jour ;
+- prochaine action déplacée vers le chapitre 20 — Inventaire et réputation des objets, niveau Élevée ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 '''
-          marker = '## 30. Adapter une action d’agent\n\n'
-          if marker not in text:
-              raise SystemExit('section 30 introuvable')
-          text = text.replace(marker, '## 30. Adapter une action d’agent\n\n' + context_insert, 1)
-
-          text = text.replace(
-              '- `PARTIALLY_RESOLVED` n’est permis que lorsque des effets non requis échouent.',
-              '- `PARTIALLY_RESOLVED` n’est permis que lorsque des effets non requis ne peuvent pas préparer de candidat.',
-          )
-          text = text.replace(
-              '- Les effets requis sont appliqués avant la consommation définitive du coût.',
-              '- Les effets requis sont préparés avant la consommation définitive du coût.',
-          )
-          text = text.replace(
-              '- Les effets et états passent par le système de combat ;',
-              '- Les dégâts et états passent par le système de combat ;',
-          )
+          if journal_entry.strip() not in text:
+              if journal_anchor not in text:
+                  raise SystemExit('ancre journal introuvable')
+              text = text.replace(journal_anchor, journal_entry + journal_anchor, 1)
 
           path.write_text(text, encoding='utf-8')
           PY
-      - name: Commit corrections
+          git rm .github/workflows/tmp-ch19-static-corrections.yml
+      - name: Commit continuity finalization
         shell: bash
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
-          git diff --cached --quiet && exit 0
-          git commit -m "docs(livre-ii): correct chapter 19 atomicity and ports"
+          git add CONTINUITE-PROJET.md .github/workflows/tmp-ch19-static-corrections.yml
+          git commit -m "docs(continuity): record chapter 19 completion"
           git push origin HEAD:docs/livre-ii-ch19-competences-pouvoirs
