@@ -17,7 +17,6 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
     return text.replace(old, new, 1)
 
 
-# Chapter 17.
 chapter_path = ROOT / 'Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md'
 chapter = chapter_path.read_text(encoding='utf-8')
 chapter = re.sub(r'^version: "1\.0\.2"$', 'version: "1.0.3"', chapter, count=1, flags=re.M)
@@ -55,7 +54,6 @@ chapter_blocks = len(re.findall(r'^```', chapter, flags=re.M)) // 2
 chapter_markers = chapter.count('<!-- qa:code-explanation -->')
 chapter_lecture = len(re.findall(r'^> \*\*\[LECTURE\]', chapter, flags=re.M))
 
-# Audit report.
 audit_path = ROOT / 'Livre-II/QA/AUDIT-CHAPITRE-17.md'
 audit = audit_path.read_text(encoding='utf-8')
 audit = re.sub(r'^version: "1\.0\.2"$', 'version: "1.0.3"', audit, count=1, flags=re.M)
@@ -69,7 +67,6 @@ if '## 9. Addendum de clôture' not in audit:
     audit += f'''\n## 9. Addendum de clôture — version 1.0.3\n\nLa section `44. Prochaine étape` a été retirée du chapitre. Le chemin et le niveau du chapitre suivant sont des informations de pilotage du projet et restent dans `CONTINUITE-PROJET.md`, pas dans le texte destiné au lecteur.\n\nLa fin du chapitre porte désormais une synthèse opérationnelle des décisions retenues pour `Project Asteria`, conformément aux chapitres de systèmes précédents. La vérification corrective est horodatée `{NOW}`.\n'''
 audit_path.write_text(audit, encoding='utf-8')
 
-# QA protocol.
 protocol_path = ROOT / 'Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md'
 protocol = protocol_path.read_text(encoding='utf-8')
 protocol = replace_once(protocol, 'version: "1.7.3"', 'version: "1.7.4"', 'protocol version')
@@ -88,7 +85,6 @@ if addition not in protocol:
     protocol = replace_once(protocol, anchor, addition + anchor, 'protocol closure rule')
 protocol_path.write_text(protocol, encoding='utf-8')
 
-# Continuity.
 continuity_path = ROOT / 'CONTINUITE-PROJET.md'
 continuity = continuity_path.read_text(encoding='utf-8')
 continuity = replace_once(continuity, 'version: "3.17.9"', 'version: "3.17.10"', 'continuity version')
@@ -101,7 +97,8 @@ closure_rule = '\n\nLes chapitres 14 à 25 se terminent par une synthèse opéra
 if closure_rule.strip() not in continuity:
     continuity = replace_once(continuity, anchor, anchor + closure_rule, 'continuity Project Asteria closure rule')
 continuity = replace_once(continuity, '- chapitre 17 : version `1.0.2` ;', '- chapitre 17 : version `1.0.3` ;', 'continuity chapter state')
-continuity = replace_once(continuity, 'version `1.7.3`', 'version `1.7.4`', 'continuity protocol version')
+protocol_sentence = 'Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.3`.'
+continuity = replace_once(continuity, protocol_sentence, protocol_sentence.replace('1.7.3', '1.7.4'), 'continuity official protocol version')
 error_anchor = '- ne pas construire le PDF à chaque chapitre ;\n- ne pas oublier la mise à jour de ce fichier.'
 error_new = '- ne pas construire le PDF à chaque chapitre ;\n- ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;\n- ne pas terminer un chapitre de système sans synthèse opérationnelle de `Project Asteria` ;\n- ne pas oublier la mise à jour de ce fichier.'
 continuity = replace_once(continuity, error_anchor, error_new, 'continuity do-not-repeat rules')
@@ -110,16 +107,10 @@ if '### 2026-07-20 — version 3.17.10' not in continuity:
     continuity = replace_once(continuity, '## 27. Journal\n\n', '## 27. Journal\n\n' + journal, 'continuity journal')
 continuity_path.write_text(continuity, encoding='utf-8')
 
-# Index and roadmap.
 index_path = ROOT / 'Livre-II/index.md'
 index = index_path.read_text(encoding='utf-8')
 index = replace_once(index, 'version: "1.12.3"', 'version: "1.12.4"', 'index version')
-index = replace_once(
-    index,
-    '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée et audité au niveau static-review**',
-    '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée, clôturé par les décisions Project Asteria et audité au niveau static-review**',
-    'index chapter status',
-)
+index = replace_once(index, '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée et audité au niveau static-review**', '17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **rédigé, repéré, expliqué bloc par bloc, terminologie des retours clarifiée, clôturé par les décisions Project Asteria et audité au niveau static-review**', 'index chapter status')
 index_path.write_text(index, encoding='utf-8')
 
 roadmap_path = ROOT / 'ROADMAP.md'
@@ -130,7 +121,6 @@ if roadmap_line not in roadmap:
     roadmap = replace_once(roadmap, roadmap_anchor, roadmap_anchor + '\n' + roadmap_line, 'roadmap closure correction')
 roadmap_path.write_text(roadmap, encoding='utf-8')
 
-# Evidence reset before CI.
 evidence_path = ROOT / 'Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml'
 evidence = evidence_path.read_text(encoding='utf-8')
 evidence = replace_once(evidence, 'status: complete', 'status: pending-ci', 'evidence status')
