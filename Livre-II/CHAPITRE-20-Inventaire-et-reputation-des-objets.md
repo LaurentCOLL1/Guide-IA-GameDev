@@ -6,9 +6,9 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 20
-last-verified: "2026-07-20T17:32:42+02:00"
+last-verified: "2026-07-20T17:50:09+02:00"
 audit-status: "complete"
-audit-date: "2026-07-20T17:32:42+02:00"
+audit-date: "2026-07-20T17:50:09+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-20.md"
 audit-level: "static-review"
 reference-engine:
@@ -155,6 +155,7 @@ res://src/features/inventory/
 │   ├── inventory_repository.gd
 │   ├── inventory_mutation_candidate.gd
 │   ├── inventory_mutation_unit_of_work.gd
+│   ├── inventory_access_port.gd
 │   ├── inventory_ability_grant_port.gd
 │   ├── inventory_durability_port.gd
 │   ├── inventory_agent_context_port.gd
@@ -529,11 +530,14 @@ func validate(definition: ItemDefinition) -> Error:
 	return OK
 
 func can_merge_with(other: ItemStackState) -> bool:
-	if other == null:
+	if other == null or owner == null or other.owner == null:
 		return false
 	return (
 		definition_id == other.definition_id
 		and lot_id == other.lot_id
+		and origin_cause_id == other.origin_cause_id
+		and origin_source_system_id == other.origin_source_system_id
+		and created_tick == other.created_tick
 		and owner.kind == other.owner.kind
 		and owner.owner_id == other.owner.owner_id
 	)
@@ -559,7 +563,7 @@ func duplicate_detached() -> ItemStackState:
 
 - Un lot n’existe que pour une définition explicitement fongible.
 - `lot_id`, la cause, le système source et le tick conservent l’origine commune sans prétendre suivre chaque unité.
-- Deux piles ne fusionnent que si définition, lot et propriétaire correspondent.
+- Deux piles ne fusionnent que si définition, origine complète et propriétaire correspondent.
 - La capacité maximale reste celle de la définition.
 - Une division crée un nouvel identifiant de pile mais conserve le même `lot_id`.
 
@@ -833,6 +837,12 @@ func validate(
 			return ERR_INVALID_DATA
 		if instance.is_broken(definition):
 			return ERR_UNAVAILABLE
+		if instance.owner == null:
+			return ERR_INVALID_DATA
+		if instance.owner.kind != ItemOwnerRef.Kind.CHARACTER:
+			return ERR_INVALID_DATA
+		if instance.owner.owner_id != character_id:
+			return ERR_INVALID_DATA
 		if instance.equipped_by_character_id != character_id:
 			return ERR_INVALID_DATA
 		used_instances[instance_id] = true
@@ -854,7 +864,7 @@ func duplicate_detached() -> EquipmentLoadoutState:
 - La forme du loadout est validée séparément avant les références croisées.
 - La définition déclare les emplacements compatibles.
 - Un objet brisé est refusé par la politique pédagogique retenue.
-- L’état d’instance et le loadout doivent se confirmer mutuellement.
+- L’état d’instance, sa propriété et le loadout doivent se confirmer mutuellement.
 - Les bonus de combat ou de personnage restent des vues dérivées consommées par leurs propriétaires.
 
 ## 17. Catalogue et dépôt
@@ -973,7 +983,9 @@ func create_stack(
 	origin_source_system_id: StringName,
 	created_tick: int,
 ) -> ItemStackState:
-	if definition == null or not definition.is_stackable():
+	if definition == null or definition.validate() != OK:
+		return null
+	if not definition.is_stackable():
 		return null
 	var state := ItemStackState.new()
 	state.stack_id = stack_id
@@ -1009,6 +1021,7 @@ extends RefCounted
 var command_id: StringName
 var entry: InventoryEntryRef
 var quantity: int = 1
+var created_stack_id: StringName
 var source_container_id: StringName
 var destination_container_id: StringName
 var requested_owner: ItemOwnerRef
@@ -1026,6 +1039,8 @@ func validate() -> Error:
 	if entry == null or entry.validate() != OK:
 		return ERR_INVALID_DATA
 	if quantity < 1:
+		return ERR_INVALID_DATA
+	if not created_stack_id.is_empty() and not StableId.is_valid(created_stack_id):
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(source_container_id):
 		return ERR_INVALID_DATA
@@ -1053,6 +1068,7 @@ func validate() -> Error:
 **Explication détaillée du bloc :**
 
 - La commande identifie explicitement source, destination, entrée et quantité.
+- `created_stack_id` est fourni par l’appelant uniquement lorsqu’un transfert partiel doit créer une nouvelle pile.
 - Trois révisions protègent les deux conteneurs et l’entrée.
 - `requested_owner` permet un don ou un transfert autorisé sans définir le paiement.
 - La cause et le système source alimentent la provenance.
@@ -1172,6 +1188,32 @@ func validate(catalog: ItemCatalog) -> Error:
 - Les révisions attendues sont associées à des identifiants d’agrégats.
 - Un candidat invalide ne peut atteindre l’unité de travail.
 
+### 20.1 Autoriser un transfert
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/application/inventory_access_port.gd`.**
+
+```gdscript
+class_name InventoryAccessPort
+extends RefCounted
+
+func can_transfer(
+	command: InventoryTransferCommand,
+	current_owner: ItemOwnerRef,
+	source_custodian: ItemOwnerRef,
+) -> Error:
+	return ERR_UNAVAILABLE
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le port décide si l’acteur et le système source peuvent demander ce transfert.
+- `OK` autorise la préparation ; `ERR_UNAUTHORIZED` produit un refus de propriété.
+- Le propriétaire courant et le gardien matériel sont fournis séparément.
+- Une transaction économique, une quête ou une future règle de justice pourra adapter ce port sans écrire directement le dépôt.
+- L’inventaire conserve le dernier mot sur ses invariants même après autorisation.
+
 ## 21. Préparer un transfert
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/application/inventory_service.gd`.**
@@ -1182,8 +1224,19 @@ extends RefCounted
 
 signal inventory_committed(result: InventoryResult)
 
+class TransferPreparation:
+	extends RefCounted
+
+	var candidate: InventoryMutationCandidate
+	var status := InventoryResult.Status.REJECTED_INTERNAL
+	var message: String = ""
+
+	func is_ready() -> bool:
+		return candidate != null
+
 var _catalog: ItemCatalog
 var _repository: InventoryRepository
+var _access: InventoryAccessPort
 var _unit_of_work: InventoryMutationUnitOfWork
 
 func transfer(command: InventoryTransferCommand) -> InventoryResult:
@@ -1193,26 +1246,29 @@ func transfer(command: InventoryTransferCommand) -> InventoryResult:
 			command,
 			"commande invalide",
 		)
-	if _catalog == null or _repository == null or _unit_of_work == null:
+	if (
+		_catalog == null
+		or _repository == null
+		or _access == null
+		or _unit_of_work == null
+	):
 		return _result(
 			InventoryResult.Status.REJECTED_INTERNAL,
 			command,
 			"services obligatoires indisponibles",
 		)
-	var candidate := _prepare_transfer(command)
-	if candidate == null:
-		return _result(
-			InventoryResult.Status.REJECTED_NOT_FOUND,
-			command,
-			"entrée ou conteneur absent",
-		)
-	if candidate.validate(_catalog) != OK:
+
+	var prepared := _prepare_transfer(command)
+	if not prepared.is_ready():
+		return _result(prepared.status, command, prepared.message)
+	if prepared.candidate.validate(_catalog) != OK:
 		return _result(
 			InventoryResult.Status.REJECTED_INTERNAL,
 			command,
 			"candidat invalide",
 		)
-	var commit_code := _unit_of_work.commit(candidate)
+
+	var commit_code := _unit_of_work.commit(prepared.candidate, [])
 	if commit_code != OK:
 		var status := InventoryResult.Status.REJECTED_INTERNAL
 		if commit_code == ERR_BUSY:
@@ -1220,14 +1276,93 @@ func transfer(command: InventoryTransferCommand) -> InventoryResult:
 		elif commit_code == ERR_OUT_OF_MEMORY:
 			status = InventoryResult.Status.REJECTED_CAPACITY
 		return _result(status, command, error_string(commit_code))
+
 	var result := _result(
 		InventoryResult.Status.COMMITTED,
 		command,
 		"transfert committé",
 	)
-	result.affected_entry_ids.assign(_affected_ids(candidate))
+	result.affected_entry_ids.assign(_affected_ids(prepared.candidate))
 	inventory_committed.emit(result)
 	return result
+
+func _prepare_transfer(command: InventoryTransferCommand) -> TransferPreparation:
+	var prepared := TransferPreparation.new()
+	var source := _repository.get_container(command.source_container_id)
+	var destination := _repository.get_container(command.destination_container_id)
+	if source == null or destination == null:
+		prepared.status = InventoryResult.Status.REJECTED_NOT_FOUND
+		prepared.message = "conteneur absent"
+		return prepared
+	if source.revision != command.expected_source_revision:
+		prepared.status = InventoryResult.Status.REJECTED_STALE_REVISION
+		prepared.message = "révision source obsolète"
+		return prepared
+	if destination.revision != command.expected_destination_revision:
+		prepared.status = InventoryResult.Status.REJECTED_STALE_REVISION
+		prepared.message = "révision destination obsolète"
+		return prepared
+
+	var current_owner := _owner_for_entry(command.entry)
+	if current_owner == null:
+		prepared.status = InventoryResult.Status.REJECTED_NOT_FOUND
+		prepared.message = "entrée absente"
+		return prepared
+	var access_code := _access.can_transfer(
+		command,
+		current_owner,
+		source.custodian,
+	)
+	if access_code == ERR_UNAUTHORIZED:
+		prepared.status = InventoryResult.Status.REJECTED_OWNERSHIP
+		prepared.message = "transfert non autorisé"
+		return prepared
+	if access_code != OK:
+		prepared.status = InventoryResult.Status.REJECTED_INTERNAL
+		prepared.message = error_string(access_code)
+		return prepared
+
+	match command.entry.kind:
+		InventoryEntryRef.Kind.INSTANCE:
+			var instance := _repository.get_instance(command.entry.entry_id)
+			if instance == null or not source.contains(instance.instance_id):
+				prepared.status = InventoryResult.Status.REJECTED_NOT_FOUND
+				prepared.message = "instance absente de la source"
+				return prepared
+			if instance.revision != command.expected_entry_revision:
+				prepared.status = InventoryResult.Status.REJECTED_STALE_REVISION
+				prepared.message = "révision d’instance obsolète"
+				return prepared
+			if command.quantity != 1 or not command.created_stack_id.is_empty():
+				prepared.status = InventoryResult.Status.REJECTED_STACK_RULE
+				prepared.message = "forme de transfert d’instance invalide"
+				return prepared
+			if not instance.equipped_by_character_id.is_empty():
+				prepared.status = InventoryResult.Status.REJECTED_EQUIPMENT
+				prepared.message = "objet encore équipé"
+				return prepared
+			prepared.candidate = _prepare_instance_transfer(
+				command,
+				source,
+				destination,
+			)
+		InventoryEntryRef.Kind.STACK:
+			prepared.candidate = _prepare_stack_transfer(
+				command,
+				source,
+				destination,
+			)
+		_:
+			prepared.status = InventoryResult.Status.REJECTED_INVALID_COMMAND
+			prepared.message = "type d’entrée inconnu"
+			return prepared
+
+	if prepared.candidate == null:
+		prepared.status = InventoryResult.Status.REJECTED_CAPACITY
+		prepared.message = "destination ou règle de pile refusée"
+		return prepared
+	prepared.message = "transfert préparé"
+	return prepared
 ```
 
 <!-- qa:code-explanation -->
@@ -1235,7 +1370,8 @@ func transfer(command: InventoryTransferCommand) -> InventoryResult:
 **Explication détaillée du bloc :**
 
 - Les validations générales précèdent toute lecture détaillée.
-- `_prepare_transfer()` construit des copies de source, destination et entrée.
+- `TransferPreparation` conserve un statut précis sans traiter tous les refus comme une absence.
+- `_prepare_transfer()` relit conteneurs, révisions, propriété et autorisation avant les copies.
 - Le candidat est validé avant le commit.
 - `ERR_BUSY` représente une révision devenue obsolète.
 - Le signal est émis seulement après le remplacement réussi.
@@ -1257,6 +1393,8 @@ func _prepare_instance_transfer(
 		return null
 	if not source.contains(instance.instance_id):
 		return null
+	if not instance.equipped_by_character_id.is_empty():
+		return null
 
 	var source_candidate := source.duplicate_detached()
 	var destination_candidate := destination.duplicate_detached()
@@ -1264,6 +1402,8 @@ func _prepare_instance_transfer(
 		return null
 	if not _append_instance(destination_candidate, instance):
 		return null
+	source_candidate.revision += 1
+	destination_candidate.revision += 1
 
 	var instance_candidate := instance.duplicate_detached()
 	var previous_owner := instance_candidate.owner.duplicate_detached()
@@ -1291,30 +1431,114 @@ func _prepare_instance_transfer(
 **Explication détaillée du bloc :**
 
 - Une instance se transfère toujours avec une quantité égale à `1`.
-- La source est vérifiée à la fois dans l’instance et dans le conteneur.
+- La source est vérifiée à la fois dans l’instance et dans le conteneur ; un objet équipé doit d’abord être déséquipé.
 - La destination est validée avant de modifier l’instance candidate.
-- Propriété, garde, révision et séquence de provenance changent dans le même candidat.
+- Propriété, garde, révisions des conteneurs, révision d’instance et séquence de provenance changent dans le même candidat.
 - Aucun état actif n’est modifié par cette fonction.
+
+
+> **[LECTURE] Préparation interne d’un lot — Suite de `inventory_service.gd`.**
+
+```gdscript
+func _prepare_stack_transfer(
+	command: InventoryTransferCommand,
+	source: InventoryContainerState,
+	destination: InventoryContainerState,
+) -> InventoryMutationCandidate:
+	var stack := _repository.get_stack(command.entry.entry_id)
+	if stack == null or stack.container_id != source.container_id:
+		return null
+	if stack.revision != command.expected_entry_revision:
+		return null
+	if not source.contains(stack.stack_id):
+		return null
+	if command.quantity > stack.quantity:
+		return null
+	var definition := _catalog.get_definition(stack.definition_id)
+	if definition == null or stack.validate(definition) != OK:
+		return null
+
+	var source_candidate := source.duplicate_detached()
+	var destination_candidate := destination.duplicate_detached()
+	var candidate := InventoryMutationCandidate.new()
+	candidate.command_id = command.command_id
+
+	if command.quantity == stack.quantity:
+		if not command.created_stack_id.is_empty():
+			return null
+		if not _remove_entry(source_candidate, stack.stack_id):
+			return null
+		if not _append_stack(destination_candidate, stack, definition):
+			return null
+		var moved := stack.duplicate_detached()
+		moved.container_id = destination.container_id
+		moved.owner = command.requested_owner.duplicate_detached()
+		moved.revision += 1
+		candidate.stacks[moved.stack_id] = moved
+	else:
+		if not StableId.is_valid(command.created_stack_id):
+			return null
+		var split := _prepare_stack_split(
+			stack,
+			command.quantity,
+			command.created_stack_id,
+		)
+		if split.is_empty():
+			return null
+		var remaining: ItemStackState = split["source"]
+		var created: ItemStackState = split["created"]
+		created.container_id = destination.container_id
+		created.owner = command.requested_owner.duplicate_detached()
+		if not _append_stack(destination_candidate, created, definition):
+			return null
+		candidate.stacks[remaining.stack_id] = remaining
+		candidate.stacks[created.stack_id] = created
+
+	source_candidate.revision += 1
+	destination_candidate.revision += 1
+	candidate.containers[source.container_id] = source_candidate
+	candidate.containers[destination.container_id] = destination_candidate
+	candidate.expected_revisions[source.container_id] = command.expected_source_revision
+	candidate.expected_revisions[destination.container_id] = command.expected_destination_revision
+	candidate.expected_revisions[stack.stack_id] = command.expected_entry_revision
+	return candidate
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Un transfert total conserve l’identifiant de pile et exige `created_stack_id` vide.
+- Un transfert partiel exige un nouvel identifiant préparé par l’appelant.
+- La pile restante et la pile créée conservent la même origine de lot.
+- La capacité de destination est contrôlée avant toute mutation active.
+- La nouvelle pile n’a pas de révision attendue puisqu’elle n’existe pas encore ; l’unité de travail doit aussi vérifier l’absence de collision d’identifiant.
 
 ## 22. Diviser et fusionner un lot
 
 > **[LECTURE] Règles de quantité — Fonctions internes du service.**
 
 ```gdscript
-func _split_stack(
+func _prepare_stack_split(
 	stack: ItemStackState,
 	quantity: int,
 	new_stack_id: StringName,
-) -> ItemStackState:
+) -> Dictionary:
 	if stack == null or quantity < 1 or quantity >= stack.quantity:
-		return null
-	if not StableId.is_valid(new_stack_id):
-		return null
+		return {}
+	if not StableId.is_valid(new_stack_id) or new_stack_id == stack.stack_id:
+		return {}
+	var source_candidate := stack.duplicate_detached()
 	var created := stack.duplicate_detached()
+	source_candidate.quantity -= quantity
+	source_candidate.revision += 1
 	created.stack_id = new_stack_id
 	created.quantity = quantity
 	created.revision = 0
-	return created
+	return {
+		"source": source_candidate,
+		"created": created,
+	}
 
 func _merge_quantity(
 	destination: ItemStackState,
@@ -1341,8 +1565,8 @@ func _merge_quantity(
 
 **Explication détaillée du bloc :**
 
-- Une division partielle crée une nouvelle pile avec le même `lot_id`.
-- La pile source réelle n’est modifiée que sur une copie préparée par l’appelant.
+- Une division partielle renvoie la pile source décrémentée et la nouvelle pile avec le même `lot_id`.
+- Les deux résultats sont des copies préparées ; la source active reste intacte avant commit.
 - La fusion exige une compatibilité stricte et une capacité suffisante.
 - Une quantité source ramenée à zéro entraîne la suppression préparée de sa référence et de son état.
 - Les prix ou valeurs monétaires ne participent jamais à la règle de pile.
@@ -1368,7 +1592,7 @@ class ExternalCandidate:
 
 func commit(
 	inventory_candidate: InventoryMutationCandidate,
-	external_candidates: Array[ExternalCandidate] = [],
+	external_candidates: Array[ExternalCandidate],
 ) -> Error:
 	return ERR_UNAVAILABLE
 ```
@@ -1377,7 +1601,7 @@ func commit(
 
 **Explication détaillée du bloc :**
 
-- Le contrat reçoit le candidat d’inventaire et les candidats des autorités externes.
+- Le contrat reçoit toujours explicitement le candidat d’inventaire et la liste des candidats des autorités externes, même vide.
 - L’implémentation réelle doit revalider toutes les révisions et tous les candidats avant le premier remplacement.
 - `authority_id` identifie le propriétaire de chaque payload.
 - Une capacité transactionnelle réelle doit être matérialisée et testée ; le stub ne revendique aucune atomicité exécutée.
@@ -1418,11 +1642,12 @@ func prepare_equip(
 	character_id: StringName,
 	slot_id: StringName,
 	instance_id: StringName,
-	expected_inventory_revision: int,
+	expected_instance_revision: int,
+	expected_loadout_revision: int,
 	expected_ability_revision: int,
 ) -> Dictionary:
 	var instance := _repository.get_instance(instance_id)
-	if instance == null:
+	if instance == null or instance.revision != expected_instance_revision:
 		return {}
 	var definition := _catalog.get_definition(instance.definition_id)
 	if definition == null or slot_id not in definition.equipment_slot_ids:
@@ -1438,7 +1663,7 @@ func prepare_equip(
 	if instance.is_broken(definition):
 		return {}
 	var loadout := _repository.get_loadout(character_id)
-	if loadout == null or loadout.revision != expected_inventory_revision:
+	if loadout == null or loadout.revision != expected_loadout_revision:
 		return {}
 
 	var instance_candidate := instance.duplicate_detached()
@@ -1461,6 +1686,8 @@ func prepare_equip(
 		"instance": instance_candidate,
 		"loadout": loadout_candidate,
 		"grant": grant_candidate,
+		"expected_instance_revision": expected_instance_revision,
+		"expected_loadout_revision": expected_loadout_revision,
 	}
 ```
 
@@ -1468,7 +1695,7 @@ func prepare_equip(
 
 **Explication détaillée du bloc :**
 
-- L’instance, la définition, la propriété et le loadout sont relus avant préparation.
+- L’instance, sa révision, la définition, la propriété et la révision du loadout sont relues avant préparation.
 - Un objet brisé ou incompatible est refusé.
 - L’état d’équipement est modifié sur des copies.
 - Une compétence accordée produit un candidat appartenant au système de compétences.
@@ -1560,6 +1787,43 @@ func prepare_change(
 - Un texte, un score IA ou un nom célèbre ne modifie pas directement la réputation.
 - Les valeurs sont pédagogiques et devront être équilibrées par des données versionnées si elles deviennent du contenu de production.
 
+### 27.1 Contexte d’inventaire pour un agent
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/application/inventory_agent_context_port.gd`.**
+
+```gdscript
+class_name InventoryAgentContextPort
+extends RefCounted
+
+class Context:
+	extends RefCounted
+
+	var owner_character_id: StringName
+	var snapshot_revision: int = 0
+
+	func validate() -> Error:
+		if not CharacterId.is_valid(owner_character_id):
+			return ERR_INVALID_DATA
+		return OK if snapshot_revision >= 0 else ERR_INVALID_DATA
+
+	func build_transfer_command(
+		_request: AgentActionRequest,
+	) -> InventoryTransferCommand:
+		return null
+
+func snapshot_for(_character_id: StringName) -> Context:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le contexte est un snapshot détaché et révisionné des choix autorisés pour l’agent.
+- L’adaptateur concret construit une commande seulement depuis les conteneurs, entrées et destinations exposés par ce snapshot.
+- Le stub ne fournit aucune collection interne mutable.
+- Le service d’inventaire relit ensuite toutes les révisions et l’autorisation.
+
 ## 27. Adapter une action d’agent
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/application/inventory_agent_action_executor.gd`.**
@@ -1601,7 +1865,7 @@ func start(request: AgentActionRequest) -> Error:
 **Explication détaillée du bloc :**
 
 - L’agent choisit une intention depuis un snapshot, pas un remplacement de dépôt.
-- Le contexte fournit les conteneurs, l’entrée et les révisions autorisées.
+- Le contexte fournit uniquement les choix autorisés et une révision de snapshot ; la commande reste revalidée par le service.
 - Le même service traite ensuite joueur et agent.
 - Un refus provoque une nouvelle décision sur un snapshot frais.
 - L’agent ne choisit ni prix, ni dégâts, ni delta de réputation.

@@ -1,0 +1,53 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH20
+status: pending
+validation-date: 2026-07-20
+validated-base-commit: ce4e5e48e3659f0de2ffcfffede4b9c2dbe7ecd4
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH20
+  path: Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2584
+  chapter-headings: 58
+  chapter-code-and-data-blocks: 55
+  code-explanation-markers: 55
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  definitions-instances-stacks-separated: true
+  ownership-custody-separated: true
+  strict-stack-compatibility: true
+  transfer-authorization-port: true
+  multi-aggregate-unit-of-work-contract: true
+  external-authorities-preserved: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+reservations:
+  - Godot parser not executed.
+  - Typed Dictionary signatures not runtime-verified.
+  - Inventory unit of work not run.
+  - Transfer authorization adapter not materialized.
+  - Ability grant integration not run.
+  - Combat durability integration not run.
+  - Demo scene not instantiated.
+  - Performance budgets not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
