@@ -2,9 +2,9 @@
 title: "Déclencheur temporaire de correction de clôture"
 id: "TMP-QA-CH17-CLOSURE"
 status: "temporary"
-version: "0.0.6"
+version: "0.0.7"
 ---
 
 # Déclencheur temporaire
 
-Ce fichier relance le diagnostic après adaptation à la forme actuelle de l’index.
+Ce fichier déclenche l’application atomique de la correction de clôture validée.
