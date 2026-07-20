@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
-status: pending-ci
+status: complete
 validation-date: 2026-07-20
 validated-base-commit: 86ce004b5bb115a8a7d17f92adf0af6049dfcf9c
-validated-head-commit: pending-ci
+validated-head-commit: f49bd9662700f5963c229fceaa2634c80a9b2f63
 chapter:
   id: DOC-L2-CH17
   path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
@@ -55,15 +55,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29731751095
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29731751073
+    conclusion: success
   artifact:
-    id: pending
+    id: 8456555264
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:038113a3dd32335b2c3cfa4b95dd54d344cf7a1c22ccd853e503deb1276882f5
 reservations:
   - Godot parser not executed.
   - Demo scene not instantiated.
