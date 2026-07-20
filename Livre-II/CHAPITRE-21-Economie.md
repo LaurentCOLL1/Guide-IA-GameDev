@@ -457,7 +457,7 @@ static func multiply_basis_points(value: int, basis_points: int) -> Variant:
 - Les opérations refusent un résultat hors de la plage JSON sûre retenue par le guide.
 - Les prix et multiplicateurs économiques restent non négatifs.
 - `10000` points de base représentent `100 %`.
-- L’ajout de `5000` avant la division réalise un arrondi à l’entier le plus proche.
+- L’expression `BASIS_POINT_SCALE / 2` vaut `5000`, puisque l’échelle contient `10000` points de base. Son ajout avant la division par `BASIS_POINT_SCALE` réalise un arrondi à l’entier le plus proche.
 - `Variant` permet de distinguer un résultat nul valide d’un dépassement signalé par `null`.
 
 ## 12. État d’un portefeuille
