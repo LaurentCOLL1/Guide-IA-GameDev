@@ -18,16 +18,25 @@ jobs:
           ref: docs/livre-ii-ch21-economie
           fetch-depth: 0
 
-      - name: Finalize chapter, QA and governance
-        run: python3 .qa/ch21-finalize.py
-
-      - name: Remove temporary files and commit
+      - name: Finalize or record diagnostic
+        shell: bash
         run: |
+          set +e
+          python3 .qa/ch21-finalize.py > /tmp/ch21-finalize.log 2>&1
+          code=$?
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          if [ "$code" -ne 0 ]; then
+            cp /tmp/ch21-finalize.log .qa/ch21-finalize-error.log
+            git add .qa/ch21-finalize-error.log
+            git commit -m "chore(qa): record chapter 21 finalization error"
+            git push origin HEAD:docs/livre-ii-ch21-economie
+            exit 0
+          fi
           rm -f .github/workflows/temp-ch21-finalize.yml
           rm -f .qa/ch21-finalize.py
           rm -f .qa/ch21-finalize.trigger
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          rm -f .qa/ch21-finalize-error.log
           git add -A
           git commit -m "docs(livre-ii): finalize chapter 21 economy"
           git push origin HEAD:docs/livre-ii-ch21-economie
