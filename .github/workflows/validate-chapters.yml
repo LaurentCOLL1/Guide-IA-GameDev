@@ -18,6 +18,59 @@ on:
       - "tools/report_contextes_utilisation.py"
       - "tools/materialize_ch19_continuity.py"
       - ".github/workflows/validate-chapters.yml"
+      - ".github/workflows/tmp-ch19-static-corrections.yml"
+      - ".qa/**"
+
+permissions:
+  contents: write
+
+jobs:
+  validate-chapters:
+    name: Validate chapters without PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install lightweight dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Apply continuity and restore permanent workflow
+        if: github.actor != 'github-actions[bot]'
+        shell: bash
+        run: |
+          mkdir -p dist
+          python3 tools/materialize_ch19_continuity.py
+          cp dist/CONTINUITE-PROJET.updated.md CONTINUITE-PROJET.md
+          rm -f tools/materialize_ch19_continuity.py
+          rm -f .github/workflows/tmp-ch19-static-corrections.yml
+          python3 - <<'PY'
+          from pathlib import Path
+          Path('.github/workflows/validate-chapters.yml').write_text('''name: Validate Chapters Without PDF
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Livre-II/**/*.md"
+      - "Livre-II/index.md"
+      - "contents.txt"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "REPRISE-NOUVELLE-CONVERSATION.md"
+      - "tools/validate_chapters.py"
+      - "tools/check_context_markers.py"
+      - "tools/audit_contextes_semantiques.py"
+      - "tools/report_contextes_utilisation.py"
+      - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
 
 permissions:
@@ -37,10 +90,59 @@ jobs:
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Materialize chapter 19 continuity candidate
+      - name: Validate structure, metadata, links and duplicates
         run: |
           mkdir -p dist
-          python3 tools/materialize_ch19_continuity.py
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \\
+            | tee dist/QA-CHAPTERS.log
+
+      - name: Audit usage marker presence
+        run: |
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \\
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \\
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \\
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Upload lightweight QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+''', encoding='utf-8')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add CONTINUITE-PROJET.md .github/workflows/validate-chapters.yml
+          git add -u tools/materialize_ch19_continuity.py .github/workflows/tmp-ch19-static-corrections.yml
+          git commit -m "docs(continuity): record chapter 19 completion"
+          git push origin HEAD:${{ github.head_ref }}
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -82,7 +184,6 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
-            dist/CONTINUITE-PROJET.updated.md
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
             dist/QA-CONTEXTES.log
