@@ -157,6 +157,8 @@ res://src/features/inventory/
 │   ├── inventory_mutation_unit_of_work.gd
 │   ├── inventory_ability_grant_port.gd
 │   ├── inventory_durability_port.gd
+│   ├── inventory_agent_context_port.gd
+│   ├── item_factory.gd
 │   ├── item_reputation_policy.gd
 │   ├── inventory_service.gd
 │   └── inventory_agent_action_executor.gd
@@ -276,6 +278,8 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if kind == Kind.NONE:
 		return OK if owner_id.is_empty() else ERR_INVALID_DATA
+	if kind == Kind.CHARACTER:
+		return OK if CharacterId.is_valid(owner_id) else ERR_INVALID_DATA
 	return OK if StableId.is_valid(owner_id) else ERR_INVALID_DATA
 
 func duplicate_detached() -> ItemOwnerRef:
@@ -495,6 +499,9 @@ var definition_id: StringName
 var container_id: StringName
 var owner: ItemOwnerRef
 var lot_id: StringName
+var origin_cause_id: StringName
+var origin_source_system_id: StringName
+var created_tick: int = 0
 var quantity: int = 0
 var revision: int = 0
 
@@ -508,6 +515,10 @@ func validate(definition: ItemDefinition) -> Error:
 	if definition_id != definition.item_id:
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(container_id) or not StableId.is_valid(lot_id):
+		return ERR_INVALID_DATA
+	if not StableId.is_valid(origin_cause_id):
+		return ERR_INVALID_DATA
+	if not StableId.is_valid(origin_source_system_id) or created_tick < 0:
 		return ERR_INVALID_DATA
 	if owner == null or owner.validate() != OK:
 		return ERR_INVALID_DATA
@@ -534,6 +545,9 @@ func duplicate_detached() -> ItemStackState:
 	copy.container_id = container_id
 	copy.owner = owner.duplicate_detached() if owner != null else null
 	copy.lot_id = lot_id
+	copy.origin_cause_id = origin_cause_id
+	copy.origin_source_system_id = origin_source_system_id
+	copy.created_tick = created_tick
 	copy.quantity = quantity
 	copy.revision = revision
 	return copy
@@ -544,7 +558,7 @@ func duplicate_detached() -> ItemStackState:
 **Explication détaillée du bloc :**
 
 - Un lot n’existe que pour une définition explicitement fongible.
-- `lot_id` conserve une origine commune sans prétendre suivre chaque unité.
+- `lot_id`, la cause, le système source et le tick conservent l’origine commune sans prétendre suivre chaque unité.
 - Deux piles ne fusionnent que si définition, lot et propriétaire correspondent.
 - La capacité maximale reste celle de la définition.
 - Une division crée un nouvel identifiant de pile mais conserve le même `lot_id`.
@@ -654,6 +668,16 @@ func apply_delta(cause_id: StringName, delta: int, logical_tick: int) -> Error:
 	while recent_cause_ids.size() > MAX_RECENT_CAUSES:
 		recent_cause_ids.pop_front()
 	return OK
+
+func duplicate_detached() -> ItemReputationState:
+	var copy := ItemReputationState.new()
+	copy.instance_id = instance_id
+	copy.renown = renown
+	copy.significant_event_count = significant_event_count
+	copy.last_event_tick = last_event_tick
+	copy.recent_cause_ids.assign(recent_cause_ids)
+	copy.revision = revision
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -773,11 +797,26 @@ var character_id: StringName
 var slots: Dictionary[StringName, StringName] = {}
 var revision: int = 0
 
+func validate_shape() -> Error:
+	if not CharacterId.is_valid(character_id) or revision < 0:
+		return ERR_INVALID_DATA
+	if slots.size() > 64:
+		return ERR_OUT_OF_MEMORY
+	var used_instances: Dictionary[StringName, bool] = {}
+	for slot_id: StringName in slots:
+		var instance_id: StringName = slots[slot_id]
+		if not StableId.is_valid(slot_id) or not StableId.is_valid(instance_id):
+			return ERR_INVALID_DATA
+		if used_instances.has(instance_id):
+			return ERR_ALREADY_EXISTS
+		used_instances[instance_id] = true
+	return OK
+
 func validate(
 	instances: Dictionary[StringName, ItemInstanceState],
 	catalog: ItemCatalog,
 ) -> Error:
-	if not CharacterId.is_valid(character_id) or revision < 0:
+	if validate_shape() != OK:
 		return ERR_INVALID_DATA
 	var used_instances: Dictionary[StringName, bool] = {}
 	for slot_id: StringName in slots:
@@ -812,6 +851,7 @@ func duplicate_detached() -> EquipmentLoadoutState:
 **Explication détaillée du bloc :**
 
 - Un emplacement et une instance ne peuvent apparaître qu’une fois.
+- La forme du loadout est validée séparément avant les références croisées.
 - La définition déclare les emplacements compatibles.
 - Un objet brisé est refusé par la politique pédagogique retenue.
 - L’état d’instance et le loadout doivent se confirmer mutuellement.
@@ -895,6 +935,68 @@ func replace_all(_prepared: Dictionary) -> Error:
 - Le dépôt ne décide ni prix, ni dégâts, ni compétences.
 - `replace_prepared()` applique un candidat déjà validé.
 - `replace_all()` est réservé à une restauration complète préparée.
+
+### 17.1 Fabrique d’instances et de lots
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/application/item_factory.gd`.**
+
+```gdscript
+class_name ItemFactory
+extends RefCounted
+
+func create_instance(
+	definition: ItemDefinition,
+	instance_id: StringName,
+	container_id: StringName,
+	owner: ItemOwnerRef,
+) -> ItemInstanceState:
+	if definition == null or definition.validate() != OK:
+		return null
+	if definition.is_stackable():
+		return null
+	var state := ItemInstanceState.new()
+	state.instance_id = instance_id
+	state.definition_id = definition.item_id
+	state.container_id = container_id
+	state.owner = owner.duplicate_detached() if owner != null else null
+	state.current_durability = definition.maximum_durability
+	return state if state.validate(definition) == OK else null
+
+func create_stack(
+	definition: ItemDefinition,
+	stack_id: StringName,
+	container_id: StringName,
+	owner: ItemOwnerRef,
+	lot_id: StringName,
+	quantity: int,
+	origin_cause_id: StringName,
+	origin_source_system_id: StringName,
+	created_tick: int,
+) -> ItemStackState:
+	if definition == null or not definition.is_stackable():
+		return null
+	var state := ItemStackState.new()
+	state.stack_id = stack_id
+	state.definition_id = definition.item_id
+	state.container_id = container_id
+	state.owner = owner.duplicate_detached() if owner != null else null
+	state.lot_id = lot_id
+	state.origin_cause_id = origin_cause_id
+	state.origin_source_system_id = origin_source_system_id
+	state.created_tick = created_tick
+	state.quantity = quantity
+	return state if state.validate(definition) == OK else null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- La fabrique choisit explicitement entre instance et lot.
+- Une définition fongible ne peut devenir une instance individualisée sans une conversion métier distincte.
+- La durabilité initiale d’une instance prend le maximum de la définition.
+- Le lot reçoit immédiatement son origine et son tick logique.
+- Chaque état est validé avant d’être renvoyé au service créateur.
 
 ## 18. Commande de transfert
 
@@ -1029,12 +1131,26 @@ func validate(catalog: ItemCatalog) -> Error:
 		if container == null or container.validate() != OK:
 			return ERR_INVALID_DATA
 	for instance: ItemInstanceState in instances.values():
+		if instance == null:
+			return ERR_INVALID_DATA
 		var definition := catalog.get_definition(instance.definition_id)
-		if instance == null or instance.validate(definition) != OK:
+		if instance.validate(definition) != OK:
 			return ERR_INVALID_DATA
 	for stack: ItemStackState in stacks.values():
+		if stack == null:
+			return ERR_INVALID_DATA
 		var definition := catalog.get_definition(stack.definition_id)
-		if stack == null or stack.validate(definition) != OK:
+		if stack.validate(definition) != OK:
+			return ERR_INVALID_DATA
+	for loadout: EquipmentLoadoutState in loadouts.values():
+		if loadout == null or loadout.validate_shape() != OK:
+			return ERR_INVALID_DATA
+	for reputation: ItemReputationState in reputations.values():
+		if reputation == null or not instances.has(reputation.instance_id):
+			return ERR_INVALID_DATA
+		var reputation_instance: ItemInstanceState = instances[reputation.instance_id]
+		var reputation_definition := catalog.get_definition(reputation_instance.definition_id)
+		if reputation.validate(reputation_definition) != OK:
 			return ERR_INVALID_DATA
 	for record: ItemProvenanceRecord in provenance_records:
 		if record == null or record.validate() != OK:
@@ -1051,6 +1167,7 @@ func validate(catalog: ItemCatalog) -> Error:
 
 - Le candidat regroupe tous les agrégats que la commande veut remplacer.
 - Les collections contiennent des copies détachées.
+- Les loadouts sont contrôlés structurellement ; les références complètes sont revalidées par l’unité de travail avec le dépôt frais.
 - Chaque instance ou pile est revalidée contre sa définition.
 - Les révisions attendues sont associées à des identifiants d’agrégats.
 - Un candidat invalide ne peut atteindre l’unité de travail.
@@ -1310,6 +1427,14 @@ func prepare_equip(
 	var definition := _catalog.get_definition(instance.definition_id)
 	if definition == null or slot_id not in definition.equipment_slot_ids:
 		return {}
+	if instance.owner == null:
+		return {}
+	if instance.owner.kind != ItemOwnerRef.Kind.CHARACTER:
+		return {}
+	if instance.owner.owner_id != character_id:
+		return {}
+	if not instance.equipped_by_character_id.is_empty():
+		return {}
 	if instance.is_broken(definition):
 		return {}
 	var loadout := _repository.get_loadout(character_id)
@@ -1343,7 +1468,7 @@ func prepare_equip(
 
 **Explication détaillée du bloc :**
 
-- L’instance, la définition et le loadout sont relus avant préparation.
+- L’instance, la définition, la propriété et le loadout sont relus avant préparation.
 - Un objet brisé ou incompatible est refusé.
 - L’état d’équipement est modifié sur des copies.
 - Une compétence accordée produit un candidat appartenant au système de compétences.
@@ -1418,7 +1543,7 @@ func prepare_change(
 	var delta_value: Variant = delta_for(cause_id)
 	if delta_value == null:
 		return null
-	var candidate := state.duplicate(true) as ItemReputationState
+	var candidate := state.duplicate_detached()
 	if candidate.apply_delta(cause_id, int(delta_value), logical_tick) != OK:
 		return null
 	candidate.revision += 1
