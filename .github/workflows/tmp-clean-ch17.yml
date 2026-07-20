@@ -1,0 +1,41 @@
+name: Temporary Clean Chapter 17 Tools
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch17-agents-ia-comportements-autonomes
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch17-agents-ia-comportements-autonomes
+      - name: Remove all temporary chapter 17 files
+        run: |
+          rm -f \
+            .github/workflows/tmp-audit-ch17.yml \
+            .github/workflows/tmp-build-ch17-draft.yml \
+            .github/workflows/tmp-finalize-ch17.yml \
+            .github/workflows/tmp-clean-ch17.yml \
+            tmp/ch17-part-1.md \
+            tmp/ch17-part-2.md \
+            tmp/ch17-part-3.md \
+            tmp_ch17_audit_report.md \
+            tmp_trigger_ch17_final_ci.txt \
+            tools/qa/tmp_audit_ch17.py \
+            tools/qa/tmp_build_ch17_draft.py \
+            tools/qa/tmp_finalize_ch17.py
+          rmdir tmp 2>/dev/null || true
+      - name: Commit clean permanent diff
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(ch17): remove temporary generation and audit tools"
+          git push origin HEAD:docs/livre-ii-ch17-agents-ia-comportements-autonomes
