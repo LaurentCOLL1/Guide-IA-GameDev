@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.19.0"
+version: "3.19.1"
 lang: "fr-FR"
-last-updated: "2026-07-20T15:27:31+02:00"
+last-updated: "2026-07-20T16:52:26+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1221,6 +1221,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas persister plans, réservations, candidats, cibles dérivées ou caches ;
 - ne pas utiliser un nom affiché comme identité de compétence ;
 - ne pas retenter automatiquement une utilisation partiellement résolue ;
+- ne pas placer les commandes de validation documentaire ou la procédure QA dans un chapitre destiné au lecteur ;
 - ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;
 - ne pas terminer un chapitre de système sans synthèse opérationnelle de `Project Asteria` ;
 - ne pas oublier la mise à jour de ce fichier.
@@ -1245,7 +1246,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 : version `1.2.1` ;
 - chapitre 17 : version `1.0.3` ;
 - chapitre 18 : version `1.0.0` ;
-- chapitre 19 : version `1.0.0` ;
+- chapitre 19 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1266,6 +1267,14 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : définitions et instances d’objets, conteneurs d’inventaire, empilement, équipement, durabilité, propriété, provenance et réputation des objets, en réutilisant les contrats des personnages, du combat et des compétences sans déplacer leurs autorités.
 
 ## 27. Journal
+
+### 2026-07-20T16:52:26+02:00 — version 3.19.1
+
+- retrait de la section interne `Validation légère sans PDF` du chapitre 19 destiné au lecteur ;
+- conservation de cette procédure dans le protocole, le rapport d’audit, la preuve QA et les workflows ;
+- chapitre 19 et audit portés en version `1.0.1` ;
+- règle ajoutée aux erreurs à ne pas reproduire ;
+- aucune exécution runtime et aucun PDF construit.
 
 ### 2026-07-20T15:27:31+02:00 — version 3.19.0
 
