@@ -1,10 +1,7 @@
 Traceback (most recent call last):
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 37, in <module>
-    audit = version(audit, '1.2.0', '1.2.1', f'audit {chapter} version')
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 13, in version
-    return once(text, f'version: "{old}"', f'version: "{new}"', label)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 8, in once
-    raise RuntimeError(f'{label}: expected 1, got {count}')
-RuntimeError: audit 15 version: expected 1, got 2
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 60, in <module>
+    index = version(index, '1.10.0', '1.10.1', 'index version')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/tools/qa/tmp_fix_section_reference_governance.py", line 16, in version
+    raise RuntimeError(f'{label}: expected 1 exact version line, got {count}')
+RuntimeError: index version: expected 1 exact version line, got 0
