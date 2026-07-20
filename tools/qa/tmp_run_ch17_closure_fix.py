@@ -4,23 +4,10 @@ source_path = Path('tools/qa/tmp_fix_ch17_closure.py')
 source = source_path.read_text(encoding='utf-8')
 lines = source.splitlines()
 
-needle = "    'index chapter status',"
-try:
-    marker_index = lines.index(needle)
-except ValueError as exc:
-    raise RuntimeError('index replacement marker missing') from exc
-
-start = marker_index
-while start >= 0 and lines[start] != 'index = replace_once(':
-    start -= 1
-if start < 0:
-    raise RuntimeError('index replacement block start missing')
-
-end = marker_index + 1
-while end < len(lines) and lines[end] != ')':
-    end += 1
-if end >= len(lines):
-    raise RuntimeError('index replacement block end missing')
+matches = [index for index, line in enumerate(lines) if "'index chapter status'" in line]
+if len(matches) != 1:
+    raise RuntimeError(f'index replacement line: expected one occurrence, found {len(matches)}')
+line_index = matches[0]
 
 replacement = [
     "index, replacements = re.subn(",
@@ -34,5 +21,5 @@ replacement = [
     "    raise RuntimeError(f'index chapter status: expected one line, found {replacements}')",
 ]
 
-patched = '\n'.join(lines[:start] + replacement + lines[end + 1:]) + '\n'
+patched = '\n'.join(lines[:line_index] + replacement + lines[line_index + 1:]) + '\n'
 exec(compile(patched, str(source_path), 'exec'), {'__name__': '__main__'})
