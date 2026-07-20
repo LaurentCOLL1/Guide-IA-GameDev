@@ -1,0 +1,62 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH18
+status: complete
+validation-date: 2026-07-20
+validated-base-commit: 551c9fb69f06e46cfd0292db8716d75c17dc9ec7
+validated-head-commit: 0ff2b4d1bbfa027e620f1acd544346a1cba90a0e
+chapter:
+  id: DOC-L2-CH18
+  path: Livre-II/CHAPITRE-18-Combat.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 3991
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 67
+  code-explanation-markers: 67
+  detailed-error-cases: 14
+  faulty-examples-explained: 14
+  corrected-examples-explained: 14
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  official-godot-source-links: 20
+  chapter-context-markers:
+    VSC: 31
+    APP: 1
+    LECTURE: 36
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  side-aware-targeting: true
+  deterministic-initiative-without-hash: true
+  deep-copy-candidates: true
+  event-history-before-commit: true
+  multi-repository-commit-contract: true
+  complete-strict-codec: true
+  empty-save-distinguished-from-decode-failure: true
+  rng-int64-json-safe: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29743034461
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29743034472
+    conclusion: success
+  artifact:
+    id: 8461154755
+    name: chapter-validation-without-pdf
+    digest: sha256:e18fc7dabd979c0729d56624f43f1df2c832e83ce44745f5f2cfeaa684039f7c
+reservations:
+  - Godot parser not executed.
+  - Demo scene not instantiated.
+  - Signals and multi-repository commit not run.
+  - Physics raycasts not run.
+  - Scheduler performance not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
