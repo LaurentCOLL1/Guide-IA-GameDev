@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH18
-status: pending-ci
+status: complete
 validation-date: 2026-07-20
 validated-base-commit: 551c9fb69f06e46cfd0292db8716d75c17dc9ec7
-validated-head-commit: pending-ci
+validated-head-commit: 0ff2b4d1bbfa027e620f1acd544346a1cba90a0e
 chapter:
   id: DOC-L2-CH18
   path: Livre-II/CHAPITRE-18-Combat.md
@@ -42,15 +42,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29743034461
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29743034472
+    conclusion: success
   artifact:
-    id: pending
+    id: 8461154755
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:e18fc7dabd979c0729d56624f43f1df2c832e83ce44745f5f2cfeaa684039f7c
 reservations:
   - Godot parser not executed.
   - Demo scene not instantiated.
