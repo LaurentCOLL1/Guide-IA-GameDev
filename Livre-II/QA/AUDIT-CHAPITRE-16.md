@@ -2,14 +2,14 @@
 title: "Audit du Livre II — Chapitre 16"
 id: "DOC-L2-QA-CH16"
 status: "complete"
-version: "1.2.0"
+version: "1.2.1"
 book: "Livre II"
 chapter: 16
 category: "quality-report"
 audit-date: "2026-07-20"
 audit-level: "static-review"
 chapter-id: "DOC-L2-CH16"
-chapter-version: "1.2.0"
+chapter-version: "1.2.1"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -326,3 +326,16 @@ La passe précédente était complète mais trop répétitive. Cette correction 
 Les rôles qui nomment un contrat, une classe, une fonction ou une responsabilité concrète sont conservés. La décision reste `static-review` : aucune exécution Godot supplémentaire n’est revendiquée.
 
 - suppression des lignes autonomes `Correction` et `Différence` lorsque leur contenu est déjà intégré aux deux justifications ;
+
+## Addendum 2026-07-20 — titres de section et renvois précis
+
+La seconde lecture a vérifié toutes les rubriques d’explication et tous les renvois `À relire`.
+
+- auto-paraphrases du titre courant supprimées : **1** ;
+- descriptions de rôle factuellement erronées corrigées : **2** ;
+- renvois recâblés vers la sous-section exacte : **12** ;
+- ancres explicites et stables ajoutées : **10** ;
+- fragments vérifiés contre une ancre réellement présente ;
+- aucune modification du comportement GDScript revendiquée.
+
+**Décision révisée :** accepté au niveau `static-review` après correction éditoriale et navigationnelle.

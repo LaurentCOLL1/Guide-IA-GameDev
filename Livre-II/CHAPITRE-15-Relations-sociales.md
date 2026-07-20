@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 15 : Relations sociales"
 id: "DOC-L2-CH15"
 status: "reviewed"
-version: "1.2.0"
+version: "1.2.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 15
@@ -89,6 +89,8 @@ Le lecteur doit comprendre :
 - les codes `Error` ;
 - les snapshots JSON versionnés.
 
+<a id="ch15-system-boundaries"></a>
+
 ## 3. Périmètre et frontières
 
 Ce chapitre définit :
@@ -117,6 +119,8 @@ Il ne définit pas encore :
 > **Frontière essentielle :** une relation sociale influence potentiellement une décision future, mais elle ne décide pas elle-même d’une action.
 
 ## 4. Modèle conceptuel
+
+<a id="ch15-directed-relation"></a>
 
 ### 4.1 Une relation est dirigée
 
@@ -211,6 +215,8 @@ Répartition des responsabilités :
 
 ## 6. Identifier une relation dirigée
 
+<a id="ch15-relationship-key"></a>
+
 ### 6.1 Clé de relation
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/social/domain/social_relationship_key.gd`.**
@@ -282,9 +288,11 @@ ids.sort()
 
 **Explication détaillée du bloc :**
 
-- **Pourquoi cet exemple est fautif :** l’extrait viole la règle métier rappelée dans « 6.2 Pourquoi ne pas trier les identifiants ».
+- **Pourquoi cet exemple est fautif :** l’extrait viole la règle métier.
 
 Cette approche convient uniquement à une paire réellement non orientée. Elle ne convient pas à une perception sociale.
+
+<a id="ch15-social-axes"></a>
 
 ## 7. Représenter les axes sociaux
 
@@ -441,6 +449,8 @@ system.world.event
 
 Le chapitre 15 n’implémente pas ces systèmes. Il prépare seulement une provenance vérifiable.
 
+<a id="ch15-change-command"></a>
+
 ## 9. Commander un changement social
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/social/application/change_social_relationship_command.gd`.**
@@ -591,6 +601,8 @@ func duplicate_record() -> SocialChangeRecord:
 - **Effets de bord :** crée une copie défensive. L’appelant ne doit considérer l’opération réussie qu’après le retour de succès.
 - **Invariants protégés :** les parcours et historiques sont bornés ; les transitions utilisent des ticks logiques cohérents ; les lectures ne doivent pas exposer directement un objet interne mutable ; les valeurs numériques restent dans leurs bornes métier.
 - **Résultat attendu et vérification :** obtenir `OK` pour le cas valide et un code `Error` documenté pour chaque refus, sans mutation partielle. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+
+<a id="ch15-bounded-history"></a>
 
 ### 10.2 Pourquoi l’historique reste borné
 
@@ -957,6 +969,8 @@ func validate() -> Error:
 
 L’événement transporte des copies des axes avant et après. Un observateur ne peut donc pas modifier l’état interne du dépôt.
 
+<a id="ch15-social-service"></a>
+
 ## 15. Service applicatif
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/social/application/social_relationship_service.gd`.**
@@ -1118,6 +1132,8 @@ replace_one(candidat)
 ```
 
 Si la validation échoue, l’état courant n’a pas été modifié. Si `replace_one()` échoue, aucun événement n’est émis.
+
+<a id="ch15-neighborhood-queries"></a>
 
 ## 17. Requêtes de voisinage
 
@@ -1340,7 +1356,7 @@ Le service social ne parcourt pas spontanément tous les personnages. Cette sép
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc montre la forme JSON attendue par « 21.1 Forme JSON ».
+- **Rôle :** ce bloc décrit le document persistant d’une relation sociale : identité orientée, axes, révision, tick et historique causal.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1475,6 +1491,8 @@ func _has_exact_keys(
 
 Le codec montre les contrôles principaux. Les méthodes `_encode_record()`, `_decode_axes()`, `_decode_record()` et `set_history_for_restore()` sont détaillées dans la section suivante.
 
+<a id="ch15-history-encapsulation"></a>
+
 ## 23. Restaurer l’historique sans exposer la collection
 
 > **[VSC] Visual Studio Code — Ajouter à `social_relationship_state.gd`.**
@@ -1509,6 +1527,8 @@ func set_history_for_restore(
 Cette méthode n’est utilisée que par l’infrastructure de restauration.
 
 Le domaine n’expose pas un setter générique de l’historique.
+
+<a id="ch15-axis-codec"></a>
 
 ## 24. Encoder et décoder les axes
 
@@ -1808,6 +1828,8 @@ Le coordinateur de sauvegarde doit préparer toutes les sections avant d’en ap
 
 L’assemblage transactionnel entre sections reste une responsabilité du coordinateur du chapitre 9.
 
+<a id="ch15-restoration-order"></a>
+
 ## 27. Ordre de restauration
 
 > **[LECTURE] Ordre logique de préparation — Ne pas saisir.**
@@ -1997,7 +2019,7 @@ var state := repository.get_state(source_id, target_id)
 
 ### 32.2 Utiliser le nom affiché comme clé
 
-> **À relire :** [§ 6. Identifier une relation dirigée](#6-identifier-une-relation-dirigee).
+> **À relire :** [§ 6.1 Clé de relation](#ch15-relationship-key).
 
 **Symptôme ou risque :** un renommage ou une traduction casse la relation.
 
@@ -2025,7 +2047,7 @@ var key := SocialRelationshipKey.new(aster_id, brann_id)
 
 ### 32.3 Forcer une relation symétrique
 
-> **À relire :** [§ 4.1 Une relation est dirigée](#41-une-relation-est-dirigee).
+> **À relire :** [§ 4.1 Une relation est dirigée](#ch15-directed-relation).
 
 **Symptôme ou risque :** les perceptions divergentes sont écrasées.
 
@@ -2082,7 +2104,7 @@ var view := query.get_mutual_view(first_id, second_id)
 
 ### 32.5 Laisser les axes hors limites
 
-> **À relire :** [§ 7. Représenter les axes sociaux](#7-representer-les-axes-sociaux).
+> **À relire :** [§ 7. Représenter les axes sociaux](#ch15-social-axes).
 
 **Symptôme ou risque :** l’équilibrage et l’interface reçoivent des valeurs imprévues.
 
@@ -2110,7 +2132,7 @@ state.axes.apply_delta(0, 500, 0, 0)
 
 ### 32.6 Accepter une commande sans cause
 
-> **À relire :** [§ 9. Commander un changement social](#9-commander-un-changement-social).
+> **À relire :** [§ 9. Commander un changement social](#ch15-change-command).
 
 **Symptôme ou risque :** le changement devient impossible à expliquer.
 
@@ -2168,7 +2190,7 @@ command.logical_tick = simulation_clock.current_tick
 
 ### 32.8 Conserver un historique illimité
 
-> **À relire :** [§ 23. Restaurer l’historique sans exposer la collection](#23-restaurer-lhistorique-sans-exposer-la-collection).
+> **À relire :** [§ 10.2 Pourquoi l’historique reste borné](#ch15-bounded-history).
 
 **Symptôme ou risque :** la sauvegarde grossit sans borne.
 
@@ -2198,7 +2220,7 @@ while _history.size() > MAX_HISTORY:
 
 ### 32.9 Retourner le tableau interne
 
-> **À relire :** [§ 12. Dépôt de relations](#12-depot-de-relations).
+> **À relire :** [§ 23. Restaurer l’historique sans exposer la collection](#ch15-history-encapsulation).
 
 **Symptôme ou risque :** un appelant modifie l’historique sans validation.
 
@@ -2228,7 +2250,7 @@ func get_history_copy() -> Array[SocialChangeRecord]:
 
 ### 32.10 Parcourir tous les nœuds pour trouver les voisins
 
-> **À relire :** [§ 17. Requêtes de voisinage](#17-requetes-de-voisinage).
+> **À relire :** [§ 17. Requêtes de voisinage](#ch15-neighborhood-queries).
 
 **Symptôme ou risque :** les personnages hors scène sont ignorés.
 
@@ -2287,7 +2309,7 @@ if state == null:
 
 ### 32.12 Décoder avec des conversions silencieuses
 
-> **À relire :** [§ 24. Encoder et décoder les axes](#24-encoder-et-decoder-les-axes).
+> **À relire :** [§ 24. Encoder et décoder les axes](#ch15-axis-codec).
 
 **Symptôme ou risque :** une chaîne `"20"` devient un entier sans contrat clair.
 
@@ -2317,7 +2339,7 @@ axes.trust = data["trust"]
 
 ### 32.13 Appliquer avant validation complète
 
-> **À relire :** [§ 27. Ordre de restauration](#27-ordre-de-restauration).
+> **À relire :** [§ 27. Ordre de restauration](#ch15-restoration-order).
 
 **Symptôme ou risque :** une relation valide est remplacée avant la découverte d’une entrée corrompue.
 
@@ -2376,7 +2398,7 @@ if not character_identity_index.contains(target_id):
 
 ### 32.15 Mélanger famille et relation sociale
 
-> **À relire :** [§ 14. Événement social typé](#14-evenement-social-type).
+> **À relire :** [§ 3. Périmètre et frontières](#ch15-system-boundaries).
 
 **Symptôme ou risque :** une baisse d’affinité efface un lien de parenté.
 
@@ -2405,7 +2427,7 @@ var social := social_query.get_mutual_view(first_id, second_id)
 
 ### 32.16 Utiliser l’IA comme autorité de la relation
 
-> **À relire :** [§ 14. Événement social typé](#14-evenement-social-type).
+> **À relire :** [§ 15. Service applicatif](#ch15-social-service).
 
 **Symptôme ou risque :** une réponse non déterministe modifie directement l’état persistant.
 

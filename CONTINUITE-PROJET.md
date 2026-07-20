@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.4"
+version: "3.17.5"
 lang: "fr-FR"
-last-updated: "2026-07-19"
+last-updated: "2026-07-20"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -235,7 +235,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.5.0`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.1`.
 
 Les workflows ont des responsabilités séparées :
 
@@ -263,7 +263,9 @@ La campagne rétroactive des chapitres 5 et 6 est enregistrée dans `Livre-II/QA
 
 Les rappels courts sont permis. Les duplications intégrales sont interdites.
 
-La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif, une correction, un exemple corrigé et l’explication de leur différence.
+Aucune rubrique d’explication ne justifie un bloc en citant le titre de la section courante. Elle énonce directement le fait technique, le risque ou l’invariant. Les renvois internes visent la sous-section exacte et utilisent un fragment vérifié ou une ancre explicite stable.
+
+La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif suivi de `Pourquoi cet exemple est fautif`, puis un exemple corrigé suivi de `Pourquoi la correction fonctionne`.
 
 Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un index compact de symptômes peut porter `<!-- qa:error-correction-index -->` uniquement s’il renvoie vers des exemples détaillés conformes.
 
@@ -1158,8 +1160,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 : version `1.0.2` ;
 - chapitre 13 : version `1.0.0` ;
 - chapitre 14 : version `1.0.0` ;
-- chapitre 15 : version `1.2.0` ;
-- chapitre 16 : version `1.2.0` ;
+- chapitre 15 : version `1.2.1` ;
+- chapitre 16 : version `1.2.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1205,6 +1207,16 @@ Périmètre attendu :
 La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
 
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.5
+
+- suppression des auto-paraphrases du titre de section dans toutes les rubriques d’explication ;
+- correction de deux rôles factuellement incompatibles avec les requêtes familiales présentées ;
+- recâblage de 23 renvois `À relire` vers les sous-sections exactes ;
+- ajout de 21 ancres explicites et stables dans les chapitres 15 et 16 ;
+- protocole QA porté en version `1.7.1` ;
+- chapitres et audits 15 et 16 portés en version `1.2.1` ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.4
 

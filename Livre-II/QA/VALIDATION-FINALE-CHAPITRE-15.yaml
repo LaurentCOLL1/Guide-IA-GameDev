@@ -1,14 +1,14 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH15
-status: complete
+status: pending-ci
 validation-date: 2026-07-20
 validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
 enrichment-base-commit: b603dcee25bdef01b9d6e47f4eddf441672a905c
-validated-head-commit: 23999def3d2cea328c2b16ade0922129d509867e
+validated-head-commit: pending-ci
 chapter:
   id: DOC-L2-CH15
   path: Livre-II/CHAPITRE-15-Relations-sociales.md
-  version: 1.2.0
+  version: 1.2.1
   audit-level: static-review
 scope:
   - markdown integrity
@@ -41,7 +41,7 @@ results:
   unique-identifiers: 71
   livre-i-chapters: 10
   livre-ii-chapters: 16
-  chapter-lines: 2548
+  chapter-lines: 2570
   chapter-headings: 69
   chapter-significant-code-blocks: 29
   chapter-code-and-data-blocks: 66
@@ -160,3 +160,14 @@ code-explanation-style-refinement:
   contextual-references-added: 11
   runtime-executed: false
   ci-status: success
+
+section-reference-refinement:
+  policy: QA-Q1.1-precise-references
+  chapter: 15
+  self-title-paraphrases-removed: 2
+  incorrect-role-descriptions-corrected: 0
+  reread-links-corrected: 11
+  explicit-target-anchors-added: 11
+  fragment-targets-verified: true
+  runtime-executed: false
+  ci-status: pending

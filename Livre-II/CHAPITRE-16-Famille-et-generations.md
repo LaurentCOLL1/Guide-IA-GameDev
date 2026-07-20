@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 16 : Famille et générations"
 id: "DOC-L2-CH16"
 status: "reviewed"
-version: "1.2.0"
+version: "1.2.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 16
@@ -77,6 +77,8 @@ Il ne dépend pas :
 - des valeurs sociales du chapitre 15 ;
 - d’un service IA ;
 - d’une base SQLite ouverte au moment de la simulation.
+
+<a id="ch16-system-boundaries"></a>
 
 ## 3. Périmètre et frontières
 
@@ -246,6 +248,8 @@ Une tutelle ne devient pas automatiquement une adoption. Une union ne crée pas 
 
 ## 6. Valeur temporelle commune
 
+<a id="ch16-logical-interval"></a>
+
 ### 6.1 Intervalle logique
 
 > **[VSC] Visual Studio Code — Créer : `src/features/families/domain/logical_interval.gd`.**
@@ -301,6 +305,8 @@ func duplicate_value() -> LogicalInterval:
 Les ticks proviennent de l’horloge logique de la simulation, jamais de l’heure système de l’ordinateur. L’intervalle est inclusif : `[started_at_tick, ended_at_tick]`. `OPEN_END` signifie qu’aucune fin n’est encore connue.
 
 ## 7. Filiation dirigée
+
+<a id="ch16-parent-link-model"></a>
 
 ### 7.1 Modèle de lien
 
@@ -372,6 +378,8 @@ func duplicate_value() -> ParentChildLink:
 - **Invariants protégés :** une identité ne peut pas former un lien avec elle-même ; chaque référence doit correspondre à une identité logique connue, même hors scène ; les lectures ne doivent pas exposer directement un objet interne mutable.
 - **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
+<a id="ch16-parentage-identity"></a>
+
 ### 7.2 Identité métier de la filiation
 
 Deux liens avec les mêmes `parent_id`, `child_id` et `kind` constituent un doublon métier, même si leurs `link_id` diffèrent.
@@ -432,6 +440,8 @@ func duplicate_value() -> GuardianshipLink:
 Deux tutelles historiques peuvent exister entre la même paire si leurs intervalles ne se chevauchent pas. Deux tutelles actives identiques sont refusées.
 
 ## 9. Union canonique
+
+<a id="ch16-canonical-pair"></a>
 
 ### 9.1 Paire non orientée
 
@@ -563,6 +573,8 @@ Le graphe familial ne consulte jamais uniquement `ActiveCharacterRegistry`.
 
 ## 11. Graphe familial
 
+<a id="ch16-family-storage"></a>
+
 ### 11.1 Stockages internes
 
 > **[VSC] Visual Studio Code — Créer : `src/features/families/domain/family_graph.gd`.**
@@ -635,6 +647,8 @@ L’ordre est important :
 3. doublon métier ;
 4. cycle global ;
 5. mutation des trois structures.
+
+<a id="ch16-ancestry-cycle"></a>
 
 ### 11.3 Cycle d’ascendance
 
@@ -740,6 +754,8 @@ func get_union_links() -> Array[UnionLink]:
 
 ## 12. Requêtes de filiation
 
+<a id="ch16-defensive-parent-child-queries"></a>
+
 ### 12.1 Parents et enfants directs
 
 > **[LECTURE] Extrait GDScript — Ne pas saisir directement.**
@@ -767,7 +783,7 @@ func get_children(parent_id: StringName) -> Array[StringName]:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
+- **Rôle :** ces deux requêtes reconstruisent les parents et les enfants depuis les liens autoritaires sans exposer les index internes.
 - **Fonctions, paramètres et retours :** `get_parents(child_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes ; `get_children(parent_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`, `result: Array[StringName] = []`, `link := _parent_links.get(link_id) as ParentChildLink`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -799,7 +815,7 @@ func get_siblings(character_id: StringName) -> Array[StringName]:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
+- **Rôle :** cette requête dérive la fratrie depuis les parents partagés au lieu de la persister.
 - **Fonctions, paramètres et retours :** `get_siblings(character_id: StringName) -> Array[StringName]` est une méthode qui lit ou calcule une vue des données sans exposer directement les collections internes.
 - **Données et types :** variables `siblings: Dictionary[StringName, bool] = {}`, `result: Array[StringName] = []`. Une valeur d’énumération ferme le vocabulaire autorisé ; une constante documente une borne ou une sentinelle ; une variable porte l’état courant.
 - **Déroulement :** les branches `if` traitent d’abord les refus et cas limites ; les boucles `for` parcourent explicitement les collections ; les retours anticipés empêchent la suite du traitement après une erreur. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1164,6 +1180,8 @@ var provenance: StringName
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
 - **Résultat attendu et vérification :** pouvoir instancier ou appeler ce contrat depuis la couche prévue, avec un état valide et des lectures défensives. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
 
+<a id="ch16-family-service"></a>
+
 ### 15.3 Orchestration
 
 > **[VSC] Visual Studio Code — Créer : `src/features/families/application/family_graph_service.gd`.**
@@ -1436,7 +1454,7 @@ Le validateur de restauration sera exécuté sur un graphe candidat complet avan
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ce bloc montre la forme JSON attendue par « 18.1 Structure JSON ».
+- **Rôle :** ce bloc décrit le snapshot du graphe familial, séparé en filiations, tutelles, unions et historique.
 - **Entrées et résultat :** le bloc ne définit pas de fonction. Il utilise les variables déjà présentes dans le contexte ou décrit une structure de données ; aucune valeur de retour implicite ne doit être supposée.
 - **Données et types :** l’extrait ne crée pas d’état durable. Les types proviennent des paramètres, des valeurs locales ou du schéma externe montré par le bloc.
 - **Déroulement :** les instructions s’exécutent de haut en bas et construisent ou transforment une valeur locale. L’ordre est important : les validations doivent précéder toute écriture ou émission d’événement.
@@ -1828,6 +1846,8 @@ func _types_match(
 - **Effets de bord :** le bloc est déclaratif ou calculatoire ; il ne doit pas altérer une collection appartenant à l’appelant, un nœud actif ou une `Resource` partagée.
 - **Invariants protégés :** les types annoncés doivent être respectés, les références doivent rester valides et aucune donnée interne mutable ne doit être exposée sans copie.
 - **Résultat attendu et vérification :** obtenir `true` uniquement lorsque toutes les conditions décrites sont satisfaites et `false` pour les cas limites. Vérifie au minimum un cas nominal, une limite et un refus, puis confirme que l’état reste inchangé après l’échec.
+
+<a id="ch16-candidate-graph"></a>
 
 ## 19. Construction atomique du graphe candidat
 
@@ -2234,7 +2254,7 @@ Le chapitre est accepté au niveau documentaire et statique si :
 
 ### 28.1 Utiliser le nom affiché comme identité
 
-> **À relire :** [§ 7.2 Identité métier de la filiation](#72-identite-metier-de-la-filiation).
+> **À relire :** [§ 7.2 Identité métier de la filiation](#ch16-parentage-identity).
 
 **Symptôme ou risque :** un renommage casse les liens.
 
@@ -2266,7 +2286,7 @@ parents_by_child[child_id] = [parent_id]
 
 ### 28.2 Stocker la famille dans le nœud actif
 
-> **À relire :** [§ 11. Graphe familial](#11-graphe-familial).
+> **À relire :** [§ 11.1 Stockages internes](#ch16-family-storage).
 
 **Symptôme ou risque :** les liens disparaissent lors du déchargement.
 
@@ -2298,7 +2318,7 @@ family_graph.add_parent_link(link)
 
 ### 28.3 Déduire la filiation depuis l’affinité
 
-> **À relire :** [§ 7. Filiation dirigée](#7-filiation-dirigee).
+> **À relire :** [§ 7.1 Modèle de lien](#ch16-parent-link-model).
 
 **Symptôme ou risque :** une valeur sociale devient une autorité familiale.
 
@@ -2391,7 +2411,7 @@ var distance := graph.get_generation_distance(founder_id, character_id)
 
 ### 28.6 Oublier la détection de cycle
 
-> **À relire :** [§ 11.3 Cycle d’ascendance](#113-cycle-dascendance).
+> **À relire :** [§ 11.3 Cycle d’ascendance](#ch16-ancestry-cycle).
 
 **Symptôme ou risque :** un personnage devient son propre ancêtre.
 
@@ -2424,7 +2444,7 @@ if _would_create_ancestry_cycle(link.parent_id, link.child_id):
 
 ### 28.7 Traiter un dépassement de budget comme une absence de cycle
 
-> **À relire :** [§ 11.3 Cycle d’ascendance](#113-cycle-dascendance).
+> **À relire :** [§ 11.3 Cycle d’ascendance](#ch16-ancestry-cycle).
 
 **Symptôme ou risque :** un grand graphe contourne la sécurité structurelle.
 
@@ -2458,7 +2478,7 @@ if visited.size() >= MAX_TRAVERSAL_NODES:
 
 ### 28.8 Orienter une union
 
-> **À relire :** [§ 18.5 Intervalles, tutelles et unions](#185-intervalles-tutelles-et-unions).
+> **À relire :** [§ 9.1 Paire non orientée](#ch16-canonical-pair).
 
 **Symptôme ou risque :** `{A, B}` et `{B, A}` deviennent deux unions.
 
@@ -2490,7 +2510,7 @@ var key := CharacterPair.create(left_id, right_id).key()
 
 ### 28.9 Utiliser l’heure système
 
-> **À relire :** [§ 6.1 Intervalle logique](#61-intervalle-logique).
+> **À relire :** [§ 6.1 Intervalle logique](#ch16-logical-interval).
 
 **Symptôme ou risque :** les sauvegardes et simulations ne sont pas reproductibles.
 
@@ -2522,7 +2542,7 @@ started_at_tick = simulation_clock.current_tick
 
 ### 28.10 Accepter un intervalle inversé
 
-> **À relire :** [§ 6.1 Intervalle logique](#61-intervalle-logique).
+> **À relire :** [§ 6.1 Intervalle logique](#ch16-logical-interval).
 
 **Symptôme ou risque :** un lien se termine avant de commencer.
 
@@ -2586,7 +2606,7 @@ if not identity_index.contains(parent_id):
 
 ### 28.12 Retourner une collection interne mutable
 
-> **À relire :** [§ 19. Construction atomique du graphe candidat](#19-construction-atomique-du-graphe-candidat).
+> **À relire :** [§ 12.1 Parents et enfants directs](#ch16-defensive-parent-child-queries).
 
 **Symptôme ou risque :** l’appelant désynchronise les index.
 
@@ -2618,7 +2638,7 @@ return result
 
 ### 28.13 Charger directement dans le graphe actif
 
-> **À relire :** [§ 19. Construction atomique du graphe candidat](#19-construction-atomique-du-graphe-candidat).
+> **À relire :** [§ 19. Construction atomique du graphe candidat](#ch16-candidate-graph).
 
 **Symptôme ou risque :** une erreur tardive laisse une restauration partielle.
 
@@ -2681,7 +2701,7 @@ snapshot["parent_links"] = encoded_links
 
 ### 28.15 Laisser une sortie IA créer un lien directement
 
-> **À relire :** [§ 18.4 Décodage strict d’une filiation](#184-decodage-strict-dune-filiation).
+> **À relire :** [§ 15.3 Orchestration](#ch16-family-service).
 
 **Symptôme ou risque :** un texte généré contourne les invariants.
 
@@ -2713,7 +2733,7 @@ var result := family_service.add_parent_link(validated_command)
 
 ### 28.16 Mélanger succession et famille
 
-> **À relire :** [§ 3. Périmètre et frontières](#3-perimetre-et-frontieres).
+> **À relire :** [§ 3. Périmètre et frontières](#ch16-system-boundaries).
 
 **Symptôme ou risque :** le graphe impose prématurément des règles politiques.
 
