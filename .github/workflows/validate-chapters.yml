@@ -35,14 +35,14 @@ jobs:
           python-version: '3.12'
       - name: Capture transformation diagnostic
         run: |
-          python tools/qa/tmp_fix_ch17_closure.py > tmp_ch17_closure.log 2>&1 || true
+          python tools/qa/tmp_run_ch17_closure_fix.py > tmp_ch17_closure.log 2>&1 || true
       - name: Commit diagnostic only
         run: |
           git restore CONTINUITE-PROJET.md Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md Livre-II/QA/AUDIT-CHAPITRE-17.md Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml Livre-II/index.md ROADMAP.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f tmp_ch17_closure.log
-          git commit -m "chore(qa): record chapter 17 closure diagnostic"
+          git commit -m "chore(qa): update chapter 17 closure diagnostic"
           git push origin HEAD:docs/fix-ch17-project-asteria-closure
 
   validate-chapters:
