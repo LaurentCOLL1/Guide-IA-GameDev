@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 17 : Agents IA et comportements autonomes"
 id: "DOC-L2-CH17"
 status: "reviewed"
-version: "1.0.2"
+version: "1.0.3"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
-last-verified: "2026-07-20T10:19:05+02:00"
+last-verified: "2026-07-20T11:27:57+02:00"
 audit-status: "complete"
-audit-date: "2026-07-20T10:19:05+02:00"
+audit-date: "2026-07-20T11:27:57+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-17.md"
 audit-level: "static-review"
 reference-engine:
@@ -2545,20 +2545,21 @@ L’IA générative reste facultative. Elle propose dans un vocabulaire fermé ;
 - [Godot 4.7 — `Variant`](https://docs.godotengine.org/en/4.7/classes/class_variant.html)
 - [Godot 4.7 — `Performance` et moniteurs personnalisés](https://docs.godotengine.org/en/4.7/classes/class_performance.html)
 
-## 44. Prochaine étape
+## 44. Synthèse opérationnelle pour Project Asteria
 
-Le chapitre 18 utilisera les requêtes d’action et les frontières établies ici pour définir le combat, sans déplacer les règles de dégâts, portée, défense ou initiative dans le planificateur.
+Le système d’agents autonomes de `Project Asteria` repose sur les décisions suivantes :
 
-> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+1. l’état logique d’un agent reste séparé du nœud actif, du personnage, du social et de la famille ;
+2. les perceptions deviennent des faits structurés, sourcés, bornés et expirables ;
+3. la mémoire et le tableau noir sont limités afin de maîtriser coût, persistance et diagnostic ;
+4. les buts durables sont distincts des intentions, des plans et des requêtes d’action transitoires ;
+5. le catalogue d’actions constitue un vocabulaire fermé avec préconditions, effets, coûts et exécuteurs autorisés ;
+6. le planificateur utilise des snapshots détachés, un ordre canonique et des budgets logiques ;
+7. l’ordonnanceur répartit les décisions par phases et conserve une échéance reportée jusqu’au traitement effectif ;
+8. les modes actif, arrière-plan et dormant modifient la fréquence de décision sans supprimer l’existence logique ;
+9. les plans sont invalidés lorsque la révision du monde ou les préconditions ne correspondent plus ;
+10. l’IA générative reste consultative et ses suggestions sont filtrées avant toute décision métier ;
+11. seules les données durables sont sauvegardées, puis restaurées dans un candidat validé avant remplacement ;
+12. le combat, les compétences, l’économie, le monde vivant, la politique et la narration restent autorités de leurs propres règles.
 
-```text
-Livre-II/CHAPITRE-18-Combat.md
-Niveau GPT-5.6 Sol recommandé : Élevée
-```
-
-<!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
-
-- **Rôle :** ce bloc enregistre le chemin canonique et le niveau conseillé pour la prochaine étape de la collection.
-- **Frontière :** le chapitre 18 consommera les requêtes d’action sans déplacer ses règles de combat dans le système d’agents.
+Cette clôture décrit l’état retenu pour le projet fil rouge. Les instructions concernant le chapitre suivant restent exclusivement dans `CONTINUITE-PROJET.md`.
