@@ -59,9 +59,9 @@
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
-- [ ] Douze grands systèmes de jeu — 5 chapitres rédigés, repérés et audités sur 12.
+- [ ] Douze grands systèmes de jeu — 6 chapitres rédigés, repérés et audités sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 18.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 19.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -79,6 +79,7 @@
 - [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 17 — perceptions, mémoire bornée, buts, planification déterministe, ordonnanceur, simulation hors écran, invalidation, IA consultative et sauvegarde minimale — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 18 — commandes typées, côtés, initiative déterministe, ciblage, portée, ligne de vue, dégâts, garde, états, commit préparé, simulation hors écran et sauvegarde stricte — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 19 — définitions de compétences, coûts, ciblages, effets composables, progression, charges, recharges, unité de travail commune et sauvegarde stricte — rédigé et audité au niveau `static-review`.
 - [x] Clarification du chapitre 17 — intervalles nominaux explicités, codes de retour distingués des erreurs pédagogiques et échéances reportées conservées.
 - [x] Correction de clôture du chapitre 17 — prochaine étape réservée à la continuité et synthèse finale consacrée à `Project Asteria`.
 - [x] Horodatage des audits — `last-verified` et `audit-date` utilisent ISO 8601 avec heure et offset à partir du chapitre 17, sans heure rétroactive inventée.
@@ -92,7 +93,7 @@
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 18 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Cinq des douze systèmes de gameplay sont documentés : personnages, relations sociales, famille, agents autonomes et combat. Le graphe familial distingue filiation, adoption, tutelle et union, refuse auto-liens, doublons et cycles, calcule les relations dérivées, reste indépendant des scènes et se restaure par candidat complet. La correction pédagogique des chapitres 15 et 16 est terminée et leurs audits et preuves QA sont révisés. Le chapitre 17 sépare l’état d’agent, les snapshots, la mémoire, les buts, le plan transitoire et les exécuteurs ; le chapitre 18 définit désormais l’autorité de combat et le chapitre 19 traitera les compétences et pouvoirs. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 19 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Six des douze systèmes de gameplay sont documentés : personnages, relations sociales, famille, agents autonomes, combat, compétences et pouvoirs. Le chapitre 18 conserve l’autorité sur les cibles, la portée, la défense, les dégâts et les états de combat. Le chapitre 19 sépare les définitions partagées, la progression et l’état runtime, puis prépare coûts, effets, charges et recharges derrière une unité de travail commune. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.18.0"
+version: "3.19.0"
 lang: "fr-FR"
-last-updated: "2026-07-20T14:18:58+02:00"
+last-updated: "2026-07-20T15:27:31+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 18 chapitres sur 30.**
+**En cours : 19 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -132,7 +132,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 16. Famille et générations — terminé au niveau `static-review`.
 17. Agents IA et comportements autonomes — terminé au niveau `static-review`.
 18. Combat — terminé au niveau `static-review`.
-19. Compétences et pouvoirs.
+19. Compétences et pouvoirs — terminé au niveau `static-review`.
 20. Inventaire et réputation des objets.
 21. Économie.
 22. Monde vivant et simulation écologique.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 18 : **Élevée**.
+Chapitres 3 à 19 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -494,6 +494,23 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - le codec de sauvegarde est strict et encode le RNG 64 bits sans perte par deux mots de 32 bits ;
 - file de commandes, raycasts, caches et présentation sont exclus de la persistance ;
 - compétences, objets, économie, politique et narration restent dans leurs systèmes propres.
+
+### 11.14 Compétences et pouvoirs
+
+- `AbilityDefinition` constitue une `Resource` de conception partagée et immuable ;
+- progression et état runtime sont séparés de la définition et liés au `CharacterId` ;
+- rang, expérience, charges, prochain tick de recharge et séquence d’utilisation sont persistés ;
+- les coûts sont décrits par identifiants de ressources et préparés sans mutation active ;
+- les ciblages sur soi, personnage, point et zone sont déclaratifs, bornés et revalidés par l’autorité propriétaire ;
+- les effets sont composables, ordonnés, copiés et limités à des types explicitement autorisés ;
+- dégâts et états temporaires restent sous l’autorité du combat ;
+- santé et endurance restent sous les règles des personnages ;
+- `AbilityMutationUnitOfWork` reçoit réservation, candidats d’effets, progression, runtime et révisions dans un même commit ;
+- un effet requis absent bloque le lot avant commit ;
+- un résultat partiel est une utilisation consommée et ne déclenche pas un retry gratuit ;
+- les recharges utilisent des ticks logiques, jamais un `Timer` autoritaire ;
+- plans, réservations, candidats, cibles dérivées, caches et présentation sont exclus de la persistance ;
+- l’inventaire peut accorder une compétence sans devenir propriétaire de ses règles.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1194,6 +1211,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas sérialiser un entier 64 bits directement dans JSON sans représentation sûre ;
 - ne pas charger directement dans les affrontements actifs ;
 - ne pas persister raycasts, commandes en attente, caches ou présentation ;
+- ne pas écrire directement dégâts, santé ou états depuis une définition de compétence ;
+- ne pas stocker charges ou recharge dans une `Resource` de conception partagée ;
+- ne pas utiliser un `Timer` ou l’heure système comme recharge autoritaire ;
+- ne pas consommer un coût avant la validation et la préparation de tous les effets requis ;
+- ne pas committer séparément coût, effets et état de compétence ;
+- ne pas charger un script, une classe ou une méthode depuis une définition externe ;
+- ne pas traiter une prévisualisation comme validation autoritaire ;
+- ne pas persister plans, réservations, candidats, cibles dérivées ou caches ;
+- ne pas utiliser un nom affiché comme identité de compétence ;
+- ne pas retenter automatiquement une utilisation partiellement résolue ;
 - ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;
 - ne pas terminer un chapitre de système sans synthèse opérationnelle de `Project Asteria` ;
 - ne pas oublier la mise à jour de ce fichier.
@@ -1202,7 +1229,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 18 chapitres sur 30 ;
+- progression : 19 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1218,26 +1245,38 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 : version `1.2.1` ;
 - chapitre 17 : version `1.0.3` ;
 - chapitre 18 : version `1.0.0` ;
+- chapitre 19 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 18 est terminé au niveau `static-review`. Le combat reçoit des commandes typées, valide leurs cibles et applique des mutations préparées sans transférer son autorité aux agents, à la physique ou à la présentation.
+Le chapitre 19 est terminé au niveau `static-review`. Les compétences séparent définitions, progression et état runtime, préparent coûts et effets derrière leurs autorités propriétaires et exigent un commit commun avant tout événement.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
+Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : définitions de compétences et pouvoirs, coûts, temps de recharge, ciblage spécialisé, effets composables et progression, en réutilisant les contrats de combat sans déplacer les règles de portée, défense, dégâts ou commit hors du système propriétaire.
+Périmètre attendu : définitions et instances d’objets, conteneurs d’inventaire, empilement, équipement, durabilité, propriété, provenance et réputation des objets, en réutilisant les contrats des personnages, du combat et des compétences sans déplacer leurs autorités.
 
 ## 27. Journal
+
+### 2026-07-20T15:27:31+02:00 — version 3.19.0
+
+- chapitre 19 créé, corrigé et audité au niveau `static-review` ;
+- définitions, coûts, ciblages, effets composables, progression, charges et recharges documentés ;
+- commit séquentiel corrigé au profit d’une unité de travail commune ;
+- ports de combat, personnage, ressources et contexte séparés ;
+- sauvegarde limitée aux données durables et restauration préparée ;
+- index, roadmap, `contents.txt`, audit et preuve QA mis à jour ;
+- prochaine action déplacée vers le chapitre 20 — Inventaire et réputation des objets, niveau Élevée ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20T14:18:58+02:00 — version 3.18.0
 
