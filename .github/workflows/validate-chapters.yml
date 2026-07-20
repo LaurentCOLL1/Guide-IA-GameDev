@@ -109,14 +109,16 @@ jobs:
               proof = proof.replace(old, new, 1)
           ci_start = proof.index("ci:\n")
           reservations_start = proof.index("reservations:\n")
-          proof = proof[:ci_start] + """ci:
-  validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
-  validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
-""" + proof[reservations_start:]
+          ci_block = (
+              "ci:\n"
+              "  validate-chapters-without-pdf:\n"
+              "    run-id: pending\n"
+              "    conclusion: pending\n"
+              "  validate-usage-contexts:\n"
+              "    run-id: pending\n"
+              "    conclusion: pending\n"
+          )
+          proof = proof[:ci_start] + ci_block + proof[reservations_start:]
           proof_path.write_text(proof, encoding="utf-8")
 
           continuity_path = Path("CONTINUITE-PROJET.md")
@@ -135,15 +137,14 @@ jobs:
               raise SystemExit("continuity error anchor missing")
           continuity = continuity.replace(anchor, rule + anchor, 1)
           journal_anchor = "## 27. Journal\n\n"
-          journal = f"""### {timestamp} — version 3.19.1
-
-- retrait de la section interne `Validation légère sans PDF` du chapitre 19 destiné au lecteur ;
-- conservation de cette procédure dans le protocole, le rapport d’audit, la preuve QA et les workflows ;
-- chapitre 19 et audit portés en version `1.0.1` ;
-- règle ajoutée aux erreurs à ne pas reproduire ;
-- aucune exécution runtime et aucun PDF construit.
-
-"""
+          journal = (
+              f"### {timestamp} — version 3.19.1\n\n"
+              "- retrait de la section interne `Validation légère sans PDF` du chapitre 19 destiné au lecteur ;\n"
+              "- conservation de cette procédure dans le protocole, le rapport d’audit, la preuve QA et les workflows ;\n"
+              "- chapitre 19 et audit portés en version `1.0.1` ;\n"
+              "- règle ajoutée aux erreurs à ne pas reproduire ;\n"
+              "- aucune exécution runtime et aucun PDF construit.\n\n"
+          )
           if journal_anchor not in continuity:
               raise SystemExit("continuity journal anchor missing")
           continuity = continuity.replace(journal_anchor, journal_anchor + journal, 1)
