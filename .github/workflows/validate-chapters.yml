@@ -20,9 +20,35 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  apply-ch17-closure-fix:
+    if: github.event_name == 'pull_request' && github.head_ref == 'docs/fix-ch17-project-asteria-closure'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/fix-ch17-project-asteria-closure
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply chapter closure correction
+        run: python tools/qa/tmp_fix_ch17_closure.py
+      - name: Commit permanent correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md \
+            Livre-II/QA/AUDIT-CHAPITRE-17.md \
+            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-17.yaml \
+            Livre-II/index.md ROADMAP.md
+          git commit -m "docs(livre-ii): fix chapter 17 reader-facing closure"
+          git push origin HEAD:docs/fix-ch17-project-asteria-closure
+
   validate-chapters:
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
