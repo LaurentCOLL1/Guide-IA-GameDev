@@ -12,10 +12,10 @@ chapter:
 results:
   blocking-errors: pending
   warnings: pending
-  chapter-lines: 2584
-  chapter-headings: 58
-  chapter-code-and-data-blocks: 55
-  code-explanation-markers: 55
+  chapter-lines: 2692
+  chapter-headings: 59
+  chapter-code-and-data-blocks: 56
+  code-explanation-markers: 56
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10

@@ -15,14 +15,14 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 
 ## 1. Porte de brouillon
 
-Le chapitre a été matérialisé sur une branche dédiée et dans une pull request en brouillon. Deux lectures statiques distinctes ont ensuite corrigé les contrats avant la présente clôture `1.0.0`.
+Le chapitre a été matérialisé sur une branche dédiée et dans une pull request en brouillon. Plusieurs lectures statiques distinctes ont ensuite corrigé les contrats avant la présente clôture `1.0.0`.
 
 ## 2. Résultats
 
-- lignes finales : **2584** ;
-- titres Markdown : **58** ;
-- blocs de code ou de données : **55** ;
-- marqueurs d’explication : **55** ;
+- lignes finales : **2692** ;
+- titres Markdown : **59** ;
+- blocs de code ou de données : **56** ;
+- marqueurs d’explication : **56** ;
 - cas d’erreurs détaillés : **10** ;
 - contre-exemples expliqués : **10** ;
 - corrections expliquées : **10** ;
@@ -75,7 +75,11 @@ Les lectures distinctes ont notamment :
 13. rendu la division complète en renvoyant source décrémentée et pile créée ;
 14. supprimé le tableau mutable par défaut du contrat d’unité de travail ;
 15. séparé les révisions d’instance, de loadout et de compétences ;
-16. matérialisé le port de contexte utilisé par l’adaptateur d’agent.
+16. matérialisé le port de contexte utilisé par l’adaptateur d’agent ;
+17. validé les états candidats avec leur conteneur de destination ;
+18. distingué les refus propres aux piles avant construction ;
+19. ajouté le déséquipement symétrique et le retrait du seul grant source ;
+20. ajouté l’initialisation séparée de la réputation des instances concernées.
 
 ## 5. Revue statique du code
 
@@ -96,7 +100,7 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **55** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur les entrées, types, paramètres, retours, effets, invariants, déroulement, résultat attendu et frontières.
+Les **56** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur les entrées, types, paramètres, retours, effets, invariants, déroulement, résultat attendu et frontières.
 
 Aucune rubrique ne justifie un extrait en répétant seulement le titre de sa section.
 

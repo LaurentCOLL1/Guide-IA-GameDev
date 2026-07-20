@@ -998,6 +998,18 @@ func create_stack(
 	state.created_tick = created_tick
 	state.quantity = quantity
 	return state if state.validate(definition) == OK else null
+
+func create_reputation_state(
+	definition: ItemDefinition,
+	instance_id: StringName,
+) -> ItemReputationState:
+	if definition == null or definition.validate() != OK:
+		return null
+	if not definition.reputation_enabled or not StableId.is_valid(instance_id):
+		return null
+	var state := ItemReputationState.new()
+	state.instance_id = instance_id
+	return state if state.validate(definition) == OK else null
 ```
 
 <!-- qa:code-explanation -->
@@ -1008,6 +1020,7 @@ func create_stack(
 - Une définition fongible ne peut devenir une instance individualisée sans une conversion métier distincte.
 - La durabilité initiale d’une instance prend le maximum de la définition.
 - Le lot reçoit immédiatement son origine et son tick logique.
+- Une instance dont la réputation est activée reçoit un état de renommée séparé, initialisé à zéro.
 - Chaque état est validé avant d’être renvoyé au service créateur.
 
 ## 18. Commande de transfert
@@ -1268,7 +1281,11 @@ func transfer(command: InventoryTransferCommand) -> InventoryResult:
 			"candidat invalide",
 		)
 
-	var commit_code := _unit_of_work.commit(prepared.candidate, [])
+	var external_candidates: Array[InventoryMutationUnitOfWork.ExternalCandidate] = []
+	var commit_code := _unit_of_work.commit(
+		prepared.candidate,
+		external_candidates,
+	)
 	if commit_code != OK:
 		var status := InventoryResult.Status.REJECTED_INTERNAL
 		if commit_code == ERR_BUSY:
@@ -1347,6 +1364,28 @@ func _prepare_transfer(command: InventoryTransferCommand) -> TransferPreparation
 				destination,
 			)
 		InventoryEntryRef.Kind.STACK:
+			var stack := _repository.get_stack(command.entry.entry_id)
+			if stack == null or not source.contains(stack.stack_id):
+				prepared.status = InventoryResult.Status.REJECTED_NOT_FOUND
+				prepared.message = "pile absente de la source"
+				return prepared
+			if stack.revision != command.expected_entry_revision:
+				prepared.status = InventoryResult.Status.REJECTED_STALE_REVISION
+				prepared.message = "révision de pile obsolète"
+				return prepared
+			if command.quantity > stack.quantity:
+				prepared.status = InventoryResult.Status.REJECTED_STACK_RULE
+				prepared.message = "quantité supérieure à la pile"
+				return prepared
+			var is_partial := command.quantity < stack.quantity
+			if is_partial and not StableId.is_valid(command.created_stack_id):
+				prepared.status = InventoryResult.Status.REJECTED_STACK_RULE
+				prepared.message = "identifiant de division absent"
+				return prepared
+			if not is_partial and not command.created_stack_id.is_empty():
+				prepared.status = InventoryResult.Status.REJECTED_STACK_RULE
+				prepared.message = "identifiant de division inattendu"
+				return prepared
 			prepared.candidate = _prepare_stack_transfer(
 				command,
 				source,
@@ -1370,9 +1409,9 @@ func _prepare_transfer(command: InventoryTransferCommand) -> TransferPreparation
 **Explication détaillée du bloc :**
 
 - Les validations générales précèdent toute lecture détaillée.
-- `TransferPreparation` conserve un statut précis sans traiter tous les refus comme une absence.
+- `TransferPreparation` conserve un statut précis sans traiter tous les refus comme une absence ; les piles distinguent absence, révision, quantité et identifiant de division.
 - `_prepare_transfer()` relit conteneurs, révisions, propriété et autorisation avant les copies.
-- Le candidat est validé avant le commit.
+- Le candidat est validé avant le commit et la liste externe vide conserve un type explicite.
 - `ERR_BUSY` représente une révision devenue obsolète.
 - Le signal est émis seulement après le remplacement réussi.
 
@@ -1398,19 +1437,19 @@ func _prepare_instance_transfer(
 
 	var source_candidate := source.duplicate_detached()
 	var destination_candidate := destination.duplicate_detached()
-	if not _remove_entry(source_candidate, instance.instance_id):
-		return null
-	if not _append_instance(destination_candidate, instance):
-		return null
-	source_candidate.revision += 1
-	destination_candidate.revision += 1
-
 	var instance_candidate := instance.duplicate_detached()
 	var previous_owner := instance_candidate.owner.duplicate_detached()
 	instance_candidate.container_id = destination.container_id
 	instance_candidate.owner = command.requested_owner.duplicate_detached()
 	instance_candidate.revision += 1
 	instance_candidate.provenance_sequence += 1
+
+	if not _remove_entry(source_candidate, instance.instance_id):
+		return null
+	if not _append_instance(destination_candidate, instance_candidate):
+		return null
+	source_candidate.revision += 1
+	destination_candidate.revision += 1
 
 	var candidate := InventoryMutationCandidate.new()
 	candidate.command_id = command.command_id
@@ -1432,7 +1471,7 @@ func _prepare_instance_transfer(
 
 - Une instance se transfère toujours avec une quantité égale à `1`.
 - La source est vérifiée à la fois dans l’instance et dans le conteneur ; un objet équipé doit d’abord être déséquipé.
-- La destination est validée avant de modifier l’instance candidate.
+- La destination valide l’instance candidate déjà configurée avec sa nouvelle garde et sa nouvelle propriété.
 - Propriété, garde, révisions des conteneurs, révision d’instance et séquence de provenance changent dans le même candidat.
 - Aucun état actif n’est modifié par cette fonction.
 
@@ -1466,14 +1505,14 @@ func _prepare_stack_transfer(
 	if command.quantity == stack.quantity:
 		if not command.created_stack_id.is_empty():
 			return null
-		if not _remove_entry(source_candidate, stack.stack_id):
-			return null
-		if not _append_stack(destination_candidate, stack, definition):
-			return null
 		var moved := stack.duplicate_detached()
 		moved.container_id = destination.container_id
 		moved.owner = command.requested_owner.duplicate_detached()
 		moved.revision += 1
+		if not _remove_entry(source_candidate, stack.stack_id):
+			return null
+		if not _append_stack(destination_candidate, moved, definition):
+			return null
 		candidate.stacks[moved.stack_id] = moved
 	else:
 		if not StableId.is_valid(command.created_stack_id):
@@ -1511,7 +1550,7 @@ func _prepare_stack_transfer(
 - Un transfert total conserve l’identifiant de pile et exige `created_stack_id` vide.
 - Un transfert partiel exige un nouvel identifiant préparé par l’appelant.
 - La pile restante et la pile créée conservent la même origine de lot.
-- La capacité de destination est contrôlée avant toute mutation active.
+- La capacité de destination est contrôlée avec la pile candidate déjà configurée pour cette destination, avant toute mutation active.
 - La nouvelle pile n’a pas de révision attendue puisqu’elle n’existe pas encore ; l’unité de travail doit aussi vérifier l’absence de collision d’identifiant.
 
 ## 22. Diviser et fusionner un lot
@@ -1548,6 +1587,12 @@ func _merge_quantity(
 ) -> Error:
 	if destination == null or source == null or definition == null:
 		return ERR_INVALID_PARAMETER
+	if definition.validate() != OK or not definition.is_stackable():
+		return ERR_INVALID_DATA
+	if destination.definition_id != definition.item_id:
+		return ERR_INVALID_DATA
+	if source.definition_id != definition.item_id:
+		return ERR_INVALID_DATA
 	if not destination.can_merge_with(source):
 		return ERR_INVALID_DATA
 	if quantity < 1 or quantity > source.quantity:
@@ -1567,7 +1612,7 @@ func _merge_quantity(
 
 - Une division partielle renvoie la pile source décrémentée et la nouvelle pile avec le même `lot_id`.
 - Les deux résultats sont des copies préparées ; la source active reste intacte avant commit.
-- La fusion exige une compatibilité stricte et une capacité suffisante.
+- La fusion exige une définition empilable correspondante, une compatibilité stricte et une capacité suffisante.
 - Une quantité source ramenée à zéro entraîne la suppression préparée de sa référence et de son état.
 - Les prix ou valeurs monétaires ne participent jamais à la règle de pile.
 
@@ -1700,6 +1745,69 @@ func prepare_equip(
 - L’état d’équipement est modifié sur des copies.
 - Une compétence accordée produit un candidat appartenant au système de compétences.
 - Le commit final doit réunir le candidat d’inventaire et le candidat externe.
+
+
+### 24.1 Déséquiper et retirer uniquement le grant source
+
+> **[LECTURE] Préparation d’un déséquipement — Structure de référence.**
+
+```gdscript
+func prepare_unequip(
+	character_id: StringName,
+	slot_id: StringName,
+	expected_instance_revision: int,
+	expected_loadout_revision: int,
+	expected_ability_revision: int,
+) -> Dictionary:
+	var loadout := _repository.get_loadout(character_id)
+	if loadout == null or loadout.revision != expected_loadout_revision:
+		return {}
+	if not loadout.slots.has(slot_id):
+		return {}
+	var instance_id: StringName = loadout.slots[slot_id]
+	var instance := _repository.get_instance(instance_id)
+	if instance == null or instance.revision != expected_instance_revision:
+		return {}
+	if instance.equipped_by_character_id != character_id:
+		return {}
+	var definition := _catalog.get_definition(instance.definition_id)
+	if definition == null:
+		return {}
+
+	var instance_candidate := instance.duplicate_detached()
+	var loadout_candidate := loadout.duplicate_detached()
+	instance_candidate.equipped_by_character_id = &""
+	instance_candidate.revision += 1
+	loadout_candidate.slots.erase(slot_id)
+	loadout_candidate.revision += 1
+
+	var grant_candidate := _ability_grant_port.prepare_grant_set(
+		character_id,
+		instance_id,
+		definition.granted_ability_ids,
+		false,
+		expected_ability_revision,
+	)
+	if not definition.granted_ability_ids.is_empty() and grant_candidate == null:
+		return {}
+	return {
+		"instance": instance_candidate,
+		"loadout": loadout_candidate,
+		"grant": grant_candidate,
+		"expected_instance_revision": expected_instance_revision,
+		"expected_loadout_revision": expected_loadout_revision,
+	}
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- Le slot détermine l’instance réellement équipée ; l’appelant ne peut pas substituer un autre identifiant.
+- Les révisions d’instance, de loadout et de compétences restent séparées.
+- Le candidat efface seulement le lien d’équipement et prépare le retrait du grant provenant de cette instance.
+- Une compétence durablement apprise ou accordée par une autre source reste sous la décision du système de compétences.
+- Instance, loadout et retrait de grant doivent être committés dans le même lot.
 
 ## 25. Durabilité demandée par le combat
 
