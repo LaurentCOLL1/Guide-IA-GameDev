@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.20.0"
+version: "3.21.0"
 lang: "fr-FR"
-last-updated: "2026-07-20T17:50:09+02:00"
+last-updated: "2026-07-20T21:13:06+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 19 chapitres sur 30.**
+**En cours : 21 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -133,8 +133,8 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 17. Agents IA et comportements autonomes — terminé au niveau `static-review`.
 18. Combat — terminé au niveau `static-review`.
 19. Compétences et pouvoirs — terminé au niveau `static-review`.
-20. Inventaire et réputation des objets.
-21. Économie.
+20. Inventaire et réputation des objets — terminé au niveau `static-review`.
+21. Économie — terminé au niveau `static-review`.
 22. Monde vivant et simulation écologique.
 23. Politique, factions et justice.
 24. Construction et gestion de domaines.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 20 : **Élevée**.
+Chapitres 3 à 21 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -531,6 +531,25 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - `InventoryMutationUnitOfWork` reçoit les candidats d’inventaire et des autorités externes avant tout événement ;
 - définitions, masse dérivée, commandes, candidats, caches et présentation sont exclus de la persistance ;
 - prix, monnaies, paiements, achats et ventes restent réservés au chapitre 21.
+
+
+### 11.16 Économie
+
+- `CurrencyDefinition` constitue une `Resource` de conception partagée et immuable ;
+- tous les montants utilisent des unités mineures entières dans la plage JSON sûre ;
+- les portefeuilles portent des soldes non négatifs, des révisions et des séquences d’écriture ;
+- chaque transaction produit des écritures équilibrées séparément par devise ;
+- les valeurs économiques sont séparées des `ItemDefinition` du chapitre 20 ;
+- les multiplicateurs utilisent des points de base et un ordre déterministe ;
+- une fabrique verrouille le prix unitaire lors de la création d’une offre ;
+- les devis sont temporaires, bornés et recalculés avant le commit ;
+- le total proposé par l’appelant sert uniquement à détecter un changement de prix ;
+- récompenses et paiements débitent toujours un portefeuille explicite ;
+- l’idempotence associe identité de transaction, empreinte canonique et résultat durable ;
+- `EconomyTransactionCommitPort` coordonne candidat économique et candidat d’inventaire ;
+- l’inventaire conserve identité, quantité, propriété et transfert des objets ;
+- contextes sociaux, écologiques, politiques ou fiscaux restent derrière des ports ;
+- devis, contextes, commandes, candidats, caches et présentation sont exclus de la persistance.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1254,13 +1273,21 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas placer les commandes de validation documentaire ou la procédure QA dans un chapitre destiné au lecteur ;
 - ne pas placer la prochaine étape, le chemin ou le niveau du chapitre suivant dans le chapitre publié ;
 - ne pas terminer un chapitre de système sans synthèse opérationnelle de `Project Asteria` ;
+- ne pas utiliser de `float` comme montant monétaire autoritaire ;
+- ne pas modifier un portefeuille depuis l’interface, un agent ou une sortie IA ;
+- ne pas créer de récompense sans portefeuille émetteur explicite ;
+- ne pas faire confiance à un prix ou un total fourni par l’appelant ;
+- ne pas committer séparément paiement et transfert d’objet ;
+- ne pas stocker un prix dans `ItemDefinition` ;
+- ne pas changer l’identité d’un retry économique ;
+- ne pas convertir implicitement deux devises ;
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 20 chapitres sur 30 ;
+- progression : 21 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1278,26 +1305,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 18 : version `1.0.0` ;
 - chapitre 19 : version `1.0.1` ;
 - chapitre 20 : version `1.0.0` ;
+- chapitre 21 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 20 est terminé au niveau `static-review`. L’inventaire sépare définitions, instances et lots, prépare les transferts sur des copies révisionnées, distingue propriété et garde, et conserve combat, compétences et économie derrière leurs autorités.
+Le chapitre 21 est terminé au niveau `static-review`. L’économie utilise des unités mineures entières, équilibre les écritures par devise, sépare valeurs et objets, protège les transactions par idempotence et prépare avec l’inventaire un commit multi-autorités.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-21-Economie.md
+Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : monnaies et portefeuilles, valeurs et politiques de prix, offres, achats, ventes, récompenses, paiements et transactions atomiques avec l’inventaire, sans déplacer l’identité, la quantité, la propriété ou le transfert des objets hors du système du chapitre 20.
+Périmètre attendu : horloge et ticks du monde, régions écologiques, populations, ressources, apparitions, disparitions, régénération et simulation active ou hors écran, avec des indices structurés fournis à l’économie sans déplacer les prix, offres, soldes ou transactions hors du chapitre 21.
 
 ## 27. Journal
+
+### 2026-07-20T21:13:06+02:00 — version 3.21.0
+
+- chapitre 21 créé, relu, corrigé et audité au niveau `static-review` ;
+- devises, unités mineures, portefeuilles, écritures, valeurs, offres, devis, achats, taxes, récompenses et idempotence documentés ;
+- commit économie-inventaire et révisions multi-agrégats explicités ;
+- paragraphes de gouvernance restés à 19 chapitres et 6 systèmes corrigés ;
+- index, roadmap, `contents.txt`, audit et preuve QA mis à jour ;
+- prochaine action déplacée vers le chapitre 22 — Monde vivant et simulation écologique, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-20T17:50:09+02:00 — version 3.20.0
 

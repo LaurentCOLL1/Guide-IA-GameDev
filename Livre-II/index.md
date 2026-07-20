@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.13.0"
+version: "1.14.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -49,7 +49,7 @@ Project Asteria
 18. [Combat](CHAPITRE-18-Combat.md) — **rédigé, repéré, expliqué bloc par bloc, clôturé par les décisions Project Asteria et audité au niveau static-review**
 19. [Compétences et pouvoirs](CHAPITRE-19-Competences-et-pouvoirs.md) — **rédigé, repéré, expliqué bloc par bloc, commit multi-autorités préparé, clôturé par les décisions Project Asteria et audité au niveau static-review**
 20. [Inventaire et réputation des objets](CHAPITRE-20-Inventaire-et-reputation-des-objets.md) — **rédigé, repéré, expliqué bloc par bloc, transferts multi-agrégats préparés, clôturé par les décisions Project Asteria et audité au niveau static-review**
-21. Économie — à rédiger
+21. [Économie](CHAPITRE-21-Economie.md) — **rédigé, repéré, expliqué bloc par bloc, écritures équilibrées et commit économie-inventaire préparé, clôturé par les décisions Project Asteria et audité au niveau static-review**
 22. Monde vivant et simulation écologique — à rédiger
 23. Politique, factions et justice — à rédiger
 24. Construction et gestion de domaines — à rédiger
@@ -87,6 +87,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 18](QA/AUDIT-CHAPITRE-18.md) ;
 - [audit du chapitre 19](QA/AUDIT-CHAPITRE-19.md) ;
 - [audit du chapitre 20](QA/AUDIT-CHAPITRE-20.md) ;
+- [audit du chapitre 21](QA/AUDIT-CHAPITRE-21.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -116,7 +117,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 20 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 21 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -144,4 +145,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Dix-neuf chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. La partie gameplay compte désormais **six systèmes sur douze** : personnages, relations sociales, famille, agents autonomes, combat, compétences et pouvoirs. Le chapitre 19 sépare les définitions partagées, la progression et l’état runtime ; il prépare coûts et effets derrière des ports propriétaires et exige une unité de travail commune avant tout événement. Les réserves runtime et le PDF restent différés conformément au protocole QA.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt et un chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. La partie gameplay compte désormais **huit systèmes sur douze** : personnages, relations sociales, famille, agents autonomes, combat, compétences et pouvoirs, inventaire et réputation des objets, puis économie. Le chapitre 20 conserve l’autorité sur les objets et leurs transferts. Le chapitre 21 sépare devises, soldes, valeurs, offres et paiements, puis exige un commit commun avec l’inventaire. Les réserves runtime et le PDF restent différés conformément au protocole QA.
