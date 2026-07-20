@@ -1,0 +1,24 @@
+Livre-II/CHAPITRE-15-Relations-sociales.md:285:SELF_REFERENCE:6.2 Pourquoi ne pas trier les identifiants::- **Pourquoi cet exemple est fautif :** l’extrait viole la règle métier rappelée dans « 6.2 Pourquoi ne pas trier les identifiants ».
+Livre-II/CHAPITRE-15-Relations-sociales.md:2000:REREAD:32.2 Utiliser le nom affiché comme clé::§ 6. Identifier une relation dirigée::#6-identifier-une-relation-dirigee
+Livre-II/CHAPITRE-15-Relations-sociales.md:2028:REREAD:32.3 Forcer une relation symétrique::§ 4.1 Une relation est dirigée::#41-une-relation-est-dirigee
+Livre-II/CHAPITRE-15-Relations-sociales.md:2085:REREAD:32.5 Laisser les axes hors limites::§ 7. Représenter les axes sociaux::#7-representer-les-axes-sociaux
+Livre-II/CHAPITRE-15-Relations-sociales.md:2113:REREAD:32.6 Accepter une commande sans cause::§ 9. Commander un changement social::#9-commander-un-changement-social
+Livre-II/CHAPITRE-15-Relations-sociales.md:2171:REREAD:32.8 Conserver un historique illimité::§ 23. Restaurer l’historique sans exposer la collection::#23-restaurer-lhistorique-sans-exposer-la-collection
+Livre-II/CHAPITRE-15-Relations-sociales.md:2201:REREAD:32.9 Retourner le tableau interne::§ 12. Dépôt de relations::#12-depot-de-relations
+Livre-II/CHAPITRE-15-Relations-sociales.md:2231:REREAD:32.10 Parcourir tous les nœuds pour trouver les voisins::§ 17. Requêtes de voisinage::#17-requetes-de-voisinage
+Livre-II/CHAPITRE-15-Relations-sociales.md:2290:REREAD:32.12 Décoder avec des conversions silencieuses::§ 24. Encoder et décoder les axes::#24-encoder-et-decoder-les-axes
+Livre-II/CHAPITRE-15-Relations-sociales.md:2320:REREAD:32.13 Appliquer avant validation complète::§ 27. Ordre de restauration::#27-ordre-de-restauration
+Livre-II/CHAPITRE-15-Relations-sociales.md:2379:REREAD:32.15 Mélanger famille et relation sociale::§ 14. Événement social typé::#14-evenement-social-type
+Livre-II/CHAPITRE-15-Relations-sociales.md:2408:REREAD:32.16 Utiliser l’IA comme autorité de la relation::§ 14. Événement social typé::#14-evenement-social-type
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2237:REREAD:28.1 Utiliser le nom affiché comme identité::§ 7.2 Identité métier de la filiation::#72-identite-metier-de-la-filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2269:REREAD:28.2 Stocker la famille dans le nœud actif::§ 11. Graphe familial::#11-graphe-familial
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2301:REREAD:28.3 Déduire la filiation depuis l’affinité::§ 7. Filiation dirigée::#7-filiation-dirigee
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2394:REREAD:28.6 Oublier la détection de cycle::§ 11.3 Cycle d’ascendance::#113-cycle-dascendance
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2427:REREAD:28.7 Traiter un dépassement de budget comme une absence de cycle::§ 11.3 Cycle d’ascendance::#113-cycle-dascendance
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2461:REREAD:28.8 Orienter une union::§ 18.5 Intervalles, tutelles et unions::#185-intervalles-tutelles-et-unions
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2493:REREAD:28.9 Utiliser l’heure système::§ 6.1 Intervalle logique::#61-intervalle-logique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2525:REREAD:28.10 Accepter un intervalle inversé::§ 6.1 Intervalle logique::#61-intervalle-logique
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2589:REREAD:28.12 Retourner une collection interne mutable::§ 19. Construction atomique du graphe candidat::#19-construction-atomique-du-graphe-candidat
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2621:REREAD:28.13 Charger directement dans le graphe actif::§ 19. Construction atomique du graphe candidat::#19-construction-atomique-du-graphe-candidat
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2684:REREAD:28.15 Laisser une sortie IA créer un lien directement::§ 18.4 Décodage strict d’une filiation::#184-decodage-strict-dune-filiation
+Livre-II/CHAPITRE-16-Famille-et-generations.md:2716:REREAD:28.16 Mélanger succession et famille::§ 3. Périmètre et frontières::#3-perimetre-et-frontieres
