@@ -7,11 +7,11 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   audit:
-    if: github.head_ref == 'docs/fix-section-paraphrases-and-links-ch15-ch16'
+    if: github.head_ref == 'docs/fix-section-paraphrases-and-links-ch15-ch16' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,8 +22,10 @@ jobs:
           python-version: '3.12'
       - name: Audit section paraphrases and reread links
         run: python tools/qa/tmp_audit_section_paraphrases_links_ch15_ch16.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: section-paraphrases-links-audit
-          path: tmp_section_paraphrases_links_audit.txt
-          if-no-files-found: error
+      - name: Commit temporary audit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f tmp_section_paraphrases_links_audit.txt
+          git commit -m "chore(qa): record section paraphrase and link audit"
+          git push origin HEAD:docs/fix-section-paraphrases-and-links-ch15-ch16
