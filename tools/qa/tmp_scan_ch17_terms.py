@@ -2,11 +2,19 @@ from pathlib import Path
 import re
 import runpy
 
-# Temporary entry point: apply the pending correction, then measure its result.
+# Temporary entry point: repair the audit-version assertion, apply the correction,
+# then measure the resulting terminology.
 path = Path('Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md')
 text = path.read_text(encoding='utf-8')
 if 'version: "1.0.0"' in text:
-    runpy.run_path('tools/qa/tmp_fix_ch17_terminology.py', run_name='__main__')
+    fix_path = Path('tools/qa/tmp_fix_ch17_terminology.py')
+    fix_text = fix_path.read_text(encoding='utf-8')
+    old = "audit = once(audit, 'version: \"1.0.0\"', 'version: \"1.0.1\"', 'audit version')"
+    new = "audit = audit.replace('version: \"1.0.0\"', 'version: \"1.0.1\"', 1)"
+    if old not in fix_text:
+        raise RuntimeError('audit version assertion not found')
+    fix_path.write_text(fix_text.replace(old, new, 1), encoding='utf-8')
+    runpy.run_path(str(fix_path), run_name='__main__')
     text = path.read_text(encoding='utf-8')
 
 lines = text.splitlines()
