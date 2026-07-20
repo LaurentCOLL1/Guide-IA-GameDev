@@ -79,7 +79,9 @@ continuity_path = Path('CONTINUITE-PROJET.md')
 continuity = continuity_path.read_text(encoding='utf-8')
 continuity = version(continuity, '3.17.4', '3.17.5', 'continuity version')
 continuity = once(continuity, 'last-updated: "2026-07-19"', 'last-updated: "2026-07-20"', 'continuity date')
-continuity = once(continuity, 'version `1.5.0`', 'version `1.7.1`', 'continuity protocol version')
+old_protocol_line = 'Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.5.0`.'
+new_protocol_line = 'Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.1`.'
+continuity = once(continuity, old_protocol_line, new_protocol_line, 'continuity current protocol version')
 continuity = once(continuity, 'Les rappels courts sont permis. Les duplications intégrales sont interdites.',
     'Les rappels courts sont permis. Les duplications intégrales sont interdites.\n\nAucune rubrique d’explication ne justifie un bloc en citant le titre de la section courante. Elle énonce directement le fait technique, le risque ou l’invariant. Les renvois internes visent la sous-section exacte et utilisent un fragment vérifié ou une ancre explicite stable.', 'continuity self-title rule')
 continuity = once(continuity,
