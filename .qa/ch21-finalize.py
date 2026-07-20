@@ -188,7 +188,7 @@ chapter = replace_once(
 )
 chapter = replace_once(
     chapter,
-    '\tvar _commit_port: EconomyTransactionCommitPort\n\nfunc transfer_reward(command: RewardCommand) -> EconomyResult:\n\tif command == null or command.validate(_currency_catalog) != OK:',
+    'var _commit_port: EconomyTransactionCommitPort\n\nfunc transfer_reward(command: RewardCommand) -> EconomyResult:\n\tif command == null or command.validate(_currency_catalog) != OK:',
     '\tvar _commit_port: EconomyTransactionCommitPort\n\nfunc transfer_reward(command: RewardCommand) -> EconomyResult:\n\tif not _is_configured():\n\t\treturn _reward_internal(command, "services obligatoires indisponibles")\n\tif command == null or command.validate(_currency_catalog) != OK:',
     'reward configuration',
 )
