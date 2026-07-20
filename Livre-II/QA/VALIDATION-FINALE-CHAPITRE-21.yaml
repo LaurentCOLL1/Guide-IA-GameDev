@@ -1,0 +1,54 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH21
+status: pending
+validation-date: 2026-07-20
+validated-base-commit: c4e16559e24dc2b0f432f1bd24bd643f9520c162
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH21
+  path: Livre-II/CHAPITRE-21-Economie.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2984
+  chapter-headings: 64
+  chapter-code-and-data-blocks: 60
+  code-explanation-markers: 60
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  integer-minor-units: true
+  balanced-postings-per-currency: true
+  item-values-separated-from-inventory: true
+  basis-point-pricing: true
+  idempotent-transactions: true
+  economy-inventory-commit-contract: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+reservations:
+  - Godot parser not executed.
+  - Typed Dictionary signatures not runtime-verified.
+  - Arithmetic bounds not runtime-tested.
+  - Economy-inventory transaction commit not run.
+  - Authorization adapter not materialized.
+  - Future tax and pricing contexts not run.
+  - Agent action not materialized.
+  - Demo scene not instantiated.
+  - Performance budgets not measured.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.

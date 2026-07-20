@@ -1,16 +1,16 @@
 ---
 title: "Livre II — Chapitre 21 : Économie"
 id: "DOC-L2-CH21"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 21
-last-verified: "2026-07-20T20:42:28+02:00"
-audit-status: "pending"
-audit-date: "2026-07-20T20:42:28+02:00"
+last-verified: "2026-07-20T21:13:06+02:00"
+audit-status: "complete"
+audit-date: "2026-07-20T21:13:06+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-21.md"
-audit-level: "not-audited"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -33,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** en attente — voir `Livre-II/QA/AUDIT-CHAPITRE-21.md`.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-21.md`.
 
 ## 1. Rôle du chapitre
 
@@ -167,6 +167,7 @@ res://src/features/economy/
 │   ├── economy_mutation_candidate.gd
 │   ├── money_math.gd
 │   ├── pricing_policy.gd
+│   ├── trade_offer_factory.gd
 │   ├── economy_service.gd
 │   ├── reward_service.gd
 │   ├── economy_agent_context_port.gd
@@ -474,6 +475,8 @@ var revision: int = 0
 var posting_sequence: int = 0
 
 func validate(catalog: CurrencyCatalog) -> Error:
+	if catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(wallet_id):
 		return ERR_INVALID_DATA
 	if owner == null or owner.validate() != OK:
@@ -529,6 +532,8 @@ var delta_minor_units: int = 0
 var resulting_balance_minor: int = 0
 
 func validate(catalog: CurrencyCatalog) -> Error:
+	if catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(posting_id):
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(wallet_id):
@@ -586,6 +591,8 @@ var command_fingerprint: String = ""
 var postings: Array[EconomyPosting] = []
 
 func validate(catalog: CurrencyCatalog) -> Error:
+	if catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(transaction_id):
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(cause_id) or not StableId.is_valid(source_system_id):
@@ -641,6 +648,8 @@ extends Resource
 @export var maximum_unit_price_minor: int = 1000000000
 
 func validate(currency_catalog: CurrencyCatalog) -> Error:
+	if currency_catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(value_id):
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(item_definition_id):
@@ -648,6 +657,8 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 	var currency := currency_catalog.get_definition(currency_id)
 	if currency == null or currency.validate() != OK:
 		return ERR_DOES_NOT_EXIST
+	if not currency.transferable:
+		return ERR_UNAVAILABLE
 	if minimum_unit_price_minor < 1:
 		return ERR_INVALID_DATA
 	if base_unit_price_minor < minimum_unit_price_minor:
@@ -852,6 +863,8 @@ var valid_until_tick: int = 0
 var tax_wallet_id: StringName
 
 func validate(catalog: CurrencyCatalog) -> Error:
+	if catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(quote_id) or not StableId.is_valid(offer_id):
 		return ERR_INVALID_DATA
 	if catalog.get_definition(currency_id) == null:
@@ -868,6 +881,8 @@ func validate(catalog: CurrencyCatalog) -> Error:
 	if expected_offer_revision < 0 or pricing_revision < 0 or valid_until_tick < 0:
 		return ERR_INVALID_DATA
 	if tax_minor > 0 and not StableId.is_valid(tax_wallet_id):
+		return ERR_INVALID_DATA
+	if tax_minor == 0 and not tax_wallet_id.is_empty():
 		return ERR_INVALID_DATA
 	return OK
 ```
@@ -906,6 +921,8 @@ var revision: int = 0
 var pricing_revision: int = 0
 
 func validate(currency_catalog: CurrencyCatalog) -> Error:
+	if currency_catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(offer_id):
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(seller_wallet_id):
@@ -916,9 +933,14 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(item_definition_id):
 		return ERR_INVALID_DATA
-	if currency_catalog.get_definition(currency_id) == null:
+	var currency := currency_catalog.get_definition(currency_id)
+	if currency == null or currency.validate() != OK:
 		return ERR_DOES_NOT_EXIST
-	if unit_price_minor < 1 or remaining_quantity < 0 or minimum_quantity < 1:
+	if not currency.transferable:
+		return ERR_UNAVAILABLE
+	if unit_price_minor < 1 or unit_price_minor > currency.maximum_balance_minor:
+		return ERR_INVALID_DATA
+	if remaining_quantity < 0 or minimum_quantity < 1:
 		return ERR_INVALID_DATA
 	if active and remaining_quantity < minimum_quantity:
 		return ERR_INVALID_DATA
@@ -1003,7 +1025,9 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(buyer_destination_container_id):
 		return ERR_INVALID_DATA
-	if quantity < 1 or expected_total_minor < 1:
+	if quantity < 1 or quantity > 1000000:
+		return ERR_INVALID_DATA
+	if expected_total_minor < 1 or expected_total_minor > MoneyMath.MAX_SAFE_INTEGER:
 		return ERR_INVALID_DATA
 	if expected_offer_revision < 0:
 		return ERR_INVALID_DATA
@@ -1022,6 +1046,8 @@ func validate() -> Error:
 	if not StableId.is_valid(cause_id) or not StableId.is_valid(source_system_id):
 		return ERR_INVALID_DATA
 	if logical_tick < 0 or command_fingerprint.is_empty():
+		return ERR_INVALID_DATA
+	if command_fingerprint.length() > 128:
 		return ERR_INVALID_DATA
 	return OK
 ```
@@ -1066,6 +1092,9 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 		return ERR_INVALID_PARAMETER
 	if amount == null or amount.validate(currency_catalog) != OK:
 		return ERR_INVALID_DATA
+	var currency := currency_catalog.get_definition(amount.currency_id)
+	if currency == null or not currency.transferable:
+		return ERR_UNAVAILABLE
 	if amount.minor_units < 1:
 		return ERR_INVALID_DATA
 	if expected_issuer_revision < 0 or expected_recipient_revision < 0:
@@ -1073,6 +1102,8 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 	if not StableId.is_valid(cause_id) or not StableId.is_valid(source_system_id):
 		return ERR_INVALID_DATA
 	if logical_tick < 0 or command_fingerprint.is_empty():
+		return ERR_INVALID_DATA
+	if command_fingerprint.length() > 128:
 		return ERR_INVALID_DATA
 	return OK
 ```
@@ -1125,7 +1156,7 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not transaction_id.is_empty() and not StableId.is_valid(transaction_id):
 		return ERR_INVALID_DATA
-	if total_minor < 0:
+	if total_minor < 0 or total_minor > MoneyMath.MAX_SAFE_INTEGER:
 		return ERR_INVALID_DATA
 	if total_minor > 0 and not StableId.is_valid(currency_id):
 		return ERR_INVALID_DATA
@@ -1342,6 +1373,8 @@ var expected_revisions: Dictionary[StringName, int] = {}
 func validate(
 	currency_catalog: CurrencyCatalog,
 ) -> Error:
+	if currency_catalog == null:
+		return ERR_UNCONFIGURED
 	if not StableId.is_valid(transaction_id) or command_fingerprint.is_empty():
 		return ERR_INVALID_DATA
 	if wallets.size() < 2 or wallets.size() > 16:
@@ -1371,6 +1404,15 @@ func validate(
 		posted_wallets[posting.wallet_id] = true
 	for wallet_id: StringName in wallets:
 		if not posted_wallets.has(wallet_id):
+			return ERR_INVALID_DATA
+		if not expected_revisions.has(wallet_id):
+			return ERR_INVALID_DATA
+	if offer != null and not expected_revisions.has(offer.offer_id):
+		return ERR_INVALID_DATA
+	if result.affected_wallet_ids.size() != wallets.size():
+		return ERR_INVALID_DATA
+	for wallet_id: StringName in result.affected_wallet_ids:
+		if not wallets.has(wallet_id):
 			return ERR_INVALID_DATA
 	for aggregate_id: StringName in expected_revisions:
 		if not StableId.is_valid(aggregate_id):
@@ -1435,8 +1477,12 @@ func _prepare_payment(
 	candidate.expected_revisions[seller.wallet_id] = command.expected_seller_wallet_revision
 
 	var postings: Array[EconomyPosting] = []
-	postings.append(_posting(command, 0, buyer_candidate, -quote.total_minor))
-	postings.append(_posting(command, 1, seller_candidate, quote.seller_net_minor))
+	postings.append(_posting(
+		command, 0, buyer_candidate, quote.currency_id, -quote.total_minor
+	))
+	postings.append(_posting(
+		command, 1, seller_candidate, quote.currency_id, quote.seller_net_minor
+	))
 	if quote.tax_minor > 0:
 		if tax_wallet == null:
 			return null
@@ -1454,7 +1500,9 @@ func _prepare_payment(
 		candidate.expected_revisions[tax_wallet.wallet_id] = (
 			command.expected_tax_wallet_revision
 		)
-		postings.append(_posting(command, 2, tax_candidate, quote.tax_minor))
+		postings.append(_posting(
+			command, 2, tax_candidate, quote.currency_id, quote.tax_minor
+		))
 
 	candidate.ledger_record = _ledger_record(command, postings)
 	return candidate
@@ -1577,7 +1625,7 @@ extends RefCounted
 
 func commit(
 	_economy_candidate: EconomyMutationCandidate,
-	_inventory_candidate: EconomyInventoryTradePort.PreparedTrade,
+	_inventory_candidate: EconomyInventoryTradePort.PreparedTrade = null,
 ) -> Error:
 	return ERR_UNAVAILABLE
 ```
@@ -1720,6 +1768,8 @@ func _prepare_purchase(command: PurchaseCommand) -> Dictionary:
 		if tax_wallet.revision != command.expected_tax_wallet_revision:
 			return {"result": _result_stale(command, "trésorerie obsolète")}
 
+	if buyer.balance_for(quote.currency_id) < quote.total_minor:
+		return {"result": _result_insufficient(command, quote)}
 	var economy_candidate := _prepare_payment(
 		command,
 		quote,
@@ -1728,7 +1778,7 @@ func _prepare_purchase(command: PurchaseCommand) -> Dictionary:
 		tax_wallet,
 	)
 	if economy_candidate == null:
-		return {"result": _result_insufficient(command, quote)}
+		return {"result": _result_internal(command, "préparation monétaire invalide")}
 
 	var offer_candidate := offer.duplicate_detached()
 	offer_candidate.remaining_quantity -= command.quantity
@@ -1760,7 +1810,7 @@ func _prepare_purchase(command: PurchaseCommand) -> Dictionary:
 - L’ordre de lecture empêche de préparer un paiement pour une offre inconnue ou obsolète.
 - Le service recalcule le devis après autorisation et compare le total affiché.
 - Le portefeuille fiscal est facultatif et revalidé seulement lorsqu’une taxe existe.
-- L’offre est décrémentée sur une copie et désactivée à quantité nulle.
+- L’offre est décrémentée sur une copie et désactivée dès que le reliquat devient inférieur à la quantité minimale.
 - Le candidat économique n’atteint le commit qu’après validation du candidat d’inventaire.
 
 ### 30.1 Fabriques internes et résultats précis
@@ -1782,12 +1832,13 @@ func _posting(
 	command: PurchaseCommand,
 	index: int,
 	wallet: WalletState,
+	currency_id: StringName,
 	delta: int,
 ) -> EconomyPosting:
 	var posting := EconomyPosting.new()
 	posting.posting_id = EconomyId.posting(command.transaction_id, index)
 	posting.wallet_id = wallet.wallet_id
-	posting.currency_id = _repository.get_offer(command.offer_id).currency_id
+	posting.currency_id = currency_id
 	posting.delta_minor_units = delta
 	posting.resulting_balance_minor = wallet.balance_for(posting.currency_id)
 	return posting
@@ -1888,7 +1939,7 @@ func _commit_failure(command: PurchaseCommand, code: Error) -> EconomyResult:
 **Explication détaillée du bloc :**
 
 - Les helpers centralisent les statuts sans masquer leur signification métier.
-- `_posting()` relit la devise de l’offre et enregistre le solde candidat résultant.
+- `_posting()` reçoit la devise déjà validée et enregistre le solde candidat résultant sans nouvelle lecture du dépôt.
 - Le journal copie les écritures pour ne conserver aucune référence mutable.
 - Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
 - `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
@@ -1906,9 +1957,19 @@ signal reward_committed(result: EconomyResult)
 var _currency_catalog: CurrencyCatalog
 var _repository: EconomyRepository
 var _access: EconomyAccessPort
-var _commit_port: EconomyTransactionCommitPort
+	var _commit_port: EconomyTransactionCommitPort
+
+func _is_configured() -> bool:
+	return (
+		_currency_catalog != null
+		and _repository != null
+		and _access != null
+		and _commit_port != null
+	)
 
 func transfer_reward(command: RewardCommand) -> EconomyResult:
+	if not _is_configured():
+		return _reward_internal(command, "services obligatoires indisponibles")
 	if command == null or command.validate(_currency_catalog) != OK:
 		return _invalid_reward(command)
 
@@ -1939,10 +2000,12 @@ func transfer_reward(command: RewardCommand) -> EconomyResult:
 	if access_code != OK:
 		return _reward_internal(command, error_string(access_code))
 
+	if issuer.balance_for(command.amount.currency_id) < command.amount.minor_units:
+		return _insufficient_reward(command)
 	var candidate := _prepare_reward_candidate(command, issuer, recipient)
 	if candidate == null:
-		return _insufficient_reward(command)
-	var code := _commit_port.commit(candidate, null)
+		return _reward_internal(command, "préparation de récompense invalide")
+	var code := _commit_port.commit(candidate)
 	if code != OK:
 		return _reward_commit_failure(command, code)
 	reward_committed.emit(candidate.result)
@@ -2009,14 +2072,16 @@ func _prepare_reward_candidate(
 	record.source_system_id = command.source_system_id
 	record.logical_tick = command.logical_tick
 	record.command_fingerprint = command.command_fingerprint
-	record.postings = [debit, credit]
+	record.postings.append(debit)
+	record.postings.append(credit)
 
 	var result := EconomyResult.new()
 	result.status = EconomyResult.Status.COMMITTED
 	result.transaction_id = command.transaction_id
 	result.currency_id = currency_id
 	result.total_minor = amount_minor
-	result.affected_wallet_ids = [issuer.wallet_id, recipient.wallet_id]
+	result.affected_wallet_ids.append(issuer.wallet_id)
+	result.affected_wallet_ids.append(recipient.wallet_id)
 	result.affected_wallet_ids.sort()
 	result.message = "récompense committée"
 
@@ -2047,7 +2112,12 @@ func _reward_result(
 	return result
 
 func _invalid_reward(command: RewardCommand) -> EconomyResult:
-	return _reward_result(EconomyResult.Status.REJECTED_INVALID_COMMAND, command, "commande invalide")
+	var result := EconomyResult.new()
+	result.status = EconomyResult.Status.REJECTED_INVALID_COMMAND
+	result.message = "commande invalide"
+	if command != null and StableId.is_valid(command.transaction_id):
+		result.transaction_id = command.transaction_id
+	return result
 
 func _idempotency_conflict(command: RewardCommand) -> EconomyResult:
 	return _reward_result(EconomyResult.Status.REJECTED_IDEMPOTENCY_CONFLICT, command, "conflit d’idempotence")
@@ -2097,6 +2167,8 @@ class Context:
 
 	var wallet_id: StringName
 	var wallet_revision: int = 0
+	var seller_wallet_revision: int = 0
+	var tax_wallet_revision: int = 0
 	var offer_id: StringName
 	var offer_revision: int = 0
 	var displayed_total_minor: int = 0
@@ -2104,9 +2176,12 @@ class Context:
 	var source_container_revision: int = 0
 	var destination_container_revision: int = 0
 	var entry_revision: int = 0
+	var created_stack_id: StringName
 
 	func validate() -> Error:
 		if not StableId.is_valid(wallet_id) or wallet_revision < 0:
+			return ERR_INVALID_DATA
+		if seller_wallet_revision < 0 or tax_wallet_revision < 0:
 			return ERR_INVALID_DATA
 		if not StableId.is_valid(offer_id) or offer_revision < 0:
 			return ERR_INVALID_DATA
@@ -2116,7 +2191,11 @@ class Context:
 			return ERR_INVALID_DATA
 		if source_container_revision < 0 or destination_container_revision < 0:
 			return ERR_INVALID_DATA
-		return OK if entry_revision >= 0 else ERR_INVALID_DATA
+		if entry_revision < 0:
+			return ERR_INVALID_DATA
+		if not created_stack_id.is_empty() and not StableId.is_valid(created_stack_id):
+			return ERR_INVALID_DATA
+		return OK
 
 func snapshot_for(
 	_character_id: StringName,
@@ -2133,7 +2212,7 @@ func snapshot_for(
 - Il ne donne pas au planificateur un accès direct aux dépôts.
 - L’agent devra encore soumettre une commande au même service que le joueur.
 - Le total peut devenir obsolète et être refusé sans débit.
-- Les trois révisions d’inventaire protègent la source, la destination et l’entrée.
+- Les révisions du vendeur, de la trésorerie éventuelle, de la source, de la destination et de l’entrée complètent la révision du portefeuille acheteur.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_agent_action_executor.gd`.**
 
