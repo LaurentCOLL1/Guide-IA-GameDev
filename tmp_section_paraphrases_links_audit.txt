@@ -1,4 +1,5 @@
-Livre-II/CHAPITRE-15-Relations-sociales.md:285:SELF_REFERENCE:6.2 Pourquoi ne pas trier les identifiants::- **Pourquoi cet exemple est fautif :** l’extrait viole la règle métier rappelée dans « 6.2 Pourquoi ne pas trier les identifiants ».
+Livre-II/CHAPITRE-15-Relations-sociales.md:285:SELF_TITLE_MENTION:6.2 Pourquoi ne pas trier les identifiants::- **Pourquoi cet exemple est fautif :** l’extrait viole la règle métier rappelée dans « 6.2 Pourquoi ne pas trier les identifiants ».
+Livre-II/CHAPITRE-15-Relations-sociales.md:1343:SELF_TITLE_MENTION:21.1 Forme JSON::- **Rôle :** ce bloc montre la forme JSON attendue par « 21.1 Forme JSON ».
 Livre-II/CHAPITRE-15-Relations-sociales.md:2000:REREAD:32.2 Utiliser le nom affiché comme clé::§ 6. Identifier une relation dirigée::#6-identifier-une-relation-dirigee
 Livre-II/CHAPITRE-15-Relations-sociales.md:2028:REREAD:32.3 Forcer une relation symétrique::§ 4.1 Une relation est dirigée::#41-une-relation-est-dirigee
 Livre-II/CHAPITRE-15-Relations-sociales.md:2085:REREAD:32.5 Laisser les axes hors limites::§ 7. Représenter les axes sociaux::#7-representer-les-axes-sociaux
@@ -79,6 +80,9 @@ Livre-II/CHAPITRE-15-Relations-sociales.md:2472:HEADING:H2:35. Tests à prépare
 Livre-II/CHAPITRE-15-Relations-sociales.md:2495:HEADING:H2:36. Réserves runtime
 Livre-II/CHAPITRE-15-Relations-sociales.md:2512:HEADING:H2:37. Résumé
 Livre-II/CHAPITRE-15-Relations-sociales.md:2532:HEADING:H2:38. Sources techniques
+Livre-II/CHAPITRE-16-Famille-et-generations.md:770:SUSPICIOUS_ROLE:12.1 Parents et enfants directs::- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
+Livre-II/CHAPITRE-16-Famille-et-generations.md:802:SUSPICIOUS_ROLE:12.2 Fratrie calculée::- **Rôle :** ce bloc illustre volontairement une normalisation incorrecte qui détruit l’ordre métier.
+Livre-II/CHAPITRE-16-Famille-et-generations.md:1439:SELF_TITLE_MENTION:18.1 Structure JSON::- **Rôle :** ce bloc montre la forme JSON attendue par « 18.1 Structure JSON ».
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2237:REREAD:28.1 Utiliser le nom affiché comme identité::§ 7.2 Identité métier de la filiation::#72-identite-metier-de-la-filiation
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2269:REREAD:28.2 Stocker la famille dans le nœud actif::§ 11. Graphe familial::#11-graphe-familial
 Livre-II/CHAPITRE-16-Famille-et-generations.md:2301:REREAD:28.3 Déduire la filiation depuis l’affinité::§ 7. Filiation dirigée::#7-filiation-dirigee
