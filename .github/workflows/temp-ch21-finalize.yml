@@ -20,7 +20,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: docs/livre-ii-ch21-economie
-          fetch-depth: 0
+          fetch-depth: 1
+          show-progress: false
 
       - name: Finalize or record diagnostic
         shell: bash
@@ -28,6 +29,8 @@ jobs:
           set +e
           python3 .qa/ch21-finalize.py > /tmp/ch21-finalize.log 2>&1
           code=$?
+          cat /tmp/ch21-finalize.log
+          set -e
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           if [ "$code" -ne 0 ]; then
