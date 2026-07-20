@@ -81,6 +81,7 @@
 - [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
 - [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17.
 - [x] Explications des chapitres 15 et 16 rendues concises : chemins et syntaxe non répétés, rôles spécifiques, erreurs au format fautif/correction.
+- [x] Auto-paraphrases supprimées et renvois internes des chapitres 15 et 16 recâblés vers des ancres explicites de sous-sections.
 - [x] Audit rétroactif des sections d’erreurs, diagnostics et anti-patterns des chapitres 1 à 6 — 52 cas avec exemples fautifs et corrigés.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
