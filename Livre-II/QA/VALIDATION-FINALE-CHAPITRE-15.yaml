@@ -1,10 +1,10 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH15
-status: pending-ci
+status: complete
 validation-date: 2026-07-20
 validated-base-commit: ee0404696a0216fd1d1672fdcdc6155b0d5384ee
 enrichment-base-commit: b603dcee25bdef01b9d6e47f4eddf441672a905c
-validated-head-commit: pending-ci
+validated-head-commit: 9054fc3fea652d4d7200450253c05b6d88f6ad2e
 chapter:
   id: DOC-L2-CH15
   path: Livre-II/CHAPITRE-15-Relations-sociales.md
@@ -170,4 +170,9 @@ section-reference-refinement:
   explicit-target-anchors-added: 11
   fragment-targets-verified: true
   runtime-executed: false
-  ci-status: pending
+  ci-status: success
+  validated-head-commit: 9054fc3fea652d4d7200450253c05b6d88f6ad2e
+  validate-chapters-without-pdf-run-id: 29710815665
+  validate-usage-contexts-run-id: 29710815628
+  artifact-id: 8448923780
+  artifact-digest: sha256:ac9b609aec007ac37e1946765111574c1ab33813dcfa7de9a152062ce651951d
