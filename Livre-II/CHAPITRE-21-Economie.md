@@ -1957,7 +1957,7 @@ signal reward_committed(result: EconomyResult)
 var _currency_catalog: CurrencyCatalog
 var _repository: EconomyRepository
 var _access: EconomyAccessPort
-	var _commit_port: EconomyTransactionCommitPort
+var _commit_port: EconomyTransactionCommitPort
 
 func _is_configured() -> bool:
 	return (
