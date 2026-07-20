@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.21.0"
+version: "3.22.2"
 lang: "fr-FR"
-last-updated: "2026-07-20T21:13:06+02:00"
+last-updated: "2026-07-21T00:57:24+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 21 chapitres sur 30.**
+**En cours : 22 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -135,7 +135,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 19. Compétences et pouvoirs — terminé au niveau `static-review`.
 20. Inventaire et réputation des objets — terminé au niveau `static-review`.
 21. Économie — terminé au niveau `static-review`.
-22. Monde vivant et simulation écologique.
+22. Monde vivant et simulation écologique — terminé au niveau `static-review`.
 23. Politique, factions et justice.
 24. Construction et gestion de domaines.
 25. Narration, quêtes, codex et connaissances.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 21 : **Élevée**.
+Chapitres 3 à 22 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -550,6 +550,27 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - l’inventaire conserve identité, quantité, propriété et transfert des objets ;
 - contextes sociaux, écologiques, politiques ou fiscaux restent derrière des ports ;
 - devis, contextes, commandes, candidats, caches et présentation sont exclus de la persistance.
+
+### 11.17 Monde vivant et simulation écologique
+
+- `WorldClockState` constitue l’horloge logique globale persistée ;
+- l’heure système, les `Timer` et les durées murales ne sont jamais autoritaires ;
+- les régions sont des unités logiques indépendantes des scènes ;
+- définitions de régions, espèces et ressources restent des `Resource` immuables ;
+- populations et réserves sont des états agrégés persistants séparés des représentations ;
+- les résidus sont entiers, bornés par `ticks_per_day` et restaurés avec l’horloge ;
+- les habitats et ressources alimentaires sont validés par le catalogue ;
+- les calculs utilisent une arithmétique entière bornée et des points de base ;
+- ressources puis populations sont simulées dans un ordre lexical déterministe ;
+- les modes actif, arrière-plan et dormant contrôlent la fréquence, jamais l’existence ;
+- l’ordonnanceur est round-robin et limité à quatre régions par tick physique ;
+- un long intervalle produit une étape agrégée bornée, jamais un replay tick par tick ;
+- matérialiser ou dématérialiser un acteur ne modifie pas la population logique ;
+- les commandes causales sont révisionnées, idempotentes et committent leur résultat avec la région ;
+- une récolte committe ensemble réserve écologique et candidat d’inventaire ;
+- l’écologie fournit rareté, abondance et observations structurées sans calculer de prix ;
+- factions, lois, territoires politiques, domaines et narration restent dans les chapitres 23 à 25 ;
+- définitions, capacités dérivées, contextes, modes, nœuds, signaux, commandes et candidats sont exclus de la persistance.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1281,13 +1302,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas stocker un prix dans `ItemDefinition` ;
 - ne pas changer l’identité d’un retry économique ;
 - ne pas convertir implicitement deux devises ;
+- ne pas utiliser l’heure système ou un `Timer` comme horloge autoritaire du monde ;
+- ne pas utiliser un nombre de nœuds actifs comme population écologique ;
+- ne pas laisser un résidu dépasser `ticks_per_day - 1` ;
+- ne pas rejouer chaque tick manqué lors d’un rattrapage ;
+- ne pas modifier une population lors d’une simple matérialisation ;
+- ne pas laisser l’économie écrire une réserve écologique ou l’écologie fixer un prix ;
+- ne pas réduire une réserve avant la préparation du rendement d’inventaire ;
+- ne pas appliquer deux fois une mort, une naissance ou une récolte portant la même identité ;
+- ne pas laisser une sortie IA remplacer directement populations, ressources ou horloge ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 21 chapitres sur 30 ;
+- progression : 22 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1306,26 +1337,55 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 19 : version `1.0.1` ;
 - chapitre 20 : version `1.0.0` ;
 - chapitre 21 : version `1.0.0` ;
+- chapitre 22 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 21 est terminé au niveau `static-review`. L’économie utilise des unités mineures entières, équilibre les écritures par devise, sépare valeurs et objets, protège les transactions par idempotence et prépare avec l’inventaire un commit multi-autorités.
+Le chapitre 22 est terminé au niveau `static-review`. Le monde vivant utilise une horloge logique persistée, sépare populations et représentations, simule les régions avec des étapes agrégées bornées et coordonne les récoltes avec l’inventaire. L’économie reçoit uniquement des indices structurés.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
+Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : horloge et ticks du monde, régions écologiques, populations, ressources, apparitions, disparitions, régénération et simulation active ou hors écran, avec des indices structurés fournis à l’économie sans déplacer les prix, offres, soldes ou transactions hors du chapitre 21.
+Périmètre attendu : identités et membres de factions, institutions, rangs et mandats, lois versionnées, droits et autorisations, infractions, preuves, enquêtes, décisions et sanctions. Le chapitre 23 consommera les identités, relations, familles, objets, économie et régions par des ports sans reprendre leur autorité ; les domaines et bâtiments resteront au chapitre 24, les quêtes et conséquences narratives au chapitre 25.
 
 ## 27. Journal
+
+### 2026-07-21T00:57:24+02:00 — version 3.22.2
+
+- preuve finale `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-22.yaml` clôturée ;
+- `Validate Chapters Without PDF` réussi au run `29785409352` ;
+- `Validate Usage Contexts` réussi au run `29785409338` ;
+- artefact `chapter-validation-without-pdf` enregistré avec l’identifiant `8478251858` et son digest SHA-256 ;
+- aucune exécution runtime et aucun PDF construit.
+
+### 2026-07-21T00:48:43+02:00 — version 3.22.1
+
+- contrat `EcologyAccessPort` restauré dans le chapitre 22 ;
+- résultats écologiques réussis rendus stricts sur `command_id` et `region_id` ;
+- métriques du chapitre et de l’audit recalculées après la correction finale ;
+- chapitre et audit portés en version `1.0.1` ;
+- aucune exécution runtime et aucun PDF construit.
+
+### 2026-07-21T00:29:34+02:00 — version 3.22.0
+
+- chapitre 22 créé, relu, corrigé et audité au niveau `static-review` ;
+- horloge logique, régions, espèces, ressources, populations, capacités et résidus documentés ;
+- simulation active, arrière-plan, dormante et rattrapage agrégé borné explicités ;
+- séparation entre existence logique et matérialisation maintenue ;
+- commandes causales idempotentes et récolte coordonnée avec l’inventaire ajoutées ;
+- indices écologiques fournis à l’économie sans déplacement de l’autorité des prix ;
+- index, roadmap, `contents.txt`, audit et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 23 — Politique, factions et justice, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-20T21:13:06+02:00 — version 3.21.0
 

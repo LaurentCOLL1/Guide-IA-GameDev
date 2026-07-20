@@ -1,0 +1,65 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH22
+status: complete
+validation-date: 2026-07-21
+validated-base-commit: 7e5ead623bad1611f34c7db8495dc3a8392e55f6
+validated-head-commit: e2ccdf6d05265525b58416299a836318f3267b13
+evidence-closure:
+  commit: e640d4710113127dca807440490a02d7f20d1e60
+  runner-run-id: 29785645505
+  conclusion: success
+chapter:
+  id: DOC-L2-CH22
+  path: Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
+  version: 1.0.1
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 3054
+  chapter-headings: 69
+  chapter-code-and-data-blocks: 61
+  code-explanation-markers: 61
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  logical-world-clock: true
+  regions-independent-from-scenes: true
+  populations-separated-from-materialization: true
+  integer-residual-simulation: true
+  bounded-catch-up: true
+  ecology-access-contract: true
+  idempotent-ecology-commands: true
+  ecology-inventory-commit-contract: true
+  ecology-market-signals-without-prices: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29785409352
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29785409338
+    conclusion: success
+  artifact:
+    id: 8478251858
+    name: chapter-validation-without-pdf
+    digest: sha256:d69f16caf8c75351cf0bb761ff8870c84f7b165a9b50a2fb8176b6f13d15ddee
+reservations:
+  - Godot parser not executed.
+  - Typed Dictionary signatures not runtime-verified.
+  - Arithmetic bounds not runtime-tested.
+  - Population growth balance not measured.
+  - Four-thousand-region scheduling budget not measured.
+  - Ecology-inventory transaction commit not run.
+  - Access and materialization adapters not materialized.
+  - Future weather context not run.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
