@@ -77,6 +77,7 @@
 - [x] Chapitre 14 — identité stable, définition, état runtime, statistiques dérivées, scène, contrôleurs, apparition, registre actif, événements et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 15 — relations orientées, axes bornés, causes, historique, vues mutuelles, requêtes, événements et sauvegarde indépendante — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 16 — filiation dirigée, adoption, tutelle, unions canoniques, cycles, générations dérivées et sauvegarde familiale — rédigé et audité au niveau `static-review`.
+- [ ] Chapitre 17 — agents IA et comportements autonomes — brouillon `0.9.0` créé, audit post-création en attente.
 - [x] Correction pédagogique du chapitre 15 — blocs de code expliqués selon QA Q1.1.
 - [x] Correction pédagogique du chapitre 16 — blocs de code expliqués selon QA Q1.1.
 - [x] Audits et preuves QA corrigés des chapitres 15 et 16 fermés avant le chapitre 17.

@@ -1,0 +1,23 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH17
+status: draft-gate
+validation-date: 2026-07-20
+validated-base-commit: a61ea9e5378e270e1db98d9f83e6fe6cef847318
+validated-head-commit: pending-audit
+chapter:
+  id: DOC-L2-CH17
+  path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
+  version: 0.9.0
+  audit-level: not-audited
+process:
+  draft-gate-recorded: true
+  distinct-audit-required: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending

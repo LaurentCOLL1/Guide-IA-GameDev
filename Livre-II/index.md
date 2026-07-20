@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.11.1"
+version: "1.12.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -45,7 +45,7 @@ Project Asteria
 14. [Personnages](CHAPITRE-14-Personnages.md) — **rédigé, repéré et audité au niveau static-review**
 15. [Relations sociales](CHAPITRE-15-Relations-sociales.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**
 16. [Famille et générations](CHAPITRE-16-Famille-et-generations.md) — **rédigé, repéré, expliqué bloc par bloc sans répétitions éditoriales, avec renvois internes précis, et audité au niveau static-review**
-17. Agents IA et comportements autonomes — à rédiger
+17. [Agents IA et comportements autonomes](CHAPITRE-17-Agents-IA-et-comportements-autonomes.md) — **brouillon 0.9.0, audit en attente**
 18. Combat — à rédiger
 19. Compétences et pouvoirs — à rédiger
 20. Inventaire et réputation des objets — à rédiger
@@ -83,6 +83,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 14](QA/AUDIT-CHAPITRE-14.md) ;
 - [audit du chapitre 15](QA/AUDIT-CHAPITRE-15.md) ;
 - [audit du chapitre 16](QA/AUDIT-CHAPITRE-16.md) ;
+- [audit du chapitre 17 — en attente](QA/AUDIT-CHAPITRE-17.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :

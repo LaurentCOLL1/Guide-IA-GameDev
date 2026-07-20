@@ -2,7 +2,7 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.5"
+version: "3.17.6"
 lang: "fr-FR"
 last-updated: "2026-07-20"
 update-policy: "mandatory-on-every-project-change"
@@ -1162,51 +1162,45 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
+- chapitre 17 : brouillon version `0.9.0`, audit en attente ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Correction pédagogique des chapitres 15 et 16 : **terminée au niveau `static-review`**.
+Le brouillon du chapitre 17 est créé au jalon `0.9.0`. La prochaine opération obligatoire est une passe d’audit distincte, sans modifier silencieusement le périmètre.
 
-- chapitre 15 : 56 blocs de code ou données contrôlés, 56 explications détaillées présentes ;
-- chapitre 16 : 67 blocs de code ou données contrôlés, 67 explications détaillées présentes ;
-- audits et preuves QA révisés en version `1.2.0` ;
-- chemins, rappels généraux de syntaxe et rôles purement redondants retirés des explications ;
-- sections d’erreurs simplifiées autour de la faute et de la correction, avec renvois contextuels lorsque pertinents ;
-- aucune exécution runtime ni production PDF revendiquée.
+Points prioritaires :
 
-Chapitre suivant :
+- vérifier chaque bloc GDScript contre Godot `4.7.1-stable` ;
+- remplacer les contrats incomplets du codec et de la section de sauvegarde ;
+- vérifier les conversions de collections typées ;
+- contrôler les ports annoncés par le service de décision ;
+- auditer le déterminisme, les budgets et les invalidations ;
+- vérifier les 16 cas d’erreurs et leurs renvois ;
+- fermer les preuves QA et lancer les workflows légers ;
+- ne produire aucun PDF.
 
-> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+Chapitre en cours :
+
+> **[LECTURE] Chemin et niveau — Ne pas saisir.**
 
 ```text
 Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu :
-
-- état d’agent autonome séparé de `CharacterRuntimeState`, des relations sociales et de la famille ;
-- perceptions structurées, mémoire de travail bornée et tableau noir explicite ;
-- buts durables distingués des intentions et actions transitoires ;
-- catalogue d’actions avec préconditions, effets et coûts validés ;
-- sélection de comportement déterministe comme autorité de référence ;
-- IA générative ou service local limité à un rôle consultatif et validé ;
-- ordonnanceur par ticks avec budgets de temps, fréquence et nombre d’agents ;
-- simulation hors écran séparée de la représentation active ;
-- annulation et invalidation lorsqu’un monde ou une cible change ;
-- événements typés, diagnostics et reproductibilité des décisions ;
-- persistance des buts durables sans caches, perceptions ou plans transitoires ;
-- frontières avec combat, compétences, économie, monde vivant et narration ;
-- démonstration pédagogique, critères d’acceptation et tests à préparer ;
-- parcours Solo et Studio ;
-- audit statique sans PDF intermédiaire.
-
-La recommandation **GPT-5.6 Sol — Élevée** est à annoncer et justifier avant la rédaction.
-
 ## 27. Journal
+
+### 2026-07-20 — version 3.17.6
+
+- création du brouillon `0.9.0` du chapitre 17 ;
+- état `draft`, audit `pending`, niveau `not-audited` ;
+- périmètre agents autonomes séparé des personnages, relations, famille et combat ;
+- porte de brouillon et preuve initiale enregistrées ;
+- index, roadmap et `contents.txt` mis à jour ;
+- aucun PDF construit et aucun test runtime revendiqué.
 
 ### 2026-07-20 — version 3.17.5
 
