@@ -10,8 +10,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MARKER_RE = re.compile(r"^> \*\*\[(PS|CMD|WSL|DCT|DCK|VSC|WEB|APP|SORTIE|LECTURE)\]")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>[^`]*)$")
-L2_CHAPTER_RE = re.compile(r"Livre-II/CHAPITRE-\d{2}-.+\.md$")
-AUDIT_DATE_RE = re.compile(r'^audit-date:\s*["\']?\d{4}-\d{2}-\d{2}["\']?\s*$')
+L2_CHAPTER_RE = re.compile(r"Livre-II/CHAPITRE-(\d{2})-.+\.md$")
+LEGACY_DATE_RE = re.compile(r'^\w[\w-]*:\s*["\']?\d{4}-\d{2}-\d{2}["\']?\s*$')
+TIMESTAMP_RE = re.compile(
+    r'^\w[\w-]*:\s*["\']?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+    r'(?:Z|[+-]\d{2}:\d{2})["\']?\s*$'
+)
 
 
 def files() -> list[Path]:
@@ -29,6 +33,13 @@ def previous_nonempty(lines: list[str], index: int) -> int | None:
             return index
         index -= 1
     return None
+
+
+def has_metadata_line(lines: list[str], field_name: str, pattern: re.Pattern[str]) -> bool:
+    return any(
+        line.strip().startswith(f"{field_name}:") and pattern.fullmatch(line.strip())
+        for line in lines
+    )
 
 
 def check_file(path: Path) -> tuple[list[str], int]:
@@ -58,7 +69,9 @@ def check_file(path: Path) -> tuple[list[str], int]:
         if marker_index is None or not MARKER_RE.match(lines[marker_index].strip()):
             errors.append(f"{rel}:{index + 1}: bloc `{lang or 'text'}` sans repère d’utilisation")
 
-    if L2_CHAPTER_RE.fullmatch(rel):
+    chapter_match = L2_CHAPTER_RE.fullmatch(rel)
+    if chapter_match:
+        chapter_number = int(chapter_match.group(1))
         front = lines[:120]
         required_exact = (
             'audit-status: "complete"',
@@ -67,8 +80,19 @@ def check_file(path: Path) -> tuple[list[str], int]:
         for expected in required_exact:
             if expected not in front:
                 errors.append(f"{rel}: métadonnée absente ou incorrecte : {expected}")
-        if not any(AUDIT_DATE_RE.fullmatch(line.strip()) for line in front):
-            errors.append(f"{rel}: métadonnée audit-date absente ou invalide")
+
+        if chapter_number >= 17:
+            if not has_metadata_line(front, "audit-date", TIMESTAMP_RE):
+                errors.append(f"{rel}: métadonnée audit-date non horodatée ou invalide")
+            if not has_metadata_line(front, "last-verified", TIMESTAMP_RE):
+                errors.append(f"{rel}: métadonnée last-verified non horodatée ou invalide")
+        else:
+            audit_date_valid = has_metadata_line(front, "audit-date", LEGACY_DATE_RE) or has_metadata_line(
+                front, "audit-date", TIMESTAMP_RE
+            )
+            if not audit_date_valid:
+                errors.append(f"{rel}: métadonnée audit-date absente ou invalide")
+
         if not any(line.startswith('audit-level: "') for line in front):
             errors.append(f"{rel}: métadonnée audit-level absente")
         if not any("Repères d’utilisation" in line for line in lines[:140]):
