@@ -20,29 +20,9 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  polish-audit-timestamps:
-    if: github.event_name == 'pull_request' && github.head_ref == 'docs/add-audit-timestamps-and-continuity-rules'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: docs/add-audit-timestamps-and-continuity-rules
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Polish timestamp consistency
-        run: python tools/qa/tmp_polish_audit_timestamp_rules.py
-      - name: Commit permanent polish
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CONTINUITE-PROJET.md Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md tools/validate_chapters.py
-          git commit -m "docs(qa): align timestamp examples and validation"
-          git push origin HEAD:docs/add-audit-timestamps-and-continuity-rules
-
   validate-chapters:
     name: Validate chapters without PDF
     runs-on: ubuntu-latest
