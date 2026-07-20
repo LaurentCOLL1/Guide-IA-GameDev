@@ -75,13 +75,13 @@ new = """Chaque sous-cas doit alors contenir :
 
 Une ligne autonome `Correction` ou `Différence` n’est pas exigée lorsque son contenu est déjà intégré à ces deux explications. Le but est d’éviter la répétition sans supprimer l’analyse de l’invariant violé puis rétabli.
 """
-protocol = replace_once(protocol, old, new, "protocol Q1.2 concise structure")
+if new not in protocol:
+    protocol = replace_once(protocol, old, new, "protocol Q1.2 concise structure")
 protocol_path.write_text(protocol, encoding="utf-8")
 
 for chapter in CHAPTERS:
     audit_path = AUDITS[chapter]
     audit = audit_path.read_text(encoding="utf-8")
-    anchor = "- simplification des exemples fautifs et corrigés ;"
     addition = "- suppression des lignes autonomes `Correction` et `Différence` lorsque leur contenu est déjà intégré aux deux justifications ;"
     if addition not in audit:
         audit = audit.rstrip() + "\n\n" + addition + "\n"
@@ -90,35 +90,33 @@ for chapter in CHAPTERS:
     evidence_path = EVIDENCE[chapter]
     evidence = evidence_path.read_text(encoding="utf-8")
     evidence = re.sub(r"(?m)^  chapter-lines: \d+$", f"  chapter-lines: {metrics[chapter]['lines']}", evidence, count=1)
-    anchor_line = "  corrected-explanations-simplified:"
-    lines = evidence.splitlines()
-    output = []
-    inserted = False
-    for line in lines:
-        output.append(line)
-        if line.startswith(anchor_line) and not inserted:
-            output.append(f"  standalone-correction-lines-removed: {metrics[chapter]['standalone_corrections_removed']}")
-            output.append(f"  standalone-difference-lines-removed: {metrics[chapter]['standalone_differences_removed']}")
-            inserted = True
-    evidence_path.write_text("\n".join(output) + "\n", encoding="utf-8")
+    if "  standalone-correction-lines-removed:" not in evidence:
+        anchor_line = "  corrected-explanations-simplified:"
+        lines = evidence.splitlines()
+        output = []
+        inserted = False
+        for line in lines:
+            output.append(line)
+            if line.startswith(anchor_line) and not inserted:
+                output.append(f"  standalone-correction-lines-removed: {metrics[chapter]['standalone_corrections_removed']}")
+                output.append(f"  standalone-difference-lines-removed: {metrics[chapter]['standalone_differences_removed']}")
+                inserted = True
+        evidence = "\n".join(output) + "\n"
+    evidence_path.write_text(evidence, encoding="utf-8")
 
 continuity_path = Path("CONTINUITE-PROJET.md")
 continuity = continuity_path.read_text(encoding="utf-8")
 needle = "- simplification des exemples fautifs et corrigés ;"
-replacement = needle + "\n- suppression des lignes autonomes `Correction` et `Différence` lorsqu’elles répètent déjà les deux justifications ;"
-if replacement not in continuity:
-    continuity = replace_once(continuity, needle, replacement, "continuity concise error format")
+addition = "- suppression des lignes autonomes `Correction` et `Différence` lorsqu’elles répètent déjà les deux justifications ;"
+if addition not in continuity:
+    continuity = replace_once(continuity, needle, needle + "\n" + addition, "continuity concise error format")
 continuity_path.write_text(continuity, encoding="utf-8")
 
 metrics_path = Path("tmp_ch15_ch16_explanation_style_metrics.txt")
 base = metrics_path.read_text(encoding="utf-8").rstrip()
-metrics_path.write_text(
-    base
-    + "\n"
-    + "\n".join(
+if "chapter 15 polish:" not in base:
+    base += "\n" + "\n".join(
         f"chapter {chapter} polish: " + ", ".join(f"{key}={value}" for key, value in values.items())
         for chapter, values in metrics.items()
     )
-    + "\n",
-    encoding="utf-8",
-)
+metrics_path.write_text(base + "\n", encoding="utf-8")
