@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.17.8"
+version: "3.17.9"
 lang: "fr-FR"
-last-updated: "2026-07-20"
+last-updated: "2026-07-20T10:19:05+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -268,6 +268,10 @@ Aucune rubrique d’explication ne justifie un bloc en citant le titre de la sec
 La règle des erreurs et corrections est **sémantique**, pas nominale. Toute section dont la fonction est d’enseigner des erreurs fréquentes, diagnostics, anti-patterns, pièges ou mauvaises pratiques doit fournir, pour chaque cas détaillé : un symptôme, un exemple fautif suivi de `Pourquoi cet exemple est fautif`, puis un exemple corrigé suivi de `Pourquoi la correction fonctionne`.
 
 Les sections détaillées portent `<!-- qa:error-correction-section -->`. Un index compact de symptômes peut porter `<!-- qa:error-correction-index -->` uniquement s’il renvoie vers des exemples détaillés conformes.
+
+Hors d’une section pédagogique d’erreurs ou de corrections, le mot `erreur` ne sert pas de libellé générique. Employer `Valeurs de retour` pour des résultats ou sentinelles, `Codes de retour` pour les valeurs `Error`, `Refus contrôlé` pour un rejet normal par contrat, `Statuts à distinguer` pour comparer des états métier, et `Traitement du résultat` lorsque l’appelant doit consommer ou journaliser le retour. `Erreur fréquente` est réservé à un piège reproductible accompagné d’un exemple fautif et d’une correction.
+
+À partir du chapitre 17 version `1.0.2`, `last-verified` et `audit-date` sont des chaînes ISO 8601 complètes avec heure, secondes et décalage UTC, dans le fuseau `Europe/Paris`. Une heure historique inconnue n’est jamais reconstruite : les documents antérieurs passent au format horodaté seulement lors de leur prochaine révision réellement auditée.
 
 ## 11. Décisions d’architecture de `Project Asteria`
 
@@ -1181,7 +1185,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
-- chapitre 17 : version `1.0.1` ;
+- chapitre 17 : version `1.0.2` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1202,6 +1206,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : règles de combat séparées du planificateur, commandes typées, initiative, portée, dégâts, défense, états, ciblage, historique, persistance, budgets et frontières avec compétences et agents.
 
 ## 27. Journal
+
+### 2026-07-20T10:19:05+02:00 — version 3.17.9
+
+- nomenclature des résultats négatifs ajoutée explicitement à la continuité du projet ;
+- `Valeurs de retour`, `Codes de retour`, `Refus contrôlé`, `Statuts à distinguer` et `Traitement du résultat` deviennent les libellés permanents hors sections pédagogiques d’erreurs ;
+- `Erreur fréquente` reste réservé aux pièges accompagnés d’un exemple fautif et d’une correction ;
+- `last-verified` et `audit-date` adoptent le format ISO 8601 horodaté avec offset à partir du chapitre 17 ;
+- chapitre et audit 17 portés en version `1.0.2`, protocole QA en version `1.7.3` ;
+- aucune heure rétroactive inconnue n’est inventée.
 
 ### 2026-07-20 — version 3.17.8
 

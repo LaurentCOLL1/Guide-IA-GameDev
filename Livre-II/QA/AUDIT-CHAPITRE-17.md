@@ -2,11 +2,12 @@
 title: "Audit du Livre II — Chapitre 17"
 id: "DOC-L2-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH17"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-20"
+audit-date: "2026-07-20T10:19:05+02:00"
+last-verified: "2026-07-20T10:19:05+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -79,3 +80,9 @@ La relecture postérieure à la fusion a distingué six libellés ambigus hors d
 La phrase des intervalles associe désormais explicitement `ACTIVE`, `BACKGROUND` et `DORMANT` aux valeurs `6`, `60` et `600`, précise la dépendance à `Engine.physics_ticks_per_second` et qualifie les fréquences de nominales.
 
 L’audit a également détecté un défaut fonctionnel dans l’exemple de `AgentTickPolicy` : le test modulo exact pouvait perdre une échéance lorsque la limite de huit décisions empêchait de visiter l’agent au tick prévu. La politique calcule maintenant `next_due_tick` et utilise `logical_tick >= next_due_tick`, ce qui conserve l’échéance jusqu’au traitement effectif.
+
+## 8. Addendum d’horodatage — version 1.0.2
+
+La vérification corrective est horodatée en heure locale `Europe/Paris` avec le format ISO 8601 et son décalage UTC : `2026-07-20T10:19:05+02:00`. Les métadonnées `audit-date` et `last-verified` portent désormais l’heure, les minutes, les secondes et l’offset.
+
+Les anciens audits qui ne disposent que d’une date ne reçoivent pas d’heure reconstruite artificiellement. Ils adopteront ce format lors de leur prochaine modification auditée.

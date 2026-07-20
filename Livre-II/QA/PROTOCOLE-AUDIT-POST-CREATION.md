@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.2"
+version: "1.7.3"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-20"
+last-verified: "2026-07-20T10:19:05+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -186,6 +186,14 @@ Hors de ces sections pédagogiques, le mot `erreur` ne sert pas de libellé gén
 - `Traitement du résultat` lorsque l’appelant doit consommer, journaliser ou propager la valeur renvoyée.
 
 Le libellé `Erreur fréquente` est réservé à un véritable piège que le lecteur pourrait reproduire. S’il apparaît, il relève de Q1.2 et doit être accompagné d’un exemple fautif et d’une correction, ou être reformulé avec l’un des libellés précis ci-dessus.
+
+### Q1.1.1 — Horodatage des vérifications et audits
+
+À partir du chapitre 17 version `1.0.2`, et pour tout nouveau chapitre ou document d’audit, `last-verified` et `audit-date` utilisent une chaîne ISO 8601 complète et entre guillemets : date, heure, minutes, secondes et décalage UTC. Le fuseau de référence du projet est `Europe/Paris` ; l’offset enregistré suit donc l’heure légale applicable, par exemple `+01:00` ou `+02:00`.
+
+Une heure ne doit jamais être inventée rétroactivement. Les documents historiques qui portent seulement `YYYY-MM-DD` conservent cette valeur jusqu’à leur prochaine révision réellement vérifiée. Dès qu’un chapitre ou son audit est modifié et revalidé, les deux champs sont actualisés avec l’heure effective de cette nouvelle vérification.
+
+Le validateur impose ce format au chapitre 17 et aux chapitres suivants, ainsi qu’à leurs rapports d’audit.
 
 **Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
 

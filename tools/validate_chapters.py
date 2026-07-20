@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import re
 import sys
 from collections import Counter
@@ -54,6 +55,21 @@ def parse_front_matter(text: str, rel: str, errors: list[str]) -> dict[str, obje
         errors.append(f"Front matter YAML non mappé : {rel}")
         return {}
     return loaded
+
+
+def validate_timestamp(value: object, field_name: str, rel: str, errors: list[str]) -> None:
+    if not isinstance(value, str):
+        errors.append(f"Métadonnée {field_name} non textuelle ou non horodatée : {rel}")
+        return
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        errors.append(f"Métadonnée {field_name} hors format ISO 8601 : {rel} — {value}")
+        return
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        errors.append(f"Métadonnée {field_name} sans décalage UTC : {rel} — {value}")
+    if 'T' not in value or parsed.second is None:
+        errors.append(f"Métadonnée {field_name} sans heure complète : {rel} — {value}")
 
 
 def normalize_heading(value: str) -> str:
@@ -398,6 +414,9 @@ def main() -> int:
                     errors.append(f"Audit post-création incomplet : {rel}")
                 if not metadata.get("audit-date"):
                     errors.append(f"Métadonnée audit-date absente : {rel}")
+                if number >= 17:
+                    validate_timestamp(metadata.get("last-verified"), "last-verified", rel, errors)
+                    validate_timestamp(metadata.get("audit-date"), "audit-date", rel, errors)
                 if metadata.get("audit-level") not in VALID_AUDIT_LEVELS:
                     errors.append(f"Métadonnée audit-level invalide : {rel}")
                 if metadata.get("usage-context-standard") != "DOC-V0-ANN-CONTEXTES":
@@ -409,6 +428,12 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-report absente : {rel}")
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
+                elif number >= 17:
+                    audit_path = root / str(audit_report)
+                    audit_text = audit_path.read_text(encoding="utf-8")
+                    audit_metadata = parse_front_matter(audit_text, str(audit_report), errors)
+                    validate_timestamp(audit_metadata.get("last-verified"), "last-verified", str(audit_report), errors)
+                    validate_timestamp(audit_metadata.get("audit-date"), "audit-date", str(audit_report), errors)
 
                 validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)
