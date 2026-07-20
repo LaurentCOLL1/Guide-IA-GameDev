@@ -41,25 +41,17 @@ jobs:
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Apply continuity and restore permanent workflow
+      - name: Apply chapter 19 continuity
         if: github.actor != 'github-actions[bot]'
         shell: bash
         run: |
           mkdir -p dist
           python3 tools/materialize_ch19_continuity.py
           cp dist/CONTINUITE-PROJET.updated.md CONTINUITE-PROJET.md
-          rm -f tools/materialize_ch19_continuity.py
-          rm -f .github/workflows/tmp-ch19-static-corrections.yml
-          python3 - <<'PY'
-          import base64
-          from pathlib import Path
-          encoded = "bmFtZTogVmFsaWRhdGUgQ2hhcHRlcnMgV2l0aG91dCBQREYKCm9uOgogIHdvcmtmbG93X2Rpc3BhdGNoOgogIHB1bGxfcmVxdWVzdDoKICAgIGJyYW5jaGVzOgogICAgICAtIG1haW4KICAgIHBhdGhzOgogICAgICAtIFwiTGl2cmUtSUkvKiovKi5tZFwiCiAgICAgIC0gXCJMaXZyZS1JSS9pbmRleC5tZFwiCiAgICAgIC0gXCJjb250ZW50cy50eHRcIgogICAgICAtIFwiUk9BRE1BUC5tZFwiCiAgICAgIC0gXCJDT05USU5VSVRFLVBST0pFVC5tZFwiCiAgICAgIC0gXCJSRVBSSVNFLU5PVVZFTExFLUNPTlZFUlNBVElPTi5tZFwiCiAgICAgIC0gXCJ0b29scy92YWxpZGF0ZV9jaGFwdGVycy5weVwiCiAgICAgIC0gXCJ0b29scy9jaGVja19jb250ZXh0X21hcmtlcnMucHlcIgogICAgICAtIFwidG9vbHMvYXVkaXRfY29udGV4dGVzX3NlbWFudGlxdWVzLnB5XCIKICAgICAgLSBcInRvb2xzL3JlcG9ydF9jb250ZXh0ZXNfdXRpbGlzYXRpb24ucHlcIgogICAgICAtIFwiLmdpdGh1Yi93b3JrZmxvd3MvdmFsaWRhdGUtY2hhcHRlcnMueW1sXCIKICAgICAgLSBcIi5xYS8qKlwiCgpwZXJtaXNzaW9uczoKICBjb250ZW50czogcmVhZAoKam9iczoKICB2YWxpZGF0ZS1jaGFwdGVyczoKICAgIG5hbWU6IFZhbGlkYXRlIGNoYXB0ZXJzIHdpdGhvdXQgUERGCiAgICBydW5zLW9uOiB1YnVudHUtbGF0ZXN0CiAgICB0aW1lb3V0LW1pbnV0ZXM6IDEwCgogICAgc3RlcHM6CiAgICAgIC0gbmFtZTogQ2hlY2tvdXQgcmVwb3NpdG9yeQogICAgICAgIHVzZXM6IGFjdGlvbnMvY2hlY2tvdXRAdjQKCiAgICAgIC0gbmFtZTogSW5zdGFsbCBsaWdodHdlaWdodCBkZXBlbmRlbmNpZXMKICAgICAgICBydW46IHwKICAgICAgICAgIHB5dGhvbjMgLW0gcGlwIGluc3RhbGwgLS1kaXNhYmxlLXBpcC12ZXJzaW9uLWNoZWNrIC0tcXVpZXQgUHlZQU1MCgogICAgICAtIG5hbWU6IFZhbGlkYXRlIHN0cnVjdHVyZSwgbWV0YWRhdGEsIGxpbmtzIGFuZCBkdXBsaWNhdGVzCiAgICAgICAgcnVuOiB8CiAgICAgICAgICBta2RpciAtcCBkaXN0CiAgICAgICAgICBzZXQgLW8gcGlwZWZhaWwKICAgICAgICAgIHB5dGhvbjMgdG9vbHMvdmFsaWRhdGVfY2hhcHRlcnMucHkgLS1yZXBvcnQgZGlzdC9RQS1DSEFQVEVSUy5tZCBcCiAgICAgICAgICAgIHwgdGVlIGRpc3QvUUEtQ0hBUFRFUlMubG9nCgogICAgICAtIG5hbWU6IEF1ZGl0IHVzYWdlIG1hcmtlciBwcmVzZW5jZQogICAgICAgIHJ1bjogfAogICAgICAgICAgc2V0IC1vIHBpcGVmYWlsCiAgICAgICAgICBweXRob24zIHRvb2xzL2NoZWNrX2NvbnRleHRfbWFya2Vycy5weSAtLWNoZWNrIFwKICAgICAgICAgICAgfCB0ZWUgZGlzdC9RQS1DT05URVhURVMubG9nCgogICAgICAtIG5hbWU6IEF1ZGl0IHNlbWFudGljIG1hcmtlciBjb25zaXN0ZW5jeQogICAgICAgIHJ1bjogfAogICAgICAgICAgc2V0IC1vIHBpcGVmYWlsCiAgICAgICAgICBweXRob24zIHRvb2xzL2F1ZGl0X2NvbnRleHRlc19zZW1hbnRpcXVlcy5weSAtLWNoZWNrIFwKICAgICAgICAgICAgfCB0ZWUgZGlzdC9RQS1DT05URVhURVMtU0VNQU5USVFVRVMubG9nCgogICAgICAtIG5hbWU6IE1lYXN1cmUgY29udGV4dCBjb3ZlcmFnZQogICAgICAgIHJ1bjogfAogICAgICAgICAgc2V0IC1vIHBpcGVmYWlsCiAgICAgICAgICBweXRob24zIHRvb2xzL3JlcG9ydF9jb250ZXh0ZXNfdXRpbGlzYXRpb24ucHkgXAogICAgICAgICAgICB8IHRlZSBkaXN0L1FBLUNPTlRFWFRFUy1DT1VWRVJUVVJFLm1kCgogICAgICAtIG5hbWU6IEFzc2VydCB0aGF0IG5vIFBERiB3YXMgcHJvZHVjZWQKICAgICAgICBydW46IHwKICAgICAgICAgIGlmIGZpbmQgLiAtdHlwZSBmIC1uYW1lICcqLnBkZicgLXByaW50IC1xdWl0IHwgZ3JlcCAtcSAuOyB0aGVuCiAgICAgICAgICAgIGVjaG8gXCJVbiBQREYgYSBcdTAwZTl0XHUwMGU5IHByb2R1aXQgcGVuZGFudCB1bmUgdmFsaWRhdGlvbiBsXHUwMGU5Z1x1MDBlOHJlLlwiID4mMgogICAgICAgICAgICBleGl0IDEKICAgICAgICAgIGZpCgogICAgICAtIG5hbWU6IFVwbG9hZCBsaWdodHdlaWdodCBRQSBldmlkZW5jZQogICAgICAgIGlmOiBhbHdheXMoKQogICAgICAgIHVzZXM6IGFjdGlvbnMvdXBsb2FkLWFydGlmYWN0QHY0CiAgICAgICAgd2l0aDoKICAgICAgICAgIG5hbWU6IGNoYXB0ZXItdmFsaWRhdGlvbi13aXRob3V0LXBkZgogICAgICAgICAgaWYtbm8tZmlsZXMtZm91bmQ6IGVycm9yCiAgICAgICAgICByZXRlbnRpb24tZGF5czogMzAKICAgICAgICAgIHBhdGg6IHwKICAgICAgICAgICAgZGlzdC9RQS1DSEFQVEVSUy5tZAogICAgICAgICAgICBkaXN0L1FBLUNIQVBURVJTLmxvZwogICAgICAgICAgICBkaXN0L1FBLUNPTlRFWFRFUy5sb2cKICAgICAgICAgICAgZGlzdC9RQS1DT05URVhURVMtU0VNQU5USVFVRVMubG9nCiAgICAgICAgICAgIGRpc3QvUUEtQ09OVEVYVEVTLUNPVVZFUlRVUkUubWQK"
-          Path('.github/workflows/validate-chapters.yml').write_bytes(base64.b64decode(encoded))
-          PY
+          git rm tools/materialize_ch19_continuity.py
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add CONTINUITE-PROJET.md .github/workflows/validate-chapters.yml
-          git add -u tools/materialize_ch19_continuity.py .github/workflows/tmp-ch19-static-corrections.yml
+          git add CONTINUITE-PROJET.md
           git commit -m "docs(continuity): record chapter 19 completion"
           git push origin HEAD:${{ github.head_ref }}
 
