@@ -21,6 +21,7 @@ FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
 VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
+ISO_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
 ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
@@ -58,18 +59,19 @@ def parse_front_matter(text: str, rel: str, errors: list[str]) -> dict[str, obje
 
 
 def validate_timestamp(value: object, field_name: str, rel: str, errors: list[str]) -> None:
-    if not isinstance(value, str):
-        errors.append(f"Métadonnée {field_name} non textuelle ou non horodatée : {rel}")
+    if not isinstance(value, str) or ISO_TIMESTAMP_RE.fullmatch(value) is None:
+        errors.append(
+            f"Métadonnée {field_name} hors format ISO 8601 horodaté "
+            f"(secondes et décalage UTC obligatoires) : {rel} — {value}"
+        )
         return
     try:
-        parsed = datetime.fromisoformat(value)
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
-        errors.append(f"Métadonnée {field_name} hors format ISO 8601 : {rel} — {value}")
+        errors.append(f"Métadonnée {field_name} invalide : {rel} — {value}")
         return
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         errors.append(f"Métadonnée {field_name} sans décalage UTC : {rel} — {value}")
-    if 'T' not in value or parsed.second is None:
-        errors.append(f"Métadonnée {field_name} sans heure complète : {rel} — {value}")
 
 
 def normalize_heading(value: str) -> str:

@@ -122,15 +122,16 @@ Un chapitre audité porte au minimum :
 > **[LECTURE] Exemple YAML — Ne pas créer de fichier sans chemin explicitement indiqué.**
 
 ```yaml
+last-verified: "AAAA-MM-JJTHH:MM:SS±HH:MM"
 audit-status: "complete"
-audit-date: "AAAA-MM-JJ"
+audit-date: "AAAA-MM-JJTHH:MM:SS±HH:MM"
 audit-report: "Livre-II/QA/<rapport>.md"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
-`static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
+Les champs `last-verified` et `audit-date` sont des chaînes ISO 8601 entre guillemets et incluent obligatoirement les secondes ainsi qu’un décalage UTC explicite. `static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
 
 ## 5. Matrice de contrôle
 

@@ -65,9 +65,9 @@ Chaque procédure doit expliquer :
 - les erreurs et corrections ;
 - les frontières avec les chapitres voisins.
 
-Tout bloc de code significatif doit être expliqué avec un niveau de détail proportionné à sa complexité. L’explication couvre au minimum son rôle, son emplacement, ses entrées et types, ses paramètres, ses retours et erreurs, ses effets de bord, les instructions non évidentes, les invariants protégés, le résultat attendu et les erreurs fréquentes. Une phrase générique ne suffit pas lorsqu’un lecteur débutant doit encore deviner le fonctionnement d’une ligne importante.
+Tout bloc de code significatif doit recevoir une explication proportionnée à sa complexité et limitée aux informations réellement utiles : entrées et types, paramètres, valeurs de retour, effets de bord, instructions non évidentes, invariants, résultat attendu et limites pertinentes. `Rôle` est conservé seulement lorsqu’il nomme un contrat, une fonction, une transformation ou une responsabilité concrète. `Emplacement` est omis lorsque le chemin est déjà donné par le contexte adjacent. Les règles générales de syntaxe déjà expliquées ne sont pas répétées.
 
-Cette règle est une porte d’audit bloquante. Elle s’applique aux nouveaux chapitres et aux corrections rétroactives. Les chapitres 15 et 16 doivent recevoir un enrichissement pédagogique de leurs blocs de code avant le démarrage du chapitre 17.
+Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme pour les corrections rétroactives. Les chapitres 15 et 16 ont été corrigés selon cette règle ; le chapitre 17 applique en plus la nomenclature précise des retours, refus et statuts.
 
 ## 4. Configuration de référence
 
@@ -218,8 +218,9 @@ Métadonnées minimales :
 
 ```yaml
 status: "reviewed"
+last-verified: "YYYY-MM-DDTHH:MM:SS±HH:MM"
 audit-status: "complete"
-audit-date: "YYYY-MM-DD"
+audit-date: "YYYY-MM-DDTHH:MM:SS±HH:MM"
 audit-level: "static-review"
 audit-report: "Livre-II/QA/..."
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -235,7 +236,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.1`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.3`.
 
 Les workflows ont des responsabilités séparées :
 
