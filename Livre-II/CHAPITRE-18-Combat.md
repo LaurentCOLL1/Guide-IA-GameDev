@@ -1,16 +1,16 @@
 ---
 title: "Livre II — Chapitre 18 : Combat"
 id: "DOC-L2-CH18"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 18
-last-verified: "2026-07-20T12:17:46+02:00"
-audit-status: "pending"
-audit-date: "2026-07-20T12:17:46+02:00"
+last-verified: "2026-07-20T14:18:58+02:00"
+audit-status: "complete"
+audit-date: "2026-07-20T14:18:58+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-18.md"
-audit-level: "not-audited"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -33,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** en attente — voir `Livre-II/QA/AUDIT-CHAPITRE-18.md`.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-18.md`.
 
 ## 1. Rôle du chapitre
 
@@ -154,6 +154,7 @@ res://src/features/combat/
 │   ├── combat_action_kind.gd
 │   ├── combat_command.gd
 │   ├── combatant_state.gd
+│   ├── combat_encounter_state.gd
 │   ├── active_status.gd
 │   ├── damage_packet.gd
 │   ├── defense_profile.gd
@@ -162,14 +163,19 @@ res://src/features/combat/
 │   └── combat_result.gd
 ├── application/
 │   ├── combat_repository.gd
+│   ├── combat_mutation_unit_of_work.gd
+│   ├── combat_encounter_factory.gd
 │   ├── combat_service.gd
+│   ├── combat_snapshot.gd
 │   ├── combat_snapshot_builder.gd
+│   ├── combat_context_port.gd
 │   ├── initiative_policy.gd
 │   ├── target_validator.gd
 │   ├── line_of_sight_port.gd
 │   ├── hit_resolver.gd
 │   ├── damage_resolver.gd
 │   ├── status_policy.gd
+│   ├── combat_command_queue.gd
 │   ├── combat_scheduler.gd
 │   └── combat_agent_action_executor.gd
 ├── infrastructure/
@@ -223,6 +229,7 @@ extends RefCounted
 
 const ENCOUNTER_PREFIX := "combat.encounter."
 const COMMAND_PREFIX := "combat.command."
+const EVENT_PREFIX := "combat.event."
 
 static func encounter(character_seed: StringName, sequence: int) -> StringName:
 	if not CharacterId.is_valid(character_seed) or sequence <= 0:
@@ -249,13 +256,20 @@ static func command(
 			sequence,
 		]
 	)
+
+static func event(encounter_id: StringName, sequence: int) -> StringName:
+	if not StableId.is_valid(encounter_id) or sequence <= 0:
+		return &""
+	return StringName(
+		"%s%s.%d" % [EVENT_PREFIX, String(encounter_id), sequence]
+	)
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** ces fabriques produisent des identifiants corrélables à partir d’identités métier et de séquences croissantes.
+- **Rôle :** ces fabriques produisent les identifiants d’affrontement, de commande et d’événement à partir d’identités métier et de séquences croissantes.
 
 - **Valeurs de retour :** une entrée invalide produit la sentinelle `&""`; aucun identifiant partiel n’est construit.
 
@@ -273,6 +287,7 @@ Les paramètres d’équilibrage sont des données de conception partagées. Ils
 class_name CombatRules
 extends Resource
 
+@export_range(1, 4096, 1) var max_encounters := 512
 @export_range(1, 64, 1) var max_participants := 64
 @export_range(1, 512, 1) var max_queued_commands := 256
 @export_range(1, 64, 1) var max_statuses_per_combatant := 16
@@ -281,6 +296,8 @@ extends Resource
 @export_range(1, 600, 1) var base_action_delay_ticks := 60
 @export_range(1, 600, 1) var minimum_action_delay_ticks := 12
 @export_range(1, 128, 1) var commands_per_physics_tick := 16
+@export_range(0, 100000, 1) var base_guard_gain := 25
+@export var allow_friendly_fire := false
 
 @export_range(0, 1000, 1) var minimum_hit_chance_permille := 50
 @export_range(0, 1000, 1) var maximum_hit_chance_permille := 950
@@ -288,13 +305,29 @@ extends Resource
 @export_range(0.1, 100.0, 0.1) var basic_attack_range_m := 2.25
 
 func validate() -> Error:
-	if max_participants < 1:
+	if max_encounters < 1 or max_encounters > 4096:
 		return ERR_INVALID_DATA
-	if max_queued_commands < 1 or commands_per_physics_tick < 1:
+	if max_participants < 1 or max_participants > 64:
 		return ERR_INVALID_DATA
-	if max_statuses_per_combatant < 1 or max_history_events < 1:
+	if max_queued_commands < 1 or max_queued_commands > 512:
+		return ERR_INVALID_DATA
+	if max_statuses_per_combatant < 1 or max_statuses_per_combatant > 64:
+		return ERR_INVALID_DATA
+	if max_history_events < 1 or max_history_events > 4096:
+		return ERR_INVALID_DATA
+	if base_action_delay_ticks < 1 or base_action_delay_ticks > 600:
+		return ERR_INVALID_DATA
+	if minimum_action_delay_ticks < 1:
 		return ERR_INVALID_DATA
 	if minimum_action_delay_ticks > base_action_delay_ticks:
+		return ERR_INVALID_DATA
+	if commands_per_physics_tick < 1 or commands_per_physics_tick > 128:
+		return ERR_INVALID_DATA
+	if base_guard_gain < 0 or base_guard_gain > CombatantState.MAX_GUARD:
+		return ERR_INVALID_DATA
+	if minimum_hit_chance_permille < 0:
+		return ERR_INVALID_DATA
+	if maximum_hit_chance_permille > 1000:
 		return ERR_INVALID_DATA
 	if minimum_hit_chance_permille > maximum_hit_chance_permille:
 		return ERR_INVALID_DATA
@@ -311,9 +344,9 @@ func validate() -> Error:
 
 - **Rôle :** cette `Resource` centralise les bornes et valeurs d’équilibrage communes à un profil de combat.
 
-- **Types :** les probabilités utilisent des millièmes entiers ; les distances restent en mètres Godot.
+- **Types :** les probabilités utilisent des millièmes entiers, la garde des entiers bornés et les distances des mètres Godot ; `allow_friendly_fire` rend la politique d’alliance explicite.
 
-- **Codes de retour :** `validate()` renvoie `OK` ou `ERR_INVALID_DATA`; il ne corrige pas silencieusement une ressource incohérente.
+- **Codes de retour :** `validate()` revérifie aussi les bornes `@export_range`, puis renvoie `OK` ou `ERR_INVALID_DATA` sans corriger silencieusement une ressource incohérente.
 
 - **Partage :** la ressource est considérée comme immuable pendant le gameplay ; les compteurs courants restent dans les états runtime.
 
@@ -391,6 +424,8 @@ func validate() -> Error:
 	if action_kind == CombatActionKind.Value.BASIC_ATTACK:
 		if not CharacterId.is_valid(target_character_id):
 			return ERR_INVALID_DATA
+	elif not target_character_id.is_empty():
+		return ERR_INVALID_DATA
 	return OK
 
 func duplicate_detached() -> CombatCommand:
@@ -414,7 +449,7 @@ func duplicate_detached() -> CombatCommand:
 
 - **Rôle :** la commande transporte identité, action, cible et révisions attendues sans embarquer un effet déjà calculé.
 
-- **Corrélation :** `command_id` identifie une tentative ; `issuer_sequence` permet d’ordonner les commandes d’un même personnage.
+- **Corrélation :** `command_id` identifie une tentative ; `issuer_sequence` ordonne les commandes d’un même personnage ; seules les actions qui exigent une cible peuvent porter `target_character_id`.
 
 - **Concurrence :** les deux révisions rendent explicites un monde ou un affrontement devenus obsolètes.
 
@@ -433,6 +468,7 @@ extends RefCounted
 const MAX_GUARD := 100000
 
 var character_id: StringName
+var side_id: StringName
 var next_ready_tick: int = 0
 var initiative_rank: int = 0
 var guard_points: int = 0
@@ -444,6 +480,8 @@ func validate(rules: CombatRules) -> Error:
 	if rules == null or rules.validate() != OK:
 		return ERR_UNCONFIGURED
 	if not CharacterId.is_valid(character_id):
+		return ERR_INVALID_DATA
+	if not StableId.is_valid(side_id):
 		return ERR_INVALID_DATA
 	if next_ready_tick < 0 or command_sequence < 0:
 		return ERR_INVALID_DATA
@@ -465,6 +503,19 @@ func validate(rules: CombatRules) -> Error:
 func next_command_sequence() -> int:
 	command_sequence += 1
 	return command_sequence
+
+func duplicate_detached() -> CombatantState:
+	var copy := CombatantState.new()
+	copy.character_id = character_id
+	copy.side_id = side_id
+	copy.next_ready_tick = next_ready_tick
+	copy.initiative_rank = initiative_rank
+	copy.guard_points = guard_points
+	copy.command_sequence = command_sequence
+	copy.disengaged = disengaged
+	for status: ActiveStatus in active_statuses:
+		copy.active_statuses.append(status.duplicate_detached())
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -473,11 +524,11 @@ func next_command_sequence() -> int:
 
 - **Rôle :** l’objet conserve uniquement l’état spécifique au combat d’un participant.
 
-- **Séparation :** la santé, l’endurance, la position et `is_alive` restent dans `CharacterRuntimeState`; une divergence entre deux copies est ainsi impossible.
+- **Séparation :** santé, endurance, position et `is_alive` restent dans `CharacterRuntimeState`; `side_id` appartient à l’engagement courant et sert au ciblage ainsi qu’à la fermeture de l’affrontement.
 
 - **Codes de retour :** dépassement du nombre d’états produit `ERR_OUT_OF_MEMORY`; un doublon produit `ERR_ALREADY_EXISTS`.
 
-- **Effet de bord :** `next_command_sequence()` réserve une séquence croissante pour les commandes produites par l’autorité locale.
+- **Effets de bord :** `next_command_sequence()` réserve une séquence croissante ; `duplicate_detached()` recopie aussi chaque état temporaire afin qu’un candidat ne partage aucun objet mutable avec l’état actif.
 
 ## 12. État d’un affrontement
 
@@ -492,6 +543,7 @@ extends RefCounted
 var encounter_id: StringName
 var logical_tick: int = 0
 var revision: int = 0
+var event_sequence: int = 0
 var rng_seed: int = 0
 var rng_state: int = 0
 var participants: Dictionary[StringName, CombatantState] = {}
@@ -504,7 +556,7 @@ func validate(rules: CombatRules) -> Error:
 		return ERR_UNCONFIGURED
 	if not StableId.is_valid(encounter_id):
 		return ERR_INVALID_DATA
-	if logical_tick < 0 or revision < 0:
+	if logical_tick < 0 or revision < 0 or event_sequence < 0:
 		return ERR_INVALID_DATA
 	if participants.is_empty() or participants.size() > rules.max_participants:
 		return ERR_OUT_OF_MEMORY
@@ -519,15 +571,59 @@ func validate(rules: CombatRules) -> Error:
 			return ERR_INVALID_DATA
 	if processed_command_ids.size() > rules.max_history_events:
 		return ERR_OUT_OF_MEMORY
+	var seen_commands: Dictionary[StringName, bool] = {}
+	for command_id: StringName in processed_command_ids:
+		if not StableId.is_valid(command_id) or seen_commands.has(command_id):
+			return ERR_INVALID_DATA
+		seen_commands[command_id] = true
 	if history == null or history.validate(rules.max_history_events) != OK:
 		return ERR_INVALID_DATA
+	for event: CombatEvent in history.snapshot():
+		if event.encounter_id != encounter_id:
+			return ERR_INVALID_DATA
+		if event.sequence > event_sequence:
+			return ERR_INVALID_DATA
 	return OK
+
+func initialize_rng(seed_value: int) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	rng_seed = seed_value
+	rng_state = rng.state
+
+func advance_to(new_tick: int) -> Error:
+	if new_tick < logical_tick:
+		return ERR_INVALID_DATA
+	logical_tick = new_tick
+	return OK
+
+func next_event_sequence() -> int:
+	event_sequence += 1
+	return event_sequence
 
 func contains(character_id: StringName) -> bool:
 	return participants.has(character_id)
 
 func get_participant(character_id: StringName) -> CombatantState:
 	return participants.get(character_id) as CombatantState
+
+func duplicate_detached() -> CombatEncounterState:
+	var copy := CombatEncounterState.new()
+	copy.encounter_id = encounter_id
+	copy.logical_tick = logical_tick
+	copy.revision = revision
+	copy.event_sequence = event_sequence
+	copy.rng_seed = rng_seed
+	copy.rng_state = rng_state
+	copy.closed = closed
+	var ids: Array[StringName] = []
+	ids.assign(participants.keys())
+	ids.sort()
+	for character_id: StringName in ids:
+		copy.participants[character_id] = participants[character_id].duplicate_detached()
+	copy.processed_command_ids.assign(processed_command_ids)
+	copy.history = history.duplicate_detached()
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -540,7 +636,72 @@ func get_participant(character_id: StringName) -> CombatantState:
 
 - **Idempotence :** `processed_command_ids` mémorise un historique borné des commandes déjà consommées.
 
-- **RNG :** `rng_seed` et `rng_state` permettent de reprendre une suite locale dans la même version de moteur ; ils ne garantissent pas un replay identique entre algorithmes futurs.
+- **RNG :** `initialize_rng()` définit d’abord `seed`, puis conserve uniquement un `state` réellement produit par le générateur ; la reprise vise la même version de moteur, pas un algorithme futur différent.
+
+- **Copies :** `duplicate_detached()` recopie participants, états, commandes traitées et historique ; le tick ne peut avancer que par `advance_to()`.
+
+### 12.1 Construire un affrontement valide
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_encounter_factory.gd`.**
+
+```gdscript
+class_name CombatEncounterFactory
+extends RefCounted
+
+func create(
+	encounter_id: StringName,
+	participants: Array[CombatantState],
+	rng_seed: int,
+	rules: CombatRules,
+) -> CombatEncounterState:
+	if not StableId.is_valid(encounter_id):
+		return null
+	if rules == null or rules.validate() != OK:
+		return null
+	if participants.size() < 2:
+		return null
+	if participants.size() > rules.max_participants:
+		return null
+
+	var encounter := CombatEncounterState.new()
+	encounter.encounter_id = encounter_id
+	var sides: Dictionary[StringName, bool] = {}
+	for participant: CombatantState in participants:
+		if participant == null or participant.validate(rules) != OK:
+			return null
+		if encounter.participants.has(participant.character_id):
+			return null
+		encounter.participants[participant.character_id] = (
+			participant.duplicate_detached()
+		)
+		sides[participant.side_id] = true
+	if sides.size() < 2:
+		return null
+
+	encounter.initialize_rng(rng_seed)
+	var started := CombatEvent.new()
+	started.sequence = encounter.next_event_sequence()
+	started.event_id = CombatId.event(encounter_id, started.sequence)
+	started.encounter_id = encounter_id
+	started.kind = CombatEvent.Kind.ENCOUNTER_STARTED
+	started.logical_tick = 0
+	started.detail_id = &"combat.event.encounter_started"
+	if encounter.history.append(started, rules.max_history_events) != OK:
+		return null
+	return encounter if encounter.validate(rules) == OK else null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** la fabrique refuse doublons, participants invalides et affrontement sans deux côtés opposés avant de publier un état utilisable.
+
+- **RNG :** `initialize_rng()` applique la graine puis capture le `state` produit par Godot ; aucune valeur arbitraire n’est affectée directement à `state`.
+
+- **Copies :** chaque participant est dupliqué, états temporaires compris. La liste fournie par l’appelant ne partage donc aucune autorité mutable avec l’affrontement.
+
+- **Historique :** l’événement de démarrage reçoit la première séquence avant validation finale.
 
 ## 13. Définir l’initiative
 
@@ -552,10 +713,8 @@ L’initiative n’est pas un tri effectué une seule fois au début. Chaque par
 class_name InitiativePolicy
 extends RefCounted
 
-func initial_rank(agility: int, character_id: StringName) -> int:
-	var bounded_agility := clampi(agility, -1000, 1000)
-	var stable_tie_break := int(hash(String(character_id)) & 0x7fff)
-	return bounded_agility * 32768 + stable_tie_break
+func initial_rank(agility: int) -> int:
+	return clampi(agility, -1000, 1000)
 
 func recovery_ticks(
 	rules: CombatRules,
@@ -582,11 +741,11 @@ func compare_ready(a: CombatantState, b: CombatantState) -> bool:
 
 - **Rôle :** cette politique calcule le rang initial, le délai de récupération et l’ordre total des participants prêts.
 
-- **Départage :** tick, rang puis identité donnent un résultat stable même lorsque plusieurs combattants sont prêts simultanément.
+- **Départage :** tick, agilité bornée puis identité donnent un ordre total stable sans dépendre de `hash()` ni d’une valeur aléatoire.
 
 - **Bornes :** l’agilité et les modificateurs sont limités avant le calcul ; le délai ne descend jamais sous `minimum_action_delay_ticks`.
 
-- **Limite :** `hash()` est utilisé uniquement comme départage local. Pour un replay inter-version strict, un hash canonique explicitement versionné devra le remplacer.
+- **Persistance :** le rang peut être sauvegardé, mais il reste reconstructible depuis l’agilité autoritaire tant qu’aucun modificateur durable ne s’y ajoute.
 
 La collection prête est copiée puis triée. Elle n’est pas conservée comme autorité dans la sauvegarde.
 
@@ -623,6 +782,8 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not CharacterId.is_valid(source_character_id):
 		return ERR_INVALID_DATA
+	if stack_rule < StackRule.REPLACE or stack_rule > StackRule.ADD_STACK:
+		return ERR_INVALID_DATA
 	if stacks < 1 or max_stacks < 1 or stacks > max_stacks:
 		return ERR_INVALID_DATA
 	if applied_tick < 0 or expires_at_tick <= applied_tick:
@@ -639,6 +800,21 @@ func validate() -> Error:
 
 func is_expired(logical_tick: int) -> bool:
 	return logical_tick >= expires_at_tick
+
+func duplicate_detached() -> ActiveStatus:
+	var copy := ActiveStatus.new()
+	copy.status_id = status_id
+	copy.source_character_id = source_character_id
+	copy.stack_rule = stack_rule
+	copy.stacks = stacks
+	copy.max_stacks = max_stacks
+	copy.applied_tick = applied_tick
+	copy.expires_at_tick = expires_at_tick
+	copy.accuracy_modifier_permille = accuracy_modifier_permille
+	copy.evasion_modifier_permille = evasion_modifier_permille
+	copy.defense_modifier = defense_modifier
+	copy.initiative_modifier = initiative_modifier
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -651,7 +827,7 @@ func is_expired(logical_tick: int) -> bool:
 
 - **Frontière :** le combat sait appliquer et expirer l’état ; la compétence ou l’objet qui le produit appartient à son système d’origine.
 
-- **Codes de retour :** des piles ou intervalles incohérents sont refusés plutôt que normalisés silencieusement.
+- **Codes de retour :** règle d’empilement, piles et intervalles incohérents sont refusés ; `duplicate_detached()` empêche le partage d’un état mutable entre candidat et autorité active.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/status_policy.gd`.**
 
@@ -669,8 +845,11 @@ func apply_status(
 	if max_statuses < 1:
 		return ERR_INVALID_PARAMETER
 
+	var detached := incoming.duplicate_detached()
 	var existing_index := -1
 	for index in statuses.size():
+		if statuses[index] == null or statuses[index].validate() != OK:
+			return ERR_INVALID_DATA
 		if statuses[index].status_id == incoming.status_id:
 			existing_index = index
 			break
@@ -678,27 +857,27 @@ func apply_status(
 	if existing_index < 0:
 		if statuses.size() >= max_statuses:
 			return ERR_OUT_OF_MEMORY
-		statuses.append(incoming)
+		statuses.append(detached)
 		_sort(statuses)
 		return OK
 
 	var existing := statuses[existing_index]
-	match incoming.stack_rule:
+	match detached.stack_rule:
 		ActiveStatus.StackRule.REPLACE:
-			statuses[existing_index] = incoming
+			statuses[existing_index] = detached
 		ActiveStatus.StackRule.REFRESH:
 			existing.expires_at_tick = maxi(
 				existing.expires_at_tick,
-				incoming.expires_at_tick,
+				detached.expires_at_tick,
 			)
 		ActiveStatus.StackRule.ADD_STACK:
 			existing.stacks = mini(
 				existing.max_stacks,
-				existing.stacks + incoming.stacks,
+				existing.stacks + detached.stacks,
 			)
 			existing.expires_at_tick = maxi(
 				existing.expires_at_tick,
-				incoming.expires_at_tick,
+				detached.expires_at_tick,
 			)
 		_:
 			return ERR_INVALID_DATA
@@ -730,7 +909,7 @@ func _sort(statuses: Array[ActiveStatus]) -> void:
 
 - **Rôle :** la politique applique une règle d’empilement explicite puis maintient un ordre canonique.
 
-- **Mutation :** la liste reçue est modifiée seulement après validation de l’état entrant et vérification de la capacité.
+- **Mutation :** la liste reçue est modifiée seulement après validation ; l’état entrant est d’abord dupliqué afin que l’appelant ne puisse pas altérer ultérieurement le candidat.
 
 - **Expiration :** l’itération inverse évite de décaler les index encore à visiter lors des suppressions.
 
@@ -752,6 +931,8 @@ var world_revision: int = 0
 var logical_tick: int = 0
 var issuer_id: StringName
 var target_id: StringName
+var issuer_side_id: StringName
+var target_side_id: StringName
 var issuer_position := Vector3.ZERO
 var target_position := Vector3.ZERO
 var issuer_alive := false
@@ -772,16 +953,21 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not CharacterId.is_valid(target_id):
 		return ERR_INVALID_DATA
+	if not StableId.is_valid(issuer_side_id):
+		return ERR_INVALID_DATA
+	if not StableId.is_valid(target_side_id):
+		return ERR_INVALID_DATA
 	if not issuer_position.is_finite() or not target_position.is_finite():
 		return ERR_INVALID_DATA
 	for value: int in [
 		issuer_accuracy_permille,
 		target_evasion_permille,
-		target_resistance_permille,
 	]:
 		if value < -100000 or value > 100000:
 			return ERR_INVALID_DATA
-	if issuer_stamina < 0 or target_defense < -100000:
+	if target_resistance_permille < -1000 or target_resistance_permille > 1000:
+		return ERR_INVALID_DATA
+	if issuer_stamina < 0 or target_defense < 0:
 		return ERR_INVALID_DATA
 	return OK
 
@@ -795,11 +981,50 @@ func distance_squared() -> float:
 
 - **Rôle :** le snapshot fige les lectures nécessaires à une résolution unique.
 
-- **Données dérivées :** précision, esquive, défense et résistance peuvent agréger attributs et états, mais ne sont pas persistées comme autorité.
+- **Données dérivées :** précision, esquive, défense et résistance peuvent agréger attributs et états ; les côtés proviennent des participants engagés et permettent de refuser un allié lorsque la règle l’exige.
 
 - **Distance :** le carré de la distance évite une racine carrée lors d’une simple comparaison de portée.
 
 - **Invariant :** après sa construction, le service traite cet objet comme immuable et recontrôle les révisions avant le commit.
+
+### 15.1 Port de construction des lectures dérivées
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_snapshot_builder.gd`.**
+
+```gdscript
+class_name CombatSnapshotBuilder
+extends RefCounted
+
+func build_for_basic_attack(
+	command: CombatCommand,
+	encounter: CombatEncounterState,
+) -> CombatSnapshot:
+	return null
+
+func build_defense_profile(snapshot: CombatSnapshot) -> DefenseProfile:
+	return null
+
+func build_basic_attack_packet(
+	command: CombatCommand,
+	snapshot: CombatSnapshot,
+) -> DamagePacket:
+	return null
+
+func definition_for(character_id: StringName) -> CharacterDefinition:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce port rassemble les lectures des personnages, des positions et des données de conception sans permettre au service de parcourir directement plusieurs dépôts pendant le calcul.
+
+- **Copies :** les objets retournés sont détachés ou dérivés ; le paquet et le profil peuvent être abandonnés sans modifier leurs sources.
+
+- **Frontières :** l’implémentation connaît les catalogues et ports de lecture, mais ne commit aucune santé, garde ou révision.
+
+- **Refus contrôlé :** `null` indique qu’une lecture obligatoire manque ; `CombatService` transforme ce cas en `REJECTED_RESOURCE`.
 
 ## 16. Port de ligne de vue
 
@@ -903,6 +1128,7 @@ enum Status {
 	INVALID_SOURCE,
 	INVALID_TARGET,
 	SAME_CHARACTER,
+	SAME_SIDE,
 	DEAD_SOURCE,
 	DEAD_TARGET,
 	OUT_OF_RANGE,
@@ -911,19 +1137,22 @@ enum Status {
 
 func validate_basic_attack(
 	snapshot: CombatSnapshot,
-	max_range_m: float,
+	rules: CombatRules,
 ) -> Status:
 	if snapshot == null or snapshot.validate() != OK:
 		return Status.INVALID_TARGET
+	if rules == null or rules.validate() != OK:
+		return Status.INVALID_SOURCE
 	if snapshot.issuer_id == snapshot.target_id:
 		return Status.SAME_CHARACTER
+	if not rules.allow_friendly_fire:
+		if snapshot.issuer_side_id == snapshot.target_side_id:
+			return Status.SAME_SIDE
 	if not snapshot.issuer_alive:
 		return Status.DEAD_SOURCE
 	if not snapshot.target_alive:
 		return Status.DEAD_TARGET
-	if max_range_m <= 0.0 or not is_finite(max_range_m):
-		return Status.OUT_OF_RANGE
-	var range_squared := max_range_m * max_range_m
+	var range_squared := rules.basic_attack_range_m * rules.basic_attack_range_m
 	if snapshot.distance_squared() > range_squared:
 		return Status.OUT_OF_RANGE
 	if not snapshot.line_of_sight:
@@ -937,9 +1166,9 @@ func validate_basic_attack(
 
 - **Rôle :** la méthode transforme plusieurs préconditions en un statut métier précis.
 
-- **Ordre :** identité et vie sont vérifiées avant la distance ; la ligne de vue n’est consultée qu’après une portée valide.
+- **Ordre :** identité, politique de tir allié et vie sont vérifiées avant la distance ; la ligne de vue n’est consultée qu’après une portée valide.
 
-- **Statuts à distinguer :** `OUT_OF_RANGE` signifie que la géométrie logique suffit à refuser ; `NO_LINE_OF_SIGHT` signifie que la distance est acceptable mais qu’un obstacle autoritaire subsiste.
+- **Statuts à distinguer :** `SAME_SIDE` applique la politique d’alliance ; `OUT_OF_RANGE` refuse par géométrie ; `NO_LINE_OF_SIGHT` signifie qu’un obstacle autoritaire subsiste malgré une distance acceptable.
 
 - **Effet de bord :** aucun ; cette validation peut être rejouée sur le même snapshot.
 
@@ -1022,6 +1251,8 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not CharacterId.is_valid(target_character_id):
 		return ERR_INVALID_DATA
+	if damage_type < DamageType.PHYSICAL or damage_type > DamageType.ARCANE:
+		return ERR_INVALID_DATA
 	if base_amount < 0 or base_amount > 100000000:
 		return ERR_INVALID_DATA
 	if armor_penetration_permille < 0 or armor_penetration_permille > 1000:
@@ -1060,7 +1291,7 @@ var flat_defense: int = 0
 var resistance_by_type: Dictionary[int, int] = {}
 
 func validate(maximum_resistance_permille: int) -> Error:
-	if flat_defense < -100000 or flat_defense > 100000000:
+	if flat_defense < 0 or flat_defense > 100000000:
 		return ERR_INVALID_DATA
 	for key: int in resistance_by_type:
 		if key < DamagePacket.DamageType.PHYSICAL:
@@ -1082,7 +1313,7 @@ func resistance_for(damage_type: DamagePacket.DamageType) -> int:
 
 - **Rôle :** ce profil rassemble les valeurs défensives nécessaires à un calcul sans référencer directement une ressource d’équipement.
 
-- **Résistances négatives :** elles représentent une vulnérabilité explicite ; la limite basse empêche une amplification non bornée.
+- **Défense fixe :** elle reste positive ou nulle ; les vulnérabilités sont représentées uniquement par une résistance négative afin de conserver un ordre de calcul non ambigu.
 
 - **Valeur par défaut :** un type absent utilise zéro résistance.
 
@@ -1186,6 +1417,7 @@ enum Status {
 	REJECTED_UNKNOWN_ENCOUNTER,
 	REJECTED_DUPLICATE_COMMAND,
 	REJECTED_STALE_REVISION,
+	REJECTED_STALE_TICK,
 	REJECTED_NOT_PARTICIPANT,
 	REJECTED_NOT_READY,
 	REJECTED_TARGET,
@@ -1209,6 +1441,15 @@ func is_success() -> bool:
 		Status.MISSED,
 		Status.NO_EFFECT,
 	]
+
+func validate() -> Error:
+	if status < Status.RESOLVED or status > Status.BUDGET_EXCEEDED:
+		return ERR_INVALID_DATA
+	if not command_id.is_empty() and not StableId.is_valid(command_id):
+		return ERR_INVALID_DATA
+	if not encounter_id.is_empty() and not StableId.is_valid(encounter_id):
+		return ERR_INVALID_DATA
+	return OK
 ```
 
 <!-- qa:code-explanation -->
@@ -1260,6 +1501,8 @@ func validate() -> Error:
 		return ERR_INVALID_DATA
 	if not StableId.is_valid(encounter_id):
 		return ERR_INVALID_DATA
+	if kind < Kind.ENCOUNTER_STARTED or kind > Kind.ENCOUNTER_CLOSED:
+		return ERR_INVALID_DATA
 	if logical_tick < 0 or sequence <= 0:
 		return ERR_INVALID_DATA
 	if not source_character_id.is_empty():
@@ -1268,7 +1511,24 @@ func validate() -> Error:
 	if not target_character_id.is_empty():
 		if not CharacterId.is_valid(target_character_id):
 			return ERR_INVALID_DATA
+	if amount < -100000000 or amount > 100000000:
+		return ERR_INVALID_DATA
+	if not detail_id.is_empty() and not StableId.is_valid(detail_id):
+		return ERR_INVALID_DATA
 	return OK
+
+func duplicate_detached() -> CombatEvent:
+	var copy := CombatEvent.new()
+	copy.event_id = event_id
+	copy.encounter_id = encounter_id
+	copy.kind = kind
+	copy.logical_tick = logical_tick
+	copy.sequence = sequence
+	copy.source_character_id = source_character_id
+	copy.target_character_id = target_character_id
+	copy.amount = amount
+	copy.detail_id = detail_id
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -1296,7 +1556,7 @@ func append(event: CombatEvent, maximum: int) -> Error:
 		return ERR_INVALID_DATA
 	if maximum < 1:
 		return ERR_INVALID_PARAMETER
-	_events.append(event)
+	_events.append(event.duplicate_detached())
 	while _events.size() > maximum:
 		_events.pop_front()
 	return OK
@@ -1304,7 +1564,7 @@ func append(event: CombatEvent, maximum: int) -> Error:
 func snapshot() -> Array[CombatEvent]:
 	var copy: Array[CombatEvent] = []
 	for event: CombatEvent in _events:
-		copy.append(event)
+		copy.append(event.duplicate_detached())
 	return copy
 
 func validate(maximum: int) -> Error:
@@ -1323,6 +1583,12 @@ func validate(maximum: int) -> Error:
 		previous_tick = event.logical_tick
 		previous_sequence = event.sequence
 	return OK
+
+func duplicate_detached() -> CombatHistory:
+	var copy := CombatHistory.new()
+	for event: CombatEvent in _events:
+		copy._events.append(event.duplicate_detached())
+	return copy
 ```
 
 <!-- qa:code-explanation -->
@@ -1333,7 +1599,7 @@ func validate(maximum: int) -> Error:
 
 - **Bornage :** les plus anciens événements sont retirés après l’ajout lorsque la capacité est dépassée.
 
-- **Copie :** `snapshot()` protège la collection interne, mais les événements sont traités comme immuables après leur émission.
+- **Copie :** `append()`, `snapshot()` et `duplicate_detached()` recopient les événements ; aucun consommateur ne reçoit une référence mutable conservée par l’historique.
 
 - **Validation :** l’ordre doit être croissant par tick puis séquence ; un chargement désordonné est refusé.
 
@@ -1356,6 +1622,9 @@ func replace_encounter(
 ) -> Error:
 	return ERR_UNAVAILABLE
 
+func replace_all(candidates: Array[CombatEncounterState]) -> Error:
+	return ERR_UNAVAILABLE
+
 func all_encounter_ids_sorted() -> Array[StringName]:
 	return []
 ```
@@ -1364,11 +1633,13 @@ func all_encounter_ids_sorted() -> Array[StringName]:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** le contrat impose une lecture, un remplacement conditionnel et un ordre canonique.
+- **Rôle :** le contrat impose une lecture détachée, un remplacement conditionnel, un remplacement complet préparé pour la restauration et un ordre canonique.
 
 - **Concurrence :** `expected_revision` évite d’écraser un état modifié depuis la construction du candidat.
 
 - **Refus contrôlé :** la base renvoie `ERR_UNAVAILABLE`; l’implémentation doit remplacer explicitement les méthodes prises en charge.
+
+- **Copies :** `get_encounter()` ne rend jamais l’objet mutable interne ; `replace_all()` valide l’ensemble avant de remplacer le contenu actif.
 
 - **Frontière :** le dépôt ne calcule ni initiative ni dégâts.
 
@@ -1376,7 +1647,7 @@ func all_encounter_ids_sorted() -> Array[StringName]:
 
 Le combat prépare un candidat de santé et d’endurance, puis demande au système des personnages de le valider et de le remplacer.
 
-> **[LECTURE] Contrat d’unité de travail — Structure de référence.**
+> **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_mutation_unit_of_work.gd`.**
 
 ```gdscript
 class_name CombatMutationUnitOfWork
@@ -1394,9 +1665,9 @@ func prepare_combat_candidate(
 
 func commit(
 	character_candidates: Array[CharacterRuntimeState],
-	combat_candidate: CombatEncounterState,
+	combat_candidates: Array[CombatEncounterState],
 	expected_world_revision: int,
-	expected_combat_revision: int,
+	expected_combat_revisions: Dictionary[StringName, int],
 ) -> Error:
 	return ERR_UNAVAILABLE
 ```
@@ -1409,9 +1680,9 @@ func commit(
 
 - **Préparation :** les méthodes retournent des copies détachées ; aucune mutation active n’a encore eu lieu.
 
-- **Commit :** l’implémentation revalide les personnages, l’affrontement et les révisions avant un remplacement indivisible au niveau applicatif.
+- **Commit :** les deux collections sont strictement typées ; l’implémentation revalide tous les candidats et toutes les révisions avant des swaps qui ne peuvent plus échouer individuellement.
 
-- **Limite :** tant que le Starter Kit n’est pas matérialisé, l’atomicité concrète entre dépôts reste une exigence architecturale non testée.
+- **Atomicité attendue :** l’unité de travail possède les deux dépôts ou une transaction applicative commune ; elle n’effectue jamais un premier remplacement réversible suivi d’un second susceptible d’échouer. Cette propriété reste à tester au runtime.
 
 ## 27. Résoudre une attaque de base
 
@@ -1448,6 +1719,18 @@ func execute(command: CombatCommand) -> CombatResult:
 			command,
 			"règles indisponibles",
 		)
+	if _repository == null or _unit_of_work == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"ports de mutation indisponibles",
+		)
+	if _snapshot_builder == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"constructeur de snapshot indisponible",
+		)
 
 	var active := _repository.get_encounter(command.encounter_id)
 	if active == null:
@@ -1474,6 +1757,12 @@ func execute(command: CombatCommand) -> CombatResult:
 			command,
 			"révision de combat obsolète",
 		)
+	if command.requested_tick < active.logical_tick:
+		return _result(
+			CombatResult.Status.REJECTED_STALE_TICK,
+			command,
+			"tick de commande antérieur à l’affrontement",
+		)
 
 	var issuer := active.get_participant(command.issuer_character_id)
 	if issuer == null or issuer.disengaged:
@@ -1482,7 +1771,7 @@ func execute(command: CombatCommand) -> CombatResult:
 			command,
 			"émetteur non engagé",
 		)
-	if active.logical_tick < issuer.next_ready_tick:
+	if command.requested_tick < issuer.next_ready_tick:
 		return _result(
 			CombatResult.Status.REJECTED_NOT_READY,
 			command,
@@ -1491,13 +1780,13 @@ func execute(command: CombatCommand) -> CombatResult:
 
 	match command.action_kind:
 		CombatActionKind.Value.BASIC_ATTACK:
-			return _execute_basic_attack(command, active)
+			return _execute_basic_attack(command)
 		CombatActionKind.Value.GUARD:
-			return _execute_guard(command, active)
+			return _execute_guard(command)
 		CombatActionKind.Value.WAIT:
-			return _execute_wait(command, active)
+			return _execute_wait(command)
 		CombatActionKind.Value.DISENGAGE:
-			return _execute_disengage(command, active)
+			return _execute_disengage(command)
 		_:
 			return _result(
 				CombatResult.Status.REJECTED_INVALID_COMMAND,
@@ -1516,15 +1805,12 @@ func execute(command: CombatCommand) -> CombatResult:
 
 - **Statuts à distinguer :** une commande obsolète peut être reconstruite depuis un nouveau snapshot ; une commande dupliquée ne doit jamais être rejouée.
 
-- **Effet de bord :** ce premier niveau n’émet encore aucun événement ; les méthodes privées ne publient qu’après commit.
+- **Effet de bord :** ce premier niveau n’émet encore aucun événement ; il vérifie aussi les ports obligatoires, le tick et l’initiative avant de déléguer à une branche.
 
 > **[LECTURE] Cœur de l’attaque — Suite du même fichier.**
 
 ```gdscript
-func _execute_basic_attack(
-	command: CombatCommand,
-	active: CombatEncounterState,
-) -> CombatResult:
+func _execute_basic_attack(command: CombatCommand) -> CombatResult:
 	var character_candidate := _unit_of_work.prepare_character_candidate(
 		command.target_character_id
 	)
@@ -1536,6 +1822,12 @@ func _execute_basic_attack(
 			CombatResult.Status.REJECTED_RESOURCE,
 			command,
 			"candidat indisponible",
+		)
+	if combat_candidate.advance_to(command.requested_tick) != OK:
+		return _result(
+			CombatResult.Status.REJECTED_STALE_TICK,
+			command,
+			"tick de résolution obsolète",
 		)
 
 	var snapshot := _snapshot_builder.build_for_basic_attack(
@@ -1551,7 +1843,7 @@ func _execute_basic_attack(
 
 	var target_status := _target_validator.validate_basic_attack(
 		snapshot,
-		_rules.basic_attack_range_m,
+		_rules,
 	)
 	if target_status != TargetValidator.Status.VALID:
 		return _result(
@@ -1569,45 +1861,65 @@ func _execute_basic_attack(
 		snapshot.target_evasion_permille,
 		rng,
 	)
-	combat_candidate.rng_state = rng.state
 	if hit == null:
 		return _result(
 			CombatResult.Status.REJECTED_RESOURCE,
 			command,
 			"résolution du toucher impossible",
 		)
+	combat_candidate.rng_state = rng.state
 
 	var issuer_candidate := combat_candidate.get_participant(
 		command.issuer_character_id
 	)
+	if issuer_candidate == null:
+		return _result(
+			CombatResult.Status.REJECTED_NOT_PARTICIPANT,
+			command,
+			"émetteur absent du candidat",
+		)
 	var delay := _initiative_policy.recovery_ticks(
 		_rules,
-		issuer_candidate.initiative_rank / 32768,
+		issuer_candidate.initiative_rank,
 	)
 	issuer_candidate.next_ready_tick = combat_candidate.logical_tick + delay
 	_record_processed(combat_candidate, command.command_id)
 
 	if not hit.hit:
+		var no_character_candidates: Array[CharacterRuntimeState] = []
 		return _commit_outcome(
 			command,
 			combat_candidate,
-			[],
+			no_character_candidates,
 			CombatResult.Status.MISSED,
 			0,
 			0,
+			false,
 			"attaque manquée",
 		)
 
-	var packet := _build_basic_attack_packet(command, snapshot)
+	var packet := _snapshot_builder.build_basic_attack_packet(
+		command,
+		snapshot,
+	)
 	var profile := _snapshot_builder.build_defense_profile(snapshot)
+	var target_definition := _snapshot_builder.definition_for(
+		command.target_character_id
+	)
 	var target_combatant := combat_candidate.get_participant(
 		command.target_character_id
 	)
-	if packet == null or profile == null or target_combatant == null:
+	if packet == null or profile == null:
 		return _result(
 			CombatResult.Status.REJECTED_RESOURCE,
 			command,
 			"données de dégâts indisponibles",
+		)
+	if target_definition == null or target_combatant == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"cible autoritaire indisponible",
 		)
 	var damage := _damage_resolver.resolve(
 		packet,
@@ -1625,19 +1937,22 @@ func _execute_basic_attack(
 	target_combatant.guard_points -= damage.absorbed_by_guard
 	var actual_health_delta := CharacterRules.apply_health_delta(
 		character_candidate,
-		_snapshot_builder.definition_for(command.target_character_id),
+		target_definition,
 		-damage.health_damage,
 	)
 	var status := CombatResult.Status.RESOLVED
 	if damage.health_damage == 0 and damage.absorbed_by_guard == 0:
 		status = CombatResult.Status.NO_EFFECT
+	var character_candidates: Array[CharacterRuntimeState] = []
+	character_candidates.append(character_candidate)
 	return _commit_outcome(
 		command,
 		combat_candidate,
-		[character_candidate],
+		character_candidates,
 		status,
 		actual_health_delta,
 		-damage.absorbed_by_guard,
+		not character_candidate.is_alive,
 		"attaque résolue",
 	)
 ```
@@ -1656,7 +1971,7 @@ func _execute_basic_attack(
 
 - **Atomicité :** les deltas ne deviennent actifs que dans `_commit_outcome()`; un échec antérieur abandonne les candidats.
 
-- **Limite pédagogique :** `_build_basic_attack_packet()` et les agrégateurs du snapshot sont des ports de données de conception ; ils ne chargent pas une arme depuis une chaîne fournie par la commande.
+- **Port de données :** le paquet, le profil et la définition viennent de `CombatSnapshotBuilder`; aucun chemin ou nom de classe fourni par la commande n’est chargé dynamiquement.
 
 > **[LECTURE] Commit et résultat — Suite du même fichier.**
 
@@ -1668,18 +1983,47 @@ func _commit_outcome(
 	status: CombatResult.Status,
 	health_delta: int,
 	guard_delta: int,
+	target_defeated: bool,
 	message: String,
 ) -> CombatResult:
+	var events := _build_outcome_events(
+		command,
+		combat_candidate,
+		status,
+		health_delta,
+		guard_delta,
+		target_defeated,
+	)
+	for event: CombatEvent in events:
+		var history_code := combat_candidate.history.append(
+			event,
+			_rules.max_history_events,
+		)
+		if history_code != OK:
+			return _result(
+				CombatResult.Status.REJECTED_RESOURCE,
+				command,
+				"historique refusé : %s" % error_string(history_code),
+			)
+
 	combat_candidate.revision += 1
+	var combat_candidates: Array[CombatEncounterState] = []
+	combat_candidates.append(combat_candidate)
+	var expected_revisions: Dictionary[StringName, int] = {
+		command.encounter_id: command.expected_combat_revision,
+	}
 	var commit_code := _unit_of_work.commit(
 		character_candidates,
-		combat_candidate,
+		combat_candidates,
 		command.expected_world_revision,
-		command.expected_combat_revision,
+		expected_revisions,
 	)
 	if commit_code != OK:
+		var rejected_status := CombatResult.Status.REJECTED_RESOURCE
+		if commit_code == ERR_BUSY:
+			rejected_status = CombatResult.Status.REJECTED_STALE_REVISION
 		return _result(
-			CombatResult.Status.REJECTED_STALE_REVISION,
+			rejected_status,
 			command,
 			"commit refusé : %s" % error_string(commit_code),
 		)
@@ -1688,8 +2032,105 @@ func _commit_outcome(
 	result.health_delta = health_delta
 	result.guard_delta = guard_delta
 	combat_resolved.emit(result)
-	_emit_events_after_commit(command, result, combat_candidate)
+	for event: CombatEvent in events:
+		combat_event_emitted.emit(event.duplicate_detached())
 	return result
+
+func _build_outcome_events(
+	command: CombatCommand,
+	encounter: CombatEncounterState,
+	status: CombatResult.Status,
+	health_delta: int,
+	guard_delta: int,
+	target_defeated: bool,
+) -> Array[CombatEvent]:
+	var events: Array[CombatEvent] = []
+	events.append(_make_event(
+		encounter,
+		CombatEvent.Kind.COMMAND_ACCEPTED,
+		command.issuer_character_id,
+		command.target_character_id,
+		0,
+		command.action_id,
+	))
+	if status == CombatResult.Status.MISSED:
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.ATTACK_MISSED,
+			command.issuer_character_id,
+			command.target_character_id,
+			0,
+			command.action_id,
+		))
+	elif health_delta < 0:
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.DAMAGE_APPLIED,
+			command.issuer_character_id,
+			command.target_character_id,
+			-health_delta,
+			command.action_id,
+		))
+	if guard_delta != 0:
+		var guard_target := command.target_character_id
+		if guard_target.is_empty():
+			guard_target = command.issuer_character_id
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.GUARD_CHANGED,
+			command.issuer_character_id,
+			guard_target,
+			guard_delta,
+			command.action_id,
+		))
+	if command.action_kind == CombatActionKind.Value.DISENGAGE:
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.PARTICIPANT_DISENGAGED,
+			command.issuer_character_id,
+			&"",
+			0,
+			command.action_id,
+		))
+	if target_defeated:
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.PARTICIPANT_DEFEATED,
+			command.issuer_character_id,
+			command.target_character_id,
+			0,
+			command.action_id,
+		))
+	if encounter.closed:
+		events.append(_make_event(
+			encounter,
+			CombatEvent.Kind.ENCOUNTER_CLOSED,
+			command.issuer_character_id,
+			&"",
+			0,
+			&"combat.event.encounter_closed",
+		))
+	return events
+
+func _make_event(
+	encounter: CombatEncounterState,
+	kind: CombatEvent.Kind,
+	source_id: StringName,
+	target_id: StringName,
+	amount: int,
+	detail_id: StringName,
+) -> CombatEvent:
+	var event := CombatEvent.new()
+	event.sequence = encounter.next_event_sequence()
+	event.event_id = CombatId.event(encounter.encounter_id, event.sequence)
+	event.encounter_id = encounter.encounter_id
+	event.kind = kind
+	event.logical_tick = encounter.logical_tick
+	event.source_character_id = source_id
+	event.target_character_id = target_id
+	event.amount = amount
+	event.detail_id = detail_id
+	return event
 
 func _record_processed(
 	encounter: CombatEncounterState,
@@ -1721,11 +2162,11 @@ func _result(
 
 - **Rôle :** le commit précède toujours l’émission du résultat et des événements.
 
-- **Concurrence :** tout refus du port est présenté comme une révision devenue obsolète ; les copies sont abandonnées.
+- **Concurrence :** `ERR_BUSY` signale une révision obsolète ; un autre code de commit devient un refus de ressource. Dans tous les cas, les candidats et événements préparés sont abandonnés.
 
 - **Idempotence :** l’identifiant traité est ajouté au candidat avant commit et la liste reste bornée.
 
-- **Effets de bord :** les signaux ne sont émis qu’après succès, empêchant la présentation d’annoncer une mutation refusée.
+- **Historique et signaux :** les événements sont ajoutés au candidat avant le commit, puis des copies sont émises après succès ; l’historique persistant et la présentation décrivent ainsi le même résultat.
 
 Les branches `GUARD`, `WAIT` et `DISENGAGE` suivent la même discipline : candidat, validation, nouveau `next_ready_tick`, identifiant traité, commit, puis événements.
 
@@ -1764,9 +2205,152 @@ DISENGAGE
 
 - **Désengagement :** il modifie l’appartenance à l’affrontement, pas l’existence du personnage.
 
+> **[LECTURE] Implémentation des trois branches — Suite de `combat_service.gd`.**
+
+```gdscript
+func _execute_guard(command: CombatCommand) -> CombatResult:
+	var candidate := _prepare_non_offensive_candidate(command)
+	if candidate == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"candidat de garde indisponible",
+		)
+	var issuer := candidate.get_participant(command.issuer_character_id)
+	var previous_guard := issuer.guard_points
+	issuer.guard_points = mini(
+		CombatantState.MAX_GUARD,
+		issuer.guard_points + _rules.base_guard_gain,
+	)
+	_apply_recovery(issuer, candidate.logical_tick)
+	_record_processed(candidate, command.command_id)
+	var characters: Array[CharacterRuntimeState] = []
+	return _commit_outcome(
+		command, candidate, characters, CombatResult.Status.RESOLVED,
+		0, issuer.guard_points - previous_guard, false, "garde appliquée",
+	)
+
+func _execute_wait(command: CombatCommand) -> CombatResult:
+	var candidate := _prepare_non_offensive_candidate(command)
+	if candidate == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"candidat d’attente indisponible",
+		)
+	var issuer := candidate.get_participant(command.issuer_character_id)
+	_apply_recovery(issuer, candidate.logical_tick)
+	_record_processed(candidate, command.command_id)
+	var characters: Array[CharacterRuntimeState] = []
+	return _commit_outcome(
+		command, candidate, characters, CombatResult.Status.RESOLVED,
+		0, 0, false, "attente résolue",
+	)
+
+func _execute_disengage(command: CombatCommand) -> CombatResult:
+	var candidate := _prepare_non_offensive_candidate(command)
+	if candidate == null:
+		return _result(
+			CombatResult.Status.REJECTED_RESOURCE,
+			command,
+			"candidat de désengagement indisponible",
+		)
+	var issuer := candidate.get_participant(command.issuer_character_id)
+	issuer.disengaged = true
+	_apply_recovery(issuer, candidate.logical_tick)
+	_record_processed(candidate, command.command_id)
+	candidate.closed = not _has_two_active_sides(candidate)
+	var characters: Array[CharacterRuntimeState] = []
+	return _commit_outcome(
+		command, candidate, characters, CombatResult.Status.RESOLVED,
+		0, 0, false, "désengagement résolu",
+	)
+
+func _prepare_non_offensive_candidate(
+	command: CombatCommand,
+) -> CombatEncounterState:
+	var candidate := _unit_of_work.prepare_combat_candidate(
+		command.encounter_id
+	)
+	if candidate == null:
+		return null
+	if candidate.advance_to(command.requested_tick) != OK:
+		return null
+	var issuer := candidate.get_participant(command.issuer_character_id)
+	if issuer == null or issuer.disengaged:
+		return null
+	return candidate
+
+func _apply_recovery(issuer: CombatantState, logical_tick: int) -> void:
+	var delay := _initiative_policy.recovery_ticks(
+		_rules,
+		issuer.initiative_rank,
+	)
+	issuer.next_ready_tick = logical_tick + delay
+
+func _has_two_active_sides(encounter: CombatEncounterState) -> bool:
+	var sides: Dictionary[StringName, bool] = {}
+	for value: Variant in encounter.participants.values():
+		var participant := value as CombatantState
+		if participant == null or participant.disengaged:
+			continue
+		sides[participant.side_id] = true
+		if sides.size() >= 2:
+			return true
+	return false
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Discipline commune :** chaque branche prépare un candidat détaché, avance le tick sans régression, applique le délai, enregistre l’idempotence et utilise le même commit typé.
+
+- **Garde :** le delta renvoyé correspond à l’augmentation réelle après la borne `MAX_GUARD`.
+
+- **Attente :** aucun autre état ne change, mais la commande et le délai sont consommés.
+
+- **Désengagement :** les côtés actifs sont recalculés depuis `side_id`; l’affrontement se ferme lorsqu’il ne reste plus deux côtés engagés.
+
 ## 29. Adapter une requête d’agent
 
 L’exécuteur du chapitre 17 transforme `AgentActionRequest` en `CombatCommand`. Il ne recopie pas une valeur de dégâts proposée par l’agent.
+
+> **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_context_port.gd`.**
+
+```gdscript
+class_name CombatContextPort
+extends RefCounted
+
+class Context:
+	extends RefCounted
+
+	var encounter_id: StringName
+	var combat_revision: int = 0
+
+	func validate() -> Error:
+		if not StableId.is_valid(encounter_id):
+			return ERR_INVALID_DATA
+		if combat_revision < 0:
+			return ERR_INVALID_DATA
+		return OK
+
+func snapshot_for(
+	issuer_id: StringName,
+	target_id: StringName,
+) -> Context:
+	return null
+```
+
+<!-- qa:code-explanation -->
+
+**Explication détaillée du bloc :**
+
+- **Rôle :** ce port localise l’affrontement commun et sa révision sans donner à l’agent un accès au dépôt de combat.
+
+- **Entrées :** les deux identités proviennent d’une requête déjà validée ; l’implémentation refuse les personnages non engagés dans un même affrontement.
+
+- **Valeur de retour :** `null` signifie qu’aucun contexte exécutable n’existe ; un objet retourné doit réussir `validate()`.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_agent_action_executor.gd`.**
 
@@ -1801,7 +2385,7 @@ func start(request: AgentActionRequest) -> Error:
 		request.owner_character_id,
 		request.target_character_id,
 	)
-	if context == null:
+	if context == null or context.validate() != OK:
 		return ERR_DOES_NOT_EXIST
 	var command := CombatCommand.new()
 	command.command_id = CombatId.command(
@@ -1879,6 +2463,18 @@ func pop_front() -> CombatCommand:
 func size() -> int:
 	return _commands.size()
 
+func remove_for_character(character_id: StringName) -> int:
+	var removed := 0
+	for index in range(_commands.size() - 1, -1, -1):
+		var command := _commands[index]
+		if command.issuer_character_id == character_id:
+			_commands.remove_at(index)
+			removed += 1
+	return removed
+
+func clear() -> void:
+	_commands.clear()
+
 func _comes_before(a: CombatCommand, b: CombatCommand) -> bool:
 	if a.requested_tick != b.requested_tick:
 		return a.requested_tick < b.requested_tick
@@ -1897,7 +2493,7 @@ func _comes_before(a: CombatCommand, b: CombatCommand) -> bool:
 
 - **Refus contrôlé :** `ERR_BUSY` signale une capacité atteinte ; l’appelant peut reporter une décision sans agrandir la mémoire.
 
-- **Persistance :** cette file est transitoire. Une sauvegarde est prise à une frontière où les commandes en cours ont été résolues ou abandonnées.
+- **Annulation et persistance :** `remove_for_character()` retire les demandes d’un participant désengagé ; `clear()` est utilisé par la barrière de sauvegarde. La file reste transitoire et n’est jamais encodée.
 
 ## 32. Ordonnanceur borné
 
@@ -1930,6 +2526,9 @@ func _physics_process(_delta: float) -> void:
 		if command == null:
 			break
 		var result := _service.execute(command)
+		if result.is_success():
+			if command.action_kind == CombatActionKind.Value.DISENGAGE:
+				_queue.remove_for_character(command.issuer_character_id)
 		command_completed.emit(result)
 		processed += 1
 	if _queue.size() > 0:
@@ -1944,7 +2543,7 @@ func _physics_process(_delta: float) -> void:
 
 - **Budget :** au plus `commands_per_physics_tick` commandes sont consommées ; les autres restent dans leur ordre canonique.
 
-- **Effets de bord :** chaque résultat est émis après l’appel du service ; aucun calcul de dégâts n’est présent dans le nœud.
+- **Effets de bord :** chaque résultat est émis après l’appel du service ; un désengagement committé retire les commandes restantes de son émetteur, sans calcul de dégâts dans le nœud.
 
 - **Diagnostic :** `queue_backlogged` expose la pression de la file sans supprimer ni réordonner les commandes.
 
@@ -1974,7 +2573,8 @@ Une commande est refusée lorsque :
 
 - `expected_world_revision` ne correspond plus au monde ;
 - `expected_combat_revision` ne correspond plus à l’affrontement ;
-- la cible est morte, sortie, déplacée hors portée ou masquée ;
+- `requested_tick` est antérieur au tick logique déjà committé ;
+- la cible est morte, sortie, du même côté lorsque le tir allié est interdit, déplacée hors portée ou masquée ;
 - l’émetteur n’est plus prêt ;
 - l’identifiant a déjà été traité.
 
@@ -2014,9 +2614,9 @@ La coordination suit cette séquence :
 
 Sont persistés :
 
-- identifiant, tick, révision et fermeture de l’affrontement ;
+- identifiant, tick, révision, séquence d’événement et fermeture de l’affrontement ;
 - graine et état du RNG local ;
-- participants, disponibilité, initiative, garde, séquence et désengagement ;
+- participants, côté, disponibilité, initiative, garde, séquence et désengagement ;
 - états actifs avec leurs intervalles ;
 - identifiants de commandes récemment traitées ;
 - historique borné si le produit exige une reprise du journal.
@@ -2039,21 +2639,91 @@ Ne sont pas persistés :
 class_name CombatSnapshotCodec
 extends RefCounted
 
+class DecodeResult:
+	extends RefCounted
+
+	var code: Error = FAILED
+	var encounters: Array[CombatEncounterState] = []
+	var message: String = ""
+
+	func is_success() -> bool:
+		return code == OK
+
 const FORMAT := "project-asteria-combat"
 const VERSION := 1
-const ROOT_KEYS := [
-	"format",
-	"version",
-	"encounters",
+const JSON_SAFE_INT_MAX := 9007199254740991
+const INT32_MIN := -2147483648
+const INT32_MAX := 2147483647
+const UINT32_MAX := 4294967295
+
+const ROOT_KEYS := ["format", "version", "encounters"]
+const ENCOUNTER_KEYS := [
+	"encounter_id",
+	"logical_tick",
+	"revision",
+	"event_sequence",
+	"rng_seed_hi",
+	"rng_seed_lo",
+	"rng_state_hi",
+	"rng_state_lo",
+	"closed",
+	"participants",
+	"processed_command_ids",
+	"history",
+]
+const PARTICIPANT_KEYS := [
+	"character_id",
+	"side_id",
+	"next_ready_tick",
+	"initiative_rank",
+	"guard_points",
+	"command_sequence",
+	"disengaged",
+	"active_statuses",
+]
+const STATUS_KEYS := [
+	"status_id",
+	"source_character_id",
+	"stack_rule",
+	"stacks",
+	"max_stacks",
+	"applied_tick",
+	"expires_at_tick",
+	"accuracy_modifier_permille",
+	"evasion_modifier_permille",
+	"defense_modifier",
+	"initiative_modifier",
+]
+const EVENT_KEYS := [
+	"event_id",
+	"encounter_id",
+	"kind",
+	"logical_tick",
+	"sequence",
+	"source_character_id",
+	"target_character_id",
+	"amount",
+	"detail_id",
 ]
 
-func encode(encounters: Array[CombatEncounterState]) -> Dictionary:
-	var encoded: Array[Dictionary] = []
-	var sorted := encounters.duplicate()
+func encode(
+	encounters: Array[CombatEncounterState],
+	rules: CombatRules,
+) -> Dictionary:
+	if rules == null or rules.validate() != OK:
+		return {}
+	if encounters.size() > rules.max_encounters:
+		return {}
+	var sorted: Array[CombatEncounterState] = []
+	for encounter: CombatEncounterState in encounters:
+		if encounter == null or encounter.validate(rules) != OK:
+			return {}
+		sorted.append(encounter.duplicate_detached())
 	sorted.sort_custom(
 		func(a: CombatEncounterState, b: CombatEncounterState) -> bool:
 			return String(a.encounter_id) < String(b.encounter_id)
 	)
+	var encoded: Array[Dictionary] = []
 	for encounter: CombatEncounterState in sorted:
 		encoded.append(_encode_encounter(encounter))
 	return {
@@ -2062,36 +2732,409 @@ func encode(encounters: Array[CombatEncounterState]) -> Dictionary:
 		"encounters": encoded,
 	}
 
-func decode(document: Dictionary, rules: CombatRules) -> Array[CombatEncounterState]:
+func decode(document: Dictionary, rules: CombatRules) -> DecodeResult:
 	if rules == null or rules.validate() != OK:
-		return []
+		return _failure(ERR_UNCONFIGURED, "règles invalides")
 	if not _has_exact_keys(document, ROOT_KEYS):
-		return []
-	if document.get("format") != FORMAT:
-		return []
-	if document.get("version") != VERSION:
-		return []
+		return _failure(ERR_INVALID_DATA, "clés racine invalides")
+	if typeof(document.get("format")) != TYPE_STRING:
+		return _failure(ERR_INVALID_DATA, "format non textuel")
+	if String(document.get("format")) != FORMAT:
+		return _failure(ERR_FILE_UNRECOGNIZED, "format inconnu")
+	var version_value: Variant = _read_int(document.get("version"), 1, VERSION)
+	if version_value == null or int(version_value) != VERSION:
+		return _failure(ERR_FILE_UNRECOGNIZED, "version inconnue")
 	var raw_encounters: Variant = document.get("encounters")
-	if not raw_encounters is Array:
-		return []
+	if typeof(raw_encounters) != TYPE_ARRAY:
+		return _failure(ERR_INVALID_DATA, "encounters non tabulaire")
+	var raw_array := raw_encounters as Array
+	if raw_array.size() > rules.max_encounters:
+		return _failure(ERR_OUT_OF_MEMORY, "trop d’affrontements")
 
-	var result: Array[CombatEncounterState] = []
+	var decoded: Array[CombatEncounterState] = []
 	var seen: Dictionary[StringName, bool] = {}
-	for raw: Variant in raw_encounters:
-		if not raw is Dictionary:
-			return []
+	for raw: Variant in raw_array:
+		if typeof(raw) != TYPE_DICTIONARY:
+			return _failure(ERR_INVALID_DATA, "affrontement non objet")
 		var encounter := _decode_encounter(raw as Dictionary, rules)
 		if encounter == null:
-			return []
+			return _failure(ERR_INVALID_DATA, "affrontement invalide")
 		if seen.has(encounter.encounter_id):
-			return []
+			return _failure(ERR_ALREADY_EXISTS, "affrontement dupliqué")
 		seen[encounter.encounter_id] = true
-		result.append(encounter)
-	result.sort_custom(
+		decoded.append(encounter)
+	decoded.sort_custom(
 		func(a: CombatEncounterState, b: CombatEncounterState) -> bool:
 			return String(a.encounter_id) < String(b.encounter_id)
 	)
+	var result := DecodeResult.new()
+	result.code = OK
+	result.encounters = decoded
 	return result
+
+func _encode_encounter(encounter: CombatEncounterState) -> Dictionary:
+	var participant_ids: Array[StringName] = []
+	participant_ids.assign(encounter.participants.keys())
+	participant_ids.sort()
+	var participants: Array[Dictionary] = []
+	for character_id: StringName in participant_ids:
+		participants.append(_encode_participant(encounter.participants[character_id]))
+
+	var processed: Array[String] = []
+	for command_id: StringName in encounter.processed_command_ids:
+		processed.append(String(command_id))
+
+	var history: Array[Dictionary] = []
+	for event: CombatEvent in encounter.history.snapshot():
+		history.append(_encode_event(event))
+	var seed_parts := _split_int64(encounter.rng_seed)
+	var state_parts := _split_int64(encounter.rng_state)
+	return {
+		"encounter_id": String(encounter.encounter_id),
+		"logical_tick": encounter.logical_tick,
+		"revision": encounter.revision,
+		"event_sequence": encounter.event_sequence,
+		"rng_seed_hi": seed_parts[0],
+		"rng_seed_lo": seed_parts[1],
+		"rng_state_hi": state_parts[0],
+		"rng_state_lo": state_parts[1],
+		"closed": encounter.closed,
+		"participants": participants,
+		"processed_command_ids": processed,
+		"history": history,
+	}
+
+func _decode_encounter(
+	raw: Dictionary,
+	rules: CombatRules,
+) -> CombatEncounterState:
+	if not _has_exact_keys(raw, ENCOUNTER_KEYS):
+		return null
+	var encounter_id := _required_stable_id(raw.get("encounter_id"))
+	if encounter_id.is_empty():
+		return null
+	var logical_tick: Variant = _read_int(
+		raw.get("logical_tick"), 0, JSON_SAFE_INT_MAX
+	)
+	var revision: Variant = _read_int(raw.get("revision"), 0, JSON_SAFE_INT_MAX)
+	var event_sequence: Variant = _read_int(
+		raw.get("event_sequence"), 0, JSON_SAFE_INT_MAX
+	)
+	var seed_hi: Variant = _read_int(raw.get("rng_seed_hi"), INT32_MIN, INT32_MAX)
+	var seed_lo: Variant = _read_int(raw.get("rng_seed_lo"), 0, UINT32_MAX)
+	var state_hi: Variant = _read_int(raw.get("rng_state_hi"), INT32_MIN, INT32_MAX)
+	var state_lo: Variant = _read_int(raw.get("rng_state_lo"), 0, UINT32_MAX)
+	if null in [
+		logical_tick, revision, event_sequence,
+		seed_hi, seed_lo, state_hi, state_lo,
+	]:
+		return null
+	if typeof(raw.get("closed")) != TYPE_BOOL:
+		return null
+	if typeof(raw.get("participants")) != TYPE_ARRAY:
+		return null
+	if typeof(raw.get("processed_command_ids")) != TYPE_ARRAY:
+		return null
+	if typeof(raw.get("history")) != TYPE_ARRAY:
+		return null
+
+	var encounter := CombatEncounterState.new()
+	encounter.encounter_id = encounter_id
+	encounter.logical_tick = int(logical_tick)
+	encounter.revision = int(revision)
+	encounter.event_sequence = int(event_sequence)
+	encounter.rng_seed = _join_int64(int(seed_hi), int(seed_lo))
+	encounter.rng_state = _join_int64(int(state_hi), int(state_lo))
+	encounter.closed = bool(raw.get("closed"))
+
+	var raw_participants := raw.get("participants") as Array
+	if raw_participants.is_empty():
+		return null
+	if raw_participants.size() > rules.max_participants:
+		return null
+	for raw_participant: Variant in raw_participants:
+		if typeof(raw_participant) != TYPE_DICTIONARY:
+			return null
+		var participant := _decode_participant(
+			raw_participant as Dictionary,
+			rules,
+		)
+		if participant == null:
+			return null
+		if encounter.participants.has(participant.character_id):
+			return null
+		encounter.participants[participant.character_id] = participant
+
+	var raw_processed := raw.get("processed_command_ids") as Array
+	if raw_processed.size() > rules.max_history_events:
+		return null
+	var seen_commands: Dictionary[StringName, bool] = {}
+	for raw_command_id: Variant in raw_processed:
+		var command_id := _required_stable_id(raw_command_id)
+		if command_id.is_empty() or seen_commands.has(command_id):
+			return null
+		seen_commands[command_id] = true
+		encounter.processed_command_ids.append(command_id)
+
+	var raw_history := raw.get("history") as Array
+	if raw_history.size() > rules.max_history_events:
+		return null
+	var maximum_sequence := 0
+	for raw_event: Variant in raw_history:
+		if typeof(raw_event) != TYPE_DICTIONARY:
+			return null
+		var event := _decode_event(raw_event as Dictionary)
+		if event == null or event.encounter_id != encounter_id:
+			return null
+		if event.event_id != CombatId.event(encounter_id, event.sequence):
+			return null
+		if encounter.history.append(event, rules.max_history_events) != OK:
+			return null
+		maximum_sequence = maxi(maximum_sequence, event.sequence)
+	if maximum_sequence > encounter.event_sequence:
+		return null
+	if encounter.validate(rules) != OK:
+		return null
+	return encounter
+
+func _encode_participant(participant: CombatantState) -> Dictionary:
+	var statuses: Array[ActiveStatus] = []
+	for status: ActiveStatus in participant.active_statuses:
+		statuses.append(status.duplicate_detached())
+	statuses.sort_custom(
+		func(a: ActiveStatus, b: ActiveStatus) -> bool:
+			return String(a.status_id) < String(b.status_id)
+	)
+	var encoded_statuses: Array[Dictionary] = []
+	for status: ActiveStatus in statuses:
+		encoded_statuses.append(_encode_status(status))
+	return {
+		"character_id": String(participant.character_id),
+		"side_id": String(participant.side_id),
+		"next_ready_tick": participant.next_ready_tick,
+		"initiative_rank": participant.initiative_rank,
+		"guard_points": participant.guard_points,
+		"command_sequence": participant.command_sequence,
+		"disengaged": participant.disengaged,
+		"active_statuses": encoded_statuses,
+	}
+
+func _decode_participant(
+	raw: Dictionary,
+	rules: CombatRules,
+) -> CombatantState:
+	if not _has_exact_keys(raw, PARTICIPANT_KEYS):
+		return null
+	var character_id := _required_character_id(raw.get("character_id"))
+	var side_id := _required_stable_id(raw.get("side_id"))
+	if character_id.is_empty() or side_id.is_empty():
+		return null
+	var next_ready: Variant = _read_int(
+		raw.get("next_ready_tick"), 0, JSON_SAFE_INT_MAX
+	)
+	var initiative: Variant = _read_int(raw.get("initiative_rank"), -100000, 100000)
+	var guard: Variant = _read_int(raw.get("guard_points"), 0, CombatantState.MAX_GUARD)
+	var sequence: Variant = _read_int(
+		raw.get("command_sequence"), 0, JSON_SAFE_INT_MAX
+	)
+	if null in [next_ready, initiative, guard, sequence]:
+		return null
+	if typeof(raw.get("disengaged")) != TYPE_BOOL:
+		return null
+	if typeof(raw.get("active_statuses")) != TYPE_ARRAY:
+		return null
+	var raw_statuses := raw.get("active_statuses") as Array
+	if raw_statuses.size() > rules.max_statuses_per_combatant:
+		return null
+
+	var participant := CombatantState.new()
+	participant.character_id = character_id
+	participant.side_id = side_id
+	participant.next_ready_tick = int(next_ready)
+	participant.initiative_rank = int(initiative)
+	participant.guard_points = int(guard)
+	participant.command_sequence = int(sequence)
+	participant.disengaged = bool(raw.get("disengaged"))
+	var seen_statuses: Dictionary[StringName, bool] = {}
+	for raw_status: Variant in raw_statuses:
+		if typeof(raw_status) != TYPE_DICTIONARY:
+			return null
+		var status := _decode_status(raw_status as Dictionary)
+		if status == null or seen_statuses.has(status.status_id):
+			return null
+		seen_statuses[status.status_id] = true
+		participant.active_statuses.append(status)
+	participant.active_statuses.sort_custom(
+		func(a: ActiveStatus, b: ActiveStatus) -> bool:
+			return String(a.status_id) < String(b.status_id)
+	)
+	if participant.validate(rules) != OK:
+		return null
+	return participant
+
+func _encode_status(status: ActiveStatus) -> Dictionary:
+	return {
+		"status_id": String(status.status_id),
+		"source_character_id": String(status.source_character_id),
+		"stack_rule": int(status.stack_rule),
+		"stacks": status.stacks,
+		"max_stacks": status.max_stacks,
+		"applied_tick": status.applied_tick,
+		"expires_at_tick": status.expires_at_tick,
+		"accuracy_modifier_permille": status.accuracy_modifier_permille,
+		"evasion_modifier_permille": status.evasion_modifier_permille,
+		"defense_modifier": status.defense_modifier,
+		"initiative_modifier": status.initiative_modifier,
+	}
+
+func _decode_status(raw: Dictionary) -> ActiveStatus:
+	if not _has_exact_keys(raw, STATUS_KEYS):
+		return null
+	var status_id := _required_stable_id(raw.get("status_id"))
+	var source_id := _required_character_id(raw.get("source_character_id"))
+	if status_id.is_empty() or source_id.is_empty():
+		return null
+	var stack_rule: Variant = _read_int(
+		raw.get("stack_rule"),
+		ActiveStatus.StackRule.REPLACE,
+		ActiveStatus.StackRule.ADD_STACK,
+	)
+	var stacks: Variant = _read_int(raw.get("stacks"), 1, 100000)
+	var max_stacks: Variant = _read_int(raw.get("max_stacks"), 1, 100000)
+	var applied: Variant = _read_int(raw.get("applied_tick"), 0, JSON_SAFE_INT_MAX)
+	var expires: Variant = _read_int(raw.get("expires_at_tick"), 1, JSON_SAFE_INT_MAX)
+	var accuracy: Variant = _read_int(
+		raw.get("accuracy_modifier_permille"), -100000, 100000
+	)
+	var evasion: Variant = _read_int(
+		raw.get("evasion_modifier_permille"), -100000, 100000
+	)
+	var defense: Variant = _read_int(raw.get("defense_modifier"), -100000, 100000)
+	var initiative: Variant = _read_int(
+		raw.get("initiative_modifier"), -100000, 100000
+	)
+	if null in [
+		stack_rule, stacks, max_stacks, applied, expires,
+		accuracy, evasion, defense, initiative,
+	]:
+		return null
+	var status := ActiveStatus.new()
+	status.status_id = status_id
+	status.source_character_id = source_id
+	status.stack_rule = int(stack_rule)
+	status.stacks = int(stacks)
+	status.max_stacks = int(max_stacks)
+	status.applied_tick = int(applied)
+	status.expires_at_tick = int(expires)
+	status.accuracy_modifier_permille = int(accuracy)
+	status.evasion_modifier_permille = int(evasion)
+	status.defense_modifier = int(defense)
+	status.initiative_modifier = int(initiative)
+	return status if status.validate() == OK else null
+
+func _encode_event(event: CombatEvent) -> Dictionary:
+	return {
+		"event_id": String(event.event_id),
+		"encounter_id": String(event.encounter_id),
+		"kind": int(event.kind),
+		"logical_tick": event.logical_tick,
+		"sequence": event.sequence,
+		"source_character_id": String(event.source_character_id),
+		"target_character_id": String(event.target_character_id),
+		"amount": event.amount,
+		"detail_id": String(event.detail_id),
+	}
+
+func _decode_event(raw: Dictionary) -> CombatEvent:
+	if not _has_exact_keys(raw, EVENT_KEYS):
+		return null
+	var event_id := _required_stable_id(raw.get("event_id"))
+	var encounter_id := _required_stable_id(raw.get("encounter_id"))
+	if event_id.is_empty() or encounter_id.is_empty():
+		return null
+	var kind: Variant = _read_int(
+		raw.get("kind"), CombatEvent.Kind.ENCOUNTER_STARTED,
+		CombatEvent.Kind.ENCOUNTER_CLOSED,
+	)
+	var logical_tick: Variant = _read_int(
+		raw.get("logical_tick"), 0, JSON_SAFE_INT_MAX
+	)
+	var sequence: Variant = _read_int(raw.get("sequence"), 1, JSON_SAFE_INT_MAX)
+	var amount: Variant = _read_int(
+		raw.get("amount"), -JSON_SAFE_INT_MAX, JSON_SAFE_INT_MAX
+	)
+	if null in [kind, logical_tick, sequence, amount]:
+		return null
+	var source_id := _optional_character_id(raw.get("source_character_id"))
+	var target_id := _optional_character_id(raw.get("target_character_id"))
+	var detail_id := _optional_stable_id(raw.get("detail_id"))
+	if source_id == null or target_id == null or detail_id == null:
+		return null
+	var event := CombatEvent.new()
+	event.event_id = event_id
+	event.encounter_id = encounter_id
+	event.kind = int(kind)
+	event.logical_tick = int(logical_tick)
+	event.sequence = int(sequence)
+	event.source_character_id = StringName(String(source_id))
+	event.target_character_id = StringName(String(target_id))
+	event.amount = int(amount)
+	event.detail_id = StringName(String(detail_id))
+	return event if event.validate() == OK else null
+
+func _read_int(value: Variant, minimum: int, maximum: int) -> Variant:
+	var parsed: int
+	if typeof(value) == TYPE_INT:
+		parsed = int(value)
+	elif typeof(value) == TYPE_FLOAT:
+		var number := float(value)
+		if not is_finite(number) or number != floor(number):
+			return null
+		if absf(number) > float(JSON_SAFE_INT_MAX):
+			return null
+		parsed = int(number)
+	else:
+		return null
+	if parsed < minimum or parsed > maximum:
+		return null
+	return parsed
+
+func _required_stable_id(value: Variant) -> StringName:
+	if typeof(value) != TYPE_STRING:
+		return &""
+	var result := StringName(String(value))
+	return result if StableId.is_valid(result) else &""
+
+func _required_character_id(value: Variant) -> StringName:
+	if typeof(value) != TYPE_STRING:
+		return &""
+	var result := StringName(String(value))
+	return result if CharacterId.is_valid(result) else &""
+
+func _optional_stable_id(value: Variant) -> Variant:
+	if typeof(value) != TYPE_STRING:
+		return null
+	var result := StringName(String(value))
+	if result.is_empty() or StableId.is_valid(result):
+		return result
+	return null
+
+func _optional_character_id(value: Variant) -> Variant:
+	if typeof(value) != TYPE_STRING:
+		return null
+	var result := StringName(String(value))
+	if result.is_empty() or CharacterId.is_valid(result):
+		return result
+	return null
+
+func _split_int64(value: int) -> Array[int]:
+	var parts: Array[int] = []
+	parts.append(value >> 32)
+	parts.append(value & UINT32_MAX)
+	return parts
+
+func _join_int64(high: int, low: int) -> int:
+	return (high << 32) | low
 
 func _has_exact_keys(value: Dictionary, expected: Array) -> bool:
 	if value.size() != expected.size():
@@ -2100,21 +3143,29 @@ func _has_exact_keys(value: Dictionary, expected: Array) -> bool:
 		if not value.has(key):
 			return false
 	return true
+
+func _failure(code: Error, message: String) -> DecodeResult:
+	var result := DecodeResult.new()
+	result.code = code
+	result.message = message
+	return result
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** le codec impose format, version, clés exactes, types et absence de doublons.
+- **Rôle :** le codec matérialise format, version, clés exactes, limites, types, identifiants et absence de doublons pour tous les objets imbriqués.
 
-- **Ordre :** les affrontements sont triés à l’encodage et au décodage afin de produire un document canonique.
+- **Résultat structuré :** `DecodeResult.code` distingue un document vide valide d’un refus ; aucune sentinelle de tableau vide n’est ambiguë.
 
-- **Refus conservateur :** une liste vide représente ici un échec ou un document sans affrontement ; le contrat applicatif doit distinguer ces deux cas avant appel, par exemple avec un résultat structuré.
+- **Nombres JSON :** `_read_int()` accepte un `int` ou un `float` exactement entier dans la plage sûre de 53 bits. Les deux valeurs RNG de 64 bits sont divisées en parties haute et basse de 32 bits pour éviter toute perte de précision.
 
-- **Limite :** `_encode_encounter()` et `_decode_encounter()` suivent les mêmes règles strictes pour participants, états et événements ; aucune conversion depuis une chaîne vers un nombre n’est autorisée.
+- **Copies et ordre :** l’encodage travaille sur des copies détachées ; affrontements, participants et états sont triés, tandis que commandes récentes et événements conservent leur ordre historique.
 
-Le rapport d’audit doit vérifier que les méthodes privées sont complètes dans le chapitre matérialisé. Une version abrégée ne doit pas être copiée comme codec de production.
+- **Validation croisée :** l’identifiant d’événement doit être reconstructible depuis l’affrontement et la séquence ; la plus grande séquence conservée ne peut pas dépasser le compteur autoritaire.
+
+- **Refus conservateur :** une clé inconnue, un nombre fractionnaire, une borne dépassée, une référence mal typée ou un doublon invalide tout le candidat avant application.
 
 ## 38. Section de sauvegarde
 
@@ -2134,37 +3185,46 @@ func section_id() -> StringName:
 	return &"combat"
 
 func capture() -> Dictionary:
+	if _repository == null or _rules == null:
+		return {}
+	if _rules.validate() != OK:
+		return {}
 	var encounters: Array[CombatEncounterState] = []
 	for encounter_id: StringName in _repository.all_encounter_ids_sorted():
 		var encounter := _repository.get_encounter(encounter_id)
-		if encounter != null:
-			encounters.append(encounter)
-	return _codec.encode(encounters)
+		if encounter == null:
+			return {}
+		encounters.append(encounter.duplicate_detached())
+	return _codec.encode(encounters, _rules)
 
 func prepare_restore(payload: Dictionary) -> Error:
 	_prepared.clear()
 	_is_prepared = false
+	if _repository == null or _rules == null:
+		return ERR_UNCONFIGURED
 	var decoded := _codec.decode(payload, _rules)
-	if decoded.is_empty():
-		var raw: Variant = payload.get("encounters")
-		if not raw is Array or not (raw as Array).is_empty():
-			return ERR_INVALID_DATA
-	_prepared = decoded
+	if not decoded.is_success():
+		return decoded.code
+	for encounter: CombatEncounterState in decoded.encounters:
+		_prepared.append(encounter.duplicate_detached())
 	_is_prepared = true
 	return OK
 
 func apply_prepared() -> Error:
 	if not _is_prepared:
 		return ERR_UNCONFIGURED
-	var code := _repository.replace_all(_prepared)
+	var candidates: Array[CombatEncounterState] = []
+	for encounter: CombatEncounterState in _prepared:
+		candidates.append(encounter.duplicate_detached())
+	var code := _repository.replace_all(candidates)
 	if code != OK:
 		return code
-	_prepared = []
+	_prepared.clear()
 	_is_prepared = false
 	return OK
 
 func cancel_restore() -> void:
-	_prepared = []
+	_prepared.clear()
 	_is_prepared = false
 ```
 
@@ -2172,13 +3232,15 @@ func cancel_restore() -> void:
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** la section capture dans un ordre stable, prépare un candidat complet puis l’applique seulement sur demande du coordinateur.
+- **Rôle :** la section capture des copies dans un ordre stable, prépare un ensemble complet puis l’applique seulement sur demande du coordinateur.
 
-- **Cas vide :** un tableau d’affrontements vide est valide ; une liste vide produite par l’échec d’un document non vide est refusée.
+- **Cas vide :** `DecodeResult` permet d’accepter explicitement zéro affrontement sans confondre ce cas avec une erreur de format.
 
-- **Effets de bord :** `prepare_restore()` ne touche pas au dépôt actif ; `apply_prepared()` consomme le candidat uniquement après succès.
+- **Copies :** capture, préparation et application ne partagent aucun `CombatEncounterState`, `CombatantState`, `ActiveStatus` ou `CombatEvent` mutable avec l’appelant.
 
-- **Annulation :** le coordinateur peut libérer la préparation sans mutation lorsque toute autre section échoue.
+- **Effets de bord :** `prepare_restore()` ne touche pas au dépôt actif ; `apply_prepared()` ne vide la préparation qu’après `replace_all()` réussi.
+
+- **Annulation :** le coordinateur peut libérer le candidat sans mutation lorsque toute autre section échoue.
 
 ## 39. Présentation et événements moteur
 
@@ -2819,9 +3881,10 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 
 ### 46.1 Tests unitaires
 
-- validation des identifiants et commandes ;
+- validation des identifiants, commandes, côtés et création d’affrontement ;
 - bornes de `CombatRules` ;
-- ordre total de l’initiative ;
+- ordre total de l’initiative et départage lexical ;
+- refus d’une cible du même côté lorsque le tir allié est désactivé ;
 - portée par distance carrée ;
 - chance minimale et maximale ;
 - consommation exacte d’un tirage ;
@@ -2832,7 +3895,8 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 - historique borné et ordonné ;
 - doublon de commande ;
 - tick ou révision obsolète ;
-- codec avec clés inconnues, types incorrects et doublons.
+- codec complet avec document vide valide, clés inconnues, types incorrects, nombres non entiers et doublons ;
+- copies profondes des participants, états temporaires et événements.
 
 ### 46.2 Tests d’intégration
 
@@ -2868,7 +3932,7 @@ Cette rédaction est une revue statique. Elle ne prouve pas :
 - que les animations consomment correctement les événements ;
 - que le RNG produit un replay identique entre plateformes ou versions ;
 - que les bornes tiennent sur la configuration de référence ;
-- que le codec complet et les migrations sont exécutables ;
+- que le codec complet, ses conversions JSON et une future migration sont exécutables ;
 - que la scène pédagogique est instanciable ;
 - que le packaging inclut toutes les `Resource`;
 - qu’un multijoueur futur peut réutiliser cette autorité sans adaptation ;
@@ -2897,6 +3961,7 @@ La santé reste dans le système des personnages. L’initiative, la garde et le
 - [Godot 4.7 — `Timer`](https://docs.godotengine.org/en/4.7/classes/class_timer.html)
 - [Godot 4.7 — `Time`](https://docs.godotengine.org/en/4.7/classes/class_time.html)
 - [Godot 4.7 — `Engine`](https://docs.godotengine.org/en/4.7/classes/class_engine.html)
+- [Godot 4.7 — `JSON`](https://docs.godotengine.org/en/4.7/classes/class_json.html)
 - [Godot 4.7 — `Dictionary`](https://docs.godotengine.org/en/4.7/classes/class_dictionary.html)
 - [Godot 4.7 — `Array`](https://docs.godotengine.org/en/4.7/classes/class_array.html)
 - [Godot 4.7 — `StringName`](https://docs.godotengine.org/en/4.7/classes/class_stringname.html)
@@ -2912,7 +3977,7 @@ Le système de combat de `Project Asteria` repose sur les décisions suivantes :
 1. toute source produit une `CombatCommand` et aucune ne fournit directement les dégâts ;
 2. `CombatService` constitue l’entrée autoritaire unique ;
 3. la santé et l’endurance restent dans `CharacterRuntimeState` ;
-4. initiative, garde, états et révision restent dans `CombatEncounterState` ;
+4. côtés, initiative, garde, états et révision restent dans `CombatEncounterState` ;
 5. les commandes sont corrélées, ordonnées, bornées et idempotentes ;
 6. les snapshots figent les lectures et les révisions sont recontrôlées avant commit ;
 7. portée logique et ligne de vue sont deux validations distinctes ;
@@ -2922,5 +3987,5 @@ Le système de combat de `Project Asteria` repose sur les décisions suivantes :
 11. les mutations sont préparées sur des candidats puis committées avant tout événement ;
 12. la simulation hors écran réutilise les mêmes règles avec un adaptateur spatial logique ;
 13. la file de commandes, les raycasts et la présentation ne sont pas persistés ;
-14. le RNG est local à l’affrontement et son état est sauvegardé avec une réserve inter-version ;
+14. le RNG est local à l’affrontement, initialisé par sa graine et sauvegardé sans perte via deux mots de 32 bits ;
 15. les compétences, objets, économie, politique et narration restent autorités de leurs propres règles.
