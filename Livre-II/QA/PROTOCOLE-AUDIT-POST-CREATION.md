@@ -2,7 +2,7 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.1"
+version: "1.7.2"
 book: "Livre II"
 category: "quality-protocol"
 last-verified: "2026-07-20"
@@ -176,6 +176,16 @@ Pour chaque bloc significatif, vérifier explicitement, selon ce que le bloc exi
 Une explication peut être placée avant ou après le bloc, mais elle doit être immédiatement identifiable. Elle ne répète ni le chemin déjà affiché avant le code, ni une règle générale de syntaxe déjà présentée dans un chapitre de référence. Une rubrique `Rôle` qui reformule seulement le titre de la section est supprimée ; elle est conservée lorsqu’elle nomme un contrat, une fonction, une transformation ou une responsabilité concrète. Cette interdiction vaut pour toutes les rubriques : `Rôle`, `Pourquoi cet exemple est fautif`, `Pourquoi la correction fonctionne`, `Résultat attendu` ou toute formulation équivalente. Une explication ne peut jamais justifier un bloc en citant le titre de la section qui le contient ; elle énonce directement le fait technique, le risque ou l’invariant.
 
 Dans une section d’erreurs, d’anti-patterns, de pièges ou de corrections, le format privilégié est plus court : `Pourquoi cet exemple est fautif` sous le contre-exemple et `Pourquoi la correction fonctionne` sous la version corrigée. Un renvoi vers une section ou un chapitre antérieur peut être placé avant le code fautif lorsqu’il évite de répéter une règle déjà établie. Ce renvoi vise la sous-section exacte qui porte la règle ; une section parente n’est acceptable qu’en l’absence de cible plus précise. Son fragment doit être vérifié. Une ancre explicite et stable est privilégiée lorsque le fragment automatique du titre peut être ambigu, fragile ou dépendre du moteur Markdown.
+
+Hors de ces sections pédagogiques, le mot `erreur` ne sert pas de libellé générique pour tout résultat négatif. Employer :
+
+- `Valeurs de retour` lorsqu’une fonction renvoie plusieurs formes de résultat, y compris une sentinelle ;
+- `Codes de retour` lorsqu’une fonction renvoie des valeurs de l’énumération `Error` ;
+- `Refus contrôlé` lorsqu’une entrée ou une opération est rejetée normalement par un contrat ;
+- `Statuts à distinguer` lorsqu’il faut comparer plusieurs états métier ou résultats de recherche ;
+- `Traitement du résultat` lorsque l’appelant doit consommer, journaliser ou propager la valeur renvoyée.
+
+Le libellé `Erreur fréquente` est réservé à un véritable piège que le lecteur pourrait reproduire. S’il apparaît, il relève de Q1.2 et doit être accompagné d’un exemple fautif et d’une correction, ou être reformulé avec l’un des libellés précis ci-dessus.
 
 **Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
 

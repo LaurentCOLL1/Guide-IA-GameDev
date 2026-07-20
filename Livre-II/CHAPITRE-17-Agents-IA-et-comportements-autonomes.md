@@ -2,7 +2,7 @@
 title: "Livre II — Chapitre 17 : Agents IA et comportements autonomes"
 id: "DOC-L2-CH17"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
@@ -227,7 +227,7 @@ func next_sequence(logical_tick: int) -> int:
 
 - **Rôle :** `AgentState` conserve uniquement les données durables nécessaires à la continuité et à la reproductibilité de l’agent.
 - **Données importantes :** `owner_character_id` relie l’agent à une identité métier ; `policy_id` sélectionne sa politique ; `durable_goals` est borné ; `decision_sequence` ordonne les décisions ; `random_seed` et `random_state` permettent de restaurer une suite pseudo-aléatoire lorsqu’une variation autorisée l’exige.
-- **Retours et erreurs :** `validate()` renvoie un code `Error` ; `next_sequence()` renvoie `-1` lorsque le tick régresse et n’altère alors aucun compteur.
+- **Valeurs de retour :** `validate()` renvoie un code de l’énumération `Error`. `next_sequence()` renvoie une séquence strictement positive après succès, ou la sentinelle `-1` lorsque le tick régresse ; dans ce dernier cas, aucun compteur n’est modifié.
 - **Effets de bord :** `next_sequence()` incrémente la séquence et mémorise le tick uniquement après la vérification d’ordre.
 - **Invariants protégés :** identité stable, nombre de buts borné, séquence croissante et temps logique non décroissant.
 - **Résultat attendu :** deux exécutions restaurées avec le même snapshot, les mêmes observations et le même ordre de ticks commencent avec le même état de décision.
@@ -408,7 +408,7 @@ func snapshot() -> Dictionary[StringName, Variant]:
 
 - **Rôle :** ce contrat limite les clés et le type `Variant.Type` accepté pour chacune d’elles.
 - **Configuration :** `configure()` copie le schéma afin que l’appelant ne puisse pas modifier ultérieurement la liste autorisée par alias de dictionnaire.
-- **Erreurs :** une clé inconnue produit `ERR_DOES_NOT_EXIST` ; un type incorrect produit `ERR_INVALID_DATA`.
+- **Codes de retour de `write()` :** une clé absente du schéma renvoie `ERR_DOES_NOT_EXIST` ; une valeur dont le type ne correspond pas au schéma renvoie `ERR_INVALID_DATA`. Dans les deux cas, `_values` reste inchangé.
 - **Effets de bord :** reconfigurer efface les anciennes valeurs ; écrire remplace la valeur associée à une clé valide.
 - **Copie profonde :** `snapshot()` duplique aussi les tableaux et dictionnaires imbriqués, mais une `Resource` imbriquée resterait partagée ; le schéma de référence n’autorise donc que des scalaires, `StringName`, `Vector3` et petites collections de valeurs.
 - **Persistance :** le tableau noir n’est pas sauvegardé ; il décrit le contexte de la décision courante.
@@ -663,7 +663,7 @@ func all_sorted() -> Array[AgentActionDefinition]:
 **Explication détaillée du bloc :**
 
 - **Rôle :** `AgentActionCatalog` construit un candidat complet avant de remplacer le catalogue actif.
-- **Erreurs :** une action invalide produit `ERR_INVALID_DATA` ; deux identifiants identiques produisent `ERR_ALREADY_EXISTS` ; aucun remplacement partiel n’est effectué.
+- **Codes de retour de `replace_all()` :** une action invalide renvoie `ERR_INVALID_DATA` ; deux actions portant le même `action_id` renvoient `ERR_ALREADY_EXISTS`. Le catalogue actif n’est remplacé qu’après validation complète du candidat.
 - **Ordre stable :** `all_sorted()` neutralise l’ordre d’insertion du dictionnaire et fournit le départage lexical utilisé par le planificateur.
 - **Lecture :** le tableau retourné est nouveau, mais les `Resource` restent partagées et considérées comme immuables.
 
@@ -831,7 +831,7 @@ static func found(value: AgentPlan, expanded: int) -> AgentPlanResult:
 
 - **Rôle :** le résultat transporte un statut fermé, le plan éventuel et le nombre de nœuds développés pour le diagnostic.
 - **Retour de fabrique :** `found()` garantit que le statut et le plan sont assignés ensemble ; les autres statuts utilisent des fabriques équivalentes dans l’implémentation complète.
-- **Erreur fréquente :** `NO_PLAN` signifie que la recherche bornée a épuisé les possibilités autorisées ; `BUDGET_EXCEEDED` signifie qu’elle s’est arrêtée avant cette conclusion.
+- **Statuts à distinguer :** `NO_PLAN` signifie qu’aucune action n’est à exécuter dans le résultat courant : soit le but est déjà satisfait, soit la recherche complète n’a trouvé aucun chemin autorisé. `BUDGET_EXCEEDED` signifie que la limite d’expansions a interrompu la recherche avant qu’elle puisse conclure.
 
 ## 18. Nœud interne de recherche
 
@@ -1215,7 +1215,7 @@ agent.executor.combat_command
 
 - **Rôle :** ces identifiants découplent les `Resource` de conception des classes concrètes composées au bootstrap.
 - **Disponibilité :** les deux premières clés peuvent être matérialisées dans ce chapitre ; les exécuteurs de combat restent indisponibles avant le chapitre 18.
-- **Erreur attendue :** demander une clé non enregistrée produit un refus explicite, jamais un appel dynamique par nom de méthode fourni par les données.
+- **Refus contrôlé :** une clé absente du registre renvoie un échec explicite. Elle ne déclenche jamais le chargement d’une classe ou l’appel dynamique d’une méthode indiquée par les données.
 
 ## 24. Contrôleur autonome actif
 
@@ -1311,7 +1311,7 @@ static func decision_interval_ticks(value: Value) -> int:
 **Explication détaillée du bloc :**
 
 - **Rôle :** cette politique associe un mode explicite à une fréquence de décision, sans déduire l’existence métier de la présence dans la scène.
-- **Intervalles :** avec 60 ticks physiques par seconde, les valeurs correspondent approximativement à 10 décisions/s, 1 décision/s et 1 décision/10 s, mais la logique utilise les ticks et non les secondes murales.
+- **Intervalles nominaux :** avec `Engine.physics_ticks_per_second = 60`, le mode `ACTIVE` utilise `6` ticks, soit au plus `10` décisions par seconde ; `BACKGROUND` utilise `60` ticks, soit au plus `1` décision par seconde ; `DORMANT` utilise `600` ticks, soit au plus `1` décision toutes les `10` secondes. Ces équivalences changent si la fréquence physique du projet change. Elles restent nominales : lorsqu’un agent échu est reporté par le budget de l’ordonnanceur, sa décision réelle peut survenir plus tard, mais l’échéance demeure exprimée en ticks logiques.
 - **Mode dormant :** dormant ne signifie pas supprimé ; les buts durables et l’état persistent.
 - **Frontière :** le système de partition du monde choisit le mode. Le registre des personnages actifs ne constitue qu’un signal parmi d’autres.
 
@@ -1327,8 +1327,6 @@ La fréquence de décision est distincte de la fréquence d’exécution d’une
 class_name AgentTickPolicy
 extends RefCounted
 
-const MAX_CATCH_UP_DECISIONS := 1
-
 func is_due(
 	logical_tick: int,
 	last_decision_tick: int,
@@ -1340,17 +1338,23 @@ func is_due(
 		return false
 	if last_decision_tick >= logical_tick:
 		return false
-	return (logical_tick + phase) % interval == 0
+
+	var normalized_phase := posmod(phase, interval)
+	var remainder := posmod(last_decision_tick + normalized_phase, interval)
+	var ticks_until_next_slot := interval - remainder
+	var next_due_tick := last_decision_tick + ticks_until_next_slot
+	return logical_tick >= next_due_tick
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication détaillée du bloc :**
 
-- **Rôle :** la politique répartit les agents sur les ticks grâce à `phase`, tout en interdisant plusieurs décisions au même tick.
-- **Phase :** elle est dérivée de manière stable depuis le `CharacterId`, par exemple `abs(hash(id)) % interval` ; elle ne provient pas d’un tirage aléatoire au démarrage.
-- **Rattrapage :** après une longue pause, le système ne rejoue pas toutes les décisions manquées ; une seule nouvelle décision est autorisée, puis le monde courant est observé.
-- **Vérification :** deux agents ayant des phases différentes doivent répartir leurs échéances sur l’intervalle.
+- **Rôle :** la politique calcule la première échéance canonique strictement postérieure à la dernière décision, puis indique si cette échéance est atteinte ou dépassée.
+- **Phase :** `posmod()` ramène `phase` dans l’intervalle positif. La phase est dérivée de manière stable depuis le `CharacterId` ; elle ne provient pas d’un tirage aléatoire au démarrage.
+- **Report conservé :** la comparaison `logical_tick >= next_due_tick` maintient l’agent échu tant que l’ordonnanceur ne l’a pas traité. Avec l’ancien test d’égalité modulo, un agent non visité au tick exact pouvait attendre tout un intervalle supplémentaire.
+- **Rattrapage borné :** après une longue pause, `decide()` n’est appelé qu’une fois pour l’agent et observe le monde courant ; les créneaux manqués ne sont pas rejoués un par un.
+- **Vérification :** deux agents de phases différentes répartissent leurs échéances, et un agent dépassant son créneau reste dû au tick suivant jusqu’à sa décision.
 
 ## 27. Ordonnanceur borné
 
@@ -1418,7 +1422,7 @@ func _physics_process(_delta: float) -> void:
 - **Ordre autoritaire :** le registre renvoie des identités triées ; le curseur avance du nombre d’entrées visitées, ce qui évite de favoriser toujours les premiers identifiants.
 - **Budget :** `MAX_DECISIONS_PER_PHYSICS_TICK` contrôle le travail déterministe. `WARNING_BUDGET_USEC` ne coupe pas la boucle et sert uniquement à signaler un coût matériel élevé.
 - **Temps :** `_logical_tick` est local à cet exemple. Dans le projet complet, il doit provenir de l’horloge de simulation autoritaire utilisée par les autres systèmes.
-- **Erreurs :** le code de retour de `decide()` devrait être enregistré dans une trace ou un compteur ; le brouillon ne l’ignore que pour garder l’extrait centré sur l’ordonnancement.
+- **Traitement du résultat :** le code renvoyé par `decide()` doit être enregistré dans une trace ou un compteur. L’extrait ne le consomme pas afin de rester centré sur l’ordonnancement ; cette omission pédagogique ne signifie pas que l’application finale peut ignorer le résultat.
 - **Limite :** l’ordonnanceur s’exécute sur le thread principal. Une future parallélisation exige des snapshots immuables et interdit tout accès aux nœuds depuis les workers.
 
 ## 28. Invalidation et annulation

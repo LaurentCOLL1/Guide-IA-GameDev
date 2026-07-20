@@ -2,9 +2,9 @@
 title: "Audit du Livre II — Chapitre 17"
 id: "DOC-L2-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH17"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
 audit-date: "2026-07-20"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -65,3 +65,18 @@ Aucun script n’a été analysé par le parseur Godot. La scène, les signaux, 
 ## 6. Décision
 
 **Accepté au niveau `static-review`**, sous réserve des validations documentaires permanentes et des tests runtime futurs du chapitre 27.
+
+
+## 7. Addendum terminologique et ordonnanceur — version 1.0.1
+
+La relecture postérieure à la fusion a distingué six libellés ambigus hors de la section 37 :
+
+- `Valeurs de retour` pour une sentinelle ou un résultat non limité à `Error` ;
+- `Codes de retour` pour `ERR_*` ;
+- `Refus contrôlé` pour une clé non enregistrée ;
+- `Statuts à distinguer` pour `NO_PLAN` et `BUDGET_EXCEEDED` ;
+- `Traitement du résultat` pour la consommation du retour de `decide()`.
+
+La phrase des intervalles associe désormais explicitement `ACTIVE`, `BACKGROUND` et `DORMANT` aux valeurs `6`, `60` et `600`, précise la dépendance à `Engine.physics_ticks_per_second` et qualifie les fréquences de nominales.
+
+L’audit a également détecté un défaut fonctionnel dans l’exemple de `AgentTickPolicy` : le test modulo exact pouvait perdre une échéance lorsque la limite de huit décisions empêchait de visiter l’agent au tick prévu. La politique calcule maintenant `next_due_tick` et utilise `logical_tick >= next_due_tick`, ce qui conserve l’échéance jusqu’au traitement effectif.
