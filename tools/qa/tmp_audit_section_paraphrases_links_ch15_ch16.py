@@ -16,8 +16,11 @@ for path in FILES:
         if m:
             current = (len(m.group(1)), m.group(2), idx)
             headings.append(current)
-        if current and 'Pourquoi cet exemple est fautif' in line and f'« {current[1]} »' in line:
-            out.append(f'{path}:{idx}:SELF_REFERENCE:{current[1]}::{line.strip()}')
+            continue
+        if current and current[1] in line and line.lstrip().startswith('- **'):
+            out.append(f'{path}:{idx}:SELF_TITLE_MENTION:{current[1]}::{line.strip()}')
+        if line.startswith('- **Rôle :**') and re.search(r'incorrect|fautif|mauvaise normalisation', line, re.IGNORECASE):
+            out.append(f'{path}:{idx}:SUSPICIOUS_ROLE:{current[1] if current else "<none>"}::{line.strip()}')
         if line.startswith('> **À relire :**'):
             link = re.search(r'\[([^\]]+)\]\((#[^)]+)\)', line)
             label = link.group(1) if link else '<missing>'
