@@ -56,14 +56,26 @@ proof = replace_once(proof, "validation-date: '2026-07-21'", "validation-date: '
 proof = replace_once(proof, "  version: 1.0.0", "  version: 1.0.1", "proof chapter version")
 proof = replace_once(proof, "  blocking-errors: 0", "  blocking-errors: pending", "proof errors")
 proof = replace_once(proof, "  warnings: 1", "  warnings: pending", "proof warnings")
-proof = replace_once(proof, "    run-id: 29862111418", "    run-id: pending", "proof chapter run")
-proof = replace_once(proof, "    conclusion: success", "    conclusion: pending", "proof chapter conclusion")
-proof = replace_once(proof, "    run-id: 29862111412", "    run-id: pending", "proof context run")
-proof = replace_once(proof, "    conclusion: success", "    conclusion: pending", "proof context conclusion")
+proof = replace_once(
+    proof,
+    "  validate-chapters-without-pdf:\n    run-id: 29862111418\n    conclusion: success",
+    "  validate-chapters-without-pdf:\n    run-id: pending\n    conclusion: pending",
+    "proof chapter workflow",
+)
+proof = replace_once(
+    proof,
+    "  validate-usage-contexts:\n    run-id: 29862111412\n    conclusion: success",
+    "  validate-usage-contexts:\n    run-id: pending\n    conclusion: pending",
+    "proof context workflow",
+)
 proof = replace_once(proof, "    id: 8507704291", "    id: pending", "proof artifact id")
 proof = replace_once(proof, "    digest: sha256:678af704b617e916593159dacca254703150b390a6f1b4a367743925dd87b370", "    digest: pending", "proof artifact digest")
-proof = replace_once(proof, "  commit: 769b424af8312fa66676110cad97cb523a25bde8", "  commit: pending", "proof closure commit")
-proof = replace_once(proof, "  conclusion: success", "  conclusion: pending", "proof closure conclusion")
+proof = replace_once(
+    proof,
+    "evidence-closure:\n  commit: 769b424af8312fa66676110cad97cb523a25bde8\n  conclusion: success",
+    "evidence-closure:\n  commit: pending\n  conclusion: pending",
+    "proof closure",
+)
 PROOF.write_text(proof, encoding="utf-8")
 
 continuity = CONTINUITY.read_text(encoding="utf-8")
@@ -90,7 +102,7 @@ validator = replace_once(
 validator = replace_once(
     validator,
     '        if any(marker in text for marker in CONFLICT_MARKERS):\n            errors.append(f"Marqueur de conflit Git détecté : {rel}")\n\n        metadata = parse_front_matter(text, rel, errors)\n',
-    '        if any(marker in text for marker in CONFLICT_MARKERS):\n            errors.append(f"Marqueur de conflit Git détecté : {rel}")\n\n        normalized_text = text.casefold()\n        for forbidden, replacement in FORBIDDEN_TERMINOLOGY.items():\n            if forbidden in normalized_text:\n                errors.append(\n                    f"Calque terminologique interdit dans {rel} : {forbidden!r}. "\n                    f"Employer {replacement!r}."\n                )\n\n        metadata = parse_front_matter(text, rel, errors)\n',
+    '        if any(marker in text for marker in CONFLICT_MARKERS):\n            errors.append(f"Marqueur de conflit Git détecté : {rel}")\n\n        normalized_text = text.casefold()\n        for forbidden, replacement in FORBIDDEN_TERMINOLOGY.items():\n            pattern = rf"(?<!\\w){re.escape(forbidden)}(?!\\w)"\n            if re.search(pattern, normalized_text):\n                errors.append(\n                    f"Calque terminologique interdit dans {rel} : {forbidden!r}. "\n                    f"Employer {replacement!r}."\n                )\n\n        metadata = parse_front_matter(text, rel, errors)\n',
     "validator terminology check",
 )
 VALIDATOR.write_text(validator, encoding="utf-8")
