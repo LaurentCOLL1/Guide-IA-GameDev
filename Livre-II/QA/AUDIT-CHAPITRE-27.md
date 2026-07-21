@@ -2,7 +2,7 @@
 title: "Audit du Livre II — Chapitre 27"
 id: "DOC-L2-QA-AUDIT-CH27"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH27"
 chapter-version: "1.0.0"
 audit-level: "static-review"
@@ -20,7 +20,7 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch27-tests-sim
 ## 2. Résultats
 
 - lignes finales : **1961** ;
-- titres Markdown : **75** ;
+- titres Markdown contrôlés : **74** ;
 - blocs de code ou de données : **64** ;
 - marqueurs d’explication : **64** ;
 - explications structurées hors sections d’erreurs : **44** ;
