@@ -4,8 +4,8 @@ id: "DOC-L2-QA-AUDIT-EXPLANATIONS-CH17-CH26"
 status: "complete"
 version: "1.0.0"
 audit-level: "static-review"
-audit-date: "2026-07-21T17:35:51+02:00"
-last-verified: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T17:37:02+02:00"
+last-verified: "2026-07-21T17:37:02+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
