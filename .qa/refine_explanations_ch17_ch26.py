@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import gzip
 import hashlib
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -16,14 +17,57 @@ if actual != expected:
 for path in PARTS:
     path.unlink()
 SOURCE = source_bytes.decode("utf-8")
-SOURCE = SOURCE.replace(
-    'or line.startswith("**Symptôme")\n            ):',
-    'or line.startswith("**Symptôme")\n                or line.startswith("<a id=")\n            ):',
-    1,
+
+validator_boundary = '''def end_of_explanation(lines: list[str], start: int) -> int:
+    structured_seen = False
+    for index in range(start, len(lines)):
+        line = lines[index]
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped == STRUCTURED:
+            structured_seen = True
+            continue
+        if structured_seen and (line.startswith("- **") or line.startswith("  ")):
+            continue
+        if structured_seen:
+            return index
+    return len(lines)
+'''
+SOURCE, count = re.subn(
+    r'def end_of_explanation\(lines: list\[str\], start: int\) -> int:\n.*?\n\ndef check\(',
+    validator_boundary + '\n\ndef check(',
+    SOURCE,
+    count=1,
+    flags=re.S,
 )
-SOURCE = SOURCE.replace(
-    'or line.startswith("**Symptôme")\n    )',
-    'or line.startswith("**Symptôme")\n        or line.startswith("<a id=")\n    )',
-    1,
+if count != 1:
+    raise RuntimeError("fonction de frontière du validateur introuvable")
+
+refinement_boundary = '''def explanation_end(lines: list[str], start: int) -> int:
+    wrapper_seen = False
+    for index in range(start, len(lines)):
+        line = lines[index]
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped == WRAPPER:
+            wrapper_seen = True
+            continue
+        if wrapper_seen and (line.startswith("- **") or line.startswith("  ")):
+            continue
+        if wrapper_seen:
+            return index
+    return len(lines)
+'''
+SOURCE, count = re.subn(
+    r'def explanation_end\(lines: list\[str\], start: int\) -> int:\n.*?\n\ndef parse_bullets\(',
+    refinement_boundary + '\n\ndef parse_bullets(',
+    SOURCE,
+    count=1,
+    flags=re.S,
 )
+if count != 1:
+    raise RuntimeError("fonction de frontière du raffinement introuvable")
+
 exec(compile(SOURCE, __file__, "exec"))
