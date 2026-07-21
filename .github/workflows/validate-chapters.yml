@@ -20,7 +20,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate-chapters:
@@ -29,12 +29,20 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout repository
+      - name: Checkout correction branch
         uses: actions/checkout@v4
+        with:
+          ref: fix/qa-reasoning-process-metadata
+          fetch-depth: 0
 
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Apply reasoning metadata correction
+        run: |
+          python3 .qa/fix_reasoning_metadata.py
+          test ! -e .qa/fix_reasoning_metadata.py
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -60,6 +68,21 @@ jobs:
           set -o pipefail
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Commit corrected governance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- \
+            CONTINUITE-PROJET.md \
+            ROADMAP.md \
+            Livre-II/index.md \
+            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md \
+            Livre-II/CHAPITRE-*.md \
+            tools/validate_chapters.py \
+            .qa/fix_reasoning_metadata.py
+          git commit -m "fix(qa): keep reasoning level out of chapter metadata"
+          git push origin HEAD:fix/qa-reasoning-process-metadata
 
       - name: Assert that no PDF was produced
         run: |
