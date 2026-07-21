@@ -1,0 +1,53 @@
+name: Chapter 27 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-ii-ch27-tests-simulations
+    paths:
+      - .github/workflows/ch27-finalizer.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install validator dependency
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Reconstruct permanent files
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cat .qa/ch27/chunk-* | base64 -d > /tmp/ch27-package.tar.gz
+          tar -xzf /tmp/ch27-package.tar.gz
+          python3 .qa/ch27/finalize.py
+
+      - name: Run documentary checks
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 tools/validate_chapters.py --report /tmp/ch27-QA-CHAPTERS.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          python3 tools/report_contextes_utilisation.py > /tmp/ch27-context-coverage.md
+          python3 tools/check_code_explanation_structure.py
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf .qa/ch27
+          rm -f .github/workflows/ch27-finalizer.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): finalize chapter 27 tests and simulations"
+          git push origin HEAD:docs/livre-ii-ch27-tests-simulations
