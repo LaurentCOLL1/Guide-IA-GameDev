@@ -1,0 +1,68 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH27
+status: complete
+validation-date: '2026-07-21'
+validated-base-commit: 4df6f5ffec8718756817b115ca827db2f6d4b7d8
+validated-head-commit: f51d83f5bc1fc367e90f7184edc8aed7ed36d117
+chapter:
+  id: DOC-L2-CH27
+  path: Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1961
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 64
+  code-explanation-markers: 64
+  structured-non-error-code-explanations: true
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  gut-governance-documented: true
+  test-levels-separated: true
+  doubles-and-fixtures-documented: true
+  scenetree-and-signal-tests-bounded: true
+  temporary-storage-isolated: true
+  deterministic-simulations-documented: true
+  golden-files-reviewed-only: true
+  retry-masking-forbidden: true
+  external-services-isolated: true
+  solo-studio-rendered-as-markdown: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29862111418
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29862111412
+    conclusion: success
+  artifact:
+    id: 8507704291
+    name: chapter-validation-without-pdf
+    digest: sha256:678af704b617e916593159dacca254703150b390a6f1b4a367743925dd87b370
+reservations:
+- Godot parser not executed.
+- GUT not installed or executed.
+- Test support files not materialized.
+- SceneTree tests not executed.
+- Temporary SQLite databases not created.
+- Save and file transactions not exercised.
+- External adapters not executed.
+- Simulations and golden files not replayed.
+- JUnit reports not produced.
+- Cross-platform reproducibility not measured.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: 769b424af8312fa66676110cad97cb523a25bde8
+  conclusion: success

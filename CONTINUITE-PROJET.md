@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.26.2"
+version: "3.27.0"
 lang: "fr-FR"
-last-updated: "2026-07-21T19:59:30+02:00"
+last-updated: "2026-07-21T21:00:05+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 26 chapitres sur 30.**
+**En cours : 27 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -143,7 +143,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 #### Partie D — Industrialisation
 
 26. Outils d’édition internes et pipelines de contenu — terminé au niveau `static-review`.
-27. Tests unitaires, tests d’intégration et simulations.
+27. Tests unitaires, tests d’intégration et simulations — terminé au niveau `static-review`.
 28. Journalisation, diagnostic et reproductibilité.
 29. Automatisation Python et génération de données.
 30. Architecture Solo et architecture Studio.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 26 : **Élevée**.
+Chapitres 3 à 27 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -241,7 +241,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.6`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.8`.
 
 Les workflows ont des responsabilités séparées :
 
@@ -1205,6 +1205,20 @@ Preuve : `Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml`.
 
 Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
+### 11.23 Tests, intégration et simulations
+
+- GUT 9.x constitue le framework de référence pour les scripts du projet, avec une révision compatible Godot 4.7 épinglée et sa licence MIT conservée ;
+- les suites sont séparées entre tests unitaires, tests de composant, intégration, simulations et campagnes de plateforme ;
+- les règles pures utilisent builders, fixtures, fakes, stubs et spies sans charger une scène inutilement ;
+- un `SceneTree` réel est utilisé uniquement lorsque le cycle de vie Godot, les signaux, les frames ou la physique appartiennent au contrat ;
+- horloge logique, RNG, dépôts et services externes sont injectés et contrôlés par le test ;
+- fichiers, bases SQLite et workspaces utilisent des racines temporaires uniques et sont nettoyés après chaque cas ;
+- chaque simulation déclare un scénario versionné, ses graines, un maximum de ticks et des invariants vérifiés pendant l’exécution ;
+- snapshots, événements canoniques et empreintes permettent de comparer deux exécutions sans dépendre du rendu ;
+- les golden files sont revus explicitement et ne sont jamais régénérés automatiquement par le test qui les compare ;
+- les exécutions headless conservent les codes de sortie et publient les rapports JUnit et artefacts de diagnostic ;
+- aucun retry automatique ne masque un test instable ; les services IA et réseaux réels restent hors des suites déterministes.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1431,13 +1445,25 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas lancer un scan ou une réimportation pendant un import actif ;
 - ne pas donner au plugin d’éditeur une autorité runtime ;
 
+- ne pas présenter `godot --test` comme le runner des scripts GDScript du projet ;
+- ne pas laisser le framework de test entrer dans les dépendances runtime ;
+- ne pas utiliser l’heure système, un RNG global ou un ordre de dictionnaire comme oracle ;
+- ne pas partager un fixture mutable entre deux tests ;
+- ne pas lancer un serveur IA ou réseau réel dans une suite déterministe ;
+- ne pas comparer un `float` par égalité stricte lorsqu’une tolérance appartient au contrat ;
+- ne pas générer un golden file depuis le test qui doit le vérifier ;
+- ne pas utiliser un retry automatique pour masquer un test instable ;
+- ne pas oublier de borner les attentes de signaux, le nombre de ticks et les files simulées ;
+- ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 26 chapitres sur 30 ;
+- progression : 27 chapitres sur 30 ;
+- industrialisation : 2 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1461,26 +1487,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 24 : version `1.0.2` ;
 - chapitre 25 : version `1.0.2` ;
 - chapitre 26 : version `1.0.2` ;
+- chapitre 27 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 26 est terminé au niveau `static-review`. Les outils d’édition séparent sources, artefacts et caches, enregistrent provenance et reçus, puis publient par transactions staged sans déplacer les autorités runtime.
+Le chapitre 27 est terminé au niveau `static-review`. La stratégie de tests sépare unités, composants, intégrations, simulations et campagnes de plateforme ; elle contrôle les dépendances, le temps, l’aléatoire, les stockages temporaires, les scénarios et les critères de passage sans revendiquer une exécution runtime non réalisée.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
+Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : tests unitaires, tests d’intégration, doubles de test, fixtures, simulations déterministes, campagnes de non-régression et critères de passage. Le chapitre 27 vérifiera les contrats des chapitres 1 à 26 sans confondre tests, diagnostics et pipelines de génération.
+Périmètre attendu : journalisation structurée, niveaux de sévérité, identifiants d’événements stables, corrélation et causalité, rédaction des secrets, métriques, traces, paquets de diagnostic, manifestes de reproduction, collecte après crash et support hors ligne. Le chapitre 28 exploitera les sorties des tests sans redéfinir leurs suites, fixtures ou scénarios.
 
 ## 27. Journal
+
+### 2026-07-21T21:00:05+02:00 — version 3.27.0
+
+- chapitre 27 créé, relu et audité au niveau `static-review` ;
+- niveaux unitaires, composants, intégration, simulations et plateformes distingués ;
+- GUT 9.x, dépendance épinglée, doubles, fixtures, builders, `SceneTree`, signaux et exécution headless documentés ;
+- horloges, RNG, stockages temporaires, scénarios versionnés, graines, invariants, empreintes et golden files encadrés ;
+- critères de passage, rapports JUnit et artefacts de diagnostic définis sans retry masquant les échecs ;
+- progression portée à 27 chapitres sur 30 et prochaine action déplacée vers le chapitre 28 ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-21T19:59:30+02:00 — correction sémantique des sections d’erreurs
 
