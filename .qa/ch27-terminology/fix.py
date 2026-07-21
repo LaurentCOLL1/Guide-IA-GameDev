@@ -24,15 +24,27 @@ chapter = replace_once(
     chapter,
     "Le harness ne saute aucun tick, n’en ajoute aucun et n’attend aucune durée murale.",
     "Le harness ne saute aucun tick, n’en ajoute aucun et ne dépend d’aucune durée réelle (durée de l’horloge système).",
-    "wall-clock duration",
+    "wall-clock duration in harness",
 )
 chapter = replace_once(
     chapter,
     "Le temps mur, la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.",
     "La durée réelle (durée de l’horloge système), la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.",
-    "wall-clock time",
+    "wall-clock time in performance budgets",
 )
-for forbidden in ("durée murale", "temps mur", "temps mural"):
+chapter = replace_once(
+    chapter,
+    "Le temps horloge et un délai réel introduisent une dépendance externe sans rapport avec la règle métier.",
+    "L’horloge système et une attente réelle introduisent une dépendance externe sans rapport avec la règle métier.",
+    "clock terminology in faulty example",
+)
+chapter = replace_once(
+    chapter,
+    "Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans attendre de durée murale.",
+    "Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans dépendre d’une durée réelle (durée de l’horloge système).",
+    "wall-clock duration in corrected example",
+)
+for forbidden in ("durée murale", "temps mur", "temps mural", "temps horloge"):
     if forbidden in chapter.casefold():
         raise RuntimeError(f"Forbidden terminology remains in chapter: {forbidden}")
 CHAPTER.write_text(chapter, encoding="utf-8")
@@ -45,7 +57,7 @@ audit = replace_once(audit, 'last-verified: "2026-07-21T21:00:05+02:00"', f'last
 audit = replace_once(
     audit,
     "- les codes de sortie non nuls restent bloquants.",
-    "- les codes de sortie non nuls restent bloquants ;\n- la terminologie emploie `durée réelle (durée de l’horloge système)` pour traduire le concept anglais de wall-clock time ou wall-clock duration.",
+    "- les codes de sortie non nuls restent bloquants ;\n- la terminologie emploie `durée réelle (durée de l’horloge système)` pour traduire le concept anglais de wall-clock time ou wall-clock duration, et `horloge système` pour désigner la source temporelle réelle.",
     "audit terminology note",
 )
 AUDIT.write_text(audit, encoding="utf-8")
@@ -85,10 +97,10 @@ continuity = replace_once(continuity, '- chapitre 27 : version `1.0.0` ;', '- ch
 continuity = replace_once(
     continuity,
     "- ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;",
-    "- ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;\n- ne pas employer les calques `durée murale`, `temps mur` ou `temps mural` ; utiliser `durée réelle (durée de l’horloge système)` ;",
+    "- ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;\n- ne pas employer les calques `durée murale`, `temps mur`, `temps mural` ou `temps horloge` ; utiliser `durée réelle (durée de l’horloge système)` et `horloge système` ;",
     "continuity terminology rule",
 )
-journal = f'''### {STAMP} — version 3.27.1\n\n- chapitre 27 corrigé : `durée murale` et `temps mur` remplacés par `durée réelle (durée de l’horloge système)` ;\n- règle terminologique permanente ajoutée au validateur des chapitres ;\n- version du chapitre portée à `1.0.1` et audit à `1.0.2` ;\n- preuve QA remise en attente de validation ;\n- aucun test runtime revendiqué et aucun PDF construit.\n\n'''
+journal = f'''### {STAMP} — version 3.27.1\n\n- chapitre 27 corrigé : les calques `durée murale`, `temps mur` et `temps horloge` sont remplacés par `durée réelle (durée de l’horloge système)` ou `horloge système` selon le contexte ;\n- règle terminologique permanente ajoutée au validateur des chapitres ;\n- version du chapitre portée à `1.0.1` et audit à `1.0.2` ;\n- preuve QA remise en attente de validation ;\n- aucun test runtime revendiqué et aucun PDF construit.\n\n'''
 continuity = replace_once(continuity, "## 27. Journal\n\n", "## 27. Journal\n\n" + journal, "continuity journal")
 CONTINUITY.write_text(continuity, encoding="utf-8")
 
@@ -96,7 +108,7 @@ validator = VALIDATOR.read_text(encoding="utf-8")
 validator = replace_once(
     validator,
     'ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)\n',
-    'ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)\nFORBIDDEN_TERMINOLOGY = {\n    "durée murale": "durée réelle (durée de l’horloge système)",\n    "temps mural": "durée réelle (durée de l’horloge système)",\n    "temps mur": "durée réelle (durée de l’horloge système)",\n}\n',
+    'ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)\nFORBIDDEN_TERMINOLOGY = {\n    "durée murale": "durée réelle (durée de l’horloge système)",\n    "temps mural": "durée réelle (durée de l’horloge système)",\n    "temps mur": "durée réelle (durée de l’horloge système)",\n    "temps horloge": "horloge système",\n}\n',
     "validator constants",
 )
 validator = replace_once(
