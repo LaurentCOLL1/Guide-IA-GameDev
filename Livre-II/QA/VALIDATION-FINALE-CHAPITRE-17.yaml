@@ -16,7 +16,7 @@ results:
   unique-identifiers: 73
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2696
+  chapter-lines: 2648
   chapter-headings: 67
   chapter-significant-code-blocks: 35
   chapter-code-and-data-blocks: 68
@@ -52,9 +52,11 @@ results:
   next-step-absent-from-reader-chapter: true
   project-asteria-final-synthesis: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 200
+  prior-explanation-units-preserved: 246
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false

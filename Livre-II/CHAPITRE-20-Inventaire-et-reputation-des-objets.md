@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 20
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-20.md"
 audit-level: "static-review"
 reference-engine:
@@ -125,15 +125,13 @@ présentation, agents, combat, compétences, narration
 
 **Explication structurée du bloc :**
 
-- **Résultat attendu :** Une commande exprime une intention ; elle ne contient pas le résultat final.
-
-- **Rôle précis du bloc :** Les conteneurs source et destination sont préparés sur des copies détachées.
+- **Rôle précis du bloc :** Une commande exprime une intention ; elle ne contient pas le résultat final. Les conteneurs source et destination sont préparés sur des copies détachées.
 
 - **Frontières d’autorité :** Les systèmes voisins préparent leurs propres candidats lorsque leurs autorités sont concernées.
 
-- **Invariants protégés :** L’unité de travail revalide les révisions immédiatement avant le commit.
+- **Effets de bord :** L’unité de travail revalide les révisions immédiatement avant le commit.
 
-- **Rôle précis du bloc :** Les événements et animations sont déclenchés seulement après réussite.
+- **Invariants protégés :** Les événements et animations sont déclenchés seulement après réussite.
 
 ## 5. Architecture retenue
 
@@ -187,7 +185,7 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `domain` contient les identités, états et invariants indépendants des scènes.
+- **Rôle précis du bloc :** `domain` contient les identités, états et invariants indépendants des scènes.
 
 - **Frontières d’autorité :** `application` orchestre les mutations et les frontières avec les autres systèmes.
 
@@ -260,15 +258,11 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Chaque espace d’identité possède un préfixe distinct.
+- **Rôle précis du bloc :** Chaque espace d’identité possède un préfixe distinct. `event()` corrèle un événement à une entrée et à une séquence positive. Le nom affiché et le chemin du fichier ne participent pas à l’identité.
 
 - **Invariants protégés :** `_from_slug()` normalise les tirets et refuse les caractères inattendus.
 
-- **Rôle précis du bloc :** `event()` corrèle un événement à une entrée et à une séquence positive.
-
-- **Invariants protégés :** Une entrée invalide renvoie `&""`, jamais un identifiant partiel.
-
-- **Rôle précis du bloc :** Le nom affiché et le chemin du fichier ne participent pas à l’identité.
+- **Valeur de retour ou code d’échec :** Une entrée invalide renvoie `&""`, jamais un identifiant partiel.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/inventory/domain/item_owner_ref.gd`.**
 
@@ -308,11 +302,11 @@ func duplicate_detached() -> ItemOwnerRef:
 
 - **Rôle précis du bloc :** `kind` évite de confondre un personnage, le monde et une organisation future.
 
-- **Rôle précis du bloc :** `NONE` exige un identifiant vide.
+- **Invariants protégés :** `NONE` exige un identifiant vide.
 
 - **Limites et réserves :** Les organisations peuvent être référencées sans définir ici leurs règles politiques.
 
-- **Invariants protégés :** La copie détachée empêche un appelant de modifier la référence interne.
+- **Effets de bord :** La copie détachée empêche un appelant de modifier la référence interne.
 
 ## 8. Référence d’entrée
 
@@ -348,13 +342,11 @@ func duplicate_detached() -> InventoryEntryRef:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une entrée est soit une instance unique, soit un lot.
+- **Rôle précis du bloc :** Une entrée est soit une instance unique, soit un lot. Une référence ne contient ni quantité ni état mutable.
 
-- **Dépendances et ports utilisés :** `entry_id` reste stable indépendamment de sa position dans l’interface.
+- **Limites et réserves :** `entry_id` reste stable indépendamment de sa position dans l’interface.
 
 - **Paramètres et types importants :** Le type explicite évite de rechercher le même identifiant dans plusieurs tables.
-
-- **Rôle précis du bloc :** Une référence ne contient ni quantité ni état mutable.
 
 ## 9. Définition d’objet
 
@@ -435,9 +427,7 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 - **Dépendances et ports utilisés :** Une définition empilable ne peut porter aucune donnée qui exige une identité individuelle.
 
-- **Rôle précis du bloc :** `maximum_durability == 0` signifie que la durabilité ne s’applique pas.
-
-- **Rôle précis du bloc :** Les emplacements, compétences et tags sont des identifiants stables uniques.
+- **Rôle précis du bloc :** `maximum_durability == 0` signifie que la durabilité ne s’applique pas. Les emplacements, compétences et tags sont des identifiants stables uniques.
 
 - **Frontières d’autorité :** La définition ne contient ni quantité, ni propriétaire, ni durabilité courante.
 
@@ -503,11 +493,9 @@ func duplicate_detached() -> ItemInstanceState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’instance référence une définition, mais conserve son propre état vivant.
+- **Rôle précis du bloc :** L’instance référence une définition, mais conserve son propre état vivant. L’état brisé est dérivé de la durabilité courante.
 
 - **Effets de bord :** `container_id` décrit la garde matérielle ; `owner` décrit la propriété métier.
-
-- **Rôle précis du bloc :** L’état brisé est dérivé de la durabilité courante.
 
 - **Dépendances et ports utilisés :** Un objet non équipable ne peut porter de personnage équipé.
 
@@ -587,15 +575,11 @@ func duplicate_detached() -> ItemStackState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Un lot n’existe que pour une définition explicitement fongible.
+- **Rôle précis du bloc :** Un lot n’existe que pour une définition explicitement fongible. Une division crée un nouvel identifiant de pile mais conserve le même `lot_id`.
 
-- **Limites et réserves :** `lot_id`, la cause, le système source et le tick conservent l’origine commune sans prétendre suivre chaque unité.
+- **Limites et réserves :** `lot_id`, la cause, le système source et le tick conservent l’origine commune sans prétendre suivre chaque unité. La capacité maximale reste celle de la définition.
 
 - **Frontières d’autorité :** Deux piles ne fusionnent que si définition, origine complète et propriétaire correspondent.
-
-- **Limites et réserves :** La capacité maximale reste celle de la définition.
-
-- **Rôle précis du bloc :** Une division crée un nouvel identifiant de pile mais conserve le même `lot_id`.
 
 ## 12. Provenance
 
@@ -652,13 +636,11 @@ func validate() -> Error:
 
 - **Déterminisme et idempotence :** La provenance est fondée sur un événement métier corrélé et un tick logique.
 
-- **Rôle précis du bloc :** `cause_id` indique pourquoi la mutation existe ; `source_system_id` indique qui l’a autorisée.
+- **Rôle précis du bloc :** `cause_id` indique pourquoi la mutation existe ; `source_system_id` indique qui l’a autorisée. Le dépôt conserve l’origine et au plus `64` événements significatifs récents par instance.
 
 - **Frontières d’autorité :** Les propriétaires précédent et suivant sont optionnels selon le type d’événement.
 
-- **Rôle précis du bloc :** Le record ne contient ni texte libre non filtré ni référence de scène.
-
-- **Rôle précis du bloc :** Le dépôt conserve l’origine et au plus `64` événements significatifs récents par instance.
+- **Limites et réserves :** Le record ne contient ni texte libre non filtré ni référence de scène.
 
 ## 13. Réputation d’un objet
 
@@ -722,15 +704,7 @@ func duplicate_detached() -> ItemReputationState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La réputation est bornée et globale à l’instance.
-
-- **Rôle précis du bloc :** `significant_event_count` conserve le nombre total même lorsque la liste récente est élaguée.
-
-- **Invariants protégés :** Un événement plus ancien que le dernier événement appliqué est refusé.
-
-- **Rôle précis du bloc :** La connaissance de cette réputation par un observateur n’est pas stockée ici.
-
-- **Rôle précis du bloc :** La politique applicative décide quels événements peuvent produire un delta.
+- **Rôle précis du bloc :** La réputation est bornée et globale à l’instance. `significant_event_count` conserve le nombre total même lorsque la liste récente est élaguée. Un événement plus ancien que le dernier événement appliqué est refusé. La connaissance de cette réputation par un observateur n’est pas stockée ici. La politique applicative décide quels événements peuvent produire un delta.
 
 ## 14. Conteneur d’inventaire
 
@@ -787,15 +761,11 @@ func duplicate_detached() -> InventoryContainerState:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** `maximum_entries == 0` ou `maximum_mass_mg == 0` signifie que la borne correspondante est désactivée.
+- **Invariants protégés :** `maximum_entries == 0` ou `maximum_mass_mg == 0` signifie que la borne correspondante est désactivée. Le conteneur refuse les références invalides et les doublons. La copie profonde protège le dépôt pendant une préparation.
 
-- **Invariants protégés :** Le conteneur refuse les références invalides et les doublons.
-
-- **Limites et réserves :** La masse courante reste dérivée depuis le catalogue et les états d’entrées.
+- **Dépendances et ports utilisés :** La masse courante reste dérivée depuis le catalogue et les états d’entrées.
 
 - **Rôle précis du bloc :** L’ordre de l’interface n’est pas une identité ; un tri de présentation peut être recalculé.
-
-- **Invariants protégés :** La copie profonde protège le dépôt pendant une préparation.
 
 ## 15. Calculer la masse sans la persister
 
@@ -825,11 +795,9 @@ func calculate_mass_mg(container: InventoryContainerState) -> Variant:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La fonction renvoie `Variant` afin de distinguer une masse valide de `null`.
+- **Valeur de retour ou code d’échec :** La fonction renvoie `Variant` afin de distinguer une masse valide de `null`.
 
-- **Rôle précis du bloc :** Chaque quantité est relue depuis l’état autoritaire.
-
-- **Rôle précis du bloc :** Les contrôles évitent un dépassement et conservent la plage entière JSON sûre.
+- **Rôle précis du bloc :** Chaque quantité est relue depuis l’état autoritaire. Les contrôles évitent un dépassement et conservent la plage entière JSON sûre.
 
 - **Persistance et restauration :** La masse totale n’est pas persistée : elle est recalculée depuis les données sources.
 
@@ -906,15 +874,7 @@ func duplicate_detached() -> EquipmentLoadoutState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Un emplacement et une instance ne peuvent apparaître qu’une fois.
-
-- **Rôle précis du bloc :** La forme du loadout est validée séparément avant les références croisées.
-
-- **Rôle précis du bloc :** La définition déclare les emplacements compatibles.
-
-- **Invariants protégés :** Un objet brisé est refusé par la politique pédagogique retenue.
-
-- **Rôle précis du bloc :** L’état d’instance, sa propriété et le loadout doivent se confirmer mutuellement.
+- **Rôle précis du bloc :** Un emplacement et une instance ne peuvent apparaître qu’une fois. La forme du loadout est validée séparément avant les références croisées. La définition déclare les emplacements compatibles. Un objet brisé est refusé par la politique pédagogique retenue. L’état d’instance, sa propriété et le loadout doivent se confirmer mutuellement.
 
 - **Frontières d’autorité :** Les bonus de combat ou de personnage restent des vues dérivées consommées par leurs propriétaires.
 
@@ -951,13 +911,11 @@ func all_ids_sorted() -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le catalogue valide une définition avant enregistrement.
+- **Dépendances et ports utilisés :** Le catalogue valide une définition avant enregistrement. Le catalogue ne contient aucune instance, quantité ou propriété.
 
 - **Valeur de retour ou code d’échec :** Il conserve et renvoie des copies profondes.
 
 - **Déterminisme et idempotence :** Les identifiants triés donnent un ordre déterministe.
-
-- **Limites et réserves :** Le catalogue ne contient aucune instance, quantité ou propriété.
 
 > **[LECTURE] Contrat du dépôt — Structure de référence.**
 
@@ -996,11 +954,9 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 - **Responsabilités des classes ou fonctions :** Les méthodes de lecture doivent renvoyer des copies détachées.
 
-- **Paramètres et types importants :** Les révisions sont relues au moment de préparer et de committer.
+- **Effets de bord :** Les révisions sont relues au moment de préparer et de committer.
 
-- **Rôle précis du bloc :** Le dépôt ne décide ni prix, ni dégâts, ni compétences.
-
-- **Rôle précis du bloc :** `replace_prepared()` applique un candidat déjà validé.
+- **Rôle précis du bloc :** Le dépôt ne décide ni prix, ni dégâts, ni compétences. `replace_prepared()` applique un candidat déjà validé.
 
 - **Persistance et restauration :** `replace_all()` est réservé à une restauration complète préparée.
 
@@ -1074,15 +1030,13 @@ func create_reputation_state(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La fabrique choisit explicitement entre instance et lot.
+- **Rôle précis du bloc :** La fabrique choisit explicitement entre instance et lot. Une instance dont la réputation est activée reçoit un état de renommée séparé, initialisé à zéro.
 
 - **Limites et réserves :** Une définition fongible ne peut devenir une instance individualisée sans une conversion métier distincte.
 
-- **Rôle précis du bloc :** La durabilité initiale d’une instance prend le maximum de la définition.
+- **Résultat attendu :** La durabilité initiale d’une instance prend le maximum de la définition.
 
 - **Déterminisme et idempotence :** Le lot reçoit immédiatement son origine et son tick logique.
-
-- **Rôle précis du bloc :** Une instance dont la réputation est activée reçoit un état de renommée séparé, initialisé à zéro.
 
 - **Responsabilités des classes ou fonctions :** Chaque état est validé avant d’être renvoyé au service créateur.
 
@@ -1143,17 +1097,11 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La commande identifie explicitement source, destination, entrée et quantité.
+- **Rôle précis du bloc :** La commande identifie explicitement source, destination, entrée et quantité. La cause et le système source alimentent la provenance. Le transfert au sein du même conteneur relève d’une commande de réorganisation de présentation, pas de cette mutation métier.
 
-- **Limites et réserves :** `created_stack_id` est fourni par l’appelant uniquement lorsqu’un transfert partiel doit créer une nouvelle pile.
+- **Invariants protégés :** `created_stack_id` est fourni par l’appelant uniquement lorsqu’un transfert partiel doit créer une nouvelle pile. Trois révisions protègent les deux conteneurs et l’entrée.
 
-- **Invariants protégés :** Trois révisions protègent les deux conteneurs et l’entrée.
-
-- **Résultat attendu :** `requested_owner` permet un don ou un transfert autorisé sans définir le paiement.
-
-- **Rôle précis du bloc :** La cause et le système source alimentent la provenance.
-
-- **Rôle précis du bloc :** Le transfert au sein du même conteneur relève d’une commande de réorganisation de présentation, pas de cette mutation métier.
+- **Limites et réserves :** `requested_owner` permet un don ou un transfert autorisé sans définir le paiement.
 
 ## 19. Résultat métier
 
@@ -1199,11 +1147,9 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les refus normaux sont distingués d’une panne interne.
+- **Rôle précis du bloc :** Les refus normaux sont distingués d’une panne interne.
 
-- **Effets de bord :** `affected_entry_ids` contient uniquement les identifiants committés.
-
-- **Effets de bord :** `is_success()` n’accepte qu’un commit réel.
+- **Effets de bord :** `affected_entry_ids` contient uniquement les identifiants committés. `is_success()` n’accepte qu’un commit réel.
 
 - **Persistance et restauration :** Le résultat ne conserve ni commande mutable ni snapshot complet.
 
@@ -1267,13 +1213,7 @@ func validate(catalog: ItemCatalog) -> Error:
 
 - **Effets de bord :** Le candidat regroupe tous les agrégats que la commande veut remplacer.
 
-- **Rôle précis du bloc :** Les collections contiennent des copies détachées.
-
-- **Rôle précis du bloc :** Les loadouts sont contrôlés structurellement ; les références complètes sont revalidées par l’unité de travail avec le dépôt frais.
-
-- **Rôle précis du bloc :** Chaque instance ou pile est revalidée contre sa définition.
-
-- **Paramètres et types importants :** Les révisions attendues sont associées à des identifiants d’agrégats.
+- **Rôle précis du bloc :** Les collections contiennent des copies détachées. Les loadouts sont contrôlés structurellement ; les références complètes sont revalidées par l’unité de travail avec le dépôt frais. Chaque instance ou pile est revalidée contre sa définition. Les révisions attendues sont associées à des identifiants d’agrégats.
 
 - **Invariants protégés :** Un candidat invalide ne peut atteindre l’unité de travail.
 
@@ -1297,15 +1237,13 @@ func can_transfer(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le port décide si l’acteur et le système source peuvent demander ce transfert.
+- **Dépendances et ports utilisés :** Le port décide si l’acteur et le système source peuvent demander ce transfert. Une transaction économique, une quête ou une future règle de justice pourra adapter ce port sans écrire directement le dépôt.
 
-- **Invariants protégés :** `OK` autorise la préparation ; `ERR_UNAUTHORIZED` produit un refus de propriété.
+- **Rôle précis du bloc :** `OK` autorise la préparation ; L’inventaire conserve le dernier mot sur ses invariants même après autorisation.
+
+- **Résultat attendu :** `ERR_UNAUTHORIZED` produit un refus de propriété.
 
 - **Frontières d’autorité :** Le propriétaire courant et le gardien matériel sont fournis séparément.
-
-- **Dépendances et ports utilisés :** Une transaction économique, une quête ou une future règle de justice pourra adapter ce port sans écrire directement le dépôt.
-
-- **Rôle précis du bloc :** L’inventaire conserve le dernier mot sur ses invariants même après autorisation.
 
 ## 21. Préparer un transfert
 
@@ -1488,15 +1426,11 @@ func _prepare_transfer(command: InventoryTransferCommand) -> TransferPreparation
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les validations générales précèdent toute lecture détaillée.
+- **Rôle précis du bloc :** Les validations générales précèdent toute lecture détaillée. `_prepare_transfer()` relit conteneurs, révisions, propriété et autorisation avant les copies. `ERR_BUSY` représente une révision devenue obsolète.
 
-- **Invariants protégés :** `TransferPreparation` conserve un statut précis sans traiter tous les refus comme une absence ; les piles distinguent absence, révision, quantité et identifiant de division.
-
-- **Paramètres et types importants :** `_prepare_transfer()` relit conteneurs, révisions, propriété et autorisation avant les copies.
+- **Limites et réserves :** `TransferPreparation` conserve un statut précis sans traiter tous les refus comme une absence ; les piles distinguent absence, révision, quantité et identifiant de division.
 
 - **Paramètres et types importants :** Le candidat est validé avant le commit et la liste externe vide conserve un type explicite.
-
-- **Paramètres et types importants :** `ERR_BUSY` représente une révision devenue obsolète.
 
 - **Effets de bord :** Le signal est émis seulement après le remplacement réussi.
 
@@ -1554,13 +1488,9 @@ func _prepare_instance_transfer(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une instance se transfère toujours avec une quantité égale à `1`.
-
-- **Rôle précis du bloc :** La source est vérifiée à la fois dans l’instance et dans le conteneur ; un objet équipé doit d’abord être déséquipé.
+- **Rôle précis du bloc :** Une instance se transfère toujours avec une quantité égale à `1`. La source est vérifiée à la fois dans l’instance et dans le conteneur ; un objet équipé doit d’abord être déséquipé. Propriété, garde, révisions des conteneurs, révision d’instance et séquence de provenance changent dans le même candidat.
 
 - **Invariants protégés :** La destination valide l’instance candidate déjà configurée avec sa nouvelle garde et sa nouvelle propriété.
-
-- **Paramètres et types importants :** Propriété, garde, révisions des conteneurs, révision d’instance et séquence de provenance changent dans le même candidat.
 
 - **Responsabilités des classes ou fonctions :** Aucun état actif n’est modifié par cette fonction.
 
@@ -1635,15 +1565,9 @@ func _prepare_stack_transfer(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Un transfert total conserve l’identifiant de pile et exige `created_stack_id` vide.
+- **Invariants protégés :** Un transfert total conserve l’identifiant de pile et exige `created_stack_id` vide. Un transfert partiel exige un nouvel identifiant préparé par l’appelant. La nouvelle pile n’a pas de révision attendue puisqu’elle n’existe pas encore ; l’unité de travail doit aussi vérifier l’absence de collision d’identifiant.
 
-- **Rôle précis du bloc :** Un transfert partiel exige un nouvel identifiant préparé par l’appelant.
-
-- **Rôle précis du bloc :** La pile restante et la pile créée conservent la même origine de lot.
-
-- **Rôle précis du bloc :** La capacité de destination est contrôlée avec la pile candidate déjà configurée pour cette destination, avant toute mutation active.
-
-- **Invariants protégés :** La nouvelle pile n’a pas de révision attendue puisqu’elle n’existe pas encore ; l’unité de travail doit aussi vérifier l’absence de collision d’identifiant.
+- **Rôle précis du bloc :** La pile restante et la pile créée conservent la même origine de lot. La capacité de destination est contrôlée avec la pile candidate déjà configurée pour cette destination, avant toute mutation active.
 
 ## 22. Diviser et fusionner un lot
 
@@ -1706,11 +1630,9 @@ func _merge_quantity(
 
 - **Effets de bord :** Les deux résultats sont des copies préparées ; la source active reste intacte avant commit.
 
-- **Rôle précis du bloc :** La fusion exige une définition empilable correspondante, une compatibilité stricte et une capacité suffisante.
+- **Invariants protégés :** La fusion exige une définition empilable correspondante, une compatibilité stricte et une capacité suffisante.
 
-- **Rôle précis du bloc :** Une quantité source ramenée à zéro entraîne la suppression préparée de sa référence et de son état.
-
-- **Rôle précis du bloc :** Les prix ou valeurs monétaires ne participent jamais à la règle de pile.
+- **Rôle précis du bloc :** Une quantité source ramenée à zéro entraîne la suppression préparée de sa référence et de son état. Les prix ou valeurs monétaires ne participent jamais à la règle de pile.
 
 ## 23. Unité de travail
 
@@ -1742,15 +1664,11 @@ func commit(
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Le contrat reçoit toujours explicitement le candidat d’inventaire et la liste des candidats des autorités externes, même vide.
+- **Frontières d’autorité :** Le contrat reçoit toujours explicitement le candidat d’inventaire et la liste des candidats des autorités externes, même vide. `authority_id` identifie le propriétaire de chaque payload.
 
-- **Invariants protégés :** L’implémentation réelle doit revalider toutes les révisions et tous les candidats avant le premier remplacement.
-
-- **Frontières d’autorité :** `authority_id` identifie le propriétaire de chaque payload.
+- **Effets de bord :** L’implémentation réelle doit revalider toutes les révisions et tous les candidats avant le premier remplacement. Les événements restent hors du commit et sont émis après réussite.
 
 - **Limites et réserves :** Une capacité transactionnelle réelle doit être matérialisée et testée ; le stub ne revendique aucune atomicité exécutée.
-
-- **Effets de bord :** Les événements restent hors du commit et sont émis après réussite.
 
 ## 24. Équiper et accorder une compétence
 
@@ -1776,13 +1694,11 @@ func prepare_grant_set(
 
 - **Frontières d’autorité :** Le port appartient à la frontière du système de compétences.
 
-- **Rôle précis du bloc :** L’inventaire indique une source, une liste d’identifiants et l’activation demandée.
+- **Rôle précis du bloc :** L’inventaire indique une source, une liste d’identifiants et l’activation demandée. Le grant temporaire est recalculable depuis l’équipement restauré.
 
 - **Invariants protégés :** Le système de compétences valide les définitions et construit son candidat.
 
 - **Effets de bord :** L’inventaire ne modifie ni progression, ni charges, ni recharge.
-
-- **Rôle précis du bloc :** Le grant temporaire est recalculable depuis l’équipement restauré.
 
 > **[LECTURE] Préparation d’un équipement — Structure de référence.**
 
@@ -1844,11 +1760,7 @@ func prepare_equip(
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** L’instance, sa révision, la définition, la propriété et la révision du loadout sont relues avant préparation.
-
-- **Invariants protégés :** Un objet brisé ou incompatible est refusé.
-
-- **Rôle précis du bloc :** L’état d’équipement est modifié sur des copies.
+- **Rôle précis du bloc :** L’instance, sa révision, la définition, la propriété et la révision du loadout sont relues avant préparation. Un objet brisé ou incompatible est refusé. L’état d’équipement est modifié sur des copies.
 
 - **Résultat attendu :** Une compétence accordée produit un candidat appartenant au système de compétences.
 
@@ -1912,11 +1824,9 @@ func prepare_unequip(
 
 - **Déterminisme et idempotence :** Le slot détermine l’instance réellement équipée ; l’appelant ne peut pas substituer un autre identifiant.
 
-- **Paramètres et types importants :** Les révisions d’instance, de loadout et de compétences restent séparées.
+- **Limites et réserves :** Les révisions d’instance, de loadout et de compétences restent séparées. Une compétence durablement apprise ou accordée par une autre source reste sous la décision du système de compétences.
 
-- **Rôle précis du bloc :** Le candidat efface seulement le lien d’équipement et prépare le retrait du grant provenant de cette instance.
-
-- **Limites et réserves :** Une compétence durablement apprise ou accordée par une autre source reste sous la décision du système de compétences.
+- **Invariants protégés :** Le candidat efface seulement le lien d’équipement et prépare le retrait du grant provenant de cette instance.
 
 - **Effets de bord :** Instance, loadout et retrait de grant doivent être committés dans le même lot.
 
@@ -2004,15 +1914,9 @@ func prepare_change(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La liste autorisée ferme les causes et leurs deltas.
-
-- **Rôle précis du bloc :** `Variant` distingue un delta absent d’un delta numérique.
-
-- **Rôle précis du bloc :** La politique travaille sur une copie candidate.
+- **Rôle précis du bloc :** La liste autorisée ferme les causes et leurs deltas. `Variant` distingue un delta absent d’un delta numérique. La politique travaille sur une copie candidate. Les valeurs sont pédagogiques et devront être équilibrées par des données versionnées si elles deviennent du contenu de production.
 
 - **Effets de bord :** Un texte, un score IA ou un nom célèbre ne modifie pas directement la réputation.
-
-- **Rôle précis du bloc :** Les valeurs sont pédagogiques et devront être équilibrées par des données versionnées si elles deviennent du contenu de production.
 
 ### 27.1 Contexte d’inventaire pour un agent
 
@@ -2046,13 +1950,11 @@ func snapshot_for(_character_id: StringName) -> Context:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** Le contexte est un snapshot détaché et révisionné des choix autorisés pour l’agent.
-
-- **Persistance et restauration :** L’adaptateur concret construit une commande seulement depuis les conteneurs, entrées et destinations exposés par ce snapshot.
+- **Persistance et restauration :** Le contexte est un snapshot détaché et révisionné des choix autorisés pour l’agent. L’adaptateur concret construit une commande seulement depuis les conteneurs, entrées et destinations exposés par ce snapshot.
 
 - **Limites et réserves :** Le stub ne fournit aucune collection interne mutable.
 
-- **Paramètres et types importants :** Le service d’inventaire relit ensuite toutes les révisions et l’autorisation.
+- **Responsabilités des classes ou fonctions :** Le service d’inventaire relit ensuite toutes les révisions et l’autorisation.
 
 ## 27. Adapter une action d’agent
 
@@ -2094,13 +1996,9 @@ func start(request: AgentActionRequest) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** L’agent choisit une intention depuis un snapshot, pas un remplacement de dépôt.
-
-- **Persistance et restauration :** Le contexte fournit uniquement les choix autorisés et une révision de snapshot ; la commande reste revalidée par le service.
+- **Persistance et restauration :** L’agent choisit une intention depuis un snapshot, pas un remplacement de dépôt. Le contexte fournit uniquement les choix autorisés et une révision de snapshot ; la commande reste revalidée par le service. Un refus provoque une nouvelle décision sur un snapshot frais.
 
 - **Responsabilités des classes ou fonctions :** Le même service traite ensuite joueur et agent.
-
-- **Persistance et restauration :** Un refus provoque une nouvelle décision sur un snapshot frais.
 
 - **Rôle précis du bloc :** L’agent ne choisit ni prix, ni dégâts, ni delta de réputation.
 
@@ -2151,9 +2049,7 @@ service :
 
 - **Effets de bord :** Une destination peut devenir pleine avant le commit.
 
-- **Rôle précis du bloc :** La même commande peut être soumise par une interface, un agent ou un scénario.
-
-- **Rôle précis du bloc :** Les règles métier ne sont pas dupliquées dans les widgets.
+- **Rôle précis du bloc :** La même commande peut être soumise par une interface, un agent ou un scénario. Les règles métier ne sont pas dupliquées dans les widgets.
 
 ## 29. Persistance
 
@@ -2240,9 +2136,7 @@ func decode(document: Dictionary, catalog: ItemCatalog) -> DecodeResult:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le format, la version et les clés exactes sont obligatoires.
-
-- **Rôle précis du bloc :** Les sections sont décodées avant la validation croisée.
+- **Rôle précis du bloc :** Le format, la version et les clés exactes sont obligatoires. Les sections sont décodées avant la validation croisée.
 
 - **Invariants protégés :** La validation croisée vérifie notamment que chaque entrée appartient à un seul conteneur et que chaque loadout vise une instance existante.
 
@@ -2298,15 +2192,11 @@ func cancel_restore() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La préparation ne touche pas au dépôt actif.
-
-- **Rôle précis du bloc :** Les données sont copiées avant stockage et avant application.
+- **Rôle précis du bloc :** La préparation ne touche pas au dépôt actif. Les données sont copiées avant stockage et avant application.
 
 - **Limites et réserves :** La préparation reste disponible après un échec d’application.
 
-- **Persistance et restauration :** Le coordinateur peut annuler si une autre section de sauvegarde échoue.
-
-- **Persistance et restauration :** Les compétences accordées sont recalculées après restauration de l’équipement par le bootstrap applicatif.
+- **Persistance et restauration :** Le coordinateur peut annuler si une autre section de sauvegarde échoue. Les compétences accordées sont recalculées après restauration de l’équipement par le bootstrap applicatif.
 
 ## 32. Présentation et scène pédagogique
 
@@ -2340,10 +2230,10 @@ func request_inventory_refresh(_entry_id: StringName) -> void:
 
 - **Limites et réserves :** Il ne déplace aucune entrée et ne recalcule aucune règle.
 
-- **Persistance et restauration :** Un objet hors scène reste valide sans représentation visuelle.
+- **Invariants protégés :** Un objet hors scène reste valide sans représentation visuelle.
 
-  La scène `ch20_inventory_demo.tscn` doit montrer :
-
+- **Persistance et restauration :** La scène `ch20_inventory_demo.tscn` doit montrer :
+  
   1. une instance unique transférée entre deux conteneurs ;
   2. une destination pleine refusant le transfert sans perte côté source ;
   3. une pile divisée puis fusionnée avec le même lot ;
@@ -2488,7 +2378,7 @@ instances[&"item.instance.7c42a9"] = sword_state
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Pourquoi la correction fonctionne :** l’instance conserve une identité métier indépendante de l’affichage.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’instance conserve une identité métier indépendante de l’affichage.
 
 ### 35.3 Empiler des objets individualisés
 
@@ -2628,7 +2518,7 @@ if slot_id in definition.equipment_slot_ids:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’équipement exige une instance unique et une compatibilité déclarée.
+- **Invariants protégés :** **Pourquoi la correction fonctionne :** l’équipement exige une instance unique et une compatibilité déclarée.
 
 ### 35.7 Laisser le combat écrire la durabilité
 
@@ -2666,7 +2556,7 @@ var durability_candidate := inventory_durability_port.prepare_loss(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** l’inventaire borne et prépare sa propre mutation pour le commit orchestré.
+- **Effets de bord :** **Pourquoi la correction fonctionne :** l’inventaire borne et prépare sa propre mutation pour le commit orchestré.
 
 ### 35.8 Débloquer directement une compétence depuis l’objet
 

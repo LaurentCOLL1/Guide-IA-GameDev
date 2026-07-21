@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 24
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-24.md"
 audit-level: "static-review"
 reference-engine:
@@ -134,11 +134,9 @@ DomainTransactionCommitPort
 
 - **Persistance et restauration :** La décision politique et le contexte écologique sont des snapshots validés, pas des références de scène.
 
-- **Effets de bord :** Les matériaux et le coût restent candidats jusqu’au commit commun.
+- **Effets de bord :** Les matériaux et le coût restent candidats jusqu’au commit commun. Les événements ne décrivent qu’un état déjà committé.
 
 - **Déterminisme et idempotence :** L’identité et l’empreinte rendent le retry idempotent.
-
-- **Effets de bord :** Les événements ne décrivent qu’un état déjà committé.
 
 ## 4. Architecture retenue
 
@@ -193,15 +191,13 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `domain` contient les données et invariants qui ne dépendent d’aucun nœud.
+- **Limites et réserves :** `domain` contient les données et invariants qui ne dépendent d’aucun nœud. Les définitions de conception restent séparées des états sauvegardés.
 
 - **Dépendances et ports utilisés :** `application` coordonne les ports vers politique, écologie, inventaire et économie.
 
-- **Rôle précis du bloc :** `infrastructure` sérialise seulement les données durables.
+- **Persistance et restauration :** `infrastructure` sérialise seulement les données durables.
 
 - **Effets de bord :** `presentation` traduit les événements committés en demandes visuelles.
-
-- **Limites et réserves :** Les définitions de conception restent séparées des états sauvegardés.
 
 ## 5. Vocabulaire
 
@@ -267,15 +263,13 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Chaque famille possède un espace de noms distinct afin d’éviter les collisions entre domaine, parcelle, bâtiment et chantier.
+- **Rôle précis du bloc :** Chaque famille possède un espace de noms distinct afin d’éviter les collisions entre domaine, parcelle, bâtiment et chantier. Les identifiants ne dépendent ni d’un nom affiché, ni d’un chemin de scène.
 
-- **Dépendances et ports utilisés :** Les identifiants ne dépendent ni d’un nom affiché, ni d’un chemin de scène.
+- **Invariants protégés :** La normalisation accepte uniquement lettres ASCII minuscules, chiffres et soulignement.
 
-- **Limites et réserves :** La normalisation accepte uniquement lettres ASCII minuscules, chiffres et soulignement.
+- **Valeur de retour ou code d’échec :** Une entrée invalide renvoie `&""` et doit être refusée par la fabrique appelante.
 
-- **Invariants protégés :** Une entrée invalide renvoie `&""` et doit être refusée par la fabrique appelante.
-
-- **Frontières d’autorité :** Les commandes possèdent leur propre identité pour l’idempotence.
+- **Déterminisme et idempotence :** Les commandes possèdent leur propre identité pour l’idempotence.
 
 ## 7. Définitions de conception
 
@@ -323,7 +317,7 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 - **Frontières d’autorité :** Aucun propriétaire, bâtiment vivant ou révision n’est stocké dans cette définition.
 
-- **Invariants protégés :** Le résultat `Error` permet au catalogue de refuser une ressource invalide.
+- **Dépendances et ports utilisés :** Le résultat `Error` permet au catalogue de refuser une ressource invalide.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/parcel_definition.gd`.**
 
@@ -353,15 +347,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `footprint_units` utilise une unité logique documentée, pas des mètres obtenus depuis une collision.
+- **Rôle précis du bloc :** `footprint_units` utilise une unité logique documentée, pas des mètres obtenus depuis une collision. La région réelle appartient à l’état de parcelle, car deux instances peuvent utiliser la même définition.
 
 - **Invariants protégés :** Les tags de bâtiment et de site servent à valider la compatibilité sans charger de scène.
 
 - **Responsabilités des classes ou fonctions :** Une parcelle de conception n’enregistre aucune occupation runtime.
 
-- **Rôle précis du bloc :** La région réelle appartient à l’état de parcelle, car deux instances peuvent utiliser la même définition.
-
-- **Rôle précis du bloc :** Le catalogue complétera la validation des références croisées.
+- **Dépendances et ports utilisés :** Le catalogue complétera la validation des références croisées.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/building_definition.gd`.**
 
@@ -399,13 +391,11 @@ func validate() -> Error:
 
 - **Paramètres et types importants :** La définition fixe les capacités du type de bâtiment sans contenir son état vivant.
 
-- **Rôle précis du bloc :** La condition maximale est exprimée en points de base pour éviter un `float` autoritaire.
+- **Rôle précis du bloc :** La condition maximale est exprimée en points de base pour éviter un `float` autoritaire. La scène 3D éventuelle appartient à la présentation, pas à ce contrat.
 
-- **Rôle précis du bloc :** La recette de construction est référencée par identité et validée dans le catalogue.
+- **Dépendances et ports utilisés :** La recette de construction est référencée par identité et validée dans le catalogue.
 
 - **Limites et réserves :** Les recettes de production restent des définitions séparées et réutilisables.
-
-- **Rôle précis du bloc :** La scène 3D éventuelle appartient à la présentation, pas à ce contrat.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/construction_recipe_definition.gd`.**
 
@@ -441,9 +431,7 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les matériaux sont indexés par définition d’objet et quantités entières.
-
-- **Rôle précis du bloc :** Le travail requis est distinct des matériaux afin de ne pas transformer automatiquement une livraison en achèvement.
+- **Rôle précis du bloc :** Les matériaux sont indexés par définition d’objet et quantités entières. Le travail requis est distinct des matériaux afin de ne pas transformer automatiquement une livraison en achèvement.
 
 - **Limites et réserves :** Le coût monétaire reste optionnel et utilise les unités mineures du chapitre 21.
 
@@ -484,13 +472,11 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une recette exige au moins un intrant et un extrant pour éviter les productions gratuites implicites.
+- **Invariants protégés :** Une recette exige au moins un intrant et un extrant pour éviter les productions gratuites implicites. La condition minimale empêche un bâtiment trop dégradé de produire.
 
 - **Limites et réserves :** Les tags expriment la capacité requise sans référencer un bâtiment précis.
 
-- **Invariants protégés :** La condition minimale empêche un bâtiment trop dégradé de produire.
-
-- **Rôle précis du bloc :** Les quantités détaillées seront recoupées par le catalogue et l’inventaire.
+- **Dépendances et ports utilisés :** Les quantités détaillées seront recoupées par le catalogue et l’inventaire.
 
 - **Paramètres et types importants :** Le temps de travail est un entier logique, indépendant d’une animation.
 
@@ -530,11 +516,9 @@ func is_active_at(logical_tick: int) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Le lien référence un droit du chapitre 23 sans le recréer dans le domaine.
+- **Limites et réserves :** Le lien référence un droit du chapitre 23 sans le recréer dans le domaine. La fin `-1` représente un intervalle ouvert et reste distincte du tick zéro.
 
 - **Résultat attendu :** `right_revision` permet de détecter une autorisation politique devenue obsolète.
-
-- **Limites et réserves :** La fin `-1` représente un intervalle ouvert et reste distincte du tick zéro.
 
 - **Rôle précis du bloc :** `purpose_id` indique propriété, usage, construction ou exploitation selon le vocabulaire politique.
 
@@ -579,13 +563,9 @@ func validate(definition: ParcelDefinition) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La parcelle conserve un emplacement logique et une région, jamais un transform de scène autoritaire.
+- **Rôle précis du bloc :** La parcelle conserve un emplacement logique et une région, jamais un transform de scène autoritaire. `occupied_units` est recoupé avec la capacité de la définition.
 
-- **Rôle précis du bloc :** `occupied_units` est recoupé avec la capacité de la définition.
-
-- **Rôle précis du bloc :** La liste de bâtiments contient seulement des identifiants uniques.
-
-- **Invariants protégés :** La révision protège les constructions concurrentes sur la même parcelle.
+- **Invariants protégés :** La liste de bâtiments contient seulement des identifiants uniques. La révision protège les constructions concurrentes sur la même parcelle.
 
 - **Dépendances et ports utilisés :** Les droits d’accès restent vérifiés par un port séparé.
 
@@ -628,13 +608,7 @@ func validate(definition: BuildingDefinition) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le statut distingue un arrêt temporaire d’une ruine définitive selon la politique retenue.
-
-- **Rôle précis du bloc :** La condition est entière et bornée par la définition du bâtiment.
-
-- **Rôle précis du bloc :** Les ticks d’achèvement et d’entretien utilisent l’horloge du monde.
-
-- **Rôle précis du bloc :** L’état ne contient ni `Node3D`, ni mesh, ni animation.
+- **Rôle précis du bloc :** Le statut distingue un arrêt temporaire d’une ruine définitive selon la politique retenue. La condition est entière et bornée par la définition du bâtiment. Les ticks d’achèvement et d’entretien utilisent l’horloge du monde. L’état ne contient ni `Node3D`, ni mesh, ni animation.
 
 - **Invariants protégés :** La révision protège production, entretien et changement de statut.
 
@@ -683,15 +657,9 @@ func validate(recipe: ConstructionRecipeDefinition) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le chantier conserve des quantités livrées, jamais les objets ou lots eux-mêmes.
-
-- **Rôle précis du bloc :** Chaque quantité est recoupée avec la recette afin d’interdire les surlivraisons.
-
-- **Rôle précis du bloc :** Le travail accompli est borné séparément des matériaux.
+- **Rôle précis du bloc :** Le chantier conserve des quantités livrées, jamais les objets ou lots eux-mêmes. Chaque quantité est recoupée avec la recette afin d’interdire les surlivraisons. Le travail accompli est borné séparément des matériaux. Les ticks et la révision rendent la progression diagnosticable.
 
 - **Déterminisme et idempotence :** Le bâtiment reçoit déjà une identité stable avant l’achèvement, ce qui facilite l’idempotence.
-
-- **Paramètres et types importants :** Les ticks et la révision rendent la progression diagnosticable.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/domain_state.gd`.**
 
@@ -741,7 +709,7 @@ func duplicate_detached() -> DomainState:
 
 - **Effets de bord :** L’agrégat regroupe les états qui doivent rester cohérents au moment d’un commit.
 
-- **Limites et réserves :** Les liens de tenure sont copiés champ par champ afin de ne partager aucun objet mutable.
+- **Paramètres et types importants :** Les liens de tenure sont copiés champ par champ afin de ne partager aucun objet mutable.
 
 - **Rôle précis du bloc :** Parcelles, bâtiments et chantiers sont copiés avant mutation.
 
@@ -789,13 +757,11 @@ func get_production(recipe_id: StringName) -> ProductionRecipeDefinition:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Le catalogue centralise les définitions mais ne conserve aucun état de joueur.
+- **Dépendances et ports utilisés :** Le catalogue centralise les définitions mais ne conserve aucun état de joueur.
 
-- **Rôle précis du bloc :** Les bâtiments sont recoupés avec leurs recettes après le chargement complet.
+- **Rôle précis du bloc :** Les bâtiments sont recoupés avec leurs recettes après le chargement complet. Une référence manquante bloque le bootstrap avant le gameplay.
 
 - **Valeur de retour ou code d’échec :** Les lectures retournent des copies profondes pour maintenir l’immuabilité de conception.
-
-- **Rôle précis du bloc :** Une référence manquante bloque le bootstrap avant le gameplay.
 
 - **Invariants protégés :** Les méthodes d’enregistrement suivent le modèle validé du chapitre 22 et refusent les doublons.
 
@@ -835,11 +801,11 @@ static func ratio_basis_points(value: int, maximum: int) -> int:
 
 - **Invariants protégés :** L’addition vérifie la plage entière sûre avant d’effectuer l’opération.
 
-- **Résultat attendu :** `ratio_basis_points()` produit une progression de `0` à `10000` sans nombre flottant.
+- **Limites et réserves :** `ratio_basis_points()` produit une progression de `0` à `10000` sans nombre flottant.
 
 - **Rôle précis du bloc :** La multiplication est vérifiée avant le calcul du ratio.
 
-- **Invariants protégés :** La sentinelle `-1` distingue un calcul invalide d’une progression nulle.
+- **Valeur de retour ou code d’échec :** La sentinelle `-1` distingue un calcul invalide d’une progression nulle.
 
 - **Déterminisme et idempotence :** Cette arithmétique peut être sérialisée et rejouée de manière déterministe.
 
@@ -883,13 +849,11 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les lectures doivent renvoyer des copies détachées et les identifiants triés.
+- **Rôle précis du bloc :** Les lectures doivent renvoyer des copies détachées et les identifiants triés. Le dépôt ne décide ni des droits, ni des coûts, ni des recettes.
 
 - **Invariants protégés :** `replace_domain()` revalide la révision au dernier instant.
 
 - **Déterminisme et idempotence :** Le registre d’idempotence distingue replay identique et conflit d’empreinte.
-
-- **Rôle précis du bloc :** Le dépôt ne décide ni des droits, ni des coûts, ni des recettes.
 
 - **Persistance et restauration :** `replace_all()` est réservé à une restauration complète déjà validée.
 
@@ -936,15 +900,11 @@ func decide(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le port consomme une décision du chapitre 23 sans reproduire son moteur de lois.
+- **Dépendances et ports utilisés :** Le port consomme une décision du chapitre 23 sans reproduire son moteur de lois. Le port ne modifie ni droit politique ni domaine.
 
 - **Invariants protégés :** Seul `ALLOW` autorise une action protégée ; les autres statuts restent des refus conservateurs.
 
-- **Paramètres et types importants :** La révision et l’échéance permettent de rejeter une décision devenue ancienne.
-
-- **Invariants protégés :** Le code de raison rend le refus explicable.
-
-- **Effets de bord :** Le port ne modifie ni droit politique ni domaine.
+- **Résultat attendu :** La révision et l’échéance permettent de rejeter une décision devenue ancienne. Le code de raison rend le refus explicable.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_ecology_port.gd`.**
 
@@ -987,9 +947,7 @@ func snapshot_for(
 
 - **Persistance et restauration :** Le snapshot porte une révision et une échéance.
 
-- **Rôle précis du bloc :** La parcelle conserve seulement l’identité du site choisi.
-
-- **Invariants protégés :** La construction refuse un contexte absent, expiré ou incompatible.
+- **Invariants protégés :** La parcelle conserve seulement l’identité du site choisi. La construction refuse un contexte absent, expiré ou incompatible.
 
 - **Dépendances et ports utilisés :** Aucune réserve écologique n’est consommée par ce port.
 
@@ -1039,11 +997,9 @@ func prepare_maintenance_materials(
 
 - **Invariants protégés :** L’inventaire sélectionne les lots, vérifie leur provenance et prépare les quantités consommées ou produites.
 
-- **Rôle précis du bloc :** Le domaine fournit des besoins, jamais des mutations internes de conteneur.
+- **Rôle précis du bloc :** Le domaine fournit des besoins, jamais des mutations internes de conteneur. Les révisions attendues accompagnent le candidat opaque.
 
-- **Paramètres et types importants :** Les révisions attendues accompagnent le candidat opaque.
-
-- **Invariants protégés :** Un payload vide est refusé avant le commit.
+- **Effets de bord :** Un payload vide est refusé avant le commit.
 
 - **Limites et réserves :** Les trois opérations restent distinctes pour conserver des diagnostics précis.
 
@@ -1086,15 +1042,11 @@ func prepare_maintenance_cost(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** L’économie prépare les écritures et relit le portefeuille payeur.
+- **Dépendances et ports utilisés :** L’économie prépare les écritures et relit le portefeuille payeur. Les montants viennent d’une recette validée ou d’une politique injectée. Une révision de portefeuille obsolète bloque le commit.
 
 - **Effets de bord :** Le domaine ne calcule jamais un solde et ne modifie aucune écriture.
 
-- **Dépendances et ports utilisés :** Les montants viennent d’une recette validée ou d’une politique injectée.
-
-- **Paramètres et types importants :** Une révision de portefeuille obsolète bloque le commit.
-
-- **Rôle précis du bloc :** Un coût nul n’exige pas de candidat économique.
+- **Invariants protégés :** Un coût nul n’exige pas de candidat économique.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_transaction_commit_port.gd`.**
 
@@ -1127,15 +1079,13 @@ func commit_with_external_candidates(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le point de composition revalide toutes les révisions avant le premier remplacement.
+- **Effets de bord :** Le point de composition revalide toutes les révisions avant le premier remplacement.
 
 - **Déterminisme et idempotence :** Le résultat idempotent est enregistré dans le même lot que les états mutés.
 
-- **Dépendances et ports utilisés :** Un candidat économique peut être nul lorsque la recette ne porte aucun coût.
+- **Dépendances et ports utilisés :** Un candidat économique peut être nul lorsque la recette ne porte aucun coût. Aucun événement n’est émis par le port avant le succès complet.
 
 - **Résultat attendu :** Un candidat d’inventaire est obligatoire dès qu’un matériau ou produit change.
-
-- **Dépendances et ports utilisés :** Aucun événement n’est émis par le port avant le succès complet.
 
 ## 13. Résultats et commandes
 
@@ -1182,13 +1132,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le résultat distingue les refus de droit, site, matériaux, économie et préparation.
+- **Rôle précis du bloc :** Le résultat distingue les refus de droit, site, matériaux, économie et préparation.
 
 - **Déterminisme et idempotence :** `REPLAYED` confirme un succès antérieur sans seconde mutation.
 
-- **Rôle précis du bloc :** Un succès exige les identifiants nécessaires au diagnostic.
+- **Invariants protégés :** Un succès exige les identifiants nécessaires au diagnostic.
 
-- **Résultat attendu :** Le résultat ne contient aucun état mutable.
+- **Limites et réserves :** Le résultat ne contient aucun état mutable.
 
 - **Effets de bord :** Les services convertissent les codes techniques du commit vers ces statuts métier.
 
@@ -1227,11 +1177,9 @@ func validate() -> Error:
 
 - **Rôle précis du bloc :** L’ouverture d’un chantier fixe à l’avance les identités du chantier et du futur bâtiment.
 
-- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence.
+- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence. Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Invariants protégés :** Les révisions attendues empêchent d’écraser un état plus récent.
-
-- **Déterminisme et idempotence :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Responsabilités des classes ou fonctions :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
@@ -1268,11 +1216,9 @@ func validate() -> Error:
 
 - **Rôle précis du bloc :** La livraison demande des quantités par définition, mais laisse l’inventaire choisir les lots.
 
-- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence.
+- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence. Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Invariants protégés :** Les révisions attendues empêchent d’écraser un état plus récent.
-
-- **Déterminisme et idempotence :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Responsabilités des classes ou fonctions :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
@@ -1308,11 +1254,9 @@ func validate() -> Error:
 
 - **Dépendances et ports utilisés :** La progression porte une quantité de travail explicite et ne dépend pas d’une animation.
 
-- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence.
+- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence. Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Invariants protégés :** Les révisions attendues empêchent d’écraser un état plus récent.
-
-- **Déterminisme et idempotence :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Responsabilités des classes ou fonctions :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
@@ -1351,11 +1295,9 @@ func validate() -> Error:
 
 - **Limites et réserves :** La production nomme les conteneurs d’entrée et de sortie sans exposer leur contenu.
 
-- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence.
+- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence. Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Invariants protégés :** Les révisions attendues empêchent d’écraser un état plus récent.
-
-- **Déterminisme et idempotence :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Responsabilités des classes ou fonctions :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
@@ -1393,11 +1335,9 @@ func validate() -> Error:
 
 - **Persistance et restauration :** L’entretien demande une restauration bornée et peut préparer matériaux et coût.
 
-- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence.
+- **Déterminisme et idempotence :** La commande transporte une identité et une empreinte pour l’idempotence. Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Invariants protégés :** Les révisions attendues empêchent d’écraser un état plus récent.
-
-- **Déterminisme et idempotence :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
 - **Responsabilités des classes ou fonctions :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
@@ -1439,15 +1379,13 @@ func is_allowed(decision: DomainRightsPort.Decision) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La politique délègue la loi et la juridiction au chapitre 23.
+- **Dépendances et ports utilisés :** La politique délègue la loi et la juridiction au chapitre 23. Cette séparation permet de remplacer l’adaptateur politique sans modifier les états fonciers.
 
 - **Invariants protégés :** Une décision absente, invalide ou expirée ne devient jamais une autorisation implicite.
 
 - **Rôle précis du bloc :** `is_allowed()` accepte exclusivement le statut `ALLOW`.
 
-- **Paramètres et types importants :** Le domaine reste libre d’appliquer ensuite ses invariants de capacité et de révision.
-
-- **Effets de bord :** Cette séparation permet de remplacer l’adaptateur politique sans modifier les états fonciers.
+- **Limites et réserves :** Le domaine reste libre d’appliquer ensuite ses invariants de capacité et de révision.
 
 ## 15. Ouvrir un chantier
 
@@ -1504,13 +1442,11 @@ func start_worksite(command: StartWorksiteCommand) -> DomainCommandResult:
 
 - **Déterminisme et idempotence :** La méthode refuse d’abord forme invalide, replay conflictuel, absence et révisions obsolètes.
 
-- **Effets de bord :** Le droit de construire est demandé avant de préparer un coût ou modifier un candidat.
+- **Effets de bord :** Le droit de construire est demandé avant de préparer un coût ou modifier un candidat. Le résultat final sera émis uniquement après le commit commun.
 
 - **Rôle précis du bloc :** Le contexte de site est relu avec son échéance et ses tags.
 
 - **Limites et réserves :** La parcelle et le domaine restent inchangés jusqu’au helper de préparation.
-
-- **Effets de bord :** Le résultat final sera émis uniquement après le commit commun.
 
 > **[LECTURE] Préparation interne — Suite de `domain_construction_service.gd`.**
 
@@ -1566,13 +1502,9 @@ func _prepare_and_commit_start(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Le chantier et le futur bâtiment reçoivent leurs identités avant le commit.
+- **Effets de bord :** Le chantier et le futur bâtiment reçoivent leurs identités avant le commit. Le commit accepte un candidat d’inventaire nul car l’ouverture ne consomme encore aucun matériau.
 
-- **Invariants protégés :** L’occupation de la parcelle est réservée dans le candidat afin d’empêcher deux chantiers concurrents.
-
-- **Rôle précis du bloc :** Le coût est préparé seulement après la validation complète du candidat de domaine.
-
-- **Effets de bord :** Le commit accepte un candidat d’inventaire nul car l’ouverture ne consomme encore aucun matériau.
+- **Invariants protégés :** L’occupation de la parcelle est réservée dans le candidat afin d’empêcher deux chantiers concurrents. Le coût est préparé seulement après la validation complète du candidat de domaine.
 
 - **Rôle précis du bloc :** Le signal est émis après le succès du lot.
 
@@ -1623,11 +1555,9 @@ func deliver_materials(command: DeliverMaterialsCommand) -> DomainCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La demande est comparée aux besoins restants avant d’interroger l’inventaire.
+- **Rôle précis du bloc :** La demande est comparée aux besoins restants avant d’interroger l’inventaire. L’inventaire prépare les lots à consommer et leurs révisions.
 
-- **Paramètres et types importants :** L’inventaire prépare les lots à consommer et leurs révisions.
-
-- **Limites et réserves :** Le chantier candidat additionne uniquement les quantités demandées et validées.
+- **Invariants protégés :** Le chantier candidat additionne uniquement les quantités demandées et validées.
 
 - **Effets de bord :** Aucune quantité n’est retirée du conteneur avant le commit.
 
@@ -1670,15 +1600,11 @@ func advance_worksite(command: AdvanceWorksiteCommand) -> DomainCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le travail demandé est borné avant l’addition.
+- **Rôle précis du bloc :** Le travail demandé est borné avant l’addition. La valeur finale est limitée au travail total de la recette. La progression ne crée pas encore le bâtiment opérationnel.
 
-- **Rôle précis du bloc :** La valeur finale est limitée au travail total de la recette.
-
-- **Rôle précis du bloc :** Le statut prêt exige simultanément travail et matériaux complets.
+- **Invariants protégés :** Le statut prêt exige simultanément travail et matériaux complets.
 
 - **Déterminisme et idempotence :** Le tick logique remplace toute durée d’animation ou horloge réelle.
-
-- **Rôle précis du bloc :** La progression ne crée pas encore le bâtiment opérationnel.
 
 > **[LECTURE] Achèvement atomique — Méthode de `DomainConstructionService`.**
 
@@ -1715,15 +1641,11 @@ func complete_building(command: AdvanceWorksiteCommand) -> DomainCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** La méthode exige le statut prêt et les deux révisions attendues.
+- **Invariants protégés :** La méthode exige le statut prêt et les deux révisions attendues.
 
-- **Rôle précis du bloc :** Le bâtiment est créé dans le candidat avec une condition initiale issue de sa définition.
+- **Rôle précis du bloc :** Le bâtiment est créé dans le candidat avec une condition initiale issue de sa définition. La parcelle référence ensuite le bâtiment par identité stable. Le chantier est conservé comme historique terminé plutôt que supprimé silencieusement.
 
-- **Rôle précis du bloc :** La parcelle référence ensuite le bâtiment par identité stable.
-
-- **Rôle précis du bloc :** Le chantier est conservé comme historique terminé plutôt que supprimé silencieusement.
-
-- **Effets de bord :** Le lot ne modifie aucun objet ni portefeuille, car ils ont déjà été traités lors des étapes précédentes.
+- **Dépendances et ports utilisés :** Le lot ne modifie aucun objet ni portefeuille, car ils ont déjà été traités lors des étapes précédentes.
 
 ## 18. Production
 
@@ -1777,11 +1699,7 @@ func run(command: RunProductionCommand) -> DomainCommandResult:
 
 - **Invariants protégés :** La production vérifie bâtiment, recette, révisions, statut et condition avant de préparer les objets.
 
-- **Rôle précis du bloc :** La définition du bâtiment doit explicitement autoriser la recette.
-
-- **Rôle précis du bloc :** Les quantités sont multipliées avec contrôle de dépassement.
-
-- **Rôle précis du bloc :** L’inventaire prépare simultanément consommation des intrants et création des extrants.
+- **Rôle précis du bloc :** La définition du bâtiment doit explicitement autoriser la recette. Les quantités sont multipliées avec contrôle de dépassement. L’inventaire prépare simultanément consommation des intrants et création des extrants.
 
 - **Déterminisme et idempotence :** Le domaine committe ensuite sa révision avec le candidat d’inventaire et le résultat idempotent.
 
@@ -1818,13 +1736,7 @@ func degrade_building(
 
 - **Déterminisme et idempotence :** La dégradation utilise le tick logique et une perte en points de base par jour.
 
-- **Rôle précis du bloc :** La multiplication est protégée avant la division.
-
-- **Rôle précis du bloc :** La condition ne devient jamais négative.
-
-- **Rôle précis du bloc :** Les seuils de statut sont une politique pédagogique remplaçable.
-
-- **Rôle précis du bloc :** Cette opération travaille sur un candidat de bâtiment, jamais sur une scène.
+- **Rôle précis du bloc :** La multiplication est protégée avant la division. La condition ne devient jamais négative. Les seuils de statut sont une politique pédagogique remplaçable. Cette opération travaille sur un candidat de bâtiment, jamais sur une scène.
 
 > **[LECTURE] Entretien coordonné — Service applicatif.**
 
@@ -1862,15 +1774,13 @@ func maintain(command: MaintainBuildingCommand) -> DomainCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’entretien prépare les matériaux avant de relever la condition du candidat.
+- **Rôle précis du bloc :** L’entretien prépare les matériaux avant de relever la condition du candidat. Le tick d’entretien est sauvegardé pour les diagnostics et politiques futures.
 
 - **Limites et réserves :** La condition restaurée reste bornée par la définition.
 
 - **Invariants protégés :** Le statut opérationnel n’est rétabli qu’avec un candidat d’inventaire valide.
 
-- **Rôle précis du bloc :** Le tick d’entretien est sauvegardé pour les diagnostics et politiques futures.
-
-- **Invariants protégés :** Le commit commun empêche une réparation gratuite en cas de panne d’inventaire.
+- **Effets de bord :** Le commit commun empêche une réparation gratuite en cas de panne d’inventaire.
 
 ## 20. Événements et observations
 
@@ -1905,13 +1815,11 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** L’événement décrit un fait déjà committé et ne transporte aucun candidat.
+- **Dépendances et ports utilisés :** L’événement décrit un fait déjà committé et ne transporte aucun candidat.
 
-- **Rôle précis du bloc :** La cible peut être une parcelle, un chantier ou un bâtiment.
+- **Rôle précis du bloc :** La cible peut être une parcelle, un chantier ou un bâtiment. Cause et système source assurent la traçabilité.
 
-- **Paramètres et types importants :** Le tick et la révision permettent d’ignorer une notification ancienne.
-
-- **Rôle précis du bloc :** Cause et système source assurent la traçabilité.
+- **Résultat attendu :** Le tick et la révision permettent d’ignorer une notification ancienne.
 
 - **Effets de bord :** Les scènes et agents ne peuvent pas modifier le domaine à travers l’événement.
 
@@ -1953,15 +1861,9 @@ func snapshot_for(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’observation contient des identifiants et actions déjà filtrées, jamais les collections internes du dépôt.
+- **Rôle précis du bloc :** L’observation contient des identifiants et actions déjà filtrées, jamais les collections internes du dépôt. Les agents transforment ces données en faits et requêtes selon le chapitre 17. Une décision d’agent repasse toujours par une commande validée. La taille des collections est bornée.
 
 - **Limites et réserves :** Les actions disponibles tiennent compte des droits sans exposer les règles politiques.
-
-- **Rôle précis du bloc :** Les agents transforment ces données en faits et requêtes selon le chapitre 17.
-
-- **Rôle précis du bloc :** Une décision d’agent repasse toujours par une commande validée.
-
-- **Rôle précis du bloc :** La taille des collections est bornée.
 
 ## 21. Présentation
 
@@ -1989,7 +1891,7 @@ func on_domain_changed(event: DomainChangedEvent) -> void:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** Le pont accepte seulement un événement validé et postérieur à la dernière révision affichée.
+- **Invariants protégés :** Le pont accepte seulement un événement validé et postérieur à la dernière révision affichée.
 
 - **Persistance et restauration :** Le cache local sert à éviter les rafraîchissements anciens, pas à sauvegarder le domaine.
 
@@ -2070,9 +1972,7 @@ func decode(document: Dictionary, catalog: DomainCatalog) -> DecodeResult:
 
 - **Persistance et restauration :** Le codec exige le format, la version et exactement les clés prévues.
 
-- **Rôle précis du bloc :** Toutes les sections sont décodées dans une structure candidate avant mutation.
-
-- **Rôle précis du bloc :** Les références vers définitions, parcelles, bâtiments et chantiers sont recoupées.
+- **Rôle précis du bloc :** Toutes les sections sont décodées dans une structure candidate avant mutation. Les références vers définitions, parcelles, bâtiments et chantiers sont recoupées.
 
 - **Paramètres et types importants :** Les entiers suivent la plage JSON sûre du chapitre 9.
 
@@ -2125,13 +2025,9 @@ func cancel_restore() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La section prépare tous les domaines avant de toucher au dépôt actif.
+- **Rôle précis du bloc :** La section prépare tous les domaines avant de toucher au dépôt actif. Les données sont copiées à la préparation puis à l’application. Les définitions doivent être chargées avant les états vivants.
 
-- **Rôle précis du bloc :** Les données sont copiées à la préparation puis à l’application.
-
-- **Résultat attendu :** Un échec d’une autre section permet d’annuler sans mutation partielle.
-
-- **Rôle précis du bloc :** Les définitions doivent être chargées avant les états vivants.
+- **Limites et réserves :** Un échec d’une autre section permet d’annuler sans mutation partielle.
 
 - **Persistance et restauration :** Les droits politiques seront revalidés par leurs ports après restauration.
 
@@ -2335,7 +2231,7 @@ if all_materials_delivered and completed_work_units == required_work_units:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** Pourquoi la correction fonctionne : L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
+- **Invariants protégés :** Pourquoi la correction fonctionne : L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
 
 ### 28.5 Utiliser un nombre flottant pour la progression
 
@@ -2370,7 +2266,7 @@ var progress_bp := DomainMath.ratio_basis_points(worksite.completed_work_units, 
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** Pourquoi la correction fonctionne : Le travail et le ratio sont entiers, bornés et sérialisables.
+- **Persistance et restauration :** Pourquoi la correction fonctionne : Le travail et le ratio sont entiers, bornés et sérialisables.
 
 ### 28.6 Fixer un coût dans le bâtiment vivant
 
@@ -2423,7 +2319,7 @@ inventory.remove_inputs(inputs)
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Pourquoi cet exemple est fautif : Les deux effets sont appliqués dans un ordre observable et non atomique.
+- **Limites et réserves :** Pourquoi cet exemple est fautif : Les deux effets sont appliqués dans un ordre observable et non atomique.
 
 **Exemple corrigé :**
 
@@ -2490,7 +2386,7 @@ if decision == null or decision.status != DENY:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Pourquoi cet exemple est fautif : Tous les états autres que refus explicite deviennent autorisés.
+- **Rôle précis du bloc :** Pourquoi cet exemple est fautif : Tous les états autres que refus explicite deviennent autorisés.
 
 **Exemple corrigé :**
 

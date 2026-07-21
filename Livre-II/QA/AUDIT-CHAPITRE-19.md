@@ -6,8 +6,8 @@ version: "1.0.2"
 chapter-id: "DOC-L2-CH19"
 chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T14:38:26+02:00"
-last-verified: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -30,8 +30,8 @@ Le chapitre a d’abord été matérialisé avec un rapport d’audit à l’ét
 - blocs significatifs sans explication : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
-- unités d’explication antérieures conservées : **189** ;
-- unités d’explication antérieures perdues : **0** ;
+- segments d’explication antérieurs conservés : **190** ;
+- segments d’explication antérieurs perdus : **0** ;
 - points pédagogiques complémentaires ajoutés : **0** ;
 - sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
@@ -95,7 +95,8 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 ## 6. Explications pédagogiques
 
 
-Les **56** blocs possèdent **56** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **189** unités conservées et **0** unité perdue.
+
+Les **56** blocs possèdent **56** marqueurs. Les explications antérieures ont été décomposées en **190** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 7. Règle sémantique des erreurs
 

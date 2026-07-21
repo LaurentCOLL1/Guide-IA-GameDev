@@ -16,7 +16,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 3258
+  chapter-lines: 3144
   chapter-headings: 69
   chapter-code-and-data-blocks: 61
   code-explanation-markers: 61
@@ -38,9 +38,11 @@ results:
   ecology-market-signals-without-prices: true
   save-prepared-before-replacement: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 225
+  prior-explanation-units-preserved: 231
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false

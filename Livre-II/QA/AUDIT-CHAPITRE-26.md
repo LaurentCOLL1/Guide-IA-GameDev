@@ -6,8 +6,8 @@ version: "1.0.1"
 chapter-id: "DOC-L2-CH26"
 chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-21T14:38:26+02:00"
-last-verified: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch26-outils-ed
 
 ## 2. Résultats
 
-- lignes finales : **2592** ;
+- lignes finales : **2660** ;
 - titres Markdown : **74** ;
 - blocs de code ou de données : **71** ;
 - marqueurs d’explication : **71** ;
@@ -33,9 +33,9 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch26-outils-ed
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - métadonnée ou en-tête de niveau de raisonnement dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
-- unités d’explication antérieures conservées : **71** ;
-- unités d’explication antérieures perdues : **0** ;
-- points pédagogiques complémentaires ajoutés : **267** ;
+- segments d’explication antérieurs conservés : **166** ;
+- segments d’explication antérieurs perdus : **0** ;
+- points pédagogiques complémentaires ajoutés : **304** ;
 - sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et frontières
@@ -53,7 +53,8 @@ Cette revue ne constitue pas une exécution du parseur GDScript ni une installat
 ## 5. Explications pédagogiques
 
 
-Les **71** blocs possèdent **71** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **71** unités conservées et **0** unité perdue. Le chapitre a également reçu **267** points complémentaires propres aux extraits trop courts.
+
+Les **71** blocs possèdent **71** marqueurs. Les explications antérieures ont été décomposées en **166** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc. **304** segments complémentaires spécifiques ont été ajoutés à partir de la syntaxe et de la structure propres à chaque extrait.
 
 ## 6. Réserves
 

@@ -6,8 +6,8 @@ version: "1.0.1"
 chapter-id: "DOC-L2-CH24"
 chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-21T14:38:26+02:00"
-last-verified: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch24-domaines-
 
 ## 2. Résultats
 
-- lignes finales : **2645** ;
+- lignes finales : **2541** ;
 - titres Markdown : **48** ;
 - blocs de code ou de données : **61** ;
 - marqueurs d’explication : **61** ;
@@ -31,8 +31,8 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch24-domaines-
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
-- unités d’explication antérieures conservées : **225** ;
-- unités d’explication antérieures perdues : **0** ;
+- segments d’explication antérieurs conservés : **225** ;
+- segments d’explication antérieurs perdus : **0** ;
 - points pédagogiques complémentaires ajoutés : **0** ;
 - sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
@@ -72,7 +72,8 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 ## 6. Explications pédagogiques
 
 
-Les **61** blocs possèdent **61** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **225** unités conservées et **0** unité perdue.
+
+Les **61** blocs possèdent **61** marqueurs. Les explications antérieures ont été décomposées en **225** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 7. Règle sémantique des erreurs
 

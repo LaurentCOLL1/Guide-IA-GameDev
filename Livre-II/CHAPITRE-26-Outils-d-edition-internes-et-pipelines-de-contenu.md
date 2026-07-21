@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 26
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-26.md"
 audit-level: "static-review"
 reference-engine:
@@ -74,13 +74,13 @@ Caches dérivés
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les sources auteur sont modifiables et revues. Les artefacts canoniques sont les définitions approuvées que le runtime peut charger. Les caches peuvent être supprimés puis reconstruits ; ils ne doivent jamais devenir l’unique détenteur d’une information métier.
+- **Rôle précis du bloc :** Les sources auteur sont modifiables et revues. Les artefacts canoniques sont les définitions approuvées que le runtime peut charger. Les caches peuvent être supprimés puis reconstruits ; ils ne doivent jamais devenir l’unique détenteur d’une information métier. Le schéma fait circuler le traitement de `Sources auteur` vers `dist/reports/**`.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `↓ validation et compilation`, `↓ import et indexation`.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le bloc décrit uniquement les éléments littéraux affichés ; il ne définit aucune étape supplémentaire hors de cette structure.
 
 ## 4. Arborescence feature-first
 
@@ -111,13 +111,13 @@ addons/asteria_content_tools/
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** Le fichier `plugin.gd` orchestre uniquement le cycle de vie de l’extension. La validation et la publication sont réutilisables sans interface. Les accès disque restent dans l’infrastructure, tandis que les contrôles Godot résident dans la présentation.
+- **Organisation des fichiers :** Le fichier `plugin.gd` orchestre uniquement le cycle de vie de l’extension. Les chemins restent séparés selon leur responsabilité ; les fichiers listés ne sont pas interchangeables entre domaine, application, infrastructure et présentation.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Limites et réserves :** La validation et la publication sont réutilisables sans interface. Les accès disque restent dans l’infrastructure, tandis que les contrôles Godot résident dans la présentation.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** L’arborescence répartit les éléments entre `plugin.cfg`, `plugin.gd`, `application`, `content_pipeline.gd`, `publish_content_command.gd`, `domain`, `content_issue.gd`, `content_manifest.gd`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 5. Déclarer le plugin
 
@@ -136,13 +136,17 @@ script="plugin.gd"
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** La section `plugin` rend l’extension détectable. Le champ `script` pointe vers l’`EditorPlugin` chargé à l’activation. La version appartient à l’outil de production et doit figurer dans les reçus lorsque son comportement influence les artefacts.
+- **Responsabilités des classes ou fonctions :** La section `plugin` rend l’extension détectable.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de données littérale dont les clés et valeurs constituent le contrat à relire.
+- **Paramètres et types importants :** Le champ `script` pointe vers l’`EditorPlugin` chargé à l’activation. Les clés visibles comprennent `name`, `description`, `author`, `version`, `script`.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Dépendances et ports utilisés :** La version appartient à l’outil de production et doit figurer dans les reçus lorsque son comportement influence les artefacts.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Rôle précis du bloc :** Le bloc matérialise le format de données annoncé par `> **[VSC] Fichier `addons/asteria_content_tools/plugin.cfg` — Ne pas saisir.**`.
+
+- **Organisation des données :** La configuration est organisée dans `[plugin]`.
+
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
 ## 6. Exécuter du code dans l’éditeur
 
@@ -162,15 +166,17 @@ func refresh_preview() -> void:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** `@tool` autorise l’exécution dans l’éditeur. `Engine.is_editor_hint()` isole le chemin éditorial si le script peut aussi être instancié ailleurs. Une méthode outil ne doit jamais muter une partie ni appeler directement une autorité runtime.
+- **Rôle précis du bloc :** `@tool` autorise l’exécution dans l’éditeur. `Engine.is_editor_hint()` isole le chemin éditorial si le script peut aussi être instancié ailleurs. Le bloc expose `refresh_preview()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `refresh_preview()`.
+- **Frontières d’autorité :** Une méthode outil ne doit jamais muter une partie ni appeler directement une autorité runtime.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `refresh_preview()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `refresh_preview() -> void`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void` ; branches visibles : `queue_redraw()`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `queue_redraw()`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not Engine.is_editor_hint()` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `not Engine.is_editor_hint()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 7. Limiter le rayon d’impact
 
@@ -220,21 +226,15 @@ func _exit_tree() -> void:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Chaque enregistrement possède son retrait miroir. L’exemple utilise l’API de dock historique encore disponible ; une implémentation strictement alignée sur `EditorDock` emploie `add_dock()` et `remove_dock()` avec le même invariant de nettoyage.
+- **Responsabilités des classes ou fonctions :** Chaque enregistrement possède son retrait miroir. L’exemple utilise l’API de dock historique encore disponible ; une implémentation strictement alignée sur `EditorDock` emploie `add_dock()` et `remove_dock()` avec le même invariant de nettoyage. Les signatures documentées sont `_enter_tree() -> void`, `_exit_tree() -> void`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_enter_tree()`, `_exit_tree()`.
+- **Rôle précis du bloc :** Le bloc expose `_enter_tree()`, `_exit_tree()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_enter_tree()`, `_exit_tree()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `_dock: Control`, `_inspector_plugin: EditorInspectorPlugin`, `_import_plugin: EditorImportPlugin`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `_dock: Control`, `_inspector_plugin: EditorInspectorPlugin`, `_import_plugin: EditorImportPlugin`, `void:
-      _dock`, `void:
-          _dock.queue_free`.
+- **Invariants protégés :** Les gardes explicites contrôlent `_import_plugin != null`, `_inspector_plugin != null`, `_dock != null`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
-
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `_import_plugin != null`, `_inspector_plugin != null`, `_dock != null` avant de poursuivre le traitement.
-
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `_dock.queue_free()`.
+- **Effets de bord :** Les effets visibles sont `_dock.queue_free()`.
 
 ## 9. Empêcher une dépendance runtime
 
@@ -253,18 +253,19 @@ func _ready() -> void:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** La garde échoue explicitement si le module est chargé hors éditeur. Le package runtime ne doit dépendre ni de ce plugin, ni de ses scènes d’interface, ni de ses adaptateurs de fichiers. Les artefacts publiés restent utilisables sans l’extension.
+- **Rôle précis du bloc :** La garde échoue explicitement si le module est chargé hors éditeur. Le bloc expose `_ready()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_ready()`.
+- **Dépendances et ports utilisés :** Le package runtime ne doit dépendre ni de ce plugin, ni de ses scènes d’interface, ni de ses adaptateurs de fichiers.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_ready()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Limites et réserves :** Les artefacts publiés restent utilisables sans l’extension.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `void:
-      _connect_editor_signals`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_ready() -> void`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void` ; branches visibles : `_connect_editor_signals()`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_connect_editor_signals()`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not Engine.is_editor_hint()` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `not Engine.is_editor_hint()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 10. Dock orienté commande
 
@@ -295,17 +296,15 @@ func _on_publish_pressed() -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Le dock émet des intentions et ne réalise aucun accès disque. Le service applicatif calcule l’aperçu et le reçu. Le bouton de publication ne peut donc pas construire arbitrairement une liste de fichiers à écrire.
+- **Effets de bord :** Le dock émet des intentions et ne réalise aucun accès disque. Les effets visibles sont `preview_requested.emit(_collect_selected_paths())`, `publish_requested.emit(&"current_preview")`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_ready()`, `_on_preview_pressed()`, `_on_publish_pressed()`.
+- **Responsabilités des classes ou fonctions :** Le service applicatif calcule l’aperçu et le reçu. Les signatures documentées sont `_ready() -> void`, `_on_preview_pressed() -> void`, `_on_publish_pressed() -> void`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_ready()`, `_on_preview_pressed()`, `_on_publish_pressed()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Limites et réserves :** Le bouton de publication ne peut donc pas construire arbitrairement une liste de fichiers à écrire.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `void:
-  func _on_preview_pressed`, `void:
-  func _on_publish_pressed`.
+- **Rôle précis du bloc :** Le bloc expose `_ready()`, `_on_preview_pressed()`, `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Paramètres et types importants :** Les déclarations visibles sont `signal preview_requested`, `signal publish_requested`.
 
 ## 11. États explicites de l’interface
 
@@ -339,16 +338,19 @@ func set_state(next_state: DockState) -> void:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `READY_TO_PUBLISH` est la seule porte d’activation du bouton. Une validation échouée, un aperçu obsolète ou une opération en cours ne peut pas lancer la promotion. L’interface reflète une décision applicative plutôt qu’une déduction visuelle.
+- **Dépendances et ports utilisés :** `READY_TO_PUBLISH` est la seule porte d’activation du bouton.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `can_publish()`, `set_state()`.
+- **Limites et réserves :** Une validation échouée, un aperçu obsolète ou une opération en cours ne peut pas lancer la promotion.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `can_publish()`, `set_state()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** L’interface reflète une décision applicative plutôt qu’une déduction visuelle. Le bloc expose `can_publish()`, `set_state()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `state: DockState`, `bool:
-  func set_state`, `next_state: DockState`.
+- **Paramètres et types importants :** Les déclarations visibles sont `state: DockState`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool`, `void` ; branches visibles : `state == DockState.READY_TO_PUBLISH`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `can_publish() -> bool`, `set_state(next_state: DockState) -> void`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `state == DockState.READY_TO_PUBLISH`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 12. Étendre l’Inspector
 
@@ -377,15 +379,15 @@ func _request_validation(resource_path: String) -> void:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** `_can_handle()` ferme le périmètre à un type connu. `_parse_begin()` ajoute un contrôle sans remplacer les propriétés natives. L’action transmet un chemin de ressource au service applicatif et ne corrige jamais silencieusement l’objet sélectionné.
+- **Paramètres et types importants :** `_can_handle()` ferme le périmètre à un type connu.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_can_handle()`, `_parse_begin()`, `_request_validation()`.
+- **Effets de bord :** `_parse_begin()` ajoute un contrôle sans remplacer les propriétés natives. Les effets visibles sont `ContentToolBus.validation_requested.emit(resource_path)`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_can_handle()`, `_parse_begin()`, `_request_validation()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** L’action transmet un chemin de ressource au service applicatif et ne corrige jamais silencieusement l’objet sélectionné. Les signatures documentées sont `_can_handle(object: Object) -> bool`, `_parse_begin(object: Object) -> void`, `_request_validation(resource_path: String) -> void`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool`, `void` ; branches visibles : `object is QuestDefinition`.
+- **Rôle précis du bloc :** Le bloc expose `_can_handle()`, `_parse_begin()`, `_request_validation()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `ContentToolBus.validation_requested.emit(resource_path)`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `object is QuestDefinition`.
 
 ## 13. Mutations annulables
 
@@ -410,15 +412,13 @@ func rename_entry(resource: Resource, next_id: StringName) -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** L’action conserve l’ancienne et la nouvelle valeur dans l’historique approprié. La ressource fournie comme contexte aide l’éditeur à sélectionner l’historique. `commit_action()` exécute l’opération et marque normalement le document comme modifié.
+- **Rôle précis du bloc :** L’action conserve l’ancienne et la nouvelle valeur dans l’historique approprié. La ressource fournie comme contexte aide l’éditeur à sélectionner l’historique. Le bloc expose `rename_entry()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `rename_entry()`.
+- **Effets de bord :** `commit_action()` exécute l’opération et marque normalement le document comme modifié. Les effets visibles sont `undo_redo.add_do_property(resource, "entry_id", next_id)`, `undo_redo.add_undo_property(resource, "entry_id", previous_id)`, `undo_redo.commit_action()`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `rename_entry()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `previous_id: StringName`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `previous_id: StringName`, `resource: Resource, next_id`.
-
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `rename_entry(resource: Resource, next_id: StringName) -> void`.
 
 ## 14. Scène non enregistrée
 
@@ -436,13 +436,11 @@ func update_generated_preview(node: Node3D, mesh: Mesh) -> void:
 
 - **Limites et réserves :** Une opération qui ne peut raisonnablement pas être modélisée par undo/redo doit au minimum marquer la scène comme non enregistrée. Cette voie reste secondaire : les mutations structurelles doivent préférer l’historique de l’éditeur.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `update_generated_preview()`.
+- **Rôle précis du bloc :** Le bloc expose `update_generated_preview()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `update_generated_preview()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `update_generated_preview(node: Node3D, mesh: Mesh) -> void`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `node: Node3D, mesh`.
-
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `func update_generated_preview(node: Node3D, mesh: Mesh) -> void:` et se termine par `EditorInterface.mark_scene_as_unsaved()` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 15. Diagnostic de contenu
 
@@ -469,15 +467,17 @@ func blocks_publication() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Un diagnostic possède un code stable, un fichier et un pointeur interne. Le texte aide l’auteur ; `code` sert au filtrage et à l’automatisation. Seule la sévérité `BLOCKING` interdit mécaniquement la publication.
+- **Rôle précis du bloc :** Un diagnostic possède un code stable, un fichier et un pointeur interne. Le texte aide l’auteur ; `code` sert au filtrage et à l’automatisation. Le bloc définit `ContentIssue` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentIssue` et expose son contrat minimal visible.
+- **Invariants protégés :** Seule la sévérité `BLOCKING` interdit mécaniquement la publication.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentIssue` et les fonctions `blocks_publication()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `severity: Severity`, `code: StringName`, `path: String`, `pointer: String`, `message: String`, `suggestion: String`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `severity: Severity`, `code: StringName`, `path: String`, `pointer: String`, `message: String`, `suggestion: String`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `blocks_publication() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `severity == Severity.BLOCKING`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `severity == Severity.BLOCKING`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 16. Rapport détaché
 
@@ -509,20 +509,21 @@ func duplicate_detached() -> ContentValidationReport:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le rapport est une photographie du contrôle. Son empreinte relie la décision aux sources exactes. La copie profonde empêche le panneau d’interface de modifier une collection réutilisée par la commande de publication.
+- **Dépendances et ports utilisés :** Le rapport est une photographie du contrôle.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentValidationReport` et expose son contrat minimal visible.
+- **Déterminisme et idempotence :** Son empreinte relie la décision aux sources exactes.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentValidationReport` et les fonctions `is_publishable()`, `duplicate_detached()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Effets de bord :** La copie profonde empêche le panneau d’interface de modifier une collection réutilisée par la commande de publication. Les effets visibles sont `copy.source_fingerprint = source_fingerprint`, `copy.issues = issues.duplicate(true)`, `copy.checked_paths = checked_paths.duplicate()`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source_fingerprint: String`, `issues: Array[ContentIssue]`, `checked_paths: PackedStringArray`, `bool:
-  func duplicate_detached`.
+- **Rôle précis du bloc :** Le bloc définit `ContentValidationReport` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool`, `ContentValidationReport` ; branches visibles : `false`, `not source_fingerprint.is_empty()`, `copy`.
+- **Paramètres et types importants :** Les déclarations visibles sont `source_fingerprint: String`, `issues: Array[ContentIssue]`, `checked_paths: PackedStringArray`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `issue.blocks_publication()` avant de poursuivre le traitement.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_publishable() -> bool`, `duplicate_detached() -> ContentValidationReport`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `copy.source_fingerprint = source_fingerprint`, `copy.issues = issues.duplicate(true)`, `copy.checked_paths = checked_paths.duplicate()`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `false`, `not source_fingerprint.is_empty()`, `copy`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `issue.blocks_publication()`.
 
 ## 17. Registre fermé des validateurs
 
@@ -564,15 +565,17 @@ func validate(
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** La donnée ne fournit ni chemin de script, ni classe, ni nom de méthode. Elle choisit uniquement un identifiant présent dans un registre construit par le code. Un type inconnu produit un blocage explicite.
+- **Responsabilités des classes ou fonctions :** La donnée ne fournit ni chemin de script, ni classe, ni nom de méthode. Les signatures documentées sont `register(type_id: StringName, validator: ContentValidator) -> Error`, `validate(type_id: StringName, document: Dictionary) -> Array[ContentIssue]`.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentValidatorRegistry` et expose son contrat minimal visible.
+- **Invariants protégés :** Elle choisit uniquement un identifiant présent dans un registre construit par le code. Les gardes explicites contrôlent `type_id.is_empty() or validator == null`, `_validators.has(type_id)`, `validator == null`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentValidatorRegistry` et les fonctions `register()`, `validate()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Un type inconnu produit un blocage explicite. Les déclarations visibles sont `_validators: Dictionary[StringName, ContentValidator]`, `validator: ContentValidator`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Error`, `Array[ContentIssue]` ; branches visibles : `ERR_INVALID_PARAMETER`, `ERR_ALREADY_EXISTS`, `OK`, `[`, `validator.validate(document)`.
+- **Rôle précis du bloc :** Le bloc définit `ContentValidatorRegistry` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `type_id.is_empty() or validator == null`, `_validators.has(type_id)`, `validator == null` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_PARAMETER`, `ERR_ALREADY_EXISTS`, `OK`, `[`, `validator.validate(document)`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 18. Couches de validation
 
@@ -594,13 +597,15 @@ func validate(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Chaque couche suppose la précédente valide. Une référence n’est pas résolue avant que son champ soit reconnu comme chaîne. Cet ordre limite les cascades de diagnostics secondaires et localise mieux la cause initiale.
+- **Invariants protégés :** Chaque couche suppose la précédente valide.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Paramètres et types importants :** Une référence n’est pas résolue avant que son champ soit reconnu comme chaîne.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Limites et réserves :** Cet ordre limite les cascades de diagnostics secondaires et localise mieux la cause initiale.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Rôle précis du bloc :** Le bloc compare ou énumère `1. Lecture bornée et encodage`, `2. Syntaxe JSON ou ressource`, `3. Version de schéma`, `4. Forme et types des champs`, `5. Identifiants et références`, `6. Invariants sémantiques`.
+
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 19. Lecture bornée
 
@@ -633,15 +638,19 @@ func read_source(path: String) -> ContentReadResult:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le chemin reste dans la racine source et la taille est bornée avant analyse. Le résultat distingue un refus de politique d’un échec d’entrée-sortie. Une implémentation optimisée pourra lire la taille sans charger tout le fichier.
+- **Organisation des fichiers :** Le chemin reste dans la racine source et la taille est bornée avant analyse.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `read_source()`.
+- **Rôle précis du bloc :** Le résultat distingue un refus de politique d’un échec d’entrée-sortie. Le bloc expose `read_source()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `read_source()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Limites et réserves :** Une implémentation optimisée pourra lire la taille sans charger tout le fichier.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `path: String`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `read_source(path: String) -> ContentReadResult`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentReadResult` ; branches visibles : `ContentReadResult.rejected(`, `ContentReadResult.rejected(&"source_too_large")`, `ContentReadResult.failed(`, `ContentReadResult.accepted(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentReadResult.rejected(`, `ContentReadResult.rejected(&"source_too_large")`, `ContentReadResult.failed(`, `ContentReadResult.accepted(`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `not path.begins_with("res://data_src/")`, `bytes.size() > MAX_SOURCE_BYTES`, `bytes.is_empty() and FileAccess.get_open_error() != OK`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 20. Schéma versionné
 
@@ -676,13 +685,17 @@ func prepare_document(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les migrations travaillent sur une copie détachée. Une version future est refusée afin qu’un ancien outil ne réécrive pas un document qu’il ne comprend pas. Le candidat final est entièrement validé avant toute promotion.
+- **Rôle précis du bloc :** Les migrations travaillent sur une copie détachée. Le candidat final est entièrement validé avant toute promotion. Le bloc expose `prepare_document()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `prepare_document()`.
+- **Résultat attendu :** Une version future est refusée afin qu’un ancien outil ne réécrive pas un document qu’il ne comprend pas.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `prepare_document()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare_document(raw: Dictionary) -> ContentPreparationResult`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentPreparationResult` ; branches visibles : `ContentPreparationResult.rejected(`, `_validate_candidate(candidate)`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentPreparationResult.rejected(`, `_validate_candidate(candidate)`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `version < 0`, `version > CURRENT_SCHEMA`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 21. Références stables
 
@@ -722,15 +735,15 @@ func validate_reference(
 
 - **Dépendances et ports utilisés :** La validation consulte un catalogue d’identifiants, jamais un titre affiché ou un chemin comme identité métier. Le diagnostic conserve le fichier et le champ qui portent la référence manquante.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `validate_reference()`.
+- **Rôle précis du bloc :** Le bloc expose `validate_reference()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `validate_reference()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `validate_reference(source_path: String, field_name: StringName, target_id: StringName, catalog: ContentIdCatalog) -> Array[ContentIssue]`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source_path: String,`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `[`, `[]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Array[ContentIssue]` ; branches visibles : `[`, `[]`.
+- **Invariants protégés :** Les gardes explicites contrôlent `target_id.is_empty()`, `not catalog.contains(target_id)`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `target_id.is_empty()`, `not catalog.contains(target_id)` avant de poursuivre le traitement.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 22. Graphe de dépendances
 
@@ -764,18 +777,19 @@ func add_dependency(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Le graphe décrit les dépendances logiques entre définitions. Les nœuds autonomes existent même sans arête. Les collections internes restent privées afin qu’une étape de présentation ne puisse pas altérer le plan de compilation.
+- **Effets de bord :** Le graphe décrit les dépendances logiques entre définitions. Les effets visibles sont `_edges[content_id].append(depends_on)`.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentDependencyGraph` et expose son contrat minimal visible.
+- **Limites et réserves :** Les nœuds autonomes existent même sans arête. Les collections internes restent privées afin qu’une étape de présentation ne puisse pas altérer le plan de compilation.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentDependencyGraph` et les fonctions `add_node()`, `add_dependency()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `ContentDependencyGraph` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `_edges: Dictionary[StringName, Array]`, `content_id: StringName`, `void:
-          _edges[content_id]`.
+- **Paramètres et types importants :** Les déclarations visibles sont `_edges: Dictionary[StringName, Array]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`, `Error` ; branches visibles : `ERR_ALREADY_EXISTS`, `OK`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_node(content_id: StringName) -> void`, `add_dependency(content_id: StringName, depends_on: StringName) -> Error`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not _edges.has(content_id)`, `depends_on in _edges[content_id]` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_ALREADY_EXISTS`, `OK`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `not _edges.has(content_id)`, `depends_on in _edges[content_id]`.
 
 ## 23. Rejeter les cycles
 
@@ -820,17 +834,19 @@ func find_cycle(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** Rencontrer un nœud `ACTIVE` révèle une arête de retour. Le chemin retourné rend le diagnostic actionnable. Le pipeline n’invente jamais un ordre lorsque le graphe contient une boucle.
+- **Rôle précis du bloc :** Rencontrer un nœud `ACTIVE` révèle une arête de retour. Le bloc expose `find_cycle()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `find_cycle()`.
+- **Résultat attendu :** Le chemin retourné rend le diagnostic actionnable.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `state: VisitState`.
+- **Responsabilités des classes ou fonctions :** Le pipeline n’invente jamais un ordre lorsque le graphe contient une boucle. Les signatures documentées sont `find_cycle(node: StringName, states: Dictionary, stack: Array[StringName]) -> Array[StringName]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Array[StringName]` ; branches visibles : `stack.slice(start) + [dependency]`, `nested`, `[]`.
+- **Paramètres et types importants :** Les déclarations visibles sont `state: VisitState`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `state == VisitState.ACTIVE`, `state == VisitState.UNSEEN`, `not nested.is_empty()` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `stack.slice(start) + [dependency]`, `nested`, `[]`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `stack.append(node)`.
+- **Invariants protégés :** Les gardes explicites contrôlent `state == VisitState.ACTIVE`, `state == VisitState.UNSEEN`, `not nested.is_empty()`.
+
+- **Effets de bord :** Les effets visibles sont `stack.append(node)`.
 
 ## 24. Ordre topologique déterministe
 
@@ -865,17 +881,17 @@ func topological_order() -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le tri des candidats prêts fixe un ordre reproductible lorsque plusieurs solutions sont valides. Un tableau vide signale un cycle ou une incohérence. Cette stabilité évite des artefacts différents entre deux machines.
+- **Invariants protégés :** Le tri des candidats prêts fixe un ordre reproductible lorsque plusieurs solutions sont valides. Les gardes explicites contrôlent `remaining[content_id] == 0`, `remaining[dependent] == 0`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `topological_order()`.
+- **Rôle précis du bloc :** Un tableau vide signale un cycle ou une incohérence. Cette stabilité évite des artefacts différents entre deux machines. Le bloc expose `topological_order()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `topological_order()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `ready: Array[StringName]`, `result: Array[StringName]`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `ready: Array[StringName]`, `result: Array[StringName]`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `topological_order() -> Array[StringName]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Array[StringName]` ; branches visibles : `result if result.size() == remaining.size() else []`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `result if result.size() == remaining.size() else []`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `ready.append(content_id)`, `result.append(current)`, `ready.append(dependent)`.
+- **Effets de bord :** Les effets visibles sont `ready.append(content_id)`, `result.append(current)`, `ready.append(dependent)`.
 
 ## 25. Sérialisation canonique
 
@@ -910,17 +926,19 @@ static func normalize(value: Variant) -> Variant:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les clés de dictionnaire sont ordonnées, tandis que les tableaux conservent leur ordre métier. La sérialisation finale doit imposer UTF-8 et une convention stable pour les nombres. Une date de build ne participe jamais à la valeur canonique.
+- **Rôle précis du bloc :** Les clés de dictionnaire sont ordonnées, tandis que les tableaux conservent leur ordre métier. Une date de build ne participe jamais à la valeur canonique. Le bloc définit `CanonicalValue` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `CanonicalValue` et les fonctions `normalize()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Persistance et restauration :** La sérialisation finale doit imposer UTF-8 et une convention stable pour les nombres.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `keys: Array`, `items: Array`, `value: Variant`.
+- **Paramètres et types importants :** Les déclarations visibles sont `keys: Array`, `items: Array`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Variant`, `bool` ; branches visibles : `str(a) < str(b)`, `ordered`, `items`, `value`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `normalize(value: Variant) -> Variant`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `value is Dictionary`, `value is Array` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `str(a) < str(b)`, `ordered`, `items`, `value`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `items.append(normalize(item))`.
+- **Invariants protégés :** Les gardes explicites contrôlent `value is Dictionary`, `value is Array`.
+
+- **Effets de bord :** Les effets visibles sont `items.append(normalize(item))`.
 
 ## 26. Empreinte SHA-256
 
@@ -946,15 +964,17 @@ func fingerprint(document: Dictionary) -> String:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’empreinte dépend uniquement du document normalisé. Elle permet de vérifier qu’un aperçu correspond encore aux sources. Elle ne constitue ni une signature d’auteur ni une preuve suffisante de provenance.
+- **Déterminisme et idempotence :** L’empreinte dépend uniquement du document normalisé.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `fingerprint()`.
+- **Invariants protégés :** Elle permet de vérifier qu’un aperçu correspond encore aux sources.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `fingerprint()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Elle ne constitue ni une signature d’auteur ni une preuve suffisante de provenance. Le bloc expose `fingerprint()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `document: Dictionary`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `fingerprint(document: Dictionary) -> String`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `String` ; branches visibles : `context.finish().hex_encode()`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `context.finish().hex_encode()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 27. Manifeste de contenu
 
@@ -981,13 +1001,17 @@ func fingerprint(document: Dictionary) -> String:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le manifeste relie identité, source, artefact et empreintes. Ses entrées sont triées avant sérialisation. La version de l’outil explique quel compilateur a produit le lot sans rendre ce compilateur nécessaire à l’exécution du jeu.
+- **Déterminisme et idempotence :** Le manifeste relie identité, source, artefact et empreintes.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de données littérale dont les clés et valeurs constituent le contrat à relire.
+- **Persistance et restauration :** Ses entrées sont triées avant sérialisation.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Responsabilités des classes ou fonctions :** La version de l’outil explique quel compilateur a produit le lot sans rendre ce compilateur nécessaire à l’exécution du jeu.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Rôle précis du bloc :** Le bloc matérialise le format de données annoncé par `> **[LECTURE] Exemple de manifeste — Ne pas saisir.**`.
+
+- **Paramètres et types importants :** Les clés visibles comprennent `manifest_version`, `tool_version`, `content_schema`, `entries`, `content_id`, `source_path`, `artifact_path`, `source_sha256`, `artifact_sha256`.
+
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
 ## 28. Provenance de génération assistée
 
@@ -1013,13 +1037,15 @@ func fingerprint(document: Dictionary) -> String:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La provenance décrit la génération et l’approbation. Elle ne remplace ni le schéma ni la revue. Le manifeste ne copie aucun secret, jeton ou échange complet ; l’approbation porte sur l’empreinte exacte de la source examinée.
+- **Effets de bord :** La provenance décrit la génération et l’approbation. Elle ne remplace ni le schéma ni la revue.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de données littérale dont les clés et valeurs constituent le contrat à relire.
+- **Déterminisme et idempotence :** Le manifeste ne copie aucun secret, jeton ou échange complet ; l’approbation porte sur l’empreinte exacte de la source examinée.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** Le bloc matérialise le format de données annoncé par `> **[LECTURE] Métadonnées de provenance — Ne pas saisir.**`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Paramètres et types importants :** Les clés visibles comprennent `generator`, `kind`, `model_id`, `prompt_template_id`, `parameters_digest`, `review`, `status`, `reviewer_id`, `approved_source_sha256`.
+
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
 ## 29. Reçu du pipeline
 
@@ -1046,15 +1072,19 @@ func matches(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le reçu relie validation, compilation et publication. `matches()` empêche de publier avec un rapport devenu obsolète. Un horodatage peut être ajouté pour le suivi, mais reste hors de l’empreinte déterministe.
+- **Rôle précis du bloc :** Le reçu relie validation, compilation et publication. Le bloc définit `PipelineReceipt` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `PipelineReceipt` et expose son contrat minimal visible.
+- **Dépendances et ports utilisés :** `matches()` empêche de publier avec un rapport devenu obsolète.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `PipelineReceipt` et les fonctions `matches()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Déterminisme et idempotence :** Un horodatage peut être ajouté pour le suivi, mais reste hors de l’empreinte déterministe.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `receipt_id: StringName`, `source_fingerprint: String`, `artifact_fingerprint: String`, `tool_version: String`, `issue_counts: Dictionary[StringName, int]`, `published_paths: PackedStringArray`.
+- **Paramètres et types importants :** Les déclarations visibles sont `receipt_id: StringName`, `source_fingerprint: String`, `artifact_fingerprint: String`, `tool_version: String`, `issue_counts: Dictionary[StringName, int]`, `published_paths: PackedStringArray`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `source_fingerprint == report.source_fingerprint`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `matches(report: ContentValidationReport) -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `source_fingerprint == report.source_fingerprint`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 30. Pipeline en étapes fermées
 
@@ -1097,13 +1127,15 @@ func prepare(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** `prepare()` ne touche pas aux artefacts canoniques. Il découvre, lit, valide et planifie. Les phases de staging, vérification et promotion commencent seulement après une confirmation explicite.
+- **Rôle précis du bloc :** `prepare()` ne touche pas aux artefacts canoniques. Le bloc définit `ContentPipeline` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentPipeline` et expose son contrat minimal visible.
+- **Invariants protégés :** Il découvre, lit, valide et planifie. Les phases de staging, vérification et promotion commencent seulement après une confirmation explicite. Les gardes explicites contrôlent `not report.is_publishable()`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentPipeline` et les fonctions `prepare()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare(request: ContentBuildRequest) -> ContentBuildPlan`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentBuildPlan` ; branches visibles : `ContentBuildPlan.rejected(report)`, `_compiler.prepare_plan(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentBuildPlan.rejected(report)`, `_compiler.prepare_plan(`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 31. Compilation pure
 
@@ -1130,16 +1162,15 @@ func compile(source: Dictionary) -> QuestDefinition:
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** Le compilateur reçoit un document déjà validé et retourne une nouvelle définition. Il ne consulte ni singleton, ni horloge, ni système de fichiers. Cette pureté simplifie la comparaison des sorties et prépare les tests du chapitre 27.
+- **Valeur de retour ou code d’échec :** Le compilateur reçoit un document déjà validé et retourne une nouvelle définition. Les branches de sortie visibles renvoient `result`.
 
-- **Rôle précis du bloc :** Le bloc définit `QuestContentCompiler` et expose son contrat minimal visible.
+- **Dépendances et ports utilisés :** Il ne consulte ni singleton, ni horloge, ni système de fichiers.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `QuestContentCompiler` et les fonctions `compile()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Cette pureté simplifie la comparaison des sorties et prépare les tests du chapitre 27. Le bloc définit `QuestContentCompiler` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source: Dictionary`, `QuestDefinition:
-          source[`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `compile(source: Dictionary) -> QuestDefinition`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `result.quest_id = StringName(source["quest_id"])`, `result.title_key = StringName(source["title_key"])`, `result.objectives = _compile_objectives(`, `result.consequences = _compile_consequences(`.
+- **Effets de bord :** Les effets visibles sont `result.quest_id = StringName(source["quest_id"])`, `result.title_key = StringName(source["title_key"])`, `result.objectives = _compile_objectives(`, `result.consequences = _compile_consequences(`.
 
 ## 32. Staging avant promotion
 
@@ -1161,13 +1192,17 @@ res://data/narrative/first_signal.tres
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** Le staging reste hors du chemin canonique. L’ancien artefact reçoit une sauvegarde ciblée avant remplacement. La documentation décrit les garanties réelles du système de fichiers et ne promet pas une atomicité universelle.
+- **Limites et réserves :** Le staging reste hors du chemin canonique.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Persistance et restauration :** L’ancien artefact reçoit une sauvegarde ciblée avant remplacement.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Effets de bord :** La documentation décrit les garanties réelles du système de fichiers et ne promet pas une atomicité universelle.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Rôle précis du bloc :** Le schéma fait circuler le traitement de `res://data_src/narrative/first_signal.json` vers `res://data/narrative/first_signal.tres`.
+
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `↓ compilation`, `↓ relecture et empreinte`, `↓ sauvegarde de l’ancien artefact`, `↓ remplacement contrôlé`.
+
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 33. Transaction préparée
 
@@ -1198,17 +1233,19 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La transaction décrit toutes les écritures et suppressions avant le commit. Deux opérations ne peuvent pas viser le même chemin. Le committer revérifiera les empreintes et préparera les sauvegardes avant la première promotion.
+- **Effets de bord :** La transaction décrit toutes les écritures et suppressions avant le commit. Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
-- **Rôle précis du bloc :** Le bloc définit `StagedFileTransaction` et expose son contrat minimal visible.
+- **Rôle précis du bloc :** Deux opérations ne peuvent pas viser le même chemin. Le bloc définit `StagedFileTransaction` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `StagedFileTransaction` et les fonctions `validate()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Déterminisme et idempotence :** Le committer revérifiera les empreintes et préparera les sauvegardes avant la première promotion.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `writes: Array[StagedWrite]`, `deletes: PackedStringArray`, `source_fingerprint: String`.
+- **Paramètres et types importants :** Les déclarations visibles sont `writes: Array[StagedWrite]`, `deletes: PackedStringArray`, `source_fingerprint: String`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Error` ; branches visibles : `ERR_INVALID_DATA`, `ERR_ALREADY_EXISTS`, `OK`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `validate() -> Error`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `source_fingerprint.is_empty()`, `targets.has(write.target_path)` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_DATA`, `ERR_ALREADY_EXISTS`, `OK`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `source_fingerprint.is_empty()`, `targets.has(write.target_path)`.
 
 ## 34. Sauvegarder une Resource
 
@@ -1241,15 +1278,15 @@ func save_staged(
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** `ResourceSaver.save()` retourne un code `Error` qui doit être consommé. Le chemin est borné à la zone de staging. La simple existence ne suffit pas : l’étape suivante recharge et contrôle l’artefact.
+- **Valeur de retour ou code d’échec :** `ResourceSaver.save()` retourne un code `Error` qui doit être consommé. Les branches de sortie visibles renvoient `ERR_INVALID_PARAMETER`, `error`, `ERR_CANT_CREATE`, `OK`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `save_staged()`.
+- **Rôle précis du bloc :** Le chemin est borné à la zone de staging. La simple existence ne suffit pas : l’étape suivante recharge et contrôle l’artefact. Le bloc expose `save_staged()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `save_staged()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `save_staged(resource: Resource, staging_path: String) -> Error`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `error != OK`, `not FileAccess.file_exists(staging_path)` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `error != OK`, `not FileAccess.file_exists(staging_path)`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `var error := ResourceSaver.save(`.
+- **Effets de bord :** Les effets visibles sont `var error := ResourceSaver.save(`.
 
 ## 35. Vérifier l’artefact staged
 
@@ -1288,17 +1325,19 @@ func verify_staged(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’artefact est rouvert par Godot, son type est contrôlé et son empreinte calculée. Une source valide peut encore révéler une erreur de compilateur ou de sérialisation ; cette vérification protège la promotion.
+- **Déterminisme et idempotence :** L’artefact est rouvert par Godot, son type est contrôlé et son empreinte calculée.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `verify_staged()`.
+- **Persistance et restauration :** Une source valide peut encore révéler une erreur de compilateur ou de sérialisation ; cette vérification protège la promotion.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `verify_staged()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `verify_staged()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `path: String,`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `verify_staged(path: String, expected_type: StringName) -> ContentArtifactResult`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentArtifactResult` ; branches visibles : `ContentArtifactResult.failed(`, `ContentArtifactResult.accepted(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentArtifactResult.failed(`, `ContentArtifactResult.accepted(`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `loaded == null`, `not loaded.is_class(expected_type)`, `digest.is_empty()` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `loaded == null`, `not loaded.is_class(expected_type)`, `digest.is_empty()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 36. Synchroniser EditorFileSystem
 
@@ -1324,15 +1363,17 @@ func refresh_editor_paths(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le service refuse un nouveau scan ou import pendant une opération active. `update_file()` actualise les informations de fichier ; `reimport_files()` traite ensuite les sources ciblées. L’appelant programme une nouvelle tentative après `ERR_BUSY`.
+- **Dépendances et ports utilisés :** Le service refuse un nouveau scan ou import pendant une opération active. `reimport_files()` traite ensuite les sources ciblées.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `refresh_editor_paths()`.
+- **Rôle précis du bloc :** `update_file()` actualise les informations de fichier ; L’appelant programme une nouvelle tentative après `ERR_BUSY`. Le bloc expose `refresh_editor_paths()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `refresh_editor_paths()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `refresh_editor_paths(paths: PackedStringArray) -> Error`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `paths: PackedStringArray`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_BUSY`, `OK`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Error` ; branches visibles : `ERR_BUSY`, `OK`.
+- **Invariants protégés :** Les gardes explicites contrôlent `editor_fs.is_importing() or editor_fs.is_scanning()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 37. Importeur personnalisé
 
@@ -1365,20 +1406,15 @@ func _get_format_version() -> int:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** L’identité technique de l’importeur est stable et distincte du nom visible. La version de format augmente lors d’un changement incompatible des artefacts importés. Les extensions reconnues sont fermées.
+- **Dépendances et ports utilisés :** L’identité technique de l’importeur est stable et distincte du nom visible. La version de format augmente lors d’un changement incompatible des artefacts importés.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_get_importer_name()`, `_get_visible_name()`, `_get_recognized_extensions()`, `_get_save_extension()`, `_get_resource_type()`, `_get_format_version()`.
+- **Rôle précis du bloc :** Les extensions reconnues sont fermées. Le bloc expose `_get_importer_name()`, `_get_visible_name()`, `_get_recognized_extensions()`, `_get_save_extension()`, `_get_resource_type()`, `_get_format_version()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_get_importer_name()`, `_get_visible_name()`, `_get_recognized_extensions()`, `_get_save_extension()`, `_get_resource_type()`, `_get_format_version()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_get_importer_name() -> String`, `_get_visible_name() -> String`, `_get_recognized_extensions() -> PackedStringArray`, `_get_save_extension() -> String`, `_get_resource_type() -> String`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `String:
-  func _get_visible_name`, `String:
-  func _get_recognized_extensions`, `PackedStringArray:
-  func _get_save_extension`, `String:
-  func _get_resource_type`, `String:
-  func _get_format_version`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `"asteria.quest_source"`, `"Asteria Quest Source"`, `PackedStringArray(["aquest"])`, `"tres"`, `"QuestDefinition"`, `1`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `String`, `PackedStringArray`, `int` ; branches visibles : `"asteria.quest_source"`, `"Asteria Quest Source"`, `PackedStringArray(["aquest"])`, `"tres"`, `"QuestDefinition"`.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 38. Implémenter `_import()`
 
@@ -1415,17 +1451,21 @@ func _import(
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** L’importeur délègue aux mêmes règles que le dock et retourne un code `Error`. Il produit une définition de conception vers le chemin fourni par l’éditeur ; il ne touche ni à une quête active ni au dépôt narratif runtime.
+- **Dépendances et ports utilisés :** L’importeur délègue aux mêmes règles que le dock et retourne un code `Error`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_import()`.
+- **Résultat attendu :** Il produit une définition de conception vers le chemin fourni par l’éditeur ; il ne touche ni à une quête active ni au dépôt narratif runtime.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_import()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `_import()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `artifact: QuestDefinition`, `source_file: String,`.
+- **Paramètres et types importants :** Les déclarations visibles sont `artifact: QuestDefinition`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not preparation.is_publishable()` avant de poursuivre le traitement.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_import(source_file: String, save_path: String, options: Dictionary, platform_variants: Array[String], gen_files: Array[String]) -> Error`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `return ResourceSaver.save(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_DATA`, `ResourceSaver.save(`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `not preparation.is_publishable()`.
+
+- **Effets de bord :** Les effets visibles sont `return ResourceSaver.save(`.
 
 ## 39. Import parallèle prudent
 
@@ -1440,13 +1480,15 @@ func _can_import_threaded() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `false` est le défaut sûr si le pipeline utilise un cache mutable, une bibliothèque non thread-safe ou l’interface d’éditeur. Passer à `true` exige que toute la chaîne d’import supporte des appels concurrents et indépendants.
+- **Responsabilités des classes ou fonctions :** `false` est le défaut sûr si le pipeline utilise un cache mutable, une bibliothèque non thread-safe ou l’interface d’éditeur. Les signatures documentées sont `_can_import_threaded() -> bool`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_can_import_threaded()`.
+- **Dépendances et ports utilisés :** Passer à `true` exige que toute la chaîne d’import supporte des appels concurrents et indépendants.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_can_import_threaded()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `_can_import_threaded()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `false`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `false`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 40. Reconstruction incrémentale
 
@@ -1474,13 +1516,15 @@ func needs_rebuild(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le contenu est reconstruit si la source, l’outil ou l’artefact diffère du manifeste. La date de modification n’est pas une preuve suffisante, car elle varie selon les copies et certains outils la préservent.
+- **Rôle précis du bloc :** Le contenu est reconstruit si la source, l’outil ou l’artefact diffère du manifeste. La date de modification n’est pas une preuve suffisante, car elle varie selon les copies et certains outils la préservent. Le bloc expose `needs_rebuild()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `needs_rebuild()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `needs_rebuild(entry: ContentManifestEntry, current_source_hash: String, tool_version: String) -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `true`, `FileAccess.get_sha256(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `true`, `FileAccess.get_sha256(`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `entry.source_sha256 != current_source_hash`, `entry.tool_version != tool_version`, `not FileAccess.file_exists(entry.artifact_path)` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `entry.source_sha256 != current_source_hash`, `entry.tool_version != tool_version`, `not FileAccess.file_exists(entry.artifact_path)`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 41. Invalidation transitive
 
@@ -1513,17 +1557,17 @@ func expand_dirty_set(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Un changement invalide les artefacts qui en dépendent directement ou indirectement. Le dictionnaire sert d’ensemble de visite, puis le tri garantit le même ordre de reconstruction pour un graphe identique.
+- **Invariants protégés :** Un changement invalide les artefacts qui en dépendent directement ou indirectement. Les gardes explicites contrôlent `dirty.has(current)`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `expand_dirty_set()`.
+- **Rôle précis du bloc :** Le dictionnaire sert d’ensemble de visite, puis le tri garantit le même ordre de reconstruction pour un graphe identique. Le bloc expose `expand_dirty_set()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `expand_dirty_set()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `queue: Array[StringName]`, `result: Array[StringName]`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `queue: Array[StringName]`, `result: Array[StringName]`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `expand_dirty_set(initial: Array[StringName], graph: ContentDependencyGraph) -> Array[StringName]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Array[StringName]` ; branches visibles : `result`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `result`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `queue.append(dependent)`.
+- **Effets de bord :** Les effets visibles sont `queue.append(dependent)`.
 
 ## 42. Aperçu sans publication
 
@@ -1551,15 +1595,19 @@ func can_be_confirmed() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’aperçu liste les ajouts, changements et suppressions sans les appliquer. Une empreinte source et l’absence de blocage sont nécessaires. La commande finale revérifie cette empreinte avant le commit.
+- **Limites et réserves :** L’aperçu liste les ajouts, changements et suppressions sans les appliquer.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentPreview` et expose son contrat minimal visible.
+- **Déterminisme et idempotence :** Une empreinte source et l’absence de blocage sont nécessaires. La commande finale revérifie cette empreinte avant le commit.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentPreview` et les fonctions `can_be_confirmed()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `ContentPreview` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `receipt_id: StringName`, `source_fingerprint: String`, `added: PackedStringArray`, `changed: PackedStringArray`, `removed: PackedStringArray`, `blocking_issues: Array[ContentIssue]`.
+- **Paramètres et types importants :** Les déclarations visibles sont `receipt_id: StringName`, `source_fingerprint: String`, `added: PackedStringArray`, `changed: PackedStringArray`, `removed: PackedStringArray`, `blocking_issues: Array[ContentIssue]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `(`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `can_be_confirmed() -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `(`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 43. Confirmation avec empreinte fraîche
 
@@ -1596,19 +1644,17 @@ func publish(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le reçu identifie un aperçu contrôlé, mais une seconde empreinte protège la fenêtre entre prévisualisation et confirmation. Une source modifiée force un nouvel aperçu. Le committer reçoit une transaction complète.
+- **Déterminisme et idempotence :** Le reçu identifie un aperçu contrôlé, mais une seconde empreinte protège la fenêtre entre prévisualisation et confirmation.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `publish()`.
+- **Rôle précis du bloc :** Une source modifiée force un nouvel aperçu. Le bloc expose `publish()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `publish()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Effets de bord :** Le committer reçoit une transaction complète. Les effets visibles sont `return _transaction_committer.commit(`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `command: PublishContentCommand`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `publish(command: PublishContentCommand) -> PublishResult`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `PublishResult` ; branches visibles : `PublishResult.rejected(`, `_transaction_committer.commit(`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `PublishResult.rejected(`, `_transaction_committer.commit(`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `preview == null or not preview.can_be_confirmed()`, `current_fingerprint != preview.source_fingerprint` avant de poursuivre le traitement.
-
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `return _transaction_committer.commit(`.
+- **Invariants protégés :** Les gardes explicites contrôlent `preview == null or not preview.can_be_confirmed()`, `current_fingerprint != preview.source_fingerprint`.
 
 ## 44. Undo/redo ou transaction de fichiers
 
@@ -1657,17 +1703,21 @@ func prepare_migration(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La migration produit des candidats liés aux empreintes originales. Aucun fichier n’est écrasé pendant la préparation. La publication vérifie que chaque source est restée identique et conserve une restauration.
+- **Déterminisme et idempotence :** La migration produit des candidats liés aux empreintes originales.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `prepare_migration()`.
+- **Limites et réserves :** Aucun fichier n’est écrasé pendant la préparation.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `prepare_migration()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Persistance et restauration :** La publication vérifie que chaque source est restée identique et conserve une restauration.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `paths: PackedStringArray,`.
+- **Rôle précis du bloc :** Le bloc expose `prepare_migration()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `SourceMigrationPlan` ; branches visibles : `plan`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare_migration(paths: PackedStringArray, target_version: int) -> SourceMigrationPlan`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not read.is_ok()`, `not migrated.is_ok()` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `plan`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `not read.is_ok()`, `not migrated.is_ok()`.
+
+- **Effets de bord :** Les effets visibles sont `plan.add_issue(`, `plan.add_issue(path, migrated.reason)`, `plan.add_candidate(`.
 
 ## 46. Localisation et assets
 
@@ -1710,19 +1760,19 @@ func validate_presentation_refs(
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** La définition référence une clé de localisation et une identité d’asset, pas un chemin fragile. La politique peut distinguer une clé indispensable d’une icône optionnelle. Les catalogues utilisés sont des snapshots de validation.
+- **Rôle précis du bloc :** La définition référence une clé de localisation et une identité d’asset, pas un chemin fragile. La politique peut distinguer une clé indispensable d’une icône optionnelle. Le bloc expose `validate_presentation_refs()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `validate_presentation_refs()`.
+- **Persistance et restauration :** Les catalogues utilisés sont des snapshots de validation.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `validate_presentation_refs()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `issues: Array[ContentIssue]`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `issues: Array[ContentIssue]`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `validate_presentation_refs(document: Dictionary, locales: LocaleCatalog, assets: AssetCatalog) -> Array[ContentIssue]`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Array[ContentIssue]` ; branches visibles : `issues`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `issues`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not locales.has_key(title_key)`, `not icon_id.is_empty() and not assets.has_id(icon_id)` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `not locales.has_key(title_key)`, `not icon_id.is_empty() and not assets.has_id(icon_id)`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `issues.append(`.
+- **Effets de bord :** Les effets visibles sont `issues.append(`.
 
 ## 47. Sécurité des chemins
 
@@ -1759,13 +1809,17 @@ func resolve_target(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le pipeline refuse les chemins absolus, les segments parents et les extensions hors liste. La normalisation ne remplace pas la politique de racine. L’appelant ne peut pas viser `addons`, `project.godot` ou un dossier utilisateur arbitraire.
+- **Invariants protégés :** Le pipeline refuse les chemins absolus, les segments parents et les extensions hors liste. Les gardes explicites contrôlent `relative_path.is_absolute_path()`, `".." in relative_path.split("/")`, `extension not in ["json", "tres", "res"]`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `resolve_target()`.
+- **Organisation des fichiers :** La normalisation ne remplace pas la politique de racine. L’appelant ne peut pas viser `addons`, `project.godot` ou un dossier utilisateur arbitraire.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `resolve_target()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `resolve_target()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentPathResult` ; branches visibles : `ContentPathResult.rejected(`, `ContentPathResult.accepted(`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `resolve_target(relative_path: String) -> ContentPathResult`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentPathResult.rejected(`, `ContentPathResult.accepted(`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 48. IA limitée aux brouillons
 
@@ -1794,13 +1848,19 @@ var destination: String = "res://data_src/drafts/"
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** Le port retourne un brouillon et ne connaît aucune commande de publication. La destination est une racine dédiée hors du contenu canonique. Les contraintes sont validées avant l’appel.
+- **Dépendances et ports utilisés :** Le port retourne un brouillon et ne connaît aucune commande de publication.
 
-- **Rôle précis du bloc :** Le bloc définit `ContentDraftGeneratorPort`, `GenerateQuestDraftCommand` et expose son contrat minimal visible.
+- **Organisation des fichiers :** La destination est une racine dédiée hors du contenu canonique.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `ContentDraftGeneratorPort`, `GenerateQuestDraftCommand` et les fonctions `generate_draft()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Les contraintes sont validées avant l’appel. Le bloc définit `ContentDraftGeneratorPort`, `GenerateQuestDraftCommand` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `template_id: StringName`, `constraints: Dictionary`, `destination: String`.
+- **Paramètres et types importants :** Les déclarations visibles sont `template_id: StringName`, `constraints: Dictionary`, `destination: String`.
+
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `generate_draft(request: ContentDraftRequest) -> ContentDraftResult`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentDraftResult.failed(`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 49. Contrôler une sortie générée
 
@@ -1842,13 +1902,17 @@ func accept_generated_text(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La taille est bornée avant l’analyse. Une sortie syntaxiquement valide reste en état `review_required`, même si aucun blocage n’est détecté. L’IA ne reçoit ni accès au dossier canonique ni port de commit.
+- **Rôle précis du bloc :** La taille est bornée avant l’analyse. Le bloc expose `accept_generated_text()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `accept_generated_text()`.
+- **Invariants protégés :** Une sortie syntaxiquement valide reste en état `review_required`, même si aucun blocage n’est détecté. Les gardes explicites contrôlent `raw_text.to_utf8_buffer().size() > request.max_output_bytes`, `parser.parse(raw_text) != OK`, `not parser.data is Dictionary`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `accept_generated_text()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Organisation des fichiers :** L’IA ne reçoit ni accès au dossier canonique ni port de commit.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `ContentDraftResult` ; branches visibles : `ContentDraftResult.rejected(`, `ContentDraftResult.review_required(`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `accept_generated_text(raw_text: String, request: ContentDraftRequest) -> ContentDraftResult`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ContentDraftResult.rejected(`, `ContentDraftResult.review_required(`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 50. Modes Solo et Studio
 
@@ -1880,13 +1944,13 @@ godot --headless --path . --script res://tools/content/validate_content.gd -- --
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `--headless` évite l’ouverture d’une fenêtre, `--path .` fixe le projet et `--script` lance un script compatible avec la ligne de commande. Le séparateur `--` transmet les arguments suivants au code utilisateur.
+- **Rôle précis du bloc :** `--headless` évite l’ouverture d’une fenêtre, `--path .` fixe le projet et `--script` lance un script compatible avec la ligne de commande. Le séparateur `--` transmet les arguments suivants au code utilisateur. La commande invoque `godot` pour exécuter l’opération indiquée par le bloc.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Paramètres et options importants :** Les options visibles sont `--headless`, `--path`, `--script`, `--`, `--report`.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Résultat attendu :** L’appel doit terminer avec le code de sortie prévu par le script ou l’outil appelé ; tout code non nul reste un échec à diagnostiquer.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le bloc décrit uniquement les éléments littéraux affichés ; il ne définit aucune étape supplémentaire hors de cette structure.
 
 ## 52. Attendre les imports
 
@@ -1900,13 +1964,15 @@ godot --headless --path . --import
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** `--import` démarre l’éditeur, attend la fin des imports puis quitte. Cette étape est utile avant un contrôle qui dépend d’artefacts importés. Elle ne remplace pas la validation des sources.
+- **Dépendances et ports utilisés :** `--import` démarre l’éditeur, attend la fin des imports puis quitte. Cette étape est utile avant un contrôle qui dépend d’artefacts importés.
 
-- **Rôle précis du bloc :** Le bloc présente une commande complète et l’ordre exact de ses arguments.
+- **Effets de bord :** Elle ne remplace pas la validation des sources.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** La commande invoque `godot` pour exécuter l’opération indiquée par le bloc.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Paramètres et options importants :** Les options visibles sont `--headless`, `--path`, `--import`.
+
+- **Résultat attendu :** L’appel doit terminer avec le code de sortie prévu par le script ou l’outil appelé ; tout code non nul reste un échec à diagnostiquer.
 
 ## 53. Analyse syntaxique seule
 
@@ -1922,11 +1988,11 @@ godot --headless --path . --script res://tools/content/validate_content.gd --che
 
 - **Limites et réserves :** `--check-only` demande l’analyse du script sans exécuter son traitement normal. La commande reste une réserve documentaire tant qu’elle n’est pas lancée avec le binaire de référence sur le projet matérialisé.
 
-- **Rôle précis du bloc :** Le bloc présente une commande complète et l’ordre exact de ses arguments.
+- **Rôle précis du bloc :** La commande invoque `godot` pour exécuter l’opération indiquée par le bloc.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Paramètres et options importants :** Les options visibles sont `--headless`, `--path`, `--script`, `--check-only`.
 
-- **Point complémentaire 4 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Résultat attendu :** L’appel doit terminer avec le code de sortie prévu par le script ou l’outil appelé ; tout code non nul reste un échec à diagnostiquer.
 
 ## 54. Contrat du script headless
 
@@ -1952,15 +2018,19 @@ func _init() -> void:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le script hérite de `SceneTree`, lit les arguments utilisateur et termine avec un code explicite. `0` signifie publiable, `1` signale un contenu non publiable et `2` une invocation incorrecte. Le rapport contient les détails.
+- **Rôle précis du bloc :** Le script hérite de `SceneTree`, lit les arguments utilisateur et termine avec un code explicite. Le bloc expose `_init()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_init()`.
+- **Limites et réserves :** `0` signifie publiable, `1` signale un contenu non publiable et `2` une invocation incorrecte.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_init()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Dépendances et ports utilisés :** Le rapport contient les détails.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void` ; branches visibles : `var result := ContentBatchValidator.new().run(options)`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_init() -> void`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not options.is_valid()` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `var result := ContentBatchValidator.new().run(options)`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `not options.is_valid()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 55. Politique Git
 
@@ -1986,13 +2056,13 @@ func _init() -> void:
 
 **Explication structurée du bloc :**
 
-- **Résultat attendu :** Le dépôt conserve ce qui permet de reproduire et revoir le contenu. Les caches internes de Godot et le staging ne sont pas des sources. Un artefact lourd exige une politique explicite, par exemple Git LFS, sans devenir une définition métier.
+- **Résultat attendu :** Le dépôt conserve ce qui permet de reproduire et revoir le contenu. La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Rôle précis du bloc :** Les caches internes de Godot et le staging ne sont pas des sources. Le bloc compare ou énumère `À versionner`, `- data_src/**`, `- data/** canoniques`, `- manifests/**`, `- migrations/**`, `- addons/asteria_content_tools/**`.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Invariants protégés :** Un artefact lourd exige une politique explicite, par exemple Git LFS, sans devenir une définition métier.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Déroulement ou instructions importantes :** L’extrait commence par `À versionner` et se termine par `- réponses brutes contenant des secrets` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 56. Observabilité minimale
 
@@ -2018,13 +2088,15 @@ compile SpeciesProfile  → écologie possède populations et réserves
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Le pipeline produit des définitions et catalogues. Il ne crée pas de personnage vivant, ne crédite pas une monnaie, ne rend pas de verdict et n’achève pas de quête. Toute mutation runtime passe encore par les commandes propriétaires.
+- **Dépendances et ports utilisés :** Le pipeline produit des définitions et catalogues.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Résultat attendu :** Il ne crée pas de personnage vivant, ne crédite pas une monnaie, ne rend pas de verdict et n’achève pas de quête. La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Frontières d’autorité :** Toute mutation runtime passe encore par les commandes propriétaires.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Rôle précis du bloc :** Le schéma fait circuler le traitement de `Outil de contenu          Autorité runtime` vers `compile SpeciesProfile  → écologie possède populations et réserves`.
+
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `compile QuestDefinition → narration possède QuestRuntimeState`, `compile ItemDefinition  → inventaire possède ItemInstance`, `compile LawDefinition   → politique possède les lois promulguées`, `compile BuildingData    → domaines possèdent BuildingState`, `compile SpeciesProfile  → écologie possède populations et réserves`.
 
 ## 58. Erreurs fréquentes et corrections
 
@@ -2055,13 +2127,11 @@ func _on_publish_pressed() -> void:
 
 - **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** L’interface écrit dans le fichier final sans reçu, sans sauvegarde et sans contrôle d’empreinte.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_on_publish_pressed()`.
+- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_on_publish_pressed()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
-
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `var file := FileAccess.open(`.
+- **Effets de bord :** Les effets visibles sont `var file := FileAccess.open(`.
 
 **Exemple corrigé :**
 
@@ -2076,13 +2146,13 @@ func _on_publish_pressed() -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** Le bouton corrigé émet une intention liée à un aperçu déjà calculé. Le service applicatif reste seul responsable de la transaction.
+- **Effets de bord :** **Pourquoi la correction fonctionne :** Le bouton corrigé émet une intention liée à un aperçu déjà calculé. Les effets visibles sont `publish_requested.emit(&"current_preview")`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `_on_publish_pressed()`.
+- **Invariants protégés :** Le service applicatif reste seul responsable de la transaction.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `_on_publish_pressed()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
 
 ### 58.2 Modifier une scène sans undo/redo
 
@@ -2101,13 +2171,13 @@ func add_marker(root: Node) -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement.
+- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement. Le bloc expose `add_marker()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `add_marker()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_marker(root: Node) -> void`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `root: Node`.
+- **Effets de bord :** Les effets visibles sont `root.add_child(Marker3D.new())`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `func add_marker(root: Node) -> void:` et se termine par `root.add_child(Marker3D.new())` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 **Exemple corrigé :**
 
@@ -2133,15 +2203,13 @@ func add_marker(root: Node) -> void:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** La correction enregistre l’ajout, le retrait et la référence dans l’historique associé à la scène.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** La correction enregistre l’ajout, le retrait et la référence dans l’historique associé à la scène. Les signatures documentées sont `add_marker(root: Node) -> void`.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `add_marker()`.
+- **Rôle précis du bloc :** Le bloc expose `add_marker()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `root: Node`.
+- **Effets de bord :** Les effets visibles sont `undo_redo.add_do_method(root, "add_child", marker)`, `undo_redo.add_undo_method(root, "remove_child", marker)`, `undo_redo.add_do_reference(marker)`, `undo_redo.commit_action()`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
-
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `undo_redo.commit_action()`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `func add_marker(root: Node) -> void:` et se termine par `undo_redo.commit_action()` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ### 58.3 Utiliser le chemin comme identité
 
@@ -2163,11 +2231,11 @@ var quest_id := StringName(
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nom du fichier est une information d’organisation, pas une identité métier permanente.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var quest_id := StringName(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `var quest_id := StringName(`.
 
 **Exemple corrigé :**
 
@@ -2184,13 +2252,13 @@ if not StableIdPolicy.is_valid(quest_id):
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Pourquoi la correction fonctionne :** Le champ corrigé est un identifiant stable soumis à une politique de forme indépendante du chemin et du titre.
+- **Paramètres et types importants :** **Pourquoi la correction fonctionne :** Le champ corrigé est un identifiant stable soumis à une politique de forme indépendante du chemin et du titre.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_DATA`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `ERR_INVALID_DATA`.
+- **Invariants protégés :** Les gardes explicites contrôlent `not StableIdPolicy.is_valid(quest_id)`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not StableIdPolicy.is_valid(quest_id)` avant de poursuivre le traitement.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var quest_id := StringName(document["quest_id"])` et se termine par `return ERR_INVALID_DATA` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ### 58.4 Exécuter une méthode fournie par les données
 
@@ -2211,11 +2279,11 @@ return call(method_name, document)
 
 - **Responsabilités des classes ou fonctions :** **Pourquoi cet exemple est fautif :** Un auteur ou un fichier compromis peut choisir une méthode inattendue dans le processus d’édition.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Paramètres et types importants :** Les déclarations visibles sont `method_name: StringName`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `method_name: StringName`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `call(method_name, document)`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `call(method_name, document)`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var method_name: StringName = document["validator"]` et se termine par `return call(method_name, document)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 **Exemple corrigé :**
 
@@ -2235,11 +2303,11 @@ return _validator_registry.validate(
 
 - **Paramètres et types importants :** **Pourquoi la correction fonctionne :** Le type corrigé sélectionne uniquement un validateur déjà enregistré ; un type inconnu produit un problème bloquant.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_validator_registry.validate(`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `_validator_registry.validate(`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var type_id := StringName(document["content_type"])` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 58.5 Mélanger sources, artefacts et caches
 
@@ -2257,13 +2325,13 @@ const OUTPUT_ROOT := "res://data_src/generated_and_cache/"
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Une seule racine efface la différence entre ce qui est édité, publié et reconstructible.
+- **Organisation des fichiers :** **Pourquoi cet exemple est fautif :** Une seule racine efface la différence entre ce qui est édité, publié et reconstructible.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Rôle précis du bloc :** Le bloc fixe les identifiants et valeurs nommées `OUTPUT_ROOT`.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `const OUTPUT_ROOT := "res://data_src/generated_and_cache/"`.
 
 **Exemple corrigé :**
 
@@ -2281,11 +2349,11 @@ const CACHE_ROOT := "res://.godot/asteria_cache/"
 
 - **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Les trois constantes expriment des responsabilités séparées et empêchent le cache de devenir une autorité.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Rôle précis du bloc :** Le bloc fixe les identifiants et valeurs nommées `SOURCE_ROOT`, `ARTIFACT_ROOT`, `CACHE_ROOT`.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Déroulement ou instructions importantes :** L’extrait commence par `const SOURCE_ROOT := "res://data_src/"` et se termine par `const CACHE_ROOT := "res://.godot/asteria_cache/"` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 58.6 Introduire l’heure dans l’empreinte
 
@@ -2306,11 +2374,11 @@ return str(document.hash())
 
 - **Paramètres et types importants :** **Pourquoi cet exemple est fautif :** L’heure et `Dictionary.hash()` ne constituent pas une représentation canonique reproductible du contenu.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `str(document.hash())`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `str(document.hash())`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `document["built_at"] = Time.get_datetime_string_from_system()` et se termine par `return str(document.hash())` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 **Exemple corrigé :**
 
@@ -2325,13 +2393,13 @@ return fingerprint(normalized)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** La correction retire les données volatiles et calcule SHA-256 sur une sérialisation ordonnée.
+- **Persistance et restauration :** **Pourquoi la correction fonctionne :** La correction retire les données volatiles et calcule SHA-256 sur une sérialisation ordonnée.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `fingerprint(normalized)`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `fingerprint(normalized)`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var normalized := CanonicalValue.normalize(document)` et se termine par `return fingerprint(normalized)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 58.7 Écrire directement dans le fichier final
 
@@ -2354,11 +2422,11 @@ return ResourceSaver.save(
 
 - **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** La sauvegarde remplace l’artefact canonique avant relecture, empreinte ou copie de secours.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ResourceSaver.save(`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `ResourceSaver.save(`.
+- **Effets de bord :** Les effets visibles sont `return ResourceSaver.save(`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `return ResourceSaver.save(`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `return ResourceSaver.save(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 **Exemple corrigé :**
 
@@ -2384,11 +2452,11 @@ return _transaction_committer.promote(staged)
 
 - **Persistance et restauration :** **Pourquoi la correction fonctionne :** La correction sauvegarde, recharge et vérifie le staged avant une promotion contrôlée.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `PublishResult.failed(`, `_transaction_committer.promote(staged)`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `PublishResult.failed(`, `_transaction_committer.promote(staged)`.
+- **Invariants protégés :** Les gardes explicites contrôlent `not staged.is_verified()`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not staged.is_verified()` avant de poursuivre le traitement.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var staged := _stage_writer.save(` et se termine par `return _transaction_committer.promote(staged)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ### 58.8 Promouvoir automatiquement une sortie IA
 
@@ -2409,11 +2477,11 @@ _publish_json(draft)
 
 - **Dépendances et ports utilisés :** **Pourquoi cet exemple est fautif :** La sortie générée contourne le schéma, le rapport de validation et la décision humaine.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var draft := await _ai.generate(prompt)` et se termine par `_publish_json(draft)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `var draft := await _ai.generate(prompt)`.
 
 **Exemple corrigé :**
 
@@ -2436,11 +2504,11 @@ return _review_queue.enqueue(
 
 - **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** La sortie corrigée entre dans une file de revue et ne peut être publiée sans approbation liée à son empreinte.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_review_queue.enqueue(`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `_review_queue.enqueue(`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var draft := await _draft_port.generate_draft(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 58.9 Relancer un scan pendant une importation
 
@@ -2460,11 +2528,11 @@ EditorInterface.get_resource_filesystem().scan()
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le code ignore l’état courant du système de fichiers éditorial.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `EditorInterface.get_resource_filesystem().scan()`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `EditorInterface`, `get_resource_filesystem`, `scan`.
 
 **Exemple corrigé :**
 
@@ -2484,13 +2552,13 @@ return OK
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** **Pourquoi la correction fonctionne :** La correction retourne `ERR_BUSY` et permet une nouvelle tentative après la fin de l’opération active.
+- **Valeur de retour ou code d’échec :** **Pourquoi la correction fonctionne :** La correction retourne `ERR_BUSY` et permet une nouvelle tentative après la fin de l’opération active. Les branches de sortie visibles renvoient `ERR_BUSY`, `OK`.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Invariants protégés :** Les gardes explicites contrôlent `fs.is_importing() or fs.is_scanning()`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `fs.is_importing() or fs.is_scanning()` avant de poursuivre le traitement.
+- **Déroulement ou instructions importantes :** L’extrait commence par `var fs := EditorInterface.get_resource_filesystem()` et se termine par `return OK` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 58.10 Faire du plugin une autorité runtime
 
@@ -2514,11 +2582,11 @@ func grant_reward(
 
 - **Effets de bord :** **Pourquoi cet exemple est fautif :** Le plugin écrit directement dans le système économique au lieu de produire une définition.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `grant_reward()`.
+- **Rôle précis du bloc :** Le bloc expose `grant_reward()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `grant_reward()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `grant_reward(wallet_id: StringName, amount: int) -> void`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `func grant_reward(` et se termine par `EconomyService.credit(wallet_id, amount)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 **Exemple corrigé :**
 
@@ -2539,13 +2607,13 @@ func compile_reward_definition(
 
 - **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Le compilateur corrigé ne crée qu’un artefact de conception ; l’économie reste propriétaire de toute écriture runtime.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `compile_reward_definition()`.
+- **Rôle précis du bloc :** Le bloc expose `compile_reward_definition()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `compile_reward_definition()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `compile_reward_definition(source: Dictionary) -> RewardDefinition`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source: Dictionary`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `RewardDefinitionCompiler.new().compile(`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `RewardDefinition` ; branches visibles : `RewardDefinitionCompiler.new().compile(`.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 59. Checklist d’acceptation
 

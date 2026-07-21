@@ -12,7 +12,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 2559
+  chapter-lines: 2453
   chapter-headings: 55
   chapter-code-and-data-blocks: 56
   code-explanation-markers: 56
@@ -27,9 +27,11 @@ results:
   shared-unit-of-work-contract: true
   save-prepared-before-replacement: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 189
+  prior-explanation-units-preserved: 190
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false

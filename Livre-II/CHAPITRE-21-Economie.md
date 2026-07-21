@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 21
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-21.md"
 audit-level: "static-review"
 reference-engine:
@@ -129,11 +129,7 @@ présentation, agents, narration, diagnostic
 
 **Explication structurée du bloc :**
 
-- **Résultat attendu :** La commande propose une opération et un total attendu ; elle ne fixe pas le prix autoritaire.
-
-- **Rôle précis du bloc :** L’économie recalcule le devis depuis l’offre et les politiques actives.
-
-- **Rôle précis du bloc :** L’inventaire prépare lui-même l’objet source et le conteneur de destination.
+- **Rôle précis du bloc :** La commande propose une opération et un total attendu ; elle ne fixe pas le prix autoritaire. L’économie recalcule le devis depuis l’offre et les politiques actives. L’inventaire prépare lui-même l’objet source et le conteneur de destination.
 
 - **Frontières d’autorité :** Le port de commit représente l’adaptateur multi-autorités matérialisé au point de composition.
 
@@ -199,15 +195,13 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `domain` contient montants, portefeuilles, offres, commandes et invariants.
+- **Dépendances et ports utilisés :** `domain` contient montants, portefeuilles, offres, commandes et invariants. Le point de composition fournit l’adaptateur qui commit économie et inventaire ensemble.
 
 - **Limites et réserves :** `application` calcule les devis et orchestre les candidats sans toucher aux scènes.
 
-- **Limites et réserves :** `infrastructure` encode uniquement les données durables.
+- **Invariants protégés :** `infrastructure` encode uniquement les données durables.
 
 - **Responsabilités des classes ou fonctions :** Les valeurs d’objets restent dans une fonctionnalité économique séparée des `ItemDefinition` du chapitre 20.
-
-- **Effets de bord :** Le point de composition fournit l’adaptateur qui commit économie et inventaire ensemble.
 
 ## 6. Vocabulaire
 
@@ -280,15 +274,13 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Chaque famille d’identifiants possède un préfixe distinct.
+- **Rôle précis du bloc :** Chaque famille d’identifiants possède un préfixe distinct. Un devis est corrélé à une transaction et à la révision de l’offre.
 
-- **Dépendances et ports utilisés :** Les slugs sont normalisés sans dépendre d’un texte localisé.
-
-- **Paramètres et types importants :** Un devis est corrélé à une transaction et à la révision de l’offre.
+- **Limites et réserves :** Les slugs sont normalisés sans dépendre d’un texte localisé.
 
 - **Effets de bord :** Les écritures utilisent un index stable dans le record.
 
-- **Invariants protégés :** Une entrée invalide renvoie `&""` plutôt qu’un identifiant partiel.
+- **Valeur de retour ou code d’échec :** Une entrée invalide renvoie `&""` plutôt qu’un identifiant partiel.
 
 ## 8. Parties économiques
 
@@ -333,11 +325,9 @@ func equals(other: EconomyPartyRef) -> bool:
 
 - **Frontières d’autorité :** Les chapitres 23 et 24 resteront propriétaires de l’existence des factions et domaines.
 
-- **Rôle précis du bloc :** `SYSTEM` représente notamment une trésorerie, un puits ou une source monétaire explicitement configurée.
+- **Rôle précis du bloc :** `SYSTEM` représente notamment une trésorerie, un puits ou une source monétaire explicitement configurée. `equals()` compare l’identité économique, pas un nom affiché.
 
 - **Persistance et restauration :** La copie détachée évite de partager une référence mutable entre snapshots.
-
-- **Rôle précis du bloc :** `equals()` compare l’identité économique, pas un nom affiché.
 
 ## 9. Définition d’une devise
 
@@ -380,9 +370,7 @@ func validate() -> Error:
 
 - **Persistance et restauration :** La borne maximale reste dans la plage entière exacte des snapshots JSON du projet.
 
-- **Résultat attendu :** `transferable` permet une monnaie de score ou de progression non échangeable.
-
-- **Limites et réserves :** Aucun solde vivant n’est stocké dans cette ressource.
+- **Limites et réserves :** `transferable` permet une monnaie de score ou de progression non échangeable. Aucun solde vivant n’est stocké dans cette ressource.
 
 ## 10. Montant monétaire
 
@@ -421,15 +409,13 @@ func is_same_currency(other: MoneyAmount) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Un montant positif ou nul sert aux prix, soldes et totaux.
+- **Rôle précis du bloc :** Un montant positif ou nul sert aux prix, soldes et totaux. La copie ne contient ni formatage ni symbole d’interface.
 
 - **Effets de bord :** Les deltas signés appartiennent aux écritures, pas à `MoneyAmount`.
 
-- **Rôle précis du bloc :** La devise est validée contre le catalogue avant toute opération.
+- **Dépendances et ports utilisés :** La devise est validée contre le catalogue avant toute opération.
 
 - **Invariants protégés :** La comparaison refuse implicitement tout mélange de devises.
-
-- **Rôle précis du bloc :** La copie ne contient ni formatage ni symbole d’interface.
 
 ## 11. Arithmétique sûre
 
@@ -478,15 +464,13 @@ static func multiply_basis_points(value: int, basis_points: int) -> Variant:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les opérations refusent un résultat hors de la plage JSON sûre retenue par le guide.
+- **Invariants protégés :** Les opérations refusent un résultat hors de la plage JSON sûre retenue par le guide. `Variant` permet de distinguer un résultat nul valide d’un dépassement signalé par `null`.
 
 - **Limites et réserves :** Les prix et multiplicateurs économiques restent non négatifs.
 
-- **Rôle précis du bloc :** `10000` points de base représentent `100 %`.
+- **Rôle précis du bloc :** `10000` points de base représentent `100 %`. L’expression `BASIS_POINT_SCALE / 2` vaut `5000`, puisque l’échelle contient `10000` points de base.
 
-- **Paramètres et types importants :** L’expression `BASIS_POINT_SCALE / 2` vaut `5000`, puisque l’échelle contient `10000` points de base. Son ajout avant la division par `BASIS_POINT_SCALE` réalise un arrondi à l’entier le plus proche.
-
-- **Invariants protégés :** `Variant` permet de distinguer un résultat nul valide d’un dépassement signalé par `null`.
+- **Paramètres et types importants :** Son ajout avant la division par `BASIS_POINT_SCALE` réalise un arrondi à l’entier le plus proche.
 
 ## 12. État d’un portefeuille
 
@@ -539,13 +523,11 @@ func duplicate_detached() -> WalletState:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Un portefeuille peut contenir plusieurs devises sans les convertir entre elles.
+- **Dépendances et ports utilisés :** Un portefeuille peut contenir plusieurs devises sans les convertir entre elles. `revision` protège les commandes obsolètes et `posting_sequence` ordonne les écritures du portefeuille.
 
 - **Rôle précis du bloc :** Un solde absent vaut zéro.
 
 - **Invariants protégés :** Les soldes négatifs sont interdits ; crédits et dettes exigeraient un modèle distinct.
-
-- **Invariants protégés :** `revision` protège les commandes obsolètes et `posting_sequence` ordonne les écritures du portefeuille.
 
 - **Persistance et restauration :** La copie profonde du dictionnaire évite de modifier le snapshot source.
 
@@ -607,7 +589,7 @@ func duplicate_detached() -> EconomyPosting:
 
 - **Invariants protégés :** Les bornes viennent de la définition de devise.
 
-- **Effets de bord :** La classe ne modifie aucun portefeuille par elle-même.
+- **Dépendances et ports utilisés :** La classe ne modifie aucun portefeuille par elle-même.
 
 ## 14. Record de transaction équilibré
 
@@ -662,11 +644,9 @@ func validate(catalog: CurrencyCatalog) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le record exige au moins un débit et un crédit.
+- **Invariants protégés :** Le record exige au moins un débit et un crédit.
 
-- **Rôle précis du bloc :** L’équilibre est contrôlé séparément pour chaque devise.
-
-- **Rôle précis du bloc :** Une récompense doit donc débiter une trésorerie explicite avant de créditer le bénéficiaire.
+- **Rôle précis du bloc :** L’équilibre est contrôlé séparément pour chaque devise. Une récompense doit donc débiter une trésorerie explicite avant de créditer le bénéficiaire.
 
 - **Déterminisme et idempotence :** L’empreinte canonique sert à distinguer un retry identique d’une réutilisation conflictuelle du même identifiant.
 
@@ -714,15 +694,13 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** La valeur économique est séparée de `ItemDefinition` afin que l’inventaire reste indépendant des prix.
+- **Limites et réserves :** La valeur économique est séparée de `ItemDefinition` afin que l’inventaire reste indépendant des prix.
 
-- **Frontières d’autorité :** Une même définition d’objet possède une valeur de référence versionnée par l’économie.
+- **Rôle précis du bloc :** Une même définition d’objet possède une valeur de référence versionnée par l’économie. Cette ressource ne contient ni stock, ni vendeur, ni offre active.
 
 - **Invariants protégés :** Les bornes empêchent un contexte de prix de produire un montant nul ou excessif.
 
-- **Invariants protégés :** Le catalogue de devises valide l’unité utilisée.
-
-- **Rôle précis du bloc :** Cette ressource ne contient ni stock, ni vendeur, ni offre active.
+- **Dépendances et ports utilisés :** Le catalogue de devises valide l’unité utilisée.
 
 ## 16. Contexte de prix
 
@@ -774,11 +752,9 @@ func validate() -> Error:
 
 - **Frontières d’autorité :** Les indices d’offre, de demande ou de relation proviennent de ports propriétaires.
 
-- **Invariants protégés :** L’économie valide puis applique ces indices sans recalculer leurs règles sociales ou écologiques.
+- **Invariants protégés :** L’économie valide puis applique ces indices sans recalculer leurs règles sociales ou écologiques. `valid_until_tick` borne l’utilisation d’un contexte devenu ancien.
 
 - **Dépendances et ports utilisés :** Une taxe positive exige un portefeuille de destination explicite.
-
-- **Invariants protégés :** `valid_until_tick` borne l’utilisation d’un contexte devenu ancien.
 
 ## 17. Politique de calcul du prix
 
@@ -820,13 +796,11 @@ func unit_price(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les multiplicateurs sont appliqués dans un ordre fixe et documenté.
-
-- **Rôle précis du bloc :** Chaque étape utilise l’arithmétique bornée de `MoneyMath`.
+- **Rôle précis du bloc :** Les multiplicateurs sont appliqués dans un ordre fixe et documenté. Chaque étape utilise l’arithmétique bornée de `MoneyMath`.
 
 - **Invariants protégés :** Le résultat final est limité par les bornes de la valeur de référence.
 
-- **Invariants protégés :** La fonction renvoie `null` lorsqu’un contrat ou un calcul est invalide.
+- **Valeur de retour ou code d’échec :** La fonction renvoie `null` lorsqu’un contrat ou un calcul est invalide.
 
 - **Effets de bord :** Aucun contexte ne modifie la ressource de valeur elle-même.
 
@@ -886,13 +860,9 @@ func create_sell_offer(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La politique de prix est appliquée lors de la création ou du renouvellement de l’offre.
+- **Rôle précis du bloc :** La politique de prix est appliquée lors de la création ou du renouvellement de l’offre. L’offre conserve ensuite un prix unitaire verrouillé jusqu’à son expiration ou sa révision.
 
-- **Paramètres et types importants :** L’offre conserve ensuite un prix unitaire verrouillé jusqu’à son expiration ou sa révision.
-
-- **Limites et réserves :** L’entrée d’inventaire est copiée comme référence, sans déplacer l’objet.
-
-- **Paramètres et types importants :** La révision du contexte de prix reste traçable dans l’offre.
+- **Limites et réserves :** L’entrée d’inventaire est copiée comme référence, sans déplacer l’objet. La révision du contexte de prix reste traçable dans l’offre.
 
 - **Invariants protégés :** Une offre invalide n’est jamais enregistrée dans le dépôt.
 
@@ -947,11 +917,9 @@ func validate(catalog: CurrencyCatalog) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le vendeur reçoit le sous-total ; la taxe éventuelle est créditée séparément.
+- **Rôle précis du bloc :** Le vendeur reçoit le sous-total ; la taxe éventuelle est créditée séparément. Le total payé est exactement la somme du sous-total et de la taxe.
 
-- **Rôle précis du bloc :** Le total payé est exactement la somme du sous-total et de la taxe.
-
-- **Invariants protégés :** Le devis porte les révisions utilisées afin de diagnostiquer un refus obsolète.
+- **Dépendances et ports utilisés :** Le devis porte les révisions utilisées afin de diagnostiquer un refus obsolète.
 
 - **Frontières d’autorité :** Il est temporaire et ne devient jamais la source d’autorité d’une sauvegarde.
 
@@ -1048,9 +1016,7 @@ func duplicate_detached() -> TradeOfferState:
 
 - **Limites et réserves :** `remaining_quantity` limite l’engagement économique et est revalidé contre le stock réel par l’inventaire.
 
-- **Rôle précis du bloc :** Le prix unitaire est verrouillé pour la durée de l’offre.
-
-- **Rôle précis du bloc :** L’achat et la vente sont deux points de vue sur cette même opération bilatérale.
+- **Rôle précis du bloc :** Le prix unitaire est verrouillé pour la durée de l’offre. L’achat et la vente sont deux points de vue sur cette même opération bilatérale.
 
 - **Persistance et restauration :** L’expiration utilise des ticks logiques persistables.
 
@@ -1120,13 +1086,9 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La commande contient le total affiché afin que le service puisse refuser un prix changé.
+- **Invariants protégés :** La commande contient le total affiché afin que le service puisse refuser un prix changé. `created_stack_id` est utilisé uniquement lorsqu’un lot doit être divisé par l’inventaire.
 
-- **Dépendances et ports utilisés :** Elle ne contient ni delta de portefeuille, ni taxe calculée, ni propriété finale de l’objet.
-
-- **Invariants protégés :** Les révisions protègent l’offre, chaque portefeuille, les deux conteneurs et l’entrée d’inventaire.
-
-- **Limites et réserves :** `created_stack_id` est utilisé uniquement lorsqu’un lot doit être divisé par l’inventaire.
+- **Dépendances et ports utilisés :** Elle ne contient ni delta de portefeuille, ni taxe calculée, ni propriété finale de l’objet. Les révisions protègent l’offre, chaque portefeuille, les deux conteneurs et l’entrée d’inventaire.
 
 - **Déterminisme et idempotence :** L’empreinte est calculée depuis une représentation canonique avant l’appel du service.
 
@@ -1182,9 +1144,7 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 
 - **Dépendances et ports utilisés :** Une récompense est un transfert entre deux portefeuilles, pas une augmentation isolée.
 
-- **Effets de bord :** Une trésorerie système peut jouer le rôle d’émetteur lorsqu’une règle crée de la monnaie.
-
-- **Effets de bord :** L’émetteur et le destinataire doivent être différents.
+- **Effets de bord :** Une trésorerie système peut jouer le rôle d’émetteur lorsqu’une règle crée de la monnaie. L’émetteur et le destinataire doivent être différents.
 
 - **Déterminisme et idempotence :** Les mêmes règles de révision et d’idempotence s’appliquent aux achats et récompenses.
 
@@ -1244,13 +1204,9 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** `REPLAYED` signifie qu’une transaction identique était déjà committée ; aucun second débit n’est réalisé.
+- **Déterminisme et idempotence :** `REPLAYED` signifie qu’une transaction identique était déjà committée ; aucun second débit n’est réalisé. Un conflit d’idempotence est distinct d’une révision obsolète. `is_success()` permet de traiter un replay comme un succès fonctionnel.
 
-- **Déterminisme et idempotence :** Un conflit d’idempotence est distinct d’une révision obsolète.
-
-- **Résultat attendu :** Le résultat expose seulement les identifiants et montants nécessaires à l’appelant.
-
-- **Déterminisme et idempotence :** `is_success()` permet de traiter un replay comme un succès fonctionnel.
+- **Invariants protégés :** Le résultat expose seulement les identifiants et montants nécessaires à l’appelant.
 
 - **Persistance et restauration :** Les refus ne contiennent aucun snapshot mutable.
 
@@ -1287,15 +1243,13 @@ func all_ids_sorted() -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le catalogue conserve des copies de définitions validées.
+- **Dépendances et ports utilisés :** Le catalogue conserve des copies de définitions validées. Aucun portefeuille ou solde n’est stocké ici.
 
 - **Valeur de retour ou code d’échec :** Les lectures retournent également des copies afin de préserver l’immuabilité de conception.
 
 - **Persistance et restauration :** L’ordre trié facilite les snapshots et diagnostics reproductibles.
 
-- **Dépendances et ports utilisés :** Aucun portefeuille ou solde n’est stocké ici.
-
-- **Invariants protégés :** Une devise inconnue est refusée avant le calcul d’un prix.
+- **Rôle précis du bloc :** Une devise inconnue est refusée avant le calcul d’un prix.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/item_value_catalog.gd`.**
 
@@ -1327,15 +1281,13 @@ func get_for_item(item_definition_id: StringName) -> ItemValueDefinition:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Une définition d’objet possède au plus une valeur active dans ce catalogue pédagogique.
+- **Dépendances et ports utilisés :** Une définition d’objet possède au plus une valeur active dans ce catalogue pédagogique.
 
-- **Effets de bord :** Une production plus complexe pourra versionner des marchés sans modifier l’inventaire.
+- **Effets de bord :** Une production plus complexe pourra versionner des marchés sans modifier l’inventaire. Les copies profondes empêchent une offre de modifier la valeur source.
 
 - **Invariants protégés :** L’enregistrement vérifie aussi la devise.
 
 - **Rôle précis du bloc :** La clé est l’identifiant de définition d’objet, jamais son nom affiché.
-
-- **Invariants protégés :** Les copies profondes empêchent une offre de modifier la valeur source.
 
 ## 24. Dépôt économique
 
@@ -1412,7 +1364,7 @@ func can_reward(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le port vérifie que l’acteur et le système source peuvent demander l’opération.
+- **Dépendances et ports utilisés :** Le port vérifie que l’acteur et le système source peuvent demander l’opération.
 
 - **Effets de bord :** Il ne modifie aucun solde.
 
@@ -1420,7 +1372,7 @@ func can_reward(
 
 - **Invariants protégés :** L’économie continue de valider prix, fonds, révisions et équilibre après l’autorisation.
 
-- **Invariants protégés :** `ERR_UNAUTHORIZED` devient un refus métier, les autres codes inattendus une panne interne.
+- **Rôle précis du bloc :** `ERR_UNAUTHORIZED` devient un refus métier, les autres codes inattendus une panne interne.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/pricing_context_port.gd`.**
 
@@ -1442,13 +1394,11 @@ func snapshot_for_offer(
 
 - **Dépendances et ports utilisés :** Le port agrège des indices autorisés sans exposer les dépôts sociaux ou écologiques.
 
-- **Limites et réserves :** `null` signifie qu’aucun contexte fiable n’est disponible.
+- **Limites et réserves :** `null` signifie qu’aucun contexte fiable n’est disponible. Le prix reste calculé par la politique économique.
 
 - **Invariants protégés :** Le service vérifie la révision et l’échéance du contexte.
 
 - **Persistance et restauration :** Une sortie IA ne peut pas construire directement ce snapshot.
-
-- **Limites et réserves :** Le prix reste calculé par la politique économique.
 
 ## 26. Candidat économique
 
@@ -1522,15 +1472,11 @@ func validate(
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** Le candidat regroupe portefeuilles, offre, journal, résultat et révisions.
+- **Dépendances et ports utilisés :** Le candidat regroupe portefeuilles, offre, journal, résultat et révisions. Chaque écriture est recoupée avec le solde candidat du portefeuille visé. Tous les portefeuilles sont revalidés contre les devises.
 
 - **Déterminisme et idempotence :** Le résultat idempotent est enregistré dans le même lot que les mutations.
 
-- **Effets de bord :** Chaque écriture est recoupée avec le solde candidat du portefeuille visé.
-
 - **Rôle précis du bloc :** Une récompense peut laisser `offer` à `null`.
-
-- **Dépendances et ports utilisés :** Tous les portefeuilles sont revalidés contre les devises.
 
 - **Limites et réserves :** Aucun état actif n’est modifié par la validation.
 
@@ -1613,15 +1559,13 @@ func _prepare_payment(
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Les soldes sont modifiés uniquement sur des copies.
+- **Invariants protégés :** Les soldes sont modifiés uniquement sur des copies.
 
 - **Rôle précis du bloc :** Le débit de l’acheteur couvre le sous-total et la taxe.
 
 - **Dépendances et ports utilisés :** Le vendeur reçoit le sous-total, tandis que le portefeuille fiscal reçoit la taxe.
 
-- **Effets de bord :** La somme des écritures reste nulle dans la devise du devis.
-
-- **Paramètres et types importants :** Les révisions attendues sont conservées pour le commit final.
+- **Effets de bord :** La somme des écritures reste nulle dans la devise du devis. Les révisions attendues sont conservées pour le commit final.
 
 ## 28. Construire un devis
 
@@ -1682,11 +1626,9 @@ func _build_quote(
 
 - **Invariants protégés :** L’offre vérifie d’abord quantité et intervalle logique.
 
-- **Rôle précis du bloc :** Le sous-total utilise une multiplication entière bornée.
+- **Rôle précis du bloc :** Le sous-total utilise une multiplication entière bornée. Le devis expire au premier terme entre l’offre et le contexte.
 
 - **Déterminisme et idempotence :** La taxe est calculée en points de base avec le même arrondi déterministe.
-
-- **Rôle précis du bloc :** Le devis expire au premier terme entre l’offre et le contexte.
 
 - **Responsabilités des classes ou fonctions :** Le total attendu de la commande sera comparé à `quote.total_minor` par le service.
 
@@ -1720,15 +1662,11 @@ func prepare_purchase_transfer(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le port demande à l’inventaire de préparer source, destination, quantité, propriété et éventuelle division de pile.
-
-- **Dépendances et ports utilisés :** Le payload opaque est construit par un adaptateur fiable, jamais par le joueur.
+- **Dépendances et ports utilisés :** Le port demande à l’inventaire de préparer source, destination, quantité, propriété et éventuelle division de pile. Le payload opaque est construit par un adaptateur fiable, jamais par le joueur. Les révisions de la source, de la destination et de l’entrée sont portées par la commande puis relues par l’adaptateur.
 
 - **Effets de bord :** L’économie ne modifie ni `ItemInstanceState`, ni `ItemStackState`, ni conteneur.
 
-- **Paramètres et types importants :** Les révisions de la source, de la destination et de l’entrée sont portées par la commande puis relues par l’adaptateur.
-
-- **Invariants protégés :** `null` représente un refus contrôlé de l’inventaire.
+- **Rôle précis du bloc :** `null` représente un refus contrôlé de l’inventaire.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_transaction_commit_port.gd`.**
 
@@ -1751,11 +1689,11 @@ func commit(
 
 - **Rôle précis du bloc :** Elle peut adapter le candidat d’inventaire à l’unité de travail introduite au chapitre 20.
 
-- **Paramètres et types importants :** Toutes les révisions et absences de collision sont revalidées avant le premier remplacement.
+- **Effets de bord :** Toutes les révisions et absences de collision sont revalidées avant le premier remplacement.
 
 - **Limites et réserves :** Une défaillance annule l’ensemble ; aucun débit ou objet partiel ne devient observable.
 
-- **Rôle précis du bloc :** Cette atomicité est une exigence à exécuter au chapitre 27, pas une preuve runtime ici.
+- **Invariants protégés :** Cette atomicité est une exigence à exécuter au chapitre 27, pas une preuve runtime ici.
 
 ## 30. Service d’achat
 
@@ -1831,13 +1769,11 @@ func purchase(command: PurchaseCommand) -> EconomyResult:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’idempotence est vérifiée avant toute lecture coûteuse ou préparation externe.
+- **Déterminisme et idempotence :** L’idempotence est vérifiée avant toute lecture coûteuse ou préparation externe. Un retry identique renvoie le résultat antérieur en statut `REPLAYED`.
 
-- **Déterminisme et idempotence :** Un retry identique renvoie le résultat antérieur en statut `REPLAYED`.
+- **Rôle précis du bloc :** `_prepare_purchase()` peut renvoyer un refus métier précis dans la clé `result`.
 
-- **Invariants protégés :** `_prepare_purchase()` peut renvoyer un refus métier précis dans la clé `result`.
-
-- **Effets de bord :** Le port de commit reçoit les deux candidats préparés.
+- **Dépendances et ports utilisés :** Le port de commit reçoit les deux candidats préparés.
 
 - **Frontières d’autorité :** Le signal est émis uniquement après succès du commit multi-autorités.
 
@@ -2063,15 +1999,13 @@ func _commit_failure(command: PurchaseCommand, code: Error) -> EconomyResult:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Les helpers centralisent les statuts sans masquer leur signification métier.
+- **Limites et réserves :** Les helpers centralisent les statuts sans masquer leur signification métier. `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
 
 - **Responsabilités des classes ou fonctions :** `_posting()` reçoit la devise déjà validée et enregistre le solde candidat résultant sans nouvelle lecture du dépôt.
 
 - **Effets de bord :** Le journal copie les écritures pour ne conserver aucune référence mutable.
 
-- **Effets de bord :** Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
-
-- **Limites et réserves :** `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
+- **Dépendances et ports utilisés :** Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
 
 ## 31. Récompenses monétaires
 
@@ -2147,13 +2081,11 @@ func transfer_reward(command: RewardCommand) -> EconomyResult:
 
 - **Déterminisme et idempotence :** Le service réutilise les mêmes contrats d’idempotence et de révision que l’achat.
 
-- **Rôle précis du bloc :** Une récompense purement monétaire passe `null` comme candidat d’inventaire.
+- **Rôle précis du bloc :** Une récompense purement monétaire passe `null` comme candidat d’inventaire. Une récompense d’objet sera orchestrée avec un candidat d’inventaire par le chapitre narratif concerné.
 
-- **Effets de bord :** Le port de commit doit accepter ce cas sans perdre l’atomicité économique.
+- **Dépendances et ports utilisés :** Le port de commit doit accepter ce cas sans perdre l’atomicité économique.
 
 - **Effets de bord :** L’émetteur doit disposer des fonds, y compris lorsqu’il s’agit d’une trésorerie système.
-
-- **Rôle précis du bloc :** Une récompense d’objet sera orchestrée avec un candidat d’inventaire par le chapitre narratif concerné.
 
 ### 31.1 Préparer une récompense équilibrée
 
@@ -2281,15 +2213,11 @@ func _reward_commit_failure(command: RewardCommand, code: Error) -> EconomyResul
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** L’émetteur est débité et le destinataire crédité sur des copies détachées.
-
-- **Effets de bord :** Les deux écritures sont égales et opposées dans la même devise.
+- **Effets de bord :** L’émetteur est débité et le destinataire crédité sur des copies détachées. Les deux écritures sont égales et opposées dans la même devise. Les helpers conservent des refus précis pour commande, accès, fonds, révision et commit.
 
 - **Déterminisme et idempotence :** Le résultat, le journal et l’empreinte sont inclus dans le candidat idempotent.
 
-- **Invariants protégés :** Les helpers conservent des refus précis pour commande, accès, fonds, révision et commit.
-
-- **Effets de bord :** La validation finale recoupe soldes candidats et écritures avant le port de commit.
+- **Dépendances et ports utilisés :** La validation finale recoupe soldes candidats et écritures avant le port de commit.
 
 ## 32. Adapter une action d’agent
 
@@ -2345,15 +2273,15 @@ func snapshot_for(
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** Le contexte fournit uniquement des identifiants, révisions et un total d’affichage.
+- **Invariants protégés :** Le contexte fournit uniquement des identifiants, révisions et un total d’affichage.
 
 - **Rôle précis du bloc :** Il ne donne pas au planificateur un accès direct aux dépôts.
 
 - **Responsabilités des classes ou fonctions :** L’agent devra encore soumettre une commande au même service que le joueur.
 
-- **Invariants protégés :** Le total peut devenir obsolète et être refusé sans débit.
+- **Limites et réserves :** Le total peut devenir obsolète et être refusé sans débit.
 
-- **Paramètres et types importants :** Les révisions du vendeur, de la trésorerie éventuelle, de la source, de la destination et de l’entrée complètent la révision du portefeuille acheteur.
+- **Dépendances et ports utilisés :** Les révisions du vendeur, de la trésorerie éventuelle, de la source, de la destination et de l’entrée complètent la révision du portefeuille acheteur.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_agent_action_executor.gd`.**
 
@@ -2400,11 +2328,11 @@ func start(request: AgentActionRequest) -> Error:
 
 - **Déterminisme et idempotence :** `_command_from_request()` calcule une identité et une empreinte canoniques à partir du contexte autorisé.
 
-- **Paramètres et types importants :** Le service recalcule ensuite le devis et contrôle les révisions.
+- **Responsabilités des classes ou fonctions :** Le service recalcule ensuite le devis et contrôle les révisions.
 
 - **Persistance et restauration :** Un refus provoque une nouvelle décision depuis un snapshot frais.
 
-- **Rôle précis du bloc :** L’agent ne peut ni créer de monnaie, ni contourner l’inventaire.
+- **Limites et réserves :** L’agent ne peut ni créer de monnaie, ni contourner l’inventaire.
 
 ## 33. Présentation et interaction du joueur
 
@@ -2451,15 +2379,13 @@ service :
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le formatage localisé n’influence jamais les unités mineures stockées.
+- **Rôle précis du bloc :** Le formatage localisé n’influence jamais les unités mineures stockées. Les règles économiques ne sont pas dupliquées dans l’interface.
 
 - **Effets de bord :** Une confirmation visuelle reste une intention jusqu’au commit.
 
 - **Responsabilités des classes ou fonctions :** Le service ne fait confiance ni au total affiché ni à l’état du widget.
 
 - **Déterminisme et idempotence :** Le résultat de replay est affichable sans produire une seconde animation d’acquisition si la présentation l’a déjà consommé.
-
-- **Rôle précis du bloc :** Les règles économiques ne sont pas dupliquées dans l’interface.
 
 ## 34. Persistance
 
@@ -2556,7 +2482,7 @@ func decode(
 
 - **Déterminisme et idempotence :** `_decode_all()` vérifie portefeuilles, offres, records et idempotence sans toucher au dépôt actif.
 
-- **Effets de bord :** Les références croisées contrôlent devises, portefeuilles des écritures et offres.
+- **Dépendances et ports utilisés :** Les références croisées contrôlent devises, portefeuilles des écritures et offres.
 
 - **Invariants protégés :** Un document vide valide reste distinct d’un échec grâce à `DecodeResult`.
 
@@ -2616,7 +2542,7 @@ func cancel_restore() -> void:
 
 - **Déterminisme et idempotence :** L’idempotence est restaurée avec les soldes afin qu’un retry après chargement reste sûr.
 
-- **Rôle précis du bloc :** Les catalogues de conception doivent être disponibles avant l’application.
+- **Dépendances et ports utilisés :** Les catalogues de conception doivent être disponibles avant l’application.
 
 ## 37. Présentation après commit
 
@@ -2911,7 +2837,7 @@ if quote.total_minor != command.expected_total_minor:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
+- **Invariants protégés :** **Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
 
 ### 41.6 Transférer l’objet avant le paiement
 
@@ -2980,7 +2906,7 @@ var value_definition := item_value_catalog.get_for_item(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
+- **Dépendances et ports utilisés :** **Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
 
 ### 41.8 Retenter avec une nouvelle identité après un timeout visuel
 

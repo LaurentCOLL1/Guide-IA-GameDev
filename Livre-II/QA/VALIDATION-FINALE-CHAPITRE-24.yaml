@@ -15,7 +15,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 2645
+  chapter-lines: 2541
   chapter-headings: 48
   chapter-code-and-data-blocks: 61
   code-explanation-markers: 61
@@ -39,6 +39,8 @@ results:
   prior-explanation-units-preserved: 225
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false

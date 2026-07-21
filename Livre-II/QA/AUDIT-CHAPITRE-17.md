@@ -6,8 +6,8 @@ version: "1.0.4"
 chapter-id: "DOC-L2-CH17"
 chapter-version: "1.0.4"
 audit-level: "static-review"
-audit-date: "2026-07-21T14:38:26+02:00"
-last-verified: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audi
 
 ## 2. Résultats
 
-- lignes finales : **2696** ;
+- lignes finales : **2648** ;
 - blocs clôturés : **68** ;
 - marqueurs d’explication : **68** ;
 - cas d’erreurs détaillés : **16** ;
@@ -61,7 +61,8 @@ Le chemin de référence utilise :
 
 ## 5. Explications pédagogiques
 
-Les **68** blocs possèdent **68** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **200** unités conservées et **0** unité perdue.
+
+Les **68** blocs possèdent **68** marqueurs. Les explications antérieures ont été décomposées en **246** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 5. Réserves
 

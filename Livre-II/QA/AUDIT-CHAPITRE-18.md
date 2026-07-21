@@ -6,8 +6,8 @@ version: "1.0.1"
 chapter-id: "DOC-L2-CH18"
 chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-21T14:38:26+02:00"
-last-verified: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier état permanent du chapitre a conservé `status: draft`, `version: 0.
 
 ## 2. Résultats
 
-- lignes finales : **3991** ;
+- lignes finales : **3957** ;
 - titres Markdown : **74** ;
 - blocs de code ou de données : **67** ;
 - marqueurs d’explication : **67** ;
@@ -100,7 +100,8 @@ La dernière section est une synthèse opérationnelle des décisions retenues p
 
 ## 9. Explications pédagogiques
 
-Les **67** blocs possèdent **67** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **192** unités conservées et **0** unité perdue.
+
+Les **67** blocs possèdent **67** marqueurs. Les explications antérieures ont été décomposées en **217** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 9. Réserves
 

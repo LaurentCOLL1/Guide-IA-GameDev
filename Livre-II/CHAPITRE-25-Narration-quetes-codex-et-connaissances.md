@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 25
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T15:28:42+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T14:38:26+02:00"
+audit-date: "2026-07-21T15:28:42+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-25.md"
 audit-level: "static-review"
 reference-engine:
@@ -75,13 +75,15 @@ State replacement + events + journal
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le flux distingue le fait source, son adaptation narrative, l’évaluation et le commit. Un événement reçu n’est pas appliqué deux fois : son identité et son empreinte sont enregistrées avec le résultat durable.
+- **Effets de bord :** Le flux distingue le fait source, son adaptation narrative, l’évaluation et le commit.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Déterminisme et idempotence :** Un événement reçu n’est pas appliqué deux fois : son identité et son empreinte sont enregistrées avec le résultat durable.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** Le schéma fait circuler le traitement de `GameplayEvent` vers `State replacement + events + journal`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `↓ normalisation`, `↓ règles déterministes`, `↓ préparation`, `↓ commit commun`.
+
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 5. Organisation feature-first
 
@@ -103,11 +105,11 @@ scenes/learning/ch25_narrative_demo.tscn
 
 - **Persistance et restauration :** Les définitions de contenu restent sous `data/narrative`, les états vivants dans le domaine, les orchestrations dans l’application, les codecs dans l’infrastructure et l’affichage dans la présentation.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Rôle précis du bloc :** L’arborescence répartit les éléments entre `domain`, `application`, `infrastructure`, `presentation`.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Organisation des fichiers :** Les chemins restent séparés selon leur responsabilité ; les fichiers listés ne sont pas interchangeables entre domaine, application, infrastructure et présentation.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 6. Identités narratives stables
 
@@ -128,15 +130,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Un fait narratif possède une identité indépendante de son texte, de son ordre d’affichage et de son événement source. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Rôle précis du bloc :** Un fait narratif possède une identité indépendante de son texte, de son ordre d’affichage et de son événement source. Le bloc définit `NarrativeFactId` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeFactId` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeFactId` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `fact_: StringName`, `revision: int`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `fact_: StringName`, `revision: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not fact_.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not fact_.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 7. Faits narratifs normalisés
 
@@ -157,15 +161,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le fait conserve type, sujet, objet, tick, provenance et payload borné sans copier un nœud ou un objet métier mutable. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Paramètres et types importants :** Le fait conserve type, sujet, objet, tick, provenance et payload borné sans copier un nœud ou un objet métier mutable. Les déclarations visibles sont `source_event_id: StringName`, `revision: int`.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeFact` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeFact` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeFact` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source_event_id: StringName`, `revision: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not source_event_id.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not source_event_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 8. Définitions d’arcs
 
@@ -186,15 +192,19 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Un arc regroupe des quêtes et des transitions de haut niveau sans stocker leur progression runtime dans la `Resource`. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Limites et réserves :** Un arc regroupe des quêtes et des transitions de haut niveau sans stocker leur progression runtime dans la `Resource`.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeArcDefinition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeArcDefinition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeArcDefinition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `arc_id: StringName`, `revision: int`.
+- **Paramètres et types importants :** Les déclarations visibles sont `arc_id: StringName`, `revision: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not arc_id.is_empty() and revision >= 0`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not arc_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 9. Définitions de quêtes
 
@@ -215,15 +225,19 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Une quête de conception déclare préconditions, objectifs, règles d’échec et conséquences, mais aucun état joueur. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Limites et réserves :** Une quête de conception déclare préconditions, objectifs, règles d’échec et conséquences, mais aucun état joueur.
 
-- **Rôle précis du bloc :** Le bloc définit `QuestDefinition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `QuestDefinition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `QuestDefinition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `quest_id: StringName`, `revision: int`.
+- **Paramètres et types importants :** Les déclarations visibles sont `quest_id: StringName`, `revision: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not quest_id.is_empty() and revision >= 0`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not quest_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 10. Objectifs typés
 
@@ -244,15 +258,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les objectifs utilisent des types fermés et des paramètres validés ; aucun script ou nom de méthode ne provient des données. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Paramètres et types importants :** Les objectifs utilisent des types fermés et des paramètres validés ; aucun script ou nom de méthode ne provient des données. Les déclarations visibles sont `objective_id: StringName`, `revision: int`.
 
-- **Rôle précis du bloc :** Le bloc définit `QuestObjectiveDefinition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `QuestObjectiveDefinition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `QuestObjectiveDefinition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `objective_id: StringName`, `revision: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not objective_id.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not objective_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 11. Conditions composables
 
@@ -273,15 +289,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Une condition est évaluée par un registre de stratégies autorisées, jamais par `eval` ni par chargement dynamique. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Responsabilités des classes ou fonctions :** Une condition est évaluée par un registre de stratégies autorisées, jamais par `eval` ni par chargement dynamique. Les signatures documentées sont `is_valid() -> bool`.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeCondition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeCondition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeCondition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `condition_type: StringName`, `revision: int`.
+- **Paramètres et types importants :** Les déclarations visibles sont `condition_type: StringName`, `revision: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not condition_type.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not condition_type.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 12. Conséquences préparées
 
@@ -302,15 +320,19 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Une conséquence décrit une demande ; l’autorité externe prépare le candidat réel et peut refuser. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Frontières d’autorité :** Une conséquence décrit une demande ; l’autorité externe prépare le candidat réel et peut refuser.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeConsequenceDefinition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeConsequenceDefinition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeConsequenceDefinition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `effect_type: StringName`, `revision: int`.
+- **Paramètres et types importants :** Les déclarations visibles sont `effect_type: StringName`, `revision: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not effect_type.is_empty() and revision >= 0`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not effect_type.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 13. Entrées de codex
 
@@ -331,15 +353,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le codex sépare contenu éditorial, règles de visibilité et état de découverte. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Rôle précis du bloc :** Le codex sépare contenu éditorial, règles de visibilité et état de découverte. Le bloc définit `CodexEntryDefinition` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `CodexEntryDefinition` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `CodexEntryDefinition` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `entry_id: StringName`, `revision: int`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `entry_id: StringName`, `revision: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not entry_id.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not entry_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 14. Connaissances découvertes
 
@@ -360,15 +384,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Une connaissance est relative à un détenteur, une source et un niveau de confiance ; elle ne devient pas automatiquement un fait global. `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
+- **Rôle précis du bloc :** Une connaissance est relative à un détenteur, une source et un niveau de confiance ; elle ne devient pas automatiquement un fait global. Le bloc définit `DiscoveredKnowledgeState` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `DiscoveredKnowledgeState` et expose son contrat minimal visible.
+- **Invariants protégés :** `is_valid()` protège l’identité vide et les révisions négatives avant toute insertion dans un dépôt.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `DiscoveredKnowledgeState` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `knowledge_id: StringName`, `revision: int`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `knowledge_id: StringName`, `revision: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not knowledge_id.is_empty() and revision >= 0`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not knowledge_id.is_empty() and revision >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 15. États runtime des arcs et quêtes
 
@@ -404,17 +430,17 @@ func duplicate_detached() -> QuestRuntimeState:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** L’état runtime est séparé de `QuestDefinition`. La copie profonde du dictionnaire empêche un candidat de partager une collection mutable avec l’état actif.
+- **Rôle précis du bloc :** L’état runtime est séparé de `QuestDefinition`. Le bloc définit `QuestRuntimeState` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `QuestRuntimeState` et expose son contrat minimal visible.
+- **Invariants protégés :** La copie profonde du dictionnaire empêche un candidat de partager une collection mutable avec l’état actif.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `QuestRuntimeState` et les fonctions `duplicate_detached()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `quest_id: StringName`, `owner_id: StringName`, `status: Status`, `objective_progress: Dictionary[StringName, int]`, `started_tick: int`, `ended_tick: int`, `revision: int`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `quest_id: StringName`, `owner_id: StringName`, `status: Status`, `objective_progress: Dictionary[StringName, int]`, `started_tick: int`, `ended_tick: int`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `duplicate_detached() -> QuestRuntimeState`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `QuestRuntimeState` ; branches visibles : `copy`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `copy`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `copy.quest_id = quest_id`, `copy.owner_id = owner_id`, `copy.status = status`, `copy.objective_progress = objective_progress.duplicate(true)`, `copy.started_tick = started_tick`.
+- **Effets de bord :** Les effets visibles sont `copy.quest_id = quest_id`, `copy.owner_id = owner_id`, `copy.status = status`, `copy.objective_progress = objective_progress.duplicate(true)`, `copy.started_tick = started_tick`, `copy.ended_tick = ended_tick`.
 
 ## 16. Progression entière et bornée
 
@@ -435,15 +461,17 @@ static func add_progress(current: int, delta: int) -> int:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La progression utilise des points de base entiers. La sentinelle `-1` distingue un état invalide d’une progression légitime à zéro.
+- **Paramètres et types importants :** La progression utilise des points de base entiers.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `add_progress()`.
+- **Valeur de retour ou code d’échec :** La sentinelle `-1` distingue un état invalide d’une progression légitime à zéro. Les branches de sortie visibles renvoient `-1`, `mini(PROGRESS_SCALE, current + delta)`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `add_progress()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `add_progress()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `current: int, delta`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_progress(current: int, delta: int) -> int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `int` ; branches visibles : `-1`, `mini(PROGRESS_SCALE, current + delta)`.
+- **Invariants protégés :** Les gardes explicites contrôlent `current < 0 or current > PROGRESS_SCALE`, `delta < 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 17. Registre des évaluateurs de conditions
 
@@ -472,16 +500,19 @@ func evaluate(condition: NarrativeCondition, context: NarrativeEvaluationContext
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** Le registre ferme l’ensemble des stratégies exécutables. Une condition inconnue produit `INDETERMINATE`, jamais une autorisation implicite.
+- **Responsabilités des classes ou fonctions :** Le registre ferme l’ensemble des stratégies exécutables. Les signatures documentées sont `register(type_id: StringName, evaluator: NarrativeConditionEvaluator) -> Error`, `evaluate(condition: NarrativeCondition, context: NarrativeEvaluationContext) -> NarrativeDecision`.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeConditionRegistry` et expose son contrat minimal visible.
+- **Résultat attendu :** Une condition inconnue produit `INDETERMINATE`, jamais une autorisation implicite.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `_evaluators: Dictionary[StringName, NarrativeConditionEvaluator]`, `evaluator: NarrativeConditionEvaluator`, `type_id: StringName, evaluator`, `Error:
-      _evaluators[type_id]`, `condition: NarrativeCondition, context`.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeConditionRegistry` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Error`, `NarrativeDecision` ; branches visibles : `ERR_INVALID_PARAMETER`, `OK`, `NarrativeDecision.indeterminate(&"unknown_condition_type")`, `evaluator.evaluate(condition, context)`.
+- **Paramètres et types importants :** Les déclarations visibles sont `_evaluators: Dictionary[StringName, NarrativeConditionEvaluator]`, `evaluator: NarrativeConditionEvaluator`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `type_id.is_empty() or evaluator == null or _evaluators.has(type_id)`, `evaluator == null` avant de poursuivre le traitement.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_PARAMETER`, `OK`, `NarrativeDecision.indeterminate(&"unknown_condition_type")`, `evaluator.evaluate(condition, context)`.
+
+- **Invariants protégés :** Les gardes explicites contrôlent `type_id.is_empty() or evaluator == null or _evaluators.has(type_id)`, `evaluator == null`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 18. Décisions narratives explicables
 
@@ -502,13 +533,13 @@ var evidence_ids: Array[StringName] = []
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La décision conserve un résultat à trois états, un code de raison stable et les identités des faits utilisés. Une valeur indéterminée n’est jamais convertie silencieusement en vrai.
+- **Rôle précis du bloc :** La décision conserve un résultat à trois états, un code de raison stable et les identités des faits utilisés. Le bloc définit `NarrativeDecision` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeDecision` et expose son contrat minimal visible.
+- **Déterminisme et idempotence :** Une valeur indéterminée n’est jamais convertie silencieusement en vrai.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeDecision`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `outcome: Outcome`, `reason_code: StringName`, `evidence_ids: Array[StringName]`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `outcome: Outcome`, `reason_code: StringName`, `evidence_ids: Array[StringName]`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `class_name NarrativeDecision` et se termine par `var evidence_ids: Array[StringName] = []` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 19. Normalisation des événements externes
 
@@ -532,17 +563,19 @@ func from_gameplay_event(event: GameEventEnvelope) -> NarrativeFact:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’adaptateur produit une identité déterministe depuis l’événement source et refuse une enveloppe invalide. Il ne copie que les champs autorisés par le contrat narratif.
+- **Déterminisme et idempotence :** L’adaptateur produit une identité déterministe depuis l’événement source et refuse une enveloppe invalide.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeFactAdapter` et expose son contrat minimal visible.
+- **Paramètres et types importants :** Il ne copie que les champs autorisés par le contrat narratif.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeFactAdapter` et les fonctions `from_gameplay_event()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeFactAdapter` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `event: GameEventEnvelope`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `from_gameplay_event(event: GameEventEnvelope) -> NarrativeFact`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `NarrativeFact` ; branches visibles : `null`, `fact if fact.is_valid() else null`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `null`, `fact if fact.is_valid() else null`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `event == null or not event.is_valid()` avant de poursuivre le traitement.
+- **Invariants protégés :** Les gardes explicites contrôlent `event == null or not event.is_valid()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 20. Idempotence des faits
 
@@ -565,15 +598,17 @@ func matches(other_fingerprint: String) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le reçu lie l’identité source à une empreinte canonique. Un retry identique retourne le résultat durable ; une même identité avec un autre contenu est un conflit.
+- **Déterminisme et idempotence :** Le reçu lie l’identité source à une empreinte canonique.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeFactReceipt` et expose son contrat minimal visible.
+- **Valeur de retour ou code d’échec :** Un retry identique retourne le résultat durable ; une même identité avec un autre contenu est un conflit. Les branches de sortie visibles renvoient `fingerprint == other_fingerprint`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeFactReceipt` et les fonctions `matches()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeFactReceipt` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source_event_id: StringName`, `fingerprint: String`, `result_code: StringName`, `committed_tick: int`, `other_fingerprint: String`.
+- **Paramètres et types importants :** Les déclarations visibles sont `source_event_id: StringName`, `fingerprint: String`, `result_code: StringName`, `committed_tick: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `fingerprint == other_fingerprint`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `matches(other_fingerprint: String) -> bool`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 21. Commandes de quête
 
@@ -597,15 +632,19 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** La commande porte son identité idempotente, la quête, son propriétaire, la révision attendue et le tick logique. Elle n’accepte aucune heure système.
+- **Frontières d’autorité :** La commande porte son identité idempotente, la quête, son propriétaire, la révision attendue et le tick logique.
 
-- **Rôle précis du bloc :** Le bloc définit `StartQuestCommand` et expose son contrat minimal visible.
+- **Limites et réserves :** Elle n’accepte aucune heure système.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `StartQuestCommand` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `StartQuestCommand` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `command_id: StringName`, `quest_id: StringName`, `owner_id: StringName`, `expected_revision: int`, `requested_tick: int`.
+- **Paramètres et types importants :** Les déclarations visibles sont `command_id: StringName`, `quest_id: StringName`, `owner_id: StringName`, `expected_revision: int`, `requested_tick: int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `not command_id.is_empty() and not quest_id.is_empty() and not owner_id.is_empty() and expected_revision >= 0 and requested_tick >= 0`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `not command_id.is_empty() and not quest_id.is_empty() and not owner_id.is_empty() and expected_revision >= 0 and requested_tick >= 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 22. Service de démarrage
 
@@ -629,17 +668,17 @@ func start_quest(command: StartQuestCommand) -> NarrativeResult:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le service relit l’état, vérifie la révision, prépare une copie puis délègue le remplacement au port de commit. Aucun événement n’est émis avant le succès du commit.
+- **Dépendances et ports utilisés :** Le service relit l’état, vérifie la révision, prépare une copie puis délègue le remplacement au port de commit.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `start_quest()`.
+- **Effets de bord :** Aucun événement n’est émis avant le succès du commit. Les effets visibles sont `candidate.status = QuestRuntimeState.Status.ACTIVE`, `candidate.started_tick = command.requested_tick`, `candidate.revision += 1`, `return _commit_port.commit_quest(candidate, command.command_id)`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `start_quest()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `start_quest()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `command: StartQuestCommand`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `start_quest(command: StartQuestCommand) -> NarrativeResult`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `NarrativeResult` ; branches visibles : `NarrativeResult.rejected(&"invalid_command")`, `NarrativeResult.rejected(&"revision_conflict")`, `_commit_port.commit_quest(candidate, command.command_id)`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `NarrativeResult.rejected(&"invalid_command")`, `NarrativeResult.rejected(&"revision_conflict")`, `_commit_port.commit_quest(candidate, command.command_id)`.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `candidate.status = QuestRuntimeState.Status.ACTIVE`, `candidate.started_tick = command.requested_tick`, `candidate.revision += 1`, `return _commit_port.commit_quest(candidate, command.command_id)`.
+- **Invariants protégés :** Les gardes explicites contrôlent `command == null or not command.is_valid()`, `previous == null or previous.revision != command.expected_revision`.
 
 ## 23. Évaluation des objectifs
 
@@ -660,15 +699,17 @@ func evaluate_objective(objective: QuestObjectiveDefinition, facts: Array[Narrat
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** L’évaluation parcourt des faits déjà validés et utilise un matcher injecté. Elle renvoie `-1` si un delta ou un cumul viole les bornes.
+- **Dépendances et ports utilisés :** L’évaluation parcourt des faits déjà validés et utilise un matcher injecté.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `evaluate_objective()`.
+- **Valeur de retour ou code d’échec :** Elle renvoie `-1` si un delta ou un cumul viole les bornes. Les branches de sortie visibles renvoient `-1`, `progress`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `evaluate_objective()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `evaluate_objective()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `objective: QuestObjectiveDefinition, facts`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `evaluate_objective(objective: QuestObjectiveDefinition, facts: Array[NarrativeFact]) -> int`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `int` ; branches visibles : `-1`, `progress`.
+- **Invariants protégés :** Les gardes explicites contrôlent `_matcher.matches(objective, fact)`, `progress < 0`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 24. Achèvement atomique d’une quête
 
@@ -691,13 +732,15 @@ func commit_completion(
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Le port reçoit le candidat de quête, les découvertes de connaissance, les candidats des autorités externes et le reçu idempotent. L’implémentation doit tout committer ou ne rien remplacer.
+- **Frontières d’autorité :** Le port reçoit le candidat de quête, les découvertes de connaissance, les candidats des autorités externes et le reçu idempotent.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeCommitPort` et expose son contrat minimal visible.
+- **Effets de bord :** L’implémentation doit tout committer ou ne rien remplacer. Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeCommitPort` et les fonctions `commit_completion()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `NarrativeCommitPort` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Error` ; branches visibles : `ERR_UNAVAILABLE`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `commit_completion(quest_candidate: QuestRuntimeState, knowledge_candidates: Array[DiscoveredKnowledgeState], external_candidates: Array[RefCounted], receipt: NarrativeFactReceipt) -> Error`.
+
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_UNAVAILABLE`.
 
 ## 25. Conséquences multi-autorités
 
@@ -718,13 +761,13 @@ Quest completion
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Une récompense d’objet, une somme, un droit ou un changement de domaine n’est jamais appliqué directement par la narration. Chaque autorité prépare son propre candidat avant la frontière de commit.
+- **Rôle précis du bloc :** Une récompense d’objet, une somme, un droit ou un changement de domaine n’est jamais appliqué directement par la narration. L’arborescence répartit les éléments entre `inventory candidate`, `economy candidate`, `political candidate`, `domain candidate`, `knowledge candidates`, `narrative receipt`.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Chaque autorité prépare son propre candidat avant la frontière de commit.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Organisation des fichiers :** Les chemins restent séparés selon leur responsabilité ; les fichiers listés ne sont pas interchangeables entre domaine, application, infrastructure et présentation.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 26. Journal narratif
 
@@ -746,13 +789,13 @@ var visibility: StringName
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** Le journal persiste un modèle et des paramètres stables, pas une phrase localisée figée. La présentation résout le texte selon la langue et la version de contenu.
+- **Persistance et restauration :** Le journal persiste un modèle et des paramètres stables, pas une phrase localisée figée.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeJournalEntry` et expose son contrat minimal visible.
+- **Rôle précis du bloc :** La présentation résout le texte selon la langue et la version de contenu. Le bloc définit `NarrativeJournalEntry` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeJournalEntry`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `entry_id: StringName`, `owner_id: StringName`, `template_id: StringName`, `parameter_ids: Dictionary[StringName, StringName]`, `created_tick: int`, `visibility: StringName`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `entry_id: StringName`, `owner_id: StringName`, `template_id: StringName`, `parameter_ids: Dictionary[StringName, StringName]`, `created_tick: int`, `visibility: StringName`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `class_name NarrativeJournalEntry` et se termine par `var visibility: StringName` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 27. Codex et visibilité
 
@@ -768,15 +811,15 @@ func can_show_entry(entry: CodexEntryDefinition, owner_id: StringName) -> Narrat
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La visibilité passe par les mêmes décisions explicables. Une décision indéterminée masque l’entrée au lieu de la révéler.
+- **Rôle précis du bloc :** La visibilité passe par les mêmes décisions explicables. Le bloc expose `can_show_entry()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `can_show_entry()`.
+- **Déterminisme et idempotence :** Une décision indéterminée masque l’entrée au lieu de la révéler.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `can_show_entry()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `can_show_entry(entry: CodexEntryDefinition, owner_id: StringName) -> NarrativeDecision`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `entry: CodexEntryDefinition, owner_id`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_condition_registry.evaluate(entry.visibility_condition, context)`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `NarrativeDecision` ; branches visibles : `_condition_registry.evaluate(entry.visibility_condition, context)`.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 28. Connaissance personnelle, collective et publique
 
@@ -796,13 +839,13 @@ visibility: private
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le détenteur, la source, la confiance et la visibilité sont distincts. Une connaissance privée ne devient collective ou publique que par une commande validée et une règle explicite.
+- **Rôle précis du bloc :** Le détenteur, la source, la confiance et la visibilité sont distincts. Une connaissance privée ne devient collective ou publique que par une commande validée et une règle explicite. Le bloc matérialise le format de données annoncé par `> **[LECTURE] Exemple de référence — Ne pas saisir.**`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `source_fact_id: fact_evt_1042`.
+- **Paramètres et types importants :** Les clés visibles comprennent `knowledge_id`, `holder_type`, `holder_id`, `source_fact_id`, `confidence_bp`, `discovered_tick`, `visibility`.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Déroulement ou instructions importantes :** L’extrait commence par `knowledge_id: know_ruins_gate` et se termine par `visibility: private` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 29. Rumeurs et incertitude
 
@@ -826,15 +869,17 @@ func is_valid() -> bool:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Une rumeur est une affirmation avec provenance et confiance, pas un fait autoritaire. Son statut peut évoluer sans réécrire l’événement source.
+- **Rôle précis du bloc :** Une rumeur est une affirmation avec provenance et confiance, pas un fait autoritaire. Le bloc définit `KnowledgeClaim` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `KnowledgeClaim` et expose son contrat minimal visible.
+- **Limites et réserves :** Son statut peut évoluer sans réécrire l’événement source.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `KnowledgeClaim` et les fonctions `is_valid()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `claim_id: StringName`, `proposition_id: StringName`, `source_id: StringName`, `confidence_bp: int`, `status: StringName`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `claim_id: StringName`, `proposition_id: StringName`, `source_id: StringName`, `confidence_bp: int`, `status: StringName`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `is_valid() -> bool`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `bool` ; branches visibles : `confidence_bp >= 0 and confidence_bp <= 10000 and not proposition_id.is_empty()`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `confidence_bp >= 0 and confidence_bp <= 10000 and not proposition_id.is_empty()`.
+
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 30. Mémoire vectorielle et codex
 
@@ -850,13 +895,13 @@ Vector index = derived, rebuildable, non-authoritative
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** Le codex et les découvertes sont les sources canoniques. L’index vectoriel du chapitre 10 reste dérivé, reconstructible et exclu de l’autorité des sauvegardes.
+- **Rôle précis du bloc :** Le codex et les découvertes sont les sources canoniques. Le schéma fait circuler le traitement de `Canonical codex entries → optional indexing pipeline → vector index` vers `Vector index = derived, rebuildable, non-authoritative`.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** L’index vectoriel du chapitre 10 reste dérivé, reconstructible et exclu de l’autorité des sauvegardes.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `Canonical codex entries → optional indexing pipeline → vector index`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 31. IA locale consultative
 
@@ -875,17 +920,17 @@ func propose_journal_summary(facts: Array[NarrativeFact]) -> String:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’IA peut proposer un résumé d’affichage. Elle ne crée aucun fait, ne valide aucun objectif et ne déclenche aucune conséquence. Un repli déterministe reste disponible.
+- **Rôle précis du bloc :** L’IA peut proposer un résumé d’affichage. Le bloc expose `propose_journal_summary()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `propose_journal_summary()`.
+- **Invariants protégés :** Elle ne crée aucun fait, ne valide aucun objectif et ne déclenche aucune conséquence. Les gardes explicites contrôlent `not response.is_success()`.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `propose_journal_summary()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Déterminisme et idempotence :** Un repli déterministe reste disponible.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `facts: Array[NarrativeFact]`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `propose_journal_summary(facts: Array[NarrativeFact]) -> String`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `String` ; branches visibles : `_deterministic_fallback.summarize(facts)`, `_sanitizer.clean_display_text(response.text)`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_deterministic_fallback.summarize(facts)`, `_sanitizer.clean_display_text(response.text)`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not response.is_success()` avant de poursuivre le traitement.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 32. Orchestration des agents
 
@@ -906,13 +951,13 @@ var expires_tick: int
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Une observation fournit des faits et un tag de but suggéré. L’agent du chapitre 17 décide encore de ses buts et actions ; la narration ne modifie pas directement son plan.
+- **Rôle précis du bloc :** Une observation fournit des faits et un tag de but suggéré. Le bloc définit `NarrativeObservation` dérivé de `RefCounted` et rend visibles les données et opérations qui composent son contrat.
 
-- **Rôle précis du bloc :** Le bloc définit `NarrativeObservation` et expose son contrat minimal visible.
+- **Effets de bord :** L’agent du chapitre 17 décide encore de ses buts et actions ; la narration ne modifie pas directement son plan.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `NarrativeObservation`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Paramètres et types importants :** Les déclarations visibles sont `observation_id: StringName`, `owner_id: StringName`, `fact_ids: Array[StringName]`, `suggested_goal_tag: StringName`, `expires_tick: int`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `observation_id: StringName`, `owner_id: StringName`, `fact_ids: Array[StringName]`, `suggested_goal_tag: StringName`, `expires_tick: int`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `class_name NarrativeObservation` et se termine par `var expires_tick: int` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
 ## 33. Présentation séparée
 
@@ -933,16 +978,15 @@ func refresh(owner_id: StringName) -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** La présentation consomme une vue en lecture seule. Elle n’accède pas au dépôt mutable et ne peut pas appeler un commit métier depuis un bouton sans passer par une commande applicative.
+- **Invariants protégés :** La présentation consomme une vue en lecture seule.
 
-- **Rôle précis du bloc :** Le bloc définit `QuestLogPresenter` et expose son contrat minimal visible.
+- **Effets de bord :** Elle n’accède pas au dépôt mutable et ne peut pas appeler un commit métier depuis un bouton sans passer par une commande applicative.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les classes `QuestLogPresenter` et les fonctions `refresh()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc définit `QuestLogPresenter` dérivé de `Control` et rend visibles les données et opérations qui composent son contrat.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `_query: NarrativeQuery`, `owner_id: StringName`, `void:
-      _render`.
+- **Paramètres et types importants :** Les déclarations visibles sont `_query: NarrativeQuery`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `void`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `refresh(owner_id: StringName) -> void`.
 
 ## 34. Persistance stricte
 
@@ -964,13 +1008,15 @@ func refresh(owner_id: StringName) -> void:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le snapshot conserve uniquement l’état vivant et les reçus nécessaires à l’idempotence. Les définitions, caches, vues, index vectoriels et nœuds restent exclus.
+- **Déterminisme et idempotence :** Le snapshot conserve uniquement l’état vivant et les reçus nécessaires à l’idempotence.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de données littérale dont les clés et valeurs constituent le contrat à relire.
+- **Limites et réserves :** Les définitions, caches, vues, index vectoriels et nœuds restent exclus.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** Le bloc matérialise le format de données annoncé par `> **[LECTURE] Exemple de référence — Ne pas saisir.**`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Paramètres et types importants :** Les clés visibles comprennent `format`, `version`, `quests`, `arcs`, `knowledge`, `journal`, `receipts`.
+
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
 ## 35. Codec et restauration préparée
 
@@ -992,17 +1038,17 @@ func prepare_restore(payload: Dictionary) -> NarrativeRestoreCandidate:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** La restauration décode toutes les sections sur un candidat isolé puis recoupe les identités avec les catalogues. Le monde actif n’est remplacé qu’après validation globale.
+- **Persistance et restauration :** La restauration décode toutes les sections sur un candidat isolé puis recoupe les identités avec les catalogues.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `prepare_restore()`.
+- **Rôle précis du bloc :** Le monde actif n’est remplacé qu’après validation globale. Le bloc expose `prepare_restore()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `prepare_restore()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare_restore(payload: Dictionary) -> NarrativeRestoreCandidate`.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `payload: Dictionary`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `null`, `candidate`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `NarrativeRestoreCandidate` ; branches visibles : `null`, `candidate`.
+- **Invariants protégés :** Les gardes explicites contrôlent `not _schema_validator.validate(payload)`, `not candidate.decode_all(payload)`, `not candidate.cross_validate(_catalogs)`.
 
-- **Invariants protégés :** Les gardes visibles contrôlent notamment `not _schema_validator.validate(payload)`, `not candidate.decode_all(payload)`, `not candidate.cross_validate(_catalogs)` avant de poursuivre le traitement.
+- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
 ## 36. Migrations de sauvegarde
 
@@ -1020,15 +1066,15 @@ func migrate_v1_to_v2(document: Dictionary) -> Dictionary:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Une migration travaille sur une copie profonde, avance d’une version et initialise explicitement les nouveaux champs. Elle ne modifie jamais le document source en place.
+- **Paramètres et types importants :** Une migration travaille sur une copie profonde, avance d’une version et initialise explicitement les nouveaux champs.
 
-- **Rôle précis du bloc :** Le bloc montre le traitement porté par `migrate_v1_to_v2()`.
+- **Effets de bord :** Elle ne modifie jamais le document source en place. Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
-- **Responsabilités des classes ou fonctions :** Le bloc déclare les fonctions `migrate_v1_to_v2()`; leurs responsabilités restent limitées aux opérations explicitement visibles dans l’extrait.
+- **Rôle précis du bloc :** Le bloc expose `migrate_v1_to_v2()` et montre leur traitement complet ou leur squelette contractuel.
 
-- **Paramètres et types importants :** Les déclarations typées visibles comprennent `document: Dictionary`.
+- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `migrate_v1_to_v2(document: Dictionary) -> Dictionary`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose types annoncés : `Dictionary` ; branches visibles : `copy`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `copy`.
 
 ## 37. Budgets et simulation hors écran
 
@@ -1046,13 +1092,15 @@ narrative_budget:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Les limites empêchent une tempête d’événements de monopoliser une frame. Le traitement peut être réparti sur plusieurs ticks sans modifier l’ordre déterministe des faits.
+- **Invariants protégés :** Les limites empêchent une tempête d’événements de monopoliser une frame.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de données littérale dont les clés et valeurs constituent le contrat à relire.
+- **Déterminisme et idempotence :** Le traitement peut être réparti sur plusieurs ticks sans modifier l’ordre déterministe des faits.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Rôle précis du bloc :** Le bloc matérialise le format de données annoncé par `> **[LECTURE] Exemple de référence — Ne pas saisir.**`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Paramètres et types importants :** Les clés visibles comprennent `narrative_budget`, `max_facts_per_tick`, `max_quest_evaluations_per_tick`, `max_consequences_per_commit`, `max_journal_entries_per_owner`.
+
+- **Résultat attendu :** Une lecture conforme doit retrouver les mêmes clés, leurs relations et les valeurs obligatoires avant toute promotion ou consommation.
 
 ## 38. Sécurité et robustesse
 
@@ -1089,13 +1137,13 @@ Simulation: event storms and bounded queues
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** La matrice distingue tests unitaires, intégration multi-autorités, sauvegarde et charge. Le chapitre 27 matérialisera l’infrastructure de tests complète.
+- **Frontières d’autorité :** La matrice distingue tests unitaires, intégration multi-autorités, sauvegarde et charge.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Rôle précis du bloc :** Le chapitre 27 matérialisera l’infrastructure de tests complète. Le schéma fait circuler le traitement de `Unit: conditions, progress, idempotency, visibility` vers `Simulation: event storms and bounded queues`.
 
-- **Résultat attendu :** Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.
+- **Déroulement ou instructions importantes :** Les transitions visibles sont `Integration: fact→quest→consequence commit`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 41. Erreurs fréquentes et corrections
 
@@ -1119,11 +1167,11 @@ quest_id = StringName(title_label.text)
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le texte est localisable et modifiable ; l’identifiant stable vient de la définition.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `quest_id = StringName(title_label.text)`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `quest_id`, `StringName`, `title_label`, `text`.
 
 **Exemple corrigé :**
 
@@ -1137,13 +1185,13 @@ quest_id = definition.quest_id
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser le texte affiché comme identité de quête », la correction traite directement le risque suivant : Le texte est localisable et modifiable ; l’identifiant stable vient de la définition. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser le texte affiché comme identité de quête », la correction traite directement le risque suivant : Le texte est localisable et modifiable ; l’identifiant stable vient de la définition.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `quest_id = definition.quest_id`.
 
 ### 41.2 Traiter un événement comme vérité narrative complète
 
@@ -1163,11 +1211,11 @@ quest.status = SUCCEEDED # à la réception d’un événement
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** L’événement devient d’abord un fait validé puis passe par les conditions de la quête.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `quest.status = SUCCEEDED # à la réception d’un événement`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `quest`, `status`, `SUCCEEDED`, `la`, `r`, `ception`, `d`, `un`.
 
 **Exemple corrigé :**
 
@@ -1181,13 +1229,13 @@ facts.append(adapter.from_gameplay_event(event))
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Traiter un événement comme vérité narrative complète », la correction traite directement le risque suivant : L’événement devient d’abord un fait validé puis passe par les conditions de la quête. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Traiter un événement comme vérité narrative complète », la correction traite directement le risque suivant : L’événement devient d’abord un fait validé puis passe par les conditions de la quête.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `facts.append(adapter.from_gameplay_event(event))`.
+- **Effets de bord :** Les effets visibles sont `facts.append(adapter.from_gameplay_event(event))`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.3 Évaluer une condition avec du code dynamique
 
@@ -1205,13 +1253,13 @@ var ok = eval(condition.expression)
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi cet exemple est fautif :** Le registre ferme les évaluateurs autorisés et rend les refus explicables.
+- **Responsabilités des classes ou fonctions :** **Pourquoi cet exemple est fautif :** Le registre ferme les évaluateurs autorisés et rend les refus explicables.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `var ok = eval(condition.expression)`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `var`, `ok`, `eval`, `condition`, `expression`.
 
 **Exemple corrigé :**
 
@@ -1225,13 +1273,13 @@ var decision = registry.evaluate(condition, context)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Évaluer une condition avec du code dynamique », la correction traite directement le risque suivant : Le registre ferme les évaluateurs autorisés et rend les refus explicables. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Évaluer une condition avec du code dynamique », la correction traite directement le risque suivant : Le registre ferme les évaluateurs autorisés et rend les refus explicables.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `var decision = registry.evaluate(condition, context)`.
 
 ### 41.4 Valider une quête avant les conséquences
 
@@ -1252,11 +1300,11 @@ wallet.credit(100)
 
 - **Limites et réserves :** **Pourquoi cet exemple est fautif :** Le lot commun évite une quête réussie sans récompense ou une récompense sans quête.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Déroulement ou instructions importantes :** L’extrait commence par `quest.status = SUCCEEDED` et se termine par `wallet.credit(100)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 4 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `quest.status = SUCCEEDED`.
 
 **Exemple corrigé :**
 
@@ -1270,13 +1318,13 @@ commit_port.commit_completion(quest_candidate, [], [money_candidate], receipt)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Valider une quête avant les conséquences », la correction traite directement le risque suivant : Le lot commun évite une quête réussie sans récompense ou une récompense sans quête. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Invariants protégés :** **Pourquoi la correction fonctionne :** Dans le cas « Valider une quête avant les conséquences », la correction traite directement le risque suivant : Le lot commun évite une quête réussie sans récompense ou une récompense sans quête.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `commit_port.commit_completion(quest_candidate, [], [money_candidate], receipt)`.
+- **Effets de bord :** Les effets visibles sont `commit_port.commit_completion(quest_candidate, [], [money_candidate], receipt)`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.5 Révéler une entrée sur une décision indéterminée
 
@@ -1294,13 +1342,13 @@ return decision.outcome != FALSE
 
 **Explication structurée du bloc :**
 
-- **Résultat attendu :** **Pourquoi cet exemple est fautif :** Seul un résultat positif explicite révèle le contenu.
+- **Invariants protégés :** **Pourquoi cet exemple est fautif :** Seul un résultat positif explicite révèle le contenu.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `decision.outcome != FALSE`.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `decision.outcome != FALSE`.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `return decision.outcome != FALSE`.
 
 **Exemple corrigé :**
 
@@ -1314,13 +1362,13 @@ return decision.outcome == TRUE
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Révéler une entrée sur une décision indéterminée », la correction traite directement le risque suivant : Seul un résultat positif explicite révèle le contenu. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** Dans le cas « Révéler une entrée sur une décision indéterminée », la correction traite directement le risque suivant : Seul un résultat positif explicite révèle le contenu.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Valeur de retour ou code d’échec :** Le contrat de sortie expose branches visibles : `decision.outcome == TRUE`.
+- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `decision.outcome == TRUE`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.6 Confondre connaissance et fait global
 
@@ -1340,11 +1388,11 @@ world_facts[claim.proposition_id] = true
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Une affirmation conserve détenteur, source, confiance et statut.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `world_facts[claim.proposition_id] = true`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `world_facts`, `claim`, `proposition_id`, `true`.
 
 **Exemple corrigé :**
 
@@ -1358,13 +1406,13 @@ knowledge_repository.add_claim(claim)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Confondre connaissance et fait global », la correction traite directement le risque suivant : Une affirmation conserve détenteur, source, confiance et statut. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Confondre connaissance et fait global », la correction traite directement le risque suivant : Une affirmation conserve détenteur, source, confiance et statut.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Effets de bord :** Les effets visibles sont `knowledge_repository.add_claim(claim)`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.7 Laisser l’IA achever un objectif
 
@@ -1384,11 +1432,11 @@ if ai_response == "done": progress = 10000
 
 - **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** La progression vient de faits autoritaires et d’un évaluateur déterministe.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `if ai_response == "done": progress = 10000`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `if`, `ai_response`, `done`, `progress`.
 
 **Exemple corrigé :**
 
@@ -1402,13 +1450,13 @@ progress = objective_evaluator.evaluate(objective, facts)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Laisser l’IA achever un objectif », la correction traite directement le risque suivant : La progression vient de faits autoritaires et d’un évaluateur déterministe. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** Dans le cas « Laisser l’IA achever un objectif », la correction traite directement le risque suivant : La progression vient de faits autoritaires et d’un évaluateur déterministe.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `progress = objective_evaluator.evaluate(objective, facts)`.
 
 ### 41.8 Utiliser l’heure système
 
@@ -1428,11 +1476,11 @@ state.started_tick = int(Time.get_unix_time_from_system())
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le temps réel ne fait pas partie de la simulation sauvegardée.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `state.started_tick = int(Time.get_unix_time_from_system())`.
+- **Effets de bord :** Les effets visibles sont `state.started_tick = int(Time.get_unix_time_from_system())`.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `state.started_tick = int(Time.get_unix_time_from_system())`.
 
 **Exemple corrigé :**
 
@@ -1446,13 +1494,13 @@ state.started_tick = world_clock.current_tick
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser l’heure système », la correction traite directement le risque suivant : Le temps réel ne fait pas partie de la simulation sauvegardée. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser l’heure système », la correction traite directement le risque suivant : Le temps réel ne fait pas partie de la simulation sauvegardée.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `state.started_tick = world_clock.current_tick`.
+- **Effets de bord :** Les effets visibles sont `state.started_tick = world_clock.current_tick`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.9 Charger directement dans les dépôts actifs
 
@@ -1470,13 +1518,13 @@ repository.replace_all(codec.decode(payload))
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi cet exemple est fautif :** La préparation complète précède tout remplacement.
+- **Effets de bord :** **Pourquoi cet exemple est fautif :** La préparation complète précède tout remplacement. Les effets visibles sont `repository.replace_all(codec.decode(payload))`.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `repository.replace_all(codec.decode(payload))`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `repository`, `replace_all`, `codec`, `decode`, `payload`.
 
 **Exemple corrigé :**
 
@@ -1491,13 +1539,13 @@ restore_port.commit(candidate)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Charger directement dans les dépôts actifs », la correction traite directement le risque suivant : La préparation complète précède tout remplacement. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Effets de bord :** **Pourquoi la correction fonctionne :** Dans le cas « Charger directement dans les dépôts actifs », la correction traite directement le risque suivant : La préparation complète précède tout remplacement. Les effets visibles sont `restore_port.commit(candidate)`.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Effets de bord :** Les mutations ou appels observables montrés par l’extrait incluent `restore_port.commit(candidate)`.
+- **Déroulement ou instructions importantes :** L’extrait commence par `candidate = codec.prepare_restore(payload)` et se termine par `restore_port.commit(candidate)` ; les lignes intermédiaires doivent être lues dans cet ordre.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
 ### 41.10 Persister l’index vectoriel
 
@@ -1517,11 +1565,11 @@ snapshot["vectors"] = vector_store.dump()
 
 - **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** L’index est dérivé et reconstructible depuis les sources canoniques.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Point complémentaire 3 :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Instruction principale :** L’instruction exacte est `snapshot["vectors"] = vector_store.dump()`.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Symboles manipulés :** Les symboles visibles sont `snapshot`, `vectors`, `vector_store`, `dump`.
 
 **Exemple corrigé :**
 
@@ -1535,13 +1583,13 @@ snapshot["knowledge"] = knowledge_repository.to_records()
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Dans le cas « Persister l’index vectoriel », la correction traite directement le risque suivant : L’index est dérivé et reconstructible depuis les sources canoniques. Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
+- **Persistance et restauration :** **Pourquoi la correction fonctionne :** Dans le cas « Persister l’index vectoriel », la correction traite directement le risque suivant : L’index est dérivé et reconstructible depuis les sources canoniques.
 
-- **Rôle précis du bloc :** Le bloc présente une structure de référence et les relations explicites entre ses éléments.
+- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
 
-- **Déroulement ou instructions importantes :** Le traitement suit l’ordre écrit dans le bloc ; aucune étape implicite ne doit être ajoutée entre les gardes, la préparation et le résultat montré.
+- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
 
-- **Limites et réserves :** L’extrait reste une structure pédagogique relue statiquement ; son intégration doit encore respecter les réserves runtime déclarées dans le chapitre.
+- **Instruction principale :** L’instruction exacte est `snapshot["knowledge"] = knowledge_repository.to_records()`.
 
 ## 42. Synthèse opérationnelle pour Project Asteria
 

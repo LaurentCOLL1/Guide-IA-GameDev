@@ -12,7 +12,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 3991
+  chapter-lines: 3957
   chapter-headings: 74
   chapter-code-and-data-blocks: 67
   code-explanation-markers: 67
@@ -39,9 +39,11 @@ results:
   rng-int64-json-safe: true
   save-prepared-before-replacement: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 192
+  prior-explanation-units-preserved: 217
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
