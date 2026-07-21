@@ -41,10 +41,31 @@ jobs:
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
       - name: Refine explanations without content loss
+        id: refine
+        shell: bash
         run: |
-          python3 .qa/refine_explanations_ch17_ch26.py
+          set +e
+          python3 .qa/refine_explanations_ch17_ch26.py > /tmp/refine-output.log 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          cat /tmp/refine-output.log
+          exit 0
+
+      - name: Upload refinement diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: explanation-refinement-diagnostic
+          if-no-files-found: error
+          retention-days: 7
+          path: /tmp/refine-output.log
+
+      - name: Stop after refinement failure
+        if: steps.refine.outputs.status != '0'
+        run: exit 1
 
       - name: Validate structure, metadata, links and duplicates
+        if: steps.refine.outputs.status == '0'
         run: |
           mkdir -p dist
           set -o pipefail
@@ -52,30 +73,35 @@ jobs:
             | tee dist/QA-CHAPTERS.log
 
       - name: Validate structured code explanations
+        if: steps.refine.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/check_code_explanation_structure.py --check \
             | tee dist/QA-EXPLICATIONS-CODE.log
 
       - name: Audit usage marker presence
+        if: steps.refine.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/check_context_markers.py --check \
             | tee dist/QA-CONTEXTES.log
 
       - name: Audit semantic marker consistency
+        if: steps.refine.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/audit_contextes_semantiques.py --check \
             | tee dist/QA-CONTEXTES-SEMANTIQUES.log
 
       - name: Measure context coverage
+        if: steps.refine.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
       - name: Assert that no PDF was produced
+        if: steps.refine.outputs.status == '0'
         run: |
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
             echo "Un PDF a été produit pendant une validation légère." >&2
@@ -83,6 +109,7 @@ jobs:
           fi
 
       - name: Commit refined documentation
+        if: steps.refine.outputs.status == '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -96,7 +123,7 @@ jobs:
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
 
       - name: Upload lightweight QA evidence
-        if: always()
+        if: steps.refine.outputs.status == '0'
         uses: actions/upload-artifact@v4
         with:
           name: chapter-validation-without-pdf
