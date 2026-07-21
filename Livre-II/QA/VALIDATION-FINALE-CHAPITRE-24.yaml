@@ -1,20 +1,20 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH24
-status: pending
+status: complete
 validation-date: 2026-07-21
-validated-base-commit: null
-validated-head-commit: null
+validated-base-commit: e4ce33c1f8b46d6d25d1a3e7681159130b7b6e0e
+validated-head-commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
+  conclusion: success
 chapter:
   id: DOC-L2-CH24
   path: Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 0
   chapter-lines: 2645
   chapter-headings: 48
   chapter-code-and-data-blocks: 61
@@ -39,15 +39,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29809232903
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29809232871
+    conclusion: success
   artifact:
-    id: null
+    id: 8486719468
     name: chapter-validation-without-pdf
-    digest: null
+    digest: sha256:9bab85f163c550f7e212ac20144d6d81f72b1ac94216ab7495f61b9fd18b3f11
 reservations:
   - Godot parser not executed.
   - Typed collections not runtime-verified.
