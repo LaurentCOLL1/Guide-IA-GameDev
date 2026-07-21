@@ -9,7 +9,8 @@ import re
 ROOT = Path('.')
 NOW = datetime.now(ZoneInfo('Europe/Paris')).replace(microsecond=0).isoformat()
 HEADER_RE = re.compile(
-    r'^> \*\*Niveau de raisonnement conseillé :\*\* GPT-5\.6 Sol — (?:Moyenne|Élevée)\s*$',
+    r'^> \*\*Niveau de raisonnement conseillé(?: pour produire ou réviser ce chapitre)? :\*\* '
+    r'GPT-5\.6 Sol — (?:Moyenne|Élevée)\s*$',
     flags=re.MULTILINE,
 )
 
@@ -23,7 +24,7 @@ for path in chapter_paths:
         path.write_text(updated, encoding='utf-8')
         removed += count
 
-if removed < 10:
+if removed < 15:
     raise SystemExit(f'Nombre inattendu de lignes lecteur retirées : {removed}')
 
 validator_path = ROOT / 'tools/validate_chapters.py'
