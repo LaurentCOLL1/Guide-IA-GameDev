@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.17.1"
+version: "1.18.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -57,7 +57,7 @@ Project Asteria
 
 ## Partie III — Industrialisation du projet
 
-26. Outils d’édition internes et pipelines de contenu — à rédiger
+26. [Outils d’édition internes et pipelines de contenu](CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md) — **rédigé, repéré, expliqué bloc par bloc, pipelines déterministes et transactions staged documentés, audité au niveau static-review**
 27. Tests unitaires, tests d’intégration et simulations — à rédiger
 28. Journalisation, diagnostic et reproductibilité — à rédiger
 29. Automatisation Python et génération de données — à rédiger
@@ -92,6 +92,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 23](QA/AUDIT-CHAPITRE-23.md) ;
 - [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
 - [audit du chapitre 25](QA/AUDIT-CHAPITRE-25.md) ;
+- [audit du chapitre 26](QA/AUDIT-CHAPITRE-26.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -121,7 +122,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 25 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
+Les chapitres 3 à 26 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
 
 ## Principes du Livre II
 
@@ -149,4 +150,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt-cinq chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Les **douze systèmes sur douze** de la partie gameplay sont documentés. Le chapitre 25 distingue faits narratifs, interprétations, quêtes, conséquences, codex et connaissances, tout en laissant les systèmes 14 à 24 propriétaires de leurs états. Les réserves runtime et le PDF restent différés conformément au protocole QA.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt-six chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation, les quatre chapitres de plateforme IA locale et les douze systèmes de gameplay sont complets. La partie industrialisation compte **un chapitre sur cinq** : outils d’édition, validation, import, provenance et pipelines de contenu. Les réserves runtime et le PDF restent différés conformément au protocole QA.

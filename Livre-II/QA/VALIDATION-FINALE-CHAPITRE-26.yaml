@@ -1,0 +1,63 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH26
+status: pending
+validation-date: 2026-07-21
+validated-base-commit: null
+validated-head-commit: null
+evidence-closure:
+  commit: null
+  conclusion: pending
+chapter:
+  id: DOC-L2-CH26
+  path: Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 1906
+  chapter-headings: 72
+  chapter-code-and-data-blocks: 72
+  code-explanation-markers: 72
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  editor-code-separated-from-runtime: true
+  plugin-registration-symmetric: true
+  editor-mutations-undoable: true
+  source-artifact-cache-separated: true
+  canonical-serialization-and-hashing: true
+  provenance-and-receipts-recorded: true
+  staged-file-transaction: true
+  importers-versioned-and-bounded: true
+  ai-output-remains-draft: true
+  runtime-authorities-preserved: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Godot parser not executed.
+  - EditorPlugin not enabled in a materialized project.
+  - Dock and inspector not instantiated.
+  - Editor undo/redo not runtime-tested.
+  - Custom importer not registered or executed.
+  - File transaction and recovery not tested.
+  - Local AI service not called.
+  - Headless validation not executed on Starter Kit.
+  - Large-catalogue performance not measured.
+  - PDF deferred until end of Livre II.

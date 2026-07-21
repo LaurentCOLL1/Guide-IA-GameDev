@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.25.2"
+version: "3.26.0"
 lang: "fr-FR"
-last-updated: "2026-07-21T12:24:22+02:00"
+last-updated: "2026-07-21T12:47:15+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 25 chapitres sur 30.**
+**En cours : 26 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -142,7 +142,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 #### Partie D — Industrialisation
 
-26. Outils d’édition internes et pipelines de contenu.
+26. Outils d’édition internes et pipelines de contenu — terminé au niveau `static-review`.
 27. Tests unitaires, tests d’intégration et simulations.
 28. Journalisation, diagnostic et reproductibilité.
 29. Automatisation Python et génération de données.
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 25 : **Élevée**.
+Chapitres 3 à 26 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -237,7 +237,7 @@ Décision utilisateur du 19 juillet 2026 :
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.4`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.6`.
 
 Les workflows ont des responsabilités séparées :
 
@@ -627,6 +627,22 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - IA locale consultative avec repli déterministe ;
 - restauration globale préparée avant remplacement ;
 - définitions, vues, caches, index et présentation exclus de la persistance.
+
+### 11.21 Outils d’édition internes et pipelines de contenu
+
+- scripts `@tool` isolés du runtime et gardés par le contexte éditeur ;
+- cycle de vie des plugins symétrique, sans dock, inspecteur ni importeur résiduel ;
+- modifications de scènes et ressources ouvertes intégrées à l’annulation de l’éditeur ;
+- sources canoniques, artefacts générés et caches strictement séparés ;
+- validation structurée, bornée et fondée sur des codes stables ;
+- dépendances explicites, cycles refusés et ordre topologique déterministe ;
+- sérialisation canonique avant calcul d’empreinte ;
+- manifestes, provenance et reçus conservés avec les artefacts ;
+- publication de fichiers par staging, vérification et promotion contrôlée ;
+- importeurs versionnés, idempotents et sans réimportation récursive ;
+- sortie IA limitée au statut de brouillon jusqu’à validation et approbation ;
+- exécution headless disponible pour la validation de contenu ;
+- chapitres 14 à 25 maintenus comme autorités exclusives du runtime.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1400,13 +1416,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas charger directement dans les dépôts narratifs actifs ;
 - ne pas persister un index vectoriel dérivé ;
 
+- ne pas écrire directement un fichier canonique depuis un bouton d’éditeur ;
+- ne pas modifier une scène ouverte sans transaction d’annulation ;
+- ne pas utiliser un chemin ou un libellé comme identité de contenu ;
+- ne pas exécuter un nom de méthode provenant des données ;
+- ne pas mélanger source canonique, artefact généré et cache ;
+- ne pas calculer une empreinte depuis le temps réel ou une sérialisation instable ;
+- ne pas publier un lot sans staging, vérification et promotion ;
+- ne pas promouvoir automatiquement une sortie IA ;
+- ne pas lancer un scan ou une réimportation pendant un import actif ;
+- ne pas donner au plugin d’éditeur une autorité runtime ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 25 chapitres sur 30 ;
+- progression : 26 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1429,26 +1456,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 23 : version `1.0.0` ;
 - chapitre 24 : version `1.0.0` ;
 - chapitre 25 : version `1.0.0` ;
+- chapitre 26 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 25 est terminé au niveau `static-review`. La narration distingue faits, interprétations, quêtes, conséquences et connaissances, puis orchestre les systèmes 14 à 24 sans reprendre leur autorité.
+Le chapitre 26 est terminé au niveau `static-review`. Les outils d’édition séparent sources, artefacts et caches, enregistrent provenance et reçus, puis publient par transactions staged sans déplacer les autorités runtime.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
+Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : plugins d’éditeur, docks, inspecteurs, importeurs, validateurs de données, génération assistée et pipelines de contenu. Le chapitre 26 industrialisera la production sans déplacer les autorités runtime des chapitres 14 à 25.
+Périmètre attendu : tests unitaires, tests d’intégration, doubles de test, fixtures, simulations déterministes, campagnes de non-régression et critères de passage. Le chapitre 27 vérifiera les contrats des chapitres 1 à 26 sans confondre tests, diagnostics et pipelines de génération.
 
 ## 27. Journal
+
+### 2026-07-21T12:47:15+02:00 — version 3.26.0
+
+- chapitre 26 créé, relu, corrigé et audité au niveau `static-review` ;
+- plugins d’éditeur, docks, inspecteurs, annulation, validation, importeurs et exécution headless documentés ;
+- séparation source/artefact/cache, sérialisation canonique, empreintes, manifestes, provenance et reçus explicités ;
+- staging, transactions de fichiers, import incrémental et IA limitée aux brouillons documentés ;
+- index, roadmap, `contents.txt`, audit et preuve QA initiale mis à jour ;
+- prochaine action déplacée vers le chapitre 27 — Tests unitaires, tests d’intégration et simulations, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-21T12:24:22+02:00 — version 3.25.2
 
