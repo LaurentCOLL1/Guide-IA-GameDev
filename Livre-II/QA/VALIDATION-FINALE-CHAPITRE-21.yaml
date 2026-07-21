@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH21
-status: pending
+status: complete
 validation-date: '2026-07-21'
 validated-base-commit: 4e0c7152a76aefc93ccf7a115ccbee23e5965385
-validated-head-commit: null
+validated-head-commit: bbfced8c7792c98938c5c3e989e14fd22d9e47d8
 chapter:
   id: DOC-L2-CH21
   path: Livre-II/CHAPITRE-21-Economie.md
   version: 1.0.2
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 0
   chapter-lines: 3145
   chapter-headings: 64
   chapter-code-and-data-blocks: 60
@@ -45,15 +45,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29855954911
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29855954936
+    conclusion: success
   artifact:
-    id: null
+    id: 8505270544
     name: chapter-validation-without-pdf
-    digest: null
+    digest: sha256:d0a0b1d6b63ffb37588c7aeb0e26a780b23a116553e7db24b156b78c1bc3e826
 reservations:
 - Godot parser not executed.
 - Typed Dictionary signatures not runtime-verified.
@@ -68,5 +68,5 @@ reservations:
 - Cross-platform replay not verified.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: bbfced8c7792c98938c5c3e989e14fd22d9e47d8
+  conclusion: success
