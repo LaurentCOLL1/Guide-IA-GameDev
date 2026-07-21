@@ -1,0 +1,60 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH25
+status: complete
+validation-date: 2026-07-21
+validated-base-commit: 67567c09fe4f8688aab3f0d598a513cad4c8a67c
+validated-head-commit: 7e4ab112afd415c8a42c19ca7f2a7adacc328497
+evidence-closure:
+  commit: 7e4ab112afd415c8a42c19ca7f2a7adacc328497
+  conclusion: success
+chapter:
+  id: DOC-L2-CH25
+  path: Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 1049
+  chapter-headings: 53
+  chapter-code-and-data-blocks: 56
+  code-explanation-markers: 56
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  facts-distinct-from-interpretations: true
+  stable-narrative-identities: true
+  closed-condition-registry: true
+  indeterminate-never-grants-success: true
+  idempotent-fact-processing: true
+  multi-authority-consequence-commit: true
+  knowledge-relative-to-holder-and-source: true
+  vector-index-remains-derived: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29817948721
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29817948785
+    conclusion: success
+  artifact:
+    id: 8490121101
+    name: chapter-validation-without-pdf
+    digest: sha256:d4f0080d1b5a42710ee4daed11277c77c200bf99404715fa0fbd2b780e5f2403
+reservations:
+  - Godot parser not executed.
+  - Typed collections not runtime-verified.
+  - Multi-authority narrative commit not run.
+  - Gameplay adapters not materialized.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Large-scale performance not measured.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
