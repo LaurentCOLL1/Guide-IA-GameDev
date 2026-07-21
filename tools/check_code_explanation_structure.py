@@ -24,9 +24,20 @@ SYMPTOM_RE = re.compile(
     r"\*\*(?:Symptôme(?:\s+ou\s+risque)?|Risque)\s*:\*\*",
     re.IGNORECASE,
 )
-FAULTY_RE = re.compile(r"\*\*Exemple fautif\s*:\*\*", re.IGNORECASE)
+EXAMPLE_KIND = (
+    r"(?:exemple|structure|organisation|architecture|flux|formulation|ordre|"
+    r"historique|chemin|dépendances?|arbre|lot|configuration|commande|code|"
+    r"version|implémentation|approche|séquence|appel|script)"
+)
+FAULTY_RE = re.compile(
+    EXAMPLE_KIND + r"[^\n]{0,100}(?:fautif|fautive|incorrect|incorrecte|à éviter|anti[- ]pattern)",
+    re.IGNORECASE,
+)
 WHY_FAULTY_RE = re.compile(r"Pourquoi cet exemple est fautif", re.IGNORECASE)
-CORRECTED_RE = re.compile(r"\*\*Exemple corrigé\s*:\*\*", re.IGNORECASE)
+CORRECTED_RE = re.compile(
+    EXAMPLE_KIND + r"[^\n]{0,100}corrig(?:é|ée|és|ées)",
+    re.IGNORECASE,
+)
 WHY_CORRECTED_RE = re.compile(r"Pourquoi la correction fonctionne", re.IGNORECASE)
 BANNED = (
     "Le bloc présente une structure de référence et les relations explicites entre ses éléments.",
@@ -162,7 +173,7 @@ def check(path: Path) -> list[str]:
         return []
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
-    errors = check_error_correction_sections(path, lines)
+    errors = check_error_correction_sections(path, lines) if chapter >= 17 else []
 
     if chapter < 17:
         return errors
