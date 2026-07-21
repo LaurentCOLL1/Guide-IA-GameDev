@@ -1,0 +1,41 @@
+name: Chapter 23 Reconstruction Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  reconstruct:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Reconstruct exact chapter draft
+        shell: bash
+        run: |
+          python3 .qa/ch23-reconstruct.py
+          test "$(wc -c < Livre-II/CHAPITRE-23-Politique-factions-et-justice.md)" -eq 148702
+          test "$(grep -c '<!-- qa:code-explanation -->' Livre-II/CHAPITRE-23-Politique-factions-et-justice.md)" -eq 71
+          test "$(grep -c '^### 48\.[0-9][0-9]* ' Livre-II/CHAPITRE-23-Politique-factions-et-justice.md)" -eq 10
+          ! grep -q '__CONTENT_TOO_LARGE_PLACEHOLDER__' Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
+          ! grep -q 'Validate Chapters Without PDF' Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
+
+      - name: Remove payload and commit chapter
+        shell: bash
+        run: |
+          rm -rf .qa/ch23-payload
+          rm -f .qa/ch23-reconstruct.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): materialize chapter 23 draft"
+          git push origin HEAD:${{ github.head_ref }}
