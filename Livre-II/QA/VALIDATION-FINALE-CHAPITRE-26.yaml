@@ -1,24 +1,24 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH26
-status: complete
+status: pending
 validation-date: 2026-07-21
-validated-base-commit: c48386ee898d9eb7a273e4d9e88bdc1cd8fc5d75
-validated-head-commit: 4be75fc588b5c89b0d4dde85dcccd519a583c206
+validated-base-commit: PENDING
+validated-head-commit: PENDING
 evidence-closure:
-  commit: 4be75fc588b5c89b0d4dde85dcccd519a583c206
-  conclusion: success
+  commit: PENDING
+  conclusion: pending
 chapter:
   id: DOC-L2-CH26
   path: Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 1906
-  chapter-headings: 72
-  chapter-code-and-data-blocks: 72
-  code-explanation-markers: 72
+  chapter-lines: 2592
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 71
+  code-explanation-markers: 71
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
@@ -37,19 +37,24 @@ results:
   importers-versioned-and-bounded: true
   ai-output-remains-draft: true
   runtime-authorities-preserved: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 71
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 267
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29824366120
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   validate-usage-contexts:
-    run-id: 29824366148
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   artifact:
-    id: 8492665912
+    id: 0
     name: chapter-validation-without-pdf
-    digest: sha256:283578596a01cf6631583c89cb5ad5d77ae8fa52b7a21384d72155e1a09f17cb
+    digest: pending
 reservations:
   - Godot parser not executed.
   - EditorPlugin not enabled in a materialized project.

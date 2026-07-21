@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 25"
 id: "DOC-L2-QA-AUDIT-CH25"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH25"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-21T11:20:30+02:00"
-last-verified: "2026-07-21T11:20:30+02:00"
+audit-date: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T14:38:26+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,10 +19,10 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch25-narration
 
 ## 2. Résultats
 
-- lignes finales : **1049** ;
-- titres Markdown : **53** ;
-- blocs de code ou de données : **56** ;
-- marqueurs d’explication : **56** ;
+- lignes finales : **1550** ;
+- titres Markdown : **55** ;
+- blocs de code ou de données : **55** ;
+- marqueurs d’explication : **55** ;
 - cas d’erreurs détaillés : **10** ;
 - contre-exemples expliqués : **10** ;
 - corrections expliquées : **10** ;
@@ -32,6 +32,10 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch25-narration
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
+- unités d’explication antérieures conservées : **55** ;
+- unités d’explication antérieures perdues : **0** ;
+- points pédagogiques complémentaires ajoutés : **193** ;
+- sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et frontières
 
@@ -43,7 +47,8 @@ Les signatures, types, sentinelles, révisions, copies détachées, décisions �
 
 ## 5. Explications pédagogiques
 
-Les **56** blocs possèdent **56** marqueurs d’explication. Les dix erreurs suivent le format fautif, justification, correction et différence.
+
+Les **55** blocs possèdent **55** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **55** unités conservées et **0** unité perdue. Le chapitre a également reçu **193** points complémentaires propres aux extraits trop courts.
 
 ## 6. Réserves
 

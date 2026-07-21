@@ -1,13 +1,13 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
-status: complete
-validation-date: 2026-07-20
-validated-base-commit: 86ce004b5bb115a8a7d17f92adf0af6049dfcf9c
-validated-head-commit: f49bd9662700f5963c229fceaa2634c80a9b2f63
+status: pending
+validation-date: 2026-07-21
+validated-base-commit: PENDING
+validated-head-commit: PENDING
 chapter:
   id: DOC-L2-CH17
   path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
-  version: 1.0.3
+  version: 1.0.4
   audit-level: static-review
 results:
   sources-declared: 78
@@ -16,7 +16,7 @@ results:
   unique-identifiers: 73
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2565
+  chapter-lines: 2696
   chapter-headings: 67
   chapter-significant-code-blocks: 35
   chapter-code-and-data-blocks: 68
@@ -51,19 +51,24 @@ results:
   audit-timestamps-with-offset: true
   next-step-absent-from-reader-chapter: true
   project-asteria-final-synthesis: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 200
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29731751095
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   validate-usage-contexts:
-    run-id: 29731751073
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   artifact:
-    id: 8456555264
+    id: 0
     name: chapter-validation-without-pdf
-    digest: sha256:038113a3dd32335b2c3cfa4b95dd54d344cf7a1c22ccd853e503deb1276882f5
+    digest: pending
 reservations:
   - Godot parser not executed.
   - Demo scene not instantiated.

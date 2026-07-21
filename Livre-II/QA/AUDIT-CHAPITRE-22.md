@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 22"
 id: "DOC-L2-QA-AUDIT-CH22"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH22"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T00:48:43+02:00"
-last-verified: "2026-07-21T00:48:43+02:00"
+audit-date: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T14:38:26+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch22-mo
 
 ## 2. Résultats
 
-- lignes finales : **3054** ;
+- lignes finales : **3258** ;
 - titres Markdown : **69** ;
 - blocs de code ou de données : **61** ;
 - marqueurs d’explication : **61** ;
@@ -31,6 +31,10 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch22-mo
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
+- unités d’explication antérieures conservées : **225** ;
+- unités d’explication antérieures perdues : **0** ;
+- points pédagogiques complémentaires ajoutés : **0** ;
+- sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et périmètre
 
@@ -74,7 +78,8 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **61** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée. Aucune rubrique ne justifie un extrait en répétant seulement le titre de sa section.
+
+Les **61** blocs possèdent **61** marqueurs et une rubrique `Explication structurée du bloc`. Chaque information antérieure a été reclassée sans suppression sous un point adapté — rôle, responsabilités, paramètres et types, retours, déroulement, effets de bord, invariants, résultat ou limites. Lorsqu’aucune rubrique standard ne convenait, une rubrique technique spécifique a été conservée ou créée. La vérification de préservation recense **225** unités conservées et **0** unité perdue.
 
 ## 7. Règle sémantique des erreurs
 

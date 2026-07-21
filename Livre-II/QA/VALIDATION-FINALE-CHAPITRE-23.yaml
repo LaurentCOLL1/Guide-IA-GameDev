@@ -1,21 +1,21 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH23
-status: complete
+status: pending
 validation-date: 2026-07-21
-validated-base-commit: 7aa5fd8d633db882a26166cb3d3937ca9242a172
-validated-head-commit: 9a5029e337d329744563134bd49a33ef5065bd0c
+validated-base-commit: PENDING
+validated-head-commit: PENDING
 evidence-closure:
-  commit: 9a5029e337d329744563134bd49a33ef5065bd0c
-  conclusion: success
+  commit: PENDING
+  conclusion: pending
 chapter:
   id: DOC-L2-CH23
   path: Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 4127
+  chapter-lines: 4374
   chapter-headings: 75
   chapter-code-and-data-blocks: 71
   code-explanation-markers: 71
@@ -34,19 +34,24 @@ results:
   idempotent-political-commands: true
   multi-authority-sanction-commit: true
   save-prepared-before-replacement: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 278
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29796448401
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   validate-usage-contexts:
-    run-id: 29796448443
-    conclusion: success
+    run-id: 0
+    conclusion: pending
   artifact:
-    id: 8482150144
+    id: 0
     name: chapter-validation-without-pdf
-    digest: sha256:77f141e435e0a05e44cfd2fd506238c9ab61a477461f64ab3e351e2634959ea7
+    digest: pending
 reservations:
   - Godot parser not executed.
   - Typed collections not runtime-verified.

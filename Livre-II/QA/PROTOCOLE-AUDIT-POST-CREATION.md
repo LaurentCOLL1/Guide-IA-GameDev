@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.6"
+version: "1.7.7"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-21T12:24:22+02:00"
+last-verified: "2026-07-21T14:38:26+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -198,6 +198,16 @@ Pour les chapitres 14 à 25 consacrés aux systèmes de gameplay, la dernière s
 La présence d’instructions de production dans un chapitre publié, ou l’absence de synthèse `Project Asteria` dans un chapitre de système, bloque l’audit.
 
 **Règle de décision :** si un lecteur débutant doit deviner la fonction d’une ligne importante, d’un paramètre, d’un type, d’un retour ou d’un effet de bord, le bloc est non conforme et le chapitre ne peut pas passer l’audit.
+
+### Q1.1.3 — Structure, conservation et enrichissement des explications
+
+À partir de la révision du 2026-07-21, chaque marqueur `<!-- qa:code-explanation -->` des chapitres 17 et suivants est suivi d’une rubrique `Explication structurée du bloc`. Les points usuels sont : rôle précis, responsabilités des classes ou fonctions, paramètres et types importants, valeur de retour ou code d’échec, déroulement, effets de bord, invariants, résultat attendu et limites.
+
+Cette liste n’est pas fermée. Une information qui ne correspond honnêtement à aucune rubrique reçoit un point spécifique, par exemple `Frontières d’autorité`, `Dépendances et ports utilisés`, `Déterminisme et idempotence`, `Persistance et restauration` ou tout autre libellé technique précis.
+
+Lors d’une restructuration, toute explication déjà publiée est conservée. Elle est déplacée sous le point approprié sans perte de sens ; aucune reformulation générique ne peut la remplacer. L’audit enregistre le nombre d’unités antérieures conservées et impose zéro unité perdue. Les compléments sont ajoutés après cette conservation et restent propres au bloc concerné.
+
+Les comparaisons `Mode Solo` et `Mode Studio` sont du contenu éditorial ordinaire. Elles utilisent des sous-sections, listes ou tableaux Markdown et ne sont placées dans un bloc de code que lorsqu’elles décrivent réellement un format de données ou une sortie littérale à reproduire.
 
 ### Q1.2 — Règle sémantique des erreurs et corrections
 
