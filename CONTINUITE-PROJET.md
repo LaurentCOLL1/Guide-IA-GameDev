@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.22.2"
+version: "3.23.0"
 lang: "fr-FR"
-last-updated: "2026-07-21T00:57:24+02:00"
+last-updated: "2026-07-21T04:38:43+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 22 chapitres sur 30.**
+**En cours : 23 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -136,7 +136,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 20. Inventaire et réputation des objets — terminé au niveau `static-review`.
 21. Économie — terminé au niveau `static-review`.
 22. Monde vivant et simulation écologique — terminé au niveau `static-review`.
-23. Politique, factions et justice.
+23. Politique, factions et justice — terminé au niveau `static-review`.
 24. Construction et gestion de domaines.
 25. Narration, quêtes, codex et connaissances.
 
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 22 : **Élevée**.
+Chapitres 3 à 23 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -571,6 +571,27 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - l’écologie fournit rareté, abondance et observations structurées sans calculer de prix ;
 - factions, lois, territoires politiques, domaines et narration restent dans les chapitres 23 à 25 ;
 - définitions, capacités dérivées, contextes, modes, nœuds, signaux, commandes et candidats sont exclus de la persistance.
+
+### 11.18 Politique, factions et justice
+
+- institutions, factions, rangs, fonctions et lois utilisent des identifiants stables ;
+- définitions de conception et états vivants restent séparés ;
+- adhésions et mandats portent statuts, ticks, causes et révisions ;
+- relations sociales et liens familiaux ne créent aucun droit institutionnel implicite ;
+- lois et promulgations sont versionnées et immuables après publication ;
+- juridictions et périodes d’effet utilisent des références logiques et l’horloge du monde ;
+- autorisations calculées distinguent `ALLOW`, `DENY`, `NOT_APPLICABLE` et `INDETERMINATE` ;
+- seule une décision `ALLOW` autorise une action protégée ;
+- une infraction rapportée ouvre un dossier sans établir la culpabilité ;
+- preuves, faits sources, recevabilité, poids et verdicts restent distincts ;
+- la chaîne de garde utilise identité, séquence, provenance et empreinte ;
+- verdicts référencent lois, preuves et codes de raisonnement ;
+- sanctions sont décrites par un plan puis préparées par les autorités propriétaires ;
+- amendes, confiscations, restrictions et changements de domaine sont committés avec dossier, verdict et idempotence ;
+- commandes, résultats et décisions durables sont révisionnés et idempotents ;
+- événements sont émis uniquement après commit ;
+- sorties IA restent consultatives et ne peuvent ni promulguer ni condamner ;
+- définitions, droits dérivés, contextes, candidats, observations et présentation sont exclus de la persistance.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1311,6 +1332,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas réduire une réserve avant la préparation du rendement d’inventaire ;
 - ne pas appliquer deux fois une mort, une naissance ou une récolte portant la même identité ;
 - ne pas laisser une sortie IA remplacer directement populations, ressources ou horloge ;
+- ne pas utiliser un nom affiché comme identité institutionnelle ;
+- ne pas déduire une adhésion, un rang ou un droit depuis une relation sociale ;
+- ne pas modifier en place une version de loi promulguée ;
+- ne pas autoriser une action protégée par simple absence de règle ;
+- ne pas traiter une accusation ou un rapport comme un verdict ;
+- ne pas copier un objet, une transaction ou un événement comme preuve autoritaire ;
+- ne pas laisser une sortie IA promulguer, juger ou condamner ;
+- ne pas appliquer séparément amende, confiscation, restriction ou changement de domaine ;
+- ne pas dater adhésions, mandats ou lois avec l’heure système ;
+- ne pas émettre un événement politique ou judiciaire avant commit ;
 
 - ne pas oublier la mise à jour de ce fichier.
 
@@ -1318,7 +1349,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 22 chapitres sur 30 ;
+- progression : 23 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1338,26 +1369,38 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 20 : version `1.0.0` ;
 - chapitre 21 : version `1.0.0` ;
 - chapitre 22 : version `1.0.1` ;
+- chapitre 23 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 22 est terminé au niveau `static-review`. Le monde vivant utilise une horloge logique persistée, sépare populations et représentations, simule les régions avec des étapes agrégées bornées et coordonne les récoltes avec l’inventaire. L’économie reçoit uniquement des indices structurés.
+Le chapitre 23 est terminé au niveau `static-review`. La politique et la justice séparent institutions, droits, lois, allégations, preuves, verdicts et sanctions, puis coordonnent les effets externes sans reprendre l’autorité des autres systèmes.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
+Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : identités et membres de factions, institutions, rangs et mandats, lois versionnées, droits et autorisations, infractions, preuves, enquêtes, décisions et sanctions. Le chapitre 23 consommera les identités, relations, familles, objets, économie et régions par des ports sans reprendre leur autorité ; les domaines et bâtiments resteront au chapitre 24, les quêtes et conséquences narratives au chapitre 25.
+Périmètre attendu : domaines et parcelles, titres et droits d’usage, bâtiments, emplacements, plans de construction, matériaux, progression de chantier, production, entretien et permissions d’accès. Le chapitre 24 consommera juridictions et droits du chapitre 23, objets du chapitre 20, coûts du chapitre 21 et ressources du chapitre 22 par des ports ; les quêtes et conséquences narratives resteront au chapitre 25.
 
 ## 27. Journal
+
+### 2026-07-21T04:38:43+02:00 — version 3.23.0
+
+- chapitre 23 créé, relu, corrigé et audité au niveau `static-review` ;
+- institutions, factions, adhésions, rangs, mandats, lois, autorisations, dossiers, preuves, verdicts et sanctions documentés ;
+- invariants de restauration des rangs, fonctions, institutions et sièges vacants renforcés ;
+- sanctions multi-autorités et idempotence explicitées ;
+- index, roadmap, `contents.txt`, audit et preuve QA initiale mis à jour ;
+- prochaine action déplacée vers le chapitre 24 — Construction et gestion de domaines, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
 
 ### 2026-07-21T00:57:24+02:00 — version 3.22.2
 

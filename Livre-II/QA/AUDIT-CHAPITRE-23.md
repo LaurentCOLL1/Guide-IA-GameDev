@@ -1,14 +1,4 @@
-from pathlib import Path
-import json
-ROOT=Path('.')
-AUDIT=ROOT/'Livre-II/QA/AUDIT-CHAPITRE-23.md'
-PROOF=ROOT/'Livre-II/QA/VALIDATION-FINALE-CHAPITRE-23.yaml'
-def write(path,text):
- path.parent.mkdir(parents=True,exist_ok=True); path.write_text(text,encoding='utf-8',newline='\n')
-m=json.loads(Path('.qa/ch23-metrics.json').read_text(encoding='utf-8'))
-stamp=m['stamp']; date=m['date']; lines=m['lines']; headings=[None]*m['headings']; blocks=m['blocks']; markers=m['markers']; error_cases=m['error_cases']; faulty=m['faulty']; corrected=m['corrected']
-
-audit = f'''---
+---
 title: "Audit du Livre II — Chapitre 23"
 id: "DOC-L2-QA-AUDIT-CH23"
 status: "complete"
@@ -16,8 +6,8 @@ version: "1.0.0"
 chapter-id: "DOC-L2-CH23"
 chapter-version: "1.0.0"
 audit-level: "static-review"
-audit-date: "{stamp}"
-last-verified: "{stamp}"
+audit-date: "2026-07-21T04:38:43+02:00"
+last-verified: "2026-07-21T04:38:43+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -29,13 +19,13 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch23-po
 
 ## 2. Résultats
 
-- lignes finales : **{lines}** ;
-- titres Markdown : **{len(headings)}** ;
-- blocs de code ou de données : **{blocks}** ;
-- marqueurs d’explication : **{markers}** ;
-- cas d’erreurs détaillés : **{error_cases}** ;
-- contre-exemples expliqués : **{faulty}** ;
-- corrections expliquées : **{corrected}** ;
+- lignes finales : **4127** ;
+- titres Markdown : **75** ;
+- blocs de code ou de données : **71** ;
+- marqueurs d’explication : **71** ;
+- cas d’erreurs détaillés : **10** ;
+- contre-exemples expliqués : **10** ;
+- corrections expliquées : **10** ;
 - doublons de titres : **0** ;
 - blocs significatifs sans explication : **0** ;
 - commandes de validation QA dans le chapitre lecteur : **0** ;
@@ -79,7 +69,7 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **{blocks}** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée. Les sections d’erreurs utilisent directement `Pourquoi cet exemple est fautif` et `Pourquoi la correction fonctionne`.
+Les **71** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée. Les sections d’erreurs utilisent directement `Pourquoi cet exemple est fautif` et `Pourquoi la correction fonctionne`.
 
 ## 7. Règle sémantique des erreurs
 
@@ -112,67 +102,3 @@ La dernière section synthétise les décisions retenues pour `Project Asteria`.
 ## 12. Décision
 
 Le chapitre 23 est **accepté au niveau `static-review`**, sous les réserves runtime et PDF de fin de Livre indiquées ci-dessus.
-'''
-write(AUDIT, audit)
-
-proof = f'''schema-version: 1
-evidence-id: DOC-L2-QA-EVIDENCE-CH23
-status: pending
-validation-date: {date}
-validated-base-commit: null
-validated-head-commit: null
-evidence-closure:
-  commit: null
-  conclusion: pending
-chapter:
-  id: DOC-L2-CH23
-  path: Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
-  version: 1.0.0
-  audit-level: static-review
-results:
-  blocking-errors: null
-  warnings: null
-  chapter-lines: {lines}
-  chapter-headings: {len(headings)}
-  chapter-code-and-data-blocks: {blocks}
-  code-explanation-markers: {markers}
-  detailed-error-cases: {error_cases}
-  faulty-examples-explained: {faulty}
-  corrected-examples-explained: {corrected}
-  duplicate-headings: 0
-  reader-qa-procedure-absent: true
-  next-step-absent-from-reader-chapter: true
-  project-asteria-final-synthesis: true
-  stable-political-identities: true
-  versioned-laws: true
-  deny-by-default-authorization: true
-  accusation-distinct-from-verdict: true
-  evidence-chain-of-custody: true
-  idempotent-political-commands: true
-  multi-authority-sanction-commit: true
-  save-prepared-before-replacement: true
-  pdf-produced: false
-  runtime-executed: false
-ci:
-  validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
-  validate-usage-contexts:
-    run-id: null
-    conclusion: pending
-  artifact:
-    id: null
-    name: chapter-validation-without-pdf
-    digest: null
-reservations:
-  - Godot parser not executed.
-  - Typed collections not runtime-verified.
-  - Multi-authority sanction commit not run.
-  - Large-scale performance not measured.
-  - Jurisdiction and sanction adapters not materialized.
-  - Demo scene not instantiated.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
-'''
-write(PROOF, proof)

@@ -1,16 +1,16 @@
 ---
 title: "Livre II — Chapitre 23 : Politique, factions et justice"
 id: "DOC-L2-CH23"
-status: "draft"
-version: "0.9.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 23
-last-verified: "2026-07-21T03:00:18+02:00"
-audit-status: "pending"
-audit-date: "2026-07-21T03:00:18+02:00"
+last-verified: "2026-07-21T04:38:43+02:00"
+audit-status: "complete"
+audit-date: "2026-07-21T04:38:43+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-23.md"
-audit-level: "not-audited"
+audit-level: "static-review"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"
@@ -33,7 +33,7 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
-> **Audit post-création :** en attente — voir `Livre-II/QA/AUDIT-CHAPITRE-23.md`.
+> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-23.md`.
 
 ## 1. Rôle du chapitre
 
@@ -747,8 +747,13 @@ func validate() -> Error:
 	for value: StringName in [mandate_id, institution_id, faction_id, office_id]:
 		if not StableId.is_valid(value):
 			return ERR_INVALID_DATA
-	if not holder_character_id.is_empty() and not CharacterId.is_valid(holder_character_id):
+	if status == Status.ACTIVE and not CharacterId.is_valid(holder_character_id):
 		return ERR_INVALID_DATA
+	if status == Status.VACANT and not holder_character_id.is_empty():
+		return ERR_INVALID_DATA
+	if status not in [Status.ACTIVE, Status.VACANT]:
+		if not holder_character_id.is_empty() and not CharacterId.is_valid(holder_character_id):
+			return ERR_INVALID_DATA
 	if not jurisdiction_id.is_empty() and not StableId.is_valid(jurisdiction_id):
 		return ERR_INVALID_DATA
 	if started_tick < 0 or revision < 0:
@@ -778,7 +783,7 @@ func duplicate_detached() -> MandateState:
 **Explication détaillée du bloc :**
 
 - Le mandat distingue une fin planifiée de sa fin réelle.
-- Un siège vacant peut conserver la fonction et la juridiction sans titulaire.
+- Un mandat actif exige un titulaire valide ; un siège vacant conserve la fonction et la juridiction mais exige un titulaire vide.
 - La juridiction est une référence logique validée par un port.
 - La révocation ne supprime pas l’historique du mandat.
 - Les droits sont dérivés de la fonction, du rang et de la période active.
@@ -802,7 +807,10 @@ var active_membership_by_character: Dictionary[StringName, StringName] = {}
 var mandates: Dictionary[StringName, MandateState] = {}
 
 func validate(catalog: PoliticalCatalog) -> Error:
-	if catalog == null or catalog.get_faction(faction_id) == null:
+	if catalog == null:
+		return ERR_UNCONFIGURED
+	var definition := catalog.get_faction(faction_id)
+	if definition == null:
 		return ERR_DOES_NOT_EXIST
 	if revision < 0 or event_sequence < 0:
 		return ERR_INVALID_DATA
@@ -815,6 +823,8 @@ func validate(catalog: PoliticalCatalog) -> Error:
 			return ERR_INVALID_DATA
 		if membership.faction_id != faction_id or membership.validate() != OK:
 			return ERR_INVALID_DATA
+		if membership.rank_id not in definition.rank_ids:
+			return ERR_INVALID_DATA
 		if membership.status in [MembershipState.Status.ACTIVE, MembershipState.Status.SUSPENDED]:
 			if active_seen.has(membership.character_id):
 				return ERR_ALREADY_EXISTS
@@ -826,6 +836,10 @@ func validate(catalog: PoliticalCatalog) -> Error:
 		if mandate == null or mandate.mandate_id != mandate_id:
 			return ERR_INVALID_DATA
 		if mandate.faction_id != faction_id or mandate.validate() != OK:
+			return ERR_INVALID_DATA
+		if mandate.institution_id != definition.institution_id:
+			return ERR_INVALID_DATA
+		if mandate.office_id not in definition.office_ids:
 			return ERR_INVALID_DATA
 	return OK
 
@@ -859,7 +873,7 @@ func _same_index(
 
 - L’agrégat vérifie d’abord que sa définition de faction existe dans le catalogue.
 - Il garantit au plus une adhésion ouverte par personnage et recalcule l’index secondaire avant de le comparer clé par clé.
-- Les clés de mandats et d’adhésions sont recoupées avec les identifiants contenus dans les valeurs.
+- Les clés sont recoupées avec les identifiants des valeurs ; chaque adhésion utilise un rang autorisé et chaque mandat l’institution et une fonction déclarées par la faction.
 - `duplicate_detached()` copie profondément chaque état vivant et l’index, ce qui évite tout partage mutable avec l’agrégat actif.
 - Les tailles et révisions sont validées avant chaque remplacement.
 
@@ -3449,8 +3463,8 @@ extends RefCounted
 func decode_sections(
 	_document: Dictionary,
 	_catalog: PoliticalCatalog,
-) -> Dictionary:
-	return {}
+) -> Variant:
+	return null
 
 func validate_prepared(
 	_prepared: Dictionary,
@@ -3465,7 +3479,7 @@ func validate_prepared(
 
 - Le décodeur de sections possède une responsabilité bornée : construire factions, recueil, dossiers et registre d’idempotence hors des dépôts actifs.
 - Son implémentation exige les clés exactes de chaque objet, les types JSON attendus, les bornes et les références croisées.
-- Un dictionnaire vide peut être un état préparé valide ; un échec de décodage est représenté par `null`, jamais par `{}`.
+- Le retour `Variant` permet de réserver `{}` à un état préparé vide mais valide et `null` à un échec de décodage.
 - `validate_prepared()` revalide l’ensemble après décodage afin de détecter les références entre sections.
 - Ce contrat sépare la lecture volumineuse des entités de la validation du format racine sans rendre les contrôles facultatifs.
 
@@ -3720,8 +3734,6 @@ var faction_key := faction_display_name
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** le texte localisé n’est pas une identité stable.
 
 **Exemple corrigé :**
@@ -3733,8 +3745,6 @@ var faction_id := PoliticalId.faction("river_council")
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** l’identité reste stable indépendamment de l’affichage.
 
@@ -3753,8 +3763,6 @@ if social_view.affinity > 80:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** une perception sociale n’est ni une admission ni un droit.
 
 **Exemple corrigé :**
@@ -3766,8 +3774,6 @@ var result := membership_service.execute(join_command)
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** une commande causale repasse par capacité, rang, révision et autorisation.
 
@@ -3786,8 +3792,6 @@ law.version = 2
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** la même instance réécrit l’historique applicable.
 
 **Exemple corrigé :**
@@ -3800,8 +3804,6 @@ legislative_service.enact(enact_command)
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** une nouvelle version est enregistrée puis promulguée avec sa propre période.
 
@@ -3820,8 +3822,6 @@ if matching_laws.is_empty():
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** absence de règle et autorisation explicite sont confondues.
 
 **Exemple corrigé :**
@@ -3835,8 +3835,6 @@ if decision.outcome == AuthorizationDecision.Outcome.ALLOW:
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** seul le résultat `ALLOW` autorise l’action protégée.
 
@@ -3855,8 +3853,6 @@ apply_fine(accused_id, 500)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** le rapport n’a ni enquête, ni preuve, ni décision.
 
 **Exemple corrigé :**
@@ -3869,8 +3865,6 @@ var case_result := justice_service.open_case(command)
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** le dossier est ouvert sans présumer de la culpabilité.
 
@@ -3888,8 +3882,6 @@ evidence.payload = inventory_entry.duplicate(true)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** l’objet copié peut diverger de l’autorité et contourner sa garde.
 
 **Exemple corrigé :**
@@ -3902,8 +3894,6 @@ evidence.integrity_digest = inventory_reference_digest
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** la preuve référence l’objet et vérifie son intégrité sans le posséder.
 
@@ -3921,8 +3911,6 @@ verdict.outcome = ai_response["outcome"]
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** la sortie non fiable contourne lois, preuves, juge et révisions.
 
 **Exemple corrigé :**
@@ -3935,8 +3923,6 @@ var draft := verdict_draft_policy.filter(suggestion)
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** la sortie reste un brouillon non autoritaire soumis à une décision validée.
 
@@ -3955,8 +3941,6 @@ inventory.remove(confiscated_id)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** les autorités sont modifiées séquentiellement sans rollback commun.
 
 **Exemple corrigé :**
@@ -3970,8 +3954,6 @@ commit_port.commit_verdict_and_sanctions(case_candidate, case_revision, verdict,
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** tous les candidats sont préparés puis committés comme un lot.
 
@@ -3989,8 +3971,6 @@ mandate.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** le temps mural n’appartient pas à la simulation sauvegardée.
 
 **Exemple corrigé :**
@@ -4002,8 +3982,6 @@ mandate.started_tick = world_clock.logical_tick
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** le mandat utilise l’horloge logique persistée du monde.
 
@@ -4022,8 +4000,6 @@ var code := commit_port.commit_verdict_and_sanctions(...)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
-
 **Pourquoi cet exemple est fautif :** les consommateurs observent un fait qui n’existe peut-être pas.
 
 **Exemple corrigé :**
@@ -4037,8 +4013,6 @@ if code == OK:
 ```
 
 <!-- qa:code-explanation -->
-
-**Explication détaillée du bloc :**
 
 **Pourquoi la correction fonctionne :** l’événement décrit uniquement un lot déjà committé.
 

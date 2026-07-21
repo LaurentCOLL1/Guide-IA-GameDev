@@ -1,0 +1,59 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH23
+status: pending
+validation-date: 2026-07-21
+validated-base-commit: null
+validated-head-commit: null
+evidence-closure:
+  commit: null
+  conclusion: pending
+chapter:
+  id: DOC-L2-CH23
+  path: Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 4127
+  chapter-headings: 75
+  chapter-code-and-data-blocks: 71
+  code-explanation-markers: 71
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  stable-political-identities: true
+  versioned-laws: true
+  deny-by-default-authorization: true
+  accusation-distinct-from-verdict: true
+  evidence-chain-of-custody: true
+  idempotent-political-commands: true
+  multi-authority-sanction-commit: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Godot parser not executed.
+  - Typed collections not runtime-verified.
+  - Multi-authority sanction commit not run.
+  - Large-scale performance not measured.
+  - Jurisdiction and sanction adapters not materialized.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
