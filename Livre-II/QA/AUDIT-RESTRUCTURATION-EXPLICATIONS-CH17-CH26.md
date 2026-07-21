@@ -48,4 +48,4 @@ La conservation a été vérifiée textuellement sur chaque segment extrait avan
 
 ## 5. Décision
 
-La restructuration est acceptée au niveau `static-review`, sous réserve de la réussite des workflows officiels et de la fermeture des preuves QA sur le commit final.
+La restructuration est acceptée au niveau `static-review`. Les workflows officiels ont réussi et les preuves QA des chapitres 17 à 26 sont fermées sur le commit validé.

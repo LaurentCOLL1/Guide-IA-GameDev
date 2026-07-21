@@ -1,13 +1,12 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH22
-status: pending
-validation-date: 2026-07-21
-validated-base-commit: PENDING
-validated-head-commit: PENDING
+status: complete
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 evidence-closure:
-  commit: PENDING
-  runner-run-id: 29785645505
-  conclusion: pending
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
+  conclusion: success
 chapter:
   id: DOC-L2-CH22
   path: Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
@@ -48,25 +47,25 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 0
-    conclusion: pending
+    run-id: 29844293693
+    conclusion: success
   validate-usage-contexts:
-    run-id: 0
-    conclusion: pending
+    run-id: 29844293517
+    conclusion: success
   artifact:
-    id: 0
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Typed Dictionary signatures not runtime-verified.
-  - Arithmetic bounds not runtime-tested.
-  - Population growth balance not measured.
-  - Four-thousand-region scheduling budget not measured.
-  - Ecology-inventory transaction commit not run.
-  - Access and materialization adapters not materialized.
-  - Future weather context not run.
-  - Demo scene not instantiated.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Typed Dictionary signatures not runtime-verified.
+- Arithmetic bounds not runtime-tested.
+- Population growth balance not measured.
+- Four-thousand-region scheduling budget not measured.
+- Ecology-inventory transaction commit not run.
+- Access and materialization adapters not materialized.
+- Future weather context not run.
+- Demo scene not instantiated.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.
