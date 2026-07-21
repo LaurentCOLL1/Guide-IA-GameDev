@@ -85,5 +85,27 @@ SOURCE = SOURCE.replace(
     '        normalized_rendered = re.sub(r"\\s+", " ", rendered).strip()\n        for segment in preserved_texts:\n            normalized_segment = re.sub(r"\\s+", " ", segment).strip()\n            if normalized_segment not in normalized_rendered:\n                raise RuntimeError(f"chapitre {chapter}: segment antérieur perdu: {segment}")',
     1,
 )
+SOURCE = SOURCE.replace(
+    '            if len(points) < 4:\n                raise RuntimeError(f"chapitre {chapter}: moins de quatre rubriques spécifiques ligne {marker + 1}")',
+    '''            if len(points) < 4 and code.strip():
+                first_line = meaningful[0]
+                last_line = meaningful[-1]
+                identifiers = uniq(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", code))
+                micro_points = [
+                    ("Instruction principale", f"L’instruction exacte est `{first_line}`."),
+                    ("Symboles manipulés", "Les symboles visibles sont " + ", ".join(f"`{name}`" for name in identifiers[:8]) + "." if identifiers else f"Le littéral visible est `{first_line}`."),
+                    ("Opération visible", f"La syntaxe de `{first_line}` montre l’opération locale réalisée par ce micro-extrait."),
+                    ("Portée de l’extrait", f"Le bloc `{language or 'text'}` contient {len(meaningful)} ligne(s) significative(s) et se termine par `{last_line}`."),
+                ]
+                existing_labels = {label for label, _ in points}
+                for label, value in micro_points:
+                    if label not in existing_labels and len(points) < 4:
+                        points.append((label, value))
+                        existing_labels.add(label)
+                points = group_points(points)
+            if len(points) < 4:
+                raise RuntimeError(f"chapitre {chapter}: moins de quatre rubriques spécifiques ligne {marker + 1}")''',
+    1,
+)
 
 exec(compile(SOURCE, __file__, "exec"))
