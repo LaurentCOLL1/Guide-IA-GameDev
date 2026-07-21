@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.26.0"
+version: "3.26.1"
 lang: "fr-FR"
-last-updated: "2026-07-21T12:47:15+02:00"
+last-updated: "2026-07-21T17:35:51+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -197,6 +197,8 @@ Chapitres 3 à 26 : **Élevée**.
 La recommandation GPT-5.6 Sol décrit l’effort de raisonnement conseillé pour **produire** un chapitre. Elle ne décrit pas le chapitre lui-même et ne doit donc apparaître ni sous la clé `recommended-reasoning`, ni dans l’en-tête ou le corps destiné au lecteur, ni dans l’audit ou la preuve QA du document publié.
 
 ## 8. Audit par chapitre
+
+Les explications de code des chapitres 17 et suivants conservent toute information pédagogique déjà publiée, la reclassent sous un point explicite et créent un point technique supplémentaire lorsqu’aucune rubrique standard ne convient. Les sections Solo/Studio restent en Markdown ordinaire sauf représentation littérale d’un format.
 
 Chaque chapitre suit :
 
@@ -1477,6 +1479,36 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : tests unitaires, tests d’intégration, doubles de test, fixtures, simulations déterministes, campagnes de non-régression et critères de passage. Le chapitre 27 vérifiera les contrats des chapitres 1 à 26 sans confondre tests, diagnostics et pipelines de génération.
 
 ## 27. Journal
+
+### 2026-07-21T17:35:51+02:00 — reclassement fidèle des explications historiques
+
+- chapitres 17 à 24 reconstruits depuis leurs explications présentes sur `main` ;
+- libellés historiques utilisés comme autorité de classement ;
+- **1760** unités conservées mot pour mot et **0** perdue ;
+- aucune modification des exemples de code ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
+
+### 2026-07-21T15:28:42+02:00 — affinage qualitatif des explications restructurées
+
+- libellés génériques supprimés des chapitres 17 à 26 ;
+- explications antérieures décomposées en **2082** segments conservés mot pour mot ;
+- rubriques dupliquées regroupées et catégories réattribuées selon le contenu réel ;
+- **506** segments complémentaires spécifiques conservés pour les chapitres 25 et 26 ;
+- contrôle permanent renforcé contre les formulations génériques et les rubriques dupliquées ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
+
+### 2026-07-21T14:38:26+02:00 — restructuration pédagogique des chapitres 17 à 26
+
+- explications des blocs restructurées sous des rubriques explicites ;
+- **1854** unités pédagogiques antérieures conservées et **0** perdue ;
+- **460** points complémentaires ajoutés aux chapitres 25 et 26 ;
+- sections Solo/Studio des chapitres 25 et 26 converties en Markdown ordinaire ;
+- protocole et contrôle automatique renforcés ;
+- audits et preuves QA préparés pour une nouvelle validation ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
 
 ### 2026-07-21T12:47:15+02:00 — version 3.26.0
 

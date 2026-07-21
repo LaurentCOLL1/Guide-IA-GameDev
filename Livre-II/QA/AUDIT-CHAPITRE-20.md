@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 20"
 id: "DOC-L2-QA-AUDIT-CH20"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH20"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-20T17:50:09+02:00"
-last-verified: "2026-07-20T17:50:09+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été matérialisé sur une branche dédiée et dans une pull requ
 
 ## 2. Résultats
 
-- lignes finales : **2692** ;
+- lignes finales : **2762** ;
 - titres Markdown : **59** ;
 - blocs de code ou de données : **56** ;
 - marqueurs d’explication : **56** ;
@@ -31,6 +31,10 @@ Le chapitre a été matérialisé sur une branche dédiée et dans une pull requ
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
+- unités d’explication antérieures conservées : **209** ;
+- segments d’explication antérieurs perdus : **0** ;
+- points pédagogiques complémentaires ajoutés : **0** ;
+- sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et périmètre
 
@@ -100,9 +104,9 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **56** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur les entrées, types, paramètres, retours, effets, invariants, déroulement, résultat attendu et frontières.
 
-Aucune rubrique ne justifie un extrait en répétant seulement le titre de sa section.
+
+Les **56** blocs possèdent **56** marqueurs. Les explications antérieures ont été décomposées en **202** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 7. Règle sémantique des erreurs
 

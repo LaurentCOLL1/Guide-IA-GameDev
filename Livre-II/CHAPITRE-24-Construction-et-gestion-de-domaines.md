@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 24 : Construction et gestion de domaines"
 id: "DOC-L2-CH24"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 24
-last-verified: "2026-07-21T09:05:12+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T09:05:12+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-24.md"
 audit-level: "static-review"
 reference-engine:
@@ -33,6 +33,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-24.md`.
+> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
 
 ## 1. Rôle du chapitre
 
@@ -127,17 +128,17 @@ DomainTransactionCommitPort
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le service de domaine orchestre sans écrire directement les dépôts propriétaires des autres systèmes.
+- **Frontières d’autorité :** Le service de domaine orchestre sans écrire directement les dépôts propriétaires des autres systèmes.
 
-- La décision politique et le contexte écologique sont des snapshots validés, pas des références de scène.
+- **Persistance et restauration :** La décision politique et le contexte écologique sont des snapshots validés, pas des références de scène.
 
-- Les matériaux et le coût restent candidats jusqu’au commit commun.
+- **Point d’explication complémentaire :** Les matériaux et le coût restent candidats jusqu’au commit commun.
 
-- L’identité et l’empreinte rendent le retry idempotent.
+- **Point d’explication complémentaire — complément 2 :** L’identité et l’empreinte rendent le retry idempotent.
 
-- Les événements ne décrivent qu’un état déjà committé.
+- **Limites et réserves :** Les événements ne décrivent qu’un état déjà committé.
 
 ## 4. Architecture retenue
 
@@ -190,17 +191,17 @@ res://scenes/learning/
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `domain` contient les données et invariants qui ne dépendent d’aucun nœud.
+- **Invariants protégés :** `domain` contient les données et invariants qui ne dépendent d’aucun nœud.
 
-- `application` coordonne les ports vers politique, écologie, inventaire et économie.
+- **Dépendances et ports utilisés :** `application` coordonne les ports vers politique, écologie, inventaire et économie.
 
-- `infrastructure` sérialise seulement les données durables.
+- **Point d’explication complémentaire :** `infrastructure` sérialise seulement les données durables.
 
-- `presentation` traduit les événements committés en demandes visuelles.
+- **Point d’explication complémentaire — complément 2 :** `presentation` traduit les événements committés en demandes visuelles.
 
-- Les définitions de conception restent séparées des états sauvegardés.
+- **Point d’explication complémentaire — complément 3 :** Les définitions de conception restent séparées des états sauvegardés.
 
 ## 5. Vocabulaire
 
@@ -264,17 +265,17 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Chaque famille possède un espace de noms distinct afin d’éviter les collisions entre domaine, parcelle, bâtiment et chantier.
+- **Point d’explication complémentaire :** Chaque famille possède un espace de noms distinct afin d’éviter les collisions entre domaine, parcelle, bâtiment et chantier.
 
-- Les identifiants ne dépendent ni d’un nom affiché, ni d’un chemin de scène.
+- **Dépendances et ports utilisés :** Les identifiants ne dépendent ni d’un nom affiché, ni d’un chemin de scène.
 
-- La normalisation accepte uniquement lettres ASCII minuscules, chiffres et soulignement.
+- **Point d’explication complémentaire — complément 2 :** La normalisation accepte uniquement lettres ASCII minuscules, chiffres et soulignement.
 
-- Une entrée invalide renvoie `&""` et doit être refusée par la fabrique appelante.
+- **Invariants protégés :** Une entrée invalide renvoie `&""` et doit être refusée par la fabrique appelante.
 
-- Les commandes possèdent leur propre identité pour l’idempotence.
+- **Point d’explication complémentaire — complément 3 :** Les commandes possèdent leur propre identité pour l’idempotence.
 
 ## 7. Définitions de conception
 
@@ -312,17 +313,17 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La `Resource` décrit les limites de conception et reste immuable pendant le gameplay.
+- **Limites et réserves :** La `Resource` décrit les limites de conception et reste immuable pendant le gameplay.
 
-- `maximum_parcels` et `maximum_buildings` bornent l’agrégat avant toute allocation.
+- **Point d’explication complémentaire :** `maximum_parcels` et `maximum_buildings` bornent l’agrégat avant toute allocation.
 
-- Les tags de région sont des identifiants stables et sans doublon.
+- **Point d’explication complémentaire — complément 2 :** Les tags de région sont des identifiants stables et sans doublon.
 
-- Aucun propriétaire, bâtiment vivant ou révision n’est stocké dans cette définition.
+- **Frontières d’autorité :** Aucun propriétaire, bâtiment vivant ou révision n’est stocké dans cette définition.
 
-- Le résultat `Error` permet au catalogue de refuser une ressource invalide.
+- **Invariants protégés :** Le résultat `Error` permet au catalogue de refuser une ressource invalide.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/parcel_definition.gd`.**
 
@@ -350,17 +351,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `footprint_units` utilise une unité logique documentée, pas des mètres obtenus depuis une collision.
+- **Limites et réserves :** `footprint_units` utilise une unité logique documentée, pas des mètres obtenus depuis une collision.
 
-- Les tags de bâtiment et de site servent à valider la compatibilité sans charger de scène.
+- **Invariants protégés :** Les tags de bâtiment et de site servent à valider la compatibilité sans charger de scène.
 
-- Une parcelle de conception n’enregistre aucune occupation runtime.
+- **Limites et réserves — complément 2 :** Une parcelle de conception n’enregistre aucune occupation runtime.
 
-- La région réelle appartient à l’état de parcelle, car deux instances peuvent utiliser la même définition.
+- **Point d’explication complémentaire :** La région réelle appartient à l’état de parcelle, car deux instances peuvent utiliser la même définition.
 
-- Le catalogue complétera la validation des références croisées.
+- **Point d’explication complémentaire — complément 2 :** Le catalogue complétera la validation des références croisées.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/building_definition.gd`.**
 
@@ -394,17 +395,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La définition fixe les capacités du type de bâtiment sans contenir son état vivant.
+- **Paramètres et types importants :** La définition fixe les capacités du type de bâtiment sans contenir son état vivant.
 
-- La condition maximale est exprimée en points de base pour éviter un `float` autoritaire.
+- **Point d’explication complémentaire :** La condition maximale est exprimée en points de base pour éviter un `float` autoritaire.
 
-- La recette de construction est référencée par identité et validée dans le catalogue.
+- **Point d’explication complémentaire — complément 2 :** La recette de construction est référencée par identité et validée dans le catalogue.
 
-- Les recettes de production restent des définitions séparées et réutilisables.
+- **Point d’explication complémentaire — complément 3 :** Les recettes de production restent des définitions séparées et réutilisables.
 
-- La scène 3D éventuelle appartient à la présentation, pas à ce contrat.
+- **Limites et réserves :** La scène 3D éventuelle appartient à la présentation, pas à ce contrat.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/construction_recipe_definition.gd`.**
 
@@ -438,17 +439,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les matériaux sont indexés par définition d’objet et quantités entières.
+- **Point d’explication complémentaire :** Les matériaux sont indexés par définition d’objet et quantités entières.
 
-- Le travail requis est distinct des matériaux afin de ne pas transformer automatiquement une livraison en achèvement.
+- **Limites et réserves :** Le travail requis est distinct des matériaux afin de ne pas transformer automatiquement une livraison en achèvement.
 
-- Le coût monétaire reste optionnel et utilise les unités mineures du chapitre 21.
+- **Point d’explication complémentaire — complément 2 :** Le coût monétaire reste optionnel et utilise les unités mineures du chapitre 21.
 
-- La recette ne choisit ni conteneur source, ni portefeuille payeur.
+- **Dépendances et ports utilisés :** La recette ne choisit ni conteneur source, ni portefeuille payeur.
 
-- Les limites empêchent une définition de contenu de produire un chantier démesuré.
+- **Limites et réserves — complément 2 :** Les limites empêchent une définition de contenu de produire un chantier démesuré.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/production_recipe_definition.gd`.**
 
@@ -481,17 +482,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une recette exige au moins un intrant et un extrant pour éviter les productions gratuites implicites.
+- **Limites et réserves :** Une recette exige au moins un intrant et un extrant pour éviter les productions gratuites implicites.
 
-- Les tags expriment la capacité requise sans référencer un bâtiment précis.
+- **Point d’explication complémentaire :** Les tags expriment la capacité requise sans référencer un bâtiment précis.
 
-- La condition minimale empêche un bâtiment trop dégradé de produire.
+- **Point d’explication complémentaire — complément 2 :** La condition minimale empêche un bâtiment trop dégradé de produire.
 
-- Les quantités détaillées seront recoupées par le catalogue et l’inventaire.
+- **Point d’explication complémentaire — complément 3 :** Les quantités détaillées seront recoupées par le catalogue et l’inventaire.
 
-- Le temps de travail est un entier logique, indépendant d’une animation.
+- **Dépendances et ports utilisés :** Le temps de travail est un entier logique, indépendant d’une animation.
 
 ## 8. Liens de tenure et états vivants
 
@@ -527,17 +528,17 @@ func is_active_at(logical_tick: int) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le lien référence un droit du chapitre 23 sans le recréer dans le domaine.
+- **Point d’explication complémentaire :** Le lien référence un droit du chapitre 23 sans le recréer dans le domaine.
 
-- `right_revision` permet de détecter une autorisation politique devenue obsolète.
+- **Limites et réserves :** `right_revision` permet de détecter une autorisation politique devenue obsolète.
 
-- La fin `-1` représente un intervalle ouvert et reste distincte du tick zéro.
+- **Point d’explication complémentaire — complément 2 :** La fin `-1` représente un intervalle ouvert et reste distincte du tick zéro.
 
-- `purpose_id` indique propriété, usage, construction ou exploitation selon le vocabulaire politique.
+- **Point d’explication complémentaire — complément 3 :** `purpose_id` indique propriété, usage, construction ou exploitation selon le vocabulaire politique.
 
-- La validité temporelle utilise le tick logique sauvegardé.
+- **Point d’explication complémentaire — complément 4 :** La validité temporelle utilise le tick logique sauvegardé.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/parcel_state.gd`.**
 
@@ -576,17 +577,17 @@ func validate(definition: ParcelDefinition) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La parcelle conserve un emplacement logique et une région, jamais un transform de scène autoritaire.
+- **Limites et réserves :** La parcelle conserve un emplacement logique et une région, jamais un transform de scène autoritaire.
 
-- `occupied_units` est recoupé avec la capacité de la définition.
+- **Point d’explication complémentaire :** `occupied_units` est recoupé avec la capacité de la définition.
 
-- La liste de bâtiments contient seulement des identifiants uniques.
+- **Point d’explication complémentaire — complément 2 :** La liste de bâtiments contient seulement des identifiants uniques.
 
-- La révision protège les constructions concurrentes sur la même parcelle.
+- **Point d’explication complémentaire — complément 3 :** La révision protège les constructions concurrentes sur la même parcelle.
 
-- Les droits d’accès restent vérifiés par un port séparé.
+- **Dépendances et ports utilisés :** Les droits d’accès restent vérifiés par un port séparé.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/building_state.gd`.**
 
@@ -625,17 +626,17 @@ func validate(definition: BuildingDefinition) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le statut distingue un arrêt temporaire d’une ruine définitive selon la politique retenue.
+- **Limites et réserves :** Le statut distingue un arrêt temporaire d’une ruine définitive selon la politique retenue.
 
-- La condition est entière et bornée par la définition du bâtiment.
+- **Point d’explication complémentaire :** La condition est entière et bornée par la définition du bâtiment.
 
-- Les ticks d’achèvement et d’entretien utilisent l’horloge du monde.
+- **Point d’explication complémentaire — complément 2 :** Les ticks d’achèvement et d’entretien utilisent l’horloge du monde.
 
-- L’état ne contient ni `Node3D`, ni mesh, ni animation.
+- **Limites et réserves — complément 2 :** L’état ne contient ni `Node3D`, ni mesh, ni animation.
 
-- La révision protège production, entretien et changement de statut.
+- **Point d’explication complémentaire — complément 3 :** La révision protège production, entretien et changement de statut.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/worksite_state.gd`.**
 
@@ -680,17 +681,17 @@ func validate(recipe: ConstructionRecipeDefinition) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le chantier conserve des quantités livrées, jamais les objets ou lots eux-mêmes.
+- **Point d’explication complémentaire :** Le chantier conserve des quantités livrées, jamais les objets ou lots eux-mêmes.
 
-- Chaque quantité est recoupée avec la recette afin d’interdire les surlivraisons.
+- **Point d’explication complémentaire — complément 2 :** Chaque quantité est recoupée avec la recette afin d’interdire les surlivraisons.
 
-- Le travail accompli est borné séparément des matériaux.
+- **Point d’explication complémentaire — complément 3 :** Le travail accompli est borné séparément des matériaux.
 
-- Le bâtiment reçoit déjà une identité stable avant l’achèvement, ce qui facilite l’idempotence.
+- **Limites et réserves :** Le bâtiment reçoit déjà une identité stable avant l’achèvement, ce qui facilite l’idempotence.
 
-- Les ticks et la révision rendent la progression diagnosticable.
+- **Point d’explication complémentaire — complément 4 :** Les ticks et la révision rendent la progression diagnosticable.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/domain_state.gd`.**
 
@@ -736,17 +737,17 @@ func duplicate_detached() -> DomainState:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’agrégat regroupe les états qui doivent rester cohérents au moment d’un commit.
+- **Point d’explication complémentaire :** L’agrégat regroupe les états qui doivent rester cohérents au moment d’un commit.
 
-- Les liens de tenure sont copiés champ par champ afin de ne partager aucun objet mutable.
+- **Paramètres et types importants :** Les liens de tenure sont copiés champ par champ afin de ne partager aucun objet mutable.
 
-- Parcelles, bâtiments et chantiers sont copiés avant mutation.
+- **Point d’explication complémentaire — complément 2 :** Parcelles, bâtiments et chantiers sont copiés avant mutation.
 
-- La révision protège l’ensemble du domaine tandis que les sous-agrégats conservent leurs propres révisions.
+- **Limites et réserves :** La révision protège l’ensemble du domaine tandis que les sous-agrégats conservent leurs propres révisions.
 
-- Les index dérivés et représentations de scène restent absents.
+- **Limites et réserves — complément 2 :** Les index dérivés et représentations de scène restent absents.
 
 ## 9. Catalogue et validation croisée
 
@@ -786,17 +787,17 @@ func get_production(recipe_id: StringName) -> ProductionRecipeDefinition:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le catalogue centralise les définitions mais ne conserve aucun état de joueur.
+- **Limites et réserves :** Le catalogue centralise les définitions mais ne conserve aucun état de joueur.
 
-- Les bâtiments sont recoupés avec leurs recettes après le chargement complet.
+- **Point d’explication complémentaire :** Les bâtiments sont recoupés avec leurs recettes après le chargement complet.
 
-- Les lectures retournent des copies profondes pour maintenir l’immuabilité de conception.
+- **Valeur de retour ou code d’échec :** Les lectures retournent des copies profondes pour maintenir l’immuabilité de conception.
 
-- Une référence manquante bloque le bootstrap avant le gameplay.
+- **Limites et réserves — complément 2 :** Une référence manquante bloque le bootstrap avant le gameplay.
 
-- Les méthodes d’enregistrement suivent le modèle validé du chapitre 22 et refusent les doublons.
+- **Invariants protégés :** Les méthodes d’enregistrement suivent le modèle validé du chapitre 22 et refusent les doublons.
 
 ## 10. Arithmétique de progression
 
@@ -830,17 +831,17 @@ static func ratio_basis_points(value: int, maximum: int) -> int:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’addition vérifie la plage entière sûre avant d’effectuer l’opération.
+- **Résultat attendu et vérification :** L’addition vérifie la plage entière sûre avant d’effectuer l’opération.
 
-- `ratio_basis_points()` produit une progression de `0` à `10000` sans nombre flottant.
+- **Limites et réserves :** `ratio_basis_points()` produit une progression de `0` à `10000` sans nombre flottant.
 
-- La multiplication est vérifiée avant le calcul du ratio.
+- **Résultat attendu et vérification — complément 2 :** La multiplication est vérifiée avant le calcul du ratio.
 
-- La sentinelle `-1` distingue un calcul invalide d’une progression nulle.
+- **Valeur de retour ou code d’échec :** La sentinelle `-1` distingue un calcul invalide d’une progression nulle.
 
-- Cette arithmétique peut être sérialisée et rejouée de manière déterministe.
+- **Point d’explication complémentaire :** Cette arithmétique peut être sérialisée et rejouée de manière déterministe.
 
 ## 11. Dépôt et idempotence
 
@@ -880,17 +881,17 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les lectures doivent renvoyer des copies détachées et les identifiants triés.
+- **Point d’explication complémentaire :** Les lectures doivent renvoyer des copies détachées et les identifiants triés.
 
-- `replace_domain()` revalide la révision au dernier instant.
+- **Invariants protégés :** `replace_domain()` revalide la révision au dernier instant.
 
-- Le registre d’idempotence distingue replay identique et conflit d’empreinte.
+- **Point d’explication complémentaire — complément 2 :** Le registre d’idempotence distingue replay identique et conflit d’empreinte.
 
-- Le dépôt ne décide ni des droits, ni des coûts, ni des recettes.
+- **Limites et réserves :** Le dépôt ne décide ni des droits, ni des coûts, ni des recettes.
 
-- `replace_all()` est réservé à une restauration complète déjà validée.
+- **Persistance et restauration :** `replace_all()` est réservé à une restauration complète déjà validée.
 
 ## 12. Ports vers les autorités externes
 
@@ -933,17 +934,17 @@ func decide(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port consomme une décision du chapitre 23 sans reproduire son moteur de lois.
+- **Dépendances et ports utilisés :** Le port consomme une décision du chapitre 23 sans reproduire son moteur de lois.
 
-- Seul `ALLOW` autorise une action protégée ; les autres statuts restent des refus conservateurs.
+- **Invariants protégés :** Seul `ALLOW` autorise une action protégée ; les autres statuts restent des refus conservateurs.
 
-- La révision et l’échéance permettent de rejeter une décision devenue ancienne.
+- **Limites et réserves :** La révision et l’échéance permettent de rejeter une décision devenue ancienne.
 
-- Le code de raison rend le refus explicable.
+- **Invariants protégés — complément 2 :** Le code de raison rend le refus explicable.
 
-- Le port ne modifie ni droit politique ni domaine.
+- **Dépendances et ports utilisés — complément 2 :** Le port ne modifie ni droit politique ni domaine.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_ecology_port.gd`.**
 
@@ -980,17 +981,17 @@ func snapshot_for(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’écologie fournit la capacité et les tags d’un site sans céder sa région au domaine.
+- **Point d’explication complémentaire :** L’écologie fournit la capacité et les tags d’un site sans céder sa région au domaine.
 
-- Le snapshot porte une révision et une échéance.
+- **Persistance et restauration :** Le snapshot porte une révision et une échéance.
 
-- La parcelle conserve seulement l’identité du site choisi.
+- **Point d’explication complémentaire — complément 2 :** La parcelle conserve seulement l’identité du site choisi.
 
-- La construction refuse un contexte absent, expiré ou incompatible.
+- **Invariants protégés :** La construction refuse un contexte absent, expiré ou incompatible.
 
-- Aucune réserve écologique n’est consommée par ce port.
+- **Dépendances et ports utilisés :** Aucune réserve écologique n’est consommée par ce port.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_inventory_port.gd`.**
 
@@ -1034,17 +1035,17 @@ func prepare_maintenance_materials(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’inventaire sélectionne les lots, vérifie leur provenance et prépare les quantités consommées ou produites.
+- **Résultat attendu et vérification :** L’inventaire sélectionne les lots, vérifie leur provenance et prépare les quantités consommées ou produites.
 
-- Le domaine fournit des besoins, jamais des mutations internes de conteneur.
+- **Limites et réserves :** Le domaine fournit des besoins, jamais des mutations internes de conteneur.
 
-- Les révisions attendues accompagnent le candidat opaque.
+- **Point d’explication complémentaire :** Les révisions attendues accompagnent le candidat opaque.
 
-- Un payload vide est refusé avant le commit.
+- **Invariants protégés :** Un payload vide est refusé avant le commit.
 
-- Les trois opérations restent distinctes pour conserver des diagnostics précis.
+- **Point d’explication complémentaire — complément 2 :** Les trois opérations restent distinctes pour conserver des diagnostics précis.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_economy_port.gd`.**
 
@@ -1083,17 +1084,17 @@ func prepare_maintenance_cost(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’économie prépare les écritures et relit le portefeuille payeur.
+- **Dépendances et ports utilisés :** L’économie prépare les écritures et relit le portefeuille payeur.
 
-- Le domaine ne calcule jamais un solde et ne modifie aucune écriture.
+- **Limites et réserves :** Le domaine ne calcule jamais un solde et ne modifie aucune écriture.
 
-- Les montants viennent d’une recette validée ou d’une politique injectée.
+- **Limites et réserves — complément 2 :** Les montants viennent d’une recette validée ou d’une politique injectée.
 
-- Une révision de portefeuille obsolète bloque le commit.
+- **Dépendances et ports utilisés — complément 2 :** Une révision de portefeuille obsolète bloque le commit.
 
-- Un coût nul n’exige pas de candidat économique.
+- **Point d’explication complémentaire :** Un coût nul n’exige pas de candidat économique.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_transaction_commit_port.gd`.**
 
@@ -1124,17 +1125,17 @@ func commit_with_external_candidates(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le point de composition revalide toutes les révisions avant le premier remplacement.
+- **Invariants protégés :** Le point de composition revalide toutes les révisions avant le premier remplacement.
 
-- Le résultat idempotent est enregistré dans le même lot que les états mutés.
+- **Résultat attendu et vérification :** Le résultat idempotent est enregistré dans le même lot que les états mutés.
 
-- Un candidat économique peut être nul lorsque la recette ne porte aucun coût.
+- **Dépendances et ports utilisés :** Un candidat économique peut être nul lorsque la recette ne porte aucun coût.
 
-- Un candidat d’inventaire est obligatoire dès qu’un matériau ou produit change.
+- **Point d’explication complémentaire :** Un candidat d’inventaire est obligatoire dès qu’un matériau ou produit change.
 
-- Aucun événement n’est émis par le port avant le succès complet.
+- **Dépendances et ports utilisés — complément 2 :** Aucun événement n’est émis par le port avant le succès complet.
 
 ## 13. Résultats et commandes
 
@@ -1179,17 +1180,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le résultat distingue les refus de droit, site, matériaux, économie et préparation.
+- **Invariants protégés :** Le résultat distingue les refus de droit, site, matériaux, économie et préparation.
 
-- `REPLAYED` confirme un succès antérieur sans seconde mutation.
+- **Point d’explication complémentaire :** `REPLAYED` confirme un succès antérieur sans seconde mutation.
 
-- Un succès exige les identifiants nécessaires au diagnostic.
+- **Point d’explication complémentaire — complément 2 :** Un succès exige les identifiants nécessaires au diagnostic.
 
-- Le résultat ne contient aucun état mutable.
+- **Résultat attendu et vérification :** Le résultat ne contient aucun état mutable.
 
-- Les services convertissent les codes techniques du commit vers ces statuts métier.
+- **Point d’explication complémentaire — complément 3 :** Les services convertissent les codes techniques du commit vers ces statuts métier.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/start_worksite_command.gd`.**
 
@@ -1222,17 +1223,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’ouverture d’un chantier fixe à l’avance les identités du chantier et du futur bâtiment.
+- **Point d’explication complémentaire :** L’ouverture d’un chantier fixe à l’avance les identités du chantier et du futur bâtiment.
 
-- La commande transporte une identité et une empreinte pour l’idempotence.
+- **Dépendances et ports utilisés :** La commande transporte une identité et une empreinte pour l’idempotence.
 
-- Les révisions attendues empêchent d’écraser un état plus récent.
+- **Point d’explication complémentaire — complément 2 :** Les révisions attendues empêchent d’écraser un état plus récent.
 
-- Le tick logique ordonne l’opération sans consulter l’heure réelle.
+- **Limites et réserves :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
-- Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
+- **Point d’explication complémentaire — complément 3 :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/deliver_materials_command.gd`.**
 
@@ -1263,17 +1264,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La livraison demande des quantités par définition, mais laisse l’inventaire choisir les lots.
+- **Point d’explication complémentaire :** La livraison demande des quantités par définition, mais laisse l’inventaire choisir les lots.
 
-- La commande transporte une identité et une empreinte pour l’idempotence.
+- **Dépendances et ports utilisés :** La commande transporte une identité et une empreinte pour l’idempotence.
 
-- Les révisions attendues empêchent d’écraser un état plus récent.
+- **Point d’explication complémentaire — complément 2 :** Les révisions attendues empêchent d’écraser un état plus récent.
 
-- Le tick logique ordonne l’opération sans consulter l’heure réelle.
+- **Limites et réserves :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
-- Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
+- **Point d’explication complémentaire — complément 3 :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/advance_worksite_command.gd`.**
 
@@ -1303,17 +1304,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La progression porte une quantité de travail explicite et ne dépend pas d’une animation.
+- **Dépendances et ports utilisés :** La progression porte une quantité de travail explicite et ne dépend pas d’une animation.
 
-- La commande transporte une identité et une empreinte pour l’idempotence.
+- **Dépendances et ports utilisés — complément 2 :** La commande transporte une identité et une empreinte pour l’idempotence.
 
-- Les révisions attendues empêchent d’écraser un état plus récent.
+- **Point d’explication complémentaire :** Les révisions attendues empêchent d’écraser un état plus récent.
 
-- Le tick logique ordonne l’opération sans consulter l’heure réelle.
+- **Limites et réserves :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
-- Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
+- **Point d’explication complémentaire — complément 2 :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/run_production_command.gd`.**
 
@@ -1346,17 +1347,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La production nomme les conteneurs d’entrée et de sortie sans exposer leur contenu.
+- **Point d’explication complémentaire :** La production nomme les conteneurs d’entrée et de sortie sans exposer leur contenu.
 
-- La commande transporte une identité et une empreinte pour l’idempotence.
+- **Dépendances et ports utilisés :** La commande transporte une identité et une empreinte pour l’idempotence.
 
-- Les révisions attendues empêchent d’écraser un état plus récent.
+- **Point d’explication complémentaire — complément 2 :** Les révisions attendues empêchent d’écraser un état plus récent.
 
-- Le tick logique ordonne l’opération sans consulter l’heure réelle.
+- **Limites et réserves :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
-- Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
+- **Point d’explication complémentaire — complément 3 :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/domain/maintain_building_command.gd`.**
 
@@ -1388,17 +1389,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’entretien demande une restauration bornée et peut préparer matériaux et coût.
+- **Persistance et restauration :** L’entretien demande une restauration bornée et peut préparer matériaux et coût.
 
-- La commande transporte une identité et une empreinte pour l’idempotence.
+- **Dépendances et ports utilisés :** La commande transporte une identité et une empreinte pour l’idempotence.
 
-- Les révisions attendues empêchent d’écraser un état plus récent.
+- **Point d’explication complémentaire :** Les révisions attendues empêchent d’écraser un état plus récent.
 
-- Le tick logique ordonne l’opération sans consulter l’heure réelle.
+- **Limites et réserves :** Le tick logique ordonne l’opération sans consulter l’heure réelle.
 
-- Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
+- **Point d’explication complémentaire — complément 2 :** Les validations spécifiques supplémentaires sont appliquées par le service avant préparation.
 
 ## 14. Politique d’accès au domaine
 
@@ -1436,17 +1437,17 @@ func is_allowed(decision: DomainRightsPort.Decision) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La politique délègue la loi et la juridiction au chapitre 23.
+- **Point d’explication complémentaire :** La politique délègue la loi et la juridiction au chapitre 23.
 
-- Une décision absente, invalide ou expirée ne devient jamais une autorisation implicite.
+- **Invariants protégés :** Une décision absente, invalide ou expirée ne devient jamais une autorisation implicite.
 
-- `is_allowed()` accepte exclusivement le statut `ALLOW`.
+- **Point d’explication complémentaire — complément 2 :** `is_allowed()` accepte exclusivement le statut `ALLOW`.
 
-- Le domaine reste libre d’appliquer ensuite ses invariants de capacité et de révision.
+- **Invariants protégés — complément 2 :** Le domaine reste libre d’appliquer ensuite ses invariants de capacité et de révision.
 
-- Cette séparation permet de remplacer l’adaptateur politique sans modifier les états fonciers.
+- **Point d’explication complémentaire — complément 3 :** Cette séparation permet de remplacer l’adaptateur politique sans modifier les états fonciers.
 
 ## 15. Ouvrir un chantier
 
@@ -1499,17 +1500,17 @@ func start_worksite(command: StartWorksiteCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La méthode refuse d’abord forme invalide, replay conflictuel, absence et révisions obsolètes.
+- **Invariants protégés :** La méthode refuse d’abord forme invalide, replay conflictuel, absence et révisions obsolètes.
 
-- Le droit de construire est demandé avant de préparer un coût ou modifier un candidat.
+- **Point d’explication complémentaire :** Le droit de construire est demandé avant de préparer un coût ou modifier un candidat.
 
-- Le contexte de site est relu avec son échéance et ses tags.
+- **Point d’explication complémentaire — complément 2 :** Le contexte de site est relu avec son échéance et ses tags.
 
-- La parcelle et le domaine restent inchangés jusqu’au helper de préparation.
+- **Limites et réserves :** La parcelle et le domaine restent inchangés jusqu’au helper de préparation.
 
-- Le résultat final sera émis uniquement après le commit commun.
+- **Résultat attendu et vérification :** Le résultat final sera émis uniquement après le commit commun.
 
 > **[LECTURE] Préparation interne — Suite de `domain_construction_service.gd`.**
 
@@ -1563,17 +1564,17 @@ func _prepare_and_commit_start(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le chantier et le futur bâtiment reçoivent leurs identités avant le commit.
+- **Point d’explication complémentaire :** Le chantier et le futur bâtiment reçoivent leurs identités avant le commit.
 
-- L’occupation de la parcelle est réservée dans le candidat afin d’empêcher deux chantiers concurrents.
+- **Point d’explication complémentaire — complément 2 :** L’occupation de la parcelle est réservée dans le candidat afin d’empêcher deux chantiers concurrents.
 
-- Le coût est préparé seulement après la validation complète du candidat de domaine.
+- **Point d’explication complémentaire — complément 3 :** Le coût est préparé seulement après la validation complète du candidat de domaine.
 
-- Le commit accepte un candidat d’inventaire nul car l’ouverture ne consomme encore aucun matériau.
+- **Limites et réserves :** Le commit accepte un candidat d’inventaire nul car l’ouverture ne consomme encore aucun matériau.
 
-- Le signal est émis après le succès du lot.
+- **Point d’explication complémentaire — complément 4 :** Le signal est émis après le succès du lot.
 
 ## 16. Livrer des matériaux
 
@@ -1620,17 +1621,17 @@ func deliver_materials(command: DeliverMaterialsCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La demande est comparée aux besoins restants avant d’interroger l’inventaire.
+- **Point d’explication complémentaire :** La demande est comparée aux besoins restants avant d’interroger l’inventaire.
 
-- L’inventaire prépare les lots à consommer et leurs révisions.
+- **Point d’explication complémentaire — complément 2 :** L’inventaire prépare les lots à consommer et leurs révisions.
 
-- Le chantier candidat additionne uniquement les quantités demandées et validées.
+- **Limites et réserves :** Le chantier candidat additionne uniquement les quantités demandées et validées.
 
-- Aucune quantité n’est retirée du conteneur avant le commit.
+- **Limites et réserves — complément 2 :** Aucune quantité n’est retirée du conteneur avant le commit.
 
-- Le helper de commit enregistre aussi l’identité et l’empreinte de la commande.
+- **Point d’explication complémentaire — complément 3 :** Le helper de commit enregistre aussi l’identité et l’empreinte de la commande.
 
 ## 17. Faire progresser et achever le chantier
 
@@ -1667,17 +1668,17 @@ func advance_worksite(command: AdvanceWorksiteCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le travail demandé est borné avant l’addition.
+- **Point d’explication complémentaire :** Le travail demandé est borné avant l’addition.
 
-- La valeur finale est limitée au travail total de la recette.
+- **Point d’explication complémentaire — complément 2 :** La valeur finale est limitée au travail total de la recette.
 
-- Le statut prêt exige simultanément travail et matériaux complets.
+- **Point d’explication complémentaire — complément 3 :** Le statut prêt exige simultanément travail et matériaux complets.
 
-- Le tick logique remplace toute durée d’animation ou horloge réelle.
+- **Point d’explication complémentaire — complément 4 :** Le tick logique remplace toute durée d’animation ou horloge réelle.
 
-- La progression ne crée pas encore le bâtiment opérationnel.
+- **Limites et réserves :** La progression ne crée pas encore le bâtiment opérationnel.
 
 > **[LECTURE] Achèvement atomique — Méthode de `DomainConstructionService`.**
 
@@ -1712,17 +1713,17 @@ func complete_building(command: AdvanceWorksiteCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La méthode exige le statut prêt et les deux révisions attendues.
+- **Point d’explication complémentaire :** La méthode exige le statut prêt et les deux révisions attendues.
 
-- Le bâtiment est créé dans le candidat avec une condition initiale issue de sa définition.
+- **Limites et réserves :** Le bâtiment est créé dans le candidat avec une condition initiale issue de sa définition.
 
-- La parcelle référence ensuite le bâtiment par identité stable.
+- **Point d’explication complémentaire — complément 2 :** La parcelle référence ensuite le bâtiment par identité stable.
 
-- Le chantier est conservé comme historique terminé plutôt que supprimé silencieusement.
+- **Point d’explication complémentaire — complément 3 :** Le chantier est conservé comme historique terminé plutôt que supprimé silencieusement.
 
-- Le lot ne modifie aucun objet ni portefeuille, car ils ont déjà été traités lors des étapes précédentes.
+- **Dépendances et ports utilisés :** Le lot ne modifie aucun objet ni portefeuille, car ils ont déjà été traités lors des étapes précédentes.
 
 ## 18. Production
 
@@ -1772,17 +1773,17 @@ func run(command: RunProductionCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La production vérifie bâtiment, recette, révisions, statut et condition avant de préparer les objets.
+- **Résultat attendu et vérification :** La production vérifie bâtiment, recette, révisions, statut et condition avant de préparer les objets.
 
-- La définition du bâtiment doit explicitement autoriser la recette.
+- **Point d’explication complémentaire :** La définition du bâtiment doit explicitement autoriser la recette.
 
-- Les quantités sont multipliées avec contrôle de dépassement.
+- **Point d’explication complémentaire — complément 2 :** Les quantités sont multipliées avec contrôle de dépassement.
 
-- L’inventaire prépare simultanément consommation des intrants et création des extrants.
+- **Point d’explication complémentaire — complément 3 :** L’inventaire prépare simultanément consommation des intrants et création des extrants.
 
-- Le domaine committe ensuite sa révision avec le candidat d’inventaire et le résultat idempotent.
+- **Résultat attendu et vérification — complément 2 :** Le domaine committe ensuite sa révision avec le candidat d’inventaire et le résultat idempotent.
 
 ## 19. Entretien et dégradation
 
@@ -1813,17 +1814,17 @@ func degrade_building(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La dégradation utilise le tick logique et une perte en points de base par jour.
+- **Limites et réserves :** La dégradation utilise le tick logique et une perte en points de base par jour.
 
-- La multiplication est protégée avant la division.
+- **Point d’explication complémentaire :** La multiplication est protégée avant la division.
 
-- La condition ne devient jamais négative.
+- **Limites et réserves — complément 2 :** La condition ne devient jamais négative.
 
-- Les seuils de statut sont une politique pédagogique remplaçable.
+- **Limites et réserves — complément 3 :** Les seuils de statut sont une politique pédagogique remplaçable.
 
-- Cette opération travaille sur un candidat de bâtiment, jamais sur une scène.
+- **Limites et réserves — complément 4 :** Cette opération travaille sur un candidat de bâtiment, jamais sur une scène.
 
 > **[LECTURE] Entretien coordonné — Service applicatif.**
 
@@ -1859,17 +1860,17 @@ func maintain(command: MaintainBuildingCommand) -> DomainCommandResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’entretien prépare les matériaux avant de relever la condition du candidat.
+- **Point d’explication complémentaire :** L’entretien prépare les matériaux avant de relever la condition du candidat.
 
-- La condition restaurée reste bornée par la définition.
+- **Persistance et restauration :** La condition restaurée reste bornée par la définition.
 
-- Le statut opérationnel n’est rétabli qu’avec un candidat d’inventaire valide.
+- **Invariants protégés :** Le statut opérationnel n’est rétabli qu’avec un candidat d’inventaire valide.
 
-- Le tick d’entretien est sauvegardé pour les diagnostics et politiques futures.
+- **Point d’explication complémentaire — complément 2 :** Le tick d’entretien est sauvegardé pour les diagnostics et politiques futures.
 
-- Le commit commun empêche une réparation gratuite en cas de panne d’inventaire.
+- **Limites et réserves :** Le commit commun empêche une réparation gratuite en cas de panne d’inventaire.
 
 ## 20. Événements et observations
 
@@ -1902,17 +1903,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’événement décrit un fait déjà committé et ne transporte aucun candidat.
+- **Dépendances et ports utilisés :** L’événement décrit un fait déjà committé et ne transporte aucun candidat.
 
-- La cible peut être une parcelle, un chantier ou un bâtiment.
+- **Limites et réserves :** La cible peut être une parcelle, un chantier ou un bâtiment.
 
-- Le tick et la révision permettent d’ignorer une notification ancienne.
+- **Limites et réserves — complément 2 :** Le tick et la révision permettent d’ignorer une notification ancienne.
 
-- Cause et système source assurent la traçabilité.
+- **Point d’explication complémentaire :** Cause et système source assurent la traçabilité.
 
-- Les scènes et agents ne peuvent pas modifier le domaine à travers l’événement.
+- **Limites et réserves — complément 3 :** Les scènes et agents ne peuvent pas modifier le domaine à travers l’événement.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/domains/application/domain_agent_observation_port.gd`.**
 
@@ -1950,17 +1951,17 @@ func snapshot_for(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’observation contient des identifiants et actions déjà filtrées, jamais les collections internes du dépôt.
+- **Point d’explication complémentaire :** L’observation contient des identifiants et actions déjà filtrées, jamais les collections internes du dépôt.
 
-- Les actions disponibles tiennent compte des droits sans exposer les règles politiques.
+- **Point d’explication complémentaire — complément 2 :** Les actions disponibles tiennent compte des droits sans exposer les règles politiques.
 
-- Les agents transforment ces données en faits et requêtes selon le chapitre 17.
+- **Point d’explication complémentaire — complément 3 :** Les agents transforment ces données en faits et requêtes selon le chapitre 17.
 
-- Une décision d’agent repasse toujours par une commande validée.
+- **Limites et réserves :** Une décision d’agent repasse toujours par une commande validée.
 
-- La taille des collections est bornée.
+- **Point d’explication complémentaire — complément 4 :** La taille des collections est bornée.
 
 ## 21. Présentation
 
@@ -1986,17 +1987,17 @@ func on_domain_changed(event: DomainChangedEvent) -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le pont accepte seulement un événement validé et postérieur à la dernière révision affichée.
+- **Point d’explication complémentaire :** Le pont accepte seulement un événement validé et postérieur à la dernière révision affichée.
 
-- Le cache local sert à éviter les rafraîchissements anciens, pas à sauvegarder le domaine.
+- **Point d’explication complémentaire — complément 2 :** Le cache local sert à éviter les rafraîchissements anciens, pas à sauvegarder le domaine.
 
-- Le signal demande une reconstruction visuelle depuis une lecture autorisée.
+- **Limites et réserves :** Le signal demande une reconstruction visuelle depuis une lecture autorisée.
 
-- Aucun bâtiment logique n’est créé ou supprimé par le nœud.
+- **Limites et réserves — complément 2 :** Aucun bâtiment logique n’est créé ou supprimé par le nœud.
 
-- La représentation peut être absente sans modifier l’existence des actifs.
+- **Point d’explication complémentaire — complément 3 :** La représentation peut être absente sans modifier l’existence des actifs.
 
 ## 22. Persistance
 
@@ -2065,17 +2066,17 @@ func decode(document: Dictionary, catalog: DomainCatalog) -> DecodeResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le codec exige le format, la version et exactement les clés prévues.
+- **Point d’explication complémentaire :** Le codec exige le format, la version et exactement les clés prévues.
 
-- Toutes les sections sont décodées dans une structure candidate avant mutation.
+- **Limites et réserves :** Toutes les sections sont décodées dans une structure candidate avant mutation.
 
-- Les références vers définitions, parcelles, bâtiments et chantiers sont recoupées.
+- **Point d’explication complémentaire — complément 2 :** Les références vers définitions, parcelles, bâtiments et chantiers sont recoupées.
 
-- Les entiers suivent la plage JSON sûre du chapitre 9.
+- **Point d’explication complémentaire — complément 3 :** Les entiers suivent la plage JSON sûre du chapitre 9.
 
-- `DecodeResult` distingue un document vide valide d’un échec.
+- **Invariants protégés :** `DecodeResult` distingue un document vide valide d’un échec.
 
 ## 24. Section de sauvegarde
 
@@ -2122,17 +2123,17 @@ func cancel_restore() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La section prépare tous les domaines avant de toucher au dépôt actif.
+- **Point d’explication complémentaire :** La section prépare tous les domaines avant de toucher au dépôt actif.
 
-- Les données sont copiées à la préparation puis à l’application.
+- **Point d’explication complémentaire — complément 2 :** Les données sont copiées à la préparation puis à l’application.
 
-- Un échec d’une autre section permet d’annuler sans mutation partielle.
+- **Limites et réserves :** Un échec d’une autre section permet d’annuler sans mutation partielle.
 
-- Les définitions doivent être chargées avant les états vivants.
+- **Point d’explication complémentaire — complément 3 :** Les définitions doivent être chargées avant les états vivants.
 
-- Les droits politiques seront revalidés par leurs ports après restauration.
+- **Persistance et restauration :** Les droits politiques seront revalidés par leurs ports après restauration.
 
 ## 25. Scène pédagogique
 
@@ -2212,9 +2213,9 @@ if not building_exists:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Le nœud actif devient l’autorité d’un actif qui doit exister hors écran.
+- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Le nœud actif devient l’autorité d’un actif qui doit exister hors écran.
 
 **Exemple corrigé :**
 
@@ -2227,9 +2228,9 @@ var visible := presentation_registry.has(building_id)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : L’état logique et la représentation sont lus séparément ; masquer la scène ne supprime rien.
+- **Limites et réserves :** Pourquoi la correction fonctionne : L’état logique et la représentation sont lus séparément ; masquer la scène ne supprime rien.
 
 ### 28.2 Déduire un droit depuis la relation sociale
 
@@ -2246,9 +2247,9 @@ if social.trust > 80:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Une perception sociale remplace une décision juridique versionnée.
+- **Limites et réserves :** Pourquoi cet exemple est fautif : Une perception sociale remplace une décision juridique versionnée.
 
 **Exemple corrigé :**
 
@@ -2262,9 +2263,9 @@ if decision.status == DomainRightsPort.Decision.Status.ALLOW:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Le chapitre 23 reste l’unique autorité de l’autorisation.
+- **Frontières d’autorité :** Pourquoi la correction fonctionne : Le chapitre 23 reste l’unique autorité de l’autorisation.
 
 ### 28.3 Consommer les matériaux avant le candidat de domaine
 
@@ -2282,9 +2283,9 @@ repository.replace_domain(candidate)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Les autorités sont mutées séquentiellement sans rollback garanti.
+- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Les autorités sont mutées séquentiellement sans rollback garanti.
 
 **Exemple corrigé :**
 
@@ -2298,9 +2299,9 @@ commit_port.commit_with_external_candidates(domain_candidate, revision, inventor
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Les deux candidats sont préparés puis committés comme un seul lot.
+- **Limites et réserves :** Pourquoi la correction fonctionne : Les deux candidats sont préparés puis committés comme un seul lot.
 
 ### 28.4 Confondre livraison et progression de travail
 
@@ -2317,9 +2318,9 @@ if all_materials_delivered:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : La recette distingue pourtant matériaux et travail requis.
+- **Point d’explication complémentaire :** Pourquoi cet exemple est fautif : La recette distingue pourtant matériaux et travail requis.
 
 **Exemple corrigé :**
 
@@ -2332,9 +2333,9 @@ if all_materials_delivered and completed_work_units == required_work_units:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
+- **Limites et réserves :** Pourquoi la correction fonctionne : L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
 
 ### 28.5 Utiliser un nombre flottant pour la progression
 
@@ -2352,9 +2353,9 @@ if progress >= 1.0:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Le contrat d’arrondi et la valeur persistée sont implicites.
+- **Persistance et restauration :** Pourquoi cet exemple est fautif : Le contrat d’arrondi et la valeur persistée sont implicites.
 
 **Exemple corrigé :**
 
@@ -2367,9 +2368,9 @@ var progress_bp := DomainMath.ratio_basis_points(worksite.completed_work_units, 
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Le travail et le ratio sont entiers, bornés et sérialisables.
+- **Limites et réserves :** Pourquoi la correction fonctionne : Le travail et le ratio sont entiers, bornés et sérialisables.
 
 ### 28.6 Fixer un coût dans le bâtiment vivant
 
@@ -2386,9 +2387,9 @@ wallet.balance -= building.construction_price
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Le domaine reprend l’autorité monétaire et mélange conception, état et économie.
+- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Le domaine reprend l’autorité monétaire et mélange conception, état et économie.
 
 **Exemple corrigé :**
 
@@ -2401,9 +2402,9 @@ var cost_candidate := economy_port.prepare_construction_cost(command, recipe.opt
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : La recette fournit une donnée validée et l’économie prépare les écritures.
+- **Limites et réserves :** Pourquoi la correction fonctionne : La recette fournit une donnée validée et l’économie prépare les écritures.
 
 ### 28.7 Produire les extrants avant de consommer les intrants
 
@@ -2420,9 +2421,9 @@ inventory.remove_inputs(inputs)
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Les deux effets sont appliqués dans un ordre observable et non atomique.
+- **Point d’explication complémentaire :** Pourquoi cet exemple est fautif : Les deux effets sont appliqués dans un ordre observable et non atomique.
 
 **Exemple corrigé :**
 
@@ -2435,9 +2436,9 @@ commit_port.commit_with_external_candidates(domain_candidate, revision, mutation
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Un seul candidat d’inventaire porte consommation et production.
+- **Dépendances et ports utilisés :** Pourquoi la correction fonctionne : Un seul candidat d’inventaire porte consommation et production.
 
 ### 28.8 Utiliser le temps réel pour l’entretien
 
@@ -2453,9 +2454,9 @@ building.last_maintenance_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Le temps réel ne fait pas partie de la simulation sauvegardée.
+- **Limites et réserves :** Pourquoi cet exemple est fautif : Le temps réel ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 
@@ -2467,9 +2468,9 @@ building.last_maintenance_tick = world_clock.logical_tick
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Le tick logique est persisté, non décroissant et commun aux systèmes.
+- **Persistance et restauration :** Pourquoi la correction fonctionne : Le tick logique est persisté, non décroissant et commun aux systèmes.
 
 ### 28.9 Autoriser une action en absence de décision
 
@@ -2487,9 +2488,9 @@ if decision == null or decision.status != DENY:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : Tous les états autres que refus explicite deviennent autorisés.
+- **Invariants protégés :** Pourquoi cet exemple est fautif : Tous les états autres que refus explicite deviennent autorisés.
 
 **Exemple corrigé :**
 
@@ -2503,9 +2504,9 @@ if decision != null and decision.status == DomainRightsPort.Decision.Status.ALLO
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : Seul `ALLOW` ouvre l’action ; absence et indétermination restent fermées.
+- **Limites et réserves :** Pourquoi la correction fonctionne : Seul `ALLOW` ouvre l’action ; absence et indétermination restent fermées.
 
 ### 28.10 Laisser une sortie IA achever un chantier
 
@@ -2522,9 +2523,9 @@ if ai_response["worksite_complete"]:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi cet exemple est fautif : La sortie non fiable contourne matériaux, travail, droits, révisions et idempotence.
+- **Limites et réserves :** Pourquoi cet exemple est fautif : La sortie non fiable contourne matériaux, travail, droits, révisions et idempotence.
 
 **Exemple corrigé :**
 
@@ -2539,9 +2540,9 @@ if command != null:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Pourquoi la correction fonctionne : La suggestion devient au mieux une commande typée qui repasse par toutes les validations.
+- **Limites et réserves :** Pourquoi la correction fonctionne : La suggestion devient au mieux une commande typée qui repasse par toutes les validations.
 
 ## 29. Tests à préparer
 

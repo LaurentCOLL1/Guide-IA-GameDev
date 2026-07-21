@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 23"
 id: "DOC-L2-QA-AUDIT-CH23"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH23"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-21T04:38:43+02:00"
-last-verified: "2026-07-21T04:38:43+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch23-po
 
 ## 2. Résultats
 
-- lignes finales : **4127** ;
+- lignes finales : **4262** ;
 - titres Markdown : **75** ;
 - blocs de code ou de données : **71** ;
 - marqueurs d’explication : **71** ;
@@ -31,6 +31,10 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch23-po
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
+- unités d’explication antérieures conservées : **279** ;
+- segments d’explication antérieurs perdus : **0** ;
+- points pédagogiques complémentaires ajoutés : **0** ;
+- sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et périmètre
 
@@ -69,7 +73,9 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **71** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée. Les sections d’erreurs utilisent directement `Pourquoi cet exemple est fautif` et `Pourquoi la correction fonctionne`.
+
+
+Les **71** blocs possèdent **71** marqueurs. Les explications antérieures ont été décomposées en **283** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 7. Règle sémantique des erreurs
 

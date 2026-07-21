@@ -13,6 +13,7 @@ on:
       - "CONTINUITE-PROJET.md"
       - "REPRISE-NOUVELLE-CONVERSATION.md"
       - "tools/validate_chapters.py"
+      - "tools/check_code_explanation_structure.py"
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
@@ -42,6 +43,12 @@ jobs:
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
+
+      - name: Validate structured code explanations
+        run: |
+          set -o pipefail
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/QA-EXPLICATIONS-CODE.log
 
       - name: Audit usage marker presence
         run: |
@@ -78,6 +85,7 @@ jobs:
           path: |
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
+            dist/QA-EXPLICATIONS-CODE.log
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md

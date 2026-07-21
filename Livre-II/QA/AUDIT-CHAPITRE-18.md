@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 18"
 id: "DOC-L2-QA-AUDIT-CH18"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 chapter-id: "DOC-L2-CH18"
-chapter-version: "1.0.0"
+chapter-version: "1.0.1"
 audit-level: "static-review"
-audit-date: "2026-07-20T14:18:58+02:00"
-last-verified: "2026-07-20T14:18:58+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier état permanent du chapitre a conservé `status: draft`, `version: 0.
 
 ## 2. Résultats
 
-- lignes finales : **3991** ;
+- lignes finales : **3957** ;
 - titres Markdown : **74** ;
 - blocs de code ou de données : **67** ;
 - marqueurs d’explication : **67** ;
@@ -97,6 +97,11 @@ La version de référence du projet reste Godot `4.7.1-stable`.
 ## 8. Clôture éditoriale
 
 La dernière section est une synthèse opérationnelle des décisions retenues pour `Project Asteria`. Elle ne contient ni chemin du chapitre suivant, ni niveau GPT futur, ni instruction de production. Ces informations restent dans `CONTINUITE-PROJET.md`.
+
+## 9. Explications pédagogiques
+
+
+Les **67** blocs possèdent **67** marqueurs. Les explications antérieures ont été décomposées en **217** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 9. Réserves
 

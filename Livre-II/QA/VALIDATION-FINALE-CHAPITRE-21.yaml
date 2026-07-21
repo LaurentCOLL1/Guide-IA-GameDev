@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH21
 status: complete
-validation-date: 2026-07-20
-validated-base-commit: c4e16559e24dc2b0f432f1bd24bd643f9520c162
-validated-head-commit: 1cff72cfe142ded5a8dba3fe8af0caac400f2f1a
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 chapter:
   id: DOC-L2-CH21
   path: Livre-II/CHAPITRE-21-Economie.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 2984
+  chapter-lines: 3111
   chapter-headings: 64
   chapter-code-and-data-blocks: 60
   code-explanation-markers: 60
@@ -30,29 +30,39 @@ results:
   idempotent-transactions: true
   economy-inventory-commit-contract: true
   save-prepared-before-replacement: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 221
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29771275490
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29771275935
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8472838021
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:48752ffbb0f6db70079cf7ad08a1738bd704b752ac804cee5e95f79a2e6db5b3
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Typed Dictionary signatures not runtime-verified.
-  - Arithmetic bounds not runtime-tested.
-  - Economy-inventory transaction commit not run.
-  - Authorization adapter not materialized.
-  - Future tax and pricing contexts not run.
-  - Agent action not materialized.
-  - Demo scene not instantiated.
-  - Performance budgets not measured.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Typed Dictionary signatures not runtime-verified.
+- Arithmetic bounds not runtime-tested.
+- Economy-inventory transaction commit not run.
+- Authorization adapter not materialized.
+- Future tax and pricing contexts not run.
+- Agent action not materialized.
+- Demo scene not instantiated.
+- Performance budgets not measured.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
+  conclusion: success

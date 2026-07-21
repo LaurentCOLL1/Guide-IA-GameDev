@@ -1,21 +1,21 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH24
 status: complete
-validation-date: 2026-07-21
-validated-base-commit: e4ce33c1f8b46d6d25d1a3e7681159130b7b6e0e
-validated-head-commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 evidence-closure:
-  commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
   conclusion: success
 chapter:
   id: DOC-L2-CH24
   path: Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 2645
+  chapter-lines: 2541
   chapter-headings: 48
   chapter-code-and-data-blocks: 61
   code-explanation-markers: 61
@@ -35,26 +35,33 @@ results:
   domain-inventory-economy-commit-contract: true
   production-input-output-atomicity: true
   save-prepared-before-replacement: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 225
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29809232903
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29809232871
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8486719468
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:9bab85f163c550f7e212ac20144d6d81f72b1ac94216ab7495f61b9fd18b3f11
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Typed collections not runtime-verified.
-  - Domain-inventory-economy commit not run.
-  - Rights and ecology site adapters not materialized.
-  - Large-scale performance not measured.
-  - Demo scene not instantiated.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Typed collections not runtime-verified.
+- Domain-inventory-economy commit not run.
+- Rights and ecology site adapters not materialized.
+- Large-scale performance not measured.
+- Demo scene not instantiated.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.

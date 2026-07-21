@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 23 : Politique, factions et justice"
 id: "DOC-L2-CH23"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 23
-last-verified: "2026-07-21T04:38:43+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T04:38:43+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-23.md"
 audit-level: "static-review"
 reference-engine:
@@ -33,6 +33,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-23.md`.
+> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
 
 ## 1. Rôle du chapitre
 
@@ -134,13 +135,17 @@ agents, présentation et narration
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une commande exprime une intention sans imposer le résultat.
-- Les services relisent les autorités concernées et ne travaillent que sur des copies.
-- Les ports externes préparent leurs propres candidats sans céder leurs invariants.
-- Le commit coordonné empêche une sanction partiellement appliquée.
-- Les événements décrivent uniquement un fait déjà committé.
+- **Résultat attendu et vérification :** Une commande exprime une intention sans imposer le résultat.
+
+- **Frontières d’autorité :** Les services relisent les autorités concernées et ne travaillent que sur des copies.
+
+- **Invariants protégés :** Les ports externes préparent leurs propres candidats sans céder leurs invariants.
+
+- **Limites et réserves :** Le commit coordonné empêche une sanction partiellement appliquée.
+
+- **Point d’explication complémentaire :** Les événements décrivent uniquement un fait déjà committé.
 
 ## 5. Architecture retenue
 
@@ -211,13 +216,17 @@ res://scenes/learning/
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `domain` contient les définitions, états, commandes et décisions indépendants des scènes.
-- `application` orchestre les politiques et les ports vers les autres autorités.
-- `infrastructure` encode seulement les données durables.
-- `presentation` transforme les résultats committés en retour visuel.
-- Les données de conception restent séparées des adhésions, mandats et dossiers vivants.
+- **Dépendances et ports utilisés :** `domain` contient les définitions, états, commandes et décisions indépendants des scènes.
+
+- **Frontières d’autorité :** `application` orchestre les politiques et les ports vers les autres autorités.
+
+- **Point d’explication complémentaire :** `infrastructure` encode seulement les données durables.
+
+- **Valeur de retour ou code d’échec :** `presentation` transforme les résultats committés en retour visuel.
+
+- **Point d’explication complémentaire — complément 2 :** Les données de conception restent séparées des adhésions, mandats et dossiers vivants.
 
 ## 6. Vocabulaire
 
@@ -308,13 +317,17 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Chaque famille possède un préfixe afin d’éviter les collisions entre concepts.
-- Les méthodes couvrent aussi les identités vivantes : adhésions, mandats, dossiers, preuves et décisions.
-- Les identifiants sont indépendants des noms traduits et des chemins de fichiers.
-- La normalisation refuse tout caractère non prévu plutôt que de le supprimer silencieusement.
-- Les identités de personnages continuent d’utiliser `CharacterId`, tandis que les commandes possèdent leur propre espace pour l’idempotence.
+- **Point d’explication complémentaire :** Chaque famille possède un préfixe afin d’éviter les collisions entre concepts.
+
+- **Point d’explication complémentaire — complément 2 :** Les méthodes couvrent aussi les identités vivantes : adhésions, mandats, dossiers, preuves et décisions.
+
+- **Dépendances et ports utilisés :** Les identifiants sont indépendants des noms traduits et des chemins de fichiers.
+
+- **Invariants protégés :** La normalisation refuse tout caractère non prévu plutôt que de le supprimer silencieusement.
+
+- **Point d’explication complémentaire — complément 3 :** Les identités de personnages continuent d’utiliser `CharacterId`, tandis que les commandes possèdent leur propre espace pour l’idempotence.
 
 ## 8. Définition d’une institution
 
@@ -356,13 +369,17 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’institution est une `Resource` de conception partagée et immuable pendant le gameplay.
-- Les juridictions sont des références logiques ; elles ne donnent aucune propriété sur les régions.
-- Les factions autorisées sont déclarées explicitement et sans doublon.
-- `institution_kind` permet de distinguer conseil, tribunal ou administration sans charger un script depuis les données.
-- Aucun membre, mandat ou dossier vivant n’est stocké dans la définition.
+- **Limites et réserves :** L’institution est une `Resource` de conception partagée et immuable pendant le gameplay.
+
+- **Limites et réserves — complément 2 :** Les juridictions sont des références logiques ; elles ne donnent aucune propriété sur les régions.
+
+- **Point d’explication complémentaire :** Les factions autorisées sont déclarées explicitement et sans doublon.
+
+- **Point d’explication complémentaire — complément 2 :** `institution_kind` permet de distinguer conseil, tribunal ou administration sans charger un script depuis les données.
+
+- **Limites et réserves — complément 3 :** Aucun membre, mandat ou dossier vivant n’est stocké dans la définition.
 
 ## 9. Définition d’une faction
 
@@ -407,13 +424,17 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une faction dépend d’une institution par identifiant, jamais par référence mutable.
-- Les rangs et fonctions autorisés sont bornés.
-- La capacité maximale protège les scénarios et les snapshots pathologiques.
-- L’ordre politique n’est pas déduit d’une relation sociale ou d’un nom.
-- Les adhésions vivantes restent dans `FactionState`.
+- **Dépendances et ports utilisés :** Une faction dépend d’une institution par identifiant, jamais par référence mutable.
+
+- **Point d’explication complémentaire :** Les rangs et fonctions autorisés sont bornés.
+
+- **Persistance et restauration :** La capacité maximale protège les scénarios et les snapshots pathologiques.
+
+- **Limites et réserves :** L’ordre politique n’est pas déduit d’une relation sociale ou d’un nom.
+
+- **Point d’explication complémentaire — complément 2 :** Les adhésions vivantes restent dans `FactionState`.
 
 ## 10. Rangs et fonctions
 
@@ -443,13 +464,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `authority_level` sert uniquement à comparer des rangs au sein de politiques qui le demandent.
-- Les droits sont des identifiants déclaratifs, pas des appels de méthodes.
-- Les doublons sont refusés afin qu’une décision d’accès reste explicable.
-- Un rang ne modifie ni relation sociale ni statistiques de personnage.
-- La définition ne contient aucun titulaire.
+- **Point d’explication complémentaire :** `authority_level` sert uniquement à comparer des rangs au sein de politiques qui le demandent.
+
+- **Point d’explication complémentaire — complément 2 :** Les droits sont des identifiants déclaratifs, pas des appels de méthodes.
+
+- **Invariants protégés :** Les doublons sont refusés afin qu’une décision d’accès reste explicable.
+
+- **Limites et réserves :** Un rang ne modifie ni relation sociale ni statistiques de personnage.
+
+- **Limites et réserves — complément 2 :** La définition ne contient aucun titulaire.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/domain/office_definition.gd`.**
 
@@ -488,13 +513,17 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une fonction décrit les conditions et droits d’un mandat sans désigner son titulaire.
-- Une durée nulle signifie une fin explicite et non un mandat sans contrôle.
-- Les titulaires simultanés sont bornés.
-- Les droits de fonction s’ajoutent aux droits de rang seulement lors du calcul d’autorisation.
-- La nomination demeure une commande validée.
+- **Limites et réserves :** Une fonction décrit les conditions et droits d’un mandat sans désigner son titulaire.
+
+- **Limites et réserves — complément 2 :** Une durée nulle signifie une fin explicite et non un mandat sans contrôle.
+
+- **Point d’explication complémentaire :** Les titulaires simultanés sont bornés.
+
+- **Point d’explication complémentaire — complément 2 :** Les droits de fonction s’ajoutent aux droits de rang seulement lors du calcul d’autorisation.
+
+- **Limites et réserves — complément 3 :** La nomination demeure une commande validée.
 
 ## 11. Lois versionnées
 
@@ -540,13 +569,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une loi possède une identité stable et un numéro de version distinct.
-- `effect` limite les comportements à une énumération connue.
-- Les champs conditionnels sont obligatoires seulement pour l’effet qui les utilise.
-- La priorité est bornée et ne remplace pas l’ordre de promulgation.
-- Une version promulguée ne sera jamais modifiée en place.
+- **Limites et réserves :** Une loi possède une identité stable et un numéro de version distinct.
+
+- **Dépendances et ports utilisés :** `effect` limite les comportements à une énumération connue.
+
+- **Paramètres et types importants :** Les champs conditionnels sont obligatoires seulement pour l’effet qui les utilise.
+
+- **Limites et réserves — complément 2 :** La priorité est bornée et ne remplace pas l’ordre de promulgation.
+
+- **Limites et réserves — complément 3 :** Une version promulguée ne sera jamais modifiée en place.
 
 ## 12. Catalogue politique
 
@@ -643,13 +676,17 @@ func _copy_resource(value: Variant) -> Resource:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les cinq familles de définitions sont enregistrées par des méthodes explicites et refusent les doublons.
-- `_register_resource()` centralise la validation, l’identité stable et la copie profonde sans devenir un registre de services.
-- `validate_cross_references()` s’exécute après le chargement complet et vérifie institution, factions, rangs et fonctions.
-- Chaque lecture retourne une copie afin de préserver l’immuabilité pendant le gameplay.
-- Les versions de loi restent groupées par identité ; `latest_law_version()` les trie avant de choisir la plus récente.
+- **Invariants protégés :** Les cinq familles de définitions sont enregistrées par des méthodes explicites et refusent les doublons.
+
+- **Point d’explication complémentaire :** `_register_resource()` centralise la validation, l’identité stable et la copie profonde sans devenir un registre de services.
+
+- **Résultat attendu et vérification :** `validate_cross_references()` s’exécute après le chargement complet et vérifie institution, factions, rangs et fonctions.
+
+- **Valeur de retour ou code d’échec :** Chaque lecture retourne une copie afin de préserver l’immuabilité pendant le gameplay.
+
+- **Point d’explication complémentaire — complément 2 :** Les versions de loi restent groupées par identité ; `latest_law_version()` les trie avant de choisir la plus récente.
 
 ## 13. État d’adhésion
 
@@ -706,13 +743,17 @@ func duplicate_detached() -> MembershipState:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une adhésion est identifiée indépendamment du personnage et de la faction.
-- La suspension conserve l’adhésion ouverte mais retire ses droits selon la politique.
-- Une adhésion terminée possède un tick de fin qui ne précède pas l’entrée.
-- `cause_id` rend l’entrée ou la dernière transition traçable.
-- La copie détachée prépare un changement sans modifier l’état actif.
+- **Dépendances et ports utilisés :** Une adhésion est identifiée indépendamment du personnage et de la faction.
+
+- **Point d’explication complémentaire :** La suspension conserve l’adhésion ouverte mais retire ses droits selon la politique.
+
+- **Limites et réserves :** Une adhésion terminée possède un tick de fin qui ne précède pas l’entrée.
+
+- **Point d’explication complémentaire — complément 2 :** `cause_id` rend l’entrée ou la dernière transition traçable.
+
+- **Point d’explication complémentaire — complément 3 :** La copie détachée prépare un changement sans modifier l’état actif.
 
 ## 14. État d’un mandat
 
@@ -779,13 +820,17 @@ func duplicate_detached() -> MandateState:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le mandat distingue une fin planifiée de sa fin réelle.
-- Un mandat actif exige un titulaire valide ; un siège vacant conserve la fonction et la juridiction mais exige un titulaire vide.
-- La juridiction est une référence logique validée par un port.
-- La révocation ne supprime pas l’historique du mandat.
-- Les droits sont dérivés de la fonction, du rang et de la période active.
+- **Limites et réserves :** Le mandat distingue une fin planifiée de sa fin réelle.
+
+- **Invariants protégés :** Un mandat actif exige un titulaire valide ; un siège vacant conserve la fonction et la juridiction mais exige un titulaire vide.
+
+- **Dépendances et ports utilisés :** La juridiction est une référence logique validée par un port.
+
+- **Limites et réserves — complément 2 :** La révocation ne supprime pas l’historique du mandat.
+
+- **Point d’explication complémentaire :** Les droits sont dérivés de la fonction, du rang et de la période active.
 
 ## 15. Agrégat de faction
 
@@ -868,13 +913,17 @@ func _same_index(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’agrégat vérifie d’abord que sa définition de faction existe dans le catalogue.
-- Il garantit au plus une adhésion ouverte par personnage et recalcule l’index secondaire avant de le comparer clé par clé.
-- Les clés sont recoupées avec les identifiants des valeurs ; chaque adhésion utilise un rang autorisé et chaque mandat l’institution et une fonction déclarées par la faction.
-- `duplicate_detached()` copie profondément chaque état vivant et l’index, ce qui évite tout partage mutable avec l’agrégat actif.
-- Les tailles et révisions sont validées avant chaque remplacement.
+- **Résultat attendu et vérification :** L’agrégat vérifie d’abord que sa définition de faction existe dans le catalogue.
+
+- **Limites et réserves :** Il garantit au plus une adhésion ouverte par personnage et recalcule l’index secondaire avant de le comparer clé par clé.
+
+- **Limites et réserves — complément 2 :** Les clés sont recoupées avec les identifiants des valeurs ; chaque adhésion utilise un rang autorisé et chaque mandat l’institution et une fonction déclarées par la faction.
+
+- **Point d’explication complémentaire :** `duplicate_detached()` copie profondément chaque état vivant et l’index, ce qui évite tout partage mutable avec l’agrégat actif.
+
+- **Point d’explication complémentaire — complément 2 :** Les tailles et révisions sont validées avant chaque remplacement.
 
 ## 16. Recueil de lois vivant
 
@@ -984,13 +1033,17 @@ func _sort_enactments(left: Enactment, right: Enactment) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une promulgation référence une version de définition déjà enregistrée et exige une cause stable.
-- `validate()` recoupe institution et version de loi, borne le nombre d’entrées et refuse les doublons métier.
-- Les périodes d’effet utilisent l’horloge logique du chapitre 22 ; une juridiction vide représente une portée globale explicitement prévue.
-- `active_at()` retourne des copies dans un ordre déterministe, sans exposer les promulgations internes.
-- `duplicate_detached()` permet au service législatif de préparer une nouvelle promulgation sans réécrire l’historique actif.
+- **Limites et réserves :** Une promulgation référence une version de définition déjà enregistrée et exige une cause stable.
+
+- **Invariants protégés :** `validate()` recoupe institution et version de loi, borne le nombre d’entrées et refuse les doublons métier.
+
+- **Dépendances et ports utilisés :** Les périodes d’effet utilisent l’horloge logique du chapitre 22 ; une juridiction vide représente une portée globale explicitement prévue.
+
+- **Valeur de retour ou code d’échec :** `active_at()` retourne des copies dans un ordre déterministe, sans exposer les promulgations internes.
+
+- **Limites et réserves — complément 2 :** `duplicate_detached()` permet au service législatif de préparer une nouvelle promulgation sans réécrire l’historique actif.
 
 ## 17. Dépôt politique
 
@@ -1027,13 +1080,17 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les lectures doivent retourner des copies détachées.
-- Les identifiants de factions sont triés pour les traitements reproductibles.
-- Les résultats de commandes sont persistés pour l’idempotence.
-- Le dépôt ne décide ni adhésion, ni autorisation, ni verdict.
-- `replace_all()` est réservé à une restauration complète déjà validée.
+- **Valeur de retour ou code d’échec :** Les lectures doivent retourner des copies détachées.
+
+- **Point d’explication complémentaire :** Les identifiants de factions sont triés pour les traitements reproductibles.
+
+- **Persistance et restauration :** Les résultats de commandes sont persistés pour l’idempotence.
+
+- **Limites et réserves :** Le dépôt ne décide ni adhésion, ni autorisation, ni verdict.
+
+- **Persistance et restauration — complément 2 :** `replace_all()` est réservé à une restauration complète déjà validée.
 
 ## 18. Ports d’identité et de juridiction
 
@@ -1056,13 +1113,17 @@ func character_is_eligible(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le système politique valide une identité sans lire un registre de nœuds actifs.
-- L’éligibilité reste un contrat explicite et borné.
-- Le port ne retourne ni état runtime ni relations sociales.
-- Une absence de scène ne rend pas un personnage inexistant.
-- Une sortie IA ne peut pas répondre à la place de ce port.
+- **Invariants protégés :** Le système politique valide une identité sans lire un registre de nœuds actifs.
+
+- **Point d’explication complémentaire :** L’éligibilité reste un contrat explicite et borné.
+
+- **Valeur de retour ou code d’échec :** Le port ne retourne ni état runtime ni relations sociales.
+
+- **Limites et réserves :** Une absence de scène ne rend pas un personnage inexistant.
+
+- **Dépendances et ports utilisés :** Une sortie IA ne peut pas répondre à la place de ce port.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/political_region_port.gd`.**
 
@@ -1083,13 +1144,17 @@ func contains_region(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port traduit une juridiction vers les régions logiques sans donner accès aux populations ou ressources.
-- Les frontières peuvent évoluer par tick logique.
-- Le chapitre 22 reste propriétaire des régions écologiques.
-- Le chapitre 24 pourra adapter les domaines et bâtiments sans déplacer cette frontière.
-- Une juridiction inconnue est refusée avant toute décision.
+- **Dépendances et ports utilisés :** Le port traduit une juridiction vers les régions logiques sans donner accès aux populations ou ressources.
+
+- **Point d’explication complémentaire :** Les frontières peuvent évoluer par tick logique.
+
+- **Frontières d’autorité :** Le chapitre 22 reste propriétaire des régions écologiques.
+
+- **Point d’explication complémentaire — complément 2 :** Le chapitre 24 pourra adapter les domaines et bâtiments sans déplacer cette frontière.
+
+- **Invariants protégés :** Une juridiction inconnue est refusée avant toute décision.
 
 ## 19. Résultat d’une commande politique
 
@@ -1140,13 +1205,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le résultat distingue refus métier, conflit de révision, capacité et panne externe.
-- `REPLAYED` confirme une commande déjà committée sans seconde mutation.
-- Un succès exige la commande et l’agrégat ; `decision_id` devient obligatoire seulement pour une décision qui en produit une.
-- Le résultat ne transporte aucun agrégat mutable.
-- Le message reste descriptif et n’est pas utilisé comme code métier.
+- **Invariants protégés :** Le résultat distingue refus métier, conflit de révision, capacité et panne externe.
+
+- **Limites et réserves :** `REPLAYED` confirme une commande déjà committée sans seconde mutation.
+
+- **Limites et réserves — complément 2 :** Un succès exige la commande et l’agrégat ; `decision_id` devient obligatoire seulement pour une décision qui en produit une.
+
+- **Dépendances et ports utilisés :** Le résultat ne transporte aucun agrégat mutable.
+
+- **Point d’explication complémentaire :** Le message reste descriptif et n’est pas utilisé comme code métier.
 
 ## 20. Commande d’adhésion
 
@@ -1197,13 +1266,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une énumération limite les transitions possibles.
-- L’identité d’adhésion est fournie pour rendre les retries déterministes.
-- `expected_membership_revision = -1` est réservé à une création.
-- La commande porte cause, système source, tick et empreinte.
-- Elle ne contient aucune relation sociale ou donnée d’interface.
+- **Limites et réserves :** Une énumération limite les transitions possibles.
+
+- **Point d’explication complémentaire :** L’identité d’adhésion est fournie pour rendre les retries déterministes.
+
+- **Limites et réserves — complément 2 :** `expected_membership_revision = -1` est réservé à une création.
+
+- **Dépendances et ports utilisés :** La commande porte cause, système source, tick et empreinte.
+
+- **Limites et réserves — complément 3 :** Elle ne contient aucune relation sociale ou donnée d’interface.
 
 ## 21. Service d’adhésion
 
@@ -1297,14 +1370,19 @@ func _command_result(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `execute()` traite replay et conflit d’empreinte avant la préparation, puis émet le signal seulement après le commit.
-- Le service valide l’identité logique avant de lire l’agrégat.
-- La révision de faction protège toutes les transitions.
-- Chaque opération modifie une copie détachée par un helper spécialisé.
-- Une adhésion n’est jamais créée à partir d’une relation sociale supposée.
-- `commit_political()` enregistre ensemble le candidat, l’identité, l’empreinte et le résultat idempotent.
+- **Point d’explication complémentaire :** `execute()` traite replay et conflit d’empreinte avant la préparation, puis émet le signal seulement après le commit.
+
+- **Invariants protégés :** Le service valide l’identité logique avant de lire l’agrégat.
+
+- **Point d’explication complémentaire — complément 2 :** La révision de faction protège toutes les transitions.
+
+- **Limites et réserves :** Chaque opération modifie une copie détachée par un helper spécialisé.
+
+- **Limites et réserves — complément 2 :** Une adhésion n’est jamais créée à partir d’une relation sociale supposée.
+
+- **Résultat attendu et vérification :** `commit_political()` enregistre ensemble le candidat, l’identité, l’empreinte et le résultat idempotent.
 
 ### 21.1 Invariants des transitions d’adhésion
 
@@ -1390,13 +1468,17 @@ func _prepare_end_or_suspend(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une entrée exige une identité nouvelle, l’absence d’adhésion ouverte et un rang autorisé par la définition.
-- Le changement de rang relit l’adhésion, son personnage, son statut et sa révision avant mutation.
-- Une suspension conserve l’index de l’adhésion ouverte mais retire ses droits lors du calcul d’autorisation.
-- Une démission ou expulsion ferme l’intervalle logique puis retire uniquement l’index secondaire.
-- Tous les helpers modifient exclusivement la copie candidate reçue par le service.
+- **Limites et réserves :** Une entrée exige une identité nouvelle, l’absence d’adhésion ouverte et un rang autorisé par la définition.
+
+- **Point d’explication complémentaire :** Le changement de rang relit l’adhésion, son personnage, son statut et sa révision avant mutation.
+
+- **Limites et réserves — complément 2 :** Une suspension conserve l’index de l’adhésion ouverte mais retire ses droits lors du calcul d’autorisation.
+
+- **Limites et réserves — complément 3 :** Une démission ou expulsion ferme l’intervalle logique puis retire uniquement l’index secondaire.
+
+- **Point d’explication complémentaire — complément 2 :** Tous les helpers modifient exclusivement la copie candidate reçue par le service.
 
 ## 22. Commande de mandat
 
@@ -1457,13 +1539,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La nomination et les fins de mandat partagent une structure causale unique.
-- Une création exige `expected_mandate_revision = -1`, tandis qu’une modification exige une révision existante.
-- Le titulaire est obligatoire pour une nomination et reste validé lorsqu’une opération de fin le mentionne.
-- Cause, système source, tick et empreinte rendent la commande traçable et idempotente.
-- La juridiction reste une référence validée par le port régional, jamais un accès à l’état écologique.
+- **Limites et réserves :** La nomination et les fins de mandat partagent une structure causale unique.
+
+- **Limites et réserves — complément 2 :** Une création exige `expected_mandate_revision = -1`, tandis qu’une modification exige une révision existante.
+
+- **Limites et réserves — complément 3 :** Le titulaire est obligatoire pour une nomination et reste validé lorsqu’une opération de fin le mentionne.
+
+- **Point d’explication complémentaire :** Cause, système source, tick et empreinte rendent la commande traçable et idempotente.
+
+- **Dépendances et ports utilisés :** La juridiction reste une référence validée par le port régional, jamais un accès à l’état écologique.
 
 ## 23. Service de mandats
 
@@ -1634,14 +1720,19 @@ func _command_result(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `execute()` protège l’idempotence, committe le candidat et n’émet son événement qu’après succès.
-- `prepare()` traite création et fin de mandat sur une copie détachée, puis revalide l’agrégat complet.
-- Une nomination recoupe identité, juridiction, définition de faction, fonction autorisée, rang requis et capacité simultanée.
-- Une opération de fin exige le mandat actif et sa révision exacte ; elle conserve l’historique au lieu de supprimer l’entrée.
-- `_scheduled_end()` distingue un mandat sans échéance (`-1`) d’un dépassement entier (`-2`).
-- Les droits ne sont pas copiés dans le mandat : ils restent dérivés des définitions et de la période active.
+- **Point d’explication complémentaire :** `execute()` protège l’idempotence, committe le candidat et n’émet son événement qu’après succès.
+
+- **Invariants protégés :** `prepare()` traite création et fin de mandat sur une copie détachée, puis revalide l’agrégat complet.
+
+- **Limites et réserves :** Une nomination recoupe identité, juridiction, définition de faction, fonction autorisée, rang requis et capacité simultanée.
+
+- **Limites et réserves — complément 2 :** Une opération de fin exige le mandat actif et sa révision exacte ; elle conserve l’historique au lieu de supprimer l’entrée.
+
+- **Point d’explication complémentaire — complément 2 :** `_scheduled_end()` distingue un mandat sans échéance (`-1`) d’un dépassement entier (`-2`).
+
+- **Limites et réserves — complément 3 :** Les droits ne sont pas copiés dans le mandat : ils restent dérivés des définitions et de la période active.
 
 ## 24. Promulguer une loi
 
@@ -1688,13 +1779,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La commande référence une définition de loi déjà versionnée et ne transporte aucun code exécutable.
-- La date d’effet ne peut pas précéder la promulgation, et la date de fin ne peut pas précéder le début.
-- Le proposant est identifié, mais son autorité est recalculée depuis les lois et mandats actifs.
-- Cause, système source et empreinte permettent d’auditer puis de rejouer la commande sans double effet.
-- La révision protège le recueil contre deux promulgations concurrentes.
+- **Dépendances et ports utilisés :** La commande référence une définition de loi déjà versionnée et ne transporte aucun code exécutable.
+
+- **Limites et réserves :** La date d’effet ne peut pas précéder la promulgation, et la date de fin ne peut pas précéder le début.
+
+- **Frontières d’autorité :** Le proposant est identifié, mais son autorité est recalculée depuis les lois et mandats actifs.
+
+- **Point d’explication complémentaire :** Cause, système source et empreinte permettent d’auditer puis de rejouer la commande sans double effet.
+
+- **Point d’explication complémentaire — complément 2 :** La révision protège le recueil contre deux promulgations concurrentes.
 
 ## 25. Service législatif
 
@@ -1837,14 +1932,19 @@ func _command_result(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `execute()` applique les règles d’idempotence avant préparation et émet la promulgation seulement après le commit.
-- La définition, l’institution, la juridiction et l’autorisation sont relues avant l’agrégat vivant.
-- Le droit de promulguer est calculé au tick demandé ; la commande ne peut pas se déclarer elle-même autorisée.
-- `_overlaps_existing_enactment()` refuse deux périodes qui se chevauchent pour la même version et la même portée.
-- Les intervalles ouverts utilisent `-1` et sont comparés sans consulter l’heure système.
-- Le recueil candidat conserve les anciennes promulgations et est intégralement revalidé avant retour.
+- **Point d’explication complémentaire :** `execute()` applique les règles d’idempotence avant préparation et émet la promulgation seulement après le commit.
+
+- **Point d’explication complémentaire — complément 2 :** La définition, l’institution, la juridiction et l’autorisation sont relues avant l’agrégat vivant.
+
+- **Limites et réserves :** Le droit de promulguer est calculé au tick demandé ; la commande ne peut pas se déclarer elle-même autorisée.
+
+- **Invariants protégés :** `_overlaps_existing_enactment()` refuse deux périodes qui se chevauchent pour la même version et la même portée.
+
+- **Point d’explication complémentaire — complément 3 :** Les intervalles ouverts utilisent `-1` et sont comparés sans consulter l’heure système.
+
+- **Valeur de retour ou code d’échec :** Le recueil candidat conserve les anciennes promulgations et est intégralement revalidé avant retour.
 
 ## 26. Contexte d’autorisation
 
@@ -1903,13 +2003,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le contexte rassemble des identifiants et faits bornés, jamais des nœuds.
-- Les cibles optionnelles restent explicitement séparées par type.
-- La fabrique initialise le cas courant sans empêcher des contextes plus riches.
-- Les faits supplémentaires doivent provenir de ports validés.
-- Le contexte est transitoire et n’est pas persisté.
+- **Point d’explication complémentaire :** Le contexte rassemble des identifiants et faits bornés, jamais des nœuds.
+
+- **Paramètres et types importants :** Les cibles optionnelles restent explicitement séparées par type.
+
+- **Point d’explication complémentaire — complément 2 :** La fabrique initialise le cas courant sans empêcher des contextes plus riches.
+
+- **Dépendances et ports utilisés :** Les faits supplémentaires doivent provenir de ports validés.
+
+- **Persistance et restauration :** Le contexte est transitoire et n’est pas persisté.
 
 ## 27. Décision d’autorisation
 
@@ -1971,13 +2075,17 @@ func _validate_unique_rights(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La décision distingue refus, absence de loi et impossibilité d’évaluer.
-- Les références de lois expliquent la conclusion sans exposer les définitions mutables.
-- Les droits accordés sont listés et bornés.
-- Un refus ou une impossibilité d’évaluer exige une raison stable.
-- Une décision d’autorisation est un résultat transitoire, pas une loi persistée.
+- **Invariants protégés :** La décision distingue refus, absence de loi et impossibilité d’évaluer.
+
+- **Point d’explication complémentaire :** Les références de lois expliquent la conclusion sans exposer les définitions mutables.
+
+- **Point d’explication complémentaire — complément 2 :** Les droits accordés sont listés et bornés.
+
+- **Invariants protégés — complément 2 :** Un refus ou une impossibilité d’évaluer exige une raison stable.
+
+- **Persistance et restauration :** Une décision d’autorisation est un résultat transitoire, pas une loi persistée.
 
 ## 28. Calculer une autorisation
 
@@ -2157,13 +2265,17 @@ func _sort_laws(left: LawDefinition, right: LawDefinition) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les droits actifs sont reconstruits depuis les adhésions `ACTIVE` et les mandats `ACTIVE`, jamais depuis la proximité, l’affinité ou un nœud.
-- Les lois actives sont relues depuis le recueil au tick et dans la juridiction demandés ; une définition manquante rend l’évaluation indéterminée.
-- La priorité décroissante est départagée lexicalement puis par version, ce qui rend l’ordre reproductible.
-- `_evaluate()` traite la première règle prioritaire applicable : interdiction, droit requis, permission ou infraction rapportable.
-- Chaque décision conserve les références de lois, les droits observés, la révision du recueil et une raison stable sans exposer les agrégats mutables.
+- **Point d’explication complémentaire :** Les droits actifs sont reconstruits depuis les adhésions `ACTIVE` et les mandats `ACTIVE`, jamais depuis la proximité, l’affinité ou un nœud.
+
+- **Limites et réserves :** Les lois actives sont relues depuis le recueil au tick et dans la juridiction demandés ; une définition manquante rend l’évaluation indéterminée.
+
+- **Point d’explication complémentaire — complément 2 :** La priorité décroissante est départagée lexicalement puis par version, ce qui rend l’ordre reproductible.
+
+- **Dépendances et ports utilisés :** `_evaluate()` traite la première règle prioritaire applicable : interdiction, droit requis, permission ou infraction rapportable.
+
+- **Limites et réserves — complément 2 :** Chaque décision conserve les références de lois, les droits observés, la révision du recueil et une raison stable sans exposer les agrégats mutables.
 
 ### 28.1 Politique de décision
 
@@ -2224,13 +2336,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le dossier et la commande possèdent des identités distinctes.
-- L’accusé est obligatoire ; le rapporteur peut rester vide pour une cause système authentifiée par `source_system_id`.
-- Le fait allégué ne peut pas être daté après son rapport.
-- `source_event_id`, `cause_id` et le système source relient l’allégation à un fait committé sans conclure à la culpabilité.
-- `expected_case_revision = -1` indique explicitement une création idempotente.
+- **Point d’explication complémentaire :** Le dossier et la commande possèdent des identités distinctes.
+
+- **Dépendances et ports utilisés :** L’accusé est obligatoire ; le rapporteur peut rester vide pour une cause système authentifiée par `source_system_id`.
+
+- **Dépendances et ports utilisés — complément 2 :** Le fait allégué ne peut pas être daté après son rapport.
+
+- **Point d’explication complémentaire — complément 2 :** `source_event_id`, `cause_id` et le système source relient l’allégation à un fait committé sans conclure à la culpabilité.
+
+- **Limites et réserves :** `expected_case_revision = -1` indique explicitement une création idempotente.
 
 ### 29.1 Ouvrir un dossier sans préjuger du verdict
 
@@ -2249,13 +2365,17 @@ func event_exists(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port confirme qu’un événement causal a réellement été committé par le système source annoncé.
-- Il ne retourne ni payload mutable, ni conclusion judiciaire.
-- L’adaptateur peut router vers combat, économie, inventaire, écologie ou un système institutionnel.
-- Une identité inconnue ou associée à un autre système est refusée.
-- La vérification du fait source ne transforme pas l’allégation en preuve recevable ni en verdict.
+- **Dépendances et ports utilisés :** Le port confirme qu’un événement causal a réellement été committé par le système source annoncé.
+
+- **Valeur de retour ou code d’échec :** Il ne retourne ni payload mutable, ni conclusion judiciaire.
+
+- **Point d’explication complémentaire :** L’adaptateur peut router vers combat, économie, inventaire, écologie ou un système institutionnel.
+
+- **Invariants protégés :** Une identité inconnue ou associée à un autre système est refusée.
+
+- **Résultat attendu et vérification :** La vérification du fait source ne transforme pas l’allégation en preuve recevable ni en verdict.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/justice_intake_service.gd`.**
 
@@ -2359,13 +2479,17 @@ func _is_configured() -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le service traite replay et conflit d’empreinte avant de créer le dossier.
-- Il vérifie l’événement causal, les identités logiques et la juridiction sans consulter les scènes actives.
-- L’allégation devient un dossier `OPEN` contenant sa provenance, mais aucune conclusion ni sanction.
-- `commit_case()` enregistre ensemble le dossier, l’identité de commande, l’empreinte et le résultat durable.
-- Le signal est émis seulement après le commit ; un retry identique renvoie `REPLAYED` sans ouvrir un second dossier.
+- **Point d’explication complémentaire :** Le service traite replay et conflit d’empreinte avant de créer le dossier.
+
+- **Résultat attendu et vérification :** Il vérifie l’événement causal, les identités logiques et la juridiction sans consulter les scènes actives.
+
+- **Limites et réserves :** L’allégation devient un dossier `OPEN` contenant sa provenance, mais aucune conclusion ni sanction.
+
+- **Résultat attendu et vérification — complément 2 :** `commit_case()` enregistre ensemble le dossier, l’identité de commande, l’empreinte et le résultat durable.
+
+- **Point d’explication complémentaire — complément 2 :** Le signal est émis seulement après le commit ; un retry identique renvoie `REPLAYED` sans ouvrir un second dossier.
 
 ## 30. Preuve structurée
 
@@ -2432,13 +2556,17 @@ func duplicate_detached() -> EvidenceRecord:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La preuve référence un fait ou objet possédé par un autre système au lieu de le copier.
-- La séquence de chaîne de garde rend l’ordre des remises vérifiable.
-- Le digest détecte une substitution du payload référencé sans prétendre prouver sa véracité.
-- Recevabilité et poids sont distincts ; un témoignage reste une preuve possible, pas une vérité automatique.
-- `duplicate_detached()` évite qu’un dossier candidat partage une preuve mutable avec le dossier actif.
+- **Point d’explication complémentaire :** La preuve référence un fait ou objet possédé par un autre système au lieu de le copier.
+
+- **Résultat attendu et vérification :** La séquence de chaîne de garde rend l’ordre des remises vérifiable.
+
+- **Limites et réserves :** Le digest détecte une substitution du payload référencé sans prétendre prouver sa véracité.
+
+- **Limites et réserves — complément 2 :** Recevabilité et poids sont distincts ; un témoignage reste une preuve possible, pas une vérité automatique.
+
+- **Limites et réserves — complément 3 :** `duplicate_detached()` évite qu’un dossier candidat partage une preuve mutable avec le dossier actif.
 
 ### 30.1 Vérifier une référence sans prendre son autorité
 
@@ -2463,13 +2591,17 @@ func integrity_digest_for(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’adaptateur route la vérification vers l’autorité concernée : inventaire, économie, combat, écologie ou documents.
-- `reference_exists()` ne retourne jamais l’objet, la transaction ou l’événement mutable.
-- `integrity_digest_for()` fournit une empreinte canonique calculée par le système source.
-- Une référence supprimée, inconnue ou dont l’empreinte diffère est refusée avant l’ajout au dossier.
-- Le port n’évalue ni recevabilité, ni poids, ni culpabilité.
+- **Frontières d’autorité :** L’adaptateur route la vérification vers l’autorité concernée : inventaire, économie, combat, écologie ou documents.
+
+- **Valeur de retour ou code d’échec :** `reference_exists()` ne retourne jamais l’objet, la transaction ou l’événement mutable.
+
+- **Limites et réserves :** `integrity_digest_for()` fournit une empreinte canonique calculée par le système source.
+
+- **Invariants protégés :** Une référence supprimée, inconnue ou dont l’empreinte diffère est refusée avant l’ajout au dossier.
+
+- **Dépendances et ports utilisés :** Le port n’évalue ni recevabilité, ni poids, ni culpabilité.
 
 ## 31. Dossier judiciaire
 
@@ -2583,13 +2715,17 @@ func _validate_unique_characters(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le dossier conserve l’allégation, sa provenance, les participants, les preuves et les verdicts complets sans préjuger de leur issue.
-- Les clés de preuves sont recoupées avec les identifiants des valeurs et les collections sont bornées puis dédupliquées.
-- La juridiction et le rapporteur peuvent être absents seulement selon les règles explicites de la commande d’ouverture.
-- `duplicate_detached()` copie profondément toutes les preuves et listes avant une enquête ou une audience.
-- Les références externes restent dans leurs systèmes propriétaires ; le dossier ne conserve que leurs identités et empreintes.
+- **Point d’explication complémentaire :** Le dossier conserve l’allégation, sa provenance, les participants, les preuves et les verdicts complets sans préjuger de leur issue.
+
+- **Point d’explication complémentaire — complément 2 :** Les clés de preuves sont recoupées avec les identifiants des valeurs et les collections sont bornées puis dédupliquées.
+
+- **Dépendances et ports utilisés :** La juridiction et le rapporteur peuvent être absents seulement selon les règles explicites de la commande d’ouverture.
+
+- **Limites et réserves :** `duplicate_detached()` copie profondément toutes les preuves et listes avant une enquête ou une audience.
+
+- **Frontières d’autorité :** Les références externes restent dans leurs systèmes propriétaires ; le dossier ne conserve que leurs identités et empreintes.
 
 ## 32. Dépôt judiciaire
 
@@ -2617,13 +2753,17 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les lectures retournent des copies détachées.
-- Les dossiers ouverts sont triés pour un ordonnanceur reproductible.
-- Le remplacement revalide la révision au dernier instant.
-- Le dépôt ne décide ni recevabilité, ni culpabilité, ni sanction.
-- Une restauration complète utilise un candidat global déjà validé.
+- **Valeur de retour ou code d’échec :** Les lectures retournent des copies détachées.
+
+- **Point d’explication complémentaire :** Les dossiers ouverts sont triés pour un ordonnanceur reproductible.
+
+- **Invariants protégés :** Le remplacement revalide la révision au dernier instant.
+
+- **Limites et réserves :** Le dépôt ne décide ni recevabilité, ni culpabilité, ni sanction.
+
+- **Persistance et restauration :** Une restauration complète utilise un candidat global déjà validé.
 
 ## 33. Service d’enquête
 
@@ -2681,13 +2821,17 @@ func prepare_add_evidence(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le dossier, sa révision et son statut sont relus avant l’ajout.
-- L’enquêteur doit posséder le droit actif au tick demandé.
-- Le port de sources confirme l’existence puis recalcule l’empreinte canonique de la référence externe.
-- Une séquence de chaîne de garde non contiguë, une identité déjà présente ou une empreinte différente est refusée sans mutation du dossier actif.
-- La preuve est copiée dans le candidat, qui passe ensuite toute la validation du dossier.
+- **Point d’explication complémentaire :** Le dossier, sa révision et son statut sont relus avant l’ajout.
+
+- **Point d’explication complémentaire — complément 2 :** L’enquêteur doit posséder le droit actif au tick demandé.
+
+- **Dépendances et ports utilisés :** Le port de sources confirme l’existence puis recalcule l’empreinte canonique de la référence externe.
+
+- **Invariants protégés :** Une séquence de chaîne de garde non contiguë, une identité déjà présente ou une empreinte différente est refusée sans mutation du dossier actif.
+
+- **Point d’explication complémentaire — complément 3 :** La preuve est copiée dans le candidat, qui passe ensuite toute la validation du dossier.
 
 ## 34. Décision de verdict
 
@@ -2769,13 +2913,17 @@ func duplicate_detached() -> VerdictDecision:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le verdict distingue culpabilité, acquittement, classement et impossibilité de juger.
-- Une condamnation exige au moins une référence de loi applicable.
-- Les preuves acceptées et rejetées restent identifiées séparément.
-- Les codes de raisonnement sont stables et localisables.
-- Le verdict ne contient encore aucun effet monétaire, matériel ou corporel.
+- **Point d’explication complémentaire :** Le verdict distingue culpabilité, acquittement, classement et impossibilité de juger.
+
+- **Limites et réserves :** Une condamnation exige au moins une référence de loi applicable.
+
+- **Point d’explication complémentaire — complément 2 :** Les preuves acceptées et rejetées restent identifiées séparément.
+
+- **Point d’explication complémentaire — complément 3 :** Les codes de raisonnement sont stables et localisables.
+
+- **Limites et réserves — complément 2 :** Le verdict ne contient encore aucun effet monétaire, matériel ou corporel.
 
 ## 35. Plan de sanction
 
@@ -2838,13 +2986,17 @@ func _validate_unique_ids(values: Array[StringName]) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le plan décrit les effets décidés sans les appliquer.
-- Les amendes utilisent les unités mineures du chapitre 21.
-- Les confiscations référencent des entrées possédées par l’inventaire.
-- Les restrictions institutionnelles restent distinctes des dégâts ou états de combat.
-- Les domaines sont seulement référencés pour un adaptateur futur.
+- **Point d’explication complémentaire :** Le plan décrit les effets décidés sans les appliquer.
+
+- **Point d’explication complémentaire — complément 2 :** Les amendes utilisent les unités mineures du chapitre 21.
+
+- **Point d’explication complémentaire — complément 3 :** Les confiscations référencent des entrées possédées par l’inventaire.
+
+- **Point d’explication complémentaire — complément 4 :** Les restrictions institutionnelles restent distinctes des dégâts ou états de combat.
+
+- **Point d’explication complémentaire — complément 5 :** Les domaines sont seulement référencés pour un adaptateur futur.
 
 ## 36. Ports de préparation des sanctions
 
@@ -2871,13 +3023,17 @@ func prepare_fine(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’économie prépare elle-même les écritures équilibrées de l’amende.
-- Le système judiciaire fournit un montant décidé et une cible, jamais un solde.
-- Le payload opaque empêche la politique de contourner les règles de portefeuille.
-- Une absence de fonds produit un résultat métier défini par la politique économique.
-- Aucun portefeuille n’est modifié pendant la préparation.
+- **Point d’explication complémentaire :** L’économie prépare elle-même les écritures équilibrées de l’amende.
+
+- **Limites et réserves :** Le système judiciaire fournit un montant décidé et une cible, jamais un solde.
+
+- **Dépendances et ports utilisés :** Le payload opaque empêche la politique de contourner les règles de portefeuille.
+
+- **Résultat attendu et vérification :** Une absence de fonds produit un résultat métier défini par la politique économique.
+
+- **Dépendances et ports utilisés — complément 2 :** Aucun portefeuille n’est modifié pendant la préparation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/sanction_inventory_port.gd`.**
 
@@ -2902,13 +3058,17 @@ func prepare_confiscation(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’inventaire vérifie propriété, garde, équipement et révisions.
-- Le plan judiciaire ne retire aucun objet directement.
-- Le candidat peut transférer vers un conteneur institutionnel défini par composition.
-- Les objets équipés suivent encore les invariants du chapitre 20.
-- Un échec laisse tous les conteneurs inchangés.
+- **Résultat attendu et vérification :** L’inventaire vérifie propriété, garde, équipement et révisions.
+
+- **Limites et réserves :** Le plan judiciaire ne retire aucun objet directement.
+
+- **Point d’explication complémentaire :** Le candidat peut transférer vers un conteneur institutionnel défini par composition.
+
+- **Invariants protégés :** Les objets équipés suivent encore les invariants du chapitre 20.
+
+- **Point d’explication complémentaire — complément 2 :** Un échec laisse tous les conteneurs inchangés.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/sanction_character_port.gd`.**
 
@@ -2933,13 +3093,17 @@ func prepare_restrictions(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port prépare seulement les restrictions appartenant aux personnages ou à leur présence.
-- Une sanction ne modifie jamais directement santé, endurance ou état de vie.
-- L’adaptateur peut refuser une restriction incompatible avec l’état courant.
-- Les restrictions durables portent des identifiants et ticks logiques.
-- Les animations et cellules physiques restent de la présentation.
+- **Dépendances et ports utilisés :** Le port prépare seulement les restrictions appartenant aux personnages ou à leur présence.
+
+- **Limites et réserves :** Une sanction ne modifie jamais directement santé, endurance ou état de vie.
+
+- **Invariants protégés :** L’adaptateur peut refuser une restriction incompatible avec l’état courant.
+
+- **Dépendances et ports utilisés — complément 2 :** Les restrictions durables portent des identifiants et ticks logiques.
+
+- **Point d’explication complémentaire :** Les animations et cellules physiques restent de la présentation.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/sanction_domain_port.gd`.**
 
@@ -2964,13 +3128,17 @@ func prepare_domain_changes(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Ce port réserve la frontière avec les domaines et bâtiments sans les implémenter dans le système judiciaire.
-- L’adaptateur propriétaire vérifiera les identités de domaine, les droits et les révisions.
-- Une destitution territoriale ou saisie foncière reste un candidat opaque.
-- Le chapitre politique ne crée ni bâtiment, ni chaîne de production, ni propriété foncière.
-- Tant que l’adaptateur n’existe pas, toute sanction comportant un domaine est refusée de façon fermée.
+- **Dépendances et ports utilisés :** Ce port réserve la frontière avec les domaines et bâtiments sans les implémenter dans le système judiciaire.
+
+- **Frontières d’autorité :** L’adaptateur propriétaire vérifiera les identités de domaine, les droits et les révisions.
+
+- **Limites et réserves :** Une destitution territoriale ou saisie foncière reste un candidat opaque.
+
+- **Limites et réserves — complément 2 :** Le chapitre politique ne crée ni bâtiment, ni chaîne de production, ni propriété foncière.
+
+- **Invariants protégés :** Tant que l’adaptateur n’existe pas, toute sanction comportant un domaine est refusée de façon fermée.
 
 ## 37. Commit coordonné
 
@@ -3015,13 +3183,17 @@ func commit_verdict_and_sanctions(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `commit_political()` couvre les adhésions, mandats et promulgations déjà préparés.
-- `commit_case()` ouvre ou fait évoluer un dossier tout en enregistrant son résultat idempotent.
-- Le commit de verdict revalide les révisions de toutes les autorités et accepte des candidats externes nuls seulement lorsque l’effet correspondant est absent.
-- Verdict, dossier, sanctions, identité de commande, empreinte et résultat sont enregistrés comme un lot.
-- Un échec ne laisse ni amende, ni confiscation, ni restriction, ni changement de domaine partiel ; l’atomicité réelle reste une réserve runtime.
+- **Point d’explication complémentaire :** `commit_political()` couvre les adhésions, mandats et promulgations déjà préparés.
+
+- **Résultat attendu et vérification :** `commit_case()` ouvre ou fait évoluer un dossier tout en enregistrant son résultat idempotent.
+
+- **Frontières d’autorité :** Le commit de verdict revalide les révisions de toutes les autorités et accepte des candidats externes nuls seulement lorsque l’effet correspondant est absent.
+
+- **Résultat attendu et vérification — complément 2 :** Verdict, dossier, sanctions, identité de commande, empreinte et résultat sont enregistrés comme un lot.
+
+- **Limites et réserves :** Un échec ne laisse ni amende, ni confiscation, ni restriction, ni changement de domaine partiel ; l’atomicité réelle reste une réserve runtime.
 
 ## 38. Service judiciaire
 
@@ -3253,13 +3425,17 @@ func _rejected(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Replay et conflit d’empreinte sont traités avant toute préparation afin qu’un retry ne répète jamais une sanction.
-- Le dossier, le verdict, le juge, le tick et la révision sont recoupés ; une condamnation exige un plan valide ciblant l’accusé.
-- Les quatre autorités externes sont facultatives seulement lorsque le plan ne demande aucun effet de leur famille.
-- Chaque candidat est préparé et validé avant la création du résultat committé.
-- Le signal est émis uniquement après le commit coordonné qui enregistre aussi le verdict et l’idempotence.
+- **Limites et réserves :** Replay et conflit d’empreinte sont traités avant toute préparation afin qu’un retry ne répète jamais une sanction.
+
+- **Invariants protégés :** Le dossier, le verdict, le juge, le tick et la révision sont recoupés ; une condamnation exige un plan valide ciblant l’accusé.
+
+- **Frontières d’autorité :** Les quatre autorités externes sont facultatives seulement lorsque le plan ne demande aucun effet de leur famille.
+
+- **Résultat attendu et vérification :** Chaque candidat est préparé et validé avant la création du résultat committé.
+
+- **Point d’explication complémentaire :** Le signal est émis uniquement après le commit coordonné qui enregistre aussi le verdict et l’idempotence.
 
 ### 38.1 Ordre de préparation d’un verdict
 
@@ -3300,13 +3476,17 @@ var applied_law_refs: Array[String] = []
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’événement décrit un verdict déjà committé.
-- Les identifiants permettent aux consommateurs de relire leurs propres données.
-- Les lois appliquées sont référencées par identité et version.
-- Aucun payload de portefeuille, d’inventaire ou de personnage n’est exposé.
-- La révision permet d’ignorer un événement devenu ancien.
+- **Point d’explication complémentaire :** L’événement décrit un verdict déjà committé.
+
+- **Point d’explication complémentaire — complément 2 :** Les identifiants permettent aux consommateurs de relire leurs propres données.
+
+- **Point d’explication complémentaire — complément 3 :** Les lois appliquées sont référencées par identité et version.
+
+- **Dépendances et ports utilisés :** Aucun payload de portefeuille, d’inventaire ou de personnage n’est exposé.
+
+- **Point d’explication complémentaire — complément 4 :** La révision permet d’ignorer un événement devenu ancien.
 
 ## 40. Observations pour les agents et la narration
 
@@ -3352,13 +3532,17 @@ func snapshot_for(_character_id: StringName, _logical_tick: int) -> Observation:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’observation contient des identifiants et droits calculés, pas les agrégats internes.
-- Les agents transforment ces données en faits selon le chapitre 17.
-- Une intention d’agent repasse par une commande politique ou judiciaire.
-- Les dossiers ouverts sont bornés et filtrés par visibilité.
-- Une sortie générative ne peut pas remplacer ce snapshot.
+- **Point d’explication complémentaire :** L’observation contient des identifiants et droits calculés, pas les agrégats internes.
+
+- **Point d’explication complémentaire — complément 2 :** Les agents transforment ces données en faits selon le chapitre 17.
+
+- **Limites et réserves :** Une intention d’agent repasse par une commande politique ou judiciaire.
+
+- **Point d’explication complémentaire — complément 3 :** Les dossiers ouverts sont bornés et filtrés par visibilité.
+
+- **Persistance et restauration :** Une sortie générative ne peut pas remplacer ce snapshot.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/application/political_narrative_event_port.gd`.**
 
@@ -3378,13 +3562,17 @@ func publish_committed_event(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port transmet à la narration uniquement des événements déjà committés.
-- Le chapitre 25 choisira quêtes, scènes et conséquences sans modifier le verdict source.
-- Les sujets sont identifiés et le payload est borné par l’adaptateur.
-- Une indisponibilité narrative n’annule pas un commit politique.
-- Le port ne sert jamais à demander une décision judiciaire.
+- **Dépendances et ports utilisés :** Le port transmet à la narration uniquement des événements déjà committés.
+
+- **Point d’explication complémentaire :** Le chapitre 25 choisira quêtes, scènes et conséquences sans modifier le verdict source.
+
+- **Point d’explication complémentaire — complément 2 :** Les sujets sont identifiés et le payload est borné par l’adaptateur.
+
+- **Limites et réserves :** Une indisponibilité narrative n’annule pas un commit politique.
+
+- **Dépendances et ports utilisés — complément 2 :** Le port ne sert jamais à demander une décision judiciaire.
 
 ## 41. Présentation
 
@@ -3417,15 +3605,19 @@ func on_command_committed(result: PoliticalCommandResult) -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le pont accepte seulement un résultat validé et réussi.
-- Un verdict utilise `decision_id` ; une adhésion, nomination, promulgation ou ouverture de dossier utilise l’identité de commande.
-- Le cache évite de rejouer le même retour pour un agrégat et reste non persistant.
-- Les identifiants permettent à la vue de relire un modèle adapté sans exposer d’état mutable.
-- Aucun rang, loi, dossier ou sanction n’est modifié depuis le nœud.
+- **Résultat attendu et vérification :** Le pont accepte seulement un résultat validé et réussi.
 
-L’interface peut afficher les adhésions, rangs, mandats, lois applicables, droits actifs, étapes d’un dossier, preuves recevables et verdicts. Elle ne doit pas changer directement un statut, promulguer une loi, marquer une preuve recevable, calculer une culpabilité ou appliquer une sanction.
+- **Limites et réserves :** Un verdict utilise `decision_id` ; une adhésion, nomination, promulgation ou ouverture de dossier utilise l’identité de commande.
+
+- **Persistance et restauration :** Le cache évite de rejouer le même retour pour un agrégat et reste non persistant.
+
+- **Point d’explication complémentaire :** Les identifiants permettent à la vue de relire un modèle adapté sans exposer d’état mutable.
+
+- **Limites et réserves — complément 2 :** Aucun rang, loi, dossier ou sanction n’est modifié depuis le nœud.
+
+- **Limites et réserves — complément 3 :** L’interface peut afficher les adhésions, rangs, mandats, lois applicables, droits actifs, étapes d’un dossier, preuves recevables et verdicts. Elle ne doit pas changer directement un statut, promulguer une loi, marquer une preuve recevable, calculer une culpabilité ou appliquer une sanction.
 
 ## 42. Persistance
 
@@ -3474,13 +3666,17 @@ func validate_prepared(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le décodeur de sections possède une responsabilité bornée : construire factions, recueil, dossiers et registre d’idempotence hors des dépôts actifs.
-- Son implémentation exige les clés exactes de chaque objet, les types JSON attendus, les bornes et les références croisées.
-- Le retour `Variant` permet de réserver `{}` à un état préparé vide mais valide et `null` à un échec de décodage.
-- `validate_prepared()` revalide l’ensemble après décodage afin de détecter les références entre sections.
-- Ce contrat sépare la lecture volumineuse des entités de la validation du format racine sans rendre les contrôles facultatifs.
+- **Limites et réserves :** Le décodeur de sections possède une responsabilité bornée : construire factions, recueil, dossiers et registre d’idempotence hors des dépôts actifs.
+
+- **Paramètres et types importants :** Son implémentation exige les clés exactes de chaque objet, les types JSON attendus, les bornes et les références croisées.
+
+- **Valeur de retour ou code d’échec :** Le retour `Variant` permet de réserver `{}` à un état préparé vide mais valide et `null` à un échec de décodage.
+
+- **Invariants protégés :** `validate_prepared()` revalide l’ensemble après décodage afin de détecter les références entre sections.
+
+- **Limites et réserves — complément 2 :** Ce contrat sépare la lecture volumineuse des entités de la validation du format racine sans rendre les contrôles facultatifs.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/infrastructure/political_snapshot_codec.gd`.**
 
@@ -3555,13 +3751,17 @@ func _failure(code: Error, message: String) -> DecodeResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le codec exige exactement les clés prévues et vérifie séparément type, format et version.
-- `_read_int()` refuse les nombres flottants et les entiers hors de la plage demandée.
-- Le décodeur de sections doit retourner `null` lors d’un échec ; `{}` reste disponible pour un monde politique vide mais valide.
-- Le candidat complet est revalidé contre le catalogue avant d’être copié dans `DecodeResult`.
-- Aucune faction, loi ou affaire n’est appliquée aux dépôts pendant le décodage.
+- **Paramètres et types importants :** Le codec exige exactement les clés prévues et vérifie séparément type, format et version.
+
+- **Invariants protégés :** `_read_int()` refuse les nombres flottants et les entiers hors de la plage demandée.
+
+- **Valeur de retour ou code d’échec :** Le décodeur de sections doit retourner `null` lors d’un échec ; `{}` reste disponible pour un monde politique vide mais valide.
+
+- **Point d’explication complémentaire :** Le candidat complet est revalidé contre le catalogue avant d’être copié dans `DecodeResult`.
+
+- **Limites et réserves :** Aucune faction, loi ou affaire n’est appliquée aux dépôts pendant le décodage.
 
 ## 44. Section de sauvegarde
 
@@ -3577,13 +3777,17 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port appartient au point de composition qui connaît les deux dépôts et leur transaction de restauration.
-- Il reçoit uniquement un candidat déjà décodé, recoupé et copié.
-- L’implémentation remplace politique, justice et idempotence comme un lot ou ne remplace rien.
-- Elle ne relance ni enquête, ni sanction, ni événement de gameplay pendant le chargement.
-- Un échec laisse les dépôts actifs inchangés.
+- **Persistance et restauration :** Le port appartient au point de composition qui connaît les deux dépôts et leur transaction de restauration.
+
+- **Point d’explication complémentaire :** Il reçoit uniquement un candidat déjà décodé, recoupé et copié.
+
+- **Limites et réserves :** L’implémentation remplace politique, justice et idempotence comme un lot ou ne remplace rien.
+
+- **Limites et réserves — complément 2 :** Elle ne relance ni enquête, ni sanction, ni événement de gameplay pendant le chargement.
+
+- **Point d’explication complémentaire — complément 2 :** Un échec laisse les dépôts actifs inchangés.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/politics/infrastructure/political_save_section.gd`.**
 
@@ -3629,13 +3833,17 @@ func cancel_restore() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La section prépare la totalité de la politique et de la justice avant toute application.
-- Le codec et le port de commit sont configurés avant la lecture du payload.
-- Les données sont copiées avant stockage puis avant transmission au point de composition.
-- Une autre section peut provoquer `cancel_restore()` sans mutation partielle.
-- L’application remplace les deux dépôts et l’idempotence par une seule opération, sans émettre les événements historiques comme des faits nouveaux.
+- **Point d’explication complémentaire :** La section prépare la totalité de la politique et de la justice avant toute application.
+
+- **Dépendances et ports utilisés :** Le codec et le port de commit sont configurés avant la lecture du payload.
+
+- **Point d’explication complémentaire — complément 2 :** Les données sont copiées avant stockage puis avant transmission au point de composition.
+
+- **Limites et réserves :** Une autre section peut provoquer `cancel_restore()` sans mutation partielle.
+
+- **Limites et réserves — complément 2 :** L’application remplace les deux dépôts et l’idempotence par une seule opération, sans émettre les événements historiques comme des faits nouveaux.
 
 ## 45. Scène pédagogique
 
@@ -3733,7 +3941,9 @@ var faction_key := faction_display_name
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le texte localisé n’est pas une identité stable.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le texte localisé n’est pas une identité stable.
 
 **Exemple corrigé :**
 
@@ -3745,7 +3955,9 @@ var faction_id := PoliticalId.faction("river_council")
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** l’identité reste stable indépendamment de l’affichage.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identité reste stable indépendamment de l’affichage.
 
 ### 48.2 Déduire une adhésion depuis l’affinité
 
@@ -3762,7 +3974,9 @@ if social_view.affinity > 80:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** une perception sociale n’est ni une admission ni un droit.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une perception sociale n’est ni une admission ni un droit.
 
 **Exemple corrigé :**
 
@@ -3774,7 +3988,9 @@ var result := membership_service.execute(join_command)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** une commande causale repasse par capacité, rang, révision et autorisation.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une commande causale repasse par capacité, rang, révision et autorisation.
 
 ### 48.3 Modifier une loi promulguée en place
 
@@ -3791,7 +4007,9 @@ law.version = 2
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la même instance réécrit l’historique applicable.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la même instance réécrit l’historique applicable.
 
 **Exemple corrigé :**
 
@@ -3804,7 +4022,9 @@ legislative_service.enact(enact_command)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** une nouvelle version est enregistrée puis promulguée avec sa propre période.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une nouvelle version est enregistrée puis promulguée avec sa propre période.
 
 ### 48.4 Autoriser par absence de règle
 
@@ -3821,7 +4041,9 @@ if matching_laws.is_empty():
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** absence de règle et autorisation explicite sont confondues.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** absence de règle et autorisation explicite sont confondues.
 
 **Exemple corrigé :**
 
@@ -3835,7 +4057,9 @@ if decision.outcome == AuthorizationDecision.Outcome.ALLOW:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** seul le résultat `ALLOW` autorise l’action protégée.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seul le résultat `ALLOW` autorise l’action protégée.
 
 ### 48.5 Traiter une accusation comme un verdict
 
@@ -3852,7 +4076,9 @@ apply_fine(accused_id, 500)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le rapport n’a ni enquête, ni preuve, ni décision.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le rapport n’a ni enquête, ni preuve, ni décision.
 
 **Exemple corrigé :**
 
@@ -3865,7 +4091,9 @@ var case_result := justice_service.open_case(command)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le dossier est ouvert sans présumer de la culpabilité.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le dossier est ouvert sans présumer de la culpabilité.
 
 ### 48.6 Copier un objet comme preuve
 
@@ -3881,7 +4109,9 @@ evidence.payload = inventory_entry.duplicate(true)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** l’objet copié peut diverger de l’autorité et contourner sa garde.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’objet copié peut diverger de l’autorité et contourner sa garde.
 
 **Exemple corrigé :**
 
@@ -3894,7 +4124,9 @@ evidence.integrity_digest = inventory_reference_digest
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** la preuve référence l’objet et vérifie son intégrité sans le posséder.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la preuve référence l’objet et vérifie son intégrité sans le posséder.
 
 ### 48.7 Laisser une sortie IA condamner
 
@@ -3910,7 +4142,9 @@ verdict.outcome = ai_response["outcome"]
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la sortie non fiable contourne lois, preuves, juge et révisions.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la sortie non fiable contourne lois, preuves, juge et révisions.
 
 **Exemple corrigé :**
 
@@ -3923,7 +4157,9 @@ var draft := verdict_draft_policy.filter(suggestion)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** la sortie reste un brouillon non autoritaire soumis à une décision validée.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la sortie reste un brouillon non autoritaire soumis à une décision validée.
 
 ### 48.8 Débiter une amende directement
 
@@ -3940,7 +4176,9 @@ inventory.remove(confiscated_id)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** les autorités sont modifiées séquentiellement sans rollback commun.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les autorités sont modifiées séquentiellement sans rollback commun.
 
 **Exemple corrigé :**
 
@@ -3954,7 +4192,9 @@ commit_port.commit_verdict_and_sanctions(case_candidate, case_revision, verdict,
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** tous les candidats sont préparés puis committés comme un lot.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** tous les candidats sont préparés puis committés comme un lot.
 
 ### 48.9 Dater un mandat avec l’heure système
 
@@ -3970,7 +4210,9 @@ mandate.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 
@@ -3982,7 +4224,9 @@ mandate.started_tick = world_clock.logical_tick
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le mandat utilise l’horloge logique persistée du monde.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le mandat utilise l’horloge logique persistée du monde.
 
 ### 48.10 Émettre un événement avant le commit
 
@@ -3999,7 +4243,9 @@ var code := commit_port.commit_verdict_and_sanctions(...)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** les consommateurs observent un fait qui n’existe peut-être pas.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les consommateurs observent un fait qui n’existe peut-être pas.
 
 **Exemple corrigé :**
 
@@ -4013,7 +4259,9 @@ if code == OK:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** l’événement décrit uniquement un lot déjà committé.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’événement décrit uniquement un lot déjà committé.
 
 ## 49. Tests à préparer
 

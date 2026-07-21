@@ -98,6 +98,7 @@
 - [x] Audit rétroactif des sections d’erreurs, diagnostics et anti-patterns des chapitres 1 à 6 — 52 cas avec exemples fautifs et corrigés.
 - [x] Protocole QA adapté à la construction PDF différée.
 - [x] Gouvernance GPT-5.6 Sol corrigée : recommandation conservée dans le processus, retirée des métadonnées et des en-têtes lecteurs des chapitres.
+- [x] Explications des blocs restructurées sans perte pour les chapitres 17 à 26 ; Solo/Studio replacé en Markdown ordinaire dans les chapitres 25 et 26.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 

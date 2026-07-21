@@ -1,22 +1,21 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH22
 status: complete
-validation-date: 2026-07-21
-validated-base-commit: 7e5ead623bad1611f34c7db8495dc3a8392e55f6
-validated-head-commit: e2ccdf6d05265525b58416299a836318f3267b13
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 evidence-closure:
-  commit: e640d4710113127dca807440490a02d7f20d1e60
-  runner-run-id: 29785645505
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
   conclusion: success
 chapter:
   id: DOC-L2-CH22
   path: Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 3054
+  chapter-lines: 3144
   chapter-headings: 69
   chapter-code-and-data-blocks: 61
   code-explanation-markers: 61
@@ -37,29 +36,36 @@ results:
   ecology-inventory-commit-contract: true
   ecology-market-signals-without-prices: true
   save-prepared-before-replacement: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 228
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29785409352
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29785409338
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8478251858
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:d69f16caf8c75351cf0bb761ff8870c84f7b165a9b50a2fb8176b6f13d15ddee
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Typed Dictionary signatures not runtime-verified.
-  - Arithmetic bounds not runtime-tested.
-  - Population growth balance not measured.
-  - Four-thousand-region scheduling budget not measured.
-  - Ecology-inventory transaction commit not run.
-  - Access and materialization adapters not materialized.
-  - Future weather context not run.
-  - Demo scene not instantiated.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Typed Dictionary signatures not runtime-verified.
+- Arithmetic bounds not runtime-tested.
+- Population growth balance not measured.
+- Four-thousand-region scheduling budget not measured.
+- Ecology-inventory transaction commit not run.
+- Access and materialization adapters not materialized.
+- Future weather context not run.
+- Demo scene not instantiated.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.

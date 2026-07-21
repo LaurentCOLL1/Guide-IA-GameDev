@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH19
 status: complete
-validation-date: 2026-07-20
-validated-base-commit: f13e5affbec845bed2215cfeab99d1320274ef34
-validated-head-commit: 3a9ae653b4e6e96e92dd5230c5ab8fde3a661919
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 chapter:
   id: DOC-L2-CH19
   path: Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 2386
+  chapter-lines: 2453
   chapter-headings: 55
   chapter-code-and-data-blocks: 56
   code-explanation-markers: 56
@@ -26,25 +26,35 @@ results:
   closed-effect-dispatch: true
   shared-unit-of-work-contract: true
   save-prepared-before-replacement: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 198
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29753320109
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29753320202
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8465520460
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:6daf13635a58ec5d2af435e0294f21f49875ec2f592021e0af4c2fd76349d218
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Demo scene not instantiated.
-  - Multi-authority unit of work not run.
-  - Combat and character effect ports not run.
-  - Performance budgets not measured.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Demo scene not instantiated.
+- Multi-authority unit of work not run.
+- Combat and character effect ports not run.
+- Performance budgets not measured.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
+  conclusion: success

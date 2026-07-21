@@ -1,13 +1,13 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH17
 status: complete
-validation-date: 2026-07-20
-validated-base-commit: 86ce004b5bb115a8a7d17f92adf0af6049dfcf9c
-validated-head-commit: f49bd9662700f5963c229fceaa2634c80a9b2f63
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 chapter:
   id: DOC-L2-CH17
   path: Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md
-  version: 1.0.3
+  version: 1.0.4
   audit-level: static-review
 results:
   sources-declared: 78
@@ -16,7 +16,7 @@ results:
   unique-identifiers: 73
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2565
+  chapter-lines: 2648
   chapter-headings: 67
   chapter-significant-code-blocks: 35
   chapter-code-and-data-blocks: 68
@@ -51,24 +51,34 @@ results:
   audit-timestamps-with-offset: true
   next-step-absent-from-reader-chapter: true
   project-asteria-final-synthesis: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 204
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 0
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29731751095
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29731751073
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8456555264
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:038113a3dd32335b2c3cfa4b95dd54d344cf7a1c22ccd853e503deb1276882f5
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - Demo scene not instantiated.
-  - Signals and action executors not run.
-  - Planner and scheduler performance not measured.
-  - Save restoration not executed.
-  - Cross-platform replay not verified.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- Demo scene not instantiated.
+- Signals and action executors not run.
+- Planner and scheduler performance not measured.
+- Save restoration not executed.
+- Cross-platform replay not verified.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
+  conclusion: success

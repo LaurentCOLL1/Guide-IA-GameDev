@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 17"
 id: "DOC-L2-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.3"
+version: "1.0.4"
 chapter-id: "DOC-L2-CH17"
-chapter-version: "1.0.3"
+chapter-version: "1.0.4"
 audit-level: "static-review"
-audit-date: "2026-07-20T11:27:57+02:00"
-last-verified: "2026-07-20T11:27:57+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audi
 
 ## 2. Résultats
 
-- lignes finales : **2565** ;
+- lignes finales : **2648** ;
 - blocs clôturés : **68** ;
 - marqueurs d’explication : **68** ;
 - cas d’erreurs détaillés : **16** ;
@@ -58,6 +58,11 @@ Le chemin de référence utilise :
 - ticks et séquences logiques ;
 - RNG local restaurable seulement pour variantes équivalentes ;
 - microsecondes limitées à la télémétrie.
+
+## 5. Explications pédagogiques
+
+
+Les **68** blocs possèdent **68** marqueurs. Les explications antérieures ont été décomposées en **246** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 5. Réserves
 

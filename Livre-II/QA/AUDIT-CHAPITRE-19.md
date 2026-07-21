@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 19"
 id: "DOC-L2-QA-AUDIT-CH19"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH19"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-20T16:52:26+02:00"
-last-verified: "2026-07-20T16:52:26+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -30,6 +30,10 @@ Le chapitre a d’abord été matérialisé avec un rapport d’audit à l’ét
 - blocs significatifs sans explication : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
+- unités d’explication antérieures conservées : **198** ;
+- segments d’explication antérieurs perdus : **0** ;
+- points pédagogiques complémentaires ajoutés : **0** ;
+- sections Solo/Studio rendues en Markdown ordinaire : **oui**.
 
 ## 3. Complétude et périmètre
 
@@ -90,19 +94,9 @@ Cette revue ne constitue pas une exécution du parseur GDScript.
 
 ## 6. Explications pédagogiques
 
-Les **56** blocs possèdent chacun un marqueur `<!-- qa:code-explanation -->` et une explication proportionnée portant, selon le besoin, sur :
 
-- le rôle concret ;
-- les entrées et types ;
-- les paramètres et valeurs par défaut ;
-- les retours et refus contrôlés ;
-- les effets de bord ;
-- les invariants ;
-- le déroulement ;
-- le résultat attendu ;
-- les frontières avec les systèmes voisins.
 
-Aucune rubrique ne justifie un extrait en répétant seulement le titre de sa section.
+Les **56** blocs possèdent **56** marqueurs. Les explications antérieures ont été décomposées en **190** segments techniques conservés mot pour mot, puis regroupées sous des rubriques uniques et adaptées. Les libellés génériques sont interdits ; chaque point cite un champ, une fonction, une garde, un retour, un effet, un chemin ou une relation réellement visible dans le bloc.
 
 ## 7. Règle sémantique des erreurs
 

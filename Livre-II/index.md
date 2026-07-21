@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.18.0"
+version: "1.18.1"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -93,6 +93,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
 - [audit du chapitre 25](QA/AUDIT-CHAPITRE-25.md) ;
 - [audit du chapitre 26](QA/AUDIT-CHAPITRE-26.md) ;
+- [audit de restructuration des explications, chapitres 17 à 26](QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -125,6 +126,8 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 Les chapitres 3 à 26 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
 
 ## Principes du Livre II
+
+Les chapitres 17 à 26 utilisent désormais des explications structurées : les formulations pédagogiques antérieures sont conservées et reclassées, puis complétées seulement lorsque le bloc l’exige. Les parcours Solo et Studio restent en Markdown ordinaire lorsqu’ils ne constituent pas un format littéral.
 
 - Le projet doit rester exécutable après chaque chapitre.
 - Les scènes et scripts sont organisés par fonctionnalité.

@@ -1,24 +1,24 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH26
 status: complete
-validation-date: 2026-07-21
-validated-base-commit: c48386ee898d9eb7a273e4d9e88bdc1cd8fc5d75
-validated-head-commit: 4be75fc588b5c89b0d4dde85dcccd519a583c206
+validation-date: '2026-07-21'
+validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
+validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
 evidence-closure:
-  commit: 4be75fc588b5c89b0d4dde85dcccd519a583c206
+  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
   conclusion: success
 chapter:
   id: DOC-L2-CH26
   path: Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 0
-  chapter-lines: 1906
-  chapter-headings: 72
-  chapter-code-and-data-blocks: 72
-  code-explanation-markers: 72
+  chapter-lines: 2660
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 71
+  code-explanation-markers: 71
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
@@ -37,27 +37,34 @@ results:
   importers-versioned-and-bounded: true
   ai-output-remains-draft: true
   runtime-authorities-preserved: true
+  structured-code-explanations: true
+  prior-explanation-units-preserved: 166
+  prior-explanation-units-lost: 0
+  complementary-explanation-points-added: 304
+  generic-explanation-phrases-absent: true
+  duplicate-explanation-labels-absent: true
+  solo-studio-rendered-as-markdown: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29824366120
+    run-id: 29844293693
     conclusion: success
   validate-usage-contexts:
-    run-id: 29824366148
+    run-id: 29844293517
     conclusion: success
   artifact:
-    id: 8492665912
+    id: 8500640762
     name: chapter-validation-without-pdf
-    digest: sha256:283578596a01cf6631583c89cb5ad5d77ae8fa52b7a21384d72155e1a09f17cb
+    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
 reservations:
-  - Godot parser not executed.
-  - EditorPlugin not enabled in a materialized project.
-  - Dock and inspector not instantiated.
-  - Editor undo/redo not runtime-tested.
-  - Custom importer not registered or executed.
-  - File transaction and recovery not tested.
-  - Local AI service not called.
-  - Headless validation not executed on Starter Kit.
-  - Large-catalogue performance not measured.
-  - PDF deferred until end of Livre II.
+- Godot parser not executed.
+- EditorPlugin not enabled in a materialized project.
+- Dock and inspector not instantiated.
+- Editor undo/redo not runtime-tested.
+- Custom importer not registered or executed.
+- File transaction and recovery not tested.
+- Local AI service not called.
+- Headless validation not executed on Starter Kit.
+- Large-catalogue performance not measured.
+- PDF deferred until end of Livre II.

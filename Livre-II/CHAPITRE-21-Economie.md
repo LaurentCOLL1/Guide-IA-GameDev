@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 21 : Économie"
 id: "DOC-L2-CH21"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 21
-last-verified: "2026-07-20T21:13:06+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-20T21:13:06+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-21.md"
 audit-level: "static-review"
 reference-engine:
@@ -33,6 +33,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-21.md`.
+> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
 
 ## 1. Rôle du chapitre
 
@@ -126,13 +127,17 @@ présentation, agents, narration, diagnostic
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La commande propose une opération et un total attendu ; elle ne fixe pas le prix autoritaire.
-- L’économie recalcule le devis depuis l’offre et les politiques actives.
-- L’inventaire prépare lui-même l’objet source et le conteneur de destination.
-- Le port de commit représente l’adaptateur multi-autorités matérialisé au point de composition.
-- Aucun signal n’est émis avant le remplacement réussi de tous les candidats.
+- **Limites et réserves :** La commande propose une opération et un total attendu ; elle ne fixe pas le prix autoritaire.
+
+- **Point d’explication complémentaire :** L’économie recalcule le devis depuis l’offre et les politiques actives.
+
+- **Point d’explication complémentaire — complément 2 :** L’inventaire prépare lui-même l’objet source et le conteneur de destination.
+
+- **Frontières d’autorité :** Le port de commit représente l’adaptateur multi-autorités matérialisé au point de composition.
+
+- **Limites et réserves — complément 2 :** Aucun signal n’est émis avant le remplacement réussi de tous les candidats.
 
 ## 5. Architecture retenue
 
@@ -192,13 +197,17 @@ res://scenes/learning/
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `domain` contient montants, portefeuilles, offres, commandes et invariants.
-- `application` calcule les devis et orchestre les candidats sans toucher aux scènes.
-- `infrastructure` encode uniquement les données durables.
-- Les valeurs d’objets restent dans une fonctionnalité économique séparée des `ItemDefinition` du chapitre 20.
-- Le point de composition fournit l’adaptateur qui commit économie et inventaire ensemble.
+- **Invariants protégés :** `domain` contient montants, portefeuilles, offres, commandes et invariants.
+
+- **Point d’explication complémentaire :** `application` calcule les devis et orchestre les candidats sans toucher aux scènes.
+
+- **Point d’explication complémentaire — complément 2 :** `infrastructure` encode uniquement les données durables.
+
+- **Limites et réserves :** Les valeurs d’objets restent dans une fonctionnalité économique séparée des `ItemDefinition` du chapitre 20.
+
+- **Point d’explication complémentaire — complément 3 :** Le point de composition fournit l’adaptateur qui commit économie et inventaire ensemble.
 
 ## 6. Vocabulaire
 
@@ -269,13 +278,17 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Chaque famille d’identifiants possède un préfixe distinct.
-- Les slugs sont normalisés sans dépendre d’un texte localisé.
-- Un devis est corrélé à une transaction et à la révision de l’offre.
-- Les écritures utilisent un index stable dans le record.
-- Une entrée invalide renvoie `&""` plutôt qu’un identifiant partiel.
+- **Point d’explication complémentaire :** Chaque famille d’identifiants possède un préfixe distinct.
+
+- **Dépendances et ports utilisés :** Les slugs sont normalisés sans dépendre d’un texte localisé.
+
+- **Limites et réserves :** Un devis est corrélé à une transaction et à la révision de l’offre.
+
+- **Point d’explication complémentaire — complément 2 :** Les écritures utilisent un index stable dans le record.
+
+- **Invariants protégés :** Une entrée invalide renvoie `&""` plutôt qu’un identifiant partiel.
 
 ## 8. Parties économiques
 
@@ -314,13 +327,17 @@ func equals(other: EconomyPartyRef) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La référence permet d’ouvrir un portefeuille à un personnage, une future faction, un futur domaine ou un système.
-- Les chapitres 23 et 24 resteront propriétaires de l’existence des factions et domaines.
-- `SYSTEM` représente notamment une trésorerie, un puits ou une source monétaire explicitement configurée.
-- La copie détachée évite de partager une référence mutable entre snapshots.
-- `equals()` compare l’identité économique, pas un nom affiché.
+- **Dépendances et ports utilisés :** La référence permet d’ouvrir un portefeuille à un personnage, une future faction, un futur domaine ou un système.
+
+- **Frontières d’autorité :** Les chapitres 23 et 24 resteront propriétaires de l’existence des factions et domaines.
+
+- **Limites et réserves :** `SYSTEM` représente notamment une trésorerie, un puits ou une source monétaire explicitement configurée.
+
+- **Persistance et restauration :** La copie détachée évite de partager une référence mutable entre snapshots.
+
+- **Point d’explication complémentaire :** `equals()` compare l’identité économique, pas un nom affiché.
 
 ## 9. Définition d’une devise
 
@@ -355,13 +372,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La devise est une `Resource` de conception partagée et immuable pendant le gameplay.
-- `minor_units_per_major` décrit l’affichage, pas un facteur flottant de calcul.
-- La borne maximale reste dans la plage entière exacte des snapshots JSON du projet.
-- `transferable` permet une monnaie de score ou de progression non échangeable.
-- Aucun solde vivant n’est stocké dans cette ressource.
+- **Limites et réserves :** La devise est une `Resource` de conception partagée et immuable pendant le gameplay.
+
+- **Point d’explication complémentaire :** `minor_units_per_major` décrit l’affichage, pas un facteur flottant de calcul.
+
+- **Persistance et restauration :** La borne maximale reste dans la plage entière exacte des snapshots JSON du projet.
+
+- **Limites et réserves — complément 2 :** `transferable` permet une monnaie de score ou de progression non échangeable.
+
+- **Limites et réserves — complément 3 :** Aucun solde vivant n’est stocké dans cette ressource.
 
 ## 10. Montant monétaire
 
@@ -398,13 +419,17 @@ func is_same_currency(other: MoneyAmount) -> bool:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Un montant positif ou nul sert aux prix, soldes et totaux.
-- Les deltas signés appartiennent aux écritures, pas à `MoneyAmount`.
-- La devise est validée contre le catalogue avant toute opération.
-- La comparaison refuse implicitement tout mélange de devises.
-- La copie ne contient ni formatage ni symbole d’interface.
+- **Point d’explication complémentaire :** Un montant positif ou nul sert aux prix, soldes et totaux.
+
+- **Point d’explication complémentaire — complément 2 :** Les deltas signés appartiennent aux écritures, pas à `MoneyAmount`.
+
+- **Point d’explication complémentaire — complément 3 :** La devise est validée contre le catalogue avant toute opération.
+
+- **Invariants protégés :** La comparaison refuse implicitement tout mélange de devises.
+
+- **Limites et réserves :** La copie ne contient ni formatage ni symbole d’interface.
 
 ## 11. Arithmétique sûre
 
@@ -451,13 +476,17 @@ static func multiply_basis_points(value: int, basis_points: int) -> Variant:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les opérations refusent un résultat hors de la plage JSON sûre retenue par le guide.
-- Les prix et multiplicateurs économiques restent non négatifs.
-- `10000` points de base représentent `100 %`.
-- L’expression `BASIS_POINT_SCALE / 2` vaut `5000`, puisque l’échelle contient `10000` points de base. Son ajout avant la division par `BASIS_POINT_SCALE` réalise un arrondi à l’entier le plus proche.
-- `Variant` permet de distinguer un résultat nul valide d’un dépassement signalé par `null`.
+- **Invariants protégés :** Les opérations refusent un résultat hors de la plage JSON sûre retenue par le guide.
+
+- **Point d’explication complémentaire :** Les prix et multiplicateurs économiques restent non négatifs.
+
+- **Point d’explication complémentaire — complément 2 :** `10000` points de base représentent `100 %`.
+
+- **Point d’explication complémentaire — complément 3 :** L’expression `BASIS_POINT_SCALE / 2` vaut `5000`, puisque l’échelle contient `10000` points de base. Son ajout avant la division par `BASIS_POINT_SCALE` réalise un arrondi à l’entier le plus proche.
+
+- **Invariants protégés — complément 2 :** `Variant` permet de distinguer un résultat nul valide d’un dépassement signalé par `null`.
 
 ## 12. État d’un portefeuille
 
@@ -508,13 +537,17 @@ func duplicate_detached() -> WalletState:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Un portefeuille peut contenir plusieurs devises sans les convertir entre elles.
-- Un solde absent vaut zéro.
-- Les soldes négatifs sont interdits ; crédits et dettes exigeraient un modèle distinct.
-- `revision` protège les commandes obsolètes et `posting_sequence` ordonne les écritures du portefeuille.
-- La copie profonde du dictionnaire évite de modifier le snapshot source.
+- **Dépendances et ports utilisés :** Un portefeuille peut contenir plusieurs devises sans les convertir entre elles.
+
+- **Point d’explication complémentaire :** Un solde absent vaut zéro.
+
+- **Point d’explication complémentaire — complément 2 :** Les soldes négatifs sont interdits ; crédits et dettes exigeraient un modèle distinct.
+
+- **Dépendances et ports utilisés — complément 2 :** `revision` protège les commandes obsolètes et `posting_sequence` ordonne les écritures du portefeuille.
+
+- **Persistance et restauration :** La copie profonde du dictionnaire évite de modifier le snapshot source.
 
 ## 13. Écriture comptable
 
@@ -564,13 +597,17 @@ func duplicate_detached() -> EconomyPosting:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le delta est signé : négatif pour un débit, positif pour un crédit.
-- Le solde résultant est enregistré pour faciliter le diagnostic et détecter une divergence lors d’un replay.
-- Une écriture n’autorise jamais un solde final négatif.
-- Les bornes viennent de la définition de devise.
-- La classe ne modifie aucun portefeuille par elle-même.
+- **Point d’explication complémentaire :** Le delta est signé : négatif pour un débit, positif pour un crédit.
+
+- **Limites et réserves :** Le solde résultant est enregistré pour faciliter le diagnostic et détecter une divergence lors d’un replay.
+
+- **Limites et réserves — complément 2 :** Une écriture n’autorise jamais un solde final négatif.
+
+- **Point d’explication complémentaire — complément 2 :** Les bornes viennent de la définition de devise.
+
+- **Dépendances et ports utilisés :** La classe ne modifie aucun portefeuille par elle-même.
 
 ## 14. Record de transaction équilibré
 
@@ -623,13 +660,17 @@ func validate(catalog: CurrencyCatalog) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le record exige au moins un débit et un crédit.
-- L’équilibre est contrôlé séparément pour chaque devise.
-- Une récompense doit donc débiter une trésorerie explicite avant de créditer le bénéficiaire.
-- L’empreinte canonique sert à distinguer un retry identique d’une réutilisation conflictuelle du même identifiant.
-- Le record est une preuve durable ; il n’exécute pas les écritures.
+- **Point d’explication complémentaire :** Le record exige au moins un débit et un crédit.
+
+- **Point d’explication complémentaire — complément 2 :** L’équilibre est contrôlé séparément pour chaque devise.
+
+- **Limites et réserves :** Une récompense doit donc débiter une trésorerie explicite avant de créditer le bénéficiaire.
+
+- **Limites et réserves — complément 2 :** L’empreinte canonique sert à distinguer un retry identique d’une réutilisation conflictuelle du même identifiant.
+
+- **Limites et réserves — complément 3 :** Le record est une preuve durable ; il n’exécute pas les écritures.
 
 ## 15. Valeur de référence d’un objet
 
@@ -671,13 +712,17 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La valeur économique est séparée de `ItemDefinition` afin que l’inventaire reste indépendant des prix.
-- Une même définition d’objet possède une valeur de référence versionnée par l’économie.
-- Les bornes empêchent un contexte de prix de produire un montant nul ou excessif.
-- Le catalogue de devises valide l’unité utilisée.
-- Cette ressource ne contient ni stock, ni vendeur, ni offre active.
+- **Dépendances et ports utilisés :** La valeur économique est séparée de `ItemDefinition` afin que l’inventaire reste indépendant des prix.
+
+- **Limites et réserves :** Une même définition d’objet possède une valeur de référence versionnée par l’économie.
+
+- **Point d’explication complémentaire :** Les bornes empêchent un contexte de prix de produire un montant nul ou excessif.
+
+- **Invariants protégés :** Le catalogue de devises valide l’unité utilisée.
+
+- **Limites et réserves — complément 2 :** Cette ressource ne contient ni stock, ni vendeur, ni offre active.
 
 ## 16. Contexte de prix
 
@@ -723,13 +768,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les multiplicateurs sont des points de base, jamais des nombres flottants.
-- Les indices d’offre, de demande ou de relation proviennent de ports propriétaires.
-- L’économie valide puis applique ces indices sans recalculer leurs règles sociales ou écologiques.
-- Une taxe positive exige un portefeuille de destination explicite.
-- `valid_until_tick` borne l’utilisation d’un contexte devenu ancien.
+- **Point d’explication complémentaire :** Les multiplicateurs sont des points de base, jamais des nombres flottants.
+
+- **Frontières d’autorité :** Les indices d’offre, de demande ou de relation proviennent de ports propriétaires.
+
+- **Invariants protégés :** L’économie valide puis applique ces indices sans recalculer leurs règles sociales ou écologiques.
+
+- **Dépendances et ports utilisés :** Une taxe positive exige un portefeuille de destination explicite.
+
+- **Limites et réserves :** `valid_until_tick` borne l’utilisation d’un contexte devenu ancien.
 
 ## 17. Politique de calcul du prix
 
@@ -769,13 +818,17 @@ func unit_price(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les multiplicateurs sont appliqués dans un ordre fixe et documenté.
-- Chaque étape utilise l’arithmétique bornée de `MoneyMath`.
-- Le résultat final est limité par les bornes de la valeur de référence.
-- La fonction renvoie `null` lorsqu’un contrat ou un calcul est invalide.
-- Aucun contexte ne modifie la ressource de valeur elle-même.
+- **Point d’explication complémentaire :** Les multiplicateurs sont appliqués dans un ordre fixe et documenté.
+
+- **Point d’explication complémentaire — complément 2 :** Chaque étape utilise l’arithmétique bornée de `MoneyMath`.
+
+- **Résultat attendu et vérification :** Le résultat final est limité par les bornes de la valeur de référence.
+
+- **Invariants protégés :** La fonction renvoie `null` lorsqu’un contrat ou un calcul est invalide.
+
+- **Limites et réserves :** Aucun contexte ne modifie la ressource de valeur elle-même.
 
 ### 17.1 Créer une offre verrouillée
 
@@ -831,13 +884,17 @@ func create_sell_offer(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La politique de prix est appliquée lors de la création ou du renouvellement de l’offre.
-- L’offre conserve ensuite un prix unitaire verrouillé jusqu’à son expiration ou sa révision.
-- L’entrée d’inventaire est copiée comme référence, sans déplacer l’objet.
-- La révision du contexte de prix reste traçable dans l’offre.
-- Une offre invalide n’est jamais enregistrée dans le dépôt.
+- **Point d’explication complémentaire :** La politique de prix est appliquée lors de la création ou du renouvellement de l’offre.
+
+- **Point d’explication complémentaire — complément 2 :** L’offre conserve ensuite un prix unitaire verrouillé jusqu’à son expiration ou sa révision.
+
+- **Point d’explication complémentaire — complément 3 :** L’entrée d’inventaire est copiée comme référence, sans déplacer l’objet.
+
+- **Point d’explication complémentaire — complément 4 :** La révision du contexte de prix reste traçable dans l’offre.
+
+- **Invariants protégés :** Une offre invalide n’est jamais enregistrée dans le dépôt.
 
 ## 18. Devis temporaire
 
@@ -888,13 +945,17 @@ func validate(catalog: CurrencyCatalog) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le vendeur reçoit le sous-total ; la taxe éventuelle est créditée séparément.
-- Le total payé est exactement la somme du sous-total et de la taxe.
-- Le devis porte les révisions utilisées afin de diagnostiquer un refus obsolète.
-- Il est temporaire et ne devient jamais la source d’autorité d’une sauvegarde.
-- La validation structurelle ne remplace pas le recalcul par le service.
+- **Point d’explication complémentaire :** Le vendeur reçoit le sous-total ; la taxe éventuelle est créditée séparément.
+
+- **Point d’explication complémentaire — complément 2 :** Le total payé est exactement la somme du sous-total et de la taxe.
+
+- **Invariants protégés :** Le devis porte les révisions utilisées afin de diagnostiquer un refus obsolète.
+
+- **Frontières d’autorité :** Il est temporaire et ne devient jamais la source d’autorité d’une sauvegarde.
+
+- **Limites et réserves :** La validation structurelle ne remplace pas le recalcul par le service.
 
 ## 19. Offre de vente
 
@@ -981,13 +1042,17 @@ func duplicate_detached() -> TradeOfferState:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’offre référence une entrée d’inventaire sans en devenir propriétaire.
-- `remaining_quantity` limite l’engagement économique et est revalidé contre le stock réel par l’inventaire.
-- Le prix unitaire est verrouillé pour la durée de l’offre.
-- L’achat et la vente sont deux points de vue sur cette même opération bilatérale.
-- L’expiration utilise des ticks logiques persistables.
+- **Frontières d’autorité :** L’offre référence une entrée d’inventaire sans en devenir propriétaire.
+
+- **Limites et réserves :** `remaining_quantity` limite l’engagement économique et est revalidé contre le stock réel par l’inventaire.
+
+- **Point d’explication complémentaire :** Le prix unitaire est verrouillé pour la durée de l’offre.
+
+- **Point d’explication complémentaire — complément 2 :** L’achat et la vente sont deux points de vue sur cette même opération bilatérale.
+
+- **Persistance et restauration :** L’expiration utilise des ticks logiques persistables.
 
 ## 20. Commande d’achat
 
@@ -1053,13 +1118,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La commande contient le total affiché afin que le service puisse refuser un prix changé.
-- Elle ne contient ni delta de portefeuille, ni taxe calculée, ni propriété finale de l’objet.
-- Les révisions protègent l’offre, chaque portefeuille, les deux conteneurs et l’entrée d’inventaire.
-- `created_stack_id` est utilisé uniquement lorsqu’un lot doit être divisé par l’inventaire.
-- L’empreinte est calculée depuis une représentation canonique avant l’appel du service.
+- **Invariants protégés :** La commande contient le total affiché afin que le service puisse refuser un prix changé.
+
+- **Dépendances et ports utilisés :** Elle ne contient ni delta de portefeuille, ni taxe calculée, ni propriété finale de l’objet.
+
+- **Dépendances et ports utilisés — complément 2 :** Les révisions protègent l’offre, chaque portefeuille, les deux conteneurs et l’entrée d’inventaire.
+
+- **Point d’explication complémentaire :** `created_stack_id` est utilisé uniquement lorsqu’un lot doit être divisé par l’inventaire.
+
+- **Limites et réserves :** L’empreinte est calculée depuis une représentation canonique avant l’appel du service.
 
 ## 21. Commande de récompense
 
@@ -1109,13 +1178,17 @@ func validate(currency_catalog: CurrencyCatalog) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une récompense est un transfert entre deux portefeuilles, pas une augmentation isolée.
-- Une trésorerie système peut jouer le rôle d’émetteur lorsqu’une règle crée de la monnaie.
-- L’émetteur et le destinataire doivent être différents.
-- Les mêmes règles de révision et d’idempotence s’appliquent aux achats et récompenses.
-- Les objets de quête restent hors de cette commande.
+- **Dépendances et ports utilisés :** Une récompense est un transfert entre deux portefeuilles, pas une augmentation isolée.
+
+- **Limites et réserves :** Une trésorerie système peut jouer le rôle d’émetteur lorsqu’une règle crée de la monnaie.
+
+- **Point d’explication complémentaire :** L’émetteur et le destinataire doivent être différents.
+
+- **Point d’explication complémentaire — complément 2 :** Les mêmes règles de révision et d’idempotence s’appliquent aux achats et récompenses.
+
+- **Point d’explication complémentaire — complément 3 :** Les objets de quête restent hors de cette commande.
 
 ## 22. Résultat métier
 
@@ -1169,13 +1242,17 @@ func validate() -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- `REPLAYED` signifie qu’une transaction identique était déjà committée ; aucun second débit n’est réalisé.
-- Un conflit d’idempotence est distinct d’une révision obsolète.
-- Le résultat expose seulement les identifiants et montants nécessaires à l’appelant.
-- `is_success()` permet de traiter un replay comme un succès fonctionnel.
-- Les refus ne contiennent aucun snapshot mutable.
+- **Limites et réserves :** `REPLAYED` signifie qu’une transaction identique était déjà committée ; aucun second débit n’est réalisé.
+
+- **Limites et réserves — complément 2 :** Un conflit d’idempotence est distinct d’une révision obsolète.
+
+- **Résultat attendu et vérification :** Le résultat expose seulement les identifiants et montants nécessaires à l’appelant.
+
+- **Point d’explication complémentaire :** `is_success()` permet de traiter un replay comme un succès fonctionnel.
+
+- **Persistance et restauration :** Les refus ne contiennent aucun snapshot mutable.
 
 ## 23. Catalogues
 
@@ -1208,13 +1285,17 @@ func all_ids_sorted() -> Array[StringName]:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le catalogue conserve des copies de définitions validées.
-- Les lectures retournent également des copies afin de préserver l’immuabilité de conception.
-- L’ordre trié facilite les snapshots et diagnostics reproductibles.
-- Aucun portefeuille ou solde n’est stocké ici.
-- Une devise inconnue est refusée avant le calcul d’un prix.
+- **Point d’explication complémentaire :** Le catalogue conserve des copies de définitions validées.
+
+- **Valeur de retour ou code d’échec :** Les lectures retournent également des copies afin de préserver l’immuabilité de conception.
+
+- **Persistance et restauration :** L’ordre trié facilite les snapshots et diagnostics reproductibles.
+
+- **Dépendances et ports utilisés :** Aucun portefeuille ou solde n’est stocké ici.
+
+- **Invariants protégés :** Une devise inconnue est refusée avant le calcul d’un prix.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/item_value_catalog.gd`.**
 
@@ -1244,13 +1325,17 @@ func get_for_item(item_definition_id: StringName) -> ItemValueDefinition:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Une définition d’objet possède au plus une valeur active dans ce catalogue pédagogique.
-- Une production plus complexe pourra versionner des marchés sans modifier l’inventaire.
-- L’enregistrement vérifie aussi la devise.
-- La clé est l’identifiant de définition d’objet, jamais son nom affiché.
-- Les copies profondes empêchent une offre de modifier la valeur source.
+- **Limites et réserves :** Une définition d’objet possède au plus une valeur active dans ce catalogue pédagogique.
+
+- **Limites et réserves — complément 2 :** Une production plus complexe pourra versionner des marchés sans modifier l’inventaire.
+
+- **Résultat attendu et vérification :** L’enregistrement vérifie aussi la devise.
+
+- **Point d’explication complémentaire :** La clé est l’identifiant de définition d’objet, jamais son nom affiché.
+
+- **Limites et réserves — complément 3 :** Les copies profondes empêchent une offre de modifier la valeur source.
 
 ## 24. Dépôt économique
 
@@ -1287,13 +1372,17 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les lectures renvoient des copies détachées.
-- `find_result()` permet de restituer un résultat déjà committé.
-- Un même identifiant associé à une autre empreinte produit un conflit contrôlé.
-- Le dépôt ne calcule ni prix ni transfert d’objet.
-- `replace_all()` est réservé à une restauration préparée complète.
+- **Point d’explication complémentaire :** Les lectures renvoient des copies détachées.
+
+- **Résultat attendu et vérification :** `find_result()` permet de restituer un résultat déjà committé.
+
+- **Limites et réserves :** Un même identifiant associé à une autre empreinte produit un conflit contrôlé.
+
+- **Limites et réserves — complément 2 :** Le dépôt ne calcule ni prix ni transfert d’objet.
+
+- **Persistance et restauration :** `replace_all()` est réservé à une restauration préparée complète.
 
 ## 25. Ports d’accès et de contexte
 
@@ -1321,13 +1410,17 @@ func can_reward(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port vérifie que l’acteur et le système source peuvent demander l’opération.
-- Il ne modifie aucun solde.
-- Une future règle politique ou judiciaire pourra adapter cette frontière.
-- L’économie continue de valider prix, fonds, révisions et équilibre après l’autorisation.
-- `ERR_UNAUTHORIZED` devient un refus métier, les autres codes inattendus une panne interne.
+- **Dépendances et ports utilisés :** Le port vérifie que l’acteur et le système source peuvent demander l’opération.
+
+- **Limites et réserves :** Il ne modifie aucun solde.
+
+- **Limites et réserves — complément 2 :** Une future règle politique ou judiciaire pourra adapter cette frontière.
+
+- **Invariants protégés :** L’économie continue de valider prix, fonds, révisions et équilibre après l’autorisation.
+
+- **Invariants protégés — complément 2 :** `ERR_UNAUTHORIZED` devient un refus métier, les autres codes inattendus une panne interne.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/pricing_context_port.gd`.**
 
@@ -1345,13 +1438,17 @@ func snapshot_for_offer(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port agrège des indices autorisés sans exposer les dépôts sociaux ou écologiques.
-- `null` signifie qu’aucun contexte fiable n’est disponible.
-- Le service vérifie la révision et l’échéance du contexte.
-- Une sortie IA ne peut pas construire directement ce snapshot.
-- Le prix reste calculé par la politique économique.
+- **Dépendances et ports utilisés :** Le port agrège des indices autorisés sans exposer les dépôts sociaux ou écologiques.
+
+- **Limites et réserves :** `null` signifie qu’aucun contexte fiable n’est disponible.
+
+- **Résultat attendu et vérification :** Le service vérifie la révision et l’échéance du contexte.
+
+- **Persistance et restauration :** Une sortie IA ne peut pas construire directement ce snapshot.
+
+- **Point d’explication complémentaire :** Le prix reste calculé par la politique économique.
 
 ## 26. Candidat économique
 
@@ -1423,14 +1520,19 @@ func validate(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le candidat regroupe portefeuilles, offre, journal, résultat et révisions.
-- Le résultat idempotent est enregistré dans le même lot que les mutations.
-- Chaque écriture est recoupée avec le solde candidat du portefeuille visé.
-- Une récompense peut laisser `offer` à `null`.
-- Tous les portefeuilles sont revalidés contre les devises.
-- Aucun état actif n’est modifié par la validation.
+- **Dépendances et ports utilisés :** Le candidat regroupe portefeuilles, offre, journal, résultat et révisions.
+
+- **Résultat attendu et vérification :** Le résultat idempotent est enregistré dans le même lot que les mutations.
+
+- **Dépendances et ports utilisés — complément 2 :** Chaque écriture est recoupée avec le solde candidat du portefeuille visé.
+
+- **Limites et réserves :** Une récompense peut laisser `offer` à `null`.
+
+- **Dépendances et ports utilisés — complément 3 :** Tous les portefeuilles sont revalidés contre les devises.
+
+- **Limites et réserves — complément 2 :** Aucun état actif n’est modifié par la validation.
 
 ## 27. Construire les écritures d’un paiement
 
@@ -1509,13 +1611,17 @@ func _prepare_payment(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les soldes sont modifiés uniquement sur des copies.
-- Le débit de l’acheteur couvre le sous-total et la taxe.
-- Le vendeur reçoit le sous-total, tandis que le portefeuille fiscal reçoit la taxe.
-- La somme des écritures reste nulle dans la devise du devis.
-- Les révisions attendues sont conservées pour le commit final.
+- **Point d’explication complémentaire :** Les soldes sont modifiés uniquement sur des copies.
+
+- **Point d’explication complémentaire — complément 2 :** Le débit de l’acheteur couvre le sous-total et la taxe.
+
+- **Dépendances et ports utilisés :** Le vendeur reçoit le sous-total, tandis que le portefeuille fiscal reçoit la taxe.
+
+- **Point d’explication complémentaire — complément 3 :** La somme des écritures reste nulle dans la devise du devis.
+
+- **Point d’explication complémentaire — complément 4 :** Les révisions attendues sont conservées pour le commit final.
 
 ## 28. Construire un devis
 
@@ -1572,13 +1678,17 @@ func _build_quote(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’offre vérifie d’abord quantité et intervalle logique.
-- Le sous-total utilise une multiplication entière bornée.
-- La taxe est calculée en points de base avec le même arrondi déterministe.
-- Le devis expire au premier terme entre l’offre et le contexte.
-- Le total attendu de la commande sera comparé à `quote.total_minor` par le service.
+- **Résultat attendu et vérification :** L’offre vérifie d’abord quantité et intervalle logique.
+
+- **Limites et réserves :** Le sous-total utilise une multiplication entière bornée.
+
+- **Point d’explication complémentaire :** La taxe est calculée en points de base avec le même arrondi déterministe.
+
+- **Point d’explication complémentaire — complément 2 :** Le devis expire au premier terme entre l’offre et le contexte.
+
+- **Point d’explication complémentaire — complément 3 :** Le total attendu de la commande sera comparé à `quote.total_minor` par le service.
 
 ## 29. Frontière avec l’inventaire
 
@@ -1608,13 +1718,17 @@ func prepare_purchase_transfer(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le port demande à l’inventaire de préparer source, destination, quantité, propriété et éventuelle division de pile.
-- Le payload opaque est construit par un adaptateur fiable, jamais par le joueur.
-- L’économie ne modifie ni `ItemInstanceState`, ni `ItemStackState`, ni conteneur.
-- Les révisions de la source, de la destination et de l’entrée sont portées par la commande puis relues par l’adaptateur.
-- `null` représente un refus contrôlé de l’inventaire.
+- **Dépendances et ports utilisés :** Le port demande à l’inventaire de préparer source, destination, quantité, propriété et éventuelle division de pile.
+
+- **Point d’explication complémentaire :** Le payload opaque est construit par un adaptateur fiable, jamais par le joueur.
+
+- **Limites et réserves :** L’économie ne modifie ni `ItemInstanceState`, ni `ItemStackState`, ni conteneur.
+
+- **Dépendances et ports utilisés — complément 2 :** Les révisions de la source, de la destination et de l’entrée sont portées par la commande puis relues par l’adaptateur.
+
+- **Invariants protégés :** `null` représente un refus contrôlé de l’inventaire.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_transaction_commit_port.gd`.**
 
@@ -1631,13 +1745,17 @@ func commit(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’implémentation se trouve au point de composition et coordonne les dépôts propriétaires.
-- Elle peut adapter le candidat d’inventaire à l’unité de travail introduite au chapitre 20.
-- Toutes les révisions et absences de collision sont revalidées avant le premier remplacement.
-- Une défaillance annule l’ensemble ; aucun débit ou objet partiel ne devient observable.
-- Cette atomicité est une exigence à exécuter au chapitre 27, pas une preuve runtime ici.
+- **Frontières d’autorité :** L’implémentation se trouve au point de composition et coordonne les dépôts propriétaires.
+
+- **Point d’explication complémentaire :** Elle peut adapter le candidat d’inventaire à l’unité de travail introduite au chapitre 20.
+
+- **Point d’explication complémentaire — complément 2 :** Toutes les révisions et absences de collision sont revalidées avant le premier remplacement.
+
+- **Limites et réserves :** Une défaillance annule l’ensemble ; aucun débit ou objet partiel ne devient observable.
+
+- **Limites et réserves — complément 2 :** Cette atomicité est une exigence à exécuter au chapitre 27, pas une preuve runtime ici.
 
 ## 30. Service d’achat
 
@@ -1711,13 +1829,17 @@ func purchase(command: PurchaseCommand) -> EconomyResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’idempotence est vérifiée avant toute lecture coûteuse ou préparation externe.
-- Un retry identique renvoie le résultat antérieur en statut `REPLAYED`.
-- `_prepare_purchase()` peut renvoyer un refus métier précis dans la clé `result`.
-- Le port de commit reçoit les deux candidats préparés.
-- Le signal est émis uniquement après succès du commit multi-autorités.
+- **Résultat attendu et vérification :** L’idempotence est vérifiée avant toute lecture coûteuse ou préparation externe.
+
+- **Résultat attendu et vérification — complément 2 :** Un retry identique renvoie le résultat antérieur en statut `REPLAYED`.
+
+- **Invariants protégés :** `_prepare_purchase()` peut renvoyer un refus métier précis dans la clé `result`.
+
+- **Dépendances et ports utilisés :** Le port de commit reçoit les deux candidats préparés.
+
+- **Frontières d’autorité :** Le signal est émis uniquement après succès du commit multi-autorités.
 
 > **[LECTURE] Préparation complète — Suite de `economy_service.gd`.**
 
@@ -1804,13 +1926,17 @@ func _prepare_purchase(command: PurchaseCommand) -> Dictionary:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’ordre de lecture empêche de préparer un paiement pour une offre inconnue ou obsolète.
-- Le service recalcule le devis après autorisation et compare le total affiché.
-- Le portefeuille fiscal est facultatif et revalidé seulement lorsqu’une taxe existe.
-- L’offre est décrémentée sur une copie et désactivée dès que le reliquat devient inférieur à la quantité minimale.
-- Le candidat économique n’atteint le commit qu’après validation du candidat d’inventaire.
+- **Limites et réserves :** L’ordre de lecture empêche de préparer un paiement pour une offre inconnue ou obsolète.
+
+- **Point d’explication complémentaire :** Le service recalcule le devis après autorisation et compare le total affiché.
+
+- **Dépendances et ports utilisés :** Le portefeuille fiscal est facultatif et revalidé seulement lorsqu’une taxe existe.
+
+- **Limites et réserves — complément 2 :** L’offre est décrémentée sur une copie et désactivée dès que le reliquat devient inférieur à la quantité minimale.
+
+- **Point d’explication complémentaire — complément 2 :** Le candidat économique n’atteint le commit qu’après validation du candidat d’inventaire.
 
 ### 30.1 Fabriques internes et résultats précis
 
@@ -1935,13 +2061,17 @@ func _commit_failure(command: PurchaseCommand, code: Error) -> EconomyResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Les helpers centralisent les statuts sans masquer leur signification métier.
-- `_posting()` reçoit la devise déjà validée et enregistre le solde candidat résultant sans nouvelle lecture du dépôt.
-- Le journal copie les écritures pour ne conserver aucune référence mutable.
-- Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
-- `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
+- **Point d’explication complémentaire :** Les helpers centralisent les statuts sans masquer leur signification métier.
+
+- **Point d’explication complémentaire — complément 2 :** `_posting()` reçoit la devise déjà validée et enregistre le solde candidat résultant sans nouvelle lecture du dépôt.
+
+- **Limites et réserves :** Le journal copie les écritures pour ne conserver aucune référence mutable.
+
+- **Dépendances et ports utilisés :** Le résultat committé trie les portefeuilles afin de produire un ordre reproductible.
+
+- **Limites et réserves — complément 2 :** `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
 
 ## 31. Récompenses monétaires
 
@@ -2013,13 +2143,17 @@ func transfer_reward(command: RewardCommand) -> EconomyResult:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le service réutilise les mêmes contrats d’idempotence et de révision que l’achat.
-- Une récompense purement monétaire passe `null` comme candidat d’inventaire.
-- Le port de commit doit accepter ce cas sans perdre l’atomicité économique.
-- L’émetteur doit disposer des fonds, y compris lorsqu’il s’agit d’une trésorerie système.
-- Une récompense d’objet sera orchestrée avec un candidat d’inventaire par le chapitre narratif concerné.
+- **Point d’explication complémentaire :** Le service réutilise les mêmes contrats d’idempotence et de révision que l’achat.
+
+- **Limites et réserves :** Une récompense purement monétaire passe `null` comme candidat d’inventaire.
+
+- **Dépendances et ports utilisés :** Le port de commit doit accepter ce cas sans perdre l’atomicité économique.
+
+- **Limites et réserves — complément 2 :** L’émetteur doit disposer des fonds, y compris lorsqu’il s’agit d’une trésorerie système.
+
+- **Limites et réserves — complément 3 :** Une récompense d’objet sera orchestrée avec un candidat d’inventaire par le chapitre narratif concerné.
 
 ### 31.1 Préparer une récompense équilibrée
 
@@ -2145,13 +2279,17 @@ func _reward_commit_failure(command: RewardCommand, code: Error) -> EconomyResul
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’émetteur est débité et le destinataire crédité sur des copies détachées.
-- Les deux écritures sont égales et opposées dans la même devise.
-- Le résultat, le journal et l’empreinte sont inclus dans le candidat idempotent.
-- Les helpers conservent des refus précis pour commande, accès, fonds, révision et commit.
-- La validation finale recoupe soldes candidats et écritures avant le port de commit.
+- **Point d’explication complémentaire :** L’émetteur est débité et le destinataire crédité sur des copies détachées.
+
+- **Point d’explication complémentaire — complément 2 :** Les deux écritures sont égales et opposées dans la même devise.
+
+- **Résultat attendu et vérification :** Le résultat, le journal et l’empreinte sont inclus dans le candidat idempotent.
+
+- **Invariants protégés :** Les helpers conservent des refus précis pour commande, accès, fonds, révision et commit.
+
+- **Dépendances et ports utilisés :** La validation finale recoupe soldes candidats et écritures avant le port de commit.
 
 ## 32. Adapter une action d’agent
 
@@ -2205,13 +2343,17 @@ func snapshot_for(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le contexte fournit uniquement des identifiants, révisions et un total d’affichage.
-- Il ne donne pas au planificateur un accès direct aux dépôts.
-- L’agent devra encore soumettre une commande au même service que le joueur.
-- Le total peut devenir obsolète et être refusé sans débit.
-- Les révisions du vendeur, de la trésorerie éventuelle, de la source, de la destination et de l’entrée complètent la révision du portefeuille acheteur.
+- **Point d’explication complémentaire :** Le contexte fournit uniquement des identifiants, révisions et un total d’affichage.
+
+- **Limites et réserves :** Il ne donne pas au planificateur un accès direct aux dépôts.
+
+- **Limites et réserves — complément 2 :** L’agent devra encore soumettre une commande au même service que le joueur.
+
+- **Invariants protégés :** Le total peut devenir obsolète et être refusé sans débit.
+
+- **Dépendances et ports utilisés :** Les révisions du vendeur, de la trésorerie éventuelle, de la source, de la destination et de l’entrée complètent la révision du portefeuille acheteur.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/economy/application/economy_agent_action_executor.gd`.**
 
@@ -2252,13 +2394,17 @@ func start(request: AgentActionRequest) -> Error:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- L’action de l’agent choisit une offre connue, pas un prix arbitraire.
-- `_command_from_request()` calcule une identité et une empreinte canoniques à partir du contexte autorisé.
-- Le service recalcule ensuite le devis et contrôle les révisions.
-- Un refus provoque une nouvelle décision depuis un snapshot frais.
-- L’agent ne peut ni créer de monnaie, ni contourner l’inventaire.
+- **Limites et réserves :** L’action de l’agent choisit une offre connue, pas un prix arbitraire.
+
+- **Limites et réserves — complément 2 :** `_command_from_request()` calcule une identité et une empreinte canoniques à partir du contexte autorisé.
+
+- **Point d’explication complémentaire :** Le service recalcule ensuite le devis et contrôle les révisions.
+
+- **Persistance et restauration :** Un refus provoque une nouvelle décision depuis un snapshot frais.
+
+- **Limites et réserves — complément 3 :** L’agent ne peut ni créer de monnaie, ni contourner l’inventaire.
 
 ## 33. Présentation et interaction du joueur
 
@@ -2303,13 +2449,17 @@ service :
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le formatage localisé n’influence jamais les unités mineures stockées.
-- Une confirmation visuelle reste une intention jusqu’au commit.
-- Le service ne fait confiance ni au total affiché ni à l’état du widget.
-- Le résultat de replay est affichable sans produire une seconde animation d’acquisition si la présentation l’a déjà consommé.
-- Les règles économiques ne sont pas dupliquées dans l’interface.
+- **Point d’explication complémentaire :** Le formatage localisé n’influence jamais les unités mineures stockées.
+
+- **Limites et réserves :** Une confirmation visuelle reste une intention jusqu’au commit.
+
+- **Limites et réserves — complément 2 :** Le service ne fait confiance ni au total affiché ni à l’état du widget.
+
+- **Résultat attendu et vérification :** Le résultat de replay est affichable sans produire une seconde animation d’acquisition si la présentation l’a déjà consommé.
+
+- **Limites et réserves — complément 3 :** Les règles économiques ne sont pas dupliquées dans l’interface.
 
 ## 34. Persistance
 
@@ -2398,13 +2548,17 @@ func decode(
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le codec exige le format, la version et exactement les clés prévues.
-- Les entiers sont lus par la règle JSON sûre du chapitre 9.
-- `_decode_all()` vérifie portefeuilles, offres, records et idempotence sans toucher au dépôt actif.
-- Les références croisées contrôlent devises, portefeuilles des écritures et offres.
-- Un document vide valide reste distinct d’un échec grâce à `DecodeResult`.
+- **Point d’explication complémentaire :** Le codec exige le format, la version et exactement les clés prévues.
+
+- **Point d’explication complémentaire — complément 2 :** Les entiers sont lus par la règle JSON sûre du chapitre 9.
+
+- **Dépendances et ports utilisés :** `_decode_all()` vérifie portefeuilles, offres, records et idempotence sans toucher au dépôt actif.
+
+- **Dépendances et ports utilisés — complément 2 :** Les références croisées contrôlent devises, portefeuilles des écritures et offres.
+
+- **Invariants protégés :** Un document vide valide reste distinct d’un échec grâce à `DecodeResult`.
 
 ## 36. Section de sauvegarde
 
@@ -2452,13 +2606,17 @@ func cancel_restore() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- La préparation décode et valide l’économie entière sans mutation active.
-- Les données sont copiées avant stockage et application.
-- Un échec d’une autre section permet au coordinateur d’appeler `cancel_restore()`.
-- L’idempotence est restaurée avec les soldes afin qu’un retry après chargement reste sûr.
-- Les catalogues de conception doivent être disponibles avant l’application.
+- **Invariants protégés :** La préparation décode et valide l’économie entière sans mutation active.
+
+- **Point d’explication complémentaire :** Les données sont copiées avant stockage et application.
+
+- **Limites et réserves :** Un échec d’une autre section permet au coordinateur d’appeler `cancel_restore()`.
+
+- **Persistance et restauration :** L’idempotence est restaurée avec les soldes afin qu’un retry après chargement reste sûr.
+
+- **Point d’explication complémentaire — complément 2 :** Les catalogues de conception doivent être disponibles avant l’application.
 
 ## 37. Présentation après commit
 
@@ -2484,13 +2642,17 @@ func on_transaction_committed(result: EconomyResult) -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication détaillée du bloc :**
+**Explication structurée du bloc :**
 
-- Le pont reçoit uniquement un résultat validé et committé ou rejoué.
-- Le cache local évite de rejouer deux fois une animation pour le même identifiant pendant la session.
-- Ce cache de présentation n’est pas persistant et n’assure pas l’idempotence métier.
-- Le signal transporte des valeurs simples, pas un portefeuille mutable.
-- Aucune mutation économique n’est réalisée dans un nœud.
+- **Résultat attendu et vérification :** Le pont reçoit uniquement un résultat validé et committé ou rejoué.
+
+- **Limites et réserves :** Le cache local évite de rejouer deux fois une animation pour le même identifiant pendant la session.
+
+- **Persistance et restauration :** Ce cache de présentation n’est pas persistant et n’assure pas l’idempotence métier.
+
+- **Dépendances et ports utilisés :** Le signal transporte des valeurs simples, pas un portefeuille mutable.
+
+- **Limites et réserves — complément 2 :** Aucune mutation économique n’est réalisée dans un nœud.
 
 ## 38. Scène pédagogique
 
@@ -2594,7 +2756,9 @@ wallet.balance -= price
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** un nombre flottant ne représente pas exactement toutes les fractions décimales et le portefeuille perd son unité explicite.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un nombre flottant ne représente pas exactement toutes les fractions décimales et le portefeuille perd son unité explicite.
 
 **Exemple corrigé :**
 
@@ -2607,7 +2771,9 @@ wallet_candidate.balances[currency_id] -= price_minor
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** les unités mineures entières produisent une arithmétique déterministe et sérialisable sans perte.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les unités mineures entières produisent une arithmétique déterministe et sérialisable sans perte.
 
 ### 41.2 Modifier directement un portefeuille depuis l’interface
 
@@ -2624,7 +2790,9 @@ func _on_buy_pressed() -> void:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** un nœud de présentation devient une autorité économique mutable.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un nœud de présentation devient une autorité économique mutable.
 
 **Exemple corrigé :**
 
@@ -2637,7 +2805,9 @@ show_result(result)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** l’interface soumet une commande puis consomme un résultat déjà validé.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’interface soumet une commande puis consomme un résultat déjà validé.
 
 ### 41.3 Autoriser un solde négatif implicitement
 
@@ -2653,7 +2823,9 @@ buyer.balance -= total
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** aucun contrôle n’empêche le solde de passer sous zéro.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrôle n’empêche le solde de passer sous zéro.
 
 **Exemple corrigé :**
 
@@ -2666,7 +2838,9 @@ if buyer.balance_for(currency_id) < total_minor:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le modèle sans crédit refuse l’opération avant toute copie candidate.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le modèle sans crédit refuse l’opération avant toute copie candidate.
 
 ### 41.4 Créer une récompense sans contrepartie
 
@@ -2682,7 +2856,9 @@ recipient.balance += reward_minor
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la création monétaire est implicite et aucune écriture de débit ne l’autorise.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la création monétaire est implicite et aucune écriture de débit ne l’autorise.
 
 **Exemple corrigé :**
 
@@ -2698,7 +2874,9 @@ var command := build_reward_command(
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** une trésorerie explicite finance la récompense et produit deux écritures équilibrées.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une trésorerie explicite finance la récompense et produit deux écritures équilibrées.
 
 ### 41.5 Faire confiance au total envoyé par le client
 
@@ -2715,7 +2893,9 @@ apply_payment(total)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** la valeur proposée devient autoritaire sans recalcul.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la valeur proposée devient autoritaire sans recalcul.
 
 **Exemple corrigé :**
 
@@ -2729,7 +2909,9 @@ if quote.total_minor != command.expected_total_minor:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
 
 ### 41.6 Transférer l’objet avant le paiement
 
@@ -2746,7 +2928,9 @@ var payment_code := debit_buyer()
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** les deux autorités sont committées séquentiellement et peuvent diverger.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les deux autorités sont committées séquentiellement et peuvent diverger.
 
 **Exemple corrigé :**
 
@@ -2760,7 +2944,9 @@ var code := trade_commit_port.commit(economy_candidate, inventory_candidate)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** paiement et transfert sont préparés puis remplacés comme un même lot.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** paiement et transfert sont préparés puis remplacés comme un même lot.
 
 ### 41.7 Stocker le prix dans `ItemDefinition`
 
@@ -2776,7 +2962,9 @@ item_definition.current_price = market_price
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** une donnée de conception de l’inventaire devient un état économique mutable.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une donnée de conception de l’inventaire devient un état économique mutable.
 
 **Exemple corrigé :**
 
@@ -2790,7 +2978,9 @@ var value_definition := item_value_catalog.get_for_item(
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
 
 ### 41.8 Retenter avec une nouvelle identité après un timeout visuel
 
@@ -2808,7 +2998,9 @@ if ui_timeout:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le retry perd la clé d’idempotence de l’opération initiale.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le retry perd la clé d’idempotence de l’opération initiale.
 
 **Exemple corrigé :**
 
@@ -2821,7 +3013,9 @@ if ui_timeout:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** la même identité et la même empreinte renvoient le résultat précédent sans second débit.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la même identité et la même empreinte renvoient le résultat précédent sans second débit.
 
 ### 41.9 Convertir implicitement une devise
 
@@ -2837,7 +3031,9 @@ var wealth := gold_balance + token_balance
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** aucune politique de change, date, taux ou arrondi n’existe.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune politique de change, date, taux ou arrondi n’existe.
 
 **Exemple corrigé :**
 
@@ -2851,7 +3047,9 @@ gold.minor_units = gold_balance
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** chaque montant conserve sa devise et aucun total commun n’est calculé sans contrat de conversion explicite.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque montant conserve sa devise et aucun total commun n’est calculé sans contrat de conversion explicite.
 
 ### 41.10 Laisser une sortie IA fixer un prix ou une récompense
 
@@ -2868,7 +3066,9 @@ var reward_minor := int(ai_response["reward"])
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** une sortie générative choisit directement deux montants autoritaires.
+**Explication structurée du bloc :**
+
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une sortie générative choisit directement deux montants autoritaires.
 
 **Exemple corrigé :**
 
@@ -2881,7 +3081,9 @@ var reward := reward_table.amount_for(validated_cause_id)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** des politiques déterministes et des causes validées produisent les montants ; l’IA peut seulement proposer un texte ou une catégorie filtrée.
+**Explication structurée du bloc :**
+
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** des politiques déterministes et des causes validées produisent les montants ; l’IA peut seulement proposer un texte ou une catégorie filtrée.
 
 ## 42. Tests à préparer
 
