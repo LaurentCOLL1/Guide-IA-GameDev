@@ -36,6 +36,13 @@ jobs:
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
+      - name: Materialize chapter 25 candidate
+        run: |
+          python3 .qa/ch25_finalize.py
+          rm -f .github/workflows/ch25-branch-finalizer.yml
+          test ! -e .qa/ch25_finalize.py
+          test ! -e .github/workflows/ch25-branch-finalizer.yml
+
       - name: Validate structure, metadata, links and duplicates
         run: |
           mkdir -p dist
@@ -61,6 +68,17 @@ jobs:
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
+      - name: Package finalized chapter lot
+        run: |
+          zip -q dist/ch25-finalized.zip \
+            CONTINUITE-PROJET.md \
+            Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md \
+            Livre-II/QA/AUDIT-CHAPITRE-25.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml \
+            Livre-II/index.md \
+            ROADMAP.md \
+            contents.txt
+
       - name: Assert that no PDF was produced
         run: |
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
@@ -81,3 +99,4 @@ jobs:
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
+            dist/ch25-finalized.zip
