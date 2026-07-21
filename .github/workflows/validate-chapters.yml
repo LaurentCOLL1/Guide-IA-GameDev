@@ -21,28 +21,21 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
-    name: Refine and validate explanations
+    name: Validate chapters without PDF
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout explanation branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
 
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
-
-      - name: Refine explanations without content loss
-        run: |
-          python3 .qa/refine_explanations_ch17_ch26.py
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -81,19 +74,6 @@ jobs:
             echo "Un PDF a été produit pendant une validation légère." >&2
             exit 1
           fi
-
-      - name: Commit refined documentation
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git restore --source=HEAD -- .github/workflows/validate-chapters.yml
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No refinement changes."
-            exit 0
-          fi
-          git commit -m "docs(livre-ii): refine structured explanations for chapters 17 to 26"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
 
       - name: Upload lightweight QA evidence
         if: always()
