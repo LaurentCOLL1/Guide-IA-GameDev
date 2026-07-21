@@ -20,7 +20,6 @@ HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
-VALID_REASONING = {"GPT-5.6 Sol — Moyenne", "GPT-5.6 Sol — Élevée"}
 ISO_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
@@ -423,8 +422,6 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-level invalide : {rel}")
                 if metadata.get("usage-context-standard") != "DOC-V0-ANN-CONTEXTES":
                     errors.append(f"Convention de contexte absente ou incorrecte : {rel}")
-                if number >= 3 and metadata.get("recommended-reasoning") not in VALID_REASONING:
-                    errors.append(f"Niveau GPT-5.6 Sol absent ou invalide : {rel}")
                 audit_report = metadata.get("audit-report")
                 if not audit_report:
                     errors.append(f"Métadonnée audit-report absente : {rel}")

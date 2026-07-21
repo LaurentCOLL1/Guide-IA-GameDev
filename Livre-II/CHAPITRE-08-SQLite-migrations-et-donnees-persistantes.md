@@ -25,7 +25,6 @@ reference-addon:
   license: "MIT"
   distribution: "Godot Asset Library"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-recommended-reasoning: "GPT-5.6 Sol — Élevée"
 ---
 
 # SQLite, migrations et données persistantes

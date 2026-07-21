@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.17.0"
+version: "1.17.1"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -92,7 +92,6 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 23](QA/AUDIT-CHAPITRE-23.md) ;
 - [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
 - [audit du chapitre 25](QA/AUDIT-CHAPITRE-25.md) ;
-- [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -122,7 +121,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 24 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 25 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
 
 ## Principes du Livre II
 

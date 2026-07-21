@@ -20,7 +20,6 @@ reference-project:
   name: "Project Asteria"
   renderer: "Forward+"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-recommended-reasoning: "GPT-5.6 Sol — Élevée"
 ---
 
 # Agents IA et comportements autonomes
