@@ -1,34 +1,28 @@
 name: Chapter 25 Finalizer Runner
 
 on:
-  pull_request_target:
-    branches:
-      - main
+  issue_comment:
     types:
-      - opened
-      - synchronize
-      - reopened
-    paths:
-      - "Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md"
-      - "Livre-II/QA/AUDIT-CHAPITRE-25.md"
-      - "Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml"
-      - ".qa/ch25_finalize.py"
+      - created
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   finalize:
     if: >-
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.head.ref == 'docs/livre-ii-ch25-narration-quetes-codex'
+      github.event.issue.pull_request &&
+      github.event.issue.number == 60 &&
+      github.event.comment.user.login == 'LaurentCOLL1' &&
+      github.event.comment.body == '/finalize-ch25'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout chapter branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: docs/livre-ii-ch25-narration-quetes-codex
           fetch-depth: 0
 
       - name: Finalize chapter and governance
@@ -49,4 +43,4 @@ jobs:
             exit 0
           fi
           git commit -m "docs(livre-ii): finalize chapter 25 narrative system"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          git push origin HEAD:docs/livre-ii-ch25-narration-quetes-codex
