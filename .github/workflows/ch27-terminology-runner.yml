@@ -1,0 +1,50 @@
+name: Chapter 27 Terminology Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  correct:
+    if: github.event.pull_request.head.ref == 'fix/ch27-terminologie-duree-reelle'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Install validator dependency
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Apply terminology correction
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 .qa/ch27-terminology/fix.py
+          python3 tools/validate_chapters.py --report /tmp/ch27-terminology-QA.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          python3 tools/check_code_explanation_structure.py
+
+      - name: Push permanent correction
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf .qa/ch27-terminology
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(livre-ii): correct wall-clock terminology"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
