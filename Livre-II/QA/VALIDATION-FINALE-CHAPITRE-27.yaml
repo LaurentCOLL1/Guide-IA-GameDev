@@ -64,5 +64,5 @@ reservations:
 - Cross-platform reproducibility not measured.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: pending
+  commit: 769b424af8312fa66676110cad97cb523a25bde8
   conclusion: success
