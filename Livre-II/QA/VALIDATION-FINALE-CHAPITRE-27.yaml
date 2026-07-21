@@ -2,8 +2,8 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH27
 status: pending
 validation-date: '2026-07-22'
-validated-base-commit: 4df6f5ffec8718756817b115ca827db2f6d4b7d8
-validated-head-commit: f51d83f5bc1fc367e90f7184edc8aed7ed36d117
+validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
+validated-head-commit: 4fbc80f92e6ef42518bde6a15521206c70d1ee59
 chapter:
   id: DOC-L2-CH27
   path: Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
