@@ -8,17 +8,17 @@ import re
 
 ROOT = Path('.')
 NOW = datetime.now(ZoneInfo('Europe/Paris')).replace(microsecond=0).isoformat()
+HEADER_RE = re.compile(
+    r'^> \*\*Niveau de raisonnement conseillé :\*\* GPT-5\.6 Sol — (?:Moyenne|Élevée)\s*$',
+    flags=re.MULTILINE,
+)
 
 chapter_paths = sorted((ROOT / 'Livre-II').glob('CHAPITRE-*.md'))
 removed = 0
 for path in chapter_paths:
     text = path.read_text(encoding='utf-8')
-    updated, count = re.subn(
-        r'^> \*\*Niveau de raisonnement conseillé :\*\* GPT-5\.6 Sol — (?:Moyenne|Élevée)\s*\n',
-        '',
-        text,
-        flags=re.MULTILINE,
-    )
+    updated, count = HEADER_RE.subn('', text)
+    updated = re.sub(r'\n{3,}', '\n\n', updated)
     if count:
         path.write_text(updated, encoding='utf-8')
         removed += count
@@ -93,8 +93,10 @@ roadmap_path.write_text(roadmap, encoding='utf-8')
 
 for path in chapter_paths:
     text = path.read_text(encoding='utf-8')
-    if 'recommended-reasoning:' in text or 'Niveau de raisonnement conseillé' in text:
+    if 'recommended-reasoning:' in text or HEADER_RE.search(text):
         raise SystemExit(f'Reliquat de niveau GPT dans {path}')
+    if 'Niveau de raisonnement conseillé' in text:
+        print(f'Mention non structurée conservée pour contrôle par le validateur : {path}')
 
 Path('.qa/fix_reasoning_reader_header.py').unlink()
 print(f'Lignes lecteur retirées : {removed}')
