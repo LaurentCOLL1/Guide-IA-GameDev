@@ -24,6 +24,12 @@ ISO_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
 ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
+FORBIDDEN_TERMINOLOGY = {
+    "durée murale": "durée réelle (durée de l’horloge système)",
+    "temps mural": "durée réelle (durée de l’horloge système)",
+    "temps mur": "durée réelle (durée de l’horloge système)",
+    "temps horloge": "horloge système",
+}
 
 
 @dataclass
@@ -380,6 +386,15 @@ def main() -> int:
         text = source.read_text(encoding="utf-8")
         if any(marker in text for marker in CONFLICT_MARKERS):
             errors.append(f"Marqueur de conflit Git détecté : {rel}")
+
+        normalized_text = text.casefold()
+        for forbidden, replacement in FORBIDDEN_TERMINOLOGY.items():
+            pattern = rf"(?<!\w){re.escape(forbidden)}(?!\w)"
+            if re.search(pattern, normalized_text):
+                errors.append(
+                    f"Calque terminologique interdit dans {rel} : {forbidden!r}. "
+                    f"Employer {replacement!r}."
+                )
 
         metadata = parse_front_matter(text, rel, errors)
         if metadata:
