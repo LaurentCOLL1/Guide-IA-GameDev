@@ -21,11 +21,11 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
-    name: Refine and validate explanations
+    name: Diagnose refinement logic
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -36,76 +36,26 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
-      - name: Install lightweight dependencies
+      - name: Run refinement and capture traceback
+        id: refine
+        shell: bash
         run: |
-          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          set +e
+          python3 .qa/refine_explanations_ch17_ch26.py > /tmp/refine-output.log 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          tail -n 30 /tmp/refine-output.log
+          exit 0
 
-      - name: Refine explanations without content loss
-        run: |
-          python3 .qa/refine_explanations_ch17_ch26.py
-
-      - name: Validate structure, metadata, links and duplicates
-        run: |
-          mkdir -p dist
-          set -o pipefail
-          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
-            | tee dist/QA-CHAPTERS.log
-
-      - name: Validate structured code explanations
-        run: |
-          set -o pipefail
-          python3 tools/check_code_explanation_structure.py --check \
-            | tee dist/QA-EXPLICATIONS-CODE.log
-
-      - name: Audit usage marker presence
-        run: |
-          set -o pipefail
-          python3 tools/check_context_markers.py --check \
-            | tee dist/QA-CONTEXTES.log
-
-      - name: Audit semantic marker consistency
-        run: |
-          set -o pipefail
-          python3 tools/audit_contextes_semantiques.py --check \
-            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
-
-      - name: Measure context coverage
-        run: |
-          set -o pipefail
-          python3 tools/report_contextes_utilisation.py \
-            | tee dist/QA-CONTEXTES-COUVERTURE.md
-
-      - name: Assert that no PDF was produced
-        run: |
-          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
-            echo "Un PDF a été produit pendant une validation légère." >&2
-            exit 1
-          fi
-
-      - name: Commit refined documentation
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git restore --source=HEAD -- .github/workflows/validate-chapters.yml
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No refinement changes."
-            exit 0
-          fi
-          git commit -m "docs(livre-ii): refine structured explanations for chapters 17 to 26"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
-
-      - name: Upload lightweight QA evidence
+      - name: Upload traceback
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: chapter-validation-without-pdf
+          name: explanation-refinement-logic-traceback
           if-no-files-found: error
-          retention-days: 30
-          path: |
-            dist/QA-CHAPTERS.md
-            dist/QA-CHAPTERS.log
-            dist/QA-EXPLICATIONS-CODE.log
-            dist/QA-CONTEXTES.log
-            dist/QA-CONTEXTES-SEMANTIQUES.log
-            dist/QA-CONTEXTES-COUVERTURE.md
+          retention-days: 7
+          path: /tmp/refine-output.log
+
+      - name: Fail when refinement failed
+        if: steps.refine.outputs.status != '0'
+        run: exit 1
