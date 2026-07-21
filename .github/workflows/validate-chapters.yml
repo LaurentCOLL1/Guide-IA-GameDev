@@ -51,15 +51,6 @@ jobs:
           cat /tmp/refine-output.log
           exit 0
 
-      - name: Upload refinement diagnostic
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: explanation-refinement-diagnostic
-          if-no-files-found: error
-          retention-days: 7
-          path: /tmp/refine-output.log
-
       - name: Stop after refinement failure
         if: steps.refine.outputs.status != '0'
         run: exit 1
@@ -74,34 +65,54 @@ jobs:
 
       - name: Validate structured code explanations
         if: steps.refine.outputs.status == '0'
+        id: explanation_check
+        shell: bash
         run: |
-          set -o pipefail
-          python3 tools/check_code_explanation_structure.py --check \
-            | tee dist/QA-EXPLICATIONS-CODE.log
+          set +e
+          python3 tools/check_code_explanation_structure.py --check > /tmp/explanation-validator.log 2>&1
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          cat /tmp/explanation-validator.log
+          exit 0
+
+      - name: Upload transformation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: explanation-restructuring-diagnostics
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            /tmp/refine-output.log
+            /tmp/explanation-validator.log
+
+      - name: Stop after explanation validation failure
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status != '0'
+        run: exit 1
 
       - name: Audit usage marker presence
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/check_context_markers.py --check \
             | tee dist/QA-CONTEXTES.log
 
       - name: Audit semantic marker consistency
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/audit_contextes_semantiques.py --check \
             | tee dist/QA-CONTEXTES-SEMANTIQUES.log
 
       - name: Measure context coverage
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         run: |
           set -o pipefail
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
       - name: Assert that no PDF was produced
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         run: |
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
             echo "Un PDF a été produit pendant une validation légère." >&2
@@ -109,7 +120,7 @@ jobs:
           fi
 
       - name: Commit refined documentation
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -123,7 +134,7 @@ jobs:
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
 
       - name: Upload lightweight QA evidence
-        if: steps.refine.outputs.status == '0'
+        if: steps.refine.outputs.status == '0' && steps.explanation_check.outputs.status == '0'
         uses: actions/upload-artifact@v4
         with:
           name: chapter-validation-without-pdf
@@ -132,7 +143,6 @@ jobs:
           path: |
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
-            dist/QA-EXPLICATIONS-CODE.log
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
