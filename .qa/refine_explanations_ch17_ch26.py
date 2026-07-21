@@ -80,5 +80,10 @@ SOURCE = SOURCE.replace(
     '        replacement = format_points(points)\n        for anchor in anchors:\n            replacement.extend([anchor, ""])\n        lines[start:end] = replacement',
     1,
 )
+SOURCE = SOURCE.replace(
+    '        for segment in preserved_texts:\n            if segment not in rendered:\n                raise RuntimeError(f"chapitre {chapter}: segment antérieur perdu: {segment}")',
+    '        normalized_rendered = re.sub(r"\\s+", " ", rendered).strip()\n        for segment in preserved_texts:\n            normalized_segment = re.sub(r"\\s+", " ", segment).strip()\n            if normalized_segment not in normalized_rendered:\n                raise RuntimeError(f"chapitre {chapter}: segment antérieur perdu: {segment}")',
+    1,
+)
 
 exec(compile(SOURCE, __file__, "exec"))
