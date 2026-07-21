@@ -1,0 +1,44 @@
+name: Chapter 23 Finalizer Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Finalize chapter 23 when scripts are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f .qa/ch23-fix.py ]]; then
+            echo "No chapter 23 finalizer scripts present."
+            exit 0
+          fi
+          python3 .qa/ch23-fix.py
+          python3 .qa/ch23-audit-proof.py
+          python3 .qa/ch23-governance.py
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          mkdir -p dist
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          rm -f .qa/ch23-fix.py .qa/ch23-audit-proof.py .qa/ch23-governance.py
+          rm -f .qa/ch23-metrics.json .qa/ch23-finalizer-ready.txt .qa/ch23-finalizer-placeholder.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
+          git push origin HEAD:${{ github.head_ref }}
