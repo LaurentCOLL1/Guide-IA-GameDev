@@ -32,7 +32,10 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
       - name: Restore direct semantic explanations
-        run: python3 .qa/restore_semantic_error_sections.py
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 .qa/restore_semantic_error_sections.py 2>&1 | tee dist/RESTORE-ERROR-SECTIONS.log
 
       - name: Validate structure and metadata
         run: python3 tools/validate_chapters.py --report /tmp/QA-CHAPTERS.md
@@ -52,6 +55,15 @@ jobs:
             echo "Un PDF a été produit pendant une validation légère." >&2
             exit 1
           fi
+
+      - name: Upload restoration diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-error-restoration-diagnostic
+          path: dist/RESTORE-ERROR-SECTIONS.log
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Commit restored chapters and QA documents
         run: |
