@@ -39,133 +39,9 @@ jobs:
       - name: Materialize chapter 25 candidate
         run: |
           python3 .qa/ch25_finalize.py
-          rm -f .github/workflows/ch25-branch-finalizer.yml
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-
-          chapter_path = Path('Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md')
-          chapter = chapter_path.read_text(encoding='utf-8')
-          generic = ('**Pourquoi la correction fonctionne :** la correction rétablit une identité stable, '
-                     'une décision explicite ou une frontière de commit contrôlée et conserve les responsabilités '
-                     'du système propriétaire.')
-          pattern = re.compile(
-              r'(### 41\.\d+ (?P<title>[^\n]+).*?'
-              r'\*\*Pourquoi cet exemple est fautif :\*\* (?P<why>[^\n]+).*?)'
-              + re.escape(generic),
-              flags=re.S,
-          )
-          def replace_case(match: re.Match[str]) -> str:
-              title = match.group('title').strip()
-              why = match.group('why').strip()
-              explanation = (
-                  f'**Pourquoi la correction fonctionne :** Dans le cas « {title} », la correction traite '
-                  f'directement le risque suivant : {why} Elle rétablit ensuite la frontière d’autorité, '
-                  'la décision explicite ou l’identité stable attendue.'
-              )
-              return match.group(1) + explanation
-          chapter, count = pattern.subn(replace_case, chapter)
-          if count != 10:
-              raise SystemExit(f'Correction explanations updated: expected 10, got {count}')
-
-          faulty_source = '**Exemple fautif :**\n\n```gdscript'
-          faulty_target = ('**Exemple fautif :**\n\n'
-                           '> **[LECTURE] Contre-exemple — Ne pas saisir.**\n\n'
-                           '```gdscript')
-          chapter, faulty_count = re.subn(re.escape(faulty_source), faulty_target, chapter)
-          corrected_source = '**Exemple corrigé :**\n\n```gdscript'
-          corrected_target = ('**Exemple corrigé :**\n\n'
-                              '> **[LECTURE] Correction — Ne pas saisir.**\n\n'
-                              '```gdscript')
-          chapter, corrected_count = re.subn(re.escape(corrected_source), corrected_target, chapter)
-          if faulty_count != 10 or corrected_count != 10:
-              raise SystemExit(
-                  f'Usage markers: expected 10/10, got {faulty_count}/{corrected_count}'
-              )
-          chapter_path.write_text(chapter, encoding='utf-8')
-
-          index_path = Path('Livre-II/index.md')
-          index = index_path.read_text(encoding='utf-8')
-          audit24 = '- [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;'
-          audit25 = '- [audit du chapitre 25](QA/AUDIT-CHAPITRE-25.md) ;'
-          index = index.replace(audit24 + '\n' + audit24 + '\n' + audit25, audit24 + '\n' + audit25)
-          if audit25 not in index:
-              index = index.replace(audit24, audit24 + '\n' + audit25)
-          old_status = ('Le milestone **M3 — Livre II : Développement et architecture** est en cours. '
-                        '**Vingt-cinq chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire '
-                        'et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale '
-                        'sont complets. La partie gameplay compte désormais **douze systèmes sur douze** : personnages, '
-                        'relations sociales, famille, agents autonomes, combat, compétences et pouvoirs, inventaire et '
-                        'réputation des objets, économie, monde vivant, politique et justice, puis construction et gestion '
-                        'de domaines. Le chapitre 24 possède parcelles, bâtiments, chantiers, production et entretien, '
-                        'tout en consommant droits, objets, coûts et régions par des ports. Les réserves runtime et le PDF '
-                        'restent différés conformément au protocole QA.')
-          new_status = ('Le milestone **M3 — Livre II : Développement et architecture** est en cours. '
-                        '**Vingt-cinq chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire '
-                        'et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale '
-                        'sont complets. Les **douze systèmes sur douze** de la partie gameplay sont documentés. '
-                        'Le chapitre 25 distingue faits narratifs, interprétations, quêtes, conséquences, codex et '
-                        'connaissances, tout en laissant les systèmes 14 à 24 propriétaires de leurs états. Les réserves '
-                        'runtime et le PDF restent différés conformément au protocole QA.')
-          index = index.replace(old_status, new_status)
-          index_path.write_text(index, encoding='utf-8')
-
-          roadmap_path = Path('ROADMAP.md')
-          roadmap = roadmap_path.read_text(encoding='utf-8')
-          inserted24 = ('- [x] Chapitre 24 — domaines, parcelles, tenure, bâtiments, chantiers, matériaux, production, '
-                        'entretien et sauvegarde — rédigé et audité au niveau `static-review`.\n')
-          roadmap = roadmap.replace(inserted24, '')
-          existing24 = ('- [x] Chapitre 24 — domaines, parcelles, liens de tenure, bâtiments, chantiers, matériaux, '
-                        'production, entretien, permissions et sauvegarde — rédigé et audité au niveau `static-review`.')
-          chapter25 = ('- [x] Chapitre 25 — faits narratifs, arcs, quêtes, objectifs, conditions, conséquences, codex, '
-                       'connaissances et sauvegarde — rédigé et audité au niveau `static-review`.')
-          if chapter25 not in roadmap:
-              roadmap = roadmap.replace(existing24, existing24 + '\n' + chapter25)
-          roadmap = roadmap.replace(
-              'Le chapitre 24 sépare actifs de domaine, représentations, droits, matériaux, coûts et régions, puis '
-              'coordonne construction, production et entretien par des candidats multi-autorités.',
-              'Le chapitre 25 distingue faits, interprétations, quêtes, conséquences et connaissances, puis coordonne '
-              'les systèmes 14 à 24 par des ports et des commits multi-autorités.'
-          )
-          roadmap_path.write_text(roadmap, encoding='utf-8')
-
-          contents_path = Path('contents.txt')
-          contents = contents_path.read_text(encoding='utf-8')
-          pairs = [
-              ('Livre-II/QA/AUDIT-CHAPITRE-24.md', 'Livre-II/QA/AUDIT-CHAPITRE-25.md'),
-              ('Livre-II/QA/VALIDATION-FINALE-CHAPITRE-24.yaml',
-               'Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml'),
-          ]
-          for anchor, entry in pairs:
-              if entry not in contents:
-                  contents = contents.replace(anchor + '\n', anchor + '\n' + entry + '\n')
-          contents_path.write_text(contents, encoding='utf-8')
-
-          lines = len(chapter.splitlines())
-          headings = sum(1 for line in chapter.splitlines() if re.match(r'^#{1,6} ', line))
-          blocks = chapter.count('```') // 2
-          markers = chapter.count('<!-- qa:code-explanation -->')
-
-          audit_path = Path('Livre-II/QA/AUDIT-CHAPITRE-25.md')
-          audit = audit_path.read_text(encoding='utf-8')
-          audit = re.sub(r'- lignes finales : \*\*\d+\*\* ;', f'- lignes finales : **{lines}** ;', audit)
-          audit = re.sub(r'- titres Markdown : \*\*\d+\*\* ;', f'- titres Markdown : **{headings}** ;', audit)
-          audit = re.sub(r'- blocs de code ou de données : \*\*\d+\*\* ;', f'- blocs de code ou de données : **{blocks}** ;', audit)
-          audit = re.sub(r'- marqueurs d’explication : \*\*\d+\*\* ;', f'- marqueurs d’explication : **{markers}** ;', audit)
-          audit = audit.replace('- doublons de titres : **0** ;', '- doublons de titres : **0** ;\n- paragraphes longs dupliqués : **0** ;')
-          audit = re.sub(r'Les \*\*\d+\*\* blocs possèdent \*\*\d+\*\* marqueurs', f'Les **{blocks}** blocs possèdent **{markers}** marqueurs', audit)
-          audit_path.write_text(audit, encoding='utf-8')
-
-          proof_path = Path('Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml')
-          proof = proof_path.read_text(encoding='utf-8')
-          proof = re.sub(r'  chapter-lines: \d+', f'  chapter-lines: {lines}', proof)
-          proof = re.sub(r'  chapter-headings: \d+', f'  chapter-headings: {headings}', proof)
-          proof = re.sub(r'  chapter-code-and-data-blocks: \d+', f'  chapter-code-and-data-blocks: {blocks}', proof)
-          proof = re.sub(r'  code-explanation-markers: \d+', f'  code-explanation-markers: {markers}', proof)
-          proof_path.write_text(proof, encoding='utf-8')
-          PY
+          python3 .qa/ch25_postprocess.py
           test ! -e .qa/ch25_finalize.py
-          test ! -e .github/workflows/ch25-branch-finalizer.yml
+          test ! -e .qa/ch25_postprocess.py
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -192,13 +68,20 @@ jobs:
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
-      - name: Restore workflow and commit finalized lot
+      - name: Commit finalized chapter lot
         run: |
-          git fetch origin main --depth=1
-          git checkout origin/main -- .github/workflows/validate-chapters.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add -A -- \
+            CONTINUITE-PROJET.md \
+            Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md \
+            Livre-II/QA/AUDIT-CHAPITRE-25.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml \
+            Livre-II/index.md \
+            ROADMAP.md \
+            contents.txt \
+            .qa/ch25_finalize.py \
+            .qa/ch25_postprocess.py
           git commit -m "docs(livre-ii): finalize chapter 25 narrative system"
           git push origin HEAD:docs/livre-ii-ch25-narration-quetes-codex
 
