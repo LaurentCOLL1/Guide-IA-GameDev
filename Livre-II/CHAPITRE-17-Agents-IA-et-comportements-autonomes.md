@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 17 : Agents IA et comportements autonomes"
 id: "DOC-L2-CH17"
 status: "reviewed"
-version: "1.0.4"
+version: "1.0.5"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-17.md"
 audit-level: "static-review"
 reference-engine:
@@ -2105,9 +2105,7 @@ character_state.current_plan = planner.plan(world)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un plan transitoire devient une propriété de l’état autoritaire du personnage et complique sa sauvegarde.
+**Pourquoi cet exemple est fautif :** un plan transitoire devient une propriété de l’état autoritaire du personnage et complique sa sauvegarde.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2118,9 +2116,7 @@ runtime.current_plan = planner.plan(snapshot, goal, conditions, catalog).plan
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le plan reste dans un runtime d’agent reconstructible et séparé de `CharacterRuntimeState`.
+**Pourquoi la correction fonctionne :** le plan reste dans un runtime d’agent reconstructible et séparé de `CharacterRuntimeState`.
 
 ### 37.2 Conserver des nœuds dans la mémoire
 
@@ -2134,9 +2130,7 @@ memory[&"target"] = target_node
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la mémoire logique dépend de la durée de vie d’un nœud de présentation.
+**Pourquoi cet exemple est fautif :** la mémoire logique dépend de la durée de vie d’un nœud de présentation.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2147,9 +2141,7 @@ fact.position = last_known_position
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identité et la dernière position restent sérialisables et vérifiables hors scène.
+**Pourquoi la correction fonctionne :** l’identité et la dernière position restent sérialisables et vérifiables hors scène.
 
 ### 37.3 Utiliser un dictionnaire libre comme tableau noir
 
@@ -2163,9 +2155,7 @@ blackboard["targte_id"] = target_id
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la faute de frappe devient une nouvelle clé acceptée sans diagnostic.
+**Pourquoi cet exemple est fautif :** la faute de frappe devient une nouvelle clé acceptée sans diagnostic.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2175,9 +2165,7 @@ var error := blackboard.write(&"agent.bb.target_id", target_id)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le schéma contrôle l’existence de la clé et le type de la valeur.
+**Pourquoi la correction fonctionne :** le schéma contrôle l’existence de la clé et le type de la valeur.
 
 ### 37.4 Persister le plan
 
@@ -2191,9 +2179,7 @@ snapshot["current_plan"] = runtime.current_plan.action_ids
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les préconditions et cibles du plan peuvent être invalides après restauration.
+**Pourquoi cet exemple est fautif :** les préconditions et cibles du plan peuvent être invalides après restauration.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2203,9 +2189,7 @@ snapshot["durable_goals"] = codec.encode_goals(state.durable_goals)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les motivations durables sont restaurées, puis un nouveau plan est construit depuis le monde chargé.
+**Pourquoi la correction fonctionne :** les motivations durables sont restaurées, puis un nouveau plan est construit depuis le monde chargé.
 
 ### 37.5 Lire directement les dépôts sociaux ou familiaux
 
@@ -2219,9 +2203,7 @@ snapshot.facts = social_repository._states
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une collection interne devient une entrée mutable du raisonnement.
+**Pourquoi cet exemple est fautif :** une collection interne devient une entrée mutable du raisonnement.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2232,9 +2214,7 @@ snapshot.boolean_facts[&"agent.fact.target_trusted"] = view != null and view.mut
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un port de lecture produit une valeur dérivée puis une copie simple est placée dans le snapshot.
+**Pourquoi la correction fonctionne :** un port de lecture produit une valeur dérivée puis une copie simple est placée dans le snapshot.
 
 ### 37.6 Dépendre de l’ordre d’un dictionnaire
 
@@ -2248,9 +2228,7 @@ var selected := actions_by_id.values().front()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune règle métier ne définit quelle valeur doit apparaître en premier.
+**Pourquoi cet exemple est fautif :** aucune règle métier ne définit quelle valeur doit apparaître en premier.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2261,9 +2239,7 @@ var selected := actions.front() if not actions.is_empty() else null
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le catalogue applique un ordre canonique documenté avant la sélection.
+**Pourquoi la correction fonctionne :** le catalogue applique un ordre canonique documenté avant la sélection.
 
 ### 37.7 Utiliser le temps CPU comme seul budget
 
@@ -2278,9 +2254,7 @@ while Time.get_ticks_usec() - start < 1000:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le nombre de nœuds explorés dépend de la vitesse matérielle et de la charge courante.
+**Pourquoi cet exemple est fautif :** le nombre de nœuds explorés dépend de la vitesse matérielle et de la charge courante.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2292,9 +2266,7 @@ while expanded < MAX_EXPANSIONS and not frontier.is_empty():
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le même nombre maximal d’expansions est autorisé avec les mêmes entrées.
+**Pourquoi la correction fonctionne :** le même nombre maximal d’expansions est autorisé avec les mêmes entrées.
 
 ### 37.8 Rejouer toutes les décisions manquées
 
@@ -2309,9 +2281,7 @@ for tick in range(last_tick + 1, current_tick + 1):
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** chaque décision intermédiaire utilise un monde qui n’existe plus sous cette forme.
+**Pourquoi cet exemple est fautif :** chaque décision intermédiaire utilise un monde qui n’existe plus sous cette forme.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2322,9 +2292,7 @@ if tick_policy.is_due(current_tick, last_tick, mode, phase):
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une seule décision observe le monde autoritaire actuel.
+**Pourquoi la correction fonctionne :** une seule décision observe le monde autoritaire actuel.
 
 ### 37.9 Confondre hors écran et inexistant
 
@@ -2339,9 +2307,7 @@ if active_registry.get_node(character_id) == null:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la représentation visuelle devient l’autorité de l’existence logique.
+**Pourquoi cet exemple est fautif :** la représentation visuelle devient l’autorité de l’existence logique.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2351,9 +2317,7 @@ runtime.mode = AgentSimulationMode.Value.BACKGROUND
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’agent reste enregistré et seule sa fréquence de simulation change.
+**Pourquoi la correction fonctionne :** l’agent reste enregistré et seule sa fréquence de simulation change.
 
 ### 37.10 Appliquer la suggestion générative
 
@@ -2369,9 +2333,7 @@ executor.start(ai_response)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le contenu externe est traité comme une commande déjà validée.
+**Pourquoi cet exemple est fautif :** le contenu externe est traité comme une commande déjà validée.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2382,9 +2344,7 @@ var result := planner.plan(snapshot, goal, conditions, catalog)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la suggestion est réduite à des identifiants connus et le planificateur reste l’autorité de sélection.
+**Pourquoi la correction fonctionne :** la suggestion est réduite à des identifiants connus et le planificateur reste l’autorité de sélection.
 
 ### 37.11 Oublier la révision du monde
 
@@ -2398,9 +2358,7 @@ action_requested.emit(request)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune vérification ne confirme que le snapshot est encore actuel.
+**Pourquoi cet exemple est fautif :** aucune vérification ne confirme que le snapshot est encore actuel.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2412,9 +2370,7 @@ action_requested.emit(request)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une mutation pertinente force une nouvelle observation avant émission.
+**Pourquoi la correction fonctionne :** une mutation pertinente force une nouvelle observation avant émission.
 
 ### 37.12 Annuler sans corrélation
 
@@ -2428,9 +2384,7 @@ executor.cancel(&"", &"world_changed")
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun identifiant ne désigne la requête active.
+**Pourquoi cet exemple est fautif :** aucun identifiant ne désigne la requête active.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2440,9 +2394,7 @@ executor.cancel(runtime.active_request_id, &"agent.reason.world_changed")
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la demande cible l’opération enregistrée par le runtime de l’agent.
+**Pourquoi la correction fonctionne :** la demande cible l’opération enregistrée par le runtime de l’agent.
 
 ### 37.13 Émettre avant la mutation propriétaire
 
@@ -2457,9 +2409,7 @@ var result := social_service.apply_change(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’événement décrit un succès qui n’a pas encore été obtenu.
+**Pourquoi cet exemple est fautif :** l’événement décrit un succès qui n’a pas encore été obtenu.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2471,9 +2421,7 @@ if result == OK:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’événement n’est émis qu’après l’acceptation du système autoritaire.
+**Pourquoi la correction fonctionne :** l’événement n’est émis qu’après l’acceptation du système autoritaire.
 
 ### 37.14 Utiliser un RNG global non restauré
 
@@ -2487,9 +2435,7 @@ var selected := variants.pick_random()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le choix dépend de l’état aléatoire global et de l’ordre d’autres appels.
+**Pourquoi cet exemple est fautif :** le choix dépend de l’état aléatoire global et de l’ordre d’autres appels.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2499,9 +2445,7 @@ var selected := choose_variant(state, variants)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un générateur propre à l’agent utilise une graine et un état restaurables.
+**Pourquoi la correction fonctionne :** un générateur propre à l’agent utilise une graine et un état restaurables.
 
 ### 37.15 Créer un exécuteur depuis une chaîne externe
 
@@ -2515,9 +2459,7 @@ var executor := load(ai_response["script_path"]).new()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la sortie externe contrôle un chemin de code chargé au runtime.
+**Pourquoi cet exemple est fautif :** la sortie externe contrôle un chemin de code chargé au runtime.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2527,9 +2469,7 @@ var executor := executor_registry.get(definition.executor_key)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la clé validée sélectionne uniquement un exécuteur composé et autorisé par le projet.
+**Pourquoi la correction fonctionne :** la clé validée sélectionne uniquement un exécuteur composé et autorisé par le projet.
 
 ### 37.16 Paralléliser l’accès aux nœuds
 
@@ -2543,9 +2483,7 @@ worker_pool.add_task(func(): target_node.global_position)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la tâche capture un nœud mutable dont l’accès n’est pas isolé par un snapshot.
+**Pourquoi cet exemple est fautif :** la tâche capture un nœud mutable dont l’accès n’est pas isolé par un snapshot.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2556,9 +2494,7 @@ worker_pool.add_task(func(): planner.plan(snapshot, goal, conditions, catalog))
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le worker reçoit des valeurs détachées de la scène ; toute mutation reste renvoyée au thread propriétaire sous forme de résultat.
+**Pourquoi la correction fonctionne :** le worker reçoit des valeurs détachées de la scène ; toute mutation reste renvoyée au thread propriétaire sous forme de résultat.
 
 ## 38. Checklist de réalisation
 

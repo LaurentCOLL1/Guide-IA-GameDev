@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.7"
+version: "1.7.8"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-21T14:38:26+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -234,6 +234,8 @@ Chaque sous-cas doit alors contenir :
 3. un **exemple corrigé** suivi de `Pourquoi la correction fonctionne`.
 
 Une ligne autonome `Correction` ou `Différence` n’est pas exigée lorsque son contenu est déjà intégré à ces deux explications. Le but est d’éviter la répétition sans supprimer l’analyse de l’invariant violé puis rétabli.
+
+Dans ces sous-cas, Q1.1.3 ne s’applique pas sous la forme d’une rubrique `Explication structurée du bloc`. Après chaque marqueur `<!-- qa:code-explanation -->`, la première ligne non vide est directement `Pourquoi cet exemple est fautif` ou `Pourquoi la correction fonctionne`, selon le bloc. Aucun sous-titre intermédiaire, aucune liste de rubriques générales et aucune reformulation répétitive ne sont ajoutés. Les explications historiques pertinentes sont conservées telles quelles.
 
 Un tableau servant uniquement d’index de diagnostic peut rester compact s’il porte `<!-- qa:error-correction-index -->` et renvoie clairement vers une section détaillée conforme. Il ne peut pas remplacer les exemples détaillés.
 

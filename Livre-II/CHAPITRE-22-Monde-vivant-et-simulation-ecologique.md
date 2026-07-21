@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 22 : Monde vivant et simulation écologique"
 id: "DOC-L2-CH22"
 status: "reviewed"
-version: "1.0.2"
+version: "1.0.3"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 22
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-22.md"
 audit-level: "static-review"
 reference-engine:
@@ -2806,9 +2806,7 @@ var day_index := Time.get_unix_time_from_system() / 86400
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’heure système est modifiable et ne constitue pas une séquence logique reproductible.
+**Pourquoi cet exemple est fautif :** l’heure système est modifiable et ne constitue pas une séquence logique reproductible.
 
 **Exemple corrigé :**
 
@@ -2820,9 +2818,7 @@ var day_index := world_clock.logical_tick / world_clock.ticks_per_day
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le jour est dérivé d’un état autoritaire sauvegardé et non décroissant.
+**Pourquoi la correction fonctionne :** le jour est dérivé d’un état autoritaire sauvegardé et non décroissant.
 
 ### 44.2 Utiliser des `float` pour les populations et ressources
 
@@ -2839,9 +2835,7 @@ resource_pool += 0.1 * delta
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrat d’arrondi ni résidu persistable n’est défini.
+**Pourquoi cet exemple est fautif :** aucun contrat d’arrondi ni résidu persistable n’est défini.
 
 **Exemple corrigé :**
 
@@ -2858,9 +2852,7 @@ var accrued := EcologyMath.accrue(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les unités entières et le résidu produisent une évolution déterministe et sérialisable.
+**Pourquoi la correction fonctionne :** les unités entières et le résidu produisent une évolution déterministe et sérialisable.
 
 ### 44.3 Rejouer chaque tick manqué
 
@@ -2877,9 +2869,7 @@ for tick in range(saved_tick, current_tick):
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le coût dépend sans borne de la durée écoulée et rejoue des états intermédiaires inutiles.
+**Pourquoi cet exemple est fautif :** le coût dépend sans borne de la durée écoulée et rejoue des états intermédiaires inutiles.
 
 **Exemple corrigé :**
 
@@ -2892,9 +2882,7 @@ var candidate := simulator.prepare_step(state, current_tick, ticks_per_day)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une étape agrégée bornée calcule directement l’état final utile.
+**Pourquoi la correction fonctionne :** une étape agrégée bornée calcule directement l’état final utile.
 
 ### 44.4 Confondre présence en scène et existence
 
@@ -2910,9 +2898,7 @@ population.count = get_tree().get_nodes_in_group("wolves").size()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le nombre de nœuds actifs devient l’autorité d’une population qui existe hors écran.
+**Pourquoi cet exemple est fautif :** le nombre de nœuds actifs devient l’autorité d’une population qui existe hors écran.
 
 **Exemple corrigé :**
 
@@ -2925,9 +2911,7 @@ var visible_count := character_registry.count_visible(region_id, species_id)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le nombre logique et le nombre visible sont lus séparément sans s’écraser.
+**Pourquoi la correction fonctionne :** le nombre logique et le nombre visible sont lus séparément sans s’écraser.
 
 ### 44.5 Modifier la population lors d’une apparition
 
@@ -2944,9 +2928,7 @@ population.count += 1
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’instanciation d’une représentation est confondue avec une naissance écologique.
+**Pourquoi cet exemple est fautif :** l’instanciation d’une représentation est confondue avec une naissance écologique.
 
 **Exemple corrigé :**
 
@@ -2959,9 +2941,7 @@ apply_character_projection(prepared)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la projection visuelle change sans mutation du nombre logique.
+**Pourquoi la correction fonctionne :** la projection visuelle change sans mutation du nombre logique.
 
 ### 44.6 Laisser l’économie écrire une ressource écologique
 
@@ -2978,9 +2958,7 @@ if market_price > threshold:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’économie devient propriétaire d’un état écologique et introduit une boucle implicite.
+**Pourquoi cet exemple est fautif :** l’économie devient propriétaire d’un état écologique et introduit une boucle implicite.
 
 **Exemple corrigé :**
 
@@ -2996,9 +2974,7 @@ var signal := ecology_market_signal.snapshot_for(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’économie lit un indice validé sans modifier la réserve source.
+**Pourquoi la correction fonctionne :** l’économie lit un indice validé sans modifier la réserve source.
 
 ### 44.7 Laisser l’écologie fixer un prix
 
@@ -3014,9 +2990,7 @@ item_price_minor = scarcity_bp * 50
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un indice écologique devient directement un montant monétaire.
+**Pourquoi cet exemple est fautif :** un indice écologique devient directement un montant monétaire.
 
 **Exemple corrigé :**
 
@@ -3029,9 +3003,7 @@ var quote := economy_service.quote(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’économie transforme l’indice selon sa propre politique et reste l’unique autorité du prix.
+**Pourquoi la correction fonctionne :** l’économie transforme l’indice selon sa propre politique et reste l’unique autorité du prix.
 
 ### 44.8 Réduire une réserve avant de créer le rendement d’inventaire
 
@@ -3048,9 +3020,7 @@ inventory.add_item(item_definition_id, harvested)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les deux autorités sont modifiées séquentiellement et peuvent diverger.
+**Pourquoi cet exemple est fautif :** les deux autorités sont modifiées séquentiellement et peuvent diverger.
 
 **Exemple corrigé :**
 
@@ -3074,9 +3044,7 @@ var code := transaction_commit_port.commit_harvest(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la réserve et le lot sont préparés puis committés comme une seule opération.
+**Pourquoi la correction fonctionne :** la réserve et le lot sont préparés puis committés comme une seule opération.
 
 ### 44.9 Utiliser le RNG global sans état restaurable
 
@@ -3093,9 +3061,7 @@ if randf() < migration_probability:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le tirage dépend d’un état global non corrélé à la région et non persisté par ce système.
+**Pourquoi cet exemple est fautif :** le tirage dépend d’un état global non corrélé à la région et non persisté par ce système.
 
 **Exemple corrigé :**
 
@@ -3111,9 +3077,7 @@ var migration_units := deterministic_migration_policy.compute(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la politique utilise uniquement l’état, les définitions, le tick et des résidus persistés.
+**Pourquoi la correction fonctionne :** la politique utilise uniquement l’état, les définitions, le tick et des résidus persistés.
 
 ### 44.10 Laisser une sortie IA modifier le monde vivant
 
@@ -3130,9 +3094,7 @@ region.resources = ai_response["resources"]
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une sortie non fiable remplace directement deux agrégats autoritaires.
+**Pourquoi cet exemple est fautif :** une sortie non fiable remplace directement deux agrégats autoritaires.
 
 **Exemple corrigé :**
 
@@ -3147,9 +3109,7 @@ if command != null:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la suggestion est filtrée puis convertie en commande typée qui repasse par les validations et révisions.
+**Pourquoi la correction fonctionne :** la suggestion est filtrée puis convertie en commande typée qui repasse par les validations et révisions.
 
 ## 45. Tests à préparer
 

@@ -284,14 +284,11 @@ def check_error_correction_sections(
 
 def check(path: Path) -> list[str]:
     chapter = number(path)
-    if chapter is None:
+    if chapter is None or chapter < 17:
         return []
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
     errors, error_ranges = check_error_correction_sections(path, lines)
-
-    if chapter < 17:
-        return errors
 
     for phrase in BANNED:
         if phrase in text:

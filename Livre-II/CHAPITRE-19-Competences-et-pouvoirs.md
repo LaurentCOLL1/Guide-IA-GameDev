@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 19 : Compétences et pouvoirs"
 id: "DOC-L2-CH19"
 status: "reviewed"
-version: "1.0.2"
+version: "1.0.3"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 19
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-19.md"
 audit-level: "static-review"
 reference-engine:
@@ -2150,9 +2150,7 @@ target.current_health -= ability.base_damage
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la définition devient une autorité qu’elle ne possède pas.
+**Pourquoi cet exemple est fautif :** la définition devient une autorité qu’elle ne possède pas.
 
 **Exemple corrigé :**
 
@@ -2169,9 +2167,7 @@ var candidate := combat_port.prepare_damage_effect(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le combat prépare l’impact après ses propres validations.
+**Pourquoi la correction fonctionne :** le combat prépare l’impact après ses propres validations.
 
 ### 32.2 Utiliser un `Timer` autoritaire
 
@@ -2189,9 +2185,7 @@ ability_ready = true
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le temps moteur et un nœud deviennent l’autorité persistante.
+**Pourquoi cet exemple est fautif :** le temps moteur et un nœud deviennent l’autorité persistante.
 
 **Exemple corrigé :**
 
@@ -2204,9 +2198,7 @@ runtime.refresh_charges(definition, rank, current_tick)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la recharge dépend de ticks logiques sauvegardables.
+**Pourquoi la correction fonctionne :** la recharge dépend de ticks logiques sauvegardables.
 
 ### 32.3 Consommer le coût avant les effets
 
@@ -2223,9 +2215,7 @@ var effect_code := apply_effect()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la mutation active précède les validations restantes.
+**Pourquoi cet exemple est fautif :** la mutation active précède les validations restantes.
 
 **Exemple corrigé :**
 
@@ -2239,9 +2229,7 @@ var code := unit_of_work.commit(reservation, [candidate], ...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** coût et effet sont committés dans le même lot.
+**Pourquoi la correction fonctionne :** coût et effet sont committés dans le même lot.
 
 ### 32.4 Stocker la recharge dans la `Resource`
 
@@ -2257,9 +2245,7 @@ ability_definition.remaining_cooldown = 120
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une donnée de conception partagée devient état runtime.
+**Pourquoi cet exemple est fautif :** une donnée de conception partagée devient état runtime.
 
 **Exemple corrigé :**
 
@@ -2271,9 +2257,7 @@ runtime_state.next_charge_tick = logical_tick + cooldown_ticks
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque personnage possède son état détaché.
+**Pourquoi la correction fonctionne :** chaque personnage possède son état détaché.
 
 ### 32.5 Charger une classe depuis les données
 
@@ -2290,9 +2274,7 @@ script.new().apply(target)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le contenu contrôle un chemin et une classe exécutée.
+**Pourquoi cet exemple est fautif :** le contenu contrôle un chemin et une classe exécutée.
 
 **Exemple corrigé :**
 
@@ -2307,9 +2289,7 @@ if effect is ResourceEffectDefinition:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le dispatch est fermé sur des types autorisés.
+**Pourquoi la correction fonctionne :** le dispatch est fermé sur des types autorisés.
 
 ### 32.6 Confondre prévisualisation et validation
 
@@ -2326,9 +2306,7 @@ if target_preview.valid:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la prévisualisation peut utiliser une ancienne position ou révision.
+**Pourquoi cet exemple est fautif :** la prévisualisation peut utiliser une ancienne position ou révision.
 
 **Exemple corrigé :**
 
@@ -2341,9 +2319,7 @@ var result := ability_service.execute(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’autorité relit toutes les données au moment de l’exécution.
+**Pourquoi la correction fonctionne :** l’autorité relit toutes les données au moment de l’exécution.
 
 ### 32.7 Persister le plan
 
@@ -2359,9 +2335,7 @@ payload["pending_plan"] = current_plan
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le plan est une décision transitoire liée à un instant.
+**Pourquoi cet exemple est fautif :** le plan est une décision transitoire liée à un instant.
 
 **Exemple corrigé :**
 
@@ -2375,9 +2349,7 @@ payload["next_charge_tick"] = runtime.next_charge_tick
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seules les données durables sont restaurées.
+**Pourquoi la correction fonctionne :** seules les données durables sont restaurées.
 
 ### 32.8 Utiliser le nom affiché comme identité
 
@@ -2393,9 +2365,7 @@ known_abilities["Boule de feu"] = 3
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le texte localisé n’est pas stable.
+**Pourquoi cet exemple est fautif :** le texte localisé n’est pas stable.
 
 **Exemple corrigé :**
 
@@ -2407,9 +2377,7 @@ known_abilities[&"ability.definition.ember_bolt"] = 3
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identifiant métier reste indépendant de l’affichage.
+**Pourquoi la correction fonctionne :** l’identifiant métier reste indépendant de l’affichage.
 
 ### 32.9 Ignorer un effet requis
 
@@ -2427,9 +2395,7 @@ return success_result()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun retour ni caractère requis n’est vérifié.
+**Pourquoi cet exemple est fautif :** aucun retour ni caractère requis n’est vérifié.
 
 **Exemple corrigé :**
 
@@ -2443,9 +2409,7 @@ if candidate == null and effect.required:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un effet requis absent bloque le lot avant commit.
+**Pourquoi la correction fonctionne :** un effet requis absent bloque le lot avant commit.
 
 ### 32.10 Retenter un résultat partiel
 
@@ -2462,9 +2426,7 @@ if result.status != AbilityResult.Status.RESOLVED:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` est une utilisation consommée.
+**Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` est une utilisation consommée.
 
 **Exemple corrigé :**
 
@@ -2477,9 +2439,7 @@ if not result.is_success():
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seuls les vrais refus déclenchent une nouvelle décision.
+**Pourquoi la correction fonctionne :** seuls les vrais refus déclenchent une nouvelle décision.
 
 ## 33. Tests à préparer
 

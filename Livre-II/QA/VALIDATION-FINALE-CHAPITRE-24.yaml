@@ -1,21 +1,21 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH24
-status: complete
+status: pending
 validation-date: '2026-07-21'
-validated-base-commit: 2dd2dc3d00b914a9199e200c00ff2bf463730e3e
-validated-head-commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
+validated-base-commit: 4e0c7152a76aefc93ccf7a115ccbee23e5965385
+validated-head-commit: null
 evidence-closure:
-  commit: a456641bf6ba4f94bbecc67561262ba55ff2fd66
-  conclusion: success
+  commit: null
+  conclusion: pending
 chapter:
   id: DOC-L2-CH24
   path: Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 results:
-  blocking-errors: 0
-  warnings: 0
-  chapter-lines: 2541
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2605
   chapter-headings: 48
   chapter-code-and-data-blocks: 61
   code-explanation-markers: 61
@@ -42,19 +42,23 @@ results:
   generic-explanation-phrases-absent: true
   duplicate-explanation-labels-absent: true
   solo-studio-rendered-as-markdown: true
+  structured-non-error-code-explanations: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
   pdf-produced: false
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29844293693
-    conclusion: success
+    run-id: null
+    conclusion: pending
   validate-usage-contexts:
-    run-id: 29844293517
-    conclusion: success
+    run-id: null
+    conclusion: pending
   artifact:
-    id: 8500640762
+    id: null
     name: chapter-validation-without-pdf
-    digest: sha256:defe810ddf4f164b513cf78d0abbca104b58b7fc7dd648fcead104c781a12e24
+    digest: null
 reservations:
 - Godot parser not executed.
 - Typed collections not runtime-verified.

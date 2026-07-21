@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 18 : Combat"
 id: "DOC-L2-CH18"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 18
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-18.md"
 audit-level: "static-review"
 reference-engine:
@@ -3405,9 +3405,7 @@ target.current_health -= agent_result.damage
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `agent_result` n’est pas une source autoritaire et le bornage de `CharacterRules` est contourné.
+**Pourquoi cet exemple est fautif :** `agent_result` n’est pas une source autoritaire et le bornage de `CharacterRules` est contourné.
 
 **Exemple corrigé :**
 
@@ -3420,9 +3418,7 @@ var result := combat_service.execute(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’agent ne fournit qu’une commande ; le service relit le monde et calcule lui-même l’impact.
+**Pourquoi la correction fonctionne :** l’agent ne fournit qu’une commande ; le service relit le monde et calcule lui-même l’impact.
 
 ### 45.2 Dupliquer la santé dans `CombatantState`
 
@@ -3439,9 +3435,7 @@ character.current_health -= damage
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** deux autorités doivent rester synchronisées et peuvent être modifiées partiellement.
+**Pourquoi cet exemple est fautif :** deux autorités doivent rester synchronisées et peuvent être modifiées partiellement.
 
 **Exemple corrigé :**
 
@@ -3457,9 +3451,7 @@ CharacterRules.apply_health_delta(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une seule valeur autoritaire est modifiée par les règles du personnage.
+**Pourquoi la correction fonctionne :** une seule valeur autoritaire est modifiée par les règles du personnage.
 
 ### 45.3 Utiliser l’heure système pour l’initiative
 
@@ -3475,9 +3467,7 @@ participant.ready_at = Time.get_unix_time_from_system() + cooldown
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une heure civile n’est pas une étape de simulation et n’est pas restaurée comme chronologie métier.
+**Pourquoi cet exemple est fautif :** une heure civile n’est pas une étape de simulation et n’est pas restaurée comme chronologie métier.
 
 **Exemple corrigé :**
 
@@ -3489,9 +3479,7 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la disponibilité dépend uniquement de ticks logiques sauvegardables.
+**Pourquoi la correction fonctionne :** la disponibilité dépend uniquement de ticks logiques sauvegardables.
 
 ### 45.4 Comparer une distance après une racine inutile
 
@@ -3508,9 +3496,7 @@ if source.distance_to(target) <= max_range:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `distance_to()` calcule une racine alors qu’une comparaison de carrés suffit.
+**Pourquoi cet exemple est fautif :** `distance_to()` calcule une racine alors qu’une comparaison de carrés suffit.
 
 **Exemple corrigé :**
 
@@ -3523,9 +3509,7 @@ if source.distance_squared_to(target) <= max_range * max_range:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les deux côtés sont comparés dans la même unité carrée sans racine.
+**Pourquoi la correction fonctionne :** les deux côtés sont comparés dans la même unité carrée sans racine.
 
 ### 45.5 Considérer un `Area3D` comme vérité instantanée universelle
 
@@ -3542,9 +3526,7 @@ if attack_area.has_overlapping_bodies():
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la collection d’overlaps dépend du cycle physique et ne valide ni identité, ni cible choisie, ni révision.
+**Pourquoi cet exemple est fautif :** la collection d’overlaps dépend du cycle physique et ne valide ni identité, ni cible choisie, ni révision.
 
 **Exemple corrigé :**
 
@@ -3557,9 +3539,7 @@ var status := target_validator.validate_basic_attack(snapshot, range_m)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la zone peut aider à construire le snapshot, mais le service applique toutes les préconditions.
+**Pourquoi la correction fonctionne :** la zone peut aider à construire le snapshot, mais le service applique toutes les préconditions.
 
 ### 45.6 Émettre l’animation avant le commit
 
@@ -3576,9 +3556,7 @@ var code := unit_of_work.commit(...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un effet visuel observable précède une mutation qui peut encore être refusée.
+**Pourquoi cet exemple est fautif :** un effet visuel observable précède une mutation qui peut encore être refusée.
 
 **Exemple corrigé :**
 
@@ -3592,9 +3570,7 @@ if code == OK:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la présentation reçoit uniquement des faits déjà committés.
+**Pourquoi la correction fonctionne :** la présentation reçoit uniquement des faits déjà committés.
 
 ### 45.7 Retenter gratuitement une attaque manquée
 
@@ -3611,9 +3587,7 @@ if not hit:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le raté est traité comme une commande non consommée et peut être rejoué.
+**Pourquoi cet exemple est fautif :** le raté est traité comme une commande non consommée et peut être rejoué.
 
 **Exemple corrigé :**
 
@@ -3627,9 +3601,7 @@ return commit_miss()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le raté consomme le tirage, le délai et l’identifiant comme toute résolution valide.
+**Pourquoi la correction fonctionne :** le raté consomme le tirage, le délai et l’identifiant comme toute résolution valide.
 
 ### 45.8 Utiliser le RNG global
 
@@ -3645,9 +3617,7 @@ var hit := randi_range(0, 999) < chance
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le flux pseudo-aléatoire global est partagé avec des appels sans rapport.
+**Pourquoi cet exemple est fautif :** le flux pseudo-aléatoire global est partagé avec des appels sans rapport.
 
 **Exemple corrigé :**
 
@@ -3663,9 +3633,7 @@ encounter.rng_state = rng.state
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque affrontement possède une suite locale restaurable et indépendante.
+**Pourquoi la correction fonctionne :** chaque affrontement possède une suite locale restaurable et indépendante.
 
 ### 45.9 Oublier l’idempotence
 
@@ -3681,9 +3649,7 @@ queue.append(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrôle ne distingue une nouvelle commande d’une répétition.
+**Pourquoi cet exemple est fautif :** aucun contrôle ne distingue une nouvelle commande d’une répétition.
 
 **Exemple corrigé :**
 
@@ -3697,9 +3663,7 @@ return command_queue.enqueue(command, maximum)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les commandes traitées et en attente sont toutes deux protégées contre les doublons.
+**Pourquoi la correction fonctionne :** les commandes traitées et en attente sont toutes deux protégées contre les doublons.
 
 ### 45.10 Modifier l’état actif avant toutes les validations
 
@@ -3717,9 +3681,7 @@ if target_is_invalid:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un refus tardif laisse une mutation partielle dans l’état actif.
+**Pourquoi cet exemple est fautif :** un refus tardif laisse une mutation partielle dans l’état actif.
 
 **Exemple corrigé :**
 
@@ -3733,9 +3695,7 @@ var code := unit_of_work.commit(...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’état actif n’est remplacé qu’après validation complète.
+**Pourquoi la correction fonctionne :** l’état actif n’est remplacé qu’après validation complète.
 
 ### 45.11 Persister la ligne de vue
 
@@ -3753,9 +3713,7 @@ var code := unit_of_work.commit(...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la visibilité est un résultat dérivé d’un instant et d’un monde précis.
+**Pourquoi cet exemple est fautif :** la visibilité est un résultat dérivé d’un instant et d’un monde précis.
 
 **Exemple corrigé :**
 
@@ -3771,9 +3729,7 @@ var code := unit_of_work.commit(...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seules les données durables de combat sont restaurées ; la ligne de vue sera recalculée.
+**Pourquoi la correction fonctionne :** seules les données durables de combat sont restaurées ; la ligne de vue sera recalculée.
 
 ### 45.12 Confondre zéro dégât et commande invalide
 
@@ -3790,9 +3746,7 @@ if damage == 0:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** défense, résistance ou garde peuvent légitimement réduire l’impact à zéro.
+**Pourquoi cet exemple est fautif :** défense, résistance ou garde peuvent légitimement réduire l’impact à zéro.
 
 **Exemple corrigé :**
 
@@ -3805,9 +3759,7 @@ result.health_delta = 0
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’issue est valide, consommée et distinguée d’une donnée mal formée.
+**Pourquoi la correction fonctionne :** l’issue est valide, consommée et distinguée d’une donnée mal formée.
 
 ### 45.13 Sauvegarder une file transitoire
 
@@ -3823,9 +3775,7 @@ payload["queued_commands"] = queue.snapshot()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la commande a été construite depuis des révisions qui ne seront plus nécessairement valides.
+**Pourquoi cet exemple est fautif :** la commande a été construite depuis des révisions qui ne seront plus nécessairement valides.
 
 **Exemple corrigé :**
 
@@ -3839,9 +3789,7 @@ payload["encounters"] = combat_save_section.capture()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le snapshot est pris sur une frontière stable et les demandes seront reconstruites après reprise.
+**Pourquoi la correction fonctionne :** le snapshot est pris sur une frontière stable et les demandes seront reconstruites après reprise.
 
 ### 45.14 Utiliser un `Timer` comme initiative autoritaire
 
@@ -3859,9 +3807,7 @@ apply_attack()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le délai en secondes et le signal moteur deviennent la source de l’ordre de combat.
+**Pourquoi cet exemple est fautif :** le délai en secondes et le signal moteur deviennent la source de l’ordre de combat.
 
 **Exemple corrigé :**
 
@@ -3873,9 +3819,7 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la règle autoritaire reste en ticks ; un `Timer` peut seulement piloter une présentation non autoritaire.
+**Pourquoi la correction fonctionne :** la règle autoritaire reste en ticks ; un `Timer` peut seulement piloter une présentation non autoritaire.
 
 ## 46. Tests à préparer
 

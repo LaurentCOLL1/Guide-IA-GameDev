@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.26.1"
+version: "3.26.2"
 lang: "fr-FR"
-last-updated: "2026-07-21T17:35:51+02:00"
+last-updated: "2026-07-21T19:59:30+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -199,6 +199,8 @@ La recommandation GPT-5.6 Sol décrit l’effort de raisonnement conseillé pour
 ## 8. Audit par chapitre
 
 Les explications de code des chapitres 17 et suivants conservent toute information pédagogique déjà publiée, la reclassent sous un point explicite et créent un point technique supplémentaire lorsqu’aucune rubrique standard ne convient. Les sections Solo/Studio restent en Markdown ordinaire sauf représentation littérale d’un format.
+
+Exception obligatoire : dans une section sémantique d’erreurs, d’anti-patterns, de diagnostics ou de corrections, les marqueurs placés après les deux exemples sont suivis directement par `Pourquoi cet exemple est fautif` puis `Pourquoi la correction fonctionne`. La rubrique `Explication structurée du bloc`, les points génériques et toute répétition intermédiaire sont interdits dans ces sous-cas.
 
 Chaque chapitre suit :
 
@@ -1449,16 +1451,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 : version `1.0.0` ;
 - chapitre 15 : version `1.2.1` ;
 - chapitre 16 : version `1.2.1` ;
-- chapitre 17 : version `1.0.3` ;
-- chapitre 18 : version `1.0.0` ;
-- chapitre 19 : version `1.0.1` ;
-- chapitre 20 : version `1.0.0` ;
-- chapitre 21 : version `1.0.0` ;
-- chapitre 22 : version `1.0.1` ;
-- chapitre 23 : version `1.0.0` ;
-- chapitre 24 : version `1.0.0` ;
-- chapitre 25 : version `1.0.0` ;
-- chapitre 26 : version `1.0.0` ;
+- chapitre 17 : version `1.0.5` ;
+- chapitre 18 : version `1.0.2` ;
+- chapitre 19 : version `1.0.3` ;
+- chapitre 20 : version `1.0.2` ;
+- chapitre 21 : version `1.0.2` ;
+- chapitre 22 : version `1.0.3` ;
+- chapitre 23 : version `1.0.2` ;
+- chapitre 24 : version `1.0.2` ;
+- chapitre 25 : version `1.0.2` ;
+- chapitre 26 : version `1.0.2` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1479,6 +1481,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : tests unitaires, tests d’intégration, doubles de test, fixtures, simulations déterministes, campagnes de non-régression et critères de passage. Le chapitre 27 vérifiera les contrats des chapitres 1 à 26 sans confondre tests, diagnostics et pipelines de génération.
 
 ## 27. Journal
+
+### 2026-07-21T19:59:30+02:00 — correction sémantique des sections d’erreurs
+
+- chapitres 17 à 26 : sections d’erreurs restaurées depuis leur version antérieure à la restructuration générale ;
+- explications fautives et corrigées replacées directement après leur marqueur, sans sous-titre structuré ni rubrique parasite ;
+- formulations historiques conservées, sans perte de sens ;
+- protocole et contrôle automatique renforcés pour distinguer explication générale et séquence sémantique d’erreur/correction ;
+- audits et preuves QA remis en attente de validation ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-21T17:35:51+02:00 — reclassement fidèle des explications historiques
 

@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 20 : Inventaire et réputation des objets"
 id: "DOC-L2-CH20"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 20
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-20.md"
 audit-level: "static-review"
 reference-engine:
@@ -2447,9 +2447,7 @@ item_definition.owner_id = character_id
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une `Resource` partagée devient l’état vivant de toutes ses instances.
+**Pourquoi cet exemple est fautif :** une `Resource` partagée devient l’état vivant de toutes ses instances.
 
 **Exemple corrigé :**
 
@@ -2463,9 +2461,7 @@ instance_candidate.owner = new_owner.duplicate_detached()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seule la copie de l’instance concernée porte la mutation préparée.
+**Pourquoi la correction fonctionne :** seule la copie de l’instance concernée porte la mutation préparée.
 
 ### 35.2 Utiliser le nom affiché comme identité
 
@@ -2481,9 +2477,7 @@ inventory["Lame des étoiles"] = sword
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le texte localisé n’est ni unique ni stable.
+**Pourquoi cet exemple est fautif :** le texte localisé n’est ni unique ni stable.
 
 **Exemple corrigé :**
 
@@ -2495,9 +2489,7 @@ instances[&"item.instance.7c42a9"] = sword_state
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’instance conserve une identité métier indépendante de l’affichage.
+**Pourquoi la correction fonctionne :** l’instance conserve une identité métier indépendante de l’affichage.
 
 ### 35.3 Empiler des objets individualisés
 
@@ -2514,9 +2506,7 @@ if first.definition_id == second.definition_id:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’identité de définition ne prouve pas la fongibilité des états.
+**Pourquoi cet exemple est fautif :** l’identité de définition ne prouve pas la fongibilité des états.
 
 **Exemple corrigé :**
 
@@ -2529,9 +2519,7 @@ if definition.is_stackable() and first.can_merge_with(second):
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la définition et le lot imposent une compatibilité stricte avant fusion.
+**Pourquoi la correction fonctionne :** la définition et le lot imposent une compatibilité stricte avant fusion.
 
 ### 35.4 Stocker l’inventaire dans le personnage actif
 
@@ -2547,9 +2535,7 @@ character_node.inventory.append(item_node)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** des nœuds de scène deviennent la source de vérité persistante.
+**Pourquoi cet exemple est fautif :** des nœuds de scène deviennent la source de vérité persistante.
 
 **Exemple corrigé :**
 
@@ -2563,9 +2549,7 @@ if result.is_success():
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le dépôt logique survit à la disparition des représentations actives.
+**Pourquoi la correction fonctionne :** le dépôt logique survit à la disparition des représentations actives.
 
 ### 35.5 Retirer la source avant de valider la destination
 
@@ -2583,9 +2567,7 @@ if destination.entries.size() >= destination.maximum_entries:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la mutation active précède la dernière précondition.
+**Pourquoi cet exemple est fautif :** la mutation active précède la dernière précondition.
 
 **Exemple corrigé :**
 
@@ -2600,9 +2582,7 @@ return unit_of_work.commit(candidate)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** source et destination sont validées sur des copies avant le commit commun.
+**Pourquoi la correction fonctionne :** source et destination sont validées sur des copies avant le commit commun.
 
 ### 35.6 Équiper une pile
 
@@ -2618,9 +2598,7 @@ loadout.slots[slot_id] = ration_stack.stack_id
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un lot fongible ne possède pas les invariants d’une instance équipable.
+**Pourquoi cet exemple est fautif :** un lot fongible ne possède pas les invariants d’une instance équipable.
 
 **Exemple corrigé :**
 
@@ -2635,9 +2613,7 @@ if slot_id in definition.equipment_slot_ids:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’équipement exige une instance unique et une compatibilité déclarée.
+**Pourquoi la correction fonctionne :** l’équipement exige une instance unique et une compatibilité déclarée.
 
 ### 35.7 Laisser le combat écrire la durabilité
 
@@ -2653,9 +2629,7 @@ weapon.current_durability -= damage_amount
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le combat modifie une autorité appartenant à l’inventaire.
+**Pourquoi cet exemple est fautif :** le combat modifie une autorité appartenant à l’inventaire.
 
 **Exemple corrigé :**
 
@@ -2673,9 +2647,7 @@ var durability_candidate := inventory_durability_port.prepare_loss(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’inventaire borne et prépare sa propre mutation pour le commit orchestré.
+**Pourquoi la correction fonctionne :** l’inventaire borne et prépare sa propre mutation pour le commit orchestré.
 
 ### 35.8 Débloquer directement une compétence depuis l’objet
 
@@ -2692,9 +2664,7 @@ ability_runtime.available_charges = 1
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’inventaire écrit dans les états propriétaires du chapitre 19.
+**Pourquoi cet exemple est fautif :** l’inventaire écrit dans les états propriétaires du chapitre 19.
 
 **Exemple corrigé :**
 
@@ -2712,9 +2682,7 @@ var grant_candidate := ability_grant_port.prepare_grant_set(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le système de compétences valide et prépare un grant lié à une source externe.
+**Pourquoi la correction fonctionne :** le système de compétences valide et prépare un grant lié à une source externe.
 
 ### 35.9 Persister une valeur dérivée ou une sélection d’interface
 
@@ -2732,9 +2700,7 @@ payload["sorted_entries"] = ui_entries
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** caches, index visuels et ordre d’interface deviennent des autorités concurrentes.
+**Pourquoi cet exemple est fautif :** caches, index visuels et ordre d’interface deviennent des autorités concurrentes.
 
 **Exemple corrigé :**
 
@@ -2748,9 +2714,7 @@ payload["stacks"] = encode_stacks(stacks)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les valeurs dérivées sont recalculées depuis les états durables.
+**Pourquoi la correction fonctionne :** les valeurs dérivées sont recalculées depuis les états durables.
 
 ### 35.10 Laisser une sortie IA créer la réputation
 
@@ -2766,9 +2730,7 @@ reputation.renown += int(ai_response["legend_score"])
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une sortie non autoritaire choisit directement un état persistant.
+**Pourquoi cet exemple est fautif :** une sortie non autoritaire choisit directement un état persistant.
 
 **Exemple corrigé :**
 
@@ -2785,9 +2747,7 @@ var candidate := reputation_policy.prepare_change(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seule une cause fermée et validée produit un delta déterministe.
+**Pourquoi la correction fonctionne :** seule une cause fermée et validée produit un delta déterministe.
 
 ## 36. Tests à préparer
 
