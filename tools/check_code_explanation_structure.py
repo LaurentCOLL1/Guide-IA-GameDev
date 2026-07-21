@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import re
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -200,7 +199,7 @@ def main() -> int:
     for path in sorted(ROOT.glob("Livre-II/CHAPITRE-*.md")):
         errors.extend(check(path))
     if errors:
-        print("\n".join(errors), file=sys.stderr)
+        print("\n".join(errors))
         return 1
     print(
         "Explications structurées et règle sémantique des erreurs/corrections conformes."
