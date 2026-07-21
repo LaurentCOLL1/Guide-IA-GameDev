@@ -1,1 +1,0 @@
-Temporary Chapter 23 reconstruction runner. Remove immediately after the exact draft has been materialized on its dedicated branch.
