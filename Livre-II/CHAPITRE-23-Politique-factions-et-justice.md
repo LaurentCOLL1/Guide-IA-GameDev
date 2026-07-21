@@ -3971,7 +3971,7 @@ mandate.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** le temps mural n’appartient pas à la simulation sauvegardée.
+**Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 
