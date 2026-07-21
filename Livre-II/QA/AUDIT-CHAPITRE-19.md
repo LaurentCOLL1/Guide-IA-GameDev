@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 19"
 id: "DOC-L2-QA-AUDIT-CH19"
 status: "complete"
-version: "1.0.2"
+version: "1.0.3"
 chapter-id: "DOC-L2-CH19"
-chapter-version: "1.0.2"
+chapter-version: "1.0.3"
 audit-level: "static-review"
-audit-date: "2026-07-21T17:35:51+02:00"
-last-verified: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -145,6 +145,9 @@ La dernière section du chapitre est une synthèse opérationnelle des décision
 - le codec et une future migration n’ont pas été exécutés ;
 - le replay interplateforme n’a pas été vérifié ;
 - aucun PDF n’a été construit.
+
+
+Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
 
 ## 12. Décision
 

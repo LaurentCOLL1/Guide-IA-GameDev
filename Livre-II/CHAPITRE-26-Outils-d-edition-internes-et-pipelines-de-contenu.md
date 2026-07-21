@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 26 : Outils d’édition internes et pipelines de contenu"
 id: "DOC-L2-CH26"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 26
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-26.md"
 audit-level: "static-review"
 reference-engine:
@@ -2123,15 +2123,7 @@ func _on_publish_pressed() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** L’interface écrit dans le fichier final sans reçu, sans sauvegarde et sans contrôle d’empreinte.
-
-- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre son traitement complet ou son squelette contractuel.
-
-- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
-
-- **Effets de bord :** Les effets visibles sont `var file := FileAccess.open(`.
+**Pourquoi cet exemple est fautif :** L’interface écrit dans le fichier final sans reçu, sans sauvegarde et sans contrôle d’empreinte.
 
 **Exemple corrigé :**
 
@@ -2144,15 +2136,7 @@ func _on_publish_pressed() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Effets de bord :** **Pourquoi la correction fonctionne :** Le bouton corrigé émet une intention liée à un aperçu déjà calculé. Les effets visibles sont `publish_requested.emit(&"current_preview")`.
-
-- **Invariants protégés :** Le service applicatif reste seul responsable de la transaction.
-
-- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre son traitement complet ou son squelette contractuel.
-
-- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
+**Pourquoi la correction fonctionne :** Le bouton corrigé émet une intention liée à un aperçu déjà calculé. Le service applicatif reste seul responsable de la transaction.
 
 ### 58.2 Modifier une scène sans undo/redo
 
@@ -2169,15 +2153,7 @@ func add_marker(root: Node) -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement. Le bloc expose `add_marker()` et montre son traitement complet ou son squelette contractuel.
-
-- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_marker(root: Node) -> void`.
-
-- **Effets de bord :** Les effets visibles sont `root.add_child(Marker3D.new())`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `func add_marker(root: Node) -> void:` et se termine par `root.add_child(Marker3D.new())` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement.
 
 **Exemple corrigé :**
 
@@ -2201,15 +2177,7 @@ func add_marker(root: Node) -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** La correction enregistre l’ajout, le retrait et la référence dans l’historique associé à la scène. Les signatures documentées sont `add_marker(root: Node) -> void`.
-
-- **Rôle précis du bloc :** Le bloc expose `add_marker()` et montre son traitement complet ou son squelette contractuel.
-
-- **Effets de bord :** Les effets visibles sont `undo_redo.add_do_method(root, "add_child", marker)`, `undo_redo.add_undo_method(root, "remove_child", marker)`, `undo_redo.add_do_reference(marker)`, `undo_redo.commit_action()`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `func add_marker(root: Node) -> void:` et se termine par `undo_redo.commit_action()` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi la correction fonctionne :** La correction enregistre l’ajout, le retrait et la référence dans l’historique associé à la scène.
 
 ### 58.3 Utiliser le chemin comme identité
 
@@ -2227,15 +2195,7 @@ var quest_id := StringName(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nom du fichier est une information d’organisation, pas une identité métier permanente.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var quest_id := StringName(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `var quest_id := StringName(`.
+**Pourquoi cet exemple est fautif :** Le nom du fichier est une information d’organisation, pas une identité métier permanente.
 
 **Exemple corrigé :**
 
@@ -2250,15 +2210,7 @@ if not StableIdPolicy.is_valid(quest_id):
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Paramètres et types importants :** **Pourquoi la correction fonctionne :** Le champ corrigé est un identifiant stable soumis à une politique de forme indépendante du chemin et du titre.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ERR_INVALID_DATA`.
-
-- **Invariants protégés :** Les gardes explicites contrôlent `not StableIdPolicy.is_valid(quest_id)`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var quest_id := StringName(document["quest_id"])` et se termine par `return ERR_INVALID_DATA` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi la correction fonctionne :** Le champ corrigé est un identifiant stable soumis à une politique de forme indépendante du chemin et du titre.
 
 ### 58.4 Exécuter une méthode fournie par les données
 
@@ -2275,15 +2227,7 @@ return call(method_name, document)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi cet exemple est fautif :** Un auteur ou un fichier compromis peut choisir une méthode inattendue dans le processus d’édition.
-
-- **Paramètres et types importants :** Les déclarations visibles sont `method_name: StringName`.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `call(method_name, document)`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var method_name: StringName = document["validator"]` et se termine par `return call(method_name, document)` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi cet exemple est fautif :** Un auteur ou un fichier compromis peut choisir une méthode inattendue dans le processus d’édition.
 
 **Exemple corrigé :**
 
@@ -2299,15 +2243,7 @@ return _validator_registry.validate(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Paramètres et types importants :** **Pourquoi la correction fonctionne :** Le type corrigé sélectionne uniquement un validateur déjà enregistré ; un type inconnu produit un problème bloquant.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_validator_registry.validate(`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var type_id := StringName(document["content_type"])` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** Le type corrigé sélectionne uniquement un validateur déjà enregistré ; un type inconnu produit un problème bloquant.
 
 ### 58.5 Mélanger sources, artefacts et caches
 
@@ -2323,15 +2259,7 @@ const OUTPUT_ROOT := "res://data_src/generated_and_cache/"
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Organisation des fichiers :** **Pourquoi cet exemple est fautif :** Une seule racine efface la différence entre ce qui est édité, publié et reconstructible.
-
-- **Rôle précis du bloc :** Le bloc fixe les identifiants et valeurs nommées `OUTPUT_ROOT`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `const OUTPUT_ROOT := "res://data_src/generated_and_cache/"`.
+**Pourquoi cet exemple est fautif :** Une seule racine efface la différence entre ce qui est édité, publié et reconstructible.
 
 **Exemple corrigé :**
 
@@ -2345,15 +2273,7 @@ const CACHE_ROOT := "res://.godot/asteria_cache/"
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Les trois constantes expriment des responsabilités séparées et empêchent le cache de devenir une autorité.
-
-- **Rôle précis du bloc :** Le bloc fixe les identifiants et valeurs nommées `SOURCE_ROOT`, `ARTIFACT_ROOT`, `CACHE_ROOT`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `const SOURCE_ROOT := "res://data_src/"` et se termine par `const CACHE_ROOT := "res://.godot/asteria_cache/"` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** Les trois constantes expriment des responsabilités séparées et empêchent le cache de devenir une autorité.
 
 ### 58.6 Introduire l’heure dans l’empreinte
 
@@ -2370,15 +2290,7 @@ return str(document.hash())
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Paramètres et types importants :** **Pourquoi cet exemple est fautif :** L’heure et `Dictionary.hash()` ne constituent pas une représentation canonique reproductible du contenu.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `str(document.hash())`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `document["built_at"] = Time.get_datetime_string_from_system()` et se termine par `return str(document.hash())` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi cet exemple est fautif :** L’heure et `Dictionary.hash()` ne constituent pas une représentation canonique reproductible du contenu.
 
 **Exemple corrigé :**
 
@@ -2391,15 +2303,7 @@ return fingerprint(normalized)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** La correction retire les données volatiles et calcule SHA-256 sur une sérialisation ordonnée.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `fingerprint(normalized)`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var normalized := CanonicalValue.normalize(document)` et se termine par `return fingerprint(normalized)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** La correction retire les données volatiles et calcule SHA-256 sur une sérialisation ordonnée.
 
 ### 58.7 Écrire directement dans le fichier final
 
@@ -2418,15 +2322,7 @@ return ResourceSaver.save(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** La sauvegarde remplace l’artefact canonique avant relecture, empreinte ou copie de secours.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `ResourceSaver.save(`.
-
-- **Effets de bord :** Les effets visibles sont `return ResourceSaver.save(`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `return ResourceSaver.save(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi cet exemple est fautif :** La sauvegarde remplace l’artefact canonique avant relecture, empreinte ou copie de secours.
 
 **Exemple corrigé :**
 
@@ -2448,15 +2344,7 @@ return _transaction_committer.promote(staged)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** La correction sauvegarde, recharge et vérifie le staged avant une promotion contrôlée.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `PublishResult.failed(`, `_transaction_committer.promote(staged)`.
-
-- **Invariants protégés :** Les gardes explicites contrôlent `not staged.is_verified()`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var staged := _stage_writer.save(` et se termine par `return _transaction_committer.promote(staged)` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi la correction fonctionne :** La correction sauvegarde, recharge et vérifie le staged avant une promotion contrôlée.
 
 ### 58.8 Promouvoir automatiquement une sortie IA
 
@@ -2473,15 +2361,7 @@ _publish_json(draft)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Dépendances et ports utilisés :** **Pourquoi cet exemple est fautif :** La sortie générée contourne le schéma, le rapport de validation et la décision humaine.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var draft := await _ai.generate(prompt)` et se termine par `_publish_json(draft)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `var draft := await _ai.generate(prompt)`.
+**Pourquoi cet exemple est fautif :** La sortie générée contourne le schéma, le rapport de validation et la décision humaine.
 
 **Exemple corrigé :**
 
@@ -2500,15 +2380,7 @@ return _review_queue.enqueue(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** La sortie corrigée entre dans une file de revue et ne peut être publiée sans approbation liée à son empreinte.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `_review_queue.enqueue(`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var draft := await _draft_port.generate_draft(` et se termine par `)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** La sortie corrigée entre dans une file de revue et ne peut être publiée sans approbation liée à son empreinte.
 
 ### 58.9 Relancer un scan pendant une importation
 
@@ -2524,15 +2396,7 @@ EditorInterface.get_resource_filesystem().scan()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le code ignore l’état courant du système de fichiers éditorial.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `EditorInterface.get_resource_filesystem().scan()`.
-
-- **Symboles manipulés :** Les symboles visibles sont `EditorInterface`, `get_resource_filesystem`, `scan`.
+**Pourquoi cet exemple est fautif :** Le code ignore l’état courant du système de fichiers éditorial.
 
 **Exemple corrigé :**
 
@@ -2550,15 +2414,7 @@ return OK
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Valeur de retour ou code d’échec :** **Pourquoi la correction fonctionne :** La correction retourne `ERR_BUSY` et permet une nouvelle tentative après la fin de l’opération active. Les branches de sortie visibles renvoient `ERR_BUSY`, `OK`.
-
-- **Invariants protégés :** Les gardes explicites contrôlent `fs.is_importing() or fs.is_scanning()`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `var fs := EditorInterface.get_resource_filesystem()` et se termine par `return OK` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** La correction retourne `ERR_BUSY` et permet une nouvelle tentative après la fin de l’opération active.
 
 ### 58.10 Faire du plugin une autorité runtime
 
@@ -2578,15 +2434,7 @@ func grant_reward(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Effets de bord :** **Pourquoi cet exemple est fautif :** Le plugin écrit directement dans le système économique au lieu de produire une définition.
-
-- **Rôle précis du bloc :** Le bloc expose `grant_reward()` et montre son traitement complet ou son squelette contractuel.
-
-- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `grant_reward(wallet_id: StringName, amount: int) -> void`.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `func grant_reward(` et se termine par `EconomyService.credit(wallet_id, amount)` ; les lignes intermédiaires doivent être lues dans cet ordre.
+**Pourquoi cet exemple est fautif :** Le plugin écrit directement dans le système économique au lieu de produire une définition.
 
 **Exemple corrigé :**
 
@@ -2603,17 +2451,7 @@ func compile_reward_definition(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Le compilateur corrigé ne crée qu’un artefact de conception ; l’économie reste propriétaire de toute écriture runtime.
-
-- **Rôle précis du bloc :** Le bloc expose `compile_reward_definition()` et montre son traitement complet ou son squelette contractuel.
-
-- **Responsabilités des classes ou fonctions :** Les signatures documentées sont `compile_reward_definition(source: Dictionary) -> RewardDefinition`.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `RewardDefinitionCompiler.new().compile(`.
-
-- **Effets de bord :** Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
+**Pourquoi la correction fonctionne :** Le compilateur corrigé ne crée qu’un artefact de conception ; l’économie reste propriétaire de toute écriture runtime.
 
 ## 59. Checklist d’acceptation
 

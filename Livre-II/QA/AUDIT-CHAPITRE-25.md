@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 25"
 id: "DOC-L2-QA-AUDIT-CH25"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH25"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T15:28:42+02:00"
-last-verified: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été créé sur la branche dédiée `docs/livre-ii-ch25-narration
 
 ## 2. Résultats
 
-- lignes finales : **1598** ;
+- lignes finales : **1438** ;
 - titres Markdown : **55** ;
 - blocs de code ou de données : **55** ;
 - marqueurs d’explication : **55** ;
@@ -62,6 +62,9 @@ Les **55** blocs possèdent **55** marqueurs. Les explications antérieures ont 
 - performances non mesurées ;
 - replay interplateforme non vérifié ;
 - aucun PDF construit.
+
+
+Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
 
 ## 7. Décision
 

@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 21 : Économie"
 id: "DOC-L2-CH21"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 21
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-21.md"
 audit-level: "static-review"
 reference-engine:
@@ -2756,9 +2756,7 @@ wallet.balance -= price
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un nombre flottant ne représente pas exactement toutes les fractions décimales et le portefeuille perd son unité explicite.
+**Pourquoi cet exemple est fautif :** un nombre flottant ne représente pas exactement toutes les fractions décimales et le portefeuille perd son unité explicite.
 
 **Exemple corrigé :**
 
@@ -2771,9 +2769,7 @@ wallet_candidate.balances[currency_id] -= price_minor
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les unités mineures entières produisent une arithmétique déterministe et sérialisable sans perte.
+**Pourquoi la correction fonctionne :** les unités mineures entières produisent une arithmétique déterministe et sérialisable sans perte.
 
 ### 41.2 Modifier directement un portefeuille depuis l’interface
 
@@ -2790,9 +2786,7 @@ func _on_buy_pressed() -> void:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un nœud de présentation devient une autorité économique mutable.
+**Pourquoi cet exemple est fautif :** un nœud de présentation devient une autorité économique mutable.
 
 **Exemple corrigé :**
 
@@ -2805,9 +2799,7 @@ show_result(result)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’interface soumet une commande puis consomme un résultat déjà validé.
+**Pourquoi la correction fonctionne :** l’interface soumet une commande puis consomme un résultat déjà validé.
 
 ### 41.3 Autoriser un solde négatif implicitement
 
@@ -2823,9 +2815,7 @@ buyer.balance -= total
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrôle n’empêche le solde de passer sous zéro.
+**Pourquoi cet exemple est fautif :** aucun contrôle n’empêche le solde de passer sous zéro.
 
 **Exemple corrigé :**
 
@@ -2838,9 +2828,7 @@ if buyer.balance_for(currency_id) < total_minor:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le modèle sans crédit refuse l’opération avant toute copie candidate.
+**Pourquoi la correction fonctionne :** le modèle sans crédit refuse l’opération avant toute copie candidate.
 
 ### 41.4 Créer une récompense sans contrepartie
 
@@ -2856,9 +2844,7 @@ recipient.balance += reward_minor
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la création monétaire est implicite et aucune écriture de débit ne l’autorise.
+**Pourquoi cet exemple est fautif :** la création monétaire est implicite et aucune écriture de débit ne l’autorise.
 
 **Exemple corrigé :**
 
@@ -2874,9 +2860,7 @@ var command := build_reward_command(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une trésorerie explicite finance la récompense et produit deux écritures équilibrées.
+**Pourquoi la correction fonctionne :** une trésorerie explicite finance la récompense et produit deux écritures équilibrées.
 
 ### 41.5 Faire confiance au total envoyé par le client
 
@@ -2893,9 +2877,7 @@ apply_payment(total)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la valeur proposée devient autoritaire sans recalcul.
+**Pourquoi cet exemple est fautif :** la valeur proposée devient autoritaire sans recalcul.
 
 **Exemple corrigé :**
 
@@ -2909,9 +2891,7 @@ if quote.total_minor != command.expected_total_minor:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
+**Pourquoi la correction fonctionne :** le service recalcule le montant et utilise le total proposé uniquement comme contrôle d’acceptation.
 
 ### 41.6 Transférer l’objet avant le paiement
 
@@ -2928,9 +2908,7 @@ var payment_code := debit_buyer()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les deux autorités sont committées séquentiellement et peuvent diverger.
+**Pourquoi cet exemple est fautif :** les deux autorités sont committées séquentiellement et peuvent diverger.
 
 **Exemple corrigé :**
 
@@ -2944,9 +2922,7 @@ var code := trade_commit_port.commit(economy_candidate, inventory_candidate)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** paiement et transfert sont préparés puis remplacés comme un même lot.
+**Pourquoi la correction fonctionne :** paiement et transfert sont préparés puis remplacés comme un même lot.
 
 ### 41.7 Stocker le prix dans `ItemDefinition`
 
@@ -2962,9 +2938,7 @@ item_definition.current_price = market_price
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une donnée de conception de l’inventaire devient un état économique mutable.
+**Pourquoi cet exemple est fautif :** une donnée de conception de l’inventaire devient un état économique mutable.
 
 **Exemple corrigé :**
 
@@ -2978,9 +2952,7 @@ var value_definition := item_value_catalog.get_for_item(
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
+**Pourquoi la correction fonctionne :** les valeurs économiques restent dans un catalogue séparé référencé par identifiant.
 
 ### 41.8 Retenter avec une nouvelle identité après un timeout visuel
 
@@ -2998,9 +2970,7 @@ if ui_timeout:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le retry perd la clé d’idempotence de l’opération initiale.
+**Pourquoi cet exemple est fautif :** le retry perd la clé d’idempotence de l’opération initiale.
 
 **Exemple corrigé :**
 
@@ -3013,9 +2983,7 @@ if ui_timeout:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la même identité et la même empreinte renvoient le résultat précédent sans second débit.
+**Pourquoi la correction fonctionne :** la même identité et la même empreinte renvoient le résultat précédent sans second débit.
 
 ### 41.9 Convertir implicitement une devise
 
@@ -3031,9 +2999,7 @@ var wealth := gold_balance + token_balance
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune politique de change, date, taux ou arrondi n’existe.
+**Pourquoi cet exemple est fautif :** aucune politique de change, date, taux ou arrondi n’existe.
 
 **Exemple corrigé :**
 
@@ -3047,9 +3013,7 @@ gold.minor_units = gold_balance
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque montant conserve sa devise et aucun total commun n’est calculé sans contrat de conversion explicite.
+**Pourquoi la correction fonctionne :** chaque montant conserve sa devise et aucun total commun n’est calculé sans contrat de conversion explicite.
 
 ### 41.10 Laisser une sortie IA fixer un prix ou une récompense
 
@@ -3066,9 +3030,7 @@ var reward_minor := int(ai_response["reward"])
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une sortie générative choisit directement deux montants autoritaires.
+**Pourquoi cet exemple est fautif :** une sortie générative choisit directement deux montants autoritaires.
 
 **Exemple corrigé :**
 
@@ -3081,9 +3043,7 @@ var reward := reward_table.amount_for(validated_cause_id)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** des politiques déterministes et des causes validées produisent les montants ; l’IA peut seulement proposer un texte ou une catégorie filtrée.
+**Pourquoi la correction fonctionne :** des politiques déterministes et des causes validées produisent les montants ; l’IA peut seulement proposer un texte ou une catégorie filtrée.
 
 ## 42. Tests à préparer
 

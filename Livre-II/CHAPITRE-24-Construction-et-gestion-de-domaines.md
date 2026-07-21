@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 24 : Construction et gestion de domaines"
 id: "DOC-L2-CH24"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 24
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-24.md"
 audit-level: "static-review"
 reference-engine:
@@ -2213,9 +2213,7 @@ if not building_exists:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Le nœud actif devient l’autorité d’un actif qui doit exister hors écran.
+**Pourquoi cet exemple est fautif :** Le nœud actif devient l’autorité d’un actif qui doit exister hors écran.
 
 **Exemple corrigé :**
 
@@ -2228,9 +2226,7 @@ var visible := presentation_registry.has(building_id)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : L’état logique et la représentation sont lus séparément ; masquer la scène ne supprime rien.
+**Pourquoi la correction fonctionne :** L’état logique et la représentation sont lus séparément ; masquer la scène ne supprime rien.
 
 ### 28.2 Déduire un droit depuis la relation sociale
 
@@ -2247,9 +2243,7 @@ if social.trust > 80:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi cet exemple est fautif : Une perception sociale remplace une décision juridique versionnée.
+**Pourquoi cet exemple est fautif :** Une perception sociale remplace une décision juridique versionnée.
 
 **Exemple corrigé :**
 
@@ -2263,9 +2257,7 @@ if decision.status == DomainRightsPort.Decision.Status.ALLOW:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** Pourquoi la correction fonctionne : Le chapitre 23 reste l’unique autorité de l’autorisation.
+**Pourquoi la correction fonctionne :** Le chapitre 23 reste l’unique autorité de l’autorisation.
 
 ### 28.3 Consommer les matériaux avant le candidat de domaine
 
@@ -2283,9 +2275,7 @@ repository.replace_domain(candidate)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Les autorités sont mutées séquentiellement sans rollback garanti.
+**Pourquoi cet exemple est fautif :** Les autorités sont mutées séquentiellement sans rollback garanti.
 
 **Exemple corrigé :**
 
@@ -2299,9 +2289,7 @@ commit_port.commit_with_external_candidates(domain_candidate, revision, inventor
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : Les deux candidats sont préparés puis committés comme un seul lot.
+**Pourquoi la correction fonctionne :** Les deux candidats sont préparés puis committés comme un seul lot.
 
 ### 28.4 Confondre livraison et progression de travail
 
@@ -2318,9 +2306,7 @@ if all_materials_delivered:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Point d’explication complémentaire :** Pourquoi cet exemple est fautif : La recette distingue pourtant matériaux et travail requis.
+**Pourquoi cet exemple est fautif :** La recette distingue pourtant matériaux et travail requis.
 
 **Exemple corrigé :**
 
@@ -2333,9 +2319,7 @@ if all_materials_delivered and completed_work_units == required_work_units:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
+**Pourquoi la correction fonctionne :** L’état prêt exige les deux conditions avant une commande d’achèvement séparée.
 
 ### 28.5 Utiliser un nombre flottant pour la progression
 
@@ -2353,9 +2337,7 @@ if progress >= 1.0:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Persistance et restauration :** Pourquoi cet exemple est fautif : Le contrat d’arrondi et la valeur persistée sont implicites.
+**Pourquoi cet exemple est fautif :** Le contrat d’arrondi et la valeur persistée sont implicites.
 
 **Exemple corrigé :**
 
@@ -2368,9 +2350,7 @@ var progress_bp := DomainMath.ratio_basis_points(worksite.completed_work_units, 
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : Le travail et le ratio sont entiers, bornés et sérialisables.
+**Pourquoi la correction fonctionne :** Le travail et le ratio sont entiers, bornés et sérialisables.
 
 ### 28.6 Fixer un coût dans le bâtiment vivant
 
@@ -2387,9 +2367,7 @@ wallet.balance -= building.construction_price
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** Pourquoi cet exemple est fautif : Le domaine reprend l’autorité monétaire et mélange conception, état et économie.
+**Pourquoi cet exemple est fautif :** Le domaine reprend l’autorité monétaire et mélange conception, état et économie.
 
 **Exemple corrigé :**
 
@@ -2402,9 +2380,7 @@ var cost_candidate := economy_port.prepare_construction_cost(command, recipe.opt
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : La recette fournit une donnée validée et l’économie prépare les écritures.
+**Pourquoi la correction fonctionne :** La recette fournit une donnée validée et l’économie prépare les écritures.
 
 ### 28.7 Produire les extrants avant de consommer les intrants
 
@@ -2421,9 +2397,7 @@ inventory.remove_inputs(inputs)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Point d’explication complémentaire :** Pourquoi cet exemple est fautif : Les deux effets sont appliqués dans un ordre observable et non atomique.
+**Pourquoi cet exemple est fautif :** Les deux effets sont appliqués dans un ordre observable et non atomique.
 
 **Exemple corrigé :**
 
@@ -2436,9 +2410,7 @@ commit_port.commit_with_external_candidates(domain_candidate, revision, mutation
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Dépendances et ports utilisés :** Pourquoi la correction fonctionne : Un seul candidat d’inventaire porte consommation et production.
+**Pourquoi la correction fonctionne :** Un seul candidat d’inventaire porte consommation et production.
 
 ### 28.8 Utiliser le temps réel pour l’entretien
 
@@ -2454,9 +2426,7 @@ building.last_maintenance_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi cet exemple est fautif : Le temps réel ne fait pas partie de la simulation sauvegardée.
+**Pourquoi cet exemple est fautif :** Le temps réel ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 
@@ -2468,9 +2438,7 @@ building.last_maintenance_tick = world_clock.logical_tick
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Persistance et restauration :** Pourquoi la correction fonctionne : Le tick logique est persisté, non décroissant et commun aux systèmes.
+**Pourquoi la correction fonctionne :** Le tick logique est persisté, non décroissant et commun aux systèmes.
 
 ### 28.9 Autoriser une action en absence de décision
 
@@ -2488,9 +2456,7 @@ if decision == null or decision.status != DENY:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Invariants protégés :** Pourquoi cet exemple est fautif : Tous les états autres que refus explicite deviennent autorisés.
+**Pourquoi cet exemple est fautif :** Tous les états autres que refus explicite deviennent autorisés.
 
 **Exemple corrigé :**
 
@@ -2504,9 +2470,7 @@ if decision != null and decision.status == DomainRightsPort.Decision.Status.ALLO
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : Seul `ALLOW` ouvre l’action ; absence et indétermination restent fermées.
+**Pourquoi la correction fonctionne :** Seul `ALLOW` ouvre l’action ; absence et indétermination restent fermées.
 
 ### 28.10 Laisser une sortie IA achever un chantier
 
@@ -2523,9 +2487,7 @@ if ai_response["worksite_complete"]:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi cet exemple est fautif : La sortie non fiable contourne matériaux, travail, droits, révisions et idempotence.
+**Pourquoi cet exemple est fautif :** La sortie non fiable contourne matériaux, travail, droits, révisions et idempotence.
 
 **Exemple corrigé :**
 
@@ -2540,9 +2502,7 @@ if command != null:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** Pourquoi la correction fonctionne : La suggestion devient au mieux une commande typée qui repasse par toutes les validations.
+**Pourquoi la correction fonctionne :** La suggestion devient au mieux une commande typée qui repasse par toutes les validations.
 
 ## 29. Tests à préparer
 

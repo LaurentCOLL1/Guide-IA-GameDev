@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 25 : Narration, quêtes, codex et connaissances"
 id: "DOC-L2-CH25"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 25
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-25.md"
 audit-level: "static-review"
 reference-engine:
@@ -1151,7 +1151,7 @@ Simulation: event storms and bounded queues
 
 ### 41.1 Utiliser le texte affiché comme identité de quête
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** un renommage ou une traduction du titre change l’identité de la quête et casse les références ou sauvegardes existantes.
 
 **Exemple fautif :**
 
@@ -1163,15 +1163,7 @@ quest_id = StringName(title_label.text)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le texte est localisable et modifiable ; l’identifiant stable vient de la définition.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `quest_id = StringName(title_label.text)`.
-
-- **Symboles manipulés :** Les symboles visibles sont `quest_id`, `StringName`, `title_label`, `text`.
+**Pourquoi cet exemple est fautif :** `title_label.text` appartient à la présentation, peut être localisé ou modifié et ne constitue donc pas une identité métier stable.
 
 **Exemple corrigé :**
 
@@ -1183,19 +1175,11 @@ quest_id = definition.quest_id
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser le texte affiché comme identité de quête », la correction traite directement le risque suivant : Le texte est localisable et modifiable ; l’identifiant stable vient de la définition.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `quest_id = definition.quest_id`.
+**Pourquoi la correction fonctionne :** `definition.quest_id` provient de la définition validée et reste identique quels que soient la langue, le titre affiché ou la scène qui présente la quête.
 
 ### 41.2 Traiter un événement comme vérité narrative complète
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** la réception d’un événement marque immédiatement la quête comme réussie sans normaliser le fait ni vérifier ses objectifs.
 
 **Exemple fautif :**
 
@@ -1207,15 +1191,7 @@ quest.status = SUCCEEDED # à la réception d’un événement
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** L’événement devient d’abord un fait validé puis passe par les conditions de la quête.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `quest.status = SUCCEEDED # à la réception d’un événement`.
-
-- **Symboles manipulés :** Les symboles visibles sont `quest`, `status`, `SUCCEEDED`, `la`, `r`, `ception`, `d`, `un`.
+**Pourquoi cet exemple est fautif :** un événement de gameplay est une observation source, pas une décision narrative complète ; l’affectation directe contourne l’adaptateur, les conditions et l’idempotence.
 
 **Exemple corrigé :**
 
@@ -1227,19 +1203,11 @@ facts.append(adapter.from_gameplay_event(event))
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Traiter un événement comme vérité narrative complète », la correction traite directement le risque suivant : L’événement devient d’abord un fait validé puis passe par les conditions de la quête.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Effets de bord :** Les effets visibles sont `facts.append(adapter.from_gameplay_event(event))`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** l’adaptateur transforme l’événement en fait typé et identifié ; l’évaluateur de quête décide ensuite de la progression à partir de ce fait validé.
 
 ### 41.3 Évaluer une condition avec du code dynamique
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** une expression stockée dans les données peut exécuter du code non autorisé et rendre la décision impossible à expliquer ou reproduire.
 
 **Exemple fautif :**
 
@@ -1251,15 +1219,7 @@ var ok = eval(condition.expression)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi cet exemple est fautif :** Le registre ferme les évaluateurs autorisés et rend les refus explicables.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `var ok = eval(condition.expression)`.
-
-- **Symboles manipulés :** Les symboles visibles sont `var`, `ok`, `eval`, `condition`, `expression`.
+**Pourquoi cet exemple est fautif :** `eval()` laisse le contenu choisir du code exécutable hors du catalogue des conditions, sans type fermé ni motif de refus contrôlé.
 
 **Exemple corrigé :**
 
@@ -1271,19 +1231,11 @@ var decision = registry.evaluate(condition, context)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Évaluer une condition avec du code dynamique », la correction traite directement le risque suivant : Le registre ferme les évaluateurs autorisés et rend les refus explicables.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `var decision = registry.evaluate(condition, context)`.
+**Pourquoi la correction fonctionne :** le registre sélectionne uniquement un évaluateur connu pour le type de condition et retourne une décision explicite, y compris lorsqu’il refuse une condition inconnue.
 
 ### 41.4 Valider une quête avant les conséquences
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** une panne entre le changement de statut et le crédit monétaire laisse une quête réussie sans récompense, ou une récompense sans réussite correspondante.
 
 **Exemple fautif :**
 
@@ -1296,15 +1248,7 @@ wallet.credit(100)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** Le lot commun évite une quête réussie sans récompense ou une récompense sans quête.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `quest.status = SUCCEEDED` et se termine par `wallet.credit(100)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `quest.status = SUCCEEDED`.
+**Pourquoi cet exemple est fautif :** les deux mutations sont appliquées séquentiellement par des autorités différentes, sans candidat commun, reçu idempotent ni garantie de commit coordonné.
 
 **Exemple corrigé :**
 
@@ -1316,19 +1260,11 @@ commit_port.commit_completion(quest_candidate, [], [money_candidate], receipt)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** Dans le cas « Valider une quête avant les conséquences », la correction traite directement le risque suivant : Le lot commun évite une quête réussie sans récompense ou une récompense sans quête.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Effets de bord :** Les effets visibles sont `commit_port.commit_completion(quest_candidate, [], [money_candidate], receipt)`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** `commit_completion()` reçoit les candidats narratif et monétaire avec le même reçu, puis les applique comme un lot cohérent ou refuse l’ensemble.
 
 ### 41.5 Révéler une entrée sur une décision indéterminée
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** une entrée de codex devient visible alors que les données nécessaires à la décision sont absentes ou encore indéterminées.
 
 **Exemple fautif :**
 
@@ -1340,15 +1276,7 @@ return decision.outcome != FALSE
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Invariants protégés :** **Pourquoi cet exemple est fautif :** Seul un résultat positif explicite révèle le contenu.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `decision.outcome != FALSE`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `return decision.outcome != FALSE`.
+**Pourquoi cet exemple est fautif :** la condition `!= FALSE` accepte à la fois `TRUE` et `INDETERMINATE`, alors que l’indéterminé ne prouve pas que la condition est satisfaite.
 
 **Exemple corrigé :**
 
@@ -1360,19 +1288,11 @@ return decision.outcome == TRUE
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** Dans le cas « Révéler une entrée sur une décision indéterminée », la correction traite directement le risque suivant : Seul un résultat positif explicite révèle le contenu.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `decision.outcome == TRUE`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** la comparaison `== TRUE` réserve la révélation au seul résultat positif explicite et maintient l’entrée cachée pour `FALSE` comme pour `INDETERMINATE`.
 
 ### 41.6 Confondre connaissance et fait global
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** la croyance d’un personnage devient une vérité mondiale partagée et perd sa source, sa confiance et son statut.
 
 **Exemple fautif :**
 
@@ -1384,15 +1304,7 @@ world_facts[claim.proposition_id] = true
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Une affirmation conserve détenteur, source, confiance et statut.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `world_facts[claim.proposition_id] = true`.
-
-- **Symboles manipulés :** Les symboles visibles sont `world_facts`, `claim`, `proposition_id`, `true`.
+**Pourquoi cet exemple est fautif :** réduire `claim` à un booléen global supprime le détenteur, la provenance, le degré de confiance et la possibilité de contradiction.
 
 **Exemple corrigé :**
 
@@ -1404,19 +1316,11 @@ knowledge_repository.add_claim(claim)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Confondre connaissance et fait global », la correction traite directement le risque suivant : Une affirmation conserve détenteur, source, confiance et statut.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Effets de bord :** Les effets visibles sont `knowledge_repository.add_claim(claim)`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** le dépôt conserve l’affirmation complète ; la connaissance reste relative à son détenteur et peut être comparée, révisée ou contredite sans modifier les faits du monde.
 
 ### 41.7 Laisser l’IA achever un objectif
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** une réponse textuelle non déterministe fixe directement la progression autoritaire d’un objectif.
 
 **Exemple fautif :**
 
@@ -1428,15 +1332,7 @@ if ai_response == "done": progress = 10000
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** La progression vient de faits autoritaires et d’un évaluateur déterministe.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `if ai_response == "done": progress = 10000`.
-
-- **Symboles manipulés :** Les symboles visibles sont `if`, `ai_response`, `done`, `progress`.
+**Pourquoi cet exemple est fautif :** la chaîne `ai_response` est une sortie consultative non fiable ; l’utiliser comme commande contourne les faits, les règles d’objectif et la reproductibilité.
 
 **Exemple corrigé :**
 
@@ -1448,19 +1344,11 @@ progress = objective_evaluator.evaluate(objective, facts)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** Dans le cas « Laisser l’IA achever un objectif », la correction traite directement le risque suivant : La progression vient de faits autoritaires et d’un évaluateur déterministe.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `progress = objective_evaluator.evaluate(objective, facts)`.
+**Pourquoi la correction fonctionne :** `objective_evaluator` calcule la progression depuis l’objectif validé et les faits autoritaires ; une suggestion IA ne peut ni écrire ni valider ce résultat.
 
 ### 41.8 Utiliser l’heure système
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** la même partie ou le même replay reçoit un tick de départ différent selon la machine et l’instant réel du chargement.
 
 **Exemple fautif :**
 
@@ -1472,15 +1360,7 @@ state.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le temps réel ne fait pas partie de la simulation sauvegardée.
-
-- **Effets de bord :** Les effets visibles sont `state.started_tick = int(Time.get_unix_time_from_system())`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `state.started_tick = int(Time.get_unix_time_from_system())`.
+**Pourquoi cet exemple est fautif :** l’heure Unix appartient au temps réel et non à l’horloge logique sauvegardée ; elle ne peut donc pas être rejouée avec les mêmes entrées.
 
 **Exemple corrigé :**
 
@@ -1492,19 +1372,11 @@ state.started_tick = world_clock.current_tick
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** Dans le cas « Utiliser l’heure système », la correction traite directement le risque suivant : Le temps réel ne fait pas partie de la simulation sauvegardée.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Effets de bord :** Les effets visibles sont `state.started_tick = world_clock.current_tick`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** `world_clock.current_tick` appartient à la simulation, est sauvegardable et permet de retrouver le même ordre narratif après restauration ou replay.
 
 ### 41.9 Charger directement dans les dépôts actifs
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** un payload invalide peut remplacer partiellement les états actifs avant que l’ensemble du document soit contrôlé.
 
 **Exemple fautif :**
 
@@ -1516,15 +1388,7 @@ repository.replace_all(codec.decode(payload))
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Effets de bord :** **Pourquoi cet exemple est fautif :** La préparation complète précède tout remplacement. Les effets visibles sont `repository.replace_all(codec.decode(payload))`.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `repository.replace_all(codec.decode(payload))`.
-
-- **Symboles manipulés :** Les symboles visibles sont `repository`, `replace_all`, `codec`, `decode`, `payload`.
+**Pourquoi cet exemple est fautif :** enchaîner décodage et remplacement supprime la phase de candidat complet et ne garantit pas qu’aucune mutation n’a lieu avant la validation globale.
 
 **Exemple corrigé :**
 
@@ -1537,19 +1401,11 @@ restore_port.commit(candidate)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Effets de bord :** **Pourquoi la correction fonctionne :** Dans le cas « Charger directement dans les dépôts actifs », la correction traite directement le risque suivant : La préparation complète précède tout remplacement. Les effets visibles sont `restore_port.commit(candidate)`.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Déroulement ou instructions importantes :** L’extrait commence par `candidate = codec.prepare_restore(payload)` et se termine par `restore_port.commit(candidate)` ; les lignes intermédiaires doivent être lues dans cet ordre.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
+**Pourquoi la correction fonctionne :** `prepare_restore()` construit et valide un candidat détaché ; `commit()` ne remplace les dépôts actifs qu’après la réussite de toute la préparation.
 
 ### 41.10 Persister l’index vectoriel
 
-**Symptôme :** le système produit un état narratif non reproductible ou contourne une autorité.
+**Symptôme :** la sauvegarde contient un cache volumineux qui peut devenir obsolète ou incompatible avec une nouvelle version du moteur d’indexation.
 
 **Exemple fautif :**
 
@@ -1561,15 +1417,7 @@ snapshot["vectors"] = vector_store.dump()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** L’index est dérivé et reconstructible depuis les sources canoniques.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `snapshot["vectors"] = vector_store.dump()`.
-
-- **Symboles manipulés :** Les symboles visibles sont `snapshot`, `vectors`, `vector_store`, `dump`.
+**Pourquoi cet exemple est fautif :** l’index vectoriel est dérivé des connaissances canoniques ; le persister duplique l’autorité et peut restaurer des vecteurs qui ne correspondent plus aux sources.
 
 **Exemple corrigé :**
 
@@ -1581,15 +1429,7 @@ snapshot["knowledge"] = knowledge_repository.to_records()
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** Dans le cas « Persister l’index vectoriel », la correction traite directement le risque suivant : L’index est dérivé et reconstructible depuis les sources canoniques.
-
-- **Frontières d’autorité :** Elle rétablit ensuite la frontière d’autorité, la décision explicite ou l’identité stable attendue.
-
-- **Limites du contrat visible :** Le contrat documenté se limite aux classes, champs, fonctions, gardes et appels présents dans l’extrait ; aucun comportement non écrit n’est supposé.
-
-- **Instruction principale :** L’instruction exacte est `snapshot["knowledge"] = knowledge_repository.to_records()`.
+**Pourquoi la correction fonctionne :** la sauvegarde conserve uniquement les enregistrements de connaissance autoritaires ; l’index vectoriel est reconstruit depuis ces données après le chargement.
 
 ## 42. Synthèse opérationnelle pour Project Asteria
 

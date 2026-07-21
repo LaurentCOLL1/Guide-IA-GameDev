@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 23 : Politique, factions et justice"
 id: "DOC-L2-CH23"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 23
-last-verified: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-23.md"
 audit-level: "static-review"
 reference-engine:
@@ -3941,9 +3941,7 @@ var faction_key := faction_display_name
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le texte localisé n’est pas une identité stable.
+**Pourquoi cet exemple est fautif :** le texte localisé n’est pas une identité stable.
 
 **Exemple corrigé :**
 
@@ -3955,9 +3953,7 @@ var faction_id := PoliticalId.faction("river_council")
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identité reste stable indépendamment de l’affichage.
+**Pourquoi la correction fonctionne :** l’identité reste stable indépendamment de l’affichage.
 
 ### 48.2 Déduire une adhésion depuis l’affinité
 
@@ -3974,9 +3970,7 @@ if social_view.affinity > 80:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une perception sociale n’est ni une admission ni un droit.
+**Pourquoi cet exemple est fautif :** une perception sociale n’est ni une admission ni un droit.
 
 **Exemple corrigé :**
 
@@ -3988,9 +3982,7 @@ var result := membership_service.execute(join_command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une commande causale repasse par capacité, rang, révision et autorisation.
+**Pourquoi la correction fonctionne :** une commande causale repasse par capacité, rang, révision et autorisation.
 
 ### 48.3 Modifier une loi promulguée en place
 
@@ -4007,9 +3999,7 @@ law.version = 2
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la même instance réécrit l’historique applicable.
+**Pourquoi cet exemple est fautif :** la même instance réécrit l’historique applicable.
 
 **Exemple corrigé :**
 
@@ -4022,9 +4012,7 @@ legislative_service.enact(enact_command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une nouvelle version est enregistrée puis promulguée avec sa propre période.
+**Pourquoi la correction fonctionne :** une nouvelle version est enregistrée puis promulguée avec sa propre période.
 
 ### 48.4 Autoriser par absence de règle
 
@@ -4041,9 +4029,7 @@ if matching_laws.is_empty():
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** absence de règle et autorisation explicite sont confondues.
+**Pourquoi cet exemple est fautif :** absence de règle et autorisation explicite sont confondues.
 
 **Exemple corrigé :**
 
@@ -4057,9 +4043,7 @@ if decision.outcome == AuthorizationDecision.Outcome.ALLOW:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seul le résultat `ALLOW` autorise l’action protégée.
+**Pourquoi la correction fonctionne :** seul le résultat `ALLOW` autorise l’action protégée.
 
 ### 48.5 Traiter une accusation comme un verdict
 
@@ -4076,9 +4060,7 @@ apply_fine(accused_id, 500)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le rapport n’a ni enquête, ni preuve, ni décision.
+**Pourquoi cet exemple est fautif :** le rapport n’a ni enquête, ni preuve, ni décision.
 
 **Exemple corrigé :**
 
@@ -4091,9 +4073,7 @@ var case_result := justice_service.open_case(command)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le dossier est ouvert sans présumer de la culpabilité.
+**Pourquoi la correction fonctionne :** le dossier est ouvert sans présumer de la culpabilité.
 
 ### 48.6 Copier un objet comme preuve
 
@@ -4109,9 +4089,7 @@ evidence.payload = inventory_entry.duplicate(true)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’objet copié peut diverger de l’autorité et contourner sa garde.
+**Pourquoi cet exemple est fautif :** l’objet copié peut diverger de l’autorité et contourner sa garde.
 
 **Exemple corrigé :**
 
@@ -4124,9 +4102,7 @@ evidence.integrity_digest = inventory_reference_digest
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la preuve référence l’objet et vérifie son intégrité sans le posséder.
+**Pourquoi la correction fonctionne :** la preuve référence l’objet et vérifie son intégrité sans le posséder.
 
 ### 48.7 Laisser une sortie IA condamner
 
@@ -4142,9 +4118,7 @@ verdict.outcome = ai_response["outcome"]
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la sortie non fiable contourne lois, preuves, juge et révisions.
+**Pourquoi cet exemple est fautif :** la sortie non fiable contourne lois, preuves, juge et révisions.
 
 **Exemple corrigé :**
 
@@ -4157,9 +4131,7 @@ var draft := verdict_draft_policy.filter(suggestion)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la sortie reste un brouillon non autoritaire soumis à une décision validée.
+**Pourquoi la correction fonctionne :** la sortie reste un brouillon non autoritaire soumis à une décision validée.
 
 ### 48.8 Débiter une amende directement
 
@@ -4176,9 +4148,7 @@ inventory.remove(confiscated_id)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les autorités sont modifiées séquentiellement sans rollback commun.
+**Pourquoi cet exemple est fautif :** les autorités sont modifiées séquentiellement sans rollback commun.
 
 **Exemple corrigé :**
 
@@ -4192,9 +4162,7 @@ commit_port.commit_verdict_and_sanctions(case_candidate, case_revision, verdict,
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** tous les candidats sont préparés puis committés comme un lot.
+**Pourquoi la correction fonctionne :** tous les candidats sont préparés puis committés comme un lot.
 
 ### 48.9 Dater un mandat avec l’heure système
 
@@ -4210,9 +4178,7 @@ mandate.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
+**Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 
@@ -4224,9 +4190,7 @@ mandate.started_tick = world_clock.logical_tick
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le mandat utilise l’horloge logique persistée du monde.
+**Pourquoi la correction fonctionne :** le mandat utilise l’horloge logique persistée du monde.
 
 ### 48.10 Émettre un événement avant le commit
 
@@ -4243,9 +4207,7 @@ var code := commit_port.commit_verdict_and_sanctions(...)
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les consommateurs observent un fait qui n’existe peut-être pas.
+**Pourquoi cet exemple est fautif :** les consommateurs observent un fait qui n’existe peut-être pas.
 
 **Exemple corrigé :**
 
@@ -4259,9 +4221,7 @@ if code == OK:
 
 <!-- qa:code-explanation -->
 
-**Explication structurée du bloc :**
-
-- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’événement décrit uniquement un lot déjà committé.
+**Pourquoi la correction fonctionne :** l’événement décrit uniquement un lot déjà committé.
 
 ## 49. Tests à préparer
 

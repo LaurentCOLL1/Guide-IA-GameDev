@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 17"
 id: "DOC-L2-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.4"
+version: "1.0.5"
 chapter-id: "DOC-L2-CH17"
-chapter-version: "1.0.4"
+chapter-version: "1.0.5"
 audit-level: "static-review"
-audit-date: "2026-07-21T17:35:51+02:00"
-last-verified: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier commit permanent a conservé `status: draft`, `version: 0.9.0`, `audi
 
 ## 2. Résultats
 
-- lignes finales : **2648** ;
+- lignes finales : **2632** ;
 - blocs clôturés : **68** ;
 - marqueurs d’explication : **68** ;
 - cas d’erreurs détaillés : **16** ;
@@ -67,6 +67,9 @@ Les **68** blocs possèdent **68** marqueurs. Les explications antérieures ont 
 ## 5. Réserves
 
 Aucun script n’a été analysé par le parseur Godot. La scène, les signaux, le contrôleur, le planificateur, le codec, la restauration, les performances, la parallélisation et le packaging n’ont pas été exécutés.
+
+
+Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
 
 ## 6. Décision
 

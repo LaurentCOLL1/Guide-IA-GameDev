@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 23"
 id: "DOC-L2-QA-AUDIT-CH23"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH23"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T17:35:51+02:00"
-last-verified: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch23-po
 
 ## 2. Résultats
 
-- lignes finales : **4262** ;
+- lignes finales : **4334** ;
 - titres Markdown : **75** ;
 - blocs de code ou de données : **71** ;
 - marqueurs d’explication : **71** ;
@@ -104,6 +104,9 @@ La dernière section synthétise les décisions retenues pour `Project Asteria`.
 - le codec et la restauration n’ont pas été exécutés ;
 - la reproductibilité interplateforme n’a pas été vérifiée ;
 - aucun PDF n’a été construit.
+
+
+Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
 
 ## 12. Décision
 

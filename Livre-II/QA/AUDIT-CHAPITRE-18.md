@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 18"
 id: "DOC-L2-QA-AUDIT-CH18"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 chapter-id: "DOC-L2-CH18"
-chapter-version: "1.0.1"
+chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T17:35:51+02:00"
-last-verified: "2026-07-21T17:35:51+02:00"
+audit-date: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-21T19:59:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,7 +19,7 @@ Le premier état permanent du chapitre a conservé `status: draft`, `version: 0.
 
 ## 2. Résultats
 
-- lignes finales : **3957** ;
+- lignes finales : **3935** ;
 - titres Markdown : **74** ;
 - blocs de code ou de données : **67** ;
 - marqueurs d’explication : **67** ;
@@ -113,6 +113,9 @@ Les **67** blocs possèdent **67** marqueurs. Les explications antérieures ont 
 - la restauration de sauvegarde n’a pas été exécutée ;
 - le replay multiplateforme n’a pas été vérifié ;
 - aucun PDF n’a été construit.
+
+
+Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
 
 ## 10. Décision
 
