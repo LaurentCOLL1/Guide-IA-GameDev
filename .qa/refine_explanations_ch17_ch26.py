@@ -16,4 +16,14 @@ if actual != expected:
 for path in PARTS:
     path.unlink()
 SOURCE = source_bytes.decode("utf-8")
+SOURCE = SOURCE.replace(
+    'or line.startswith("**Symptôme")\n            ):',
+    'or line.startswith("**Symptôme")\n                or line.startswith("<a id=")\n            ):',
+    1,
+)
+SOURCE = SOURCE.replace(
+    'or line.startswith("**Symptôme")\n    )',
+    'or line.startswith("**Symptôme")\n        or line.startswith("<a id=")\n    )',
+    1,
+)
 exec(compile(SOURCE, __file__, "exec"))
