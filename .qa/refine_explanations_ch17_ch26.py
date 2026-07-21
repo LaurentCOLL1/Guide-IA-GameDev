@@ -43,6 +43,11 @@ SOURCE, count = re.subn(
 )
 if count != 1:
     raise RuntimeError("fonction de frontière du validateur introuvable")
+SOURCE = SOURCE.replace(
+    'end = end_of_explanation(lines, start + 1)',
+    'end = end_of_explanation(lines, start)',
+    1,
+)
 
 refinement_boundary = '''def explanation_end(lines: list[str], start: int) -> int:
     wrapper_seen = False
