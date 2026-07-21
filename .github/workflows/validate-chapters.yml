@@ -1,86 +1,91 @@
 name: Validate Chapters Without PDF
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
     paths:
       - "Livre-II/**/*.md"
-      - "Livre-II/**/*.yaml"
+      - "Livre-II/index.md"
+      - "contents.txt"
+      - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
+      - "REPRISE-NOUVELLE-CONVERSATION.md"
+      - "tools/validate_chapters.py"
       - "tools/check_code_explanation_structure.py"
+      - "tools/check_context_markers.py"
+      - "tools/audit_contextes_semantiques.py"
+      - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  refine-semantic-error-sections:
-    name: Refine semantic error explanations
+  validate-chapters:
+    name: Validate chapters without PDF
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout canonical correction branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: fix/qa-enforce-error-correction-semantics
-          fetch-depth: 0
 
       - name: Install lightweight dependencies
-        run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Refine chapter 25 semantic explanations
+      - name: Validate structure, metadata, links and duplicates
         run: |
           mkdir -p dist
           set -o pipefail
-          python3 .qa/refine_ch25_error_explanations.py 2>&1 \
-            | tee dist/REFINE-CH25-ERROR-SECTIONS.log
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
 
-      - name: Validate structure and metadata
-        run: python3 tools/validate_chapters.py --report /tmp/QA-CHAPTERS.md
-
-      - name: Validate explanations and semantic error sequence
+      - name: Validate structured code explanations
         run: |
           set -o pipefail
-          python3 tools/check_code_explanation_structure.py --check 2>&1 \
-            | tee dist/SEMANTIC-ERROR-SEQUENCE.log
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/QA-EXPLICATIONS-CODE.log
 
-      - name: Validate usage contexts
+      - name: Audit usage marker presence
         run: |
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          python3 tools/report_contextes_utilisation.py > /tmp/QA-CONTEXTES-COUVERTURE.md
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
 
-      - name: Assert no PDF
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
         run: |
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
             echo "Un PDF a été produit pendant une validation légère." >&2
             exit 1
           fi
 
-      - name: Upload refinement diagnostic
+      - name: Upload lightweight QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: semantic-error-restoration-diagnostic
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
           path: |
-            dist/REFINE-CH25-ERROR-SECTIONS.log
-            dist/SEMANTIC-ERROR-SEQUENCE.log
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Commit refined chapter
-        run: |
-          rm -f .qa/refine_ch25_error_explanations.py
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md \
-            .qa/refine_ch25_error_explanations.py
-          if git diff --cached --quiet; then
-            echo "Aucun changement documentaire à committer."
-            exit 0
-          fi
-          git commit -m "fix(livre-ii): refine chapter 25 error explanations"
-          git push origin HEAD:fix/qa-enforce-error-correction-semantics
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-EXPLICATIONS-CODE.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
