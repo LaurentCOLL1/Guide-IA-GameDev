@@ -1,20 +1,17 @@
 name: Chapter 25 Finalizer Runner
 
 on:
-  issue_comment:
-    types:
-      - created
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/ch25-finalizer-runner.yml"
 
 permissions:
   contents: write
-  pull-requests: read
 
 jobs:
   finalize:
-    if: >-
-      github.event.issue.pull_request &&
-      github.event.issue.number == 60 &&
-      github.event.comment.body == '/finalize-ch25'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
