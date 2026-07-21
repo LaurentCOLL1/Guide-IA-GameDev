@@ -32,7 +32,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé pour produire ou réviser ce chapitre :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-04.md`.
 
 ## 1. Rôle du chapitre
@@ -731,7 +731,6 @@ class_name Activatable
 extends RefCounted
 ## Contrat minimal pour une opération d’activation sans présence dans le SceneTree.
 
-
 @abstract func activate(actor_name: StringName) -> bool
 ```
 
@@ -1279,7 +1278,6 @@ Le point de composition fournit au module de quêtes un `Callable` de notificati
 
 ```gdscript
 var notify: Callable
-
 
 func complete_quest() -> void:
 	# Met à jour les règles du module.

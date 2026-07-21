@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-17.md`.
 
 ## 1. Rôle du chapitre
@@ -1152,7 +1152,6 @@ func decide(
 - **Absence de but :** retourner `OK` sans signal signifie que l’attente est une issue normale, distincte d’un échec de planification.
 - **Effets de bord :** la séquence de l’agent avance et un signal typé peut être émis. Aucun état social, familial, physique ou de combat n’est modifié ici.
 - **Ports :** `AgentSnapshotBuilder`, `AgentGoalPolicy`, `AgentGoalConditionCatalog` et `WorldRevisionSource` sont définis par les signatures immédiatement suivantes ; leurs implémentations restent injectées.
-
 
 ### 22.1 Signatures des ports de décision
 

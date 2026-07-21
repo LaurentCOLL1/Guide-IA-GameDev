@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-20.md`.
 
 ## 1. Rôle du chapitre
@@ -1474,7 +1474,6 @@ func _prepare_instance_transfer(
 - Propriété, garde, révisions des conteneurs, révision d’instance et séquence de provenance changent dans le même candidat.
 - Aucun état actif n’est modifié par cette fonction.
 
-
 > **[LECTURE] Préparation interne d’un lot — Suite de `inventory_service.gd`.**
 
 ```gdscript
@@ -1744,7 +1743,6 @@ func prepare_equip(
 - L’état d’équipement est modifié sur des copies.
 - Une compétence accordée produit un candidat appartenant au système de compétences.
 - Le commit final doit réunir le candidat d’inventaire et le candidat externe.
-
 
 ### 24.1 Déséquiper et retirer uniquement le grant source
 

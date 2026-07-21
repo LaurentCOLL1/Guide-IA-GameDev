@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-16.md`.
 > **Explications de code :** contextualisées bloc par bloc selon la porte QA Q1.1, sans répéter le chemin ou les rappels généraux de syntaxe.
 > **Convention de lecture :** la consigne `[VSC]` placée avant un bloc porte déjà son chemin canonique ; l’explication ne le répète pas. Les annotations GDScript `:` et `->` sont présentées au [chapitre 2](CHAPITRE-02-Fondamentaux-de-GDScript.md) et ne sont rappelées ici que lorsqu’un choix de type ou de retour demande une attention particulière.

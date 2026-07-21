@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-12.md`.
 
 ## 1. Rôle du chapitre
@@ -818,7 +818,6 @@ from typing import Any
 
 _sequence = count()
 
-
 @dataclass(order=True, slots=True)
 class QueueEntry:
     priority: int
@@ -826,7 +825,6 @@ class QueueEntry:
     task_id: str = field(compare=False)
     operation: str = field(compare=False)
     payload: dict[str, Any] = field(compare=False)
-
 
 class BoundedTaskQueue:
     def __init__(self, capacity: int) -> None:
@@ -906,7 +904,6 @@ from enum import StrEnum
 from time import time
 from typing import Any
 
-
 class TaskState(StrEnum):
     QUEUED = "queued"
     RUNNING = "running"
@@ -915,7 +912,6 @@ class TaskState(StrEnum):
     CANCEL_REQUESTED = "cancel_requested"
     CANCELLED = "cancelled"
     EXPIRED = "expired"
-
 
 @dataclass(slots=True)
 class TaskRecord:
@@ -952,7 +948,6 @@ OperationHandler = Callable[
     [TaskRecord, dict[str, Any]],
     Awaitable[dict[str, Any]],
 ]
-
 
 class TaskWorker:
     def __init__(
@@ -1384,14 +1379,12 @@ RESPONSE_FORMAT = "project-asteria-ai-http-response"
 FORMAT_VERSION = 1
 MAX_PAYLOAD_KEYS = 64
 
-
 @dataclass(frozen=True, slots=True)
 class OperationRequest:
     request_id: str
     operation: str
     payload: dict[str, Any]
     timeout_ms: int
-
 
 def parse_operation_request(document: Any) -> OperationRequest:
     if not isinstance(document, dict):
@@ -1440,7 +1433,6 @@ from collections.abc import Awaitable, Callable
 from typing import Any
 
 Operation = Callable[[dict[str, Any]], Awaitable[dict[str, Any]]]
-
 
 class OperationRegistry:
     def __init__(self) -> None:

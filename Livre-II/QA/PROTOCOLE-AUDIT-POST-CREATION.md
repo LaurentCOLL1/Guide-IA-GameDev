@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.5"
+version: "1.7.6"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-21T12:15:30+02:00"
+last-verified: "2026-07-21T12:24:22+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -107,7 +107,7 @@ Utiliser généralement :
 - **Moyenne** pour un chapitre principalement descriptif, linéaire, à faible risque technique et avec peu de dépendances ;
 - **Élevée** pour architecture, code imbriqué, bases de données, IA, sécurité, optimisation, intégrations ou nombreuses frontières entre systèmes.
 
-La recommandation appartient au **processus de production**, pas au document produit. Elle est annoncée avant la rédaction et peut être consignée dans `CONTINUITE-PROJET.md`, la branche ou la pull request. Elle ne doit pas être inscrite dans le front matter du chapitre, dans son audit ou dans sa preuve QA comme si elle décrivait le contenu publié.
+La recommandation appartient au **processus de production**, pas au document produit. Elle est annoncée avant la rédaction et peut être consignée dans `CONTINUITE-PROJET.md`, la branche ou la pull request. Elle ne doit être inscrite ni dans le front matter ni dans l’en-tête ou le corps du chapitre, ni dans son audit ou sa preuve QA comme si elle décrivait le contenu publié.
 
 ## 4. Métadonnées obligatoires
 
@@ -136,7 +136,7 @@ Les champs `last-verified` et `audit-date` sont des chaînes ISO 8601 entre guil
 - [ ] L’encodage UTF-8 et les blocs Markdown sont valides.
 - [ ] Les liens locaux sont résolus.
 - [ ] Chaque fragment interne vise une ancre existante et la sous-section la plus précise pertinente.
-- [ ] Le niveau de raisonnement conseillé est annoncé avant la rédaction et reste hors des métadonnées du chapitre.
+- [ ] Le niveau de raisonnement conseillé est annoncé avant la rédaction et reste absent des métadonnées comme du texte destiné au lecteur.
 
 ### Q1 — Complétude pédagogique
 
