@@ -70,4 +70,15 @@ SOURCE, count = re.subn(
 if count != 1:
     raise RuntimeError("fonction de frontière du raffinement introuvable")
 
+SOURCE = SOURCE.replace(
+    '        block = lines[start:end]\n        bullets = parse_bullets(block)',
+    '        block = lines[start:end]\n        anchors = [line.strip() for line in block if re.match(r\'^\\s*<a id="[^"]+"></a>\\s*$\', line)]\n        block = [line for line in block if not re.match(r\'^\\s*<a id="[^"]+"></a>\\s*$\', line)]\n        bullets = parse_bullets(block)',
+    1,
+)
+SOURCE = SOURCE.replace(
+    '        replacement = format_points(points)\n        lines[start:end] = replacement',
+    '        replacement = format_points(points)\n        for anchor in anchors:\n            replacement.extend([anchor, ""])\n        lines[start:end] = replacement',
+    1,
+)
+
 exec(compile(SOURCE, __file__, "exec"))
