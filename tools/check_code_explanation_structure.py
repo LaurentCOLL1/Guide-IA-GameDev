@@ -21,8 +21,8 @@ ERROR_HEADING_RE = re.compile(
     re.IGNORECASE,
 )
 SYMPTOM_RE = re.compile(
-    r"\*\*(?:Symptôme(?:\s+ou\s+risque)?|Risque)\s*:\*\*",
-    re.IGNORECASE,
+    r"^\*\*(?:Symptôme(?:\s+ou\s+risque)?|Risque)\s*:\*\*",
+    re.IGNORECASE | re.MULTILINE,
 )
 EXAMPLE_KIND = (
     r"(?:exemple|structure|organisation|architecture|flux|formulation|ordre|"
@@ -33,12 +33,18 @@ FAULTY_RE = re.compile(
     EXAMPLE_KIND + r"[^\n]{0,100}(?:fautif|fautive|incorrect|incorrecte|à éviter|anti[- ]pattern)",
     re.IGNORECASE,
 )
-WHY_FAULTY_RE = re.compile(r"Pourquoi cet exemple est fautif", re.IGNORECASE)
+WHY_FAULTY_RE = re.compile(
+    r"^\*\*Pourquoi cet exemple est fautif\s*:\*\*",
+    re.IGNORECASE | re.MULTILINE,
+)
 CORRECTED_RE = re.compile(
     EXAMPLE_KIND + r"[^\n]{0,100}corrig(?:é|ée|és|ées)",
     re.IGNORECASE,
 )
-WHY_CORRECTED_RE = re.compile(r"Pourquoi la correction fonctionne", re.IGNORECASE)
+WHY_CORRECTED_RE = re.compile(
+    r"^\*\*Pourquoi la correction fonctionne\s*:\*\*",
+    re.IGNORECASE | re.MULTILINE,
+)
 BANNED = (
     "Le bloc présente une structure de référence et les relations explicites entre ses éléments.",
     "Le lecteur doit retrouver la structure, les clés ou la commande dans l’ordre montré, sans interpréter ce bloc de référence comme une preuve d’exécution runtime.",
@@ -94,10 +100,110 @@ def headings_outside_fences(lines: list[str]) -> list[tuple[int, int, str]]:
     return headings
 
 
-def check_error_correction_sections(path: Path, lines: list[str]) -> list[str]:
+def next_nonblank(lines: list[str], start: int, end: int) -> tuple[int, str] | None:
+    for index in range(start, end):
+        stripped = lines[index].strip()
+        if stripped:
+            return index, stripped
+    return None
+
+
+def error_section_ranges(lines: list[str]) -> list[tuple[int, int]]:
+    headings = headings_outside_fences(lines)
+    ranges: list[tuple[int, int]] = []
+    for position, (start, level, title) in enumerate(headings):
+        if level < 2:
+            continue
+        end = len(lines)
+        for next_start, next_level, _ in headings[position + 1:]:
+            if next_level <= level:
+                end = next_start
+                break
+        body = "\n".join(lines[start + 1:end])
+        if (
+            ERROR_HEADING_RE.search(title) is not None
+            or ERROR_SECTION_MARKER in body
+            or ERROR_INDEX_MARKER in body
+        ):
+            ranges.append((start, end))
+    return ranges
+
+
+def marker_in_ranges(marker: int, ranges: list[tuple[int, int]]) -> bool:
+    return any(start <= marker < end for start, end in ranges)
+
+
+def check_direct_reason_after_markers(
+    rel: Path,
+    child_title: str,
+    lines: list[str],
+    child_start: int,
+    child_end: int,
+) -> list[str]:
+    errors: list[str] = []
+    marker_indexes = [
+        index
+        for index in range(child_start, child_end)
+        if lines[index].strip() == MARKER
+    ]
+    if len(marker_indexes) != 2:
+        errors.append(
+            f"{rel}:{child_start + 1}: cas « {child_title} » doit contenir exactement "
+            f"deux marqueurs d’explication, trouvé {len(marker_indexes)}"
+        )
+        return errors
+
+    expectations = (
+        (marker_indexes[0], WHY_FAULTY_RE, "Pourquoi cet exemple est fautif"),
+        (marker_indexes[1], WHY_CORRECTED_RE, "Pourquoi la correction fonctionne"),
+    )
+    for marker, pattern, label in expectations:
+        following = next_nonblank(lines, marker + 1, child_end)
+        if following is None:
+            errors.append(
+                f"{rel}:{marker + 1}: cas « {child_title} » sans explication après le marqueur"
+            )
+            continue
+        line_index, line = following
+        if line == STRUCTURED:
+            errors.append(
+                f"{rel}:{line_index + 1}: cas « {child_title} » contient une rubrique "
+                "structurée interdite dans une séquence erreur/correction"
+            )
+            continue
+        if pattern.match(line) is None:
+            errors.append(
+                f"{rel}:{line_index + 1}: cas « {child_title} » doit commencer directement "
+                f"par « {label} » après le marqueur"
+            )
+
+    child_body = "\n".join(lines[child_start:child_end])
+    if child_body.count(STRUCTURED) > 0:
+        errors.append(
+            f"{rel}:{child_start + 1}: cas « {child_title} » contient un sous-titre "
+            "« Explication structurée du bloc » interdit"
+        )
+    if len(WHY_FAULTY_RE.findall(child_body)) != 1:
+        errors.append(
+            f"{rel}:{child_start + 1}: cas « {child_title} » doit contenir exactement "
+            "une explication « Pourquoi cet exemple est fautif »"
+        )
+    if len(WHY_CORRECTED_RE.findall(child_body)) != 1:
+        errors.append(
+            f"{rel}:{child_start + 1}: cas « {child_title} » doit contenir exactement "
+            "une explication « Pourquoi la correction fonctionne »"
+        )
+    return errors
+
+
+def check_error_correction_sections(
+    path: Path,
+    lines: list[str],
+) -> tuple[list[str], list[tuple[int, int]]]:
     """Applique la règle sémantique, indépendamment du titre exact de la section."""
     errors: list[str] = []
     headings = headings_outside_fences(lines)
+    ranges = error_section_ranges(lines)
 
     for position, (start, level, title) in enumerate(headings):
         if level < 2:
@@ -164,7 +270,16 @@ def check_error_correction_sections(path: Path, lines: list[str]) -> list[str]:
                     "attendu symptôme → exemple fautif → pourquoi fautif → "
                     "exemple corrigé → pourquoi la correction fonctionne"
                 )
-    return errors
+            errors.extend(
+                check_direct_reason_after_markers(
+                    rel,
+                    child_title,
+                    lines,
+                    child_start + 1,
+                    child_end,
+                )
+            )
+    return errors, ranges
 
 
 def check(path: Path) -> list[str]:
@@ -173,7 +288,7 @@ def check(path: Path) -> list[str]:
         return []
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
-    errors = check_error_correction_sections(path, lines) if chapter >= 17 else []
+    errors, error_ranges = check_error_correction_sections(path, lines)
 
     if chapter < 17:
         return errors
@@ -182,6 +297,8 @@ def check(path: Path) -> list[str]:
         if phrase in text:
             errors.append(f"{path.relative_to(ROOT)}: formulation générique interdite: {phrase}")
     for marker in [i for i, line in enumerate(lines) if line.strip() == MARKER]:
+        if marker_in_ranges(marker, error_ranges):
+            continue
         start = marker + 1
         while start < len(lines) and not lines[start].strip():
             start += 1
@@ -213,7 +330,8 @@ def main() -> int:
         print("\n".join(errors))
         return 1
     print(
-        "Explications structurées et règle sémantique des erreurs/corrections conformes."
+        "Explications structurées hors erreurs, séquences sémantiques directes "
+        "et sections Solo/Studio conformes."
     )
     return 0
 
