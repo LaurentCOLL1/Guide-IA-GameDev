@@ -1,0 +1,60 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH24
+status: complete
+validation-date: 2026-07-21
+validated-base-commit: e4ce33c1f8b46d6d25d1a3e7681159130b7b6e0e
+validated-head-commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
+evidence-closure:
+  commit: d1aa41d6bf99edf2f2dca8a888151b73aa70442f
+  conclusion: success
+chapter:
+  id: DOC-L2-CH24
+  path: Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 2645
+  chapter-headings: 48
+  chapter-code-and-data-blocks: 61
+  code-explanation-markers: 61
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  stable-domain-identities: true
+  political-rights-remain-external: true
+  parcels-independent-from-scenes: true
+  construction-materials-and-work-separated: true
+  integer-basis-point-progress: true
+  idempotent-domain-commands: true
+  domain-inventory-economy-commit-contract: true
+  production-input-output-atomicity: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29809232903
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29809232871
+    conclusion: success
+  artifact:
+    id: 8486719468
+    name: chapter-validation-without-pdf
+    digest: sha256:9bab85f163c550f7e212ac20144d6d81f72b1ac94216ab7495f61b9fd18b3f11
+reservations:
+  - Godot parser not executed.
+  - Typed collections not runtime-verified.
+  - Domain-inventory-economy commit not run.
+  - Rights and ecology site adapters not materialized.
+  - Large-scale performance not measured.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.

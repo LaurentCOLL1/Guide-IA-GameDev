@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.16.0"
+version: "1.17.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -52,7 +52,7 @@ Project Asteria
 21. [Économie](CHAPITRE-21-Economie.md) — **rédigé, repéré, expliqué bloc par bloc, écritures équilibrées et commit économie-inventaire préparé, clôturé par les décisions Project Asteria et audité au niveau static-review**
 22. [Monde vivant et simulation écologique](CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md) — **rédigé, repéré, expliqué bloc par bloc, simulation régionale bornée et commandes écologie-inventaire préparées, clôturé par les décisions Project Asteria et audité au niveau static-review**
 23. [Politique, factions et justice](CHAPITRE-23-Politique-factions-et-justice.md) — **rédigé, repéré, expliqué bloc par bloc, lois versionnées et sanctions multi-autorités préparées, clôturé par les décisions Project Asteria et audité au niveau static-review**
-24. Construction et gestion de domaines — à rédiger
+24. [Construction et gestion de domaines](CHAPITRE-24-Construction-et-gestion-de-domaines.md) — **rédigé, repéré, expliqué bloc par bloc, chantiers et production multi-autorités préparés, clôturé par les décisions Project Asteria et audité au niveau static-review**
 25. Narration, quêtes, codex et connaissances — à rédiger
 
 ## Partie III — Industrialisation du projet
@@ -90,6 +90,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 21](QA/AUDIT-CHAPITRE-21.md) ;
 - [audit du chapitre 22](QA/AUDIT-CHAPITRE-22.md) ;
 - [audit du chapitre 23](QA/AUDIT-CHAPITRE-23.md) ;
+- [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
 La mention **rédigé, repéré et audité** signifie que :
@@ -119,7 +120,7 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 23 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
+Les chapitres 3 à 24 utilisent **Élevée**. La recommandation doit être justifiée avant le début du travail et enregistrée dans les métadonnées du chapitre.
 
 ## Principes du Livre II
 
@@ -147,4 +148,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt-trois chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. La partie gameplay compte désormais **dix systèmes sur douze** : personnages, relations sociales, famille, agents autonomes, combat, compétences et pouvoirs, inventaire et réputation des objets, économie, monde vivant, puis politique, factions et justice. Le chapitre 23 possède institutions, adhésions, mandats, lois, autorisations, dossiers, preuves, verdicts et sanctions coordonnées sans reprendre l’autorité des autres systèmes. Les réserves runtime et le PDF restent différés conformément au protocole QA.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt-quatre chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. La partie gameplay compte désormais **onze systèmes sur douze** : personnages, relations sociales, famille, agents autonomes, combat, compétences et pouvoirs, inventaire et réputation des objets, économie, monde vivant, politique et justice, puis construction et gestion de domaines. Le chapitre 24 possède parcelles, bâtiments, chantiers, production et entretien, tout en consommant droits, objets, coûts et régions par des ports. Les réserves runtime et le PDF restent différés conformément au protocole QA.
