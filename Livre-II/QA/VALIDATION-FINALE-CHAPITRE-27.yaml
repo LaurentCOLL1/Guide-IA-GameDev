@@ -1,0 +1,68 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH27
+status: pending
+validation-date: '2026-07-21'
+validated-base-commit: e6c1b8390d5a12b6d90b66d6b50138b17792470f
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH27
+  path: Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1961
+  chapter-headings: 75
+  chapter-code-and-data-blocks: 64
+  code-explanation-markers: 64
+  structured-non-error-code-explanations: true
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  gut-governance-documented: true
+  test-levels-separated: true
+  doubles-and-fixtures-documented: true
+  scenetree-and-signal-tests-bounded: true
+  temporary-storage-isolated: true
+  deterministic-simulations-documented: true
+  golden-files-reviewed-only: true
+  retry-masking-forbidden: true
+  external-services-isolated: true
+  solo-studio-rendered-as-markdown: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+- Godot parser not executed.
+- GUT not installed or executed.
+- Test support files not materialized.
+- SceneTree tests not executed.
+- Temporary SQLite databases not created.
+- Save and file transactions not exercised.
+- External adapters not executed.
+- Simulations and golden files not replayed.
+- JUnit reports not produced.
+- Cross-platform reproducibility not measured.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: pending
+  conclusion: pending
