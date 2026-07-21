@@ -135,6 +135,8 @@ assert chapter.count('<!-- qa:code-explanation -->') == 64
 assert chapter.count('**Explication structurée du bloc :**') == 44
 assert chapter.count('**Pourquoi cet exemple est fautif :**') == 10
 assert chapter.count('**Pourquoi la correction fonctionne :**') == 10
-assert '## 52. Mode Solo et Mode Studio' in chapter
+assert '## 50. Mode Solo' in chapter
+assert '## 51. Mode Studio' in chapter
+assert '## 52. Contrat commun Solo et Studio' in chapter
 assert '## 58. Décisions retenues pour Project Asteria' in chapter
 print('Chapter 27 governance finalized.')
