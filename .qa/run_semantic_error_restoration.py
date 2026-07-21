@@ -16,11 +16,11 @@ spec.loader.exec_module(restorer)
 
 DETAILED = "**Explication détaillée du bloc :**"
 FAULTY = re.compile(
-    r".*?Pourquoi cet exemple est fautif\s*:\*\*\s*(.*)$",
+    r".*?Pourquoi cet exemple est fautif\s*:\s*(?:\*\*)?\s*(.*)$",
     re.IGNORECASE,
 )
 CORRECTED = re.compile(
-    r".*?Pourquoi la correction fonctionne\s*:\*\*\s*(.*)$",
+    r".*?Pourquoi la correction fonctionne\s*:\s*(?:\*\*)?\s*(.*)$",
     re.IGNORECASE,
 )
 CALLS = iter(restorer.CHAPTERS.keys())
