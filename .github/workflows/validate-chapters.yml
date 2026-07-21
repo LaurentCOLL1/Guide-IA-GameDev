@@ -16,13 +16,13 @@ permissions:
   contents: write
 
 jobs:
-  restore-semantic-error-sections:
-    name: Restore semantic error and correction sections
+  refine-semantic-error-sections:
+    name: Refine semantic error explanations
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: Checkout canonical correction branch with history
+      - name: Checkout canonical correction branch
         uses: actions/checkout@v4
         with:
           ref: fix/qa-enforce-error-correction-semantics
@@ -31,13 +31,12 @@ jobs:
       - name: Install lightweight dependencies
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Restore direct semantic explanations
+      - name: Refine chapter 25 semantic explanations
         run: |
           mkdir -p dist
           set -o pipefail
-          python3 .qa/run_semantic_error_restoration.py 2>&1 | tee dist/RESTORE-ERROR-SECTIONS.log
-          python3 .qa/refine_ch25_error_explanations.py
-          python3 .qa/patch_semantic_checker_scope.py
+          python3 .qa/refine_ch25_error_explanations.py 2>&1 \
+            | tee dist/REFINE-CH25-ERROR-SECTIONS.log
 
       - name: Validate structure and metadata
         run: python3 tools/validate_chapters.py --report /tmp/QA-CHAPTERS.md
@@ -61,37 +60,27 @@ jobs:
             exit 1
           fi
 
-      - name: Upload restoration diagnostic
+      - name: Upload refinement diagnostic
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: semantic-error-restoration-diagnostic
           path: |
-            dist/RESTORE-ERROR-SECTIONS.log
+            dist/REFINE-CH25-ERROR-SECTIONS.log
             dist/SEMANTIC-ERROR-SEQUENCE.log
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Commit restored chapters and QA documents
+      - name: Commit refined chapter
         run: |
-          rm -f .qa/restore_semantic_error_sections.py \
-            .qa/run_semantic_error_restoration.py \
-            .qa/refine_ch25_error_explanations.py \
-            .qa/patch_semantic_checker_scope.py
+          rm -f .qa/refine_ch25_error_explanations.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Livre-II/CHAPITRE-17-* Livre-II/CHAPITRE-18-* Livre-II/CHAPITRE-19-* \
-            Livre-II/CHAPITRE-20-* Livre-II/CHAPITRE-21-* Livre-II/CHAPITRE-22-* \
-            Livre-II/CHAPITRE-23-* Livre-II/CHAPITRE-24-* Livre-II/CHAPITRE-25-* \
-            Livre-II/CHAPITRE-26-* Livre-II/QA/AUDIT-CHAPITRE-{17,18,19,20,21,22,23,24,25,26}.md \
-            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-{17,18,19,20,21,22,23,24,25,26}.yaml \
-            Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md CONTINUITE-PROJET.md \
-            tools/check_code_explanation_structure.py \
-            .qa/restore_semantic_error_sections.py .qa/run_semantic_error_restoration.py \
-            .qa/refine_ch25_error_explanations.py .qa/patch_semantic_checker_scope.py
+          git add Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md \
+            .qa/refine_ch25_error_explanations.py
           if git diff --cached --quiet; then
             echo "Aucun changement documentaire à committer."
             exit 0
           fi
-          git commit -m "fix(livre-ii): restore semantic error correction explanations"
+          git commit -m "fix(livre-ii): refine chapter 25 error explanations"
           git push origin HEAD:fix/qa-enforce-error-correction-semantics
