@@ -31,12 +31,20 @@ jobs:
       - name: Apply terminology correction
         shell: bash
         run: |
-          set -euxo pipefail
-          python3 .qa/ch27-terminology/fix.py
-          python3 tools/validate_chapters.py --report /tmp/ch27-terminology-QA.md
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          python3 tools/check_code_explanation_structure.py
+          set -o pipefail
+          python3 .qa/ch27-terminology/fix.py 2>&1 | tee /tmp/ch27-terminology-fix.log
+          python3 tools/validate_chapters.py --report /tmp/ch27-terminology-QA.md 2>&1 | tee -a /tmp/ch27-terminology-fix.log
+          python3 tools/check_context_markers.py --check 2>&1 | tee -a /tmp/ch27-terminology-fix.log
+          python3 tools/audit_contextes_semantiques.py --check 2>&1 | tee -a /tmp/ch27-terminology-fix.log
+          python3 tools/check_code_explanation_structure.py 2>&1 | tee -a /tmp/ch27-terminology-fix.log
+
+      - name: Upload diagnostic on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch27-terminology-diagnostic
+          path: /tmp/ch27-terminology-fix.log
+          if-no-files-found: error
 
       - name: Push permanent correction
         shell: bash
