@@ -16,12 +16,12 @@ spec.loader.exec_module(restorer)
 
 DETAILED = "**Explication détaillée du bloc :**"
 FAULTY = re.compile(
-    r"^(?:\s*-\s+)?(?:\*\*[^*\n]+\s*:\*\*\s+)?"
+    r"^(?:\s*-\s+)?(?:\*\*(?!Pourquoi\b)[^*\n]+\s*:\*\*\s+)?"
     r"\*\*Pourquoi cet exemple est fautif\s*:\*\*\s*(.*)$",
     re.IGNORECASE,
 )
 CORRECTED = re.compile(
-    r"^(?:\s*-\s+)?(?:\*\*[^*\n]+\s*:\*\*\s+)?"
+    r"^(?:\s*-\s+)?(?:\*\*(?!Pourquoi\b)[^*\n]+\s*:\*\*\s+)?"
     r"\*\*Pourquoi la correction fonctionne\s*:\*\*\s*(.*)$",
     re.IGNORECASE,
 )
