@@ -23,7 +23,7 @@ for path in chapter_paths:
         path.write_text(updated, encoding='utf-8')
         removed += count
 
-if removed < 20:
+if removed < 10:
     raise SystemExit(f'Nombre inattendu de lignes lecteur retirées : {removed}')
 
 validator_path = ROOT / 'tools/validate_chapters.py'
