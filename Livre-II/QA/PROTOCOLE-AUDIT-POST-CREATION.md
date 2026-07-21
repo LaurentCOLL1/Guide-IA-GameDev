@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.4"
+version: "1.7.5"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-20T11:27:57+02:00"
+last-verified: "2026-07-21T12:15:30+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -107,13 +107,7 @@ Utiliser généralement :
 - **Moyenne** pour un chapitre principalement descriptif, linéaire, à faible risque technique et avec peu de dépendances ;
 - **Élevée** pour architecture, code imbriqué, bases de données, IA, sécurité, optimisation, intégrations ou nombreuses frontières entre systèmes.
 
-La recommandation est enregistrée dans le front matter :
-
-> **[LECTURE] Exemple YAML — Ne pas créer de fichier sans chemin explicitement indiqué.**
-
-```yaml
-recommended-reasoning: "GPT-5.6 Sol — Élevée"
-```
+La recommandation appartient au **processus de production**, pas au document produit. Elle est annoncée avant la rédaction et peut être consignée dans `CONTINUITE-PROJET.md`, la branche ou la pull request. Elle ne doit pas être inscrite dans le front matter du chapitre, dans son audit ou dans sa preuve QA comme si elle décrivait le contenu publié.
 
 ## 4. Métadonnées obligatoires
 
@@ -128,7 +122,6 @@ audit-date: "AAAA-MM-JJTHH:MM:SS±HH:MM"
 audit-report: "Livre-II/QA/<rapport>.md"
 audit-level: "static-review"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
 Les champs `last-verified` et `audit-date` sont des chaînes ISO 8601 entre guillemets et incluent obligatoirement les secondes ainsi qu’un décalage UTC explicite. `static-review` signifie que les explications, commandes et extraits ont été relus contre les références officielles, sans prétendre qu’ils ont tous été exécutés. Le niveau devient `runtime-tested` uniquement lorsque les fichiers du projet fil rouge ont été matérialisés, exécutés et associés à des journaux conservés.
@@ -143,7 +136,7 @@ Les champs `last-verified` et `audit-date` sont des chaînes ISO 8601 entre guil
 - [ ] L’encodage UTF-8 et les blocs Markdown sont valides.
 - [ ] Les liens locaux sont résolus.
 - [ ] Chaque fragment interne vise une ancre existante et la sous-section la plus précise pertinente.
-- [ ] Le niveau de raisonnement conseillé est annoncé et enregistré.
+- [ ] Le niveau de raisonnement conseillé est annoncé avant la rédaction et reste hors des métadonnées du chapitre.
 
 ### Q1 — Complétude pédagogique
 

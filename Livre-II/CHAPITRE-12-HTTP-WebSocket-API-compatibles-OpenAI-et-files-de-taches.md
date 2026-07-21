@@ -20,7 +20,6 @@ reference-project:
   name: "Project Asteria"
   renderer: "Forward+"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-recommended-reasoning: "GPT-5.6 Sol — Élevée"
 ---
 
 # HTTP, WebSocket, API compatibles OpenAI et files de tâches

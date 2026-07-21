@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.25.0"
+version: "3.25.1"
 lang: "fr-FR"
-last-updated: "2026-07-21T11:20:30+02:00"
+last-updated: "2026-07-21T12:15:30+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -194,6 +194,8 @@ Chapitres 3 à 25 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
+La recommandation GPT-5.6 Sol décrit l’effort de raisonnement conseillé pour **produire** un chapitre. Elle ne décrit pas le chapitre lui-même et ne doit donc jamais apparaître sous la clé `recommended-reasoning` dans le front matter, l’audit ou la preuve QA du document publié.
+
 ## 8. Audit par chapitre
 
 Chaque chapitre suit :
@@ -224,7 +226,6 @@ audit-date: "YYYY-MM-DDTHH:MM:SS±HH:MM"
 audit-level: "static-review"
 audit-report: "Livre-II/QA/..."
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
-recommended-reasoning: "GPT-5.6 Sol — Moyenne ou Élevée"
 ```
 
 ## 9. Politique PDF
@@ -1448,6 +1449,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : plugins d’éditeur, docks, inspecteurs, importeurs, validateurs de données, génération assistée et pipelines de contenu. Le chapitre 26 industrialisera la production sans déplacer les autorités runtime des chapitres 14 à 25.
 
 ## 27. Journal
+
+### 2026-07-21T12:15:30+02:00 — version 3.25.1
+
+- correction de gouvernance : le niveau GPT-5.6 Sol est une donnée du processus de production, pas une métadonnée du chapitre ;
+- clé `recommended-reasoning` retirée des chapitres publiés du Livre II ;
+- protocole QA et validateur léger corrigés pour ne plus exiger cette clé ;
+- doublon de l’audit du chapitre 24 retiré de l’index ;
+- prochaine action maintenue sur le chapitre 26 ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-21T11:20:30+02:00 — version 3.25.0
 
