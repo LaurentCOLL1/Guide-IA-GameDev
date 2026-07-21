@@ -20,7 +20,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate-chapters:
@@ -39,13 +39,18 @@ jobs:
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Package working source
+      - name: Materialize chapter 26 lot
         run: |
-          mkdir -p dist
-          git archive --format=zip --output=dist/ch26-working-source.zip HEAD
+          cat .qa/ch26-payload/part-* | base64 --decode > /tmp/ch26-core.tgz
+          tar -xzf /tmp/ch26-core.tgz
+          python3 .qa/ch26_finalize.py
+          rm -rf .qa/ch26-payload
+          test ! -e .qa/ch26_finalize.py
+          test ! -e .qa/ch26-payload
 
       - name: Validate structure, metadata, links and duplicates
         run: |
+          mkdir -p dist
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
@@ -68,6 +73,23 @@ jobs:
           python3 tools/report_contextes_utilisation.py \
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
+      - name: Commit finalized chapter lot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- \
+            CONTINUITE-PROJET.md \
+            Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md \
+            Livre-II/QA/AUDIT-CHAPITRE-26.md \
+            Livre-II/QA/VALIDATION-FINALE-CHAPITRE-26.yaml \
+            Livre-II/index.md \
+            ROADMAP.md \
+            contents.txt \
+            .qa/ch26_finalize.py \
+            .qa/ch26-payload
+          git commit -m "docs(livre-ii): finalize chapter 26 editor pipelines"
+          git push origin HEAD:docs/livre-ii-ch26-outils-edition-pipelines
+
       - name: Assert that no PDF was produced
         run: |
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
@@ -88,4 +110,3 @@ jobs:
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
-            dist/ch26-working-source.zip
