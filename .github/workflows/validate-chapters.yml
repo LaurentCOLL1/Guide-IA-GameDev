@@ -67,6 +67,21 @@ jobs:
           chapter, count = pattern.subn(replace_case, chapter)
           if count != 10:
               raise SystemExit(f'Correction explanations updated: expected 10, got {count}')
+
+          faulty_source = '**Exemple fautif :**\n\n```gdscript'
+          faulty_target = ('**Exemple fautif :**\n\n'
+                           '> **[LECTURE] Contre-exemple — Ne pas saisir.**\n\n'
+                           '```gdscript')
+          chapter, faulty_count = re.subn(re.escape(faulty_source), faulty_target, chapter)
+          corrected_source = '**Exemple corrigé :**\n\n```gdscript'
+          corrected_target = ('**Exemple corrigé :**\n\n'
+                              '> **[LECTURE] Correction — Ne pas saisir.**\n\n'
+                              '```gdscript')
+          chapter, corrected_count = re.subn(re.escape(corrected_source), corrected_target, chapter)
+          if faulty_count != 10 or corrected_count != 10:
+              raise SystemExit(
+                  f'Usage markers: expected 10/10, got {faulty_count}/{corrected_count}'
+              )
           chapter_path.write_text(chapter, encoding='utf-8')
 
           index_path = Path('Livre-II/index.md')
@@ -126,10 +141,28 @@ jobs:
                   contents = contents.replace(anchor + '\n', anchor + '\n' + entry + '\n')
           contents_path.write_text(contents, encoding='utf-8')
 
+          lines = len(chapter.splitlines())
+          headings = sum(1 for line in chapter.splitlines() if re.match(r'^#{1,6} ', line))
+          blocks = chapter.count('```') // 2
+          markers = chapter.count('<!-- qa:code-explanation -->')
+
           audit_path = Path('Livre-II/QA/AUDIT-CHAPITRE-25.md')
           audit = audit_path.read_text(encoding='utf-8')
+          audit = re.sub(r'- lignes finales : \*\*\d+\*\* ;', f'- lignes finales : **{lines}** ;', audit)
+          audit = re.sub(r'- titres Markdown : \*\*\d+\*\* ;', f'- titres Markdown : **{headings}** ;', audit)
+          audit = re.sub(r'- blocs de code ou de données : \*\*\d+\*\* ;', f'- blocs de code ou de données : **{blocks}** ;', audit)
+          audit = re.sub(r'- marqueurs d’explication : \*\*\d+\*\* ;', f'- marqueurs d’explication : **{markers}** ;', audit)
           audit = audit.replace('- doublons de titres : **0** ;', '- doublons de titres : **0** ;\n- paragraphes longs dupliqués : **0** ;')
+          audit = re.sub(r'Les \*\*\d+\*\* blocs possèdent \*\*\d+\*\* marqueurs', f'Les **{blocks}** blocs possèdent **{markers}** marqueurs', audit)
           audit_path.write_text(audit, encoding='utf-8')
+
+          proof_path = Path('Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml')
+          proof = proof_path.read_text(encoding='utf-8')
+          proof = re.sub(r'  chapter-lines: \d+', f'  chapter-lines: {lines}', proof)
+          proof = re.sub(r'  chapter-headings: \d+', f'  chapter-headings: {headings}', proof)
+          proof = re.sub(r'  chapter-code-and-data-blocks: \d+', f'  chapter-code-and-data-blocks: {blocks}', proof)
+          proof = re.sub(r'  code-explanation-markers: \d+', f'  code-explanation-markers: {markers}', proof)
+          proof_path.write_text(proof, encoding='utf-8')
           PY
           test ! -e .qa/ch25_finalize.py
           test ! -e .github/workflows/ch25-branch-finalizer.yml
