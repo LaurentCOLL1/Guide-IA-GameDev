@@ -29,16 +29,23 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout repository
+      - name: Checkout chapter branch
         uses: actions/checkout@v4
+        with:
+          ref: docs/livre-ii-ch26-outils-edition-pipelines
+          fetch-depth: 0
 
       - name: Install lightweight dependencies
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Validate structure, metadata, links and duplicates
+      - name: Package working source
         run: |
           mkdir -p dist
+          git archive --format=zip --output=dist/ch26-working-source.zip HEAD
+
+      - name: Validate structure, metadata, links and duplicates
+        run: |
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
@@ -81,3 +88,4 @@ jobs:
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
+            dist/ch26-working-source.zip
