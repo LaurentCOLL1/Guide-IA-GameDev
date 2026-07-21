@@ -52,7 +52,7 @@ results:
   next-step-absent-from-reader-chapter: true
   project-asteria-final-synthesis: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 246
+  prior-explanation-units-preserved: 204
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
   generic-explanation-phrases-absent: true

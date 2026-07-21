@@ -6,9 +6,9 @@ version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 19
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-19.md"
 audit-level: "static-review"
 reference-engine:
@@ -117,11 +117,15 @@ présentation, journal, agents, narration
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Entrée :** la commande contient l’utilisateur, la compétence, les cibles proposées, le tick et les révisions attendues.
+- **Paramètres et types importants :** **Entrée :** la commande contient l’utilisateur, la compétence, les cibles proposées, le tick et les révisions attendues.
 
-- **Frontières d’autorité :** **Préparation :** aucune autorité active n’est modifiée avant l’unité de travail. **Invariant :** une animation, un agent ou une prévisualisation ne devient jamais autorité.
+- **Préparation :** **Préparation :** aucune autorité active n’est modifiée avant l’unité de travail.
 
-- **Effets de bord :** **Commit :** coût, effets, charge et recharge sont validés ensemble. **Sortie :** les consommateurs reçoivent seulement un résultat déjà committé.
+- **Commit :** **Commit :** coût, effets, charge et recharge sont validés ensemble.
+
+- **Sortie :** **Sortie :** les consommateurs reçoivent seulement un résultat déjà committé.
+
+- **Invariant :** **Invariant :** une animation, un agent ou une prévisualisation ne devient jamais autorité.
 
 ## 5. Architecture retenue
 
@@ -174,13 +178,13 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `domain` contient les données et invariants indépendants des scènes.
+- **Invariants protégés :** `domain` contient les données et invariants indépendants des scènes.
 
 - **Dépendances et ports utilisés :** `application` orchestre les ports et l’unité de travail.
 
 - **Persistance et restauration :** `infrastructure` encode la persistance.
 
-- **Limites et réserves :** `presentation` consomme les résultats sans appliquer les règles.
+- **Résultat attendu et vérification :** `presentation` consomme les résultats sans appliquer les règles.
 
 - **Frontières d’autorité :** Le chapitre 20 pourra accorder une compétence depuis un objet sans déplacer son autorité dans l’inventaire.
 
@@ -247,15 +251,17 @@ static func event(use_id: StringName, sequence: int) -> StringName:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `definition()` normalise un slug en minuscules après suppression des espaces périphériques. `use()` corrèle définition, personnage et séquence.
+- **Point d’explication complémentaire :** `definition()` normalise un slug en minuscules après suppression des espaces périphériques.
 
-- **Paramètres et types importants :** `is_letter` et `is_digit` sont des booléens calculés pour chaque caractère.
+- **Point d’explication complémentaire — complément 2 :** `is_letter` et `is_digit` sont des booléens calculés pour chaque caractère.
 
-- **Invariants protégés :** Seuls lettres ASCII minuscules, chiffres et `_` sont acceptés.
+- **Point d’explication complémentaire — complément 3 :** Seuls lettres ASCII minuscules, chiffres et `_` sont acceptés.
 
-- **Effets de bord :** `event()` ajoute une séquence d’événement à l’utilisation.
+- **Point d’explication complémentaire — complément 4 :** `use()` corrèle définition, personnage et séquence.
 
-- **Valeur de retour ou code d’échec :** Une entrée invalide renvoie `&""`, jamais un identifiant partiel.
+- **Limites et réserves :** `event()` ajoute une séquence d’événement à l’utilisation.
+
+- **Invariants protégés :** Une entrée invalide renvoie `&""`, jamais un identifiant partiel.
 
 ## 8. Décrire un coût
 
@@ -291,11 +297,13 @@ func validate() -> Error:
 
 - **Frontières d’autorité :** `resource_id` désigne l’autorité réelle, par exemple endurance ou concentration.
 
-- **Rôle précis du bloc :** `base_amount` est le coût du rang 1.
+- **Point d’explication complémentaire :** `base_amount` est le coût du rang 1.
 
-- **Effets de bord :** `amount_per_rank` ajoute un supplément pour chaque rang suivant. La définition ne retire aucune ressource ; elle décrit seulement un montant.
+- **Point d’explication complémentaire — complément 2 :** `amount_per_rank` ajoute un supplément pour chaque rang suivant.
 
-- **Valeur de retour ou code d’échec :** `amount_for_rank()` renvoie `-1` lorsque le rang est invalide.
+- **Invariants protégés :** `amount_for_rank()` renvoie `-1` lorsque le rang est invalide.
+
+- **Limites et réserves :** La définition ne retire aucune ressource ; elle décrit seulement un montant.
 
 ## 9. Décrire le ciblage
 
@@ -351,11 +359,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** `mode` décrit la forme de la commande.
+- **Point d’explication complémentaire :** `mode` décrit la forme de la commande.
 
-- **Rôle précis du bloc :** `allegiance` indique l’intention de conception ; le combat relit les côtés réels. `range_m` et `radius_m` utilisent les mètres Godot.
+- **Point d’explication complémentaire — complément 2 :** `allegiance` indique l’intention de conception ; le combat relit les côtés réels.
 
-- **Invariants protégés :** `is_finite()` refuse `NaN` et les infinis. `maximum_targets` borne une sélection de zone.
+- **Point d’explication complémentaire — complément 3 :** `range_m` et `radius_m` utilisent les mètres Godot.
+
+- **Invariants protégés :** `is_finite()` refuse `NaN` et les infinis.
+
+- **Limites et réserves :** `maximum_targets` borne une sélection de zone.
 
 - **Dépendances et ports utilisés :** Le mode `SELF` impose une cible personnelle sans portée ni rayon.
 
@@ -386,9 +398,15 @@ func duplicate_detached() -> AbilityEffectDefinition:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `effect_id` sert à la corrélation et au diagnostic. `order` fixe un ordre canonique. `required` distingue un effet principal d’un effet optionnel. `duplicate(true)` demande une copie profonde des sous-ressources.
+- **Point d’explication complémentaire :** `effect_id` sert à la corrélation et au diagnostic.
 
-- **Responsabilités des classes ou fonctions :** Aucun nom de classe ou chemin externe n’est exécuté.
+- **Point d’explication complémentaire — complément 2 :** `order` fixe un ordre canonique.
+
+- **Point d’explication complémentaire — complément 3 :** `required` distingue un effet principal d’un effet optionnel.
+
+- **Limites et réserves :** `duplicate(true)` demande une copie profonde des sous-ressources.
+
+- **Limites et réserves — complément 2 :** Aucun nom de classe ou chemin externe n’est exécuté.
 
 ### 10.1 Dégâts demandés
 
@@ -428,9 +446,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’effet fournit un montant brut par rang. Il ne lit ni armure, ni résistance, ni garde. Le résultat final appartient à `DamageResolver`.
+- **Point d’explication complémentaire :** L’effet fournit un montant brut par rang.
 
 - **Paramètres et types importants :** Le type et la pénétration réutilisent les contrats du combat.
+
+- **Limites et réserves :** Il ne lit ni armure, ni résistance, ni garde.
+
+- **Résultat attendu et vérification :** Le résultat final appartient à `DamageResolver`.
 
 ### 10.2 État demandé
 
@@ -458,11 +480,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `status_definition_id` référence un état autorisé. `duration_ticks` utilise la chronologie logique.
+- **Point d’explication complémentaire :** `status_definition_id` référence un état autorisé.
+
+- **Point d’explication complémentaire — complément 2 :** `duration_ticks` utilise la chronologie logique.
 
 - **Invariants protégés :** `stacks` est une demande ; la politique de combat peut la borner ou la refuser.
 
-- **Effets de bord :** La compétence ne modifie pas directement `active_statuses`.
+- **Limites et réserves :** La compétence ne modifie pas directement `active_statuses`.
 
 ### 10.3 Ressource demandée
 
@@ -495,11 +519,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Un delta positif restaure ; un delta négatif consomme. Un soin de santé passe par `CharacterRules`.
+- **Persistance et restauration :** Un delta positif restaure ; un delta négatif consomme.
 
-- **Paramètres et types importants :** `Variant` permet de distinguer l’entier `0` de `null`.
+- **Point d’explication complémentaire :** `Variant` permet de distinguer l’entier `0` de `null`.
 
 - **Frontières d’autorité :** Le port propriétaire borne la valeur.
+
+- **Point d’explication complémentaire — complément 2 :** Un soin de santé passe par `CharacterRules`.
 
 ## 11. Définition complète d’une compétence
 
@@ -570,13 +596,17 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Les clés d’affichage restent séparées de l’identité métier. La `Resource` reste immuable pendant le gameplay.
+- **Point d’explication complémentaire :** Les clés d’affichage restent séparées de l’identité métier.
 
-- **Valeur de retour ou code d’échec :** `cooldown_for_rank()` ne renvoie jamais une recharge négative.
+- **Limites et réserves :** `cooldown_for_rank()` ne renvoie jamais une recharge négative.
 
-- **Rôle précis du bloc :** Les coûts d’une même ressource sont uniques. Les effets sont bornés, uniques et déjà triés.
+- **Limites et réserves — complément 2 :** Les coûts d’une même ressource sont uniques.
+
+- **Point d’explication complémentaire — complément 2 :** Les effets sont bornés, uniques et déjà triés.
 
 - **Invariants protégés :** Le validateur refuse une définition incohérente au lieu de la corriger silencieusement.
+
+- **Point d’explication complémentaire — complément 3 :** La `Resource` reste immuable pendant le gameplay.
 
 ## 12. Créer une compétence dans Godot
 
@@ -608,9 +638,11 @@ La ressource est acceptée seulement si :
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Cette sortie décrit les invariants de `validate()`.
+- **Invariants protégés :** Cette sortie décrit les invariants de `validate()`.
 
-- **Rôle précis du bloc :** Le `.tres` ne contient ni charge courante ni tick runtime. Plusieurs personnages peuvent partager la même définition.
+- **Limites et réserves :** Le `.tres` ne contient ni charge courante ni tick runtime.
+
+- **Point d’explication complémentaire :** Plusieurs personnages peuvent partager la même définition.
 
 ## 13. Catalogue de définitions
 
@@ -649,13 +681,13 @@ func all_ids_sorted() -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le catalogue refuse une définition invalide ou dupliquée.
+- **Invariants protégés :** Le catalogue refuse une définition invalide ou dupliquée.
 
-- **Rôle précis du bloc :** Il conserve une copie profonde.
+- **Limites et réserves :** Il conserve une copie profonde.
 
 - **Frontières d’autorité :** Il renvoie aussi une copie afin de protéger l’autorité interne.
 
-- **Déterminisme et idempotence :** Les identifiants triés donnent un ordre stable.
+- **Point d’explication complémentaire :** Les identifiants triés donnent un ordre stable.
 
 ## 14. Progression et état runtime
 
@@ -698,11 +730,13 @@ func duplicate_detached() -> AbilityProgressionState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une compétence verrouillée possède un rang `0`. Une compétence débloquée possède au moins le rang `1`.
+- **Limites et réserves :** Une compétence verrouillée possède un rang `0`.
 
-- **Limites et réserves :** L’expérience reste dans la plage entière JSON sûre.
+- **Limites et réserves — complément 2 :** Une compétence débloquée possède au moins le rang `1`.
 
-- **Invariants protégés :** La copie détachée protège le dépôt.
+- **Point d’explication complémentaire :** L’expérience reste dans la plage entière JSON sûre.
+
+- **Point d’explication complémentaire — complément 2 :** La copie détachée protège le dépôt.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_runtime_state.gd`.**
 
@@ -768,11 +802,15 @@ func duplicate_detached() -> AbilityRuntimeState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `available_charges` compte les utilisations immédiates. La boucle récupère plusieurs charges après une longue simulation hors écran.
+- **Point d’explication complémentaire :** `available_charges` compte les utilisations immédiates.
 
-- **Limites et réserves :** `next_charge_tick` est zéro lorsqu’aucune recharge n’est en cours. L’état ne contient aucune référence de scène.
+- **Limites et réserves :** `next_charge_tick` est zéro lorsqu’aucune recharge n’est en cours.
 
-- **Déterminisme et idempotence :** Le tick logique remplace l’heure système et les `Timer`.
+- **Limites et réserves — complément 2 :** La boucle récupère plusieurs charges après une longue simulation hors écran.
+
+- **Point d’explication complémentaire — complément 2 :** Le tick logique remplace l’heure système et les `Timer`.
+
+- **Limites et réserves — complément 3 :** L’état ne contient aucune référence de scène.
 
 ## 15. Politique de progression
 
@@ -815,11 +853,15 @@ func grant_experience(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La formule est un exemple d’équilibrage, pas une norme universelle. L’expérience est cumulative. La compétence doit être débloquée.
+- **Limites et réserves :** La formule est un exemple d’équilibrage, pas une norme universelle.
+
+- **Point d’explication complémentaire :** L’expérience est cumulative.
 
 - **Dépendances et ports utilisés :** La boucle peut gagner plusieurs rangs après une récompense importante.
 
-- **Persistance et restauration :** Un changement futur de formule devra être versionné si les sauvegardes en dépendent.
+- **Point d’explication complémentaire — complément 2 :** La compétence doit être débloquée.
+
+- **Dépendances et ports utilisés — complément 2 :** Un changement futur de formule devra être versionné si les sauvegardes en dépendent.
 
 ## 16. Commande et résultat
 
@@ -866,9 +908,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La commande contient des cibles proposées, pas des cibles déjà autorisées. La commande ne contient ni coût final ni dégâts.
+- **Point d’explication complémentaire :** La commande contient des cibles proposées, pas des cibles déjà autorisées.
 
-- **Invariants protégés :** `has_target_point` distingue l’origine valide de l’absence de point. Les deux révisions protègent contre un monde ou un état de compétence obsolète. Les cibles sont valides et uniques.
+- **Invariants protégés :** `has_target_point` distingue l’origine valide de l’absence de point.
+
+- **Point d’explication complémentaire — complément 2 :** Les deux révisions protègent contre un monde ou un état de compétence obsolète.
+
+- **Invariants protégés — complément 2 :** Les cibles sont valides et uniques.
+
+- **Limites et réserves :** La commande ne contient ni coût final ni dégâts.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/domain/ability_result.gd`.**
 
@@ -915,13 +963,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `RESOLVED` et `PARTIALLY_RESOLVED` sont des utilisations consommées.
+- **Point d’explication complémentaire :** `RESOLVED` et `PARTIALLY_RESOLVED` sont des utilisations consommées.
 
-- **Limites et réserves :** Un effet optionnel peut être refusé sans annuler les candidats requis.
+- **Invariants protégés :** Un effet optionnel peut être refusé sans annuler les candidats requis.
 
-- **Effets de bord :** Les identifiants préparés deviennent observables seulement après commit.
+- **Point d’explication complémentaire — complément 2 :** Les identifiants préparés deviennent observables seulement après commit.
 
-- **Invariants protégés :** `is_success()` empêche un retry gratuit d’un résultat partiel.
+- **Résultat attendu et vérification :** `is_success()` empêche un retry gratuit d’un résultat partiel.
 
 ## 17. Plan d’exécution
 
@@ -970,9 +1018,15 @@ func validate(definition: AbilityDefinition) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le plan fige rang, tick, cibles et effets. Les effets sont comparés à la définition par index et identifiant. Le plan ne contient ni défense ni résultat de dégâts. Il est traité comme immuable après construction.
+- **Point d’explication complémentaire :** Le plan fige rang, tick, cibles et effets.
+
+- **Point d’explication complémentaire — complément 2 :** Les effets sont comparés à la définition par index et identifiant.
+
+- **Résultat attendu et vérification :** Le plan ne contient ni défense ni résultat de dégâts.
 
 - **Limites et réserves :** Il ne contient aucun nœud.
+
+- **Point d’explication complémentaire — complément 3 :** Il est traité comme immuable après construction.
 
 ## 18. Ports de préparation
 
@@ -1017,11 +1071,13 @@ func cancel_reservation(_reservation: Reservation) -> void:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La réservation vérifie les ressources sans les consommer.
+- **Résultat attendu et vérification :** La réservation vérifie les ressources sans les consommer.
 
-- **Rôle précis du bloc :** Les montants sont positifs ou nuls et associés à des identifiants stables. `cancel_reservation()` libère le candidat abandonné.
+- **Point d’explication complémentaire :** Les montants sont positifs ou nuls et associés à des identifiants stables.
 
 - **Dépendances et ports utilisés :** Le commit n’existe pas sur ce port afin d’éviter un coût isolé.
+
+- **Point d’explication complémentaire — complément 2 :** `cancel_reservation()` libère le candidat abandonné.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/ability_mutation_unit_of_work.gd`.**
 
@@ -1065,9 +1121,13 @@ func commit(
 
 - **Dépendances et ports utilisés :** `payload` est construit par un port fiable ; aucune donnée joueur ne choisit une méthode.
 
-- **Effets de bord :** `commit()` reçoit coût, effets, progression, runtime et révisions. Aucun premier remplacement ne doit pouvoir réussir si un remplacement suivant peut encore échouer.
+- **Point d’explication complémentaire :** `commit()` reçoit coût, effets, progression, runtime et révisions.
 
-- **Invariants protégés :** L’implémentation revalide tous les candidats avant de préparer les swaps. Cette atomicité est une exigence à tester au chapitre 27, pas un test runtime revendiqué ici.
+- **Invariants protégés :** L’implémentation revalide tous les candidats avant de préparer les swaps.
+
+- **Limites et réserves :** Aucun premier remplacement ne doit pouvoir réussir si un remplacement suivant peut encore échouer.
+
+- **Limites et réserves — complément 2 :** Cette atomicité est une exigence à tester au chapitre 27, pas un test runtime revendiqué ici.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/combat_ability_port.gd`.**
 
@@ -1098,11 +1158,11 @@ func prepare_status_effect(
 
 - **Dépendances et ports utilisés :** Le combat relit cible, portée, ligne de vue, défense et état de vie.
 
-- **Effets de bord :** Il prépare un candidat, mais ne commit rien à cette étape.
+- **Limites et réserves :** Il prépare un candidat, mais ne commit rien à cette étape.
 
-- **Rôle précis du bloc :** `null` représente un refus contrôlé.
+- **Invariants protégés :** `null` représente un refus contrôlé.
 
-- **Responsabilités des classes ou fonctions :** Le service de compétences ne connaît pas les calculs de combat.
+- **Limites et réserves — complément 2 :** Le service de compétences ne connaît pas les calculs de combat.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/abilities/application/character_effect_port.gd`.**
 
@@ -1125,7 +1185,7 @@ func prepare_resource_effect(
 
 - **Dépendances et ports utilisés :** Le port prépare santé, endurance ou une ressource dédiée.
 
-- **Invariants protégés :** Les règles de personnage bornent les valeurs.
+- **Point d’explication complémentaire :** Les règles de personnage bornent les valeurs.
 
 - **Limites et réserves :** Aucun état actif n’est modifié.
 
@@ -1166,7 +1226,7 @@ func replace_all(prepared: Dictionary) -> Error:
 
 - **Dépendances et ports utilisés :** La révision est portée par personnage.
 
-- **Rôle précis du bloc :** Le dépôt ne calcule ni coûts ni effets.
+- **Limites et réserves :** Le dépôt ne calcule ni coûts ni effets.
 
 - **Persistance et restauration :** `replace_all()` sert à une restauration complète préparée.
 
@@ -1194,11 +1254,11 @@ func snapshot_for(_character_id: StringName) -> Context:
 
 - **Dépendances et ports utilisés :** Le port fournit une révision fraîche à un adaptateur.
 
-- **Rôle précis du bloc :** Il n’expose ni dépôt ni progression mutable.
+- **Point d’explication complémentaire :** Il n’expose ni dépôt ni progression mutable.
 
 - **Limites et réserves :** `null` signifie qu’aucun contexte n’est disponible.
 
-- **Responsabilités des classes ou fonctions :** Le service et l’unité de travail recontrôlent ensuite la révision.
+- **Point d’explication complémentaire — complément 2 :** Le service et l’unité de travail recontrôlent ensuite la révision.
 
 ## 20. Construire les coûts et la forme de cible
 
@@ -1253,11 +1313,15 @@ func _validate_target_shape(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `_build_costs()` calcule un montant par ressource. Un dictionnaire vide peut être une compétence gratuite ; l’appelant compare aussi le nombre de coûts.
+- **Point d’explication complémentaire :** `_build_costs()` calcule un montant par ressource.
 
-- **Invariants protégés :** `_validate_target_shape()` vérifie la cohérence du payload. Un point à l’origine reste valide grâce à `has_target_point`.
+- **Limites et réserves :** Un dictionnaire vide peut être une compétence gratuite ; l’appelant compare aussi le nombre de coûts.
 
-- **Dépendances et ports utilisés :** Elle ne valide pas la portée ou l’allégeance réelle.
+- **Résultat attendu et vérification :** `_validate_target_shape()` vérifie la cohérence du payload.
+
+- **Invariants protégés :** Elle ne valide pas la portée ou l’allégeance réelle.
+
+- **Invariants protégés — complément 2 :** Un point à l’origine reste valide grâce à `has_target_point`.
 
 ## 21. Construire le plan et les cibles initiales
 
@@ -1300,13 +1364,15 @@ func _effective_targets(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Les cibles sont triées afin de produire un ordre stable.
+- **Point d’explication complémentaire :** Les cibles sont triées afin de produire un ordre stable.
 
-- **Rôle précis du bloc :** Les effets sont copiés profondément.
+- **Point d’explication complémentaire — complément 2 :** Les effets sont copiés profondément.
 
-- **Résultat attendu :** `SELF` produit explicitement l’utilisateur.
+- **Point d’explication complémentaire — complément 3 :** `SELF` produit explicitement l’utilisateur.
 
-- **Limites et réserves :** Une liste de zone reste candidate ; le combat la filtre. Le plan ne lit aucun dépôt après construction.
+- **Limites et réserves :** Une liste de zone reste candidate ; le combat la filtre.
+
+- **Limites et réserves — complément 2 :** Le plan ne lit aucun dépôt après construction.
 
 ## 22. Préparer les effets
 
@@ -1371,15 +1437,15 @@ func _prepare_one_effect(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `PreparedUse` regroupe un résultat provisoire et des candidats.
+- **Résultat attendu et vérification :** `PreparedUse` regroupe un résultat provisoire et des candidats.
 
 - **Paramètres et types importants :** Le dispatch est fermé sur trois types autorisés.
 
-- **Responsabilités des classes ou fonctions :** Aucun chemin ou nom de classe fourni par les données n’est chargé.
+- **Limites et réserves :** Aucun chemin ou nom de classe fourni par les données n’est chargé.
 
 - **Dépendances et ports utilisés :** Chaque port prépare un candidat sans mutation active.
 
-- **Valeur de retour ou code d’échec :** Un type inconnu renvoie `null`.
+- **Paramètres et types importants — complément 2 :** Un type inconnu renvoie `null`.
 
 > **[LECTURE] Agrégation des candidats — Suite du même fichier.**
 
@@ -1431,11 +1497,15 @@ func _prepare_effects(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Chaque effet est préparé pour les cibles initiales. Un effet requis absent arrête la préparation. Les candidats ne deviennent observables qu’après réussite de l’unité de travail.
+- **Point d’explication complémentaire :** Chaque effet est préparé pour les cibles initiales.
 
-- **Résultat attendu :** Un effet optionnel absent produit un résultat partiel.
+- **Point d’explication complémentaire — complément 2 :** Un effet requis absent arrête la préparation.
 
-- **Effets de bord :** `prepared_effect_ids` signifie « candidat prêt » jusqu’au commit.
+- **Résultat attendu et vérification :** Un effet optionnel absent produit un résultat partiel.
+
+- **Point d’explication complémentaire — complément 3 :** `prepared_effect_ids` signifie « candidat prêt » jusqu’au commit.
+
+- **Limites et réserves :** Les candidats ne deviennent observables qu’après réussite de l’unité de travail.
 
 ## 23. Exécuter une utilisation
 
@@ -1534,7 +1604,13 @@ func execute(command: AbilityUseCommand) -> AbilityResult:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les validations communes précèdent toute réservation. La recharge est recalculée sur une copie runtime. La révision du dépôt est comparée à celle de la commande. Une absence de charge est un refus normal.
+- **Point d’explication complémentaire :** Les validations communes précèdent toute réservation.
+
+- **Limites et réserves :** La recharge est recalculée sur une copie runtime.
+
+- **Point d’explication complémentaire — complément 2 :** La révision du dépôt est comparée à celle de la commande.
+
+- **Invariants protégés :** Une absence de charge est un refus normal.
 
 - **Frontières d’autorité :** La forme de cible est vérifiée avant les ports propriétaires.
 
@@ -1631,9 +1707,17 @@ func _execute_prepared(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Coûts, plan, effets et état runtime sont préparés avant toute mutation active. Un refus annule la réservation. La charge et la recharge sont modifiées sur un candidat. L’unité de travail reçoit le lot complet. `ERR_BUSY` représente une révision devenue obsolète.
+- **Point d’explication complémentaire :** Coûts, plan, effets et état runtime sont préparés avant toute mutation active.
 
-- **Effets de bord :** Le signal est émis seulement après commit réussi.
+- **Invariants protégés :** Un refus annule la réservation.
+
+- **Point d’explication complémentaire — complément 2 :** La charge et la recharge sont modifiées sur un candidat.
+
+- **Point d’explication complémentaire — complément 3 :** L’unité de travail reçoit le lot complet.
+
+- **Limites et réserves :** `ERR_BUSY` représente une révision devenue obsolète.
+
+- **Point d’explication complémentaire — complément 4 :** Le signal est émis seulement après commit réussi.
 
 > **[LECTURE] Fabrique de résultat — Suite de `ability_service.gd`.**
 
@@ -1657,11 +1741,13 @@ func _result(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** La fonction centralise les statuts et messages.
+- **Point d’explication complémentaire :** La fonction centralise les statuts et messages.
 
-- **Invariants protégés :** Elle recopie uniquement des identifiants.
+- **Point d’explication complémentaire — complément 2 :** Elle recopie uniquement des identifiants.
 
-- **Rôle précis du bloc :** Elle accepte `null` pour construire un résultat depuis un plan déjà validé. Elle ne conserve pas la commande mutable.
+- **Résultat attendu et vérification :** Elle accepte `null` pour construire un résultat depuis un plan déjà validé.
+
+- **Limites et réserves :** Elle ne conserve pas la commande mutable.
 
 ## 24. Adapter une action d’agent
 
@@ -1719,9 +1805,15 @@ func start(request: AgentActionRequest) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’agent choisit une définition connue et une cible proposée. Il ne fournit ni coût, ni recharge, ni dégâts. La révision de compétence est relue avant construction. Un résultat partiel est une utilisation consommée.
+- **Limites et réserves :** L’agent choisit une définition connue et une cible proposée.
 
-- **Dépendances et ports utilisés :** Les ciblages par point ou zone exigent un adaptateur spécialisé.
+- **Limites et réserves — complément 2 :** Il ne fournit ni coût, ni recharge, ni dégâts.
+
+- **Point d’explication complémentaire :** La révision de compétence est relue avant construction.
+
+- **Résultat attendu et vérification :** Un résultat partiel est une utilisation consommée.
+
+- **Limites et réserves — complément 3 :** Les ciblages par point ou zone exigent un adaptateur spécialisé.
 
 ## 25. Entrée du joueur et prévisualisation
 
@@ -1755,7 +1847,11 @@ service et ports :
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La même commande peut venir d’un joueur, d’un agent ou d’un scénario. L’interface ne duplique pas les règles métier. Une couleur verte est une aide visuelle, pas une autorisation.
+- **Point d’explication complémentaire :** La même commande peut venir d’un joueur, d’un agent ou d’un scénario.
+
+- **Limites et réserves :** L’interface ne duplique pas les règles métier.
+
+- **Limites et réserves — complément 2 :** Une couleur verte est une aide visuelle, pas une autorisation.
 
 ## 26. Persistance
 
@@ -1857,13 +1953,17 @@ func decode(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le format, la version et les clés exactes sont obligatoires. Chaque personnage est unique.
+- **Point d’explication complémentaire :** Le format, la version et les clés exactes sont obligatoires.
 
-- **Paramètres et types importants :** Les types sont vérifiés avant conversion. `_read_int()` suit la règle des entiers JSON sûrs du chapitre 18.
+- **Paramètres et types importants :** Les types sont vérifiés avant conversion.
 
-- **Dépendances et ports utilisés :** `_decode_character()` valide chaque entrée contre le catalogue et les bornes de sa définition.
+- **Point d’explication complémentaire — complément 2 :** Chaque personnage est unique.
 
-- **Invariants protégés :** `DecodeResult` distingue un document vide valide d’un refus.
+- **Invariants protégés :** `_decode_character()` valide chaque entrée contre le catalogue et les bornes de sa définition.
+
+- **Point d’explication complémentaire — complément 3 :** `_read_int()` suit la règle des entiers JSON sûrs du chapitre 18.
+
+- **Invariants protégés — complément 2 :** `DecodeResult` distingue un document vide valide d’un refus.
 
 ## 28. Section de sauvegarde
 
@@ -1913,7 +2013,13 @@ func cancel_restore() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La préparation ne touche pas au dépôt actif. Les données sont dupliquées avant stockage et application. La préparation n’est vidée qu’après succès. Le coordinateur peut annuler si une autre section échoue.
+- **Limites et réserves :** La préparation ne touche pas au dépôt actif.
+
+- **Point d’explication complémentaire :** Les données sont dupliquées avant stockage et application.
+
+- **Point d’explication complémentaire — complément 2 :** La préparation n’est vidée qu’après succès.
+
+- **Limites et réserves — complément 2 :** Le coordinateur peut annuler si une autre section échoue.
 
 - **Persistance et restauration :** Une définition absente rend la restauration invalide.
 
@@ -1942,24 +2048,31 @@ func on_ability_resolved(result: AbilityResult) -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Le pont reçoit seulement un résultat committé.
+- **Résultat attendu et vérification :** Le pont reçoit seulement un résultat committé.
 
 - **Invariants protégés :** Un personnage hors écran reste valide sans animation.
 
-- **Rôle précis du bloc :** L’identifiant sert de clé de présentation.
+- **Point d’explication complémentaire :** L’identifiant sert de clé de présentation.
 
 - **Limites et réserves :** Aucune ressource ou santé n’est modifiée ici.
 
-- **Persistance et restauration :** La scène `ch19_abilities_demo.tscn` doit montrer :
-  
-  1. une compétence verrouillée refusée ;
-  2. un coût insuffisant sans charge consommée ;
-  3. une cible hors portée refusée par le combat ;
-  4. une utilisation réussie consommant coût et charge ;
-  5. une recharge par ticks logiques ;
-  6. un rang modifiant coût, effet ou recharge ;
-  7. un effet optionnel produisant un résultat partiel ;
-  8. une sauvegarde restaurant progression et recharge.
+- **Limites et réserves — complément 2 :** La scène `ch19_abilities_demo.tscn` doit montrer :
+
+- **Invariants protégés — complément 2 :** 1. une compétence verrouillée refusée ;
+
+- **Point d’explication complémentaire — complément 2 :** 2. un coût insuffisant sans charge consommée ;
+
+- **Invariants protégés — complément 3 :** 3. une cible hors portée refusée par le combat ;
+
+- **Limites et réserves — complément 3 :** 4. une utilisation réussie consommant coût et charge ;
+
+- **Limites et réserves — complément 4 :** 5. une recharge par ticks logiques ;
+
+- **Point d’explication complémentaire — complément 3 :** 6. un rang modifiant coût, effet ou recharge ;
+
+- **Résultat attendu et vérification — complément 2 :** 7. un effet optionnel produisant un résultat partiel ;
+
+- **Persistance et restauration :** 8. une sauvegarde restaurant progression et recharge.
 
 ## 30. Modes Solo et Studio
 
@@ -2039,7 +2152,7 @@ target.current_health -= ability.base_damage
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** la définition devient une autorité qu’elle ne possède pas.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la définition devient une autorité qu’elle ne possède pas.
 
 **Exemple corrigé :**
 
@@ -2058,7 +2171,7 @@ var candidate := combat_port.prepare_damage_effect(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le combat prépare l’impact après ses propres validations.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le combat prépare l’impact après ses propres validations.
 
 ### 32.2 Utiliser un `Timer` autoritaire
 
@@ -2078,7 +2191,7 @@ ability_ready = true
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** le temps moteur et un nœud deviennent l’autorité persistante.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le temps moteur et un nœud deviennent l’autorité persistante.
 
 **Exemple corrigé :**
 
@@ -2093,7 +2206,7 @@ runtime.refresh_charges(definition, rank, current_tick)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** la recharge dépend de ticks logiques sauvegardables.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la recharge dépend de ticks logiques sauvegardables.
 
 ### 32.3 Consommer le coût avant les effets
 
@@ -2112,7 +2225,7 @@ var effect_code := apply_effect()
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** la mutation active précède les validations restantes.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la mutation active précède les validations restantes.
 
 **Exemple corrigé :**
 
@@ -2128,7 +2241,7 @@ var code := unit_of_work.commit(reservation, [candidate], ...)
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** coût et effet sont committés dans le même lot.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** coût et effet sont committés dans le même lot.
 
 ### 32.4 Stocker la recharge dans la `Resource`
 
@@ -2146,7 +2259,7 @@ ability_definition.remaining_cooldown = 120
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** une donnée de conception partagée devient état runtime.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une donnée de conception partagée devient état runtime.
 
 **Exemple corrigé :**
 
@@ -2160,7 +2273,7 @@ runtime_state.next_charge_tick = logical_tick + cooldown_ticks
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** chaque personnage possède son état détaché.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque personnage possède son état détaché.
 
 ### 32.5 Charger une classe depuis les données
 
@@ -2179,7 +2292,7 @@ script.new().apply(target)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi cet exemple est fautif :** le contenu contrôle un chemin et une classe exécutée.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le contenu contrôle un chemin et une classe exécutée.
 
 **Exemple corrigé :**
 
@@ -2196,7 +2309,7 @@ if effect is ResourceEffectDefinition:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** **Pourquoi la correction fonctionne :** le dispatch est fermé sur des types autorisés.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le dispatch est fermé sur des types autorisés.
 
 ### 32.6 Confondre prévisualisation et validation
 
@@ -2215,7 +2328,7 @@ if target_preview.valid:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** la prévisualisation peut utiliser une ancienne position ou révision.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la prévisualisation peut utiliser une ancienne position ou révision.
 
 **Exemple corrigé :**
 
@@ -2230,7 +2343,7 @@ var result := ability_service.execute(command)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** l’autorité relit toutes les données au moment de l’exécution.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’autorité relit toutes les données au moment de l’exécution.
 
 ### 32.7 Persister le plan
 
@@ -2248,7 +2361,7 @@ payload["pending_plan"] = current_plan
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le plan est une décision transitoire liée à un instant.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le plan est une décision transitoire liée à un instant.
 
 **Exemple corrigé :**
 
@@ -2264,7 +2377,7 @@ payload["next_charge_tick"] = runtime.next_charge_tick
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** seules les données durables sont restaurées.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seules les données durables sont restaurées.
 
 ### 32.8 Utiliser le nom affiché comme identité
 
@@ -2282,7 +2395,7 @@ known_abilities["Boule de feu"] = 3
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le texte localisé n’est pas stable.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le texte localisé n’est pas stable.
 
 **Exemple corrigé :**
 
@@ -2296,7 +2409,7 @@ known_abilities[&"ability.definition.ember_bolt"] = 3
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’identifiant métier reste indépendant de l’affichage.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identifiant métier reste indépendant de l’affichage.
 
 ### 32.9 Ignorer un effet requis
 
@@ -2316,7 +2429,7 @@ return success_result()
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** aucun retour ni caractère requis n’est vérifié.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun retour ni caractère requis n’est vérifié.
 
 **Exemple corrigé :**
 
@@ -2332,7 +2445,7 @@ if candidate == null and effect.required:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** un effet requis absent bloque le lot avant commit.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un effet requis absent bloque le lot avant commit.
 
 ### 32.10 Retenter un résultat partiel
 
@@ -2351,7 +2464,7 @@ if result.status != AbilityResult.Status.RESOLVED:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` est une utilisation consommée.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `PARTIALLY_RESOLVED` est une utilisation consommée.
 
 **Exemple corrigé :**
 
@@ -2366,7 +2479,7 @@ if not result.is_success():
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** seuls les vrais refus déclenchent une nouvelle décision.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seuls les vrais refus déclenchent une nouvelle décision.
 
 ## 33. Tests à préparer
 

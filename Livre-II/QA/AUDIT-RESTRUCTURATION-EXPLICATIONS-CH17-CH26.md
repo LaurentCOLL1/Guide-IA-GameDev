@@ -4,8 +4,8 @@ id: "DOC-L2-QA-AUDIT-EXPLANATIONS-CH17-CH26"
 status: "complete"
 version: "1.0.0"
 audit-level: "static-review"
-audit-date: "2026-07-21T15:28:42+02:00"
-last-verified: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -19,18 +19,18 @@ Cet audit vérifie la restructuration demandée des explications de blocs. Le co
 
 | Chapitre | Version | Blocs | Marqueurs | Segments conservés | Segments perdus | Segments ajoutés |
 |---:|---:|---:|---:|---:|---:|---:|
-| 17 | `1.0.4` | 68 | 68 | 246 | 0 | 0 |
-| 18 | `1.0.1` | 67 | 67 | 217 | 0 | 0 |
-| 19 | `1.0.2` | 56 | 56 | 190 | 0 | 0 |
-| 20 | `1.0.1` | 56 | 56 | 202 | 0 | 0 |
-| 21 | `1.0.1` | 60 | 60 | 222 | 0 | 0 |
-| 22 | `1.0.2` | 61 | 61 | 231 | 0 | 0 |
-| 23 | `1.0.1` | 71 | 71 | 283 | 0 | 0 |
+| 17 | `1.0.4` | 68 | 68 | 204 | 0 | 0 |
+| 18 | `1.0.1` | 67 | 67 | 196 | 0 | 0 |
+| 19 | `1.0.2` | 56 | 56 | 198 | 0 | 0 |
+| 20 | `1.0.1` | 56 | 56 | 209 | 0 | 0 |
+| 21 | `1.0.1` | 60 | 60 | 221 | 0 | 0 |
+| 22 | `1.0.2` | 61 | 61 | 228 | 0 | 0 |
+| 23 | `1.0.1` | 71 | 71 | 279 | 0 | 0 |
 | 24 | `1.0.1` | 61 | 61 | 225 | 0 | 0 |
 | 25 | `1.0.1` | 55 | 55 | 100 | 0 | 202 |
 | 26 | `1.0.1` | 71 | 71 | 166 | 0 | 304 |
 
-Totaux : **2082** segments antérieurs conservés, **0** segment perdu et **506** segments complémentaires ajoutés.
+Totaux : **2026** segments antérieurs conservés, **0** segment perdu et **506** segments complémentaires ajoutés.
 
 ## 3. Règles appliquées
 

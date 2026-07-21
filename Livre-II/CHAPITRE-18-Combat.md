@@ -6,9 +6,9 @@ version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 18
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-18.md"
 audit-level: "static-review"
 reference-engine:
@@ -132,13 +132,13 @@ présentation, journal, narration, IA
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** ce flux place toute mutation autoritaire derrière `CombatService` et un commit validé.
+- **Rôle précis du bloc :** **Rôle :** ce flux place toute mutation autoritaire derrière `CombatService` et un commit validé.
 
-- **Dépendances et ports utilisés :** **Entrée :** l’adaptateur fournit une intention structurée, jamais une nouvelle valeur de santé.
+- **Paramètres et types importants :** **Entrée :** l’adaptateur fournit une intention structurée, jamais une nouvelle valeur de santé.
 
-- **Valeur de retour ou code d’échec :** **Sorties :** le service renvoie un résultat métier et publie des événements ; la présentation les consomme sans recalculer l’issue.
+- **Sorties :** **Sorties :** le service renvoie un résultat métier et publie des événements ; la présentation les consomme sans recalculer l’issue.
 
-- **Rôle précis du bloc :** **Invariant protégé :** ni l’agent, ni l’animation, ni le raycast n’écrivent directement dans l’état de personnage.
+- **Invariants protégés :** **Invariant protégé :** ni l’agent, ni l’animation, ni le raycast n’écrivent directement dans l’état de personnage.
 
 ## 5. Architecture retenue
 
@@ -197,11 +197,13 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** l’arborescence sépare règles pures, orchestration, accès moteur, persistance et présentation.
+- **Rôle précis du bloc :** **Rôle :** l’arborescence sépare règles pures, orchestration, accès moteur, persistance et présentation.
 
 - **Dépendances et ports utilisés :** **Dépendances :** `domain` ne dépend d’aucun nœud ; l’adaptateur physique reste dans `infrastructure` ; les animations restent dans `presentation`.
 
-- **Frontières d’autorité :** **Frontière avec les personnages :** la santé et l’endurance demeurent dans `CharacterRuntimeState`; le combat coordonne leur mutation sans les dupliquer. **Frontière avec les compétences :** le chapitre 19 pourra produire des requêtes d’impact ou enrichir les définitions, sans déplacer la validation de cible et l’application des dégâts.
+- **Frontière avec les personnages :** **Frontière avec les personnages :** la santé et l’endurance demeurent dans `CharacterRuntimeState`; le combat coordonne leur mutation sans les dupliquer.
+
+- **Frontière avec les compétences :** **Frontière avec les compétences :** le chapitre 19 pourra produire des requêtes d’impact ou enrichir les définitions, sans déplacer la validation de cible et l’application des dégâts.
 
 ## 6. Vocabulaire du cycle de combat
 
@@ -271,9 +273,9 @@ static func event(encounter_id: StringName, sequence: int) -> StringName:
 
 - **Valeur de retour ou code d’échec :** **Valeurs de retour :** une entrée invalide produit la sentinelle `&""`; aucun identifiant partiel n’est construit.
 
-- **Déterminisme et idempotence :** **Déterminisme :** avec les mêmes arguments, la chaîne produite est identique ; aucune heure système ni valeur aléatoire globale n’intervient.
+- **Déterminisme :** **Déterminisme :** avec les mêmes arguments, la chaîne produite est identique ; aucune heure système ni valeur aléatoire globale n’intervient.
 
-- **Frontières d’autorité :** **Limite :** l’unicité dépend du maintien des séquences par l’autorité de l’affrontement.
+- **Limites et réserves :** **Limite :** l’unicité dépend du maintien des séquences par l’autorité de l’affrontement.
 
 ## 8. Règles de conception comme `Resource`
 
@@ -340,15 +342,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** cette `Resource` centralise les bornes et valeurs d’équilibrage communes à un profil de combat.
+- **Rôle précis du bloc :** **Rôle :** cette `Resource` centralise les bornes et valeurs d’équilibrage communes à un profil de combat.
 
-- **Paramètres et types importants :** **Types :** les probabilités utilisent des millièmes entiers, la garde des entiers bornés et les distances des mètres Godot ;
+- **Paramètres et types importants :** **Types :** les probabilités utilisent des millièmes entiers, la garde des entiers bornés et les distances des mètres Godot ; `allow_friendly_fire` rend la politique d’alliance explicite.
 
-- **Résultat attendu :** `allow_friendly_fire` rend la politique d’alliance explicite.
+- **Valeur de retour ou code d’échec :** **Codes de retour :** `validate()` revérifie aussi les bornes `@export_range`, puis renvoie `OK` ou `ERR_INVALID_DATA` sans corriger silencieusement une ressource incohérente.
 
-- **Dépendances et ports utilisés :** **Codes de retour :** `validate()` revérifie aussi les bornes `@export_range`, puis renvoie `OK` ou `ERR_INVALID_DATA` sans corriger silencieusement une ressource incohérente.
-
-- **Limites et réserves :** **Partage :** la ressource est considérée comme immuable pendant le gameplay ; les compteurs courants restent dans les états runtime.
+- **Partage :** **Partage :** la ressource est considérée comme immuable pendant le gameplay ; les compteurs courants restent dans les états runtime.
 
 > **[APP] Godot — Créer `res://data/combat/default_combat_rules.tres` depuis `CombatRules`, puis renseigner les valeurs de référence.**
 
@@ -379,11 +379,11 @@ static func is_valid(value: int) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** l’énumération décrit les opérations fondamentales prises en charge directement par le combat.
+- **Rôle précis du bloc :** **Rôle :** l’énumération décrit les opérations fondamentales prises en charge directement par le combat.
 
 - **Frontières d’autorité :** **Frontière :** une compétence future reste une définition du chapitre 19 qui demande ensuite au combat de valider et d’appliquer ses impacts.
 
-- **Invariants protégés :** **Valeur de retour :** `is_valid()` protège les données décodées avant leur conversion vers l’énumération.
+- **Valeur de retour :** **Valeur de retour :** `is_valid()` protège les données décodées avant leur conversion vers l’énumération.
 
 ## 10. Commande typée
 
@@ -447,11 +447,13 @@ func duplicate_detached() -> CombatCommand:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** la commande transporte identité, action, cible et révisions attendues sans embarquer un effet déjà calculé. `issuer_sequence` ordonne les commandes d’un même personnage ; seules les actions qui exigent une cible peuvent porter `target_character_id`.
+- **Rôle précis du bloc :** **Rôle :** la commande transporte identité, action, cible et révisions attendues sans embarquer un effet déjà calculé.
 
-- **Rôle précis du bloc :** **Corrélation :** `command_id` identifie une tentative ; **Concurrence :** les deux révisions rendent explicites un monde ou un affrontement devenus obsolètes.
+- **Corrélation et révisions :** **Corrélation :** `command_id` identifie une tentative ; `issuer_sequence` ordonne les commandes d’un même personnage ; seules les actions qui exigent une cible peuvent porter `target_character_id`.
 
-- **Limites et réserves :** **Effet de bord :** `duplicate_detached()` crée une copie indépendante destinée à une file ; aucune collection mutable n’est partagée.
+- **Concurrence :** **Concurrence :** les deux révisions rendent explicites un monde ou un affrontement devenus obsolètes.
+
+- **Effet de bord :** **Effet de bord :** `duplicate_detached()` crée une copie indépendante destinée à une file ; aucune collection mutable n’est partagée.
 
 ## 11. État d’un participant
 
@@ -520,13 +522,13 @@ func duplicate_detached() -> CombatantState:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** l’objet conserve uniquement l’état spécifique au combat d’un participant.
+- **Rôle précis du bloc :** **Rôle :** l’objet conserve uniquement l’état spécifique au combat d’un participant.
 
-- **Limites et réserves :** **Séparation :** santé, endurance, position et `is_alive` restent dans `CharacterRuntimeState`; `duplicate_detached()` recopie aussi chaque état temporaire afin qu’un candidat ne partage aucun objet mutable avec l’état actif.
+- **Séparation :** **Séparation :** santé, endurance, position et `is_alive` restent dans `CharacterRuntimeState`; `side_id` appartient à l’engagement courant et sert au ciblage ainsi qu’à la fermeture de l’affrontement.
 
-- **Rôle précis du bloc :** `side_id` appartient à l’engagement courant et sert au ciblage ainsi qu’à la fermeture de l’affrontement. **Effets de bord :** `next_command_sequence()` réserve une séquence croissante ;
+- **Valeur de retour ou code d’échec :** **Codes de retour :** dépassement du nombre d’états produit `ERR_OUT_OF_MEMORY`; un doublon produit `ERR_ALREADY_EXISTS`.
 
-- **Résultat attendu :** **Codes de retour :** dépassement du nombre d’états produit `ERR_OUT_OF_MEMORY`; un doublon produit `ERR_ALREADY_EXISTS`.
+- **Effets de bord :** **Effets de bord :** `next_command_sequence()` réserve une séquence croissante ; `duplicate_detached()` recopie aussi chaque état temporaire afin qu’un candidat ne partage aucun objet mutable avec l’état actif.
 
 ## 12. État d’un affrontement
 
@@ -628,15 +630,15 @@ func duplicate_detached() -> CombatEncounterState:
 
 **Explication structurée du bloc :**
 
-- **Organisation des fichiers :** **Rôle :** l’affrontement constitue la racine autoritaire du domaine de combat.
+- **Rôle précis du bloc :** **Rôle :** l’affrontement constitue la racine autoritaire du domaine de combat.
 
-- **Rôle précis du bloc :** **Ordre :** les identifiants sont triés avant validation afin que les diagnostics et traitements ultérieurs ne dépendent pas de l’ordre d’un dictionnaire.
+- **Déroulement ou instructions importantes :** **Ordre :** les identifiants sont triés avant validation afin que les diagnostics et traitements ultérieurs ne dépendent pas de l’ordre d’un dictionnaire.
 
-- **Déterminisme et idempotence :** **Idempotence :** `processed_command_ids` mémorise un historique borné des commandes déjà consommées.
+- **Idempotence :** **Idempotence :** `processed_command_ids` mémorise un historique borné des commandes déjà consommées.
 
-- **Invariants protégés :** **RNG :** `initialize_rng()` définit d’abord `seed`, puis conserve uniquement un `state` réellement produit par le générateur ; la reprise vise la même version de moteur, pas un algorithme futur différent.
+- **RNG :** **RNG :** `initialize_rng()` définit d’abord `seed`, puis conserve uniquement un `state` réellement produit par le générateur ; la reprise vise la même version de moteur, pas un algorithme futur différent.
 
-- **Limites et réserves :** **Copies :** `duplicate_detached()` recopie participants, états, commandes traitées et historique ; le tick ne peut avancer que par `advance_to()`.
+- **Copies :** **Copies :** `duplicate_detached()` recopie participants, états, commandes traitées et historique ; le tick ne peut avancer que par `advance_to()`.
 
 ### 12.1 Construire un affrontement valide
 
@@ -693,13 +695,13 @@ func create(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** la fabrique refuse doublons, participants invalides et affrontement sans deux côtés opposés avant de publier un état utilisable.
+- **Rôle précis du bloc :** **Rôle :** la fabrique refuse doublons, participants invalides et affrontement sans deux côtés opposés avant de publier un état utilisable.
 
-- **Limites et réserves :** **RNG :** `initialize_rng()` applique la graine puis capture le `state` produit par Godot ; aucune valeur arbitraire n’est affectée directement à `state`.
+- **RNG :** **RNG :** `initialize_rng()` applique la graine puis capture le `state` produit par Godot ; aucune valeur arbitraire n’est affectée directement à `state`.
 
-- **Rôle précis du bloc :** **Copies :** chaque participant est dupliqué, états temporaires compris. **Historique :** l’événement de démarrage reçoit la première séquence avant validation finale.
+- **Copies :** **Copies :** chaque participant est dupliqué, états temporaires compris. La liste fournie par l’appelant ne partage donc aucune autorité mutable avec l’affrontement.
 
-- **Frontières d’autorité :** La liste fournie par l’appelant ne partage donc aucune autorité mutable avec l’affrontement.
+- **Historique :** **Historique :** l’événement de démarrage reçoit la première séquence avant validation finale.
 
 ## 13. Définir l’initiative
 
@@ -737,15 +739,15 @@ func compare_ready(a: CombatantState, b: CombatantState) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** cette politique calcule le rang initial, le délai de récupération et l’ordre total des participants prêts. La collection prête est copiée puis triée.
+- **Rôle précis du bloc :** **Rôle :** cette politique calcule le rang initial, le délai de récupération et l’ordre total des participants prêts.
 
-- **Limites et réserves :** **Départage :** tick, agilité bornée puis identité donnent un ordre total stable sans dépendre de `hash()` ni d’une valeur aléatoire.
+- **Départage :** **Départage :** tick, agilité bornée puis identité donnent un ordre total stable sans dépendre de `hash()` ni d’une valeur aléatoire.
 
-- **Organisation des fichiers :** **Bornes :** l’agilité et les modificateurs sont limités avant le calcul ; le délai ne descend jamais sous `minimum_action_delay_ticks`.
+- **Bornes :** **Bornes :** l’agilité et les modificateurs sont limités avant le calcul ; le délai ne descend jamais sous `minimum_action_delay_ticks`.
 
-- **Persistance et restauration :** **Persistance :** le rang peut être sauvegardé, mais il reste reconstructible depuis l’agilité autoritaire tant qu’aucun modificateur durable ne s’y ajoute.
+- **Persistance :** **Persistance :** le rang peut être sauvegardé, mais il reste reconstructible depuis l’agilité autoritaire tant qu’aucun modificateur durable ne s’y ajoute.
 
-- **Frontières d’autorité :** Elle n’est pas conservée comme autorité dans la sauvegarde.
+- **Frontières d’autorité :** La collection prête est copiée puis triée. Elle n’est pas conservée comme autorité dans la sauvegarde.
 
 ## 14. États temporaires
 
@@ -819,9 +821,13 @@ func duplicate_detached() -> ActiveStatus:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** l’état actif contient une durée logique et des modificateurs déjà validés. **Durée :** l’expiration est exclusive : l’état cesse d’être actif lorsque `logical_tick >= expires_at_tick`. **Codes de retour :** règle d’empilement, piles et intervalles incohérents sont refusés ;
+- **Rôle précis du bloc :** **Rôle :** l’état actif contient une durée logique et des modificateurs déjà validés.
 
-- **Frontières d’autorité :** **Frontière :** le combat sait appliquer et expirer l’état ; la compétence ou l’objet qui le produit appartient à son système d’origine. `duplicate_detached()` empêche le partage d’un état mutable entre candidat et autorité active.
+- **Durée :** **Durée :** l’expiration est exclusive : l’état cesse d’être actif lorsque `logical_tick >= expires_at_tick`.
+
+- **Frontières d’autorité :** **Frontière :** le combat sait appliquer et expirer l’état ; la compétence ou l’objet qui le produit appartient à son système d’origine.
+
+- **Valeur de retour ou code d’échec :** **Codes de retour :** règle d’empilement, piles et intervalles incohérents sont refusés ; `duplicate_detached()` empêche le partage d’un état mutable entre candidat et autorité active.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/status_policy.gd`.**
 
@@ -901,11 +907,13 @@ func _sort(statuses: Array[ActiveStatus]) -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** la politique applique une règle d’empilement explicite puis maintient un ordre canonique. **Expiration :** l’itération inverse évite de décaler les index encore à visiter lors des suppressions.
+- **Rôle précis du bloc :** **Rôle :** la politique applique une règle d’empilement explicite puis maintient un ordre canonique.
 
-- **Invariants protégés :** **Mutation :** la liste reçue est modifiée seulement après validation ; l’état entrant est d’abord dupliqué afin que l’appelant ne puisse pas altérer ultérieurement le candidat.
+- **Mutation :** **Mutation :** la liste reçue est modifiée seulement après validation ; l’état entrant est d’abord dupliqué afin que l’appelant ne puisse pas altérer ultérieurement le candidat.
 
-- **Valeur de retour ou code d’échec :** **Valeur de retour :** `remove_expired()` renvoie les identifiants triés afin de produire des événements reproductibles.
+- **Expiration :** **Expiration :** l’itération inverse évite de décaler les index encore à visiter lors des suppressions.
+
+- **Valeur de retour :** **Valeur de retour :** `remove_expired()` renvoie les identifiants triés afin de produire des événements reproductibles.
 
 ## 15. Snapshot de résolution
 
@@ -971,13 +979,13 @@ func distance_squared() -> float:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** le snapshot fige les lectures nécessaires à une résolution unique.
+- **Rôle précis du bloc :** **Rôle :** le snapshot fige les lectures nécessaires à une résolution unique.
 
-- **Invariants protégés :** **Données dérivées :** précision, esquive, défense et résistance peuvent agréger attributs et états ; les côtés proviennent des participants engagés et permettent de refuser un allié lorsque la règle l’exige.
+- **Données dérivées :** **Données dérivées :** précision, esquive, défense et résistance peuvent agréger attributs et états ; les côtés proviennent des participants engagés et permettent de refuser un allié lorsque la règle l’exige.
 
-- **Organisation des fichiers :** **Distance :** le carré de la distance évite une racine carrée lors d’une simple comparaison de portée.
+- **Distance :** **Distance :** le carré de la distance évite une racine carrée lors d’une simple comparaison de portée.
 
-- **Effets de bord :** **Invariant :** après sa construction, le service traite cet objet comme immuable et recontrôle les révisions avant le commit.
+- **Invariant :** **Invariant :** après sa construction, le service traite cet objet comme immuable et recontrôle les révisions avant le commit.
 
 ### 15.1 Port de construction des lectures dérivées
 
@@ -1010,15 +1018,13 @@ func definition_for(character_id: StringName) -> CharacterDefinition:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** ce port rassemble les lectures des personnages, des positions et des données de conception sans permettre au service de parcourir directement plusieurs dépôts pendant le calcul.
+- **Rôle précis du bloc :** **Rôle :** ce port rassemble les lectures des personnages, des positions et des données de conception sans permettre au service de parcourir directement plusieurs dépôts pendant le calcul.
 
-- **Effets de bord :** **Copies :** les objets retournés sont détachés ou dérivés ; le paquet et le profil peuvent être abandonnés sans modifier leurs sources.
+- **Copies :** **Copies :** les objets retournés sont détachés ou dérivés ; le paquet et le profil peuvent être abandonnés sans modifier leurs sources.
 
-- **Frontières d’autorité :** **Frontières :** l’implémentation connaît les catalogues et ports de lecture, mais ne commit aucune santé, garde ou révision.
+- **Frontières :** **Frontières :** l’implémentation connaît les catalogues et ports de lecture, mais ne commit aucune santé, garde ou révision.
 
-- **Rôle précis du bloc :** **Refus contrôlé :** `null` indique qu’une lecture obligatoire manque ;
-
-- **Responsabilités des classes ou fonctions :** `CombatService` transforme ce cas en `REJECTED_RESOURCE`.
+- **Refus contrôlé :** **Refus contrôlé :** `null` indique qu’une lecture obligatoire manque ; `CombatService` transforme ce cas en `REJECTED_RESOURCE`.
 
 ## 16. Port de ligne de vue
 
@@ -1043,7 +1049,9 @@ func has_line_of_sight(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** le port isole la dépendance au moteur physique. **Valeur de retour :** la classe de base refuse par défaut ; un adaptateur actif ou hors écran doit être injecté.
+- **Rôle précis du bloc :** **Rôle :** le port isole la dépendance au moteur physique.
+
+- **Valeur de retour :** **Valeur de retour :** la classe de base refuse par défaut ; un adaptateur actif ou hors écran doit être injecté.
 
 - **Paramètres et types importants :** **Paramètres :** les positions, exceptions et masque sont des données déjà validées par l’application.
 
@@ -1093,15 +1101,19 @@ func has_line_of_sight(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** cet adaptateur traduit le port en `PhysicsRayQueryParameters3D` puis appelle `intersect_ray()`. Ils ne remplacent pas automatiquement la règle de portée : les couches, exceptions et instants d’échantillonnage doivent rester explicites. Hors écran, un autre adaptateur utilise les données logiques de partition, les pièces, portes ou cellules d’occlusion.
+- **Rôle précis du bloc :** **Rôle :** cet adaptateur traduit le port en `PhysicsRayQueryParameters3D` puis appelle `intersect_ray()`.
 
-- **Rôle précis du bloc :** **Cycle moteur :** `capture_space_state()` doit être appelé depuis la phase physique qui orchestre le combat actif ; l’exemple ne conserve pas l’espace entre deux mondes. **Exceptions :** les corps de la source et de la cible peuvent être exclus afin que leurs propres collisions ne bloquent pas le segment. Les projectiles volumineux peuvent nécessiter une requête de forme ou plusieurs échantillons. Il ne lance pas un rayon dans une scène inexistante.
+- **Cycle moteur :** **Cycle moteur :** `capture_space_state()` doit être appelé depuis la phase physique qui orchestre le combat actif ; l’exemple ne conserve pas l’espace entre deux mondes.
 
-- **Responsabilités des classes ou fonctions :** **Refus conservateur :** absence d’espace ou position non finie produit `false`; le service ne transforme pas une incapacité de mesure en visibilité.
+- **Exceptions :** **Exceptions :** les corps de la source et de la cible peuvent être exclus afin que leurs propres collisions ne bloquent pas le segment.
 
-- **Limites et réserves :** **Limite :** un rayon représente une ligne.
+- **Refus conservateur :** **Refus conservateur :** absence d’espace ou position non finie produit `false`; le service ne transforme pas une incapacité de mesure en visibilité.
 
-- **Persistance et restauration :** `Area3D` peut détecter une zone persistante et `ShapeCast3D` balayer un volume.
+- **Limites et réserves :** **Limite :** un rayon représente une ligne. Les projectiles volumineux peuvent nécessiter une requête de forme ou plusieurs échantillons.
+
+- **Persistance et restauration :** `Area3D` peut détecter une zone persistante et `ShapeCast3D` balayer un volume. Ils ne remplacent pas automatiquement la règle de portée : les couches, exceptions et instants d’échantillonnage doivent rester explicites.
+
+- **Dépendances et ports utilisés :** Hors écran, un autre adaptateur utilise les données logiques de partition, les pièces, portes ou cellules d’occlusion. Il ne lance pas un rayon dans une scène inexistante.
 
 ## 18. Validation de cible et de portée
 
@@ -1152,15 +1164,13 @@ func validate_basic_attack(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Rôle :** la méthode transforme plusieurs préconditions en un statut métier précis.
+- **Rôle précis du bloc :** **Rôle :** la méthode transforme plusieurs préconditions en un statut métier précis.
 
-- **Dépendances et ports utilisés :** **Ordre :** identité, politique de tir allié et vie sont vérifiées avant la distance ; la ligne de vue n’est consultée qu’après une portée valide.
+- **Déroulement ou instructions importantes :** **Ordre :** identité, politique de tir allié et vie sont vérifiées avant la distance ; la ligne de vue n’est consultée qu’après une portée valide.
 
-- **Rôle précis du bloc :** **Statuts à distinguer :** `SAME_SIDE` applique la politique d’alliance ; `NO_LINE_OF_SIGHT` signifie qu’un obstacle autoritaire subsiste malgré une distance acceptable.
+- **Statuts à distinguer :** **Statuts à distinguer :** `SAME_SIDE` applique la politique d’alliance ; `OUT_OF_RANGE` refuse par géométrie ; `NO_LINE_OF_SIGHT` signifie qu’un obstacle autoritaire subsiste malgré une distance acceptable.
 
-- **Invariants protégés :** `OUT_OF_RANGE` refuse par géométrie ;
-
-- **Persistance et restauration :** **Effet de bord :** aucun ; cette validation peut être rejouée sur le même snapshot.
+- **Effet de bord :** **Effet de bord :** aucun ; cette validation peut être rejouée sur le même snapshot.
 
 ## 19. Résoudre la chance de toucher
 
@@ -1203,11 +1213,13 @@ func resolve(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** le résolveur borne la chance, consomme exactement un tirage et expose les valeurs utiles au diagnostic.
+- **Rôle précis du bloc :** **Rôle :** le résolveur borne la chance, consomme exactement un tirage et expose les valeurs utiles au diagnostic.
 
-- **Rôle précis du bloc :** **Probabilité :** une chance de `750` signifie 750 résultats gagnants parmi les 1 000 valeurs possibles.
+- **Probabilité :** **Probabilité :** une chance de `750` signifie 750 résultats gagnants parmi les 1 000 valeurs possibles.
 
-- **Persistance et restauration :** **RNG local :** l’appelant fournit l’instance liée à l’affrontement et persiste son `state` après la résolution. **Limite de reproductibilité :** Godot documente l’algorithme sous-jacent comme détail d’implémentation ; la restauration vise la même version de moteur, pas une garantie éternelle inter-version.
+- **RNG local :** **RNG local :** l’appelant fournit l’instance liée à l’affrontement et persiste son `state` après la résolution.
+
+- **Limite de reproductibilité :** **Limite de reproductibilité :** Godot documente l’algorithme sous-jacent comme détail d’implémentation ; la restauration vise la même version de moteur, pas une garantie éternelle inter-version.
 
 ## 20. Paquet de dégâts
 
@@ -1257,11 +1269,11 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** le paquet transporte une quantité brute, un type et une pénétration, sans modifier la cible.
+- **Rôle précis du bloc :** **Rôle :** le paquet transporte une quantité brute, un type et une pénétration, sans modifier la cible.
 
-- **Paramètres et types importants :** **Bornes :** les montants restent entiers et limités afin d’éviter valeurs négatives, dépassements accidentels et données hostiles.
+- **Bornes :** **Bornes :** les montants restent entiers et limités afin d’éviter valeurs négatives, dépassements accidentels et données hostiles.
 
-- **Responsabilités des classes ou fonctions :** **Tags :** ils permettent à des systèmes futurs de reconnaître une provenance sans charger dynamiquement une classe depuis une chaîne.
+- **Tags :** **Tags :** ils permettent à des systèmes futurs de reconnaître une provenance sans charger dynamiquement une classe depuis une chaîne.
 
 - **Frontières d’autorité :** **Frontière :** les armes et compétences construisent éventuellement le paquet ; le combat conserve l’autorité de résolution.
 
@@ -1299,13 +1311,13 @@ func resistance_for(damage_type: DamagePacket.DamageType) -> int:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** ce profil rassemble les valeurs défensives nécessaires à un calcul sans référencer directement une ressource d’équipement.
+- **Rôle précis du bloc :** **Rôle :** ce profil rassemble les valeurs défensives nécessaires à un calcul sans référencer directement une ressource d’équipement.
 
-- **Invariants protégés :** **Défense fixe :** elle reste positive ou nulle ; les vulnérabilités sont représentées uniquement par une résistance négative afin de conserver un ordre de calcul non ambigu.
+- **Défense fixe :** **Défense fixe :** elle reste positive ou nulle ; les vulnérabilités sont représentées uniquement par une résistance négative afin de conserver un ordre de calcul non ambigu.
 
-- **Paramètres et types importants :** **Valeur par défaut :** un type absent utilise zéro résistance.
+- **Valeur par défaut :** **Valeur par défaut :** un type absent utilise zéro résistance.
 
-- **Persistance et restauration :** **Persistance :** le profil est recalculé et n’est pas sauvegardé tant que ses sources restent autoritaires ailleurs.
+- **Persistance :** **Persistance :** le profil est recalculé et n’est pas sauvegardé tant que ses sources restent autoritaires ailleurs.
 
 ## 22. Ordre de calcul des dégâts
 
@@ -1377,15 +1389,15 @@ func resolve(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** le calcul produit une trace complète de chaque étape sans modifier la cible.
+- **Rôle précis du bloc :** **Rôle :** le calcul produit une trace complète de chaque étape sans modifier la cible.
 
-- **Rôle précis du bloc :** **Arithmétique :** la division entière arrondit vers zéro ; cette règle fait partie du contrat d’équilibrage.
+- **Arithmétique :** **Arithmétique :** la division entière arrondit vers zéro ; cette règle fait partie du contrat d’équilibrage.
 
-- **Paramètres et types importants :** **Pénétration :** `1000` ignore toute défense fixe positive ; elle ne supprime pas la résistance du type.
+- **Pénétration :** **Pénétration :** `1000` ignore toute défense fixe positive ; elle ne supprime pas la résistance du type.
 
-- **Limites et réserves :** **Garde :** elle absorbe en dernier et ne peut jamais dépasser le montant restant.
+- **Garde :** **Garde :** elle absorbe en dernier et ne peut jamais dépasser le montant restant.
 
-- **Invariants protégés :** **Résultat nul :** zéro dégât est une issue valide, distincte d’une commande invalide.
+- **Résultat nul :** **Résultat nul :** zéro dégât est une issue valide, distincte d’une commande invalide.
 
 ## 23. Résultats métier
 
@@ -1444,13 +1456,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** l’objet transporte un statut métier stable et les deltas réellement appliqués.
+- **Rôle précis du bloc :** **Rôle :** l’objet transporte un statut métier stable et les deltas réellement appliqués.
 
-- **Invariants protégés :** **Statuts à distinguer :** `MISSED` est une commande valide ayant consommé sa résolution ; **Valeur de retour :** `is_success()` inclut les issues valides sans effet, car elles ne doivent pas être retentées comme des erreurs techniques.
+- **Statuts à distinguer :** **Statuts à distinguer :** `MISSED` est une commande valide ayant consommé sa résolution ; `REJECTED_TARGET` signifie qu’aucune attaque n’a été autorisée.
 
-- **Limites et réserves :** `REJECTED_TARGET` signifie qu’aucune attaque n’a été autorisée.
+- **Deltas :** **Deltas :** un dégât de santé est négatif ; une absorption de garde peut aussi être représentée par un delta négatif.
 
-- **Rôle précis du bloc :** **Deltas :** un dégât de santé est négatif ; une absorption de garde peut aussi être représentée par un delta négatif.
+- **Valeur de retour :** **Valeur de retour :** `is_success()` inclut les issues valides sans effet, car elles ne doivent pas être retentées comme des erreurs techniques.
 
 ## 24. Événements et historique borné
 
@@ -1523,11 +1535,13 @@ func duplicate_detached() -> CombatEvent:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Rôle :** l’événement décrit un fait déjà accepté par l’autorité de combat.
+- **Rôle précis du bloc :** **Rôle :** l’événement décrit un fait déjà accepté par l’autorité de combat.
 
-- **Rôle précis du bloc :** **Ordre :** `logical_tick` puis `sequence` donnent une chronologie indépendante de l’heure système.
+- **Déroulement ou instructions importantes :** **Ordre :** `logical_tick` puis `sequence` donnent une chronologie indépendante de l’heure système.
 
-- **Limites et réserves :** **Données :** les montants et identifiants de détail restent compacts ; un texte localisé n’est pas utilisé comme donnée métier. **Consommateurs :** présentation, journal et narration peuvent écouter ces événements sans pouvoir annuler rétroactivement la résolution.
+- **Données :** **Données :** les montants et identifiants de détail restent compacts ; un texte localisé n’est pas utilisé comme donnée métier.
+
+- **Consommateurs :** **Consommateurs :** présentation, journal et narration peuvent écouter ces événements sans pouvoir annuler rétroactivement la résolution.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/combat/domain/combat_history.gd`.**
 
@@ -1581,9 +1595,13 @@ func duplicate_detached() -> CombatHistory:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** l’historique conserve une fenêtre bornée d’événements autoritaires. **Bornage :** les plus anciens événements sont retirés après l’ajout lorsque la capacité est dépassée. **Validation :** l’ordre doit être croissant par tick puis séquence ; un chargement désordonné est refusé.
+- **Rôle précis du bloc :** **Rôle :** l’historique conserve une fenêtre bornée d’événements autoritaires.
 
-- **Persistance et restauration :** **Copie :** `append()`, `snapshot()` et `duplicate_detached()` recopient les événements ; aucun consommateur ne reçoit une référence mutable conservée par l’historique.
+- **Bornage :** **Bornage :** les plus anciens événements sont retirés après l’ajout lorsque la capacité est dépassée.
+
+- **Copie :** **Copie :** `append()`, `snapshot()` et `duplicate_detached()` recopient les événements ; aucun consommateur ne reçoit une référence mutable conservée par l’historique.
+
+- **Invariants protégés :** **Validation :** l’ordre doit être croissant par tick puis séquence ; un chargement désordonné est refusé.
 
 ## 25. Dépôt d’affrontements
 
@@ -1615,15 +1633,13 @@ func all_encounter_ids_sorted() -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** le contrat impose une lecture détachée, un remplacement conditionnel, un remplacement complet préparé pour la restauration et un ordre canonique.
+- **Rôle précis du bloc :** **Rôle :** le contrat impose une lecture détachée, un remplacement conditionnel, un remplacement complet préparé pour la restauration et un ordre canonique.
 
-- **Rôle précis du bloc :** **Concurrence :** `expected_revision` évite d’écraser un état modifié depuis la construction du candidat.
+- **Concurrence :** **Concurrence :** `expected_revision` évite d’écraser un état modifié depuis la construction du candidat.
 
-- **Valeur de retour ou code d’échec :** **Refus contrôlé :** la base renvoie `ERR_UNAVAILABLE`; l’implémentation doit remplacer explicitement les méthodes prises en charge.
+- **Refus contrôlé :** **Refus contrôlé :** la base renvoie `ERR_UNAVAILABLE`; l’implémentation doit remplacer explicitement les méthodes prises en charge.
 
-- **Résultat attendu :** **Copies :** `get_encounter()` ne rend jamais l’objet mutable interne ;
-
-- **Effets de bord :** `replace_all()` valide l’ensemble avant de remplacer le contenu actif.
+- **Copies :** **Copies :** `get_encounter()` ne rend jamais l’objet mutable interne ; `replace_all()` valide l’ensemble avant de remplacer le contenu actif.
 
 - **Frontières d’autorité :** **Frontière :** le dépôt ne calcule ni initiative ni dégâts.
 
@@ -1660,13 +1676,13 @@ func commit(
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Rôle :** ce port coordonne les candidats de plusieurs autorités sans déplacer leurs invariants dans le combat.
+- **Rôle précis du bloc :** **Rôle :** ce port coordonne les candidats de plusieurs autorités sans déplacer leurs invariants dans le combat.
 
-- **Valeur de retour ou code d’échec :** **Préparation :** les méthodes retournent des copies détachées ; aucune mutation active n’a encore eu lieu.
+- **Préparation :** **Préparation :** les méthodes retournent des copies détachées ; aucune mutation active n’a encore eu lieu.
 
-- **Effets de bord :** **Commit :** les deux collections sont strictement typées ; l’implémentation revalide tous les candidats et toutes les révisions avant des swaps qui ne peuvent plus échouer individuellement. **Atomicité attendue :** l’unité de travail possède les deux dépôts ou une transaction applicative commune ; elle n’effectue jamais un premier remplacement réversible suivi d’un second susceptible d’échouer.
+- **Commit :** **Commit :** les deux collections sont strictement typées ; l’implémentation revalide tous les candidats et toutes les révisions avant des swaps qui ne peuvent plus échouer individuellement.
 
-- **Limites et réserves :** Cette propriété reste à tester au runtime.
+- **Atomicité attendue :** **Atomicité attendue :** l’unité de travail possède les deux dépôts ou une transaction applicative commune ; elle n’effectue jamais un premier remplacement réversible suivi d’un second susceptible d’échouer. Cette propriété reste à tester au runtime.
 
 ## 27. Résoudre une attaque de base
 
@@ -1783,13 +1799,13 @@ func execute(command: CombatCommand) -> CombatResult:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** `execute()` constitue l’entrée unique du service et refuse les commandes invalides, anciennes, dupliquées ou prématurées.
+- **Rôle précis du bloc :** **Rôle :** `execute()` constitue l’entrée unique du service et refuse les commandes invalides, anciennes, dupliquées ou prématurées.
 
-- **Déterminisme et idempotence :** **Ordre :** les vérifications communes précèdent le `match`; aucune branche ne contourne identité, fermeture, idempotence ou initiative.
+- **Déroulement ou instructions importantes :** **Ordre :** les vérifications communes précèdent le `match`; aucune branche ne contourne identité, fermeture, idempotence ou initiative.
 
-- **Persistance et restauration :** **Statuts à distinguer :** une commande obsolète peut être reconstruite depuis un nouveau snapshot ; une commande dupliquée ne doit jamais être rejouée.
+- **Statuts à distinguer :** **Statuts à distinguer :** une commande obsolète peut être reconstruite depuis un nouveau snapshot ; une commande dupliquée ne doit jamais être rejouée.
 
-- **Dépendances et ports utilisés :** **Effet de bord :** ce premier niveau n’émet encore aucun événement ; il vérifie aussi les ports obligatoires, le tick et l’initiative avant de déléguer à une branche.
+- **Effet de bord :** **Effet de bord :** ce premier niveau n’émet encore aucun événement ; il vérifie aussi les ports obligatoires, le tick et l’initiative avant de déléguer à une branche.
 
 > **[LECTURE] Cœur de l’attaque — Suite du même fichier.**
 
@@ -1945,15 +1961,17 @@ func _execute_basic_attack(command: CombatCommand) -> CombatResult:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** cette méthode prépare des copies, valide la cible, consomme un tirage, calcule les dégâts et tente un commit. **Atomicité :** les deltas ne deviennent actifs que dans `_commit_outcome()`; un échec antérieur abandonne les candidats.
+- **Rôle précis du bloc :** **Rôle :** cette méthode prépare des copies, valide la cible, consomme un tirage, calcule les dégâts et tente un commit.
 
-- **Invariants protégés :** **RNG :** le nouvel état est enregistré dans le candidat même si l’attaque manque ; une commande valide consomme exactement un tirage.
+- **RNG :** **RNG :** le nouvel état est enregistré dans le candidat même si l’attaque manque ; une commande valide consomme exactement un tirage.
 
-- **Rôle précis du bloc :** **Initiative :** le délai est appliqué aux attaques manquées comme réussies, empêchant un retry gratuit après un échec.
+- **Initiative :** **Initiative :** le délai est appliqué aux attaques manquées comme réussies, empêchant un retry gratuit après un échec.
 
-- **Frontières d’autorité :** **Santé :** `CharacterRules.apply_health_delta()` reste l’autorité de bornage et de cohérence avec `is_alive`.
+- **Santé :** **Santé :** `CharacterRules.apply_health_delta()` reste l’autorité de bornage et de cohérence avec `is_alive`.
 
-- **Persistance et restauration :** **Port de données :** le paquet, le profil et la définition viennent de `CombatSnapshotBuilder`; aucun chemin ou nom de classe fourni par la commande n’est chargé dynamiquement.
+- **Atomicité :** **Atomicité :** les deltas ne deviennent actifs que dans `_commit_outcome()`; un échec antérieur abandonne les candidats.
+
+- **Port de données :** **Port de données :** le paquet, le profil et la définition viennent de `CombatSnapshotBuilder`; aucun chemin ou nom de classe fourni par la commande n’est chargé dynamiquement.
 
 > **[LECTURE] Commit et résultat — Suite du même fichier.**
 
@@ -2142,13 +2160,15 @@ func _result(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** le commit précède toujours l’émission du résultat et des événements. **Concurrence :** `ERR_BUSY` signale une révision obsolète ; un autre code de commit devient un refus de ressource. Les branches `GUARD`, `WAIT` et `DISENGAGE` suivent la même discipline : candidat, validation, nouveau `next_ready_tick`, identifiant traité, commit, puis événements.
+- **Rôle précis du bloc :** **Rôle :** le commit précède toujours l’émission du résultat et des événements.
 
-- **Rôle précis du bloc :** Dans tous les cas, les candidats et événements préparés sont abandonnés.
+- **Concurrence :** **Concurrence :** `ERR_BUSY` signale une révision obsolète ; un autre code de commit devient un refus de ressource. Dans tous les cas, les candidats et événements préparés sont abandonnés.
 
-- **Déterminisme et idempotence :** **Idempotence :** l’identifiant traité est ajouté au candidat avant commit et la liste reste bornée.
+- **Idempotence :** **Idempotence :** l’identifiant traité est ajouté au candidat avant commit et la liste reste bornée.
 
-- **Persistance et restauration :** **Historique et signaux :** les événements sont ajoutés au candidat avant le commit, puis des copies sont émises après succès ; l’historique persistant et la présentation décrivent ainsi le même résultat.
+- **Historique et signaux :** **Historique et signaux :** les événements sont ajoutés au candidat avant le commit, puis des copies sont émises après succès ; l’historique persistant et la présentation décrivent ainsi le même résultat.
+
+- **Limites et réserves :** Les branches `GUARD`, `WAIT` et `DISENGAGE` suivent la même discipline : candidat, validation, nouveau `next_ready_tick`, identifiant traité, commit, puis événements.
 
 ## 28. Garde, attente et désengagement
 
@@ -2177,11 +2197,13 @@ DISENGAGE
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** ce tableau fixe les invariants communs sans anticiper les postures ou compétences du chapitre 19.
+- **Rôle précis du bloc :** **Rôle :** ce tableau fixe les invariants communs sans anticiper les postures ou compétences du chapitre 19.
 
-- **Invariants protégés :** **Garde :** elle constitue une réserve temporaire distincte de la santé et ne peut pas dépasser la borne du domaine. **Attente :** elle est une action valide, utile pour la chronologie et la simulation hors écran.
+- **Garde :** **Garde :** elle constitue une réserve temporaire distincte de la santé et ne peut pas dépasser la borne du domaine.
 
-- **Effets de bord :** **Désengagement :** il modifie l’appartenance à l’affrontement, pas l’existence du personnage.
+- **Attente :** **Attente :** elle est une action valide, utile pour la chronologie et la simulation hors écran.
+
+- **Désengagement :** **Désengagement :** il modifie l’appartenance à l’affrontement, pas l’existence du personnage.
 
 > **[LECTURE] Implémentation des trois branches — Suite de `combat_service.gd`.**
 
@@ -2282,11 +2304,13 @@ func _has_two_active_sides(encounter: CombatEncounterState) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** **Discipline commune :** chaque branche prépare un candidat détaché, avance le tick sans régression, applique le délai, enregistre l’idempotence et utilise le même commit typé.
+- **Discipline commune :** **Discipline commune :** chaque branche prépare un candidat détaché, avance le tick sans régression, applique le délai, enregistre l’idempotence et utilise le même commit typé.
 
-- **Invariants protégés :** **Garde :** le delta renvoyé correspond à l’augmentation réelle après la borne `MAX_GUARD`.
+- **Garde :** **Garde :** le delta renvoyé correspond à l’augmentation réelle après la borne `MAX_GUARD`.
 
-- **Limites et réserves :** **Attente :** aucun autre état ne change, mais la commande et le délai sont consommés. **Désengagement :** les côtés actifs sont recalculés depuis `side_id`; l’affrontement se ferme lorsqu’il ne reste plus deux côtés engagés.
+- **Attente :** **Attente :** aucun autre état ne change, mais la commande et le délai sont consommés.
+
+- **Désengagement :** **Désengagement :** les côtés actifs sont recalculés depuis `side_id`; l’affrontement se ferme lorsqu’il ne reste plus deux côtés engagés.
 
 ## 29. Adapter une requête d’agent
 
@@ -2322,11 +2346,11 @@ func snapshot_for(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** ce port localise l’affrontement commun et sa révision sans donner à l’agent un accès au dépôt de combat.
+- **Rôle précis du bloc :** **Rôle :** ce port localise l’affrontement commun et sa révision sans donner à l’agent un accès au dépôt de combat.
 
-- **Invariants protégés :** **Entrées :** les deux identités proviennent d’une requête déjà validée ; l’implémentation refuse les personnages non engagés dans un même affrontement.
+- **Paramètres et types importants :** **Entrées :** les deux identités proviennent d’une requête déjà validée ; l’implémentation refuse les personnages non engagés dans un même affrontement.
 
-- **Limites et réserves :** **Valeur de retour :** `null` signifie qu’aucun contexte exécutable n’existe ; un objet retourné doit réussir `validate()`.
+- **Valeur de retour :** **Valeur de retour :** `null` signifie qu’aucun contexte exécutable n’existe ; un objet retourné doit réussir `validate()`.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/combat/application/combat_agent_action_executor.gd`.**
 
@@ -2389,13 +2413,15 @@ func cancel(_request_id: StringName, _reason: StringName) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Rôle :** l’adaptateur convertit le vocabulaire de l’agent vers celui du combat puis appelle l’autorité.
+- **Rôle précis du bloc :** **Rôle :** l’adaptateur convertit le vocabulaire de l’agent vers celui du combat puis appelle l’autorité.
 
 - **Invariants protégés :** **Validation :** seules la clé et l’action explicitement enregistrées sont acceptées ; aucune classe n’est chargée depuis les données.
 
-- **Rôle précis du bloc :** **Révisions :** la révision du monde vient de la décision d’agent et la révision du combat vient d’un contexte relu au démarrage. **Annulation :** une résolution atomique déjà exécutée n’est pas annulable ; les actions longues futures devront être représentées par une phase préparatoire distincte.
+- **Révisions :** **Révisions :** la révision du monde vient de la décision d’agent et la révision du combat vient d’un contexte relu au démarrage.
 
-- **Résultat attendu :** **Traitement du résultat :** `OK` signifie que la commande a été valablement consommée, y compris lors d’un raté ; un refus métier produit `ERR_CANT_RESOLVE`.
+- **Annulation :** **Annulation :** une résolution atomique déjà exécutée n’est pas annulable ; les actions longues futures devront être représentées par une phase préparatoire distincte.
+
+- **Valeur de retour ou traitement du résultat :** **Traitement du résultat :** `OK` signifie que la commande a été valablement consommée, y compris lors d’un raté ; un refus métier produit `ERR_CANT_RESOLVE`.
 
 ## 30. Adapter l’entrée du joueur
 
@@ -2461,15 +2487,13 @@ func _comes_before(a: CombatCommand, b: CombatCommand) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** la file conserve des copies triées et refuse surcharge ou doublon.
+- **Rôle précis du bloc :** **Rôle :** la file conserve des copies triées et refuse surcharge ou doublon.
 
-- **Effets de bord :** **Ordre :** tick demandé, séquence de l’émetteur puis identifiant forment un ordre total.
+- **Déroulement ou instructions importantes :** **Ordre :** tick demandé, séquence de l’émetteur puis identifiant forment un ordre total.
 
-- **Dépendances et ports utilisés :** **Refus contrôlé :** `ERR_BUSY` signale une capacité atteinte ; l’appelant peut reporter une décision sans agrandir la mémoire.
+- **Refus contrôlé :** **Refus contrôlé :** `ERR_BUSY` signale une capacité atteinte ; l’appelant peut reporter une décision sans agrandir la mémoire.
 
-- **Persistance et restauration :** **Annulation et persistance :** `remove_for_character()` retire les demandes d’un participant désengagé ; `clear()` est utilisé par la barrière de sauvegarde.
-
-- **Limites et réserves :** La file reste transitoire et n’est jamais encodée.
+- **Annulation et persistance :** **Annulation et persistance :** `remove_for_character()` retire les demandes d’un participant désengagé ; `clear()` est utilisé par la barrière de sauvegarde. La file reste transitoire et n’est jamais encodée.
 
 ## 32. Ordonnanceur borné
 
@@ -2515,9 +2539,13 @@ func _physics_process(_delta: float) -> void:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** le nœud relie la file logique au rythme physique sans rendre la vitesse du processeur autoritaire. **Budget :** au plus `commands_per_physics_tick` commandes sont consommées ; les autres restent dans leur ordre canonique.
+- **Rôle précis du bloc :** **Rôle :** le nœud relie la file logique au rythme physique sans rendre la vitesse du processeur autoritaire.
 
-- **Effets de bord :** **Effets de bord :** chaque résultat est émis après l’appel du service ; un désengagement committé retire les commandes restantes de son émetteur, sans calcul de dégâts dans le nœud. **Diagnostic :** `queue_backlogged` expose la pression de la file sans supprimer ni réordonner les commandes.
+- **Budgets et limites :** **Budget :** au plus `commands_per_physics_tick` commandes sont consommées ; les autres restent dans leur ordre canonique.
+
+- **Effets de bord :** **Effets de bord :** chaque résultat est émis après l’appel du service ; un désengagement committé retire les commandes restantes de son émetteur, sans calcul de dégâts dans le nœud.
+
+- **Diagnostic :** **Diagnostic :** `queue_backlogged` expose la pression de la file sans supprimer ni réordonner les commandes.
 
 ## 33. Combat actif et simulation hors écran
 
@@ -2574,11 +2602,13 @@ La coordination suit cette séquence :
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** la barrière produit un snapshot cohérent sans sérialiser une mutation partielle.
+- **Rôle précis du bloc :** **Rôle :** la barrière produit un snapshot cohérent sans sérialiser une mutation partielle.
 
-- **Limites et réserves :** **File :** les commandes non commencées sont abandonnées et pourront être reconstruites par le joueur ou l’agent après reprise. **Limite :** la coordination runtime avec les autres sections sera testée au chapitre 27.
+- **File :** **File :** les commandes non commencées sont abandonnées et pourront être reconstruites par le joueur ou l’agent après reprise.
 
-- **Effets de bord :** **Atomicité :** aucun affrontement n’est encodé pendant que son commit est en cours.
+- **Atomicité :** **Atomicité :** aucun affrontement n’est encodé pendant que son commit est en cours.
+
+- **Limites et réserves :** **Limite :** la coordination runtime avec les autres sections sera testée au chapitre 27.
 
 ## 36. Snapshot persistant
 
@@ -3125,17 +3155,17 @@ func _failure(code: Error, message: String) -> DecodeResult:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** le codec matérialise format, version, clés exactes, limites, types, identifiants et absence de doublons pour tous les objets imbriqués.
+- **Rôle précis du bloc :** **Rôle :** le codec matérialise format, version, clés exactes, limites, types, identifiants et absence de doublons pour tous les objets imbriqués.
 
-- **Valeur de retour ou code d’échec :** **Résultat structuré :** `DecodeResult.code` distingue un document vide valide d’un refus ; aucune sentinelle de tableau vide n’est ambiguë.
+- **Résultat structuré :** **Résultat structuré :** `DecodeResult.code` distingue un document vide valide d’un refus ; aucune sentinelle de tableau vide n’est ambiguë.
 
-- **Paramètres et types importants :** **Nombres JSON :** `_read_int()` accepte un `int` ou un `float` exactement entier dans la plage sûre de 53 bits.
+- **Nombres JSON :** **Nombres JSON :** `_read_int()` accepte un `int` ou un `float` exactement entier dans la plage sûre de 53 bits. Les deux valeurs RNG de 64 bits sont divisées en parties haute et basse de 32 bits pour éviter toute perte de précision.
 
-- **Rôle précis du bloc :** Les deux valeurs RNG de 64 bits sont divisées en parties haute et basse de 32 bits pour éviter toute perte de précision. **Copies et ordre :** l’encodage travaille sur des copies détachées ; affrontements, participants et états sont triés, tandis que commandes récentes et événements conservent leur ordre historique.
+- **Copies et ordre :** **Copies et ordre :** l’encodage travaille sur des copies détachées ; affrontements, participants et états sont triés, tandis que commandes récentes et événements conservent leur ordre historique.
 
-- **Limites et réserves :** **Validation croisée :** l’identifiant d’événement doit être reconstructible depuis l’affrontement et la séquence ; la plus grande séquence conservée ne peut pas dépasser le compteur autoritaire.
+- **Validation croisée :** **Validation croisée :** l’identifiant d’événement doit être reconstructible depuis l’affrontement et la séquence ; la plus grande séquence conservée ne peut pas dépasser le compteur autoritaire.
 
-- **Invariants protégés :** **Refus conservateur :** une clé inconnue, un nombre fractionnaire, une borne dépassée, une référence mal typée ou un doublon invalide tout le candidat avant application.
+- **Refus conservateur :** **Refus conservateur :** une clé inconnue, un nombre fractionnaire, une borne dépassée, une référence mal typée ou un doublon invalide tout le candidat avant application.
 
 ## 38. Section de sauvegarde
 
@@ -3202,11 +3232,15 @@ func cancel_restore() -> void:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** **Rôle :** la section capture des copies dans un ordre stable, prépare un ensemble complet puis l’applique seulement sur demande du coordinateur.
+- **Rôle précis du bloc :** **Rôle :** la section capture des copies dans un ordre stable, prépare un ensemble complet puis l’applique seulement sur demande du coordinateur.
 
-- **Limites et réserves :** **Cas vide :** `DecodeResult` permet d’accepter explicitement zéro affrontement sans confondre ce cas avec une erreur de format. **Copies :** capture, préparation et application ne partagent aucun `CombatEncounterState`, `CombatantState`, `ActiveStatus` ou `CombatEvent` mutable avec l’appelant. **Annulation :** le coordinateur peut libérer le candidat sans mutation lorsque toute autre section échoue.
+- **Cas vide :** **Cas vide :** `DecodeResult` permet d’accepter explicitement zéro affrontement sans confondre ce cas avec une erreur de format.
 
-- **Rôle précis du bloc :** **Effets de bord :** `prepare_restore()` ne touche pas au dépôt actif ; `apply_prepared()` ne vide la préparation qu’après `replace_all()` réussi.
+- **Copies :** **Copies :** capture, préparation et application ne partagent aucun `CombatEncounterState`, `CombatantState`, `ActiveStatus` ou `CombatEvent` mutable avec l’appelant.
+
+- **Effets de bord :** **Effets de bord :** `prepare_restore()` ne touche pas au dépôt actif ; `apply_prepared()` ne vide la préparation qu’après `replace_all()` réussi.
+
+- **Annulation :** **Annulation :** le coordinateur peut libérer le candidat sans mutation lorsque toute autre section échoue.
 
 ## 39. Présentation et événements moteur
 
@@ -3250,11 +3284,11 @@ func _play_animation(
 
 - **Rôle précis du bloc :** **Rôle :** le pont transforme des événements déjà validés en demandes de présentation.
 
-- **Limites et réserves :** **Absence d’acteur :** un personnage hors écran ne produit pas d’erreur ; l’événement autoritaire reste valable.
+- **Absence d’acteur :** **Absence d’acteur :** un personnage hors écran ne produit pas d’erreur ; l’événement autoritaire reste valable.
 
 - **Frontières d’autorité :** **Frontière :** l’animation n’appelle jamais `CharacterRules` et ne décide pas si le coup touche.
 
-- **Dépendances et ports utilisés :** **Limite :** `request_animation()` représente un port de présentation défini par la scène de personnage ; les noms concrets d’animations restent des données de contenu.
+- **Limites et réserves :** **Limite :** `request_animation()` représente un port de présentation défini par la scène de personnage ; les noms concrets d’animations restent des données de contenu.
 
 ## 40. Scène pédagogique
 
@@ -3373,7 +3407,7 @@ target.current_health -= agent_result.damage
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** `agent_result` n’est pas une source autoritaire et le bornage de `CharacterRules` est contourné.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `agent_result` n’est pas une source autoritaire et le bornage de `CharacterRules` est contourné.
 
 **Exemple corrigé :**
 
@@ -3388,7 +3422,7 @@ var result := combat_service.execute(command)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’agent ne fournit qu’une commande ; le service relit le monde et calcule lui-même l’impact.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’agent ne fournit qu’une commande ; le service relit le monde et calcule lui-même l’impact.
 
 ### 45.2 Dupliquer la santé dans `CombatantState`
 
@@ -3407,7 +3441,7 @@ character.current_health -= damage
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** deux autorités doivent rester synchronisées et peuvent être modifiées partiellement.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** deux autorités doivent rester synchronisées et peuvent être modifiées partiellement.
 
 **Exemple corrigé :**
 
@@ -3425,7 +3459,7 @@ CharacterRules.apply_health_delta(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** une seule valeur autoritaire est modifiée par les règles du personnage.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une seule valeur autoritaire est modifiée par les règles du personnage.
 
 ### 45.3 Utiliser l’heure système pour l’initiative
 
@@ -3443,7 +3477,7 @@ participant.ready_at = Time.get_unix_time_from_system() + cooldown
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** une heure civile n’est pas une étape de simulation et n’est pas restaurée comme chronologie métier.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une heure civile n’est pas une étape de simulation et n’est pas restaurée comme chronologie métier.
 
 **Exemple corrigé :**
 
@@ -3457,7 +3491,7 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** la disponibilité dépend uniquement de ticks logiques sauvegardables.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la disponibilité dépend uniquement de ticks logiques sauvegardables.
 
 ### 45.4 Comparer une distance après une racine inutile
 
@@ -3476,7 +3510,7 @@ if source.distance_to(target) <= max_range:
 
 **Explication structurée du bloc :**
 
-- **Organisation des fichiers :** **Pourquoi cet exemple est fautif :** `distance_to()` calcule une racine alors qu’une comparaison de carrés suffit.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** `distance_to()` calcule une racine alors qu’une comparaison de carrés suffit.
 
 **Exemple corrigé :**
 
@@ -3491,7 +3525,7 @@ if source.distance_squared_to(target) <= max_range * max_range:
 
 **Explication structurée du bloc :**
 
-- **Organisation des fichiers :** **Pourquoi la correction fonctionne :** les deux côtés sont comparés dans la même unité carrée sans racine.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les deux côtés sont comparés dans la même unité carrée sans racine.
 
 ### 45.5 Considérer un `Area3D` comme vérité instantanée universelle
 
@@ -3510,7 +3544,7 @@ if attack_area.has_overlapping_bodies():
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi cet exemple est fautif :** la collection d’overlaps dépend du cycle physique et ne valide ni identité, ni cible choisie, ni révision.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la collection d’overlaps dépend du cycle physique et ne valide ni identité, ni cible choisie, ni révision.
 
 **Exemple corrigé :**
 
@@ -3525,7 +3559,7 @@ var status := target_validator.validate_basic_attack(snapshot, range_m)
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** la zone peut aider à construire le snapshot, mais le service applique toutes les préconditions.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la zone peut aider à construire le snapshot, mais le service applique toutes les préconditions.
 
 ### 45.6 Émettre l’animation avant le commit
 
@@ -3544,7 +3578,7 @@ var code := unit_of_work.commit(...)
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** un effet visuel observable précède une mutation qui peut encore être refusée.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un effet visuel observable précède une mutation qui peut encore être refusée.
 
 **Exemple corrigé :**
 
@@ -3560,7 +3594,7 @@ if code == OK:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** la présentation reçoit uniquement des faits déjà committés.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la présentation reçoit uniquement des faits déjà committés.
 
 ### 45.7 Retenter gratuitement une attaque manquée
 
@@ -3579,7 +3613,7 @@ if not hit:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** le raté est traité comme une commande non consommée et peut être rejoué.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le raté est traité comme une commande non consommée et peut être rejoué.
 
 **Exemple corrigé :**
 
@@ -3595,7 +3629,7 @@ return commit_miss()
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** le raté consomme le tirage, le délai et l’identifiant comme toute résolution valide.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le raté consomme le tirage, le délai et l’identifiant comme toute résolution valide.
 
 ### 45.8 Utiliser le RNG global
 
@@ -3613,7 +3647,7 @@ var hit := randi_range(0, 999) < chance
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Pourquoi cet exemple est fautif :** le flux pseudo-aléatoire global est partagé avec des appels sans rapport.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le flux pseudo-aléatoire global est partagé avec des appels sans rapport.
 
 **Exemple corrigé :**
 
@@ -3631,7 +3665,7 @@ encounter.rng_state = rng.state
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** chaque affrontement possède une suite locale restaurable et indépendante.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** chaque affrontement possède une suite locale restaurable et indépendante.
 
 ### 45.9 Oublier l’idempotence
 
@@ -3649,7 +3683,7 @@ queue.append(command)
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** aucun contrôle ne distingue une nouvelle commande d’une répétition.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrôle ne distingue une nouvelle commande d’une répétition.
 
 **Exemple corrigé :**
 
@@ -3665,7 +3699,7 @@ return command_queue.enqueue(command, maximum)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** les commandes traitées et en attente sont toutes deux protégées contre les doublons.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les commandes traitées et en attente sont toutes deux protégées contre les doublons.
 
 ### 45.10 Modifier l’état actif avant toutes les validations
 
@@ -3685,7 +3719,7 @@ if target_is_invalid:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** un refus tardif laisse une mutation partielle dans l’état actif.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un refus tardif laisse une mutation partielle dans l’état actif.
 
 **Exemple corrigé :**
 
@@ -3701,7 +3735,7 @@ var code := unit_of_work.commit(...)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’état actif n’est remplacé qu’après validation complète.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’état actif n’est remplacé qu’après validation complète.
 
 ### 45.11 Persister la ligne de vue
 
@@ -3721,7 +3755,7 @@ var code := unit_of_work.commit(...)
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** la visibilité est un résultat dérivé d’un instant et d’un monde précis.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la visibilité est un résultat dérivé d’un instant et d’un monde précis.
 
 **Exemple corrigé :**
 
@@ -3739,7 +3773,7 @@ var code := unit_of_work.commit(...)
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** seules les données durables de combat sont restaurées ; la ligne de vue sera recalculée.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** seules les données durables de combat sont restaurées ; la ligne de vue sera recalculée.
 
 ### 45.12 Confondre zéro dégât et commande invalide
 
@@ -3758,7 +3792,7 @@ if damage == 0:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** défense, résistance ou garde peuvent légitimement réduire l’impact à zéro.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** défense, résistance ou garde peuvent légitimement réduire l’impact à zéro.
 
 **Exemple corrigé :**
 
@@ -3773,7 +3807,7 @@ result.health_delta = 0
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** l’issue est valide, consommée et distinguée d’une donnée mal formée.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’issue est valide, consommée et distinguée d’une donnée mal formée.
 
 ### 45.13 Sauvegarder une file transitoire
 
@@ -3791,7 +3825,7 @@ payload["queued_commands"] = queue.snapshot()
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi cet exemple est fautif :** la commande a été construite depuis des révisions qui ne seront plus nécessairement valides.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la commande a été construite depuis des révisions qui ne seront plus nécessairement valides.
 
 **Exemple corrigé :**
 
@@ -3807,7 +3841,7 @@ payload["encounters"] = combat_save_section.capture()
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** le snapshot est pris sur une frontière stable et les demandes seront reconstruites après reprise.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le snapshot est pris sur une frontière stable et les demandes seront reconstruites après reprise.
 
 ### 45.14 Utiliser un `Timer` comme initiative autoritaire
 
@@ -3827,7 +3861,7 @@ apply_attack()
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le délai en secondes et le signal moteur deviennent la source de l’ordre de combat.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le délai en secondes et le signal moteur deviennent la source de l’ordre de combat.
 
 **Exemple corrigé :**
 
@@ -3841,7 +3875,7 @@ participant.next_ready_tick = logical_tick + recovery_ticks
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** la règle autoritaire reste en ticks ; un `Timer` peut seulement piloter une présentation non autoritaire.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la règle autoritaire reste en ticks ; un `Timer` peut seulement piloter une présentation non autoritaire.
 
 ## 46. Tests à préparer
 

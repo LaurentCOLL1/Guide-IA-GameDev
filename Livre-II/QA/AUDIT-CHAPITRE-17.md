@@ -6,8 +6,8 @@ version: "1.0.4"
 chapter-id: "DOC-L2-CH17"
 chapter-version: "1.0.4"
 audit-level: "static-review"
-audit-date: "2026-07-21T15:28:42+02:00"
-last-verified: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 

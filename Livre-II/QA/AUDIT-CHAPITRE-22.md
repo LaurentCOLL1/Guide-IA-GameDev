@@ -6,8 +6,8 @@ version: "1.0.2"
 chapter-id: "DOC-L2-CH22"
 chapter-version: "1.0.2"
 audit-level: "static-review"
-audit-date: "2026-07-21T15:28:42+02:00"
-last-verified: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -31,7 +31,7 @@ Le chapitre a été matérialisé sur la branche dédiée `docs/livre-ii-ch22-mo
 - commandes de validation QA dans le chapitre lecteur : **0** ;
 - instruction `Prochaine étape` dans le chapitre : **0** ;
 - synthèse finale `Project Asteria` : **présente**.
-- segments d’explication antérieurs conservés : **231** ;
+- unités d’explication antérieures conservées : **228** ;
 - segments d’explication antérieurs perdus : **0** ;
 - points pédagogiques complémentaires ajoutés : **0** ;
 - sections Solo/Studio rendues en Markdown ordinaire : **oui**.

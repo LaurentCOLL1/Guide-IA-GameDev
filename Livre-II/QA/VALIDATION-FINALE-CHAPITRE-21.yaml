@@ -31,7 +31,7 @@ results:
   economy-inventory-commit-contract: true
   save-prepared-before-replacement: true
   structured-code-explanations: true
-  prior-explanation-units-preserved: 222
+  prior-explanation-units-preserved: 221
   prior-explanation-units-lost: 0
   complementary-explanation-points-added: 0
   generic-explanation-phrases-absent: true

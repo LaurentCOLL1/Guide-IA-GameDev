@@ -6,9 +6,9 @@ version: "1.0.4"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 17
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-17.md"
 audit-level: "static-review"
 reference-engine:
@@ -131,13 +131,13 @@ mutation autoritaire ou refus explicite
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** ce schéma sépare le raisonnement de l’écriture autoritaire ; aucune étape de perception ou de planification ne modifie directement le monde.
+- **Rôle précis du bloc :** **Rôle :** ce schéma sépare le raisonnement de l’écriture autoritaire ; aucune étape de perception ou de planification ne modifie directement le monde.
 
-- **Frontières d’autorité :** **Entrées et sorties :** les requêtes de lecture produisent un snapshot ; le planificateur produit une proposition ; le système propriétaire retourne un succès ou un refus.
+- **Paramètres, sorties et types importants :** **Entrées et sorties :** les requêtes de lecture produisent un snapshot ; le planificateur produit une proposition ; le système propriétaire retourne un succès ou un refus.
 
-- **Rôle précis du bloc :** **Invariant protégé :** une conclusion de l’agent, même cohérente, ne devient pas automatiquement un fait du jeu.
+- **Invariants protégés :** **Invariant protégé :** une conclusion de l’agent, même cohérente, ne devient pas automatiquement un fait du jeu.
 
-- **Responsabilités des classes ou fonctions :** **Vérification :** une action sociale passe par `SocialRelationshipService`, une action familiale par `FamilyGraphService`, et les futures actions de combat par le service du chapitre 18.
+- **Résultat attendu et vérification :** **Vérification :** une action sociale passe par `SocialRelationshipService`, une action familiale par `FamilyGraphService`, et les futures actions de combat par le service du chapitre 18.
 
 ## 5. Architecture retenue
 
@@ -176,13 +176,11 @@ res://src/features/agents/
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** l’arborescence place les règles pures dans `domain`, l’orchestration dans `application`, la persistance dans `infrastructure` et l’adaptation au personnage actif dans `presentation`.
+- **Rôle précis du bloc :** **Rôle :** l’arborescence place les règles pures dans `domain`, l’orchestration dans `application`, la persistance dans `infrastructure` et l’adaptation au personnage actif dans `presentation`.
 
-- **Dépendances et ports utilisés :** **Dépendances :** `domain` ne dépend ni d’un nœud, ni d’un transport IA, ni d’une scène ;
+- **Dépendances et ports utilisés :** **Dépendances :** `domain` ne dépend ni d’un nœud, ni d’un transport IA, ni d’une scène ; `presentation` peut dépendre des contrats de mouvement du chapitre 6.
 
-- **Rôle précis du bloc :** `presentation` peut dépendre des contrats de mouvement du chapitre 6.
-
-- **Responsabilités des classes ou fonctions :** **Résultat attendu :** une simulation hors écran peut utiliser le même domaine et le même service de décision sans instancier `autonomous_character_controller.gd`.
+- **Résultat attendu :** **Résultat attendu :** une simulation hors écran peut utiliser le même domaine et le même service de décision sans instancier `autonomous_character_controller.gd`.
 
 <a id="ch17-agent-state"></a>
 
@@ -232,19 +230,19 @@ func next_sequence(logical_tick: int) -> int:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** `AgentState` conserve uniquement les données durables nécessaires à la continuité et à la reproductibilité de l’agent. `random_seed` et `random_state` permettent de restaurer une suite pseudo-aléatoire lorsqu’une variation autorisée l’exige. **Effets de bord :** `next_sequence()` incrémente la séquence et mémorise le tick uniquement après la vérification d’ordre.
+- **Rôle précis du bloc :** **Rôle :** `AgentState` conserve uniquement les données durables nécessaires à la continuité et à la reproductibilité de l’agent.
 
-- **Dépendances et ports utilisés :** **Données importantes :** `owner_character_id` relie l’agent à une identité métier ;
-
-- **Rôle précis du bloc :** `policy_id` sélectionne sa politique ; `durable_goals` est borné ; `decision_sequence` ordonne les décisions ; Ils sont reconstruits ou invalidés.
+- **Paramètres et types importants :** **Données importantes :** `owner_character_id` relie l’agent à une identité métier ; `policy_id` sélectionne sa politique ; `durable_goals` est borné ; `decision_sequence` ordonne les décisions ; `random_seed` et `random_state` permettent de restaurer une suite pseudo-aléatoire lorsqu’une variation autorisée l’exige.
 
 - **Valeur de retour ou code d’échec :** **Valeurs de retour :** `validate()` renvoie un code de l’énumération `Error`. `next_sequence()` renvoie une séquence strictement positive après succès, ou la sentinelle `-1` lorsque le tick régresse ; dans ce dernier cas, aucun compteur n’est modifié.
 
-- **Limites et réserves :** **Invariants protégés :** identité stable, nombre de buts borné, séquence croissante et temps logique non décroissant.
+- **Effets de bord :** **Effets de bord :** `next_sequence()` incrémente la séquence et mémorise le tick uniquement après la vérification d’ordre.
 
-- **Persistance et restauration :** **Résultat attendu :** deux exécutions restaurées avec le même snapshot, les mêmes observations et le même ordre de ticks commencent avec le même état de décision.
+- **Invariants protégés :** **Invariants protégés :** identité stable, nombre de buts borné, séquence croissante et temps logique non décroissant.
 
-- **Responsabilités des classes ou fonctions :** La mémoire, le tableau noir, l’intention et le plan ne figurent pas dans cette classe.
+- **Résultat attendu :** **Résultat attendu :** deux exécutions restaurées avec le même snapshot, les mêmes observations et le même ordre de ticks commencent avec le même état de décision.
+
+- **Limites et réserves :** La mémoire, le tableau noir, l’intention et le plan ne figurent pas dans cette classe. Ils sont reconstruits ou invalidés.
 
 ## 7. Représenter un fait perçu
 
@@ -302,13 +300,13 @@ func is_expired(logical_tick: int) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** cette valeur transporte une observation structurée avec sa provenance, sa confiance et sa durée de validité.
+- **Rôle précis du bloc :** **Rôle :** cette valeur transporte une observation structurée avec sa provenance, sa confiance et sa durée de validité.
 
-- **Valeur de retour ou code d’échec :** **Types et sentinelle :** `Kind` ferme le vocabulaire initial ;
+- **Paramètres et types importants :** **Types et sentinelle :** `Kind` ferme le vocabulaire initial ; `confidence` utilise un entier de `0` à `1000` pour éviter les comparaisons flottantes ambiguës ; `NO_EXPIRATION` signifie que seule une invalidation explicite retire le fait.
 
-- **Paramètres et types importants :** `confidence` utilise un entier de `0` à `1000` pour éviter les comparaisons flottantes ambiguës ;
+- **Invariants protégés :** **Validation :** une position non finie, un tick négatif ou une expiration antérieure à l’observation rendent le fait invalide.
 
-- **Invariants protégés :** `NO_EXPIRATION` signifie que seule une invalidation explicite retire le fait. **Validation :** une position non finie, un tick négatif ou une expiration antérieure à l’observation rendent le fait invalide. **Sémantique temporelle :** un fait reste valide au tick `expires_at_tick` et devient expiré au tick suivant.
+- **Temps logique et expiration :** **Sémantique temporelle :** un fait reste valide au tick `expires_at_tick` et devient expiré au tick suivant.
 
 - **Limites et réserves :** **Limite :** `confidence` exprime la confiance du modèle de jeu, pas une probabilité scientifique de vérité.
 
@@ -374,15 +372,17 @@ func _evict_oldest() -> void:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** `AgentMemory` maintient un ensemble borné de faits récents sans exposer son dictionnaire interne. **Copie défensive :** le tableau retourné est nouveau, mais les objets `AgentFact` restent partagés et doivent être traités comme immuables après insertion.
+- **Rôle précis du bloc :** **Rôle :** `AgentMemory` maintient un ensemble borné de faits récents sans exposer son dictionnaire interne.
 
-- **Déterminisme et idempotence :** **Entrées :** `remember()` reçoit un fait déjà structuré et le tick logique courant ; **Ordre déterministe :** les lectures trient d’abord par récence décroissante, puis par `fact_id` ; l’éviction départage deux faits du même tick par leur identifiant.
-
-- **Rôle précis du bloc :** `read_all()` utilise le tick pour nettoyer avant lecture.
+- **Paramètres et types importants :** **Entrées :** `remember()` reçoit un fait déjà structuré et le tick logique courant ; `read_all()` utilise le tick pour nettoyer avant lecture.
 
 - **Effets de bord :** **Effets de bord :** mémoriser peut supprimer les faits expirés, évincer un fait ancien puis insérer ou remplacer une entrée.
 
-- **Valeur de retour ou code d’échec :** **Limite :** pour autoriser la mutation d’un fait, il faudrait retourner des duplications profondes ou remplacer systématiquement l’objet complet.
+- **Déterminisme et ordre :** **Ordre déterministe :** les lectures trient d’abord par récence décroissante, puis par `fact_id` ; l’éviction départage deux faits du même tick par leur identifiant.
+
+- **Copies et mutabilité :** **Copie défensive :** le tableau retourné est nouveau, mais les objets `AgentFact` restent partagés et doivent être traités comme immuables après insertion.
+
+- **Limites et réserves :** **Limite :** pour autoriser la mutation d’un fait, il faudrait retourner des duplications profondes ou remplacer systématiquement l’objet complet.
 
 ## 9. Tableau noir à clés autorisées
 
@@ -425,15 +425,17 @@ func snapshot() -> Dictionary[StringName, Variant]:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** **Rôle :** ce contrat limite les clés et le type `Variant.Type` accepté pour chacune d’elles.
+- **Rôle précis du bloc :** **Rôle :** ce contrat limite les clés et le type `Variant.Type` accepté pour chacune d’elles.
 
-- **Effets de bord :** **Configuration :** `configure()` copie le schéma afin que l’appelant ne puisse pas modifier ultérieurement la liste autorisée par alias de dictionnaire. **Effets de bord :** reconfigurer efface les anciennes valeurs ; écrire remplace la valeur associée à une clé valide.
+- **Configuration :** **Configuration :** `configure()` copie le schéma afin que l’appelant ne puisse pas modifier ultérieurement la liste autorisée par alias de dictionnaire.
 
-- **Valeur de retour ou code d’échec :** **Codes de retour de `write()` :** une clé absente du schéma renvoie `ERR_DOES_NOT_EXIST` ; une valeur dont le type ne correspond pas au schéma renvoie `ERR_INVALID_DATA`.
+- **Codes de retour de `write()` :** **Codes de retour de `write()` :** une clé absente du schéma renvoie `ERR_DOES_NOT_EXIST` ; une valeur dont le type ne correspond pas au schéma renvoie `ERR_INVALID_DATA`. Dans les deux cas, `_values` reste inchangé.
 
-- **Limites et réserves :** Dans les deux cas, `_values` reste inchangé.
+- **Effets de bord :** **Effets de bord :** reconfigurer efface les anciennes valeurs ; écrire remplace la valeur associée à une clé valide.
 
-- **Persistance et restauration :** **Copie profonde :** `snapshot()` duplique aussi les tableaux et dictionnaires imbriqués, mais une `Resource` imbriquée resterait partagée ; le schéma de référence n’autorise donc que des scalaires, `StringName`, `Vector3` et petites collections de valeurs. **Persistance :** le tableau noir n’est pas sauvegardé ; il décrit le contexte de la décision courante.
+- **Copie profonde :** **Copie profonde :** `snapshot()` duplique aussi les tableaux et dictionnaires imbriqués, mais une `Resource` imbriquée resterait partagée ; le schéma de référence n’autorise donc que des scalaires, `StringName`, `Vector3` et petites collections de valeurs.
+
+- **Persistance :** **Persistance :** le tableau noir n’est pas sauvegardé ; il décrit le contexte de la décision courante.
 
 ## 10. But durable
 
@@ -487,13 +489,15 @@ func is_actionable(logical_tick: int) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** `AgentGoal` porte une motivation durable, sa priorité, sa provenance et son éventuelle échéance.
+- **Rôle précis du bloc :** **Rôle :** `AgentGoal` porte une motivation durable, sa priorité, sa provenance et son éventuelle échéance.
 
-- **Invariants protégés :** **Bornes :** la priorité signée permet de désactiver temporairement un but sans inventer une valeur infinie ; les politiques peuvent néanmoins filtrer les priorités négatives.
+- **Bornes :** **Bornes :** la priorité signée permet de désactiver temporairement un but sans inventer une valeur infinie ; les politiques peuvent néanmoins filtrer les priorités négatives.
 
-- **Responsabilités des classes ou fonctions :** **États terminaux :** un but satisfait, échoué ou annulé n’est plus actionnable et doit être archivé ou retiré par le service applicatif.
+- **États terminaux :** **États terminaux :** un but satisfait, échoué ou annulé n’est plus actionnable et doit être archivé ou retiré par le service applicatif.
 
-- **Limites et réserves :** **Temps logique :** l’échéance est inclusive ; le but reste actionnable au tick de sa deadline. **Séparation :** aucune référence vers `AgentPlan` n’est stockée, car un plan est une hypothèse transitoire invalidée par le monde.
+- **Temps logique :** **Temps logique :** l’échéance est inclusive ; le but reste actionnable au tick de sa deadline.
+
+- **Séparation :** **Séparation :** aucune référence vers `AgentPlan` n’est stockée, car un plan est une hypothèse transitoire invalidée par le monde.
 
 ## 11. Sélection déterministe du but
 
@@ -525,13 +529,15 @@ func select_goal(
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Rôle :** cette fonction choisit le but actif le plus prioritaire avec deux critères de départage reproductibles.
+- **Rôle précis du bloc :** **Rôle :** cette fonction choisit le but actif le plus prioritaire avec deux critères de départage reproductibles.
 
-- **Rôle précis du bloc :** **Ordre :** une priorité élevée gagne ; à priorité égale, le but le plus ancien gagne ; une égalité restante est résolue par l’identifiant. **Vérification :** permuter l’ordre initial des mêmes buts doit produire le même `goal_id` sélectionné.
+- **Déroulement ou instructions importantes :** **Ordre :** une priorité élevée gagne ; à priorité égale, le but le plus ancien gagne ; une égalité restante est résolue par l’identifiant.
 
-- **Résultat attendu :** **Retour :** l’absence de candidat produit `null` et doit conduire l’agent à une intention d’attente explicite, pas à une réutilisation silencieuse du plan précédent.
+- **Retour :** **Retour :** l’absence de candidat produit `null` et doit conduire l’agent à une intention d’attente explicite, pas à une réutilisation silencieuse du plan précédent.
 
-- **Invariants protégés :** **Effets de bord :** le tableau d’entrée n’est pas trié ; seul `candidates` est modifié.
+- **Effets de bord :** **Effets de bord :** le tableau d’entrée n’est pas trié ; seul `candidates` est modifié.
+
+- **Résultat attendu et vérification :** **Vérification :** permuter l’ordre initial des mêmes buts doit produire le même `goal_id` sélectionné.
 
 ## 12. Conditions et effets déclaratifs
 
@@ -557,13 +563,11 @@ func matches(facts: Dictionary[StringName, bool]) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** `AgentCondition` décrit une précondition de conception modifiable dans l’inspecteur et évaluée contre un snapshot booléen.
+- **Rôle précis du bloc :** **Rôle :** `AgentCondition` décrit une précondition de conception modifiable dans l’inspecteur et évaluée contre un snapshot booléen.
 
-- **Rôle précis du bloc :** **Valeur absente :** une clé inexistante est lue comme `false`.
+- **Valeur absente :** **Valeur absente :** une clé inexistante est lue comme `false`. Une condition qui attend `false` peut donc réussir en l’absence de clé ; cette convention doit rester stable dans tout le catalogue.
 
-- **Dépendances et ports utilisés :** Une condition qui attend `false` peut donc réussir en l’absence de clé ; cette convention doit rester stable dans tout le catalogue.
-
-- **Effets de bord :** **Retour :** `matches()` ne modifie ni la condition ni le dictionnaire reçu.
+- **Retour :** **Retour :** `matches()` ne modifie ni la condition ni le dictionnaire reçu.
 
 - **Limites et réserves :** **Limite :** les comparaisons de distance, de quantité ou de relation utilisent des faits calculés par les requêtes du monde, pas des opérateurs dynamiques stockés dans une chaîne.
 
@@ -587,13 +591,13 @@ func apply_to(facts: Dictionary[StringName, bool]) -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** `AgentEffect` décrit l’état hypothétique obtenu après une action réussie. **Effet de bord :** `apply_to()` modifie le dictionnaire fourni ; le planificateur doit donc lui transmettre une copie de l’état parent.
+- **Rôle précis du bloc :** **Rôle :** `AgentEffect` décrit l’état hypothétique obtenu après une action réussie.
 
-- **Frontières d’autorité :** **Frontière :** cet effet ne mutile jamais le monde réel.
+- **Effet de bord :** **Effet de bord :** `apply_to()` modifie le dictionnaire fourni ; le planificateur doit donc lui transmettre une copie de l’état parent.
 
-- **Invariants protégés :** Il sert uniquement à simuler la conséquence attendue pendant la recherche de plan.
+- **Frontières d’autorité :** **Frontière :** cet effet ne mutile jamais le monde réel. Il sert uniquement à simuler la conséquence attendue pendant la recherche de plan.
 
-- **Persistance et restauration :** **Vérification :** appliquer un effet à une copie ne doit pas changer le snapshot d’origine.
+- **Résultat attendu et vérification :** **Vérification :** appliquer un effet à une copie ne doit pas changer le snapshot d’origine.
 
 ## 13. Définition d’une action
 
@@ -649,13 +653,17 @@ func simulate(facts: Dictionary[StringName, bool]) -> Dictionary[StringName, boo
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** cette `Resource` constitue la donnée de conception d’une action planifiable ;
+- **Rôle précis du bloc :** **Rôle :** cette `Resource` constitue la donnée de conception d’une action planifiable ; `executor_key` choisit l’adaptateur autorisé qui demandera l’exécution réelle.
 
-- **Dépendances et ports utilisés :** `executor_key` choisit l’adaptateur autorisé qui demandera l’exécution réelle. **Bornes :** les coûts et tailles de collections sont limités afin qu’un catalogue erroné ne rende pas la recherche imprévisible. **Immutabilité attendue :** une action chargée depuis le catalogue est traitée comme immuable pendant le gameplay.
+- **Bornes :** **Bornes :** les coûts et tailles de collections sont limités afin qu’un catalogue erroné ne rende pas la recherche imprévisible.
 
-- **Limites et réserves :** **Précondition :** une action sans effet est refusée, car elle ne peut pas rapprocher un plan d’un état cible dans ce modèle. **Limite :** le coût de planification n’est pas automatiquement une durée, une dépense d’endurance ou un prix économique ; ces valeurs appartiennent aux systèmes concernés.
+- **Précondition :** **Précondition :** une action sans effet est refusée, car elle ne peut pas rapprocher un plan d’un état cible dans ce modèle.
 
-- **Invariants protégés :** **Simulation :** `simulate()` duplique le dictionnaire avant d’appliquer les effets, ce qui protège l’état parent de la recherche.
+- **Simulation :** **Simulation :** `simulate()` duplique le dictionnaire avant d’appliquer les effets, ce qui protège l’état parent de la recherche.
+
+- **Immutabilité attendue :** **Immutabilité attendue :** une action chargée depuis le catalogue est traitée comme immuable pendant le gameplay.
+
+- **Limites et réserves :** **Limite :** le coût de planification n’est pas automatiquement une durée, une dépense d’endurance ou un prix économique ; ces valeurs appartiennent aux systèmes concernés.
 
 ## 14. Catalogue validé
 
@@ -697,11 +705,13 @@ func all_sorted() -> Array[AgentActionDefinition]:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** `AgentActionCatalog` construit un candidat complet avant de remplacer le catalogue actif. **Codes de retour de `replace_all()` :** une action invalide renvoie `ERR_INVALID_DATA` ; deux actions portant le même `action_id` renvoient `ERR_ALREADY_EXISTS`. Le catalogue actif n’est remplacé qu’après validation complète du candidat.
+- **Rôle précis du bloc :** **Rôle :** `AgentActionCatalog` construit un candidat complet avant de remplacer le catalogue actif.
 
-- **Déterminisme et idempotence :** **Ordre stable :** `all_sorted()` neutralise l’ordre d’insertion du dictionnaire et fournit le départage lexical utilisé par le planificateur.
+- **Codes de retour de `replace_all()` :** **Codes de retour de `replace_all()` :** une action invalide renvoie `ERR_INVALID_DATA` ; deux actions portant le même `action_id` renvoient `ERR_ALREADY_EXISTS`. Le catalogue actif n’est remplacé qu’après validation complète du candidat.
 
-- **Limites et réserves :** **Lecture :** le tableau retourné est nouveau, mais les `Resource` restent partagées et considérées comme immuables.
+- **Ordre stable :** **Ordre stable :** `all_sorted()` neutralise l’ordre d’insertion du dictionnaire et fournit le départage lexical utilisé par le planificateur.
+
+- **Lecture :** **Lecture :** le tableau retourné est nouveau, mais les `Resource` restent partagées et considérées comme immuables.
 
 ## 15. Snapshot de décision
 
@@ -754,13 +764,13 @@ func duplicate_snapshot() -> AgentWorldSnapshot:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** ce DTO fige les entrées de lecture utilisées par une décision afin que le planificateur ne consulte pas un monde changeant au milieu de son calcul.
+- **Rôle précis du bloc :** **Rôle :** ce DTO fige les entrées de lecture utilisées par une décision afin que le planificateur ne consulte pas un monde changeant au milieu de son calcul.
 
-- **Invariants protégés :** **Révision :** `world_revision` augmente lorsqu’une mutation pertinente peut invalider un plan ; sa granularité exacte appartient au service d’agrégation du monde.
+- **Révision :** **Révision :** `world_revision` augmente lorsqu’une mutation pertinente peut invalider un plan ; sa granularité exacte appartient au service d’agrégation du monde.
 
-- **Paramètres et types importants :** **Bornes :** le nombre de faits booléens est limité ; les identifiants et positions sont contrôlés avant planification.
+- **Bornes :** **Bornes :** le nombre de faits booléens est limité ; les identifiants et positions sont contrôlés avant planification.
 
-- **Rôle précis du bloc :** **Copie :** les trois collections sont dupliquées. Le contenu est composé de valeurs et ne partage pas d’objet mutable personnalisé.
+- **Copie :** **Copie :** les trois collections sont dupliquées. Le contenu est composé de valeurs et ne partage pas d’objet mutable personnalisé.
 
 - **Frontières d’autorité :** **Frontière :** les relations et liens familiaux sont lus par leurs services de requête puis convertis en faits ; leurs dépôts ne sont jamais exposés au planificateur.
 
@@ -797,13 +807,13 @@ func build_snapshot(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** l’agrégateur convertit des lectures sociales et familiales en faits utiles sans modifier les systèmes interrogés.
+- **Rôle précis du bloc :** **Rôle :** l’agrégateur convertit des lectures sociales et familiales en faits utiles sans modifier les systèmes interrogés.
 
-- **Dépendances et ports utilisés :** **Dépendances :** `_social_query`, `_family_query` et `_world_revision_source` sont des contrats injectés ;
+- **Dépendances et ports utilisés :** **Dépendances :** `_social_query`, `_family_query` et `_world_revision_source` sont des contrats injectés ; `_focus_target_id` provient du contexte de décision validé.
 
-- **Rôle précis du bloc :** `_focus_target_id` provient du contexte de décision validé. **Valeurs dérivées :** le seuil de confiance appartient à une politique d’agent versionnée, pas à `SocialRelationshipState`.
+- **Valeurs dérivées :** **Valeurs dérivées :** le seuil de confiance appartient à une politique d’agent versionnée, pas à `SocialRelationshipState`.
 
-- **Persistance et restauration :** **Résultat :** le snapshot peut encore être refusé par `validate()` avant d’être transmis au planificateur.
+- **Résultat :** **Résultat :** le snapshot peut encore être refusé par `validate()` avant d’être transmis au planificateur.
 
 - **Limites et réserves :** **Limite :** ce petit exemple ne définit pas la visibilité physique, la navigation, le combat ni l’économie.
 
@@ -838,7 +848,11 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** `AgentPlan` conserve une suite ordonnée d’identifiants d’actions liée à un but et à la révision du snapshot utilisé. **Données transitoires :** le plan est validable et diagnosticable, mais il n’est pas une donnée durable de sauvegarde. **Invalidation :** si la révision courante diffère de `snapshot_revision`, le service revalide au minimum la prochaine action ou reconstruit le plan.
+- **Rôle précis du bloc :** **Rôle :** `AgentPlan` conserve une suite ordonnée d’identifiants d’actions liée à un but et à la révision du snapshot utilisé.
+
+- **Données transitoires :** **Données transitoires :** le plan est validable et diagnosticable, mais il n’est pas une donnée durable de sauvegarde.
+
+- **Invalidation :** **Invalidation :** si la révision courante diffère de `snapshot_revision`, le service revalide au minimum la prochaine action ou reconstruit le plan.
 
 - **Frontières d’autorité :** **Frontière :** `total_cost` permet de comparer des plans ; il ne garantit pas que l’exécution réelle réussira.
 
@@ -872,11 +886,11 @@ static func found(value: AgentPlan, expanded: int) -> AgentPlanResult:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** le résultat transporte un statut fermé, le plan éventuel et le nombre de nœuds développés pour le diagnostic.
+- **Rôle précis du bloc :** **Rôle :** le résultat transporte un statut fermé, le plan éventuel et le nombre de nœuds développés pour le diagnostic.
 
-- **Rôle précis du bloc :** **Retour de fabrique :** `found()` garantit que le statut et le plan sont assignés ensemble ; les autres statuts utilisent des fabriques équivalentes dans l’implémentation complète.
+- **Retour de fabrique :** **Retour de fabrique :** `found()` garantit que le statut et le plan sont assignés ensemble ; les autres statuts utilisent des fabriques équivalentes dans l’implémentation complète.
 
-- **Limites et réserves :** **Statuts à distinguer :** `NO_PLAN` signifie qu’aucune action n’est à exécuter dans le résultat courant : soit le but est déjà satisfait, soit la recherche complète n’a trouvé aucun chemin autorisé. `BUDGET_EXCEEDED` signifie que la limite d’expansions a interrompu la recherche avant qu’elle puisse conclure.
+- **Statuts à distinguer :** **Statuts à distinguer :** `NO_PLAN` signifie qu’aucune action n’est à exécuter dans le résultat courant : soit le but est déjà satisfait, soit la recherche complète n’a trouvé aucun chemin autorisé. `BUDGET_EXCEEDED` signifie que la limite d’expansions a interrompu la recherche avant qu’elle puisse conclure.
 
 ## 18. Nœud interne de recherche
 
@@ -906,9 +920,9 @@ func signature() -> String:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** cet objet est une structure de travail du planificateur et n’appartient ni au domaine persistant ni au monde actif.
+- **Rôle précis du bloc :** **Rôle :** cet objet est une structure de travail du planificateur et n’appartient ni au domaine persistant ni au monde actif.
 
-- **Invariants protégés :** **Signature :** la chaîne d’identifiants sert uniquement au départage stable de deux chemins de coût et profondeur identiques.
+- **Signature :** **Signature :** la chaîne d’identifiants sert uniquement au départage stable de deux chemins de coût et profondeur identiques.
 
 - **Limites et réserves :** **Limite :** concaténer de longues signatures coûte de la mémoire ; la profondeur maximale faible du planificateur rend ce choix acceptable pour le parcours pédagogique.
 
@@ -1031,15 +1045,23 @@ func _failure(
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** **Rôle :** cette recherche de coût uniforme explore un espace booléen borné et retourne un statut explicite plutôt qu’une liste vide ambiguë. **Cas déjà satisfait :** le modèle retourne ici `NO_PLAN` avec un message spécifique ; le service de décision peut alors marquer le but satisfait au lieu d’exécuter une action vide.
+- **Rôle précis du bloc :** **Rôle :** cette recherche de coût uniforme explore un espace booléen borné et retourne un statut explicite plutôt qu’une liste vide ambiguë.
 
-- **Frontières d’autorité :** **Entrées :** le snapshot, le but et chaque condition sont validés avant la création de la frontière ; le catalogue fournit déjà des actions valides triées. **Complexité :** trier toute la frontière à chaque retrait reste pédagogique, mais une file de priorité spécialisée sera préférable si les budgets augmentent.
+- **Paramètres et types importants :** **Entrées :** le snapshot, le but et chaque condition sont validés avant la création de la frontière ; le catalogue fournit déjà des actions valides triées.
 
-- **Déterminisme et idempotence :** **Budgets déterministes :** `MAX_EXPANSIONS` et `MAX_PLAN_DEPTH` limitent la quantité de travail de manière indépendante de la vitesse du processeur.
+- **Budgets déterministes :** **Budgets déterministes :** `MAX_EXPANSIONS` et `MAX_PLAN_DEPTH` limitent la quantité de travail de manière indépendante de la vitesse du processeur.
 
-- **Rôle précis du bloc :** **Déroulement :** le meilleur nœud est retiré, le but est testé, puis les actions applicables produisent des enfants sur des copies de faits. **Élagage :** `best_cost_by_state` ignore un état déjà atteint à coût inférieur ou égal ; la clé canonique trie les faits pour ne pas dépendre de l’ordre du dictionnaire. **Départage :** coût, profondeur et signature donnent le même choix avec les mêmes entrées.
+- **Déroulement ou instructions importantes :** **Déroulement :** le meilleur nœud est retiré, le but est testé, puis les actions applicables produisent des enfants sur des copies de faits.
 
-- **Dépendances et ports utilisés :** **Vérification :** exécuter la même recherche après permutation du catalogue doit conserver le statut, le coût et la liste d’actions.
+- **Élagage :** **Élagage :** `best_cost_by_state` ignore un état déjà atteint à coût inférieur ou égal ; la clé canonique trie les faits pour ne pas dépendre de l’ordre du dictionnaire.
+
+- **Départage :** **Départage :** coût, profondeur et signature donnent le même choix avec les mêmes entrées.
+
+- **Cas déjà satisfait :** **Cas déjà satisfait :** le modèle retourne ici `NO_PLAN` avec un message spécifique ; le service de décision peut alors marquer le but satisfait au lieu d’exécuter une action vide.
+
+- **Complexité :** **Complexité :** trier toute la frontière à chaque retrait reste pédagogique, mais une file de priorité spécialisée sera préférable si les budgets augmentent.
+
+- **Résultat attendu et vérification :** **Vérification :** exécuter la même recherche après permutation du catalogue doit conserver le statut, le coût et la liste d’actions.
 
 ## 20. Pourquoi le budget en microsecondes n’est pas l’autorité
 
@@ -1058,11 +1080,11 @@ budget de sécurité : microsecondes observées, alerte, report du travail resta
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** le premier budget protège la reproductibilité ; le second protège la fluidité et fournit une télémétrie dépendante de la machine.
+- **Rôle précis du bloc :** **Rôle :** le premier budget protège la reproductibilité ; le second protège la fluidité et fournit une télémétrie dépendante de la machine.
 
-- **Rôle précis du bloc :** **Conséquence :** une mesure trop élevée peut dégrader la fréquence future ou déclencher un diagnostic, mais elle ne change pas rétroactivement le résultat d’une recherche déjà autorisée par son budget logique.
+- **Résultat attendu et conséquences :** **Conséquence :** une mesure trop élevée peut dégrader la fréquence future ou déclencher un diagnostic, mais elle ne change pas rétroactivement le résultat d’une recherche déjà autorisée par son budget logique.
 
-- **Résultat attendu :** **Lien moteur :** l’horloge monotone évite les sauts de l’heure système, mais elle ne rend pas deux processeurs aussi rapides.
+- **Lien avec le moteur :** **Lien moteur :** l’horloge monotone évite les sauts de l’heure système, mais elle ne rend pas deux processeurs aussi rapides.
 
 ## 21. Requête d’action typée
 
@@ -1105,17 +1127,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** cette commande transporte l’identité de la décision, l’action choisie et le contexte minimal nécessaire à l’exécuteur. Une future requête de combat ne transporte pas directement « points de vie après attaque ».
+- **Rôle précis du bloc :** **Rôle :** cette commande transporte l’identité de la décision, l’action choisie et le contexte minimal nécessaire à l’exécuteur.
 
-- **Rôle précis du bloc :** **Corrélation :** `request_id` distingue deux tentatives ; `decision_sequence` ordonne les décisions du même agent ;
+- **Corrélation et révisions :** **Corrélation :** `request_id` distingue deux tentatives ; `decision_sequence` ordonne les décisions du même agent ; `snapshot_revision` permet de refuser une requête fondée sur un monde obsolète.
 
-- **Persistance et restauration :** `snapshot_revision` permet de refuser une requête fondée sur un monde obsolète.
+- **Cibles et données optionnelles :** **Cibles :** une action peut utiliser une identité, une position ou aucune cible. L’exécuteur vérifie les champs réellement requis par son contrat.
 
-- **Limites et réserves :** **Cibles :** une action peut utiliser une identité, une position ou aucune cible.
-
-- **Paramètres et types importants :** L’exécuteur vérifie les champs réellement requis par son contrat.
-
-- **Frontières d’autorité :** **Frontière :** aucune valeur d’effet autoritaire n’est incluse.
+- **Frontières d’autorité :** **Frontière :** aucune valeur d’effet autoritaire n’est incluse. Une future requête de combat ne transporte pas directement « points de vie après attaque ».
 
 ## 22. Service de décision
 
@@ -1203,15 +1221,17 @@ func decide(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** `AgentDecisionService` constitue le point d’orchestration d’une décision et émet une requête seulement après validation complète.
+- **Rôle précis du bloc :** **Rôle :** `AgentDecisionService` constitue le point d’orchestration d’une décision et émet une requête seulement après validation complète.
 
-- **Persistance et restauration :** **Ordre :** il valide l’état et ses dépendances, réserve une séquence, construit un snapshot, choisit un but, planifie, recontrôle la révision puis fabrique la requête. **Ports :** `AgentSnapshotBuilder`, `AgentGoalPolicy`, `AgentGoalConditionCatalog` et `WorldRevisionSource` sont définis par les signatures immédiatement suivantes ; leurs implémentations restent injectées.
+- **Déroulement ou instructions importantes :** **Ordre :** il valide l’état et ses dépendances, réserve une séquence, construit un snapshot, choisit un but, planifie, recontrôle la révision puis fabrique la requête.
 
-- **Rôle précis du bloc :** **Révision concurrente :** si le monde change pendant le calcul, le plan n’est pas appliqué ; `ERR_BUSY` invite l’ordonnanceur à reprogrammer une décision. **Effets de bord :** la séquence de l’agent avance et un signal typé peut être émis.
+- **Révision concurrente :** **Révision concurrente :** si le monde change pendant le calcul, le plan n’est pas appliqué ; `ERR_BUSY` invite l’ordonnanceur à reprogrammer une décision.
 
-- **Valeur de retour ou code d’échec :** **Absence de but :** retourner `OK` sans signal signifie que l’attente est une issue normale, distincte d’un échec de planification.
+- **Absence de but :** **Absence de but :** retourner `OK` sans signal signifie que l’attente est une issue normale, distincte d’un échec de planification.
 
-- **Limites et réserves :** Aucun état social, familial, physique ou de combat n’est modifié ici.
+- **Effets de bord :** **Effets de bord :** la séquence de l’agent avance et un signal typé peut être émis. Aucun état social, familial, physique ou de combat n’est modifié ici.
+
+- **Dépendances et ports utilisés :** **Ports :** `AgentSnapshotBuilder`, `AgentGoalPolicy`, `AgentGoalConditionCatalog` et `WorldRevisionSource` sont définis par les signatures immédiatement suivantes ; leurs implémentations restent injectées.
 
 ### 22.1 Signatures des ports de décision
 
@@ -1250,11 +1270,15 @@ func cancel(request_id: StringName, reason: StringName) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** ce port impose trois opérations distinctes : prévalidation, démarrage et demande d’annulation. **Retours :** la classe de base refuse par défaut ; une implémentation doit remplacer chaque méthode qu’elle supporte.
+- **Rôle précis du bloc :** **Rôle :** ce port impose trois opérations distinctes : prévalidation, démarrage et demande d’annulation.
 
-- **Rôle précis du bloc :** **Annulation :** `cancel()` est coopérative. Un mouvement déjà transmis au contrôleur peut nécessiter un tick supplémentaire avant l’arrêt observable. Il ne réimplémente pas les règles du système cible. Exemples de clés :
+- **Valeur de retour ou code d’échec :** **Retours :** la classe de base refuse par défaut ; une implémentation doit remplacer chaque méthode qu’elle supporte.
 
-- **Frontières d’autorité :** **Frontière :** l’exécuteur adapte la requête au service propriétaire.
+- **Annulation :** **Annulation :** `cancel()` est coopérative. Un mouvement déjà transmis au contrôleur peut nécessiter un tick supplémentaire avant l’arrêt observable.
+
+- **Frontières d’autorité :** **Frontière :** l’exécuteur adapte la requête au service propriétaire. Il ne réimplémente pas les règles du système cible.
+
+- **Point d’explication complémentaire :** Exemples de clés :
 
 > **[LECTURE] Vocabulaire d’exécuteurs — Ne pas saisir.**
 
@@ -1270,11 +1294,11 @@ agent.executor.combat_command
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Rôle :** ces identifiants découplent les `Resource` de conception des classes concrètes composées au bootstrap. Elle ne déclenche jamais le chargement d’une classe ou l’appel dynamique d’une méthode indiquée par les données.
+- **Rôle précis du bloc :** **Rôle :** ces identifiants découplent les `Resource` de conception des classes concrètes composées au bootstrap.
 
-- **Limites et réserves :** **Disponibilité :** les deux premières clés peuvent être matérialisées dans ce chapitre ; les exécuteurs de combat restent indisponibles avant le chapitre 18.
+- **Disponibilité et limites :** **Disponibilité :** les deux premières clés peuvent être matérialisées dans ce chapitre ; les exécuteurs de combat restent indisponibles avant le chapitre 18.
 
-- **Valeur de retour ou code d’échec :** **Refus contrôlé :** une clé absente du registre renvoie un échec explicite.
+- **Refus contrôlé :** **Refus contrôlé :** une clé absente du registre renvoie un échec explicite. Elle ne déclenche jamais le chargement d’une classe ou l’appel dynamique d’une méthode indiquée par les données.
 
 ## 24. Contrôleur autonome actif
 
@@ -1331,13 +1355,15 @@ func cancel(request_id: StringName) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** ce nœud adapte une action autonome au même contrat d’intention que le contrôleur humain, sans appeler directement `Input` ni déplacer le corps. **Traitement physique :** la direction XZ est recalculée à chaque tick depuis la position actuelle ; le moteur de mouvement reste responsable de la vitesse, des collisions et de `move_and_slide()`. **Limites :** l’exemple ne traite ni navigation, ni obstacles, ni distance d’arrivée.
+- **Rôle précis du bloc :** **Rôle :** ce nœud adapte une action autonome au même contrat d’intention que le contrôleur humain, sans appeler directement `Input` ni déplacer le corps.
 
-- **Rôle précis du bloc :** **Initialisation :** l’identité et le puits d’intention sont obligatoires avant toute requête.
+- **Initialisation :** **Initialisation :** l’identité et le puits d’intention sont obligatoires avant toute requête.
 
-- **Effets de bord :** **Annulation :** une intention neutre est envoyée afin d’arrêter la commande précédente ; une requête inconnue ne modifie pas le contrôleur.
+- **Traitement physique :** **Traitement physique :** la direction XZ est recalculée à chaque tick depuis la position actuelle ; le moteur de mouvement reste responsable de la vitesse, des collisions et de `move_and_slide()`.
 
-- **Dépendances et ports utilisés :** Une implémentation complète injectera un port de navigation sans déplacer les règles de décision dans `NavigationAgent3D`.
+- **Annulation :** **Annulation :** une intention neutre est envoyée afin d’arrêter la commande précédente ; une requête inconnue ne modifie pas le contrôleur.
+
+- **Limites et réserves :** **Limites :** l’exemple ne traite ni navigation, ni obstacles, ni distance d’arrivée. Une implémentation complète injectera un port de navigation sans déplacer les règles de décision dans `NavigationAgent3D`.
 
 ## 25. Simulation hors écran
 
@@ -1371,19 +1397,15 @@ static func decision_interval_ticks(value: Value) -> int:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** cette politique associe un mode explicite à une fréquence de décision, sans déduire l’existence métier de la présence dans la scène. Une simulation hors écran ne doit pas reproduire à haute fidélité la physique, la navigation et les animations.
+- **Rôle précis du bloc :** **Rôle :** cette politique associe un mode explicite à une fréquence de décision, sans déduire l’existence métier de la présence dans la scène.
 
-- **Rôle précis du bloc :** **Intervalles nominaux :** avec `Engine.physics_ticks_per_second = 60`, le mode `ACTIVE` utilise `6` ticks, soit au plus `10` décisions par seconde ; `BACKGROUND` utilise `60` ticks, soit au plus `1` décision par seconde ; `DORMANT` utilise `600` ticks, soit au plus `1` décision toutes les `10` secondes. Ces équivalences changent si la fréquence physique du projet change.
+- **Intervalles et cadence :** **Intervalles nominaux :** avec `Engine.physics_ticks_per_second = 60`, le mode `ACTIVE` utilise `6` ticks, soit au plus `10` décisions par seconde ; `BACKGROUND` utilise `60` ticks, soit au plus `1` décision par seconde ; `DORMANT` utilise `600` ticks, soit au plus `1` décision toutes les `10` secondes. Ces équivalences changent si la fréquence physique du projet change. Elles restent nominales : lorsqu’un agent échu est reporté par le budget de l’ordonnanceur, sa décision réelle peut survenir plus tard, mais l’échéance demeure exprimée en ticks logiques.
 
-- **Dépendances et ports utilisés :** Elles restent nominales : lorsqu’un agent échu est reporté par le budget de l’ordonnanceur, sa décision réelle peut survenir plus tard, mais l’échéance demeure exprimée en ticks logiques.
+- **Persistance et mode dormant :** **Mode dormant :** dormant ne signifie pas supprimé ; les buts durables et l’état persistent.
 
-- **Persistance et restauration :** **Mode dormant :** dormant ne signifie pas supprimé ; les buts durables et l’état persistent.
+- **Frontières d’autorité :** **Frontière :** le système de partition du monde choisit le mode. Le registre des personnages actifs ne constitue qu’un signal parmi d’autres.
 
-- **Frontières d’autorité :** **Frontière :** le système de partition du monde choisit le mode.
-
-- **Responsabilités des classes ou fonctions :** Le registre des personnages actifs ne constitue qu’un signal parmi d’autres.
-
-- **Résultat attendu :** Elle produit des transitions logiques autorisées et laisse le chapitre 22 définir la simulation globale du monde vivant.
+- **Limites et réserves :** Une simulation hors écran ne doit pas reproduire à haute fidélité la physique, la navigation et les animations. Elle produit des transitions logiques autorisées et laisse le chapitre 22 définir la simulation globale du monde vivant.
 
 ## 26. Politique de tick
 
@@ -1418,11 +1440,15 @@ func is_due(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** la politique calcule la première échéance canonique strictement postérieure à la dernière décision, puis indique si cette échéance est atteinte ou dépassée. **Phase :** `posmod()` ramène `phase` dans l’intervalle positif. La phase est dérivée de manière stable depuis le `CharacterId` ; elle ne provient pas d’un tirage aléatoire au démarrage. **Rattrapage borné :** après une longue pause, `decide()` n’est appelé qu’une fois pour l’agent et observe le monde courant ; les créneaux manqués ne sont pas rejoués un par un.
+- **Rôle précis du bloc :** **Rôle :** la politique calcule la première échéance canonique strictement postérieure à la dernière décision, puis indique si cette échéance est atteinte ou dépassée.
 
-- **Dépendances et ports utilisés :** **Report conservé :** la comparaison `logical_tick >= next_due_tick` maintient l’agent échu tant que l’ordonnanceur ne l’a pas traité.
+- **Déroulement ou instructions importantes :** **Phase :** `posmod()` ramène `phase` dans l’intervalle positif. La phase est dérivée de manière stable depuis le `CharacterId` ; elle ne provient pas d’un tirage aléatoire au démarrage.
 
-- **Limites et réserves :** Avec l’ancien test d’égalité modulo, un agent non visité au tick exact pouvait attendre tout un intervalle supplémentaire. **Vérification :** deux agents de phases différentes répartissent leurs échéances, et un agent dépassant son créneau reste dû au tick suivant jusqu’à sa décision.
+- **Déterminisme et échéances :** **Report conservé :** la comparaison `logical_tick >= next_due_tick` maintient l’agent échu tant que l’ordonnanceur ne l’a pas traité. Avec l’ancien test d’égalité modulo, un agent non visité au tick exact pouvait attendre tout un intervalle supplémentaire.
+
+- **Déroulement ou instructions importantes — complément 2 :** **Rattrapage borné :** après une longue pause, `decide()` n’est appelé qu’une fois pour l’agent et observe le monde courant ; les créneaux manqués ne sont pas rejoués un par un.
+
+- **Résultat attendu et vérification :** **Vérification :** deux agents de phases différentes répartissent leurs échéances, et un agent dépassant son créneau reste dû au tick suivant jusqu’à sa décision.
 
 ## 27. Ordonnanceur borné
 
@@ -1486,17 +1512,17 @@ func _physics_process(_delta: float) -> void:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Rôle :** ce nœud distribue les décisions sans parcourir indéfiniment tous les agents à chaque tick physique. L’extrait ne le consomme pas afin de rester centré sur l’ordonnancement ; cette omission pédagogique ne signifie pas que l’application finale peut ignorer le résultat. **Limite :** l’ordonnanceur s’exécute sur le thread principal.
+- **Rôle précis du bloc :** **Rôle :** ce nœud distribue les décisions sans parcourir indéfiniment tous les agents à chaque tick physique.
 
-- **Valeur de retour ou code d’échec :** **Ordre autoritaire :** le registre renvoie des identités triées ; le curseur avance du nombre d’entrées visitées, ce qui évite de favoriser toujours les premiers identifiants.
+- **Ordre autoritaire :** **Ordre autoritaire :** le registre renvoie des identités triées ; le curseur avance du nombre d’entrées visitées, ce qui évite de favoriser toujours les premiers identifiants.
 
-- **Déterminisme et idempotence :** **Budget :** `MAX_DECISIONS_PER_PHYSICS_TICK` contrôle le travail déterministe.
+- **Budgets et limites :** **Budget :** `MAX_DECISIONS_PER_PHYSICS_TICK` contrôle le travail déterministe. `WARNING_BUDGET_USEC` ne coupe pas la boucle et sert uniquement à signaler un coût matériel élevé.
 
-- **Invariants protégés :** `WARNING_BUDGET_USEC` ne coupe pas la boucle et sert uniquement à signaler un coût matériel élevé.
+- **Temps logique et mesure :** **Temps :** `_logical_tick` est local à cet exemple. Dans le projet complet, il doit provenir de l’horloge de simulation autoritaire utilisée par les autres systèmes.
 
-- **Rôle précis du bloc :** **Temps :** `_logical_tick` est local à cet exemple. Dans le projet complet, il doit provenir de l’horloge de simulation autoritaire utilisée par les autres systèmes. **Traitement du résultat :** le code renvoyé par `decide()` doit être enregistré dans une trace ou un compteur.
+- **Valeur de retour ou traitement du résultat :** **Traitement du résultat :** le code renvoyé par `decide()` doit être enregistré dans une trace ou un compteur. L’extrait ne le consomme pas afin de rester centré sur l’ordonnancement ; cette omission pédagogique ne signifie pas que l’application finale peut ignorer le résultat.
 
-- **Persistance et restauration :** Une future parallélisation exige des snapshots immuables et interdit tout accès aux nœuds depuis les workers.
+- **Limites et réserves :** **Limite :** l’ordonnanceur s’exécute sur le thread principal. Une future parallélisation exige des snapshots immuables et interdit tout accès aux nœuds depuis les workers.
 
 ## 28. Invalidation et annulation
 
@@ -1527,9 +1553,11 @@ nouveau snapshot au prochain tick autorisé
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** cette séquence évite d’appliquer la suite d’un plan construit pour un monde ancien. **Résultat :** une nouvelle décision repart des données autoritaires, pas de l’état hypothétique du plan abandonné.
+- **Rôle précis du bloc :** **Rôle :** cette séquence évite d’appliquer la suite d’un plan construit pour un monde ancien.
 
-- **Limites et réserves :** **Ordre :** l’annulation est demandée avant d’oublier l’identifiant de la requête active ; sinon l’exécuteur ne pourrait plus être corrélé.
+- **Déroulement ou instructions importantes :** **Ordre :** l’annulation est demandée avant d’oublier l’identifiant de la requête active ; sinon l’exécuteur ne pourrait plus être corrélé.
+
+- **Résultat :** **Résultat :** une nouvelle décision repart des données autoritaires, pas de l’état hypothétique du plan abandonné.
 
 ## 29. Événements et trace de décision
 
@@ -1568,11 +1596,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Rôle :** cette valeur résume une décision pour les journaux, tests de reproductibilité et outils Studio. **Diagnostic :** `diagnostic_hash` est calculé depuis une représentation canonique des entrées pertinentes et de la sortie ; il ne constitue ni une signature de sécurité ni une preuve de vérité. **Données exclues :** le texte généré, les prompts complets, les nœuds, les collections mutables et les secrets ne figurent pas dans le record. Une trace mémoire de référence est bornée à `64` décisions par agent.
+- **Rôle précis du bloc :** **Rôle :** cette valeur résume une décision pour les journaux, tests de reproductibilité et outils Studio.
 
-- **Persistance et restauration :** **Persistance :** la trace de diagnostic peut être conservée dans un journal rotatif séparé, mais elle n’appartient pas au snapshot autoritaire de l’agent.
+- **Diagnostic :** **Diagnostic :** `diagnostic_hash` est calculé depuis une représentation canonique des entrées pertinentes et de la sortie ; il ne constitue ni une signature de sécurité ni une preuve de vérité.
 
-- **Déterminisme et idempotence :** Le chapitre 28 approfondira les journaux, corrélations et replays.
+- **Données exclues :** **Données exclues :** le texte généré, les prompts complets, les nœuds, les collections mutables et les secrets ne figurent pas dans le record.
+
+- **Persistance :** **Persistance :** la trace de diagnostic peut être conservée dans un journal rotatif séparé, mais elle n’appartient pas au snapshot autoritaire de l’agent.
+
+- **Limites et réserves :** Une trace mémoire de référence est bornée à `64` décisions par agent. Le chapitre 28 approfondira les journaux, corrélations et replays.
 
 ## 30. Variation pseudo-aléatoire contrôlée
 
@@ -1601,13 +1633,15 @@ func choose_variant(
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** cette fonction choisit une variante dans un ordre canonique puis sauvegarde le nouvel état du générateur.
+- **Rôle précis du bloc :** **Rôle :** cette fonction choisit une variante dans un ordre canonique puis sauvegarde le nouvel état du générateur.
 
-- **Limites et réserves :** **Initialisation :** la graine est assignée avant l’état restauré ; l’état doit provenir d’une instance précédente et ne doit pas être inventé arbitrairement.
+- **Initialisation :** **Initialisation :** la graine est assignée avant l’état restauré ; l’état doit provenir d’une instance précédente et ne doit pas être inventé arbitrairement.
 
-- **Rôle précis du bloc :** **Effet de bord :** `state.random_state` avance exactement une fois après le tirage. **Vérification :** restaurer le même couple graine/état et le même tableau de variantes doit produire le même choix et le même nouvel état.
+- **Effet de bord :** **Effet de bord :** `state.random_state` avance exactement une fois après le tirage.
 
 - **Frontières d’autorité :** **Frontière :** un tirage ne départage pas deux actions ayant des conséquences métier différentes dans la politique de référence.
+
+- **Résultat attendu et vérification :** **Vérification :** restaurer le même couple graine/état et le même tableau de variantes doit produire le même choix et le même nouvel état.
 
 ## 31. IA générative consultative
 
@@ -1655,15 +1689,15 @@ func filter_action_ids(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Rôle :** cette politique transforme une sortie externe non fiable en une petite liste d’identifiants déjà présents dans le catalogue local.
+- **Rôle précis du bloc :** **Rôle :** cette politique transforme une sortie externe non fiable en une petite liste d’identifiants déjà présents dans le catalogue local.
 
-- **Limites et réserves :** **Filtrage :** les doublons, identifiants inconnus et entrées au-delà de la limite sont retirés.
+- **Filtrage :** **Filtrage :** les doublons, identifiants inconnus et entrées au-delà de la limite sont retirés.
 
-- **Rôle précis du bloc :** **Ordre :** le résultat est trié ; la formulation ou l’ordre de la réponse générative ne devient pas un départage autoritaire implicite.
+- **Déroulement ou instructions importantes :** **Ordre :** le résultat est trié ; la formulation ou l’ordre de la réponse générative ne devient pas un départage autoritaire implicite.
 
-- **Invariants protégés :** **Étape suivante :** le planificateur revalide toujours les préconditions, effets, coûts et budgets.
+- **Étape suivante :** **Étape suivante :** le planificateur revalide toujours les préconditions, effets, coûts et budgets.
 
-- **Déterminisme et idempotence :** **Repli :** en cas d’indisponibilité, de timeout ou de capacité absente, la politique déterministe complète s’exécute sans suggestion.
+- **Repli :** **Repli :** en cas d’indisponibilité, de timeout ou de capacité absente, la politique déterministe complète s’exécute sans suggestion.
 
 ## 32. Persistance minimale
 
@@ -1721,11 +1755,15 @@ Il exclut :
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** ce document décrit les données nécessaires pour reprendre les motivations durables et la suite pseudo-aléatoire de l’agent.
+- **Rôle précis du bloc :** **Rôle :** ce document décrit les données nécessaires pour reprendre les motivations durables et la suite pseudo-aléatoire de l’agent.
 
-- **Rôle précis du bloc :** **Version :** `format` et `version` sont contrôlés avant tout décodage ; une version future est refusée. **Statut :** la chaîne `active` est mappée vers l’énumération ; une valeur inconnue n’est pas convertie silencieusement. **Données absentes :** après chargement, le premier passage reconstruit perceptions et plan depuis le monde restauré.
+- **Version :** **Version :** `format` et `version` sont contrôlés avant tout décodage ; une version future est refusée.
 
-- **Persistance et restauration :** **Vecteur :** `target_position` utilise le dictionnaire `{x, y, z}` du `SaveValueCodec` introduit au chapitre 9 ; chaque composante doit être numérique et finie.
+- **Vecteur :** **Vecteur :** `target_position` utilise le dictionnaire `{x, y, z}` du `SaveValueCodec` introduit au chapitre 9 ; chaque composante doit être numérique et finie.
+
+- **Statut :** **Statut :** la chaîne `active` est mappée vers l’énumération ; une valeur inconnue n’est pas convertie silencieusement.
+
+- **Données absentes :** **Données absentes :** après chargement, le premier passage reconstruit perceptions et plan depuis le monde restauré.
 
 ## 33. Codec strict et section de sauvegarde
 
@@ -1878,13 +1916,17 @@ func _has_exact_keys(raw: Dictionary, expected: PackedStringArray) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Rôle :** le codec encode les données durables et reconstruit un candidat après contrôle exact du format, de la version, des clés, des types et des identités. **Encodage :** seuls les buts actifs sont écrits ; les positions passent par `SaveValueCodec` et les identifiants deviennent des chaînes JSON. **Décodage :** les entiers sont exigés comme tels dans le dictionnaire déjà normalisé par la chaîne de sauvegarde ; chaque but possède des clés exactes et une cible connue lorsqu’elle est renseignée. **Limite :** l’état interne du RNG ne peut pas être validé par sa forme seule ; il doit provenir d’un snapshot produit par cette version du projet et reste couvert par les tests de reprise.
+- **Rôle précis du bloc :** **Rôle :** le codec encode les données durables et reconstruit un candidat après contrôle exact du format, de la version, des clés, des types et des identités.
 
-- **Dépendances et ports utilisés :** **Doublons :** `goal_ids` refuse deux buts portant le même identifiant avant leur insertion dans l’état candidat.
+- **Encodage :** **Encodage :** seuls les buts actifs sont écrits ; les positions passent par `SaveValueCodec` et les identifiants deviennent des chaînes JSON.
 
-- **Invariants protégés :** **Retours :** `{}` signale un état source invalide à l’appelant d’encodage ;
+- **Décodage :** **Décodage :** les entiers sont exigés comme tels dans le dictionnaire déjà normalisé par la chaîne de sauvegarde ; chaque but possède des clés exactes et une cible connue lorsqu’elle est renseignée.
 
-- **Limites et réserves :** `null` signale un payload refusé sans mutation du dépôt.
+- **Doublons :** **Doublons :** `goal_ids` refuse deux buts portant le même identifiant avant leur insertion dans l’état candidat.
+
+- **Valeur de retour ou code d’échec :** **Retours :** `{}` signale un état source invalide à l’appelant d’encodage ; `null` signale un payload refusé sans mutation du dépôt.
+
+- **Limites et réserves :** **Limite :** l’état interne du RNG ne peut pas être validé par sa forme seule ; il doit provenir d’un snapshot produit par cette version du projet et reste couvert par les tests de reprise.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/agents/infrastructure/agent_save_section.gd`.**
 
@@ -1937,15 +1979,17 @@ func cancel_load() -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Rôle :** la section décode tous les agents dans un candidat avant de demander un remplacement global au dépôt. **Application :** aucune application n’est possible avant une préparation réussie ; le candidat est consommé seulement après remplacement réussi.
+- **Rôle précis du bloc :** **Rôle :** la section décode tous les agents dans un candidat avant de demander un remplacement global au dépôt.
 
-- **Persistance et restauration :** **Dépendances :** l’absence du codec, de l’index ou du dépôt produit `ERR_UNCONFIGURED` avant lecture du payload.
+- **Dépendances et ports utilisés :** **Dépendances :** l’absence du codec, de l’index ou du dépôt produit `ERR_UNCONFIGURED` avant lecture du payload.
 
-- **Invariants protégés :** **Échec fermé :** une entrée invalide ou dupliquée vide le candidat et laisse `_is_prepared` à `false`.
+- **Échec fermé :** **Échec fermé :** une entrée invalide ou dupliquée vide le candidat et laisse `_is_prepared` à `false`.
 
-- **Paramètres et types importants :** **Conversion typée :** `states.assign()` construit explicitement un `Array[AgentState]` depuis les valeurs du dictionnaire.
+- **Conversion typée :** **Conversion typée :** `states.assign()` construit explicitement un `Array[AgentState]` depuis les valeurs du dictionnaire.
 
-- **Limites et réserves :** **Annulation :** les données préparées et le drapeau sont supprimés sans effet sur le dépôt.
+- **Application :** **Application :** aucune application n’est possible avant une préparation réussie ; le candidat est consommé seulement après remplacement réussi.
+
+- **Annulation :** **Annulation :** les données préparées et le drapeau sont supprimés sans effet sur le dépôt.
 
 ## 34. Démonstration pédagogique
 
@@ -1989,9 +2033,13 @@ func _ready() -> void:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Rôle :** ce script confirme uniquement les références de scène et affiche la cible initiale.
+- **Rôle précis du bloc :** **Rôle :** ce script confirme uniquement les références de scène et affiche la cible initiale.
 
-- **Rôle précis du bloc :** **Annotations de scène :** `@onready` diffère la résolution des nœuds jusqu’à l’entrée dans l’arbre. **Sortie :** trois lignes doivent apparaître dans l’onglet Output ; elles ne constituent pas un test de planification. **Réserve :** le scénario complet sera connecté après matérialisation des contrats du Starter Kit.
+- **Annotations de scène :** **Annotations de scène :** `@onready` diffère la résolution des nœuds jusqu’à l’entrée dans l’arbre.
+
+- **Sortie :** **Sortie :** trois lignes doivent apparaître dans l’onglet Output ; elles ne constituent pas un test de planification.
+
+- **Réserve :** **Réserve :** le scénario complet sera connecté après matérialisation des contrats du Starter Kit.
 
 ## 35. Mode Solo et Mode Studio
 
@@ -2059,7 +2107,7 @@ character_state.current_plan = planner.plan(world)
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** un plan transitoire devient une propriété de l’état autoritaire du personnage et complique sa sauvegarde.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un plan transitoire devient une propriété de l’état autoritaire du personnage et complique sa sauvegarde.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2072,7 +2120,7 @@ runtime.current_plan = planner.plan(snapshot, goal, conditions, catalog).plan
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le plan reste dans un runtime d’agent reconstructible et séparé de `CharacterRuntimeState`.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le plan reste dans un runtime d’agent reconstructible et séparé de `CharacterRuntimeState`.
 
 ### 37.2 Conserver des nœuds dans la mémoire
 
@@ -2088,7 +2136,7 @@ memory[&"target"] = target_node
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** la mémoire logique dépend de la durée de vie d’un nœud de présentation.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la mémoire logique dépend de la durée de vie d’un nœud de présentation.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2101,7 +2149,7 @@ fact.position = last_known_position
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** l’identité et la dernière position restent sérialisables et vérifiables hors scène.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’identité et la dernière position restent sérialisables et vérifiables hors scène.
 
 ### 37.3 Utiliser un dictionnaire libre comme tableau noir
 
@@ -2117,7 +2165,7 @@ blackboard["targte_id"] = target_id
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** la faute de frappe devient une nouvelle clé acceptée sans diagnostic.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la faute de frappe devient une nouvelle clé acceptée sans diagnostic.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2129,7 +2177,7 @@ var error := blackboard.write(&"agent.bb.target_id", target_id)
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** **Pourquoi la correction fonctionne :** le schéma contrôle l’existence de la clé et le type de la valeur.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le schéma contrôle l’existence de la clé et le type de la valeur.
 
 ### 37.4 Persister le plan
 
@@ -2145,7 +2193,7 @@ snapshot["current_plan"] = runtime.current_plan.action_ids
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** les préconditions et cibles du plan peuvent être invalides après restauration.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les préconditions et cibles du plan peuvent être invalides après restauration.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2157,7 +2205,7 @@ snapshot["durable_goals"] = codec.encode_goals(state.durable_goals)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** les motivations durables sont restaurées, puis un nouveau plan est construit depuis le monde chargé.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les motivations durables sont restaurées, puis un nouveau plan est construit depuis le monde chargé.
 
 ### 37.5 Lire directement les dépôts sociaux ou familiaux
 
@@ -2173,7 +2221,7 @@ snapshot.facts = social_repository._states
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** une collection interne devient une entrée mutable du raisonnement.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une collection interne devient une entrée mutable du raisonnement.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2186,7 +2234,7 @@ snapshot.boolean_facts[&"agent.fact.target_trusted"] = view != null and view.mut
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** un port de lecture produit une valeur dérivée puis une copie simple est placée dans le snapshot.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un port de lecture produit une valeur dérivée puis une copie simple est placée dans le snapshot.
 
 ### 37.6 Dépendre de l’ordre d’un dictionnaire
 
@@ -2202,7 +2250,7 @@ var selected := actions_by_id.values().front()
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** aucune règle métier ne définit quelle valeur doit apparaître en premier.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune règle métier ne définit quelle valeur doit apparaître en premier.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2215,7 +2263,7 @@ var selected := actions.front() if not actions.is_empty() else null
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** **Pourquoi la correction fonctionne :** le catalogue applique un ordre canonique documenté avant la sélection.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le catalogue applique un ordre canonique documenté avant la sélection.
 
 ### 37.7 Utiliser le temps CPU comme seul budget
 
@@ -2232,7 +2280,7 @@ while Time.get_ticks_usec() - start < 1000:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le nombre de nœuds explorés dépend de la vitesse matérielle et de la charge courante.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le nombre de nœuds explorés dépend de la vitesse matérielle et de la charge courante.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2246,7 +2294,7 @@ while expanded < MAX_EXPANSIONS and not frontier.is_empty():
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le même nombre maximal d’expansions est autorisé avec les mêmes entrées.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le même nombre maximal d’expansions est autorisé avec les mêmes entrées.
 
 ### 37.8 Rejouer toutes les décisions manquées
 
@@ -2263,7 +2311,7 @@ for tick in range(last_tick + 1, current_tick + 1):
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** chaque décision intermédiaire utilise un monde qui n’existe plus sous cette forme.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** chaque décision intermédiaire utilise un monde qui n’existe plus sous cette forme.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2276,7 +2324,7 @@ if tick_policy.is_due(current_tick, last_tick, mode, phase):
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** une seule décision observe le monde autoritaire actuel.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une seule décision observe le monde autoritaire actuel.
 
 ### 37.9 Confondre hors écran et inexistant
 
@@ -2293,7 +2341,7 @@ if active_registry.get_node(character_id) == null:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** la représentation visuelle devient l’autorité de l’existence logique.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la représentation visuelle devient l’autorité de l’existence logique.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2305,7 +2353,7 @@ runtime.mode = AgentSimulationMode.Value.BACKGROUND
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** l’agent reste enregistré et seule sa fréquence de simulation change.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’agent reste enregistré et seule sa fréquence de simulation change.
 
 ### 37.10 Appliquer la suggestion générative
 
@@ -2323,7 +2371,7 @@ executor.start(ai_response)
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le contenu externe est traité comme une commande déjà validée.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le contenu externe est traité comme une commande déjà validée.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2336,7 +2384,7 @@ var result := planner.plan(snapshot, goal, conditions, catalog)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** la suggestion est réduite à des identifiants connus et le planificateur reste l’autorité de sélection.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la suggestion est réduite à des identifiants connus et le planificateur reste l’autorité de sélection.
 
 ### 37.11 Oublier la révision du monde
 
@@ -2352,7 +2400,7 @@ action_requested.emit(request)
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** aucune vérification ne confirme que le snapshot est encore actuel.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucune vérification ne confirme que le snapshot est encore actuel.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2366,7 +2414,7 @@ action_requested.emit(request)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** une mutation pertinente force une nouvelle observation avant émission.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une mutation pertinente force une nouvelle observation avant émission.
 
 ### 37.12 Annuler sans corrélation
 
@@ -2382,7 +2430,7 @@ executor.cancel(&"", &"world_changed")
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** **Pourquoi cet exemple est fautif :** aucun identifiant ne désigne la requête active.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun identifiant ne désigne la requête active.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2394,7 +2442,7 @@ executor.cancel(runtime.active_request_id, &"agent.reason.world_changed")
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** la demande cible l’opération enregistrée par le runtime de l’agent.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la demande cible l’opération enregistrée par le runtime de l’agent.
 
 ### 37.13 Émettre avant la mutation propriétaire
 
@@ -2411,7 +2459,7 @@ var result := social_service.apply_change(command)
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi cet exemple est fautif :** l’événement décrit un succès qui n’a pas encore été obtenu.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’événement décrit un succès qui n’a pas encore été obtenu.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2425,7 +2473,7 @@ if result == OK:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** l’événement n’est émis qu’après l’acceptation du système autoritaire.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’événement n’est émis qu’après l’acceptation du système autoritaire.
 
 ### 37.14 Utiliser un RNG global non restauré
 
@@ -2441,7 +2489,7 @@ var selected := variants.pick_random()
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** le choix dépend de l’état aléatoire global et de l’ordre d’autres appels.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le choix dépend de l’état aléatoire global et de l’ordre d’autres appels.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2453,7 +2501,7 @@ var selected := choose_variant(state, variants)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** un générateur propre à l’agent utilise une graine et un état restaurables.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** un générateur propre à l’agent utilise une graine et un état restaurables.
 
 ### 37.15 Créer un exécuteur depuis une chaîne externe
 
@@ -2469,7 +2517,7 @@ var executor := load(ai_response["script_path"]).new()
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** la sortie externe contrôle un chemin de code chargé au runtime.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la sortie externe contrôle un chemin de code chargé au runtime.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2481,7 +2529,7 @@ var executor := executor_registry.get(definition.executor_key)
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi la correction fonctionne :** la clé validée sélectionne uniquement un exécuteur composé et autorisé par le projet.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la clé validée sélectionne uniquement un exécuteur composé et autorisé par le projet.
 
 ### 37.16 Paralléliser l’accès aux nœuds
 
@@ -2497,7 +2545,7 @@ worker_pool.add_task(func(): target_node.global_position)
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** la tâche capture un nœud mutable dont l’accès n’est pas isolé par un snapshot.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** la tâche capture un nœud mutable dont l’accès n’est pas isolé par un snapshot.
 
 > **[LECTURE] Exemple corrigé — Structure de référence.**
 
@@ -2510,7 +2558,7 @@ worker_pool.add_task(func(): planner.plan(snapshot, goal, conditions, catalog))
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** le worker reçoit des valeurs détachées de la scène ; toute mutation reste renvoyée au thread propriétaire sous forme de résultat.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le worker reçoit des valeurs détachées de la scène ; toute mutation reste renvoyée au thread propriétaire sous forme de résultat.
 
 ## 38. Checklist de réalisation
 

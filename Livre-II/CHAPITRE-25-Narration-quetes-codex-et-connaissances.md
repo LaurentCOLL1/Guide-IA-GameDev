@@ -465,7 +465,7 @@ static func add_progress(current: int, delta: int) -> int:
 
 - **Valeur de retour ou code d’échec :** La sentinelle `-1` distingue un état invalide d’une progression légitime à zéro. Les branches de sortie visibles renvoient `-1`, `mini(PROGRESS_SCALE, current + delta)`.
 
-- **Rôle précis du bloc :** Le bloc expose `add_progress()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `add_progress()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_progress(current: int, delta: int) -> int`.
 
@@ -672,7 +672,7 @@ func start_quest(command: StartQuestCommand) -> NarrativeResult:
 
 - **Effets de bord :** Aucun événement n’est émis avant le succès du commit. Les effets visibles sont `candidate.status = QuestRuntimeState.Status.ACTIVE`, `candidate.started_tick = command.requested_tick`, `candidate.revision += 1`, `return _commit_port.commit_quest(candidate, command.command_id)`.
 
-- **Rôle précis du bloc :** Le bloc expose `start_quest()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `start_quest()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `start_quest(command: StartQuestCommand) -> NarrativeResult`.
 
@@ -703,7 +703,7 @@ func evaluate_objective(objective: QuestObjectiveDefinition, facts: Array[Narrat
 
 - **Valeur de retour ou code d’échec :** Elle renvoie `-1` si un delta ou un cumul viole les bornes. Les branches de sortie visibles renvoient `-1`, `progress`.
 
-- **Rôle précis du bloc :** Le bloc expose `evaluate_objective()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `evaluate_objective()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `evaluate_objective(objective: QuestObjectiveDefinition, facts: Array[NarrativeFact]) -> int`.
 
@@ -811,7 +811,7 @@ func can_show_entry(entry: CodexEntryDefinition, owner_id: StringName) -> Narrat
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La visibilité passe par les mêmes décisions explicables. Le bloc expose `can_show_entry()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** La visibilité passe par les mêmes décisions explicables. Le bloc expose `can_show_entry()` et montre son traitement complet ou son squelette contractuel.
 
 - **Déterminisme et idempotence :** Une décision indéterminée masque l’entrée au lieu de la révéler.
 
@@ -920,7 +920,7 @@ func propose_journal_summary(facts: Array[NarrativeFact]) -> String:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’IA peut proposer un résumé d’affichage. Le bloc expose `propose_journal_summary()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** L’IA peut proposer un résumé d’affichage. Le bloc expose `propose_journal_summary()` et montre son traitement complet ou son squelette contractuel.
 
 - **Invariants protégés :** Elle ne crée aucun fait, ne valide aucun objectif et ne déclenche aucune conséquence. Les gardes explicites contrôlent `not response.is_success()`.
 
@@ -1040,7 +1040,7 @@ func prepare_restore(payload: Dictionary) -> NarrativeRestoreCandidate:
 
 - **Persistance et restauration :** La restauration décode toutes les sections sur un candidat isolé puis recoupe les identités avec les catalogues.
 
-- **Rôle précis du bloc :** Le monde actif n’est remplacé qu’après validation globale. Le bloc expose `prepare_restore()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le monde actif n’est remplacé qu’après validation globale. Le bloc expose `prepare_restore()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare_restore(payload: Dictionary) -> NarrativeRestoreCandidate`.
 
@@ -1070,7 +1070,7 @@ func migrate_v1_to_v2(document: Dictionary) -> Dictionary:
 
 - **Effets de bord :** Elle ne modifie jamais le document source en place. Aucune écriture, émission de signal ou mutation externe n’apparaît dans l’extrait ; le résultat est calculé puis retourné.
 
-- **Rôle précis du bloc :** Le bloc expose `migrate_v1_to_v2()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `migrate_v1_to_v2()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `migrate_v1_to_v2(document: Dictionary) -> Dictionary`.
 

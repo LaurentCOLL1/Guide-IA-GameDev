@@ -4,7 +4,7 @@ id: "DOC-PROJECT-CONTINUITY"
 status: "active"
 version: "3.26.1"
 lang: "fr-FR"
-last-updated: "2026-07-21T15:28:42+02:00"
+last-updated: "2026-07-21T17:35:51+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1479,6 +1479,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : tests unitaires, tests d’intégration, doubles de test, fixtures, simulations déterministes, campagnes de non-régression et critères de passage. Le chapitre 27 vérifiera les contrats des chapitres 1 à 26 sans confondre tests, diagnostics et pipelines de génération.
 
 ## 27. Journal
+
+### 2026-07-21T17:35:51+02:00 — reclassement fidèle des explications historiques
+
+- chapitres 17 à 24 reconstruits depuis leurs explications présentes sur `main` ;
+- libellés historiques utilisés comme autorité de classement ;
+- **1760** unités conservées mot pour mot et **0** perdue ;
+- aucune modification des exemples de code ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
 
 ### 2026-07-21T15:28:42+02:00 — affinage qualitatif des explications restructurées
 

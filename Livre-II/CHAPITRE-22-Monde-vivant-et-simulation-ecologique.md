@@ -6,9 +6,9 @@ version: "1.0.2"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 22
-last-verified: "2026-07-21T15:28:42+02:00"
+last-verified: "2026-07-21T17:35:51+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T15:28:42+02:00"
+audit-date: "2026-07-21T17:35:51+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-22.md"
 audit-level: "static-review"
 reference-engine:
@@ -140,13 +140,15 @@ agents, présentation, économie et matérialisation
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** L’horloge fournit un tick logique unique à tous les systèmes.
+- **Point d’explication complémentaire :** L’horloge fournit un tick logique unique à tous les systèmes.
 
-- **Limites et réserves :** L’ordonnanceur choisit le travail à effectuer sans changer les règles écologiques.
+- **Point d’explication complémentaire — complément 2 :** L’ordonnanceur choisit le travail à effectuer sans changer les règles écologiques.
 
-- **Invariants protégés :** Le simulateur calcule uniquement sur des copies détachées.
+- **Point d’explication complémentaire — complément 3 :** Le simulateur calcule uniquement sur des copies détachées.
 
-- **Effets de bord :** Le dépôt remplace un état régional seulement après validation complète. Les consommateurs reçoivent des événements après le commit et ne peuvent pas imposer le résultat.
+- **Point d’explication complémentaire — complément 4 :** Le dépôt remplace un état régional seulement après validation complète.
+
+- **Résultat attendu et vérification :** Les consommateurs reçoivent des événements après le commit et ne peuvent pas imposer le résultat.
 
 ## 5. Architecture retenue
 
@@ -206,15 +208,15 @@ res://scenes/learning/
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `domain` porte les données, commandes, résultats et invariants indépendants des scènes.
+- **Invariants protégés :** `domain` porte les données, commandes, résultats et invariants indépendants des scènes.
 
 - **Frontières d’autorité :** `application` orchestre l’horloge, les étapes, budgets et ports vers les autres autorités.
 
-- **Invariants protégés :** `infrastructure` encode uniquement les données durables.
+- **Point d’explication complémentaire :** `infrastructure` encode uniquement les données durables.
 
-- **Effets de bord :** `presentation` transforme des résultats committés en retour visuel.
+- **Valeur de retour ou code d’échec :** `presentation` transforme des résultats committés en retour visuel.
 
-- **Limites et réserves :** Les définitions `.tres` restent séparées des états vivants sauvegardés.
+- **Point d’explication complémentaire — complément 2 :** Les définitions `.tres` restent séparées des états vivants sauvegardés.
 
 ## 6. Vocabulaire
 
@@ -279,13 +281,15 @@ static func _from_slug(prefix: String, value: String) -> StringName:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Chaque famille d’identifiants possède un préfixe stable. Les régions, espèces et ressources ne dépendent pas d’un nom localisé.
+- **Point d’explication complémentaire :** Chaque famille d’identifiants possède un préfixe stable.
+
+- **Dépendances et ports utilisés :** Les régions, espèces et ressources ne dépendent pas d’un nom localisé.
 
 - **Persistance et restauration :** Un événement est ordonné par une séquence régionale persistée.
 
-- **Déterminisme et idempotence :** Une commande externe reçoit une identité distincte pour l’idempotence.
+- **Limites et réserves :** Une commande externe reçoit une identité distincte pour l’idempotence.
 
-- **Valeur de retour ou code d’échec :** Une entrée invalide renvoie `&""` au lieu de fabriquer une identité partielle.
+- **Invariants protégés :** Une entrée invalide renvoie `&""` au lieu de fabriquer une identité partielle.
 
 ## 8. Horloge logique globale
 
@@ -328,15 +332,15 @@ func duplicate_detached() -> WorldClockState:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** `logical_tick` ordonne le monde sans consulter l’heure de l’ordinateur.
+- **Limites et réserves :** `logical_tick` ordonne le monde sans consulter l’heure de l’ordinateur.
 
 - **Persistance et restauration :** `ticks_per_day` définit une convention de simulation persistable.
 
-- **Rôle précis du bloc :** `day_index()` et `tick_in_day()` sont dérivés et ne sont pas sauvegardés séparément.
+- **Limites et réserves — complément 2 :** `day_index()` et `tick_in_day()` sont dérivés et ne sont pas sauvegardés séparément.
 
-- **Paramètres et types importants :** La plage reste compatible avec les entiers JSON exacts retenus au chapitre 9.
+- **Point d’explication complémentaire :** La plage reste compatible avec les entiers JSON exacts retenus au chapitre 9.
 
-- **Effets de bord :** La copie détachée permet de préparer une avance sans modifier l’horloge active.
+- **Limites et réserves — complément 3 :** La copie détachée permet de préparer une avance sans modifier l’horloge active.
 
 ## 9. Faire avancer l’horloge
 
@@ -385,13 +389,17 @@ func snapshot() -> WorldClockState:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** Le service reçoit un nombre de ticks explicite ; il ne mesure pas une durée murale.
+- **Limites et réserves :** Le service reçoit un nombre de ticks explicite ; il ne mesure pas une durée murale.
 
-- **Invariants protégés :** La révision empêche deux avances concurrentes d’écraser le même état.
+- **Point d’explication complémentaire :** La révision empêche deux avances concurrentes d’écraser le même état.
 
-- **Rôle précis du bloc :** Le dépassement est vérifié avant l’addition. Une adaptation Godot peut appeler `advance(1, revision)` depuis `_physics_process()`. `Time.get_ticks_usec()` peut mesurer le coût de calcul, mais ne devient jamais l’horloge du monde.
+- **Résultat attendu et vérification :** Le dépassement est vérifié avant l’addition.
 
-- **Effets de bord :** Le dépôt revalide la révision au dernier instant avant remplacement. Le signal est émis seulement après le commit de l’horloge candidate.
+- **Invariants protégés :** Le dépôt revalide la révision au dernier instant avant remplacement.
+
+- **Point d’explication complémentaire — complément 2 :** Le signal est émis seulement après le commit de l’horloge candidate.
+
+- **Limites et réserves — complément 2 :** Une adaptation Godot peut appeler `advance(1, revision)` depuis `_physics_process()`. `Time.get_ticks_usec()` peut mesurer le coût de calcul, mais ne devient jamais l’horloge du monde.
 
 ## 10. Définition d’une région écologique
 
@@ -433,9 +441,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La région est une `Resource` de conception partagée et immuable pendant le gameplay. `area_units` utilise une unité logique documentée par le projet, pas une surface de collision. Fertilité et accès à l’eau sont exprimés en points de base.
+- **Limites et réserves :** La région est une `Resource` de conception partagée et immuable pendant le gameplay.
 
-- **Limites et réserves :** Les tags sont obligatoires, stables et sans doublon. Aucun nombre vivant ni nœud actif n’est stocké dans cette définition.
+- **Limites et réserves — complément 2 :** `area_units` utilise une unité logique documentée par le projet, pas une surface de collision.
+
+- **Point d’explication complémentaire :** Fertilité et accès à l’eau sont exprimés en points de base.
+
+- **Point d’explication complémentaire — complément 2 :** Les tags sont obligatoires, stables et sans doublon.
+
+- **Limites et réserves — complément 3 :** Aucun nombre vivant ni nœud actif n’est stocké dans cette définition.
 
 ## 11. Définition d’une espèce
 
@@ -485,9 +499,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Paramètres et types importants :** Une espèce décrit des paramètres de conception, jamais un individu particulier. Les taux quotidiens restent entiers en points de base.
+- **Paramètres et types importants :** Une espèce décrit des paramètres de conception, jamais un individu particulier.
 
-- **Rôle précis du bloc :** `food_resource_id` nomme explicitement la réserve consommée lorsque la consommation est positive. Les tags d’habitat sont validés et dédupliqués.
+- **Point d’explication complémentaire :** Les taux quotidiens restent entiers en points de base.
+
+- **Point d’explication complémentaire — complément 2 :** `food_resource_id` nomme explicitement la réserve consommée lorsque la consommation est positive.
+
+- **Point d’explication complémentaire — complément 3 :** Les tags d’habitat sont validés et dédupliqués.
 
 - **Frontières d’autorité :** Les identités individuelles éventuelles restent sous l’autorité des personnages.
 
@@ -527,11 +545,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une réserve écologique et un objet d’inventaire sont deux concepts distincts. La capacité et la régénération utilisent des unités entières propres à la ressource.
+- **Limites et réserves :** Une réserve écologique et un objet d’inventaire sont deux concepts distincts.
 
-- **Invariants protégés :** `inventory_item_definition_id` indique seulement le rendement possible d’une récolte.
+- **Limites et réserves — complément 2 :** `inventory_item_definition_id` indique seulement le rendement possible d’une récolte.
 
-- **Limites et réserves :** Les tags limitent la présence de la ressource à des habitats compatibles.
+- **Point d’explication complémentaire :** La capacité et la régénération utilisent des unités entières propres à la ressource.
+
+- **Limites et réserves — complément 3 :** Les tags limitent la présence de la ressource à des habitats compatibles.
 
 - **Frontières d’autorité :** Le chapitre 20 reste propriétaire de la création des lots d’objets.
 
@@ -578,15 +598,15 @@ func duplicate_detached() -> PopulationState:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** `count` inclut les individus matérialisés et non matérialisés.
+- **Point d’explication complémentaire :** `count` inclut les individus matérialisés et non matérialisés.
 
-- **Paramètres et types importants :** Les résidus de naissance et de décès conservent les fractions issues des calculs entiers.
+- **Point d’explication complémentaire — complément 2 :** Les résidus de naissance et de décès conservent les fractions issues des calculs entiers.
 
 - **Persistance et restauration :** Chaque résidu reste dans l’intervalle `0` à `ticks_per_day - 1`, ce qui rend le snapshot vérifiable.
 
-- **Responsabilités des classes ou fonctions :** Une population n’enregistre ni liste de nœuds ni identités de personnages.
+- **Limites et réserves :** Une population n’enregistre ni liste de nœuds ni identités de personnages.
 
-- **Invariants protégés :** `revision` protège les commandes causales préparées depuis un ancien état.
+- **Point d’explication complémentaire — complément 3 :** `revision` protège les commandes causales préparées depuis un ancien état.
 
 ## 14. État d’une réserve de ressource
 
@@ -631,11 +651,15 @@ func duplicate_detached() -> ResourcePoolState:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** La borne maximale vient de la définition et de la région, pas de l’état lui-même. La révision permet de refuser une récolte préparée depuis une ancienne quantité.
+- **Limites et réserves :** La borne maximale vient de la définition et de la région, pas de l’état lui-même.
 
-- **Rôle précis du bloc :** Les résidus distinguent régénération et consommation afin de diagnostiquer leur origine. Chaque résidu est validé contre la même convention `ticks_per_day` que l’horloge sauvegardée.
+- **Point d’explication complémentaire :** Les résidus distinguent régénération et consommation afin de diagnostiquer leur origine.
 
-- **Limites et réserves :** L’état ne contient aucun objet d’inventaire.
+- **Point d’explication complémentaire — complément 2 :** Chaque résidu est validé contre la même convention `ticks_per_day` que l’horloge sauvegardée.
+
+- **Limites et réserves — complément 2 :** L’état ne contient aucun objet d’inventaire.
+
+- **Invariants protégés :** La révision permet de refuser une récolte préparée depuis une ancienne quantité.
 
 ## 15. État écologique d’une région
 
@@ -708,13 +732,15 @@ func duplicate_detached() -> RegionEcologyState:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La région regroupe les agrégats qui doivent évoluer ensemble. Les clés des dictionnaires sont recoupées avec les identifiants contenus dans les valeurs.
+- **Point d’explication complémentaire :** La région regroupe les agrégats qui doivent évoluer ensemble.
 
-- **Dépendances et ports utilisés :** Le catalogue vérifie les habitats et la présence de la ressource alimentaire déclarée par chaque espèce.
+- **Point d’explication complémentaire — complément 2 :** Les clés des dictionnaires sont recoupées avec les identifiants contenus dans les valeurs.
+
+- **Résultat attendu et vérification :** Le catalogue vérifie les habitats et la présence de la ressource alimentaire déclarée par chaque espèce.
 
 - **Persistance et restauration :** Les résidus utilisent la convention temporelle de l’horloge avant toute simulation ou restauration.
 
-- **Limites et réserves :** La copie profonde prépare toutes les populations et ressources sans partager d’état mutable.
+- **Point d’explication complémentaire — complément 3 :** La copie profonde prépare toutes les populations et ressources sans partager d’état mutable.
 
 ## 16. Catalogue écologique
 
@@ -811,11 +837,15 @@ func _shares_habitat(left: Array[StringName], right: Array[StringName]) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les trois méthodes `register_*()` valident puis copient les `Resource` de conception. `validate_cross_references()` s’exécute après le chargement complet afin de vérifier les ressources alimentaires.
+- **Invariants protégés :** Les trois méthodes `register_*()` valident puis copient les `Resource` de conception.
 
-- **Valeur de retour ou code d’échec :** Les doublons sont refusés et les lectures retournent encore des copies pour préserver l’immuabilité. `maximum_resource_units()` renvoie `-1` pour une définition absente, un habitat incompatible ou un dépassement.
+- **Valeur de retour ou code d’échec :** Les doublons sont refusés et les lectures retournent encore des copies pour préserver l’immuabilité.
 
-- **Rôle précis du bloc :** Les compatibilités de région utilisent des tags d’habitat partagés, jamais un nom affiché.
+- **Résultat attendu et vérification :** `validate_cross_references()` s’exécute après le chargement complet afin de vérifier les ressources alimentaires.
+
+- **Point d’explication complémentaire :** Les compatibilités de région utilisent des tags d’habitat partagés, jamais un nom affiché.
+
+- **Limites et réserves :** `maximum_resource_units()` renvoie `-1` pour une définition absente, un habitat incompatible ou un dépassement.
 
 ## 17. Arithmétique écologique déterministe
 
@@ -888,13 +918,15 @@ static func accrue(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Les additions et multiplications refusent un résultat hors de la plage entière sûre du projet. Le modulo conserve la fraction non encore transformée en unité et la validation borne le résidu.
+- **Invariants protégés :** Les additions et multiplications refusent un résultat hors de la plage entière sûre du projet.
 
-- **Déterminisme et idempotence :** `multiply_basis_points_floor()` applique un taux déterministe sans nombre flottant.
+- **Point d’explication complémentaire :** `multiply_basis_points_floor()` applique un taux déterministe sans nombre flottant.
 
-- **Rôle précis du bloc :** `accrue()` transforme un taux quotidien en unités complètes sur un intervalle de ticks.
+- **Point d’explication complémentaire — complément 2 :** `accrue()` transforme un taux quotidien en unités complètes sur un intervalle de ticks.
 
-- **Paramètres et types importants :** `Variant` permet de distinguer un calcul invalide d’un résultat entier valide égal à zéro.
+- **Limites et réserves :** Le modulo conserve la fraction non encore transformée en unité et la validation borne le résidu.
+
+- **Invariants protégés — complément 2 :** `Variant` permet de distinguer un calcul invalide d’un résultat entier valide égal à zéro.
 
 ## 18. Contexte environnemental
 
@@ -936,11 +968,13 @@ func snapshot_for(_region_id: StringName, _logical_tick: int) -> Snapshot:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le port fournit des indices validés sans exposer une scène météo ou un nœud physique. Le chapitre peut fonctionner avec un adaptateur constant lorsque la météo détaillée n’existe pas.
+- **Dépendances et ports utilisés :** Le port fournit des indices validés sans exposer une scène météo ou un nœud physique.
 
-- **Rôle précis du bloc :** Les multiplicateurs utilisent des points de base.
+- **Point d’explication complémentaire :** Les multiplicateurs utilisent des points de base.
 
 - **Invariants protégés :** `valid_until_tick` permet de refuser un contexte ancien.
+
+- **Point d’explication complémentaire — complément 2 :** Le chapitre peut fonctionner avec un adaptateur constant lorsque la météo détaillée n’existe pas.
 
 - **Persistance et restauration :** Une sortie IA ne peut pas fabriquer ce snapshot autoritaire.
 
@@ -994,11 +1028,15 @@ func _shares_habitat(left: Array[StringName], right: Array[StringName]) -> bool:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Une espèce incompatible avec l’habitat reçoit une capacité nulle, distincte d’un calcul invalide. Chaque étape refuse `null` avant de transmettre sa valeur à l’étape suivante.
+- **Invariants protégés :** Une espèce incompatible avec l’habitat reçoit une capacité nulle, distincte d’un calcul invalide.
 
-- **Rôle précis du bloc :** La surface et la capacité de base sont multipliées avec contrôle de dépassement. Fertilité et eau sont appliquées dans un ordre fixe sous forme de points de base.
+- **Point d’explication complémentaire :** La surface et la capacité de base sont multipliées avec contrôle de dépassement.
 
-- **Effets de bord :** La politique ne modifie ni la région ni la population.
+- **Point d’explication complémentaire — complément 2 :** Fertilité et eau sont appliquées dans un ordre fixe sous forme de points de base.
+
+- **Invariants protégés — complément 2 :** Chaque étape refuse `null` avant de transmettre sa valeur à l’étape suivante.
+
+- **Limites et réserves :** La politique ne modifie ni la région ni la population.
 
 ## 20. Régénérer une ressource
 
@@ -1042,7 +1080,9 @@ func _regenerate_resource(
 
 - **Limites et réserves :** L’addition est contrôlée avant de limiter la quantité par la capacité régionale.
 
-- **Rôle précis du bloc :** La révision change même lorsque la capacité absorbe tout le gain, car une étape a été évaluée. La validation finale recoupe quantité, capacité, résidu et convention temporelle.
+- **Limites et réserves — complément 2 :** La révision change même lorsque la capacité absorbe tout le gain, car une étape a été évaluée.
+
+- **Point d’explication complémentaire :** La validation finale recoupe quantité, capacité, résidu et convention temporelle.
 
 ## 21. Consommation et croissance d’une population
 
@@ -1146,11 +1186,17 @@ func _step_population(
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Une espèce sans consommation déclarée accepte un `food_pool` nul ; une espèce consommatrice exige la réserve identifiée par sa définition.
+- **Limites et réserves :** Une espèce sans consommation déclarée accepte un `food_pool` nul ; une espèce consommatrice exige la réserve identifiée par sa définition.
 
-- **Rôle précis du bloc :** La pénurie est calculée avant les naissances et devient une mortalité entière supplémentaire. La pression de croissance diminue à l’approche de la capacité et toutes les multiplications passent par `EcologyMath`. Le multiplicateur de danger appartient au contexte environnemental validé, jamais à une sortie générative. Naissances, décès et valeur finale sont contrôlés avant de mettre à jour les résidus et la révision. Cette politique est volontairement pédagogique.
+- **Limites et réserves — complément 2 :** La pénurie est calculée avant les naissances et devient une mortalité entière supplémentaire.
 
-- **Frontières d’autorité :** Des modèles plus réalistes pourront ajouter classes d’âge, prédation et migration sans modifier l’autorité des autres systèmes.
+- **Point d’explication complémentaire :** La pression de croissance diminue à l’approche de la capacité et toutes les multiplications passent par `EcologyMath`.
+
+- **Limites et réserves — complément 3 :** Le multiplicateur de danger appartient au contexte environnemental validé, jamais à une sortie générative.
+
+- **Point d’explication complémentaire — complément 2 :** Naissances, décès et valeur finale sont contrôlés avant de mettre à jour les résidus et la révision.
+
+- **Frontières d’autorité :** Cette politique est volontairement pédagogique. Des modèles plus réalistes pourront ajouter classes d’âge, prédation et migration sans modifier l’autorité des autres systèmes.
 
 ## 22. Résultat d’une étape écologique
 
@@ -1213,13 +1259,15 @@ func _validate_ids(ids: Array[StringName]) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le résultat distingue état invalide, révision obsolète, contexte absent, budget et panne interne. Les identifiants modifiés doivent être valides, uniques et déjà triés lexicalement.
+- **Invariants protégés :** Le résultat distingue état invalide, révision obsolète, contexte absent, budget et panne interne.
 
-- **Rôle précis du bloc :** Les ticks et révisions avant/après rendent la transition diagnosticable.
+- **Point d’explication complémentaire :** Les ticks et révisions avant/après rendent la transition diagnosticable.
+
+- **Invariants protégés — complément 2 :** Les identifiants modifiés doivent être valides, uniques et déjà triés lexicalement.
 
 - **Persistance et restauration :** Aucun snapshot mutable n’est exposé aux consommateurs.
 
-- **Effets de bord :** `is_success()` ne traite qu’un remplacement réellement committé comme succès.
+- **Limites et réserves :** `is_success()` ne traite qu’un remplacement réellement committé comme succès.
 
 ## 23. Simuler une région sur des copies
 
@@ -1328,11 +1376,15 @@ func _sorted_ids(values: Dictionary) -> Array[StringName]:
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** Le simulateur refuse une configuration absente, un tick régressif ou un rattrapage excessif. Le tick simulé et la révision changent uniquement sur le candidat, puis l’ensemble est revalidé avant retour.
+- **Invariants protégés :** Le simulateur refuse une configuration absente, un tick régressif ou un rattrapage excessif.
 
-- **Rôle précis du bloc :** Les ressources sont traitées dans l’ordre de leurs identifiants avant les populations qui les consomment. Chaque espèce lit explicitement sa réserve alimentaire et sa capacité d’accueil calculée.
+- **Point d’explication complémentaire :** Les ressources sont traitées dans l’ordre de leurs identifiants avant les populations qui les consomment.
 
-- **Déterminisme et idempotence :** L’ordre lexical rend déterministe le partage pédagogique d’une même ressource entre plusieurs populations.
+- **Point d’explication complémentaire — complément 2 :** Chaque espèce lit explicitement sa réserve alimentaire et sa capacité d’accueil calculée.
+
+- **Limites et réserves :** L’ordre lexical rend déterministe le partage pédagogique d’une même ressource entre plusieurs populations.
+
+- **Valeur de retour ou code d’échec :** Le tick simulé et la révision changent uniquement sur le candidat, puis l’ensemble est revalidé avant retour.
 
 ## 24. Dépôt écologique
 
@@ -1383,13 +1435,13 @@ func replace_all(_prepared: Dictionary) -> Error:
 
 **Explication structurée du bloc :**
 
-- **Valeur de retour ou code d’échec :** Les lectures renvoient des copies détachées et les identifiants de régions sont triés.
+- **Point d’explication complémentaire :** Les lectures renvoient des copies détachées et les identifiants de régions sont triés.
 
-- **Effets de bord :** `replace_clock()` et `replace_region()` revalident leur révision juste avant remplacement.
+- **Invariants protégés :** `replace_clock()` et `replace_region()` revalident leur révision juste avant remplacement.
 
-- **Déterminisme et idempotence :** Les recherches de commande permettent de rejouer un résultat déjà committé ou de détecter un conflit d’empreinte.
+- **Résultat attendu et vérification :** Les recherches de commande permettent de rejouer un résultat déjà committé ou de détecter un conflit d’empreinte.
 
-- **Rôle précis du bloc :** Le dépôt ne choisit ni fréquence, ni formule écologique, ni autorisation de récolte.
+- **Limites et réserves :** Le dépôt ne choisit ni fréquence, ni formule écologique, ni autorisation de récolte.
 
 - **Persistance et restauration :** `replace_all()` est réservé à une restauration complète préparée.
 
@@ -1423,9 +1475,15 @@ static func interval_ticks(value: Value) -> int:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** `ACTIVE` met à jour une région à chaque tick logique échu.
+- **Limites et réserves :** `ACTIVE` met à jour une région à chaque tick logique échu.
 
-- **Rôle précis du bloc :** `BACKGROUND` et `DORMANT` agrègent davantage de temps pour réduire le coût. Les intervalles sont nominaux et changent de durée réelle si la fréquence physique change. Une région dormante conserve populations, ressources et révisions. Le mode contrôle le coût de simulation, jamais l’existence métier.
+- **Point d’explication complémentaire :** `BACKGROUND` et `DORMANT` agrègent davantage de temps pour réduire le coût.
+
+- **Point d’explication complémentaire — complément 2 :** Les intervalles sont nominaux et changent de durée réelle si la fréquence physique change.
+
+- **Limites et réserves — complément 2 :** Une région dormante conserve populations, ressources et révisions.
+
+- **Point d’explication complémentaire — complément 3 :** Le mode contrôle le coût de simulation, jamais l’existence métier.
 
 ### 25.1 Sélection du mode par un port
 
@@ -1446,9 +1504,15 @@ func phase_for(_region_id: StringName) -> int:
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le port permet à la partition du monde de choisir un mode sans exposer ses scènes ou registres. Le mode par défaut est conservateur et limite le travail lorsqu’aucun adaptateur n’est configuré. Une présence de joueur peut influencer l’adaptateur, mais ne remplace jamais l’état écologique. Le port ne fait avancer ni l’horloge ni une région.
+- **Dépendances et ports utilisés :** Le port permet à la partition du monde de choisir un mode sans exposer ses scènes ou registres.
 
-- **Rôle précis du bloc :** La phase est dérivée de manière stable depuis l’identité régionale afin de répartir les échéances.
+- **Limites et réserves :** Le mode par défaut est conservateur et limite le travail lorsqu’aucun adaptateur n’est configuré.
+
+- **Point d’explication complémentaire :** La phase est dérivée de manière stable depuis l’identité régionale afin de répartir les échéances.
+
+- **Limites et réserves — complément 2 :** Une présence de joueur peut influencer l’adaptateur, mais ne remplace jamais l’état écologique.
+
+- **Dépendances et ports utilisés — complément 2 :** Le port ne fait avancer ni l’horloge ni une région.
 
 ## 26. Politique d’échéance
 
@@ -1477,9 +1541,15 @@ func is_due(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La phase répartit les régions sur plusieurs ticks. Les créneaux manqués ne sont pas rejoués un par un.
+- **Point d’explication complémentaire :** La phase répartit les régions sur plusieurs ticks.
 
-- **Limites et réserves :** `posmod()` conserve un reste positif même si la phase fournie est négative. Une région dépassant son créneau reste due grâce à `>=`. Cette politique reprend le principe du chapitre 17 sans reprendre l’état des agents.
+- **Point d’explication complémentaire — complément 2 :** `posmod()` conserve un reste positif même si la phase fournie est négative.
+
+- **Limites et réserves :** Une région dépassant son créneau reste due grâce à `>=`.
+
+- **Limites et réserves — complément 2 :** Les créneaux manqués ne sont pas rejoués un par un.
+
+- **Point d’explication complémentaire — complément 3 :** Cette politique reprend le principe du chapitre 17 sans reprendre l’état des agents.
 
 ## 27. Ordonnanceur écologique borné
 
@@ -1637,13 +1707,15 @@ func _changed_resource_ids(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’ordonnanceur parcourt des identifiants triés avec un curseur round-robin et un nombre maximal de régions par tick.
+- **Point d’explication complémentaire :** L’ordonnanceur parcourt des identifiants triés avec un curseur round-robin et un nombre maximal de régions par tick.
 
-- **Invariants protégés :** `Time.get_ticks_usec()` mesure seulement le coût matériel ; il ne fait jamais avancer le monde.
+- **Limites et réserves :** `Time.get_ticks_usec()` mesure seulement le coût matériel ; il ne fait jamais avancer le monde.
 
-- **Effets de bord :** Le résultat committé est construit et validé avant le remplacement autoritaire. `ERR_BUSY` devient un refus de révision distinct d’une panne interne, et aucun événement n’est émis ici avant le commit.
+- **Résultat attendu et vérification :** Le résultat committé est construit et validé avant le remplacement autoritaire.
 
-- **Limites et réserves :** Les listes de populations et ressources modifiées sont calculées depuis leurs révisions puis triées pour rester reproductibles.
+- **Invariants protégés :** `ERR_BUSY` devient un refus de révision distinct d’une panne interne, et aucun événement n’est émis ici avant le commit.
+
+- **Point d’explication complémentaire — complément 2 :** Les listes de populations et ressources modifiées sont calculées depuis leurs révisions puis triées pour rester reproductibles.
 
 ## 28. Rattrapage après une longue absence
 
@@ -1674,13 +1746,15 @@ autorisé :
 
 - **Dépendances et ports utilisés :** Le rattrapage porte sur l’état logique, jamais sur la présentation.
 
-- **Rôle précis du bloc :** Les résidus rendent les taux faibles cumulables sur une longue période. Le guide ne simule pas automatiquement le temps réel écoulé lorsque l’application était fermée.
+- **Limites et réserves :** Les résidus rendent les taux faibles cumulables sur une longue période.
 
-- **Paramètres et types importants :** Les bornes protègent le temps CPU et les dépassements entiers.
+- **Point d’explication complémentaire :** Les bornes protègent le temps CPU et les dépassements entiers.
 
-- **Résultat attendu :** Un rattrapage supérieur à la politique autorisée produit un refus ou une stratégie de découpage explicitement bornée.
+- **Invariants protégés :** Un rattrapage supérieur à la politique autorisée produit un refus ou une stratégie de découpage explicitement bornée.
 
-- **Invariants protégés :** L’état final devient la seule base de matérialisation. Une fonctionnalité d’« évolution hors connexion » exigerait une politique explicite, une horloge murale non autoritaire et des bornes de sécurité supplémentaires.
+- **Point d’explication complémentaire — complément 2 :** L’état final devient la seule base de matérialisation.
+
+- **Limites et réserves — complément 2 :** Le guide ne simule pas automatiquement le temps réel écoulé lorsque l’application était fermée. Une fonctionnalité d’« évolution hors connexion » exigerait une politique explicite, une horloge murale non autoritaire et des bornes de sécurité supplémentaires.
 
 ## 29. Population logique et représentation en scène
 
@@ -1705,9 +1779,15 @@ mort validée : count devient 119 ou 120 selon les autres transitions
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Une apparition ne crée pas un individu logique. Une dématérialisation ne constitue ni une mort ni une migration. Les personnages possèdent les identités matérialisées. L’écologie possède le nombre agrégé et les transitions de population.
+- **Limites et réserves :** Une apparition ne crée pas un individu logique.
 
-- **Invariants protégés :** Une mort de combat devient une commande causale consommée une seule fois par l’écologie.
+- **Limites et réserves — complément 2 :** Une dématérialisation ne constitue ni une mort ni une migration.
+
+- **Point d’explication complémentaire :** Les personnages possèdent les identités matérialisées.
+
+- **Point d’explication complémentaire — complément 2 :** L’écologie possède le nombre agrégé et les transitions de population.
+
+- **Limites et réserves — complément 3 :** Une mort de combat devient une commande causale consommée une seule fois par l’écologie.
 
 ## 30. Port de matérialisation
 
@@ -1751,13 +1831,15 @@ func prepare(_request: Request) -> PreparedMaterialization:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La demande exprime une densité visible souhaitée, pas une liste d’identités imposée. Le payload opaque n’est pas construit par l’écologie ni par l’interface.
+- **Limites et réserves :** La demande exprime une densité visible souhaitée, pas une liste d’identités imposée.
 
-- **Dépendances et ports utilisés :** L’adaptateur des personnages choisit ou crée les représentations selon ses invariants.
+- **Invariants protégés :** L’adaptateur des personnages choisit ou crée les représentations selon ses invariants.
 
-- **Invariants protégés :** La révision régionale empêche d’appliquer une projection devenue obsolète.
+- **Point d’explication complémentaire :** Le payload opaque n’est pas construit par l’écologie ni par l’interface.
 
-- **Limites et réserves :** La matérialisation peut échouer sans annuler l’existence logique de la population.
+- **Limites et réserves — complément 2 :** La révision régionale empêche d’appliquer une projection devenue obsolète.
+
+- **Point d’explication complémentaire — complément 2 :** La matérialisation peut échouer sans annuler l’existence logique de la population.
 
 ## 31. Modifier une population par commande causale
 
@@ -1800,11 +1882,13 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La commande sert aux naissances scénarisées, morts validées ou ajustements explicitement autorisés. Une cause et un système source rendent le changement traçable.
+- **Point d’explication complémentaire :** La commande sert aux naissances scénarisées, morts validées ou ajustements explicitement autorisés.
 
-- **Invariants protégés :** Les deux révisions protègent la région et la population ciblée.
+- **Limites et réserves :** Une cause et un système source rendent le changement traçable.
 
-- **Déterminisme et idempotence :** L’empreinte bornée permet un traitement idempotent.
+- **Point d’explication complémentaire — complément 2 :** Les deux révisions protègent la région et la population ciblée.
+
+- **Point d’explication complémentaire — complément 3 :** L’empreinte bornée permet un traitement idempotent.
 
 - **Dépendances et ports utilisés :** La commande ne transporte ni nœud, ni prix, ni objet d’inventaire.
 
@@ -1858,13 +1942,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** `REPLAYED` confirme qu’une commande identique était déjà committée sans seconde mutation.
+- **Limites et réserves :** `REPLAYED` confirme qu’une commande identique était déjà committée sans seconde mutation.
 
-- **Limites et réserves :** Les refus d’accès, de révision, de ressource et d’inventaire restent distincts. Le résultat ne contient aucun état régional mutable.
+- **Invariants protégés :** Les refus d’accès, de révision, de ressource et d’inventaire restent distincts.
 
-- **Rôle précis du bloc :** `affected_units` est signé pour une population et positif pour une récolte.
+- **Limites et réserves — complément 2 :** `affected_units` est signé pour une population et positif pour une récolte.
 
-- **Invariants protégés :** Un succès exige des identifiants valides ; seuls les refus antérieurs à une lecture sûre peuvent les laisser vides.
+- **Résultat attendu et vérification :** Le résultat ne contient aucun état régional mutable.
+
+- **Invariants protégés — complément 2 :** Un succès exige des identifiants valides ; seuls les refus antérieurs à une lecture sûre peuvent les laisser vides.
 
 ### 31.2 Autoriser sans muter
 
@@ -1895,13 +1981,13 @@ func can_harvest(
 
 - **Dépendances et ports utilisés :** Le port vérifie que l’acteur ou le système source peut demander l’opération.
 
-- **Effets de bord :** Il ne modifie ni population, ni réserve, ni inventaire.
+- **Limites et réserves :** Il ne modifie ni population, ni réserve, ni inventaire.
 
-- **Frontières d’autorité :** Les lois, permissions et territoires futurs pourront adapter cette frontière au chapitre 23.
+- **Point d’explication complémentaire :** Les lois, permissions et territoires futurs pourront adapter cette frontière au chapitre 23.
 
 - **Invariants protégés :** L’écologie revalide encore identités, quantités et révisions après l’autorisation.
 
-- **Limites et réserves :** `ERR_UNAUTHORIZED` devient un refus métier ; les autres codes inattendus restent des pannes internes.
+- **Invariants protégés — complément 2 :** `ERR_UNAUTHORIZED` devient un refus métier ; les autres codes inattendus restent des pannes internes.
 
 ## 32. Frontière de récolte avec l’inventaire
 
@@ -1958,11 +2044,15 @@ func validate() -> Error:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La commande demande une quantité écologique et une destination d’inventaire. L’acteur est optionnel pour une cause système, mais validé lorsqu’il est présent. Les révisions couvrent la région, la réserve et la destination d’inventaire.
+- **Limites et réserves :** La commande demande une quantité écologique et une destination d’inventaire.
 
-- **Invariants protégés :** `created_stack_id` sert uniquement lorsque l’inventaire doit créer un nouveau lot.
+- **Limites et réserves — complément 2 :** L’acteur est optionnel pour une cause système, mais validé lorsqu’il est présent.
 
-- **Responsabilités des classes ou fonctions :** Le service recalculera le rendement autorisé depuis les définitions.
+- **Point d’explication complémentaire :** `created_stack_id` sert uniquement lorsque l’inventaire doit créer un nouveau lot.
+
+- **Point d’explication complémentaire — complément 2 :** Les révisions couvrent la région, la réserve et la destination d’inventaire.
+
+- **Point d’explication complémentaire — complément 3 :** Le service recalculera le rendement autorisé depuis les définitions.
 
 ## 33. Ports de rendement et de commit
 
@@ -1995,15 +2085,15 @@ func prepare_harvest_yield(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’inventaire prépare lui-même l’objet, le lot, la provenance et la destination.
+- **Point d’explication complémentaire :** L’inventaire prépare lui-même l’objet, le lot, la provenance et la destination.
 
-- **Invariants protégés :** L’écologie fournit seulement une définition d’objet validée et une quantité autorisée.
+- **Limites et réserves :** L’écologie fournit seulement une définition d’objet validée et une quantité autorisée.
 
 - **Frontières d’autorité :** Un payload vide ou une mauvaise autorité est refusé.
 
 - **Dépendances et ports utilisés :** Le port ne modifie ni réserve ni conteneur.
 
-- **Limites et réserves :** Une ressource sans rendement d’inventaire ne peut pas passer par la commande de récolte présentée ici.
+- **Limites et réserves — complément 2 :** Une ressource sans rendement d’inventaire ne peut pas passer par la commande de récolte présentée ici.
 
 > **[VSC] Visual Studio Code — Créer : `res://src/features/ecology/application/ecology_transaction_commit_port.gd`.**
 
@@ -2037,11 +2127,13 @@ func commit_harvest(
 
 - **Frontières d’autorité :** Le point de composition coordonne les dépôts propriétaires et l’enregistrement idempotent du résultat.
 
-- **Déterminisme et idempotence :** Une mutation de population committe région, identité, empreinte et résultat comme un même lot.
+- **Résultat attendu et vérification :** Une mutation de population committe région, identité, empreinte et résultat comme un même lot.
 
-- **Effets de bord :** Une récolte ajoute le candidat opaque de l’inventaire sans donner ses règles à l’écologie. Les révisions sont relues avant le premier remplacement et un échec ne laisse aucun état partiel observable.
+- **Limites et réserves :** Une récolte ajoute le candidat opaque de l’inventaire sans donner ses règles à l’écologie.
 
-- **Rôle précis du bloc :** L’atomicité runtime devra être exécutée au chapitre 27.
+- **Limites et réserves — complément 2 :** Les révisions sont relues avant le premier remplacement et un échec ne laisse aucun état partiel observable.
+
+- **Point d’explication complémentaire :** L’atomicité runtime devra être exécutée au chapitre 27.
 
 ### 33.1 Service de mutations écologiques
 
@@ -2185,13 +2277,15 @@ func harvest(command: HarvestEcologyCommand) -> EcologyCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** La configuration est vérifiée avant la lecture du registre d’idempotence. Un retry identique renvoie `REPLAYED`, tandis qu’une même identité associée à une autre empreinte est refusée.
+- **Résultat attendu et vérification :** La configuration est vérifiée avant la lecture du registre d’idempotence.
 
-- **Rôle précis du bloc :** Les révisions de région et d’agrégat sont relues avant de préparer une copie candidate.
+- **Invariants protégés :** Un retry identique renvoie `REPLAYED`, tandis qu’une même identité associée à une autre empreinte est refusée.
 
-- **Invariants protégés :** La récolte prépare le rendement d’inventaire seulement après validation de la réserve candidate.
+- **Limites et réserves :** Les révisions de région et d’agrégat sont relues avant de préparer une copie candidate.
 
-- **Effets de bord :** Les signaux sont émis uniquement après le commit qui enregistre aussi le résultat durable.
+- **Point d’explication complémentaire :** La récolte prépare le rendement d’inventaire seulement après validation de la réserve candidate.
+
+- **Résultat attendu et vérification — complément 2 :** Les signaux sont émis uniquement après le commit qui enregistre aussi le résultat durable.
 
 ### 33.2 Helpers du service
 
@@ -2251,15 +2345,15 @@ func _commit_failure(command: Variant, code: Error) -> EcologyCommandResult:
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** Le dépôt garantit que le résultat relu est une copie validée ; le service change seulement son statut d’affichage en `REPLAYED`.
+- **Résultat attendu et vérification :** Le dépôt garantit que le résultat relu est une copie validée ; le service change seulement son statut d’affichage en `REPLAYED`.
 
 - **Persistance et restauration :** `_candidate_is_valid()` relit l’horloge afin d’appliquer la convention temporelle persistée aux résidus.
 
-- **Invariants protégés :** `_is_configured()` exige l’inventaire seulement pour une récolte.
+- **Limites et réserves :** `_is_configured()` exige l’inventaire seulement pour une récolte.
 
 - **Paramètres et types importants :** `_result()` accepte les deux types de commandes sans exposer leurs états mutables.
 
-- **Limites et réserves :** Les codes `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
+- **Limites et réserves — complément 2 :** Les codes `ERR_BUSY` et `ERR_UNAUTHORIZED` restent distingués d’une panne interne.
 
 ## 34. Publier des indices à l’économie
 
@@ -2306,9 +2400,15 @@ func snapshot_for(
 
 **Explication structurée du bloc :**
 
-- **Dépendances et ports utilisés :** Le signal transporte des indices et une révision, jamais un prix unitaire. L’écologie ne lit ni portefeuille ni offre commerciale.
+- **Dépendances et ports utilisés :** Le signal transporte des indices et une révision, jamais un prix unitaire.
 
-- **Rôle précis du bloc :** Rareté et abondance sont bornées et ne peuvent pas dépasser ensemble `100 %`. L’économie décide comment intégrer ce contexte à sa politique de prix du chapitre 21. Un signal expiré est refusé au moment du devis.
+- **Limites et réserves :** Rareté et abondance sont bornées et ne peuvent pas dépasser ensemble `100 %`.
+
+- **Point d’explication complémentaire :** L’économie décide comment intégrer ce contexte à sa politique de prix du chapitre 21.
+
+- **Invariants protégés :** Un signal expiré est refusé au moment du devis.
+
+- **Dépendances et ports utilisés — complément 2 :** L’écologie ne lit ni portefeuille ni offre commerciale.
 
 ## 35. Fournir des observations aux agents
 
@@ -2351,11 +2451,13 @@ func snapshot_for(_region_id: StringName, _logical_tick: int) -> Observation:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’observation contient des valeurs simples, bornées et indexées par identifiants stables. Les agents transforment ces données en faits structurés selon le chapitre 17.
+- **Point d’explication complémentaire :** L’observation contient des valeurs simples, bornées et indexées par identifiants stables.
+
+- **Point d’explication complémentaire — complément 2 :** Les agents transforment ces données en faits structurés selon le chapitre 17.
 
 - **Frontières d’autorité :** Une décision d’agent reste une requête soumise au système propriétaire.
 
-- **Dépendances et ports utilisés :** Le port ne retourne aucun dictionnaire interne du dépôt écologique.
+- **Valeur de retour ou code d’échec :** Le port ne retourne aucun dictionnaire interne du dépôt écologique.
 
 - **Persistance et restauration :** Une sortie générative ne peut pas remplacer ce snapshot validé.
 
@@ -2392,11 +2494,15 @@ var source_system_id: StringName
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** L’événement décrit un fait déjà committé. Les consommateurs ne peuvent pas modifier la région à travers l’événement.
+- **Point d’explication complémentaire :** L’événement décrit un fait déjà committé.
 
 - **Persistance et restauration :** Les valeurs avant/après permettent un diagnostic sans relire un ancien snapshot.
 
-- **Rôle précis du bloc :** Cause et système source distinguent une transition naturelle d’une commande externe. Une présentation ou un agent peut ignorer un événement devenu ancien grâce à la révision.
+- **Limites et réserves :** Cause et système source distinguent une transition naturelle d’une commande externe.
+
+- **Limites et réserves — complément 2 :** Les consommateurs ne peuvent pas modifier la région à travers l’événement.
+
+- **Limites et réserves — complément 3 :** Une présentation ou un agent peut ignorer un événement devenu ancien grâce à la révision.
 
 ## 37. Présentation et interaction
 
@@ -2444,15 +2550,15 @@ func on_step_committed(result: EcologyStepResult) -> void:
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** Le pont accepte uniquement un résultat validé et committé.
+- **Résultat attendu et vérification :** Le pont accepte uniquement un résultat validé et committé.
 
-- **Invariants protégés :** La révision empêche de rejouer une présentation plus ancienne.
+- **Limites et réserves :** La révision empêche de rejouer une présentation plus ancienne.
 
 - **Frontières d’autorité :** Le cache local ne remplace pas l’autorité du dépôt.
 
 - **Dépendances et ports utilisés :** Le signal transporte des identifiants et entiers simples.
 
-- **Limites et réserves :** Aucun état écologique n’est modifié dans le nœud.
+- **Limites et réserves — complément 2 :** Aucun état écologique n’est modifié dans le nœud.
 
 ## 38. Persistance
 
@@ -2536,13 +2642,15 @@ func decode(document: Dictionary, catalog: EcologyCatalog) -> DecodeResult:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** Le codec exige exactement les clés prévues.
+- **Point d’explication complémentaire :** Le codec exige exactement les clés prévues.
 
-- **Paramètres et types importants :** Les entiers suivent la règle JSON sûre du chapitre 9.
+- **Point d’explication complémentaire — complément 2 :** Les entiers suivent la règle JSON sûre du chapitre 9.
 
-- **Invariants protégés :** `_decode_all()` décode d’abord l’horloge, puis valide chaque région avec son `ticks_per_day`, sans toucher au dépôt actif. `DecodeResult` distingue un document vide valide d’un échec.
+- **Invariants protégés :** `_decode_all()` décode d’abord l’horloge, puis valide chaque région avec son `ticks_per_day`, sans toucher au dépôt actif.
 
-- **Dépendances et ports utilisés :** Les références croisées vérifient espèces, ressources et régions contre le catalogue.
+- **Résultat attendu et vérification :** Les références croisées vérifient espèces, ressources et régions contre le catalogue.
+
+- **Invariants protégés — complément 2 :** `DecodeResult` distingue un document vide valide d’un échec.
 
 ## 40. Section de sauvegarde
 
@@ -2592,9 +2700,15 @@ func cancel_restore() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La section prépare l’ensemble du monde vivant avant toute mutation. Les données sont copiées avant stockage et application. L’horloge et les régions sont remplacées dans un même état préparé.
+- **Point d’explication complémentaire :** La section prépare l’ensemble du monde vivant avant toute mutation.
 
-- **Persistance et restauration :** Un échec d’une autre section permet d’annuler la restauration. Les définitions doivent être chargées avant le snapshot vivant.
+- **Point d’explication complémentaire — complément 2 :** Les données sont copiées avant stockage et application.
+
+- **Persistance et restauration :** Un échec d’une autre section permet d’annuler la restauration.
+
+- **Point d’explication complémentaire — complément 3 :** L’horloge et les régions sont remplacées dans un même état préparé.
+
+- **Persistance et restauration — complément 2 :** Les définitions doivent être chargées avant le snapshot vivant.
 
 ## 41. Scène pédagogique
 
@@ -2694,7 +2808,7 @@ var day_index := Time.get_unix_time_from_system() / 86400
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** l’heure système est modifiable et ne constitue pas une séquence logique reproductible.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’heure système est modifiable et ne constitue pas une séquence logique reproductible.
 
 **Exemple corrigé :**
 
@@ -2708,7 +2822,7 @@ var day_index := world_clock.logical_tick / world_clock.ticks_per_day
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le jour est dérivé d’un état autoritaire sauvegardé et non décroissant.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le jour est dérivé d’un état autoritaire sauvegardé et non décroissant.
 
 ### 44.2 Utiliser des `float` pour les populations et ressources
 
@@ -2727,7 +2841,7 @@ resource_pool += 0.1 * delta
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** aucun contrat d’arrondi ni résidu persistable n’est défini.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** aucun contrat d’arrondi ni résidu persistable n’est défini.
 
 **Exemple corrigé :**
 
@@ -2746,7 +2860,7 @@ var accrued := EcologyMath.accrue(
 
 **Explication structurée du bloc :**
 
-- **Déterminisme et idempotence :** **Pourquoi la correction fonctionne :** les unités entières et le résidu produisent une évolution déterministe et sérialisable.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** les unités entières et le résidu produisent une évolution déterministe et sérialisable.
 
 ### 44.3 Rejouer chaque tick manqué
 
@@ -2765,7 +2879,7 @@ for tick in range(saved_tick, current_tick):
 
 **Explication structurée du bloc :**
 
-- **Invariants protégés :** **Pourquoi cet exemple est fautif :** le coût dépend sans borne de la durée écoulée et rejoue des états intermédiaires inutiles.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le coût dépend sans borne de la durée écoulée et rejoue des états intermédiaires inutiles.
 
 **Exemple corrigé :**
 
@@ -2780,7 +2894,7 @@ var candidate := simulator.prepare_step(state, current_tick, ticks_per_day)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** une étape agrégée bornée calcule directement l’état final utile.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** une étape agrégée bornée calcule directement l’état final utile.
 
 ### 44.4 Confondre présence en scène et existence
 
@@ -2798,7 +2912,7 @@ population.count = get_tree().get_nodes_in_group("wolves").size()
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** le nombre de nœuds actifs devient l’autorité d’une population qui existe hors écran.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le nombre de nœuds actifs devient l’autorité d’une population qui existe hors écran.
 
 **Exemple corrigé :**
 
@@ -2813,7 +2927,7 @@ var visible_count := character_registry.count_visible(region_id, species_id)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** le nombre logique et le nombre visible sont lus séparément sans s’écraser.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** le nombre logique et le nombre visible sont lus séparément sans s’écraser.
 
 ### 44.5 Modifier la population lors d’une apparition
 
@@ -2832,7 +2946,7 @@ population.count += 1
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** l’instanciation d’une représentation est confondue avec une naissance écologique.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’instanciation d’une représentation est confondue avec une naissance écologique.
 
 **Exemple corrigé :**
 
@@ -2847,7 +2961,7 @@ apply_character_projection(prepared)
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** la projection visuelle change sans mutation du nombre logique.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la projection visuelle change sans mutation du nombre logique.
 
 ### 44.6 Laisser l’économie écrire une ressource écologique
 
@@ -2866,7 +2980,7 @@ if market_price > threshold:
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** l’économie devient propriétaire d’un état écologique et introduit une boucle implicite.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** l’économie devient propriétaire d’un état écologique et introduit une boucle implicite.
 
 **Exemple corrigé :**
 
@@ -2884,7 +2998,7 @@ var signal := ecology_market_signal.snapshot_for(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** l’économie lit un indice validé sans modifier la réserve source.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’économie lit un indice validé sans modifier la réserve source.
 
 ### 44.7 Laisser l’écologie fixer un prix
 
@@ -2902,7 +3016,7 @@ item_price_minor = scarcity_bp * 50
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** un indice écologique devient directement un montant monétaire.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** un indice écologique devient directement un montant monétaire.
 
 **Exemple corrigé :**
 
@@ -2917,7 +3031,7 @@ var quote := economy_service.quote(command)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi la correction fonctionne :** l’économie transforme l’indice selon sa propre politique et reste l’unique autorité du prix.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** l’économie transforme l’indice selon sa propre politique et reste l’unique autorité du prix.
 
 ### 44.8 Réduire une réserve avant de créer le rendement d’inventaire
 
@@ -2936,7 +3050,7 @@ inventory.add_item(item_definition_id, harvested)
 
 **Explication structurée du bloc :**
 
-- **Frontières d’autorité :** **Pourquoi cet exemple est fautif :** les deux autorités sont modifiées séquentiellement et peuvent diverger.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** les deux autorités sont modifiées séquentiellement et peuvent diverger.
 
 **Exemple corrigé :**
 
@@ -2962,7 +3076,7 @@ var code := transaction_commit_port.commit_harvest(
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi la correction fonctionne :** la réserve et le lot sont préparés puis committés comme une seule opération.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la réserve et le lot sont préparés puis committés comme une seule opération.
 
 ### 44.9 Utiliser le RNG global sans état restaurable
 
@@ -2981,7 +3095,7 @@ if randf() < migration_probability:
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi cet exemple est fautif :** le tirage dépend d’un état global non corrélé à la région et non persisté par ce système.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** le tirage dépend d’un état global non corrélé à la région et non persisté par ce système.
 
 **Exemple corrigé :**
 
@@ -2999,7 +3113,7 @@ var migration_units := deterministic_migration_policy.compute(
 
 **Explication structurée du bloc :**
 
-- **Persistance et restauration :** **Pourquoi la correction fonctionne :** la politique utilise uniquement l’état, les définitions, le tick et des résidus persistés.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la politique utilise uniquement l’état, les définitions, le tick et des résidus persistés.
 
 ### 44.10 Laisser une sortie IA modifier le monde vivant
 
@@ -3018,7 +3132,7 @@ region.resources = ai_response["resources"]
 
 **Explication structurée du bloc :**
 
-- **Effets de bord :** **Pourquoi cet exemple est fautif :** une sortie non fiable remplace directement deux agrégats autoritaires.
+- **Pourquoi cet exemple est fautif :** **Pourquoi cet exemple est fautif :** une sortie non fiable remplace directement deux agrégats autoritaires.
 
 **Exemple corrigé :**
 
@@ -3035,7 +3149,7 @@ if command != null:
 
 **Explication structurée du bloc :**
 
-- **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** la suggestion est filtrée puis convertie en commande typée qui repasse par les validations et révisions.
+- **Pourquoi la correction fonctionne :** **Pourquoi la correction fonctionne :** la suggestion est filtrée puis convertie en commande typée qui repasse par les validations et révisions.
 
 ## 45. Tests à préparer
 

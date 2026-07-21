@@ -166,7 +166,7 @@ func refresh_preview() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** `@tool` autorise l’exécution dans l’éditeur. `Engine.is_editor_hint()` isole le chemin éditorial si le script peut aussi être instancié ailleurs. Le bloc expose `refresh_preview()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** `@tool` autorise l’exécution dans l’éditeur. `Engine.is_editor_hint()` isole le chemin éditorial si le script peut aussi être instancié ailleurs. Le bloc expose `refresh_preview()` et montre son traitement complet ou son squelette contractuel.
 
 - **Frontières d’autorité :** Une méthode outil ne doit jamais muter une partie ni appeler directement une autorité runtime.
 
@@ -228,7 +228,7 @@ func _exit_tree() -> void:
 
 - **Responsabilités des classes ou fonctions :** Chaque enregistrement possède son retrait miroir. L’exemple utilise l’API de dock historique encore disponible ; une implémentation strictement alignée sur `EditorDock` emploie `add_dock()` et `remove_dock()` avec le même invariant de nettoyage. Les signatures documentées sont `_enter_tree() -> void`, `_exit_tree() -> void`.
 
-- **Rôle précis du bloc :** Le bloc expose `_enter_tree()`, `_exit_tree()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_enter_tree()`, `_exit_tree()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `_dock: Control`, `_inspector_plugin: EditorInspectorPlugin`, `_import_plugin: EditorImportPlugin`.
 
@@ -253,7 +253,7 @@ func _ready() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La garde échoue explicitement si le module est chargé hors éditeur. Le bloc expose `_ready()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** La garde échoue explicitement si le module est chargé hors éditeur. Le bloc expose `_ready()` et montre son traitement complet ou son squelette contractuel.
 
 - **Dépendances et ports utilisés :** Le package runtime ne doit dépendre ni de ce plugin, ni de ses scènes d’interface, ni de ses adaptateurs de fichiers.
 
@@ -302,7 +302,7 @@ func _on_publish_pressed() -> void:
 
 - **Limites et réserves :** Le bouton de publication ne peut donc pas construire arbitrairement une liste de fichiers à écrire.
 
-- **Rôle précis du bloc :** Le bloc expose `_ready()`, `_on_preview_pressed()`, `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_ready()`, `_on_preview_pressed()`, `_on_publish_pressed()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `signal preview_requested`, `signal publish_requested`.
 
@@ -342,7 +342,7 @@ func set_state(next_state: DockState) -> void:
 
 - **Limites et réserves :** Une validation échouée, un aperçu obsolète ou une opération en cours ne peut pas lancer la promotion.
 
-- **Rôle précis du bloc :** L’interface reflète une décision applicative plutôt qu’une déduction visuelle. Le bloc expose `can_publish()`, `set_state()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** L’interface reflète une décision applicative plutôt qu’une déduction visuelle. Le bloc expose `can_publish()`, `set_state()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `state: DockState`.
 
@@ -385,7 +385,7 @@ func _request_validation(resource_path: String) -> void:
 
 - **Responsabilités des classes ou fonctions :** L’action transmet un chemin de ressource au service applicatif et ne corrige jamais silencieusement l’objet sélectionné. Les signatures documentées sont `_can_handle(object: Object) -> bool`, `_parse_begin(object: Object) -> void`, `_request_validation(resource_path: String) -> void`.
 
-- **Rôle précis du bloc :** Le bloc expose `_can_handle()`, `_parse_begin()`, `_request_validation()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_can_handle()`, `_parse_begin()`, `_request_validation()` et montre son traitement complet ou son squelette contractuel.
 
 - **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `object is QuestDefinition`.
 
@@ -412,7 +412,7 @@ func rename_entry(resource: Resource, next_id: StringName) -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** L’action conserve l’ancienne et la nouvelle valeur dans l’historique approprié. La ressource fournie comme contexte aide l’éditeur à sélectionner l’historique. Le bloc expose `rename_entry()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** L’action conserve l’ancienne et la nouvelle valeur dans l’historique approprié. La ressource fournie comme contexte aide l’éditeur à sélectionner l’historique. Le bloc expose `rename_entry()` et montre son traitement complet ou son squelette contractuel.
 
 - **Effets de bord :** `commit_action()` exécute l’opération et marque normalement le document comme modifié. Les effets visibles sont `undo_redo.add_do_property(resource, "entry_id", next_id)`, `undo_redo.add_undo_property(resource, "entry_id", previous_id)`, `undo_redo.commit_action()`.
 
@@ -436,7 +436,7 @@ func update_generated_preview(node: Node3D, mesh: Mesh) -> void:
 
 - **Limites et réserves :** Une opération qui ne peut raisonnablement pas être modélisée par undo/redo doit au minimum marquer la scène comme non enregistrée. Cette voie reste secondaire : les mutations structurelles doivent préférer l’historique de l’éditeur.
 
-- **Rôle précis du bloc :** Le bloc expose `update_generated_preview()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `update_generated_preview()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `update_generated_preview(node: Node3D, mesh: Mesh) -> void`.
 
@@ -640,7 +640,7 @@ func read_source(path: String) -> ContentReadResult:
 
 - **Organisation des fichiers :** Le chemin reste dans la racine source et la taille est bornée avant analyse.
 
-- **Rôle précis du bloc :** Le résultat distingue un refus de politique d’un échec d’entrée-sortie. Le bloc expose `read_source()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le résultat distingue un refus de politique d’un échec d’entrée-sortie. Le bloc expose `read_source()` et montre son traitement complet ou son squelette contractuel.
 
 - **Limites et réserves :** Une implémentation optimisée pourra lire la taille sans charger tout le fichier.
 
@@ -685,7 +685,7 @@ func prepare_document(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les migrations travaillent sur une copie détachée. Le candidat final est entièrement validé avant toute promotion. Le bloc expose `prepare_document()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Les migrations travaillent sur une copie détachée. Le candidat final est entièrement validé avant toute promotion. Le bloc expose `prepare_document()` et montre son traitement complet ou son squelette contractuel.
 
 - **Résultat attendu :** Une version future est refusée afin qu’un ancien outil ne réécrive pas un document qu’il ne comprend pas.
 
@@ -735,7 +735,7 @@ func validate_reference(
 
 - **Dépendances et ports utilisés :** La validation consulte un catalogue d’identifiants, jamais un titre affiché ou un chemin comme identité métier. Le diagnostic conserve le fichier et le champ qui portent la référence manquante.
 
-- **Rôle précis du bloc :** Le bloc expose `validate_reference()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `validate_reference()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `validate_reference(source_path: String, field_name: StringName, target_id: StringName, catalog: ContentIdCatalog) -> Array[ContentIssue]`.
 
@@ -834,7 +834,7 @@ func find_cycle(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Rencontrer un nœud `ACTIVE` révèle une arête de retour. Le bloc expose `find_cycle()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Rencontrer un nœud `ACTIVE` révèle une arête de retour. Le bloc expose `find_cycle()` et montre son traitement complet ou son squelette contractuel.
 
 - **Résultat attendu :** Le chemin retourné rend le diagnostic actionnable.
 
@@ -883,7 +883,7 @@ func topological_order() -> Array[StringName]:
 
 - **Invariants protégés :** Le tri des candidats prêts fixe un ordre reproductible lorsque plusieurs solutions sont valides. Les gardes explicites contrôlent `remaining[content_id] == 0`, `remaining[dependent] == 0`.
 
-- **Rôle précis du bloc :** Un tableau vide signale un cycle ou une incohérence. Cette stabilité évite des artefacts différents entre deux machines. Le bloc expose `topological_order()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Un tableau vide signale un cycle ou une incohérence. Cette stabilité évite des artefacts différents entre deux machines. Le bloc expose `topological_order()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `ready: Array[StringName]`, `result: Array[StringName]`.
 
@@ -968,7 +968,7 @@ func fingerprint(document: Dictionary) -> String:
 
 - **Invariants protégés :** Elle permet de vérifier qu’un aperçu correspond encore aux sources.
 
-- **Rôle précis du bloc :** Elle ne constitue ni une signature d’auteur ni une preuve suffisante de provenance. Le bloc expose `fingerprint()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Elle ne constitue ni une signature d’auteur ni une preuve suffisante de provenance. Le bloc expose `fingerprint()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `fingerprint(document: Dictionary) -> String`.
 
@@ -1280,7 +1280,7 @@ func save_staged(
 
 - **Valeur de retour ou code d’échec :** `ResourceSaver.save()` retourne un code `Error` qui doit être consommé. Les branches de sortie visibles renvoient `ERR_INVALID_PARAMETER`, `error`, `ERR_CANT_CREATE`, `OK`.
 
-- **Rôle précis du bloc :** Le chemin est borné à la zone de staging. La simple existence ne suffit pas : l’étape suivante recharge et contrôle l’artefact. Le bloc expose `save_staged()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le chemin est borné à la zone de staging. La simple existence ne suffit pas : l’étape suivante recharge et contrôle l’artefact. Le bloc expose `save_staged()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `save_staged(resource: Resource, staging_path: String) -> Error`.
 
@@ -1329,7 +1329,7 @@ func verify_staged(
 
 - **Persistance et restauration :** Une source valide peut encore révéler une erreur de compilateur ou de sérialisation ; cette vérification protège la promotion.
 
-- **Rôle précis du bloc :** Le bloc expose `verify_staged()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `verify_staged()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `verify_staged(path: String, expected_type: StringName) -> ContentArtifactResult`.
 
@@ -1365,7 +1365,7 @@ func refresh_editor_paths(
 
 - **Dépendances et ports utilisés :** Le service refuse un nouveau scan ou import pendant une opération active. `reimport_files()` traite ensuite les sources ciblées.
 
-- **Rôle précis du bloc :** `update_file()` actualise les informations de fichier ; L’appelant programme une nouvelle tentative après `ERR_BUSY`. Le bloc expose `refresh_editor_paths()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** `update_file()` actualise les informations de fichier ; L’appelant programme une nouvelle tentative après `ERR_BUSY`. Le bloc expose `refresh_editor_paths()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `refresh_editor_paths(paths: PackedStringArray) -> Error`.
 
@@ -1408,7 +1408,7 @@ func _get_format_version() -> int:
 
 - **Dépendances et ports utilisés :** L’identité technique de l’importeur est stable et distincte du nom visible. La version de format augmente lors d’un changement incompatible des artefacts importés.
 
-- **Rôle précis du bloc :** Les extensions reconnues sont fermées. Le bloc expose `_get_importer_name()`, `_get_visible_name()`, `_get_recognized_extensions()`, `_get_save_extension()`, `_get_resource_type()`, `_get_format_version()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Les extensions reconnues sont fermées. Le bloc expose `_get_importer_name()`, `_get_visible_name()`, `_get_recognized_extensions()`, `_get_save_extension()`, `_get_resource_type()`, `_get_format_version()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_get_importer_name() -> String`, `_get_visible_name() -> String`, `_get_recognized_extensions() -> PackedStringArray`, `_get_save_extension() -> String`, `_get_resource_type() -> String`.
 
@@ -1455,7 +1455,7 @@ func _import(
 
 - **Résultat attendu :** Il produit une définition de conception vers le chemin fourni par l’éditeur ; il ne touche ni à une quête active ni au dépôt narratif runtime.
 
-- **Rôle précis du bloc :** Le bloc expose `_import()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_import()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `artifact: QuestDefinition`.
 
@@ -1484,7 +1484,7 @@ func _can_import_threaded() -> bool:
 
 - **Dépendances et ports utilisés :** Passer à `true` exige que toute la chaîne d’import supporte des appels concurrents et indépendants.
 
-- **Rôle précis du bloc :** Le bloc expose `_can_import_threaded()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_can_import_threaded()` et montre son traitement complet ou son squelette contractuel.
 
 - **Valeur de retour ou code d’échec :** Les branches de sortie visibles renvoient `false`.
 
@@ -1516,7 +1516,7 @@ func needs_rebuild(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le contenu est reconstruit si la source, l’outil ou l’artefact diffère du manifeste. La date de modification n’est pas une preuve suffisante, car elle varie selon les copies et certains outils la préservent. Le bloc expose `needs_rebuild()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le contenu est reconstruit si la source, l’outil ou l’artefact diffère du manifeste. La date de modification n’est pas une preuve suffisante, car elle varie selon les copies et certains outils la préservent. Le bloc expose `needs_rebuild()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `needs_rebuild(entry: ContentManifestEntry, current_source_hash: String, tool_version: String) -> bool`.
 
@@ -1559,7 +1559,7 @@ func expand_dirty_set(
 
 - **Invariants protégés :** Un changement invalide les artefacts qui en dépendent directement ou indirectement. Les gardes explicites contrôlent `dirty.has(current)`.
 
-- **Rôle précis du bloc :** Le dictionnaire sert d’ensemble de visite, puis le tri garantit le même ordre de reconstruction pour un graphe identique. Le bloc expose `expand_dirty_set()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le dictionnaire sert d’ensemble de visite, puis le tri garantit le même ordre de reconstruction pour un graphe identique. Le bloc expose `expand_dirty_set()` et montre son traitement complet ou son squelette contractuel.
 
 - **Paramètres et types importants :** Les déclarations visibles sont `queue: Array[StringName]`, `result: Array[StringName]`.
 
@@ -1646,7 +1646,7 @@ func publish(
 
 - **Déterminisme et idempotence :** Le reçu identifie un aperçu contrôlé, mais une seconde empreinte protège la fenêtre entre prévisualisation et confirmation.
 
-- **Rôle précis du bloc :** Une source modifiée force un nouvel aperçu. Le bloc expose `publish()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Une source modifiée force un nouvel aperçu. Le bloc expose `publish()` et montre son traitement complet ou son squelette contractuel.
 
 - **Effets de bord :** Le committer reçoit une transaction complète. Les effets visibles sont `return _transaction_committer.commit(`.
 
@@ -1709,7 +1709,7 @@ func prepare_migration(
 
 - **Persistance et restauration :** La publication vérifie que chaque source est restée identique et conserve une restauration.
 
-- **Rôle précis du bloc :** Le bloc expose `prepare_migration()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `prepare_migration()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `prepare_migration(paths: PackedStringArray, target_version: int) -> SourceMigrationPlan`.
 
@@ -1760,7 +1760,7 @@ func validate_presentation_refs(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La définition référence une clé de localisation et une identité d’asset, pas un chemin fragile. La politique peut distinguer une clé indispensable d’une icône optionnelle. Le bloc expose `validate_presentation_refs()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** La définition référence une clé de localisation et une identité d’asset, pas un chemin fragile. La politique peut distinguer une clé indispensable d’une icône optionnelle. Le bloc expose `validate_presentation_refs()` et montre son traitement complet ou son squelette contractuel.
 
 - **Persistance et restauration :** Les catalogues utilisés sont des snapshots de validation.
 
@@ -1813,7 +1813,7 @@ func resolve_target(
 
 - **Organisation des fichiers :** La normalisation ne remplace pas la politique de racine. L’appelant ne peut pas viser `addons`, `project.godot` ou un dossier utilisateur arbitraire.
 
-- **Rôle précis du bloc :** Le bloc expose `resolve_target()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `resolve_target()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `resolve_target(relative_path: String) -> ContentPathResult`.
 
@@ -1902,7 +1902,7 @@ func accept_generated_text(
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** La taille est bornée avant l’analyse. Le bloc expose `accept_generated_text()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** La taille est bornée avant l’analyse. Le bloc expose `accept_generated_text()` et montre son traitement complet ou son squelette contractuel.
 
 - **Invariants protégés :** Une sortie syntaxiquement valide reste en état `review_required`, même si aucun blocage n’est détecté. Les gardes explicites contrôlent `raw_text.to_utf8_buffer().size() > request.max_output_bytes`, `parser.parse(raw_text) != OK`, `not parser.data is Dictionary`.
 
@@ -2018,7 +2018,7 @@ func _init() -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Le script hérite de `SceneTree`, lit les arguments utilisateur et termine avec un code explicite. Le bloc expose `_init()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le script hérite de `SceneTree`, lit les arguments utilisateur et termine avec un code explicite. Le bloc expose `_init()` et montre son traitement complet ou son squelette contractuel.
 
 - **Limites et réserves :** `0` signifie publiable, `1` signale un contenu non publiable et `2` une invocation incorrecte.
 
@@ -2127,7 +2127,7 @@ func _on_publish_pressed() -> void:
 
 - **Déterminisme et idempotence :** **Pourquoi cet exemple est fautif :** L’interface écrit dans le fichier final sans reçu, sans sauvegarde et sans contrôle d’empreinte.
 
-- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
 
@@ -2150,7 +2150,7 @@ func _on_publish_pressed() -> void:
 
 - **Invariants protégés :** Le service applicatif reste seul responsable de la transaction.
 
-- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `_on_publish_pressed()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `_on_publish_pressed() -> void`.
 
@@ -2171,7 +2171,7 @@ func add_marker(root: Node) -> void:
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement. Le bloc expose `add_marker()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** **Pourquoi cet exemple est fautif :** Le nœud est ajouté hors de l’historique de l’éditeur et peut être perdu ou impossible à retirer proprement. Le bloc expose `add_marker()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `add_marker(root: Node) -> void`.
 
@@ -2205,7 +2205,7 @@ func add_marker(root: Node) -> void:
 
 - **Responsabilités des classes ou fonctions :** **Pourquoi la correction fonctionne :** La correction enregistre l’ajout, le retrait et la référence dans l’historique associé à la scène. Les signatures documentées sont `add_marker(root: Node) -> void`.
 
-- **Rôle précis du bloc :** Le bloc expose `add_marker()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `add_marker()` et montre son traitement complet ou son squelette contractuel.
 
 - **Effets de bord :** Les effets visibles sont `undo_redo.add_do_method(root, "add_child", marker)`, `undo_redo.add_undo_method(root, "remove_child", marker)`, `undo_redo.add_do_reference(marker)`, `undo_redo.commit_action()`.
 
@@ -2582,7 +2582,7 @@ func grant_reward(
 
 - **Effets de bord :** **Pourquoi cet exemple est fautif :** Le plugin écrit directement dans le système économique au lieu de produire une définition.
 
-- **Rôle précis du bloc :** Le bloc expose `grant_reward()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `grant_reward()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `grant_reward(wallet_id: StringName, amount: int) -> void`.
 
@@ -2607,7 +2607,7 @@ func compile_reward_definition(
 
 - **Frontières d’autorité :** **Pourquoi la correction fonctionne :** Le compilateur corrigé ne crée qu’un artefact de conception ; l’économie reste propriétaire de toute écriture runtime.
 
-- **Rôle précis du bloc :** Le bloc expose `compile_reward_definition()` et montre leur traitement complet ou leur squelette contractuel.
+- **Rôle précis du bloc :** Le bloc expose `compile_reward_definition()` et montre son traitement complet ou son squelette contractuel.
 
 - **Responsabilités des classes ou fonctions :** Les signatures documentées sont `compile_reward_definition(source: Dictionary) -> RewardDefinition`.
 
