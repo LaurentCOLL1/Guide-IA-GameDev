@@ -16,15 +16,14 @@ spec.loader.exec_module(restorer)
 
 DETAILED = "**Explication détaillée du bloc :**"
 FAULTY = re.compile(
-    r"^(?:\s*-\s+)?(?:\*\*(?!Pourquoi\b)[^*\n]+\s*:\*\*\s+)?"
-    r"\*\*Pourquoi cet exemple est fautif\s*:\*\*\s*(.*)$",
+    r".*?Pourquoi cet exemple est fautif\s*:\*\*\s*(.*)$",
     re.IGNORECASE,
 )
 CORRECTED = re.compile(
-    r"^(?:\s*-\s+)?(?:\*\*(?!Pourquoi\b)[^*\n]+\s*:\*\*\s+)?"
-    r"\*\*Pourquoi la correction fonctionne\s*:\*\*\s*(.*)$",
+    r".*?Pourquoi la correction fonctionne\s*:\*\*\s*(.*)$",
     re.IGNORECASE,
 )
+CALLS = iter(restorer.CHAPTERS.keys())
 
 
 def normalize_historical_error_section(section: str) -> str:
@@ -57,6 +56,7 @@ def normalize_historical_error_section(section: str) -> str:
 
 
 def restore_error_section(current: str, historical: str) -> str:
+    chapter_number = next(CALLS)
     current_start, current_end = restorer.section_bounds(
         current, restorer.ERROR_MARKER
     )
@@ -71,15 +71,28 @@ def restore_error_section(current: str, historical: str) -> str:
 
     if restorer.STRUCTURED in section or DETAILED in section:
         raise RuntimeError(
-            "Un sous-titre d’explication subsiste dans la section restaurée"
+            f"Chapitre {chapter_number}: un sous-titre d’explication subsiste "
+            "dans la section restaurée"
         )
     if section.count("**Pourquoi cet exemple est fautif :**") < 1:
+        labels = [
+            line.strip()
+            for line in section.splitlines()
+            if "Pourquoi" in line
+        ]
         raise RuntimeError(
-            "Explication fautive directe absente après restauration"
+            f"Chapitre {chapter_number}: explication fautive directe absente; "
+            f"libellés rencontrés={labels[:8]}"
         )
     if section.count("**Pourquoi la correction fonctionne :**") < 1:
+        labels = [
+            line.strip()
+            for line in section.splitlines()
+            if "Pourquoi" in line
+        ]
         raise RuntimeError(
-            "Explication corrigée directe absente après restauration"
+            f"Chapitre {chapter_number}: explication corrigée directe absente; "
+            f"libellés rencontrés={labels[:8]}"
         )
     return result
 
