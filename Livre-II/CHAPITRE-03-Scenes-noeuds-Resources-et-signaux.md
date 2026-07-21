@@ -32,7 +32,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé pour produire ou réviser ce chapitre :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
 
 ## 1. Rôle du chapitre
@@ -455,7 +455,6 @@ signal availability_changed(is_available: bool)
 
 var _is_available: bool = true
 
-
 func _ready() -> void:
 	if profile == null:
 		push_error("StatusBeacon nécessite une Resource BeaconProfile.")
@@ -466,7 +465,6 @@ func _ready() -> void:
 
 	_cooldown_timer.wait_time = profile.cooldown_seconds
 	_refresh_label()
-
 
 func activate(actor_name: StringName) -> bool:
 	if profile == null or not _is_available:
@@ -485,12 +483,10 @@ func activate(actor_name: StringName) -> bool:
 	_cooldown_timer.start()
 	return true
 
-
 func _on_cooldown_finished() -> void:
 	_is_available = true
 	_refresh_label()
 	availability_changed.emit(true)
-
 
 func _refresh_label() -> void:
 	if profile == null:
@@ -710,7 +706,6 @@ const BEACON_SCENE: PackedScene = preload(
 	"res://src/features/beacons/status_beacon.tscn"
 )
 
-
 func spawn_beacon(parent: Node, profile: BeaconProfile) -> StatusBeacon:
 	var beacon: StatusBeacon = BEACON_SCENE.instantiate() as StatusBeacon
 	if beacon == null:
@@ -784,7 +779,6 @@ extends Node3D
 
 @onready var _beacon: StatusBeacon = $StatusBeacon
 
-
 func _ready() -> void:
 	if not _beacon.activated.is_connected(_on_beacon_activated):
 		_beacon.activated.connect(_on_beacon_activated)
@@ -799,13 +793,11 @@ func _ready() -> void:
 	var accepted: bool = _beacon.activate(&"Explorateur")
 	print("Activation acceptée : %s" % accepted)
 
-
 func _on_beacon_activated(
 	beacon_id: StringName,
 	message: String,
 ) -> void:
 	print("[%s] %s" % [beacon_id, message])
-
 
 func _on_beacon_availability_changed(is_available: bool) -> void:
 	print("Balise disponible : %s" % is_available)

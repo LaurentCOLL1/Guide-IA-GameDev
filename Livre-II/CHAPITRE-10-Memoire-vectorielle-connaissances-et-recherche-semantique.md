@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-10.md`.
 
 ## 1. Rôle du chapitre
@@ -250,7 +250,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-
 @dataclass(frozen=True, slots=True)
 class KnowledgeConfig:
     project_root: Path
@@ -301,7 +300,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-
 @dataclass(frozen=True, slots=True)
 class KnowledgeDocument:
     source_id: str
@@ -312,7 +310,6 @@ class KnowledgeDocument:
     tags: tuple[str, ...]
     revision: str
     body: str
-
 
 @dataclass(frozen=True, slots=True)
 class KnowledgeChunk:
@@ -328,7 +325,6 @@ class KnowledgeChunk:
     revision: str
     content_sha256: str
     text: str
-
 
 @dataclass(frozen=True, slots=True)
 class KnowledgeHit:
@@ -398,7 +394,6 @@ from typing import Any
 
 from knowledge_models import KnowledgeDocument
 
-
 def load_manifest(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -411,7 +406,6 @@ def load_manifest(path: Path) -> dict[str, Any]:
         raise ValueError("sources doit être un tableau.")
     return data
 
-
 def safe_relative_path(value: str) -> Path:
     path = Path(value)
     if path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
@@ -420,13 +414,11 @@ def safe_relative_path(value: str) -> Path:
         raise ValueError("Seules les sources Markdown sont acceptées.")
     return path
 
-
 def require_text(entry: dict[str, Any], key: str) -> str:
     value = entry.get(key)
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{key} doit être une chaîne non vide.")
     return value.strip()
-
 
 def validate_tags(value: Any) -> tuple[str, ...]:
     if not isinstance(value, list):
@@ -437,7 +429,6 @@ def validate_tags(value: Any) -> tuple[str, ...]:
             raise ValueError("Chaque tag doit être une chaîne non vide.")
         result.append(item.strip().lower())
     return tuple(sorted(set(result)))
-
 
 def load_documents(root: Path, manifest: dict[str, Any]) -> list[KnowledgeDocument]:
     documents: list[KnowledgeDocument] = []
@@ -499,7 +490,6 @@ from knowledge_models import KnowledgeChunk, KnowledgeDocument
 CHUNK_NAMESPACE = UUID("f6fe48a6-48d4-4fa8-b2f8-4d1dd122d36c")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
-
 
 class TokenChunker:
     def __init__(self, tokenizer, target: int, overlap: int, maximum: int):
@@ -622,7 +612,6 @@ from __future__ import annotations
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-
 class E5EmbeddingProvider:
     def __init__(self, model_name: str, expected_size: int):
         self._model = SentenceTransformer(model_name, device="cpu")
@@ -670,7 +659,6 @@ from typing import Protocol, Sequence
 
 from knowledge_models import KnowledgeChunk, KnowledgeHit
 
-
 class KnowledgeIndex(Protocol):
     def replace_source(
         self,
@@ -707,7 +695,6 @@ from collections.abc import Sequence
 from qdrant_client import QdrantClient, models
 
 from knowledge_models import KnowledgeChunk, KnowledgeHit
-
 
 class QdrantKnowledgeIndex:
     def __init__(self, path: str, collection: str, vector_size: int,
@@ -871,7 +858,6 @@ from knowledge_config import KnowledgeConfig
 from qdrant_index import QdrantKnowledgeIndex
 from source_loader import load_documents, load_manifest
 
-
 def rebuild(project_root: Path) -> None:
     config = KnowledgeConfig(project_root.resolve())
     config.validate()
@@ -934,10 +920,8 @@ from knowledge_models import KnowledgeDocument, KnowledgeHit
 
 WORD_RE = re.compile(r"[\wÀ-ÿ'-]+", re.UNICODE)
 
-
 def words(text: str) -> list[str]:
     return [value.casefold() for value in WORD_RE.findall(text)]
-
 
 class LexicalIndex:
     def __init__(self, documents: list[KnowledgeDocument]):
@@ -991,7 +975,6 @@ from knowledge_index import KnowledgeIndex
 from knowledge_models import KnowledgeHit
 from lexical_index import LexicalIndex
 
-
 class RetrievalService:
     def __init__(self, lexical: LexicalIndex,
                  embeddings: E5EmbeddingProvider | None,
@@ -1044,7 +1027,6 @@ from lexical_index import LexicalIndex
 from retrieval_service import RetrievalService
 from source_loader import load_documents, load_manifest
 
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("query")
@@ -1072,7 +1054,6 @@ def main() -> int:
         print(f"[{hit.retrieval_mode}] {hit.score:.4f} {hit.source_id}")
         print(hit.text[:400].replace("\n", " "))
     return 0 if hits else 2
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
@@ -1130,13 +1111,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-
 def reciprocal_rank(found: list[str], expected: set[str]) -> float:
     for rank, source_id in enumerate(found, start=1):
         if source_id in expected:
             return 1.0 / rank
     return 0.0
-
 
 def evaluate(service, path: Path, limit: int = 5) -> tuple[float, float]:
     data = json.loads(path.read_text(encoding="utf-8"))

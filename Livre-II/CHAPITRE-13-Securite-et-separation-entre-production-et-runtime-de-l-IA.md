@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-13.md`.
 
 ## 1. Rôle du chapitre
@@ -310,10 +310,8 @@ from __future__ import annotations
 
 import os
 
-
 class SecretConfigurationError(RuntimeError):
     pass
-
 
 def require_secret(name: str) -> str:
     value = os.environ.get(name, "")
@@ -337,10 +335,8 @@ from __future__ import annotations
 
 import secrets
 
-
 def generate_token() -> str:
     return secrets.token_urlsafe(32)
-
 
 if __name__ == "__main__":
     print(generate_token())
@@ -380,10 +376,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from ipaddress import ip_address
 
-
 class SecurityConfigError(ValueError):
     pass
-
 
 @dataclass(frozen=True)
 class ServerSecurityConfig:
@@ -427,7 +421,6 @@ from __future__ import annotations
 
 import hmac
 
-
 def bearer_token_is_valid(provided: str, expected: str) -> bool:
     if not provided or not expected:
         return False
@@ -443,12 +436,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class ServicePrincipal:
     principal_id: str
     allowed_operations: frozenset[str]
-
 
 def authorize_operation(principal: ServicePrincipal, operation: str) -> None:
     if operation not in principal.allowed_operations:
@@ -492,10 +483,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 class UnsafePathError(ValueError):
     pass
-
 
 def resolve_under(root: Path, relative: str) -> Path:
     if Path(relative).is_absolute():
@@ -535,7 +524,6 @@ from __future__ import annotations
 
 import ssl
 from pathlib import Path
-
 
 def create_server_context(cert: Path, key: Path) -> ssl.SSLContext:
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -599,7 +587,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class SecurityLimits:
     max_body_bytes: int = 1_048_576
@@ -635,7 +622,6 @@ REDACTED = "<redacted>"
 SENSITIVE_KEYS = frozenset({
     "authorization", "token", "password", "secret", "api_key", "private_key"
 })
-
 
 def redact_mapping(value: Mapping[str, Any]) -> dict[str, Any]:
     output: dict[str, Any] = {}

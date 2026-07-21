@@ -411,6 +411,10 @@ def main() -> int:
                 errors.append(f"Identifiant stable incorrect pour {rel} : attendu {expected_id}, reçu {actual_id}.")
 
             if book_code == "II":
+                if "recommended-reasoning:" in text or "Niveau de raisonnement conseillé" in text:
+                    errors.append(
+                        f"Le niveau GPT-5.6 Sol appartient au processus de production, pas au chapitre publié : {rel}"
+                    )
                 if metadata.get("audit-status") != "complete":
                     errors.append(f"Audit post-création incomplet : {rel}")
                 if not metadata.get("audit-date"):

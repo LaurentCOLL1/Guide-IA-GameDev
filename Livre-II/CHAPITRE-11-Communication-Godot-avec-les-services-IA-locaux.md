@@ -31,7 +31,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Niveau de raisonnement conseillé :** GPT-5.6 Sol — Élevée  
+
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-11.md`.
 
 ## 1. Rôle du chapitre
@@ -1368,14 +1368,12 @@ RESPONSE_FORMAT = "project-asteria-ai-response"
 FORMAT_VERSION = 1
 MAX_MESSAGE_CHARS = 1_048_576
 
-
 @dataclass(frozen=True, slots=True)
 class ProtocolRequest:
     request_id: str
     operation: str
     timeout_ms: int
     payload: dict[str, Any]
-
 
 class ProtocolError(ValueError):
     def __init__(
@@ -1391,13 +1389,11 @@ class ProtocolError(ValueError):
         self.retryable = retryable
         self.details = details or {}
 
-
 def require_text(data: dict[str, Any], key: str) -> str:
     value = data.get(key)
     if not isinstance(value, str) or not value.strip():
         raise ProtocolError("invalid_request", f"{key} doit être une chaîne non vide.")
     return value.strip()
-
 
 def parse_request(data: Any) -> ProtocolRequest:
     if not isinstance(data, dict):
@@ -1421,7 +1417,6 @@ def parse_request(data: Any) -> ProtocolRequest:
 
     return ProtocolRequest(request_id, operation, timeout_ms, dict(payload))
 
-
 def ok_response(request_id: str, result: dict[str, Any]) -> dict[str, Any]:
     return {
         "format": RESPONSE_FORMAT,
@@ -1430,7 +1425,6 @@ def ok_response(request_id: str, result: dict[str, Any]) -> dict[str, Any]:
         "status": "ok",
         "result": result,
     }
-
 
 def error_response(
     request_id: str,
@@ -1469,7 +1463,6 @@ from __future__ import annotations
 
 from typing import Any, Protocol
 
-
 class KnowledgeSearchPort(Protocol):
     def search(
         self,
@@ -1479,7 +1472,6 @@ class KnowledgeSearchPort(Protocol):
         required_tags: set[str],
         limit: int,
     ) -> list[Any]: ...
-
 
 class KnowledgeServiceAdapter:
     def __init__(self, retrieval: KnowledgeSearchPort) -> None:
@@ -1574,7 +1566,6 @@ from companion_protocol import (
     parse_request,
 )
 
-
 class CompanionApplication:
     def __init__(self, knowledge_adapter: Any | None) -> None:
         self._knowledge = knowledge_adapter
@@ -1668,7 +1659,6 @@ class CompanionApplication:
         self._running = False
         return {"accepted": True}
 
-
 def write_message(value: dict[str, Any]) -> None:
     text = json.dumps(
         value,
@@ -1677,7 +1667,6 @@ def write_message(value: dict[str, Any]) -> None:
         allow_nan=False,
     )
     print(text, flush=True)
-
 
 def run(application: CompanionApplication) -> int:
     while application.running:
@@ -1726,11 +1715,9 @@ def run(application: CompanionApplication) -> int:
             ))
     return 0
 
-
 def build_application() -> CompanionApplication:
     # Le Starter Kit injectera ici le RetrievalService du chapitre 10.
     return CompanionApplication(knowledge_adapter=None)
-
 
 if __name__ == "__main__":
     raise SystemExit(run(build_application()))
