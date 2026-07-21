@@ -1,0 +1,59 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH23
+status: complete
+validation-date: 2026-07-21
+validated-base-commit: 7aa5fd8d633db882a26166cb3d3937ca9242a172
+validated-head-commit: 9a5029e337d329744563134bd49a33ef5065bd0c
+evidence-closure:
+  commit: 9a5029e337d329744563134bd49a33ef5065bd0c
+  conclusion: success
+chapter:
+  id: DOC-L2-CH23
+  path: Livre-II/CHAPITRE-23-Politique-factions-et-justice.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 0
+  chapter-lines: 4127
+  chapter-headings: 75
+  chapter-code-and-data-blocks: 71
+  code-explanation-markers: 71
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  stable-political-identities: true
+  versioned-laws: true
+  deny-by-default-authorization: true
+  accusation-distinct-from-verdict: true
+  evidence-chain-of-custody: true
+  idempotent-political-commands: true
+  multi-authority-sanction-commit: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29796448401
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29796448443
+    conclusion: success
+  artifact:
+    id: 8482150144
+    name: chapter-validation-without-pdf
+    digest: sha256:77f141e435e0a05e44cfd2fd506238c9ab61a477461f64ab3e351e2634959ea7
+reservations:
+  - Godot parser not executed.
+  - Typed collections not runtime-verified.
+  - Multi-authority sanction commit not run.
+  - Large-scale performance not measured.
+  - Jurisdiction and sanction adapters not materialized.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
