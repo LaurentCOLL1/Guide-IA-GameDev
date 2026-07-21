@@ -18,3 +18,5 @@ recommended-reasoning: "GPT-5.6 Sol — Élevée"
 # Narration, quêtes, codex et connaissances
 
 Brouillon technique remplacé automatiquement par le finaliseur de la branche dédiée.
+
+<!-- synchronization-trigger -->
