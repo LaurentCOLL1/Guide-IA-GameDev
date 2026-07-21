@@ -14,7 +14,6 @@ jobs:
     if: >-
       github.event.issue.pull_request &&
       github.event.issue.number == 60 &&
-      github.event.comment.user.login == 'LaurentCOLL1' &&
       github.event.comment.body == '/finalize-ch25'
     runs-on: ubuntu-latest
     timeout-minutes: 10
