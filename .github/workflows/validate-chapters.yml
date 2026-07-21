@@ -21,7 +21,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
@@ -37,19 +37,25 @@ jobs:
           fetch-depth: 0
 
       - name: Run refinement and capture traceback
+        id: refine
         shell: bash
         run: |
           set +e
           python3 .qa/refine_explanations_ch17_ch26.py > /tmp/refine-output.log 2>&1
           status=$?
-          cat /tmp/refine-output.log
-          if [ "$status" -ne 0 ]; then
-            cp /tmp/refine-output.log .qa/refine-failure.log
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git restore --source=HEAD -- .github/workflows/validate-chapters.yml
-            git add .qa/refine-failure.log
-            git commit -m "chore(qa): record explanation refinement failure"
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
-            exit "$status"
-          fi
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          tail -n 30 /tmp/refine-output.log
+          exit 0
+
+      - name: Upload traceback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: explanation-refinement-traceback
+          if-no-files-found: error
+          retention-days: 7
+          path: /tmp/refine-output.log
+
+      - name: Fail when refinement failed
+        if: steps.refine.outputs.status != '0'
+        run: exit 1
