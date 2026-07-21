@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.24.0"
+version: "3.25.0"
 lang: "fr-FR"
-last-updated: "2026-07-21T09:05:12+02:00"
+last-updated: "2026-07-21T11:20:30+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 24 chapitres sur 30.**
+**En cours : 25 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -138,7 +138,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 22. Monde vivant et simulation écologique — terminé au niveau `static-review`.
 23. Politique, factions et justice — terminé au niveau `static-review`.
 24. Construction et gestion de domaines — terminé au niveau `static-review`.
-25. Narration, quêtes, codex et connaissances.
+25. Narration, quêtes, codex et connaissances — terminé au niveau `static-review`.
 
 #### Partie D — Industrialisation
 
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 24 : **Élevée**.
+Chapitres 3 à 25 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -610,6 +610,22 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - événements sont émis uniquement après commit ;
 - sorties IA restent consultatives et repassent par des commandes validées ;
 - définitions, décisions dérivées, candidats, scènes, observations et caches sont exclus de la persistance.
+
+### 11.20 Narration, quêtes, codex et connaissances
+
+- faits sources et interprétations narratives restent distincts ;
+- arcs, quêtes, objectifs et codex utilisent des identifiants stables ;
+- définitions de conception et états runtime restent séparés ;
+- conditions évaluées par un registre fermé et explicable ;
+- `INDETERMINATE` n’accorde ni succès ni visibilité ;
+- événements sources traités avec identité, empreinte et reçu idempotent ;
+- conséquences externes préparées par leurs autorités propriétaires ;
+- achèvement et conséquences committés dans un même lot ;
+- connaissances relatives à un détenteur, une source et une confiance ;
+- mémoire vectorielle dérivée et exclue de l’autorité des sauvegardes ;
+- IA locale consultative avec repli déterministe ;
+- restauration globale préparée avant remplacement ;
+- définitions, vues, caches, index et présentation exclus de la persistance.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1372,13 +1388,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas autoriser une action en absence de décision politique `ALLOW` ;
 - ne pas laisser une sortie IA construire, produire ou entretenir directement ;
 
+- ne pas utiliser un texte affiché comme identité de quête ;
+- ne pas traiter un événement comme une vérité narrative complète ;
+- ne pas exécuter une condition issue des données ;
+- ne pas achever une quête avant la préparation de ses conséquences ;
+- ne pas révéler une entrée sur une décision indéterminée ;
+- ne pas confondre connaissance découverte et fait global ;
+- ne pas laisser une sortie IA valider un objectif ;
+- ne pas dater une quête avec le temps réel ;
+- ne pas charger directement dans les dépôts narratifs actifs ;
+- ne pas persister un index vectoriel dérivé ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 24 chapitres sur 30 ;
+- progression : 25 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1400,26 +1427,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 22 : version `1.0.1` ;
 - chapitre 23 : version `1.0.0` ;
 - chapitre 24 : version `1.0.0` ;
+- chapitre 25 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 24 est terminé au niveau `static-review`. Les domaines séparent droits politiques, actifs fonciers, représentations, matériaux, coûts et régions, puis coordonnent chantiers, production et entretien par des commits multi-autorités idempotents.
+Le chapitre 25 est terminé au niveau `static-review`. La narration distingue faits, interprétations, quêtes, conséquences et connaissances, puis orchestre les systèmes 14 à 24 sans reprendre leur autorité.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md
+Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : faits narratifs, arcs, quêtes, objectifs, conditions, conséquences, codex, connaissances découvertes et orchestration des événements des systèmes 14 à 24. Le chapitre 25 consommera leurs événements et snapshots par des ports sans reprendre leurs autorités ; les outils d’édition et pipelines resteront au chapitre 26.
+Périmètre attendu : plugins d’éditeur, docks, inspecteurs, importeurs, validateurs de données, génération assistée et pipelines de contenu. Le chapitre 26 industrialisera la production sans déplacer les autorités runtime des chapitres 14 à 25.
 
 ## 27. Journal
+
+### 2026-07-21T11:20:30+02:00 — version 3.25.0
+
+- chapitre 25 créé, relu, corrigé et audité au niveau `static-review` ;
+- faits narratifs, arcs, quêtes, objectifs, conditions, conséquences, codex et connaissances documentés ;
+- conséquences multi-autorités et idempotence explicitées ;
+- index, roadmap, `contents.txt`, audit et preuve QA initiale mis à jour ;
+- prochaine action déplacée vers le chapitre 26 — Outils d’édition internes et pipelines de contenu, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
 
 ### 2026-07-21T09:05:12+02:00 — version 3.24.0
 

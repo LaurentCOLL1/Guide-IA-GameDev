@@ -1,0 +1,60 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH25
+status: pending
+validation-date: 2026-07-21
+validated-base-commit: null
+validated-head-commit: null
+evidence-closure:
+  commit: null
+  conclusion: pending
+chapter:
+  id: DOC-L2-CH25
+  path: Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 1049
+  chapter-headings: 53
+  chapter-code-and-data-blocks: 56
+  code-explanation-markers: 56
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  project-asteria-final-synthesis: true
+  facts-distinct-from-interpretations: true
+  stable-narrative-identities: true
+  closed-condition-registry: true
+  indeterminate-never-grants-success: true
+  idempotent-fact-processing: true
+  multi-authority-consequence-commit: true
+  knowledge-relative-to-holder-and-source: true
+  vector-index-remains-derived: true
+  save-prepared-before-replacement: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Godot parser not executed.
+  - Typed collections not runtime-verified.
+  - Multi-authority narrative commit not run.
+  - Gameplay adapters not materialized.
+  - Demo scene not instantiated.
+  - Save restoration not executed.
+  - Large-scale performance not measured.
+  - Cross-platform replay not verified.
+  - PDF deferred until end of Livre II.
