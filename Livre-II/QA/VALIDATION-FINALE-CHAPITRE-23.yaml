@@ -2,8 +2,8 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH23
 status: pending
 validation-date: '2026-07-22'
-validated-base-commit: 4e0c7152a76aefc93ccf7a115ccbee23e5965385
-validated-head-commit: bbfced8c7792c98938c5c3e989e14fd22d9e47d8
+validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
+validated-head-commit: 4fbc80f92e6ef42518bde6a15521206c70d1ee59
 evidence-closure:
   commit: pending
   conclusion: pending
