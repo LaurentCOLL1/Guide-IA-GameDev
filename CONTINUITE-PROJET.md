@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.23.0"
+version: "3.24.0"
 lang: "fr-FR"
-last-updated: "2026-07-21T04:38:43+02:00"
+last-updated: "2026-07-21T09:05:12+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 23 chapitres sur 30.**
+**En cours : 24 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -137,7 +137,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 21. Économie — terminé au niveau `static-review`.
 22. Monde vivant et simulation écologique — terminé au niveau `static-review`.
 23. Politique, factions et justice — terminé au niveau `static-review`.
-24. Construction et gestion de domaines.
+24. Construction et gestion de domaines — terminé au niveau `static-review`.
 25. Narration, quêtes, codex et connaissances.
 
 #### Partie D — Industrialisation
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 23 : **Élevée**.
+Chapitres 3 à 24 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -592,6 +592,24 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - événements sont émis uniquement après commit ;
 - sorties IA restent consultatives et ne peuvent ni promulguer ni condamner ;
 - définitions, droits dérivés, contextes, candidats, observations et présentation sont exclus de la persistance.
+
+### 11.19 Construction et gestion de domaines
+
+- domaines, parcelles, bâtiments et chantiers utilisent des identifiants stables ;
+- définitions de conception et états vivants restent séparés ;
+- parcelles et emplacements logiques sont indépendants des scènes ;
+- les liens de tenure référencent les droits du chapitre 23 sans les recréer ;
+- seule une décision politique `ALLOW` ouvre une action protégée ;
+- les contraintes de site proviennent de snapshots écologiques révisionnés ;
+- la capacité de parcelle est réservée à l’ouverture du chantier ;
+- matériaux livrés et travail accompli restent deux dimensions distinctes ;
+- progression et condition utilisent des entiers et des points de base ;
+- inventaire et économie préparent leurs candidats sans céder leur autorité ;
+- construction, production et entretien committent les candidats multi-autorités avec le résultat idempotent ;
+- un bâtiment logique existe indépendamment de sa représentation 3D ;
+- événements sont émis uniquement après commit ;
+- sorties IA restent consultatives et repassent par des commandes validées ;
+- définitions, décisions dérivées, candidats, scènes, observations et caches sont exclus de la persistance.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -1343,13 +1361,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas dater adhésions, mandats ou lois avec l’heure système ;
 - ne pas émettre un événement politique ou judiciaire avant commit ;
 
+- ne pas utiliser un nœud ou une scène comme autorité d’un bâtiment ;
+- ne pas déduire un droit foncier depuis une relation sociale ;
+- ne pas consommer matériaux ou coûts avant le commit commun ;
+- ne pas confondre livraison de matériaux et travail de chantier ;
+- ne pas utiliser un `float` comme progression autoritaire ;
+- ne pas stocker un prix ou un solde dans un bâtiment ;
+- ne pas produire les extrants séparément de la consommation des intrants ;
+- ne pas dater entretien ou chantier avec le temps réel ;
+- ne pas autoriser une action en absence de décision politique `ALLOW` ;
+- ne pas laisser une sortie IA construire, produire ou entretenir directement ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 23 chapitres sur 30 ;
+- progression : 24 chapitres sur 30 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1370,26 +1399,38 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 21 : version `1.0.0` ;
 - chapitre 22 : version `1.0.1` ;
 - chapitre 23 : version `1.0.0` ;
+- chapitre 24 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 23 est terminé au niveau `static-review`. La politique et la justice séparent institutions, droits, lois, allégations, preuves, verdicts et sanctions, puis coordonnent les effets externes sans reprendre l’autorité des autres systèmes.
+Le chapitre 24 est terminé au niveau `static-review`. Les domaines séparent droits politiques, actifs fonciers, représentations, matériaux, coûts et régions, puis coordonnent chantiers, production et entretien par des commits multi-autorités idempotents.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
+Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : domaines et parcelles, titres et droits d’usage, bâtiments, emplacements, plans de construction, matériaux, progression de chantier, production, entretien et permissions d’accès. Le chapitre 24 consommera juridictions et droits du chapitre 23, objets du chapitre 20, coûts du chapitre 21 et ressources du chapitre 22 par des ports ; les quêtes et conséquences narratives resteront au chapitre 25.
+Périmètre attendu : faits narratifs, arcs, quêtes, objectifs, conditions, conséquences, codex, connaissances découvertes et orchestration des événements des systèmes 14 à 24. Le chapitre 25 consommera leurs événements et snapshots par des ports sans reprendre leurs autorités ; les outils d’édition et pipelines resteront au chapitre 26.
 
 ## 27. Journal
+
+### 2026-07-21T09:05:12+02:00 — version 3.24.0
+
+- chapitre 24 créé, relu, corrigé et audité au niveau `static-review` ;
+- domaines, parcelles, liens de tenure, bâtiments, chantiers, matériaux, production et entretien documentés ;
+- droits, sites, inventaire et économie maintenus derrière des ports propriétaires ;
+- commits multi-autorités, révisions et idempotence explicités ;
+- index, roadmap, `contents.txt`, audit et preuve QA initiale mis à jour ;
+- prochaine action déplacée vers le chapitre 25 — Narration, quêtes, codex et connaissances, niveau Élevée ;
+- aucun test runtime revendiqué et aucun PDF construit.
+
 
 ### 2026-07-21T04:38:43+02:00 — version 3.23.0
 

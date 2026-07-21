@@ -59,9 +59,9 @@
 
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
-- [ ] Douze grands systèmes de jeu — 10 chapitres rédigés, repérés et audités sur 12.
+- [ ] Douze grands systèmes de jeu — 11 chapitres rédigés, repérés et audités sur 12.
 - [ ] Industrialisation du projet — 0 chapitre sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 23.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 24.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -84,6 +84,7 @@
 - [x] Chapitre 21 — devises, unités mineures, portefeuilles, écritures équilibrées, prix, offres, achats, taxes, récompenses, idempotence et commit avec l’inventaire — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 22 — horloge logique, régions, populations, ressources, résidus, simulation bornée, matérialisation, récoltes, signaux économiques et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 23 — institutions, factions, adhésions, rangs, mandats, lois versionnées, autorisations, infractions, preuves, verdicts, sanctions coordonnées et sauvegarde — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 24 — domaines, parcelles, liens de tenure, bâtiments, chantiers, matériaux, production, entretien, permissions et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Clarification du chapitre 17 — intervalles nominaux explicités, codes de retour distingués des erreurs pédagogiques et échéances reportées conservées.
 - [x] Correction de clôture du chapitre 17 — prochaine étape réservée à la continuité et synthèse finale consacrée à `Project Asteria`.
 - [x] Horodatage des audits — `last-verified` et `audit-date` utilisent ISO 8601 avec heure et offset à partir du chapitre 17, sans heure rétroactive inventée.
@@ -97,7 +98,7 @@
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 23 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Dix des douze systèmes de gameplay sont documentés. Le chapitre 23 sépare identités institutionnelles, lois, autorisations, allégations, preuves, verdicts et sanctions, puis coordonne les effets externes par des ports. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 24 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle du projet fil rouge `Project Asteria`. Les neuf chapitres de fondation et les quatre chapitres de plateforme IA locale sont complets. Onze des douze systèmes de gameplay sont documentés. Le chapitre 24 sépare actifs de domaine, représentations, droits, matériaux, coûts et régions, puis coordonne construction, production et entretien par des candidats multi-autorités. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 
