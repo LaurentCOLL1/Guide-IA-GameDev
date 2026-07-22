@@ -6,9 +6,9 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 4
-last-verified: "2026-07-22T22:37:42+02:00"
+last-verified: "2026-07-22T22:57:37+02:00"
 audit-status: "complete"
-audit-date: "2026-07-22T22:37:42+02:00"
+audit-date: "2026-07-22T22:57:37+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-04.md"
 audit-level: "static-review"
 reference-engine:
@@ -1220,7 +1220,7 @@ Géométrie réelle laissée cent fois trop petite
 
 **Pourquoi cet exemple est fautif :** `Unit Scale` modifie l’affichage des unités et ne corrige pas automatiquement le comportement interne ni la géométrie source.
 
-**Réglage corrigé**
+**Exemple corrigé — réglage**
 
 > **[LECTURE] Réglage corrigé — Ne pas saisir.**
 
@@ -1252,7 +1252,7 @@ ROOT_CORRECTION rotation X = 90°
 
 **Pourquoi cet exemple est fautif :** le parent masque une incompréhension des axes et propage une transformation corrective à toute la hiérarchie.
 
-**Hiérarchie corrigée**
+**Exemple corrigé — hiérarchie**
 
 > **[LECTURE] Hiérarchie corrigée — Ne pas saisir.**
 
@@ -1284,7 +1284,7 @@ Sauvegarder immédiatement
 
 **Pourquoi cet exemple est fautif :** la commande ne distingue pas géométrie statique, armature, hiérarchie contrainte ou instance liée.
 
-**Action corrigée**
+**Exemple corrigé — action**
 
 > **[LECTURE] Action corrigée — Ne pas saisir.**
 
@@ -1319,7 +1319,7 @@ Collection
 
 **Pourquoi cet exemple est fautif :** la sélection d’export dépend de la visibilité ou de la mémoire de l’opérateur.
 
-**Collection corrigée**
+**Exemple corrigé — collection**
 
 > **[LECTURE] Collection corrigée — Ne pas saisir.**
 
@@ -1412,7 +1412,7 @@ Exporter la sélection
 
 **Pourquoi cet exemple est fautif :** la sortie dépend d’un état d’interface non enregistré comme contrat.
 
-**Procédure corrigée**
+**Exemple corrigé — procédure**
 
 > **[LECTURE] Procédure corrigée — Ne pas saisir.**
 
@@ -1443,7 +1443,7 @@ Blender installé et configuré supposé partout
 
 **Pourquoi cet exemple est fautif :** l’import direct exige Blender, ajoute une conversion implicite et n’est pas disponible dans tous les environnements Godot.
 
-**Contrat corrigé**
+**Exemple corrigé — contrat**
 
 > **[LECTURE] Contrat corrigé — Ne pas saisir.**
 
@@ -1475,7 +1475,7 @@ Activer l'extension sur le profil principal
 
 **Pourquoi cet exemple est fautif :** aucune source, version, licence, permission, compatibilité ou procédure de retrait n’est vérifiée.
 
-**Décision corrigée**
+**Exemple corrigé — décision**
 
 > **[LECTURE] Décision corrigée — Ne pas saisir.**
 
