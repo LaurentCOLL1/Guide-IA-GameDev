@@ -55,12 +55,12 @@ results:
   pdf-produced: false
   runtime-executed: false
 compatibility-matrix:
-  run-id: pending
-  conclusion: pending
-  windows-python-3146: pending
-  linux-python-3146: pending
-  windows-python-31314: pending
-  linux-python-31314: pending
+  run-id: 29893539614
+  conclusion: success
+  windows-python-3146: success
+  linux-python-3146: success
+  windows-python-31314: success
+  linux-python-31314: success
 ci:
   validate-chapters-without-pdf:
     run-id: pending

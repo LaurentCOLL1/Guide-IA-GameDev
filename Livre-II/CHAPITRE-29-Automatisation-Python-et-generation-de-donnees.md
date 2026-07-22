@@ -203,14 +203,14 @@ La cible principale est CPython `3.14.6`. CPython `3.13.14` constitue le repli t
 
 Les dépendances minimales vérifiées par la matrice sont `hatchling==1.31.0` et `jsonschema==4.26.0`, ainsi que les dépendances transitives résolues par `pip`. L’installation doit utiliser `--only-binary=:all:` pendant la qualification afin qu’une roue native manquante provoque un échec visible au lieu d’une compilation implicite.
 
-**État de qualification CI :** en attente de la matrice GitHub Actions.
+**État de qualification CI :** les quatre combinaisons hébergées ont installé les dépendances et leurs transitives avec des roues binaires, puis réussi `pip check` et les imports — run `29893539614`. Ce résultat ne couvre ni les futures dépendances, ni le Starter Kit complet, ni un WSL réel.
 
 | Environnement de qualification | Interpréteur | Rôle | État |
 |---|---:|---|---|
-| Windows hébergé x86-64 | CPython 3.14.6 | cible principale | à vérifier par la matrice CI |
-| Linux hébergé x86-64 | CPython 3.14.6 | proxy de compatibilité pour WSL | à vérifier par la matrice CI |
-| Windows hébergé x86-64 | CPython 3.13.14 | repli | à vérifier par la matrice CI |
-| Linux hébergé x86-64 | CPython 3.13.14 | proxy de compatibilité pour WSL | à vérifier par la matrice CI |
+| Windows hébergé x86-64 | CPython 3.14.6 | cible principale | confirmé par la matrice CI |
+| Linux hébergé x86-64 | CPython 3.14.6 | proxy de compatibilité pour WSL | confirmé par la matrice CI |
+| Windows hébergé x86-64 | CPython 3.13.14 | repli | confirmé par la matrice CI |
+| Linux hébergé x86-64 | CPython 3.13.14 | proxy de compatibilité pour WSL | confirmé par la matrice CI |
 
 Linux hébergé vérifie la disponibilité des distributions et les imports sous Linux, mais ne valide pas à lui seul les chemins montés, permissions, interactions Windows/WSL ou performances d’un WSL réel.
 

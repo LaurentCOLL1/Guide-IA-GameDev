@@ -42,7 +42,7 @@ Les pipelines du chapitre 26, les tests et simulations du chapitre 27 et les art
 
 Python 3.14.6 et Python 3.13.14 ont été vérifiés contre Python.org. `hatchling 1.31.0` et `jsonschema 4.26.0` déclarent Python 3.14 dans leurs métadonnées PyPI. Les contrats `venv`, `tomllib`, `subprocess`, `concurrent.futures` et `zipfile` ont été relus contre la documentation Python. La structure `pyproject.toml`, la spécification `pylock.toml` et le caractère expérimental et dépendant de la plateforme de `pip lock` ont été vérifiés contre les documentations officielles PyPA et pip.
 
-**État de la matrice de compatibilité :** en attente de l’exécution GitHub Actions. Cette revue ne constitue pas encore une validation du Starter Kit ni d’un WSL réel.
+**État de la matrice de compatibilité :** succès du run `29893539614` pour CPython 3.14.6 et 3.13.14 sous Windows et Linux hébergés, avec roues binaires uniquement, `pip check` et imports. Ce résultat ne constitue pas une validation du Starter Kit ni d’un WSL réel.
 
 ## 5. Explications pédagogiques
 
