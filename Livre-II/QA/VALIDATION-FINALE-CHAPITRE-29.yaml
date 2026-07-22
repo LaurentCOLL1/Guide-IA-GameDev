@@ -2,8 +2,8 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH29
 status: pending
 validation-date: '2026-07-22'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: 5e7c140a3f0df0462607860e4b57748e39117b4a
+validated-head-commit: bbfba4260c48c57dabb693c35cf988555467917d
 chapter:
   id: DOC-L2-CH29
   path: Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
