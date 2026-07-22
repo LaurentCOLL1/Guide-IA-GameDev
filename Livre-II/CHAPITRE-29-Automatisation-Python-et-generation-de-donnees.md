@@ -36,8 +36,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Versions de référence :** Godot `4.7.1-stable`, cible principale CPython `3.14.6`, repli CPython `3.13.14`, édition Standard, GDScript, Forward+  
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-29.md`.  
-> **Explications de code :** structurées bloc par bloc ; les sections d’erreurs conservent la séquence directe symptôme, exemple fautif, explication, exemple corrigé et explication de la correction.
 
 ## 1. Rôle du chapitre
 
@@ -347,7 +345,6 @@ class ExitCode(IntEnum):
 import argparse
 from pathlib import Path
 
-
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="asteria-tools")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -455,7 +452,6 @@ def resolve_inside(root: Path, relative: str) -> Path:
 import os
 from pathlib import Path
 
-
 def atomic_write_bytes(path: Path, payload: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
@@ -482,7 +478,6 @@ def atomic_write_bytes(path: Path, payload: bytes) -> None:
 ```python
 import json
 from typing import Any
-
 
 def canonical_json_bytes(value: Any) -> bytes:
     text = json.dumps(
@@ -511,7 +506,6 @@ def canonical_json_bytes(value: Any) -> bytes:
 ```python
 from hashlib import sha256
 from pathlib import Path
-
 
 def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
     digest = sha256()
@@ -570,7 +564,6 @@ class CampaignManifest:
 
 ```python
 from random import Random
-
 
 def build_rng(master_seed: int, namespace: str) -> Random:
     material = canonical_json_bytes({
@@ -737,7 +730,6 @@ def generate_biomes(seed: int, count: int) -> tuple[GeneratedBiome, ...]:
 ```python
 from jsonschema import Draft202012Validator, FormatChecker
 
-
 def validate_instance(schema: dict[str, object], instance: object) -> list[str]:
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
     errors = sorted(validator.iter_errors(instance), key=lambda e: tuple(e.absolute_path))
@@ -770,7 +762,6 @@ class Diagnostic:
     pointer: str
     message: str
 
-
 def schema_diagnostics(source: Path, messages: list[str]) -> tuple[Diagnostic, ...]:
     return tuple(
         Diagnostic("SCHEMA_INVALID", source.as_posix(), message.split(":", 1)[0], message)
@@ -800,7 +791,6 @@ class WorkItem:
     source_path: str
     output_path: str
     seed: int
-
 
 def build_plan(
     sources: tuple[Path, ...],
@@ -836,7 +826,6 @@ def build_plan(
 
 ```python
 import subprocess
-
 
 def run_godot(project_root: Path, script: Path, report: Path, timeout_seconds: int) -> subprocess.CompletedProcess[str]:
     command = [
@@ -876,7 +865,6 @@ class ProcessResult:
     return_code: int
     stdout_tail: str
     stderr_tail: str
-
 
 def normalize_process(result: subprocess.CompletedProcess[str], command: list[str]) -> ProcessResult:
     return ProcessResult(
@@ -989,7 +977,6 @@ class Checkpoint:
     completed_item_ids: tuple[str, ...]
     artifact_sha256_by_path: dict[str, str]
 
-
 def write_checkpoint(path: Path, checkpoint: Checkpoint) -> None:
     payload = canonical_json_bytes(asdict(checkpoint))
     atomic_write_bytes(path, payload)
@@ -1036,7 +1023,6 @@ def reusable_items(checkpoint: Checkpoint, expected_plan_sha256: str, workspace:
 ```python
 from shutil import copy2
 
-
 def promote_artifacts(records: tuple[ArtifactRecord, ...], staging: Path, published: Path) -> None:
     for record in sorted(records, key=lambda item: item.relative_path):
         source = resolve_inside(staging, record.relative_path)
@@ -1062,7 +1048,6 @@ def promote_artifacts(records: tuple[ArtifactRecord, ...], staging: Path, publis
 
 ```python
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
 
 def execute_bounded(items: tuple[WorkItem, ...], workers: int) -> tuple[tuple[str, str], ...]:
     if not 1 <= workers <= 16:
@@ -1091,7 +1076,6 @@ def execute_bounded(items: tuple[WorkItem, ...], workers: int) -> tuple[tuple[st
 
 ```python
 from concurrent.futures import ProcessPoolExecutor
-
 
 def compute_heavy_batches(batches: tuple[tuple[int, ...], ...], workers: int) -> tuple[int, ...]:
     with ProcessPoolExecutor(max_workers=workers) as pool:
@@ -1165,7 +1149,6 @@ class CampaignReport:
     diagnostics: tuple[Diagnostic, ...]
     manifest_path: str | None
 
-
 def write_report(path: Path, report: CampaignReport) -> None:
     atomic_write_bytes(path, canonical_json_bytes(asdict(report)))
 ```
@@ -1185,7 +1168,6 @@ def write_report(path: Path, report: CampaignReport) -> None:
 
 ```python
 import platform
-
 
 def build_provenance(root: Path, tool_version: str) -> dict[str, object]:
     return {
@@ -1241,7 +1223,6 @@ def write_deterministic_zip(destination: Path, root: Path, records: tuple[Artifa
 
 ```python
 from zipfile import ZipFile
-
 
 def verify_zip(path: Path, expected: dict[str, str]) -> None:
     with ZipFile(path, "r") as archive:

@@ -31,8 +31,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-28.md`.  
-> **Explications de code :** structurées bloc par bloc ; les sections d’erreurs conservent la séquence directe symptôme, exemple fautif, explication, exemple corrigé et explication de la correction.
 
 ## 1. Rôle du chapitre
 

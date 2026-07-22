@@ -32,8 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-12.md`.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 11 a défini un port applicatif indépendant du transport. Le jeu exprime une opération, un payload, un délai et un identifiant de corrélation. Un premier adaptateur utilise un processus compagnon local et un protocole JSON Lines sur les flux standard.

@@ -32,9 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-19.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 18 a défini l’autorité du combat : commandes typées, initiative, cibles, portée, ligne de vue, défense, dégâts, états temporaires et commit préparé.

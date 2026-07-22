@@ -32,9 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-25.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
-
 ## 1. Rôle du chapitre
 
 Les systèmes précédents produisent des faits autoritaires : personnages créés, relations modifiées, combats résolus, objets transférés, transactions committées, régions simulées, verdicts rendus et bâtiments achevés. Une narration robuste ne remplace aucun de ces faits. Elle les observe, les qualifie et les organise en arcs, quêtes, objectifs, conséquences et connaissances découvertes.

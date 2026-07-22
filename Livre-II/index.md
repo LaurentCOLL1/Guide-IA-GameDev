@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "complete"
-version: "1.23.0"
+version: "1.24.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -63,72 +63,6 @@ Project Asteria
 29. [Automatisation Python et génération de données](CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md) — **rédigé, repéré, expliqué bloc par bloc, environnements, CLI, schémas, génération déterministe, reprise et artefacts reproductibles documentés, audité au niveau static-review**
 30. [Architecture Solo et architecture Studio](CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md) — **rédigé, repéré, expliqué bloc par bloc, profils Solo et Studio, gouvernance, qualification des dépendances et plan du Starter Kit documentés, audité au niveau static-review**
 
-## Audit post-création
-
-Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédaction :
-
-- [protocole obligatoire](QA/PROTOCOLE-AUDIT-POST-CREATION.md) ;
-- [audit des chapitres 1 et 2](QA/AUDIT-CHAPITRES-01-02.md) ;
-- [audit du chapitre 3](QA/AUDIT-CHAPITRE-03.md) ;
-- [audit du chapitre 4](QA/AUDIT-CHAPITRE-04.md) ;
-- [audit du chapitre 5](QA/AUDIT-CHAPITRE-05.md) ;
-- [audit du chapitre 6](QA/AUDIT-CHAPITRE-06.md) ;
-- [audit du chapitre 7](QA/AUDIT-CHAPITRE-07.md) ;
-- [audit du chapitre 8](QA/AUDIT-CHAPITRE-08.md) ;
-- [audit du chapitre 9](QA/AUDIT-CHAPITRE-09.md) ;
-- [audit du chapitre 10](QA/AUDIT-CHAPITRE-10.md) ;
-- [audit du chapitre 11](QA/AUDIT-CHAPITRE-11.md) ;
-- [audit du chapitre 12](QA/AUDIT-CHAPITRE-12.md) ;
-- [audit du chapitre 13](QA/AUDIT-CHAPITRE-13.md) ;
-- [audit du chapitre 14](QA/AUDIT-CHAPITRE-14.md) ;
-- [audit du chapitre 15](QA/AUDIT-CHAPITRE-15.md) ;
-- [audit du chapitre 16](QA/AUDIT-CHAPITRE-16.md) ;
-- [audit du chapitre 17](QA/AUDIT-CHAPITRE-17.md) ;
-- [audit du chapitre 18](QA/AUDIT-CHAPITRE-18.md) ;
-- [audit du chapitre 19](QA/AUDIT-CHAPITRE-19.md) ;
-- [audit du chapitre 20](QA/AUDIT-CHAPITRE-20.md) ;
-- [audit du chapitre 21](QA/AUDIT-CHAPITRE-21.md) ;
-- [audit du chapitre 22](QA/AUDIT-CHAPITRE-22.md) ;
-- [audit du chapitre 23](QA/AUDIT-CHAPITRE-23.md) ;
-- [audit du chapitre 24](QA/AUDIT-CHAPITRE-24.md) ;
-- [audit du chapitre 25](QA/AUDIT-CHAPITRE-25.md) ;
-- [audit du chapitre 26](QA/AUDIT-CHAPITRE-26.md) ;
-- [audit du chapitre 27](QA/AUDIT-CHAPITRE-27.md) ;
-- [audit du chapitre 28](QA/AUDIT-CHAPITRE-28.md) ;
-- [audit du chapitre 29](QA/AUDIT-CHAPITRE-29.md) ;
-- [audit du chapitre 30](QA/AUDIT-CHAPITRE-30.md) ;
-- [validation transversale et publication du Livre II](QA/RAPPORT-VALIDATION-TRANSVERSALE-LIVRE-II.md) ;
-- [audit de restructuration des explications, chapitres 17 à 26](QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md) ;
-- [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
-
-La mention **rédigé, repéré et audité** signifie que :
-
-- la complétude et les exemples ont été relus statiquement ;
-- chaque commande, fichier, action graphique, sortie ou exemple possède un contexte explicite ;
-- le contrôle des doublons a été effectué ;
-- les limites runtime restent déclarées ;
-- le PDF de fin du Livre II a été compilé, préflighté et inspecté visuellement ; les réserves globales de licence et de balisage d’accessibilité restent distinctes.
-
-Elle ne remplace pas un test runtime sur le projet matérialisé.
-
-## Politique PDF
-
-Le PDF complet n’est plus construit après chaque chapitre. Le PDF de clôture du Livre II a été généré et inspecté ; les prochaines compilations complètes auront lieu :
-
-1. à la fin du Livre II ;
-2. à la fin de chaque Livre suivant ;
-3. à la fin de la collection complète.
-
-Une compilation intermédiaire est réservée aux modifications directes de la chaîne de publication ou de la mise en page.
-
-## Niveau de raisonnement avant chaque chapitre
-
-Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le niveau conseillé de GPT-5.6 Sol :
-
-- **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
-- **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
-
-Les chapitres 3 à 30 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
 
 ## Principes du Livre II
 

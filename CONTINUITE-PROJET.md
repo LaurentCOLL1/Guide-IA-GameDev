@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.30.1"
+version: "3.30.2"
 lang: "fr-FR"
-last-updated: "2026-07-22T10:11:47+02:00"
+last-updated: "2026-07-22T11:18:12+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -240,6 +240,8 @@ Décision utilisateur du 19 juillet 2026 :
 - construire et inspecter le PDF à la fin de chaque Livre ;
 - construire une dernière version à la fin de la collection ;
 - autoriser une exception uniquement pour une modification directe de la chaîne PDF ou de la mise en page.
+- l’ordre de compilation destiné au lecteur exclut tous les fichiers `QA/`, protocoles d’audit, audits de chapitres, preuves de validation et rapports de campagne ;
+- les métadonnées et mentions visibles décrivant la phase de conception ou l’audit restent dans le dépôt, mais ne doivent pas apparaître dans le manuel PDF vendu au lecteur ;
 
 Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.8`.
 
@@ -1574,6 +1576,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 
 Le chapitre 1 du Livre III traduira la vision du jeu en contraintes artistiques et techniques, catégories d’assets, quantités, priorités, budgets, calendrier, responsabilités, risques et critères d’acceptation. Il préparera la direction artistique du chapitre 2 sans produire encore les assets définitifs.
 ## 27. Journal
+
+### 2026-07-22T11:18:12+02:00 — version 3.30.2
+
+- ordre de compilation lecteur nettoyé : protocoles, audits, preuves et rapports QA exclus du PDF ;
+- mentions visibles d’audit et d’explication éditoriale retirées des en-têtes des trente chapitres du Livre II ;
+- index du Livre II recentré sur le contenu du manuel, sans sections de gouvernance éditoriale ;
+- pagination `plain` retenue pour éviter les en-têtes courants rognés ;
+- fichiers QA conservés dans le dépôt comme preuves de conception et de validation ;
+- reconstruction Pandoc/XeLaTeX et inspection visuelle du manuel lecteur requises avant le Livre III.
 
 ### 2026-07-22T10:11:47+02:00 — version 3.30.1
 

@@ -33,8 +33,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-03.md`.
-
 ## 1. Rôle du chapitre
 
 Les chapitres précédents ont créé le projet Godot et introduit le langage GDScript. Le présent chapitre explique comment Godot organise réellement un jeu : des **nœuds** sont assemblés en **scènes**, ces scènes sont instanciées dans un **SceneTree**, leurs éléments communiquent avec des **signaux**, et leurs données réutilisables peuvent être placées dans des **Resources**.

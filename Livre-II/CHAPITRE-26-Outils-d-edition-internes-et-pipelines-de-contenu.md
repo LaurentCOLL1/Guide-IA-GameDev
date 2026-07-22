@@ -31,8 +31,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-26.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
 ## 1. Rôle du chapitre
 
 Les chapitres 14 à 25 ont défini des systèmes runtime propriétaires de leurs états. Le présent chapitre ne leur ajoute aucune nouvelle autorité : il construit une couche de production destinée aux auteurs, aux designers et aux intégrateurs de contenu.

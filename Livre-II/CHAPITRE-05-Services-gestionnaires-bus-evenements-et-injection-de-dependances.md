@@ -33,8 +33,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-05.md`.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 4 a défini **où** vivent les responsabilités de `Project Asteria` et dans quelle direction les modules peuvent dépendre les uns des autres.

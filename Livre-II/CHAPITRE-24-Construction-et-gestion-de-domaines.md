@@ -32,9 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-24.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
-
 ## 1. Rôle du chapitre
 
 Les chapitres précédents savent identifier les personnages, protéger les objets, calculer des coûts, simuler les régions et décider des droits politiques. Il manque encore une autorité capable de représenter un domaine, ses parcelles, ses bâtiments, ses chantiers et ses cycles de production sans confondre ces actifs avec une scène Godot.
