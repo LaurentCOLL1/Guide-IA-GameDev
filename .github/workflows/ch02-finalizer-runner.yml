@@ -32,22 +32,32 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Materialize permanent chapter lot
-        if: steps.guard.outputs.run == 'true'
-        run: python .qa/ch02/finalize.py
-
-      - name: Commit materialized lot for visible CI audit
+      - name: Materialize or publish diagnostic
         if: steps.guard.outputs.run == 'true'
         shell: bash
         run: |
-          rm -f .github/workflows/ch02-branch-finalizer.yml
+          set +e
+          python .qa/ch02/finalize.py > /tmp/ch02-finalizer.log 2>&1
+          status=$?
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
+
+          if [ "$status" -ne 0 ]; then
+            git reset --hard HEAD
+            {
+              printf 'run_id: %s\n' "$GITHUB_RUN_ID"
+              printf 'exit_code: %s\n\n' "$status"
+              cat /tmp/ch02-finalizer.log
+            } > .qa/ch02/finalizer-error.txt
+            git add .qa/ch02/finalizer-error.txt
+            git commit -m "chore(qa): publier le diagnostic du finaliseur du chapitre 2"
+          else
+            rm -f .github/workflows/ch02-branch-finalizer.yml
+            git add -A
+            git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
+            git commit -m "docs(livre-iii): matérialiser le chapitre 2"
           fi
-          git commit -m "docs(livre-iii): matérialiser le chapitre 2"
+
           git push origin HEAD:docs/livre-iii-ch02-direction-artistique
