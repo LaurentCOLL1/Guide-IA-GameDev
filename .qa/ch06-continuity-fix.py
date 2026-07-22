@@ -53,3 +53,5 @@ marker = "## 27. Journal\n\n"
 text = replace_once(text, marker, marker + journal, "journal continuité")
 path.write_text(text, encoding="utf-8")
 print(timestamp)
+
+# runner-trigger
