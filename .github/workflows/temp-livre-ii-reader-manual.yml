@@ -20,12 +20,14 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Apply permanent reader cleanup
+      - name: Apply permanent reader cleanup when present
         run: |
-          python3 .qa/finalize-reader-manual.py
+          if [ -f .qa/finalize-reader-manual.py ]; then
+            python3 .qa/finalize-reader-manual.py
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CONTINUITE-PROJET.md Livre-II contents.txt metadata.yaml .qa
+          git add CONTINUITE-PROJET.md Livre-II contents.txt metadata.yaml filters .qa
           if ! git diff --cached --quiet; then
             git commit -m "fix(pdf): séparer le manuel lecteur des preuves QA"
             git push origin HEAD:${{ github.head_ref }}
@@ -79,6 +81,7 @@ jobs:
           test -s dist/qa-livre-ii-reader/Guide-IA-GameDev.txt
           if grep -Eiq 'Protocole d.audit post-création|Audit du chapitre|Validation transversale et publication du Livre II|AUDIT-CHAPITRE' dist/qa-livre-ii-reader/Guide-IA-GameDev.txt; then
             echo 'Le PDF contient encore du contenu QA interdit.' >&2
+            grep -Ein 'Protocole d.audit post-création|Audit du chapitre|Validation transversale et publication du Livre II|AUDIT-CHAPITRE' dist/qa-livre-ii-reader/Guide-IA-GameDev.txt | head -50 >&2
             exit 1
           fi
           sha256sum "$PDF" | tee dist/qa-livre-ii-reader/PDF-SHA256.txt
