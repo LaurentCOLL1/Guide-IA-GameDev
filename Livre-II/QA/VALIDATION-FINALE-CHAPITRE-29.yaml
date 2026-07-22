@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH29
-status: pending
+status: complete
 validation-date: '2026-07-22'
 validated-base-commit: b86e1b2b5b9fa3b994cdf0573a99330aa4240f50
-validated-head-commit: 714e647162ffa9a3b91d072120e39faf8832d0c8
+validated-head-commit: 01c5e89757338ef7dd9994fb23d1ed0a57f372e3
 chapter:
   id: DOC-L2-CH29
   path: Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
   version: 1.0.1
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1714
   chapter-headings: 71
   chapter-code-and-data-blocks: 65
@@ -63,15 +63,15 @@ compatibility-matrix:
   linux-python-31314: success
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29893760397
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29893760399
+    conclusion: success
   artifact:
-    id: pending
+    id: 8519180698
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:1b716249dbcb161a7d98d01cef71a40e76b88d22c84975ba21f12c9f911e1497
 reservations:
 - CPython 3.14.6 and 3.13.14 not installed in Starter Kit.
 - Full future dependency set not resolved.
@@ -88,4 +88,4 @@ reservations:
 - PDF deferred until end of Livre II.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
