@@ -1,6 +1,11 @@
 name: Chapter 5 Targeted Evidence Closure
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch05-close-evidence-target.yml
   pull_request_target:
     branches:
       - main
@@ -17,9 +22,9 @@ permissions:
 jobs:
   close-evidence:
     if: >-
-      github.event.pull_request.number == 162 &&
-      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences' &&
-      github.actor != 'github-actions[bot]'
+      github.event_name == 'push' ||
+      (github.event.pull_request.number == 162 &&
+      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -184,3 +189,5 @@ jobs:
           git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml
           git commit -m 'docs(qa): enregistrer le commit de clôture du chapitre 5'
           git push origin HEAD:docs/livre-iii-ch05-provenance-licences
+
+# trigger: close chapter 5 evidence
