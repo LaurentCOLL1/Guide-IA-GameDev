@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.32.0"
+version: "3.32.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T18:10:53+02:00"
+last-updated: "2026-07-22T19:53:29+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1613,6 +1613,17 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 
 Le chapitre 3 organisera les références légalement sourcées, les moodboards annotés et les workflows ComfyUI versionnés avec modèles, seeds, prompts et paramètres. Il distinguera référence, concept, source de production et asset final, puis imposera une sélection humaine sans modifier silencieusement la bible visuelle.
 ## 27. Journal
+
+### 2026-07-22T19:53:29+02:00 — version 3.32.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+- validation statique approuvée réussie au run `29943194826` sur la base `8f8271a407c7978cfc668aad90e073e3ef3b3713` et la tête documentaire `b05c502ee5c39451784a288ceee09669f60065cd` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8539045265`, digest `07f9309cec632d7be4490ecb7fa16d8b31f5728cd8b143215b1f87ea1b3a14dd` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8539045793`, digest `f0e67e60f1cfb8ec320d9f6d0111d0ca2b9bb68ffebda59df863c1a23cfc35a8` ;
+- chapitre et audit restaurés depuis le paquet source, avec SHA-256 et CRC du chapitre concordant avec l’archive déclarée ;
+- finaliseurs, archiveurs, correcteurs, runners approuvés et déclencheurs temporaires supprimés de `main` par la PR `136`, commit `8ca89d683e8f980491de418b2cc47dbdc3e80857` ;
+- prochaine action maintenue sur le chapitre 3 — Références, concept art et ComfyUI, niveau Élevée ;
+- aucune exécution runtime et aucun PDF du Livre III construits.
 
 ### 2026-07-22T18:10:53+02:00 — version 3.32.0
 
