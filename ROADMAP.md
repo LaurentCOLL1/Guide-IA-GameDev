@@ -105,7 +105,7 @@
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 29 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé, Forward+ et CPython 3.14.6 constituent la base actuelle de `Project Asteria`. Les fondations, la plateforme IA locale et les douze systèmes de gameplay sont documentés. Les quatre premiers chapitres d’industrialisation couvrent les pipelines de contenu, les tests déterministes, l’observabilité et les paquets de reproduction, puis l’automatisation Python, les schémas et la génération déterministe de données. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 29 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle de `Project Asteria`. CPython 3.14.6 est la cible principale provisoire de l’automatisation, avec CPython 3.13.14 comme repli jusqu’à qualification du Starter Kit. Les fondations, la plateforme IA locale et les douze systèmes de gameplay sont documentés. Les quatre premiers chapitres d’industrialisation couvrent les pipelines de contenu, les tests déterministes, l’observabilité et les paquets de reproduction, puis l’automatisation Python, les schémas et la génération déterministe de données. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 
