@@ -6,6 +6,14 @@ on:
       - main
     paths:
       - .github/workflows/ch04-approved-chapter-validation.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+      - Livre-III/QA/AUDIT-CHAPITRE-04.md
+      - Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+      - CONTINUITE-PROJET.md
   workflow_dispatch:
 
 permissions:
