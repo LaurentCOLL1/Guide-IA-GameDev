@@ -1,1 +1,1 @@
-Trigger the temporary Chapter 3 materializer runner.
+Re-run the temporary Chapter 3 materializer after PowerShell context correction.
