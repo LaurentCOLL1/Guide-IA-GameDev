@@ -219,8 +219,8 @@ jobs:
           PY
 
           rm -f Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
-          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml \
-            Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml
+          git add -u Livre-III/QA
           git commit -m 'qa(livre-iii): enregistrer la validation statique du chapitre 2'
           git push origin "HEAD:$branch"
           evidence_commit="$(git rev-parse HEAD)"
