@@ -3,15 +3,20 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import multiprocessing
+import os
 import re
 import shutil
 import zipfile
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 QA = ROOT / ".qa/ch02"
 EXPECTED = "2e9761edfadd9f7dfe93b9653ba5fde0238cb8b769e1448c8cfe81a5c76bc465"
 NOW = "2026-07-22T18:10:53+02:00"
+BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
 
 def replace_once(text: str, old: str, new: str, label: str) -> str:
     count = text.count(old)
@@ -19,14 +24,95 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
         raise RuntimeError(f"{label}: attendu 1 motif, trouvé {count}")
     return text.replace(old, new, 1)
 
+
 def write(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8", newline="\n")
 
-encoded = "".join(p.read_text(encoding="utf-8").strip() for p in sorted(QA.glob("package-*.b64")))
-payload = base64.b64decode(encoded, validate=True)
-digest = hashlib.sha256(payload).hexdigest()
-if digest != EXPECTED:
-    raise RuntimeError(f"empreinte du paquet inattendue: {digest}")
+
+def recover_range(
+    body: str,
+    padding: str,
+    start: int,
+    stop: int,
+    expected: str,
+) -> tuple[int, str, bytes] | None:
+    for position in range(start, stop):
+        prefix = body[:position]
+        suffix = body[position:]
+        for char in BASE64_ALPHABET:
+            candidate = prefix + char + suffix + padding
+            payload = base64.b64decode(candidate, validate=True)
+            if hashlib.sha256(payload).hexdigest() == expected:
+                return position, char, payload
+    return None
+
+
+def decode_verified_package() -> bytes:
+    parts = sorted(QA.glob("package-*.b64"))
+    if not parts:
+        raise RuntimeError("aucun fragment package-*.b64")
+
+    texts = ["".join(char for char in part.read_text(encoding="utf-8") if not char.isspace()) for part in parts]
+    encoded = "".join(texts)
+    try:
+        payload = base64.b64decode(encoded, validate=True)
+    except ValueError as initial_error:
+        suspect_indexes = [
+            index
+            for index, (part, text) in enumerate(zip(parts, texts))
+            if part.name == "package-01.b64" and len(text) == 11999
+        ]
+        if len(suspect_indexes) != 1:
+            raise RuntimeError(f"paquet Base64 invalide sans fragment récupérable: {initial_error}") from initial_error
+
+        suspect_index = suspect_indexes[0]
+        body = encoded.rstrip("=")
+        padding = encoded[len(body):]
+        if len(body) % 4 != 1 or padding != "==":
+            raise RuntimeError(
+                f"forme Base64 inattendue pour récupération: body_mod4={len(body) % 4}, padding={padding!r}"
+            ) from initial_error
+
+        global_start = sum(len(text) for text in texts[:suspect_index])
+        position_count = len(texts[suspect_index]) + 1
+        worker_count = min(4, os.cpu_count() or 1, position_count)
+        chunk_size = (position_count + worker_count - 1) // worker_count
+        ranges: list[tuple[int, int]] = []
+        for worker_index in range(worker_count):
+            start = global_start + worker_index * chunk_size
+            stop = min(global_start + position_count, start + chunk_size)
+            if start < stop:
+                ranges.append((start, stop))
+
+        context = multiprocessing.get_context("fork")
+        matches: list[tuple[int, str, bytes]] = []
+        with ProcessPoolExecutor(max_workers=len(ranges), mp_context=context) as executor:
+            futures = [
+                executor.submit(recover_range, body, padding, start, stop, EXPECTED)
+                for start, stop in ranges
+            ]
+            for future in futures:
+                result = future.result()
+                if result is not None:
+                    matches.append(result)
+
+        if len(matches) != 1:
+            raise RuntimeError(f"récupération Base64 non concluante: {len(matches)} correspondance(s)") from initial_error
+
+        position, char, payload = matches[0]
+        local_position = position - global_start
+        print(
+            "package_recovered "
+            f"file=package-01.b64 local_position={local_position} char={char!r} sha256={EXPECTED}"
+        )
+
+    digest = hashlib.sha256(payload).hexdigest()
+    if digest != EXPECTED:
+        raise RuntimeError(f"empreinte du paquet inattendue: {digest}")
+    return payload
+
+
+payload = decode_verified_package()
 archive = QA / "chapter-02.zip"
 archive.write_bytes(payload)
 with zipfile.ZipFile(archive) as zf:
