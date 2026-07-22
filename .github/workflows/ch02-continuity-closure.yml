@@ -1,0 +1,83 @@
+name: Chapter 2 Continuity Closure
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  close-continuity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch02-direction-artistique
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record final QA closure in continuity
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='docs/livre-iii-ch02-direction-artistique'
+          git fetch origin "$branch"
+          git reset --hard "origin/$branch"
+
+          python - <<'PY'
+          from datetime import datetime
+          from pathlib import Path
+          import re
+          from zoneinfo import ZoneInfo
+
+          path = Path('CONTINUITE-PROJET.md')
+          text = path.read_text(encoding='utf-8')
+          if 'version: "3.32.1"' in text:
+              raise SystemExit(0)
+
+          if text.count('version: "3.32.0"') != 1:
+              raise SystemExit('continuity version 3.32.0 not found exactly once')
+          text = text.replace('version: "3.32.0"', 'version: "3.32.1"', 1)
+
+          now = datetime.now(ZoneInfo('Europe/Paris')).isoformat(timespec='seconds')
+          text, count = re.subn(
+              r'last-updated: "[^"]+"',
+              f'last-updated: "{now}"',
+              text,
+              count=1,
+          )
+          if count != 1:
+              raise SystemExit(f'last-updated replacement count: {count}')
+
+          marker = '## 27. Journal\n\n'
+          if text.count(marker) != 1:
+              raise SystemExit(f'journal marker count: {text.count(marker)}')
+
+          entry = f'''### {now} — version 3.32.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+- validation statique approuvée réussie au run `29943194826` sur la base `8f8271a407c7978cfc668aad90e073e3ef3b3713` et la tête documentaire `b05c502ee5c39451784a288ceee09669f60065cd` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8539045265`, digest `07f9309cec632d7be4490ecb7fa16d8b31f5728cd8b143215b1f87ea1b3a14dd` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8539045793`, digest `f0e67e60f1cfb8ec320d9f6d0111d0ca2b9bb68ffebda59df863c1a23cfc35a8` ;
+- chapitre et audit restaurés depuis le paquet source, avec SHA-256 et CRC du chapitre concordant avec l’archive déclarée ;
+- finaliseurs, archiveurs, correcteurs, runners approuvés et déclencheurs temporaires supprimés de `main` par la PR `136`, commit `8ca89d683e8f980491de418b2cc47dbdc3e80857` ;
+- prochaine action maintenue sur le chapitre 3 — Références, concept art et ComfyUI, niveau Élevée ;
+- aucune exécution runtime et aucun PDF du Livre III construits.
+
+'''
+          text = text.replace(marker, marker + entry, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+
+          if git diff --quiet; then
+            echo 'Continuity already closed.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add CONTINUITE-PROJET.md
+          git commit -m 'docs(continuité): fermer la validation du chapitre 2'
+          git push origin "HEAD:$branch"
