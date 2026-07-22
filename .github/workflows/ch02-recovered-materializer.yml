@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Patch obsolete plan status and materialize
+      - name: Patch, materialize, or publish diagnostic
         shell: bash
         run: |
           set -euo pipefail
@@ -44,16 +44,34 @@ jobs:
           path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
           PY
 
-            python .qa/ch02/finalize.py
-            rm -f .github/workflows/ch02-branch-finalizer.yml
+            set +e
+            python .qa/ch02/finalize.py > /tmp/ch02-recovered-materializer.log 2>&1
+            status=$?
+            set -e
 
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -A
-            git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
-            git commit -m 'docs(livre-iii): matérialiser le chapitre 2 récupéré'
+
+            if [ "$status" -ne 0 ]; then
+              git reset --hard "origin/$branch"
+              {
+                printf 'run_id: %s\n' "$GITHUB_RUN_ID"
+                printf 'exit_code: %s\n\n' "$status"
+                cat /tmp/ch02-recovered-materializer.log
+              } > .qa/ch02/recovered-materializer-error.txt
+              git add .qa/ch02/recovered-materializer-error.txt
+              git commit -m 'chore(qa): publier le diagnostic du matérialiseur récupéré'
+            else
+              rm -f .github/workflows/ch02-branch-finalizer.yml
+              git add -A
+              git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
+              git commit -m 'docs(livre-iii): matérialiser le chapitre 2 récupéré'
+            fi
 
             if git push origin "HEAD:$branch"; then
+              if [ "$status" -ne 0 ]; then
+                exit "$status"
+              fi
               exit 0
             fi
             echo "Concurrent update detected; retrying ($attempt/3)."
