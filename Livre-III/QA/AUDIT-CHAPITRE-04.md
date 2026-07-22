@@ -6,8 +6,8 @@ version: "1.0.0"
 chapter-id: "DOC-L3-CH04"
 chapter-version: "1.0.0"
 audit-level: "static-review"
-audit-date: "2026-07-22T22:25:35+02:00"
-last-verified: "2026-07-22T22:25:35+02:00"
+audit-date: "2026-07-22T22:37:42+02:00"
+last-verified: "2026-07-22T22:37:42+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -15,150 +15,139 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 
 ## 1. Porte de création
 
-Le chapitre a été créé depuis `main` après fusion et clôture QA du chapitre 3 du Livre III. Le chemin canonique, l’ordre, les livrables et la frontière ont été comparés à `plans/LIVRE-III-PLAN-MAITRE.md`. Aucun chapitre, audit, preuve, branche ou pull request concurrente du chapitre 4 n’existait avant l’ouverture du lot.
+Le chapitre a été repris sur la branche canonique `docs/livre-iii-ch04-pipeline-blender`, qui existait déjà à l’état identique à `main` et ne contenait qu’un fichier lecteur `__PLACEHOLDER__`. Aucun texte, audit finalisé, pull request ouverte ou décision concurrente n’a été écrasé.
 
-Le niveau GPT-5.6 Sol **Élevée** a été annoncé avant la rédaction en raison des dépendances entre conventions Blender, bibliothèques, chemins, export glTF, import Godot, automatisation et reproductibilité multi-poste. Cette recommandation reste absente du texte lecteur.
+La création intervient après la fusion et la clôture QA du chapitre 3. Le chemin, le titre, les résultats d’apprentissage, les livrables, les modes Solo et Studio, les critères de validation et la frontière ont été comparés à `plans/LIVRE-III-PLAN-MAITRE.md`.
+
+Le texte lecteur ne contient ni recommandation de raisonnement, ni procédure QA interne, ni chemin du chapitre suivant.
 
 ## 2. Résultats documentaires
 
-- lignes finales : **2042** ;
-- titres Markdown contrôlés hors blocs : **62** ;
-- blocs de code ou de données : **48** ;
-- blocs significatifs selon la revue : **48** ;
-- marqueurs d’explication : **48** ;
-- explications structurées hors section d’erreurs : **28** ;
+- lignes finales : **1 578** ;
+- titres Markdown contrôlés hors blocs : **52** ;
+- sections principales numérotées : **41** ;
+- blocs de code, données ou structures : **44** ;
+- marqueurs d’explication : **44** ;
+- explications structurées hors section d’erreurs : **24** ;
 - cas d’erreurs détaillés : **10** ;
 - exemples fautifs expliqués : **10** ;
 - corrections expliquées : **10** ;
-- titres dupliqués : **0** ;
-- blocs significatifs dupliqués : **0** ;
-- paragraphes longs dupliqués : **0** ;
-- sections Solo ou Studio placées dans un bloc de code : **0** ;
 - métadonnée de processus de raisonnement : **0** ;
 - instruction de prochaine étape dans le texte lecteur : **0**.
 
-## 3. Complétude pédagogique
+Les contrôles automatiques permanents doivent confirmer l’intégrité YAML, les liens locaux, la continuité du Livre III, l’absence de doublons et la conformité des repères avant clôture de la preuve finale.
+
+## 3. Complétude contre le plan maître
 
 Le chapitre couvre :
 
-- qualification de Blender `4.5 LTS` comme branche documentaire et obligation d’épingler la version corrective réelle ;
-- politique restrictive pour addons et extensions ;
-- distinction entre source canonique, travail, cache, export, livraison et archive ;
-- arborescence canonique de `Project Asteria` ;
-- conventions d’identifiants, de fichiers, de datablocks et de collections ;
-- template Blender avec unités métriques, axes, face avant, origine, pivot et transforms ;
-- collections de travail, de publication et de validation ;
-- Link, Append et Library Overrides avec responsabilités distinctes ;
-- chemins relatifs, dépendances externes, textures et bibliothèques ;
-- stratégie de sauvegarde, version immuable et reprise ;
-- exclusion des caches et temporaires des sources publiées ;
-- choix entre GLB, glTF séparé et import direct `.blend` ;
-- asset de calibration mesurable ;
-- validateur Python statique proposé pour Blender ;
-- exécution PowerShell explicite et traitement du code de sortie ;
-- contrat d’export, staging, empreintes et promotion vers une livraison ;
-- import Godot, paramètres d’import et scène de validation ;
-- boucle aller-retour bornée et préservation des scènes de gameplay ;
-- réouverture sur une autre machine ;
-- procédures Solo et Studio ;
-- responsabilités, budgets, mesures, licences et sécurité ;
-- checklists d’ouverture et de livraison ;
-- migration contrôlée d’une version de Blender ;
+- qualification documentaire de Blender `5.2.0` Stable et de Godot `4.7.1-stable` ;
+- absence d’add-on tiers obligatoire et porte de qualification des extensions futures ;
+- template Blender de projet sans dépendance spécifique à un asset ;
+- unités métriques, unité pour un mètre et étalon cubique ;
+- conversion d’axes Blender vers Godot par glTF ;
+- orientation `-Y` dans Blender vers `+Z` pour l’avant d’un modèle dans Godot ;
+- origines et pivots fonctionnels ;
+- revue bornée des transformations ;
+- collections par responsabilité et collection `__EXPORT` unique ;
+- différences entre `Append`, `Link` et `Library Overrides` ;
+- chemins relatifs, relocalisation et ouverture sur une autre machine ;
+- séparation source, travail, bibliothèque, cache, export, livraison et archive ;
+- identifiants, noms, états et versions immuables ;
+- sauvegardes Blender distinguées du versionnement et des archives ;
+- GLB par défaut, glTF séparé lorsque nécessaire et import direct `.blend` limité à l’itération locale ;
+- asset test d’un mètre, export, empreinte et import Godot ;
+- contrôle Godot borné en GDScript ;
+- aller-retour Godot, Blender et Godot avec limites documentées ;
+- manifestes de chaîne d’outils, bibliothèques, preset, livraison et rapport ;
+- validateur Blender et exporteur GLB proposés ;
+- checklists d’ouverture, d’export et de livraison ;
+- parcours Solo réduit et parcours Studio avec publication immuable ;
+- sécurité des fichiers Blender et extensions ;
 - dix erreurs fréquentes avec contre-exemple et correction ;
-- livrables permanents et application à `Project Asteria`.
+- synthèse opérationnelle pour `Project Asteria`.
 
-## 4. Comparaison au plan maître
+Les cinq livrables demandés par le plan maître sont représentés : template Blender, conventions de collections et nommage, arborescence canonique, preset d’export et checklist d’ouverture, contrôle et livraison.
 
-Tous les éléments obligatoires du chapitre 4 sont présents :
+## 4. Frontières contrôlées
 
-- template Blender et préférences de projet ;
-- unités métriques, orientations et conventions de pivots ;
-- collections, bibliothèques liées et overrides ;
-- arborescence source, travail, cache, export et archive ;
-- stratégie de versions et sauvegardes ;
-- formats d’échange, presets et limites ;
-- test aller-retour Blender vers Godot ;
-- template, conventions, arborescence, presets et checklists comme livrables ;
-- parcours Solo et Studio ;
-- critères de bonne échelle, orientation, position, réouverture et distinction des sources et sorties.
+- le chapitre consomme la bible visuelle et les concepts sans les modifier ;
+- il prépare le pipeline mais ne produit aucun asset définitif ;
+- il ne remplace pas le chapitre 5 pour l’analyse juridique détaillée des licences et consentements ;
+- il ne traite pas les techniques spécialisées de modélisation, sculpture, retopologie, UV, matériaux PBR, rig, animation, LOD ou optimisation ;
+- il ne présente pas l’import direct `.blend` comme livraison universelle ;
+- il ne déduit pas les droits d’un fichier depuis sa seule ouverture dans Blender ;
+- il ne prétend pas qu’un aller-retour glTF conserve toutes les fonctions de Godot ou de Blender ;
+- il ne revendique aucune exécution runtime, performance ou compatibilité matérielle mesurée ;
+- il ne construit aucun PDF intermédiaire.
 
-## 5. Frontières contrôlées
-
-- le chapitre consomme les décisions des chapitres 1 à 3 sans modifier silencieusement le cahier des charges, la bible ou les concepts ;
-- il prépare l’environnement de production sans enseigner la modélisation spécialisée ;
-- il ne remplace pas le chapitre 5 pour l’analyse détaillée de provenance, licences, consentement et retrait ;
-- il ne produit pas d’humain, créature, objet, bâtiment, terrain, végétation, matériau PBR, retopologie, rig, animation ou LOD définitif ;
-- il ne présente pas un export techniquement valide comme asset artistique ou juridiquement approuvé ;
-- il ne présente pas un `.blend`, un GLB ou un manifeste d’exemple comme matérialisé ;
-- il ne revendique aucune exécution Blender, export, import Godot, réouverture multi-poste ou benchmark ;
-- il ne construit pas le PDF du Livre III.
-
-## 6. Vérification technique et sources
+## 5. Vérification technique et sources officielles
 
 La revue statique a été comparée aux sources officielles consultées le 22 juillet 2026 :
 
-- Blender `4.5 LTS` est une branche à support long ;
-- les unités métriques et `Unit Scale` appartiennent aux propriétés de scène ; `Unit Scale` influence l’affichage des valeurs et ne répare pas seul la géométrie ;
-- les collections organisent logiquement les objets et facilitent Link ou Append ;
-- les chemins Blender relatifs utilisent la base du fichier `.blend` ;
-- Link conserve une dépendance vers la bibliothèque source, Append copie les données, et Library Override fournit une édition locale contrôlée ;
-- l’exporteur glTF de Blender propose notamment GLB, glTF séparé, sélection ou collection active, conversion d’axes et mémorisation des réglages ;
-- Godot recommande glTF 2.0, accepte `.glb` et `.gltf`, et importe `.blend` en appelant Blender puis en passant par glTF ;
-- l’import direct `.blend` exige Blender sur chaque poste et peut ajouter de la friction en équipe ;
-- Godot utilise Y comme axe vertical et la convention d’asset orienté vers `+Z`, correspondant à `-Y` comme face avant dans Blender ;
-- l’Import dock et les Advanced Import Settings configurent la ressource importée sans transformer Godot en source canonique du modèle.
+- Blender recommande l’usage d’une version stable officielle pour la production ;
+- le panneau d’unités distingue système métrique, échelle d’affichage et unité de longueur ;
+- `Link` conserve une référence, tandis que `Append` crée une copie locale ;
+- les `Library Overrides` permettent des modifications locales de données liées tout en conservant leur relation ;
+- Blender fournit l’échange glTF 2.0 et ses variantes `.glb` et `.gltf` ;
+- Godot `4.7` recommande glTF 2.0 et accepte GLB ou glTF séparé ;
+- l’import direct `.blend` appelle Blender puis passe par glTF ;
+- Godot utilise `Y` vers le haut et attend `+Z` comme avant d’un asset orienté, ce qui correspond à `-Y` dans Blender ;
+- OBJ reste limité pour pivots, rigs, animations, UV2 et matériaux PBR ;
+- l’export glTF depuis Godot ne couvre pas les particules, `ShaderMaterial` et scènes 2D ;
+- la configuration d’import peut être contrôlée dans le dock Import et les réglages avancés.
 
-Le mapping exact des options, le chemin de Blender et la version corrective doivent être vérifiés lors de la matérialisation. Aucun addon fictif, temps d’export, taille de GLB ou performance n’est inventé.
+Les liens officiels sont conservés dans la dernière section du chapitre lecteur. Aucun blog, benchmark communautaire ou valeur runtime non exécutée n’est utilisé comme preuve.
 
-## 7. Explications pédagogiques
+## 6. Explications pédagogiques
 
-Les **48** blocs possèdent **48** marqueurs. Les **28** blocs hors erreurs expliquent selon le besoin : rôle, entrées, paramètres, types, dépendances, déroulement, sorties, effets de bord, invariants, sécurité, résultat attendu et limites.
+Les **44** blocs possèdent **44** marqueurs. Les **24** blocs hors erreurs expliquent selon leur nature : rôle, entrées, paramètres, types, codes de retour, effets de bord, ordre, invariants, limites et résultat attendu.
 
-Les dix cas d’erreurs respectent directement la séquence :
+Les dix cas d’erreurs respectent la séquence directe :
 
-1. symptôme ou risque ;
+1. symptôme ;
 2. exemple fautif ;
 3. `Pourquoi cet exemple est fautif` ;
 4. exemple corrigé ;
 5. `Pourquoi la correction fonctionne`.
 
-Aucune rubrique structurée ne s’intercale dans ces séquences.
+Aucune rubrique `Explication structurée du bloc` ne s’intercale dans ces séquences d’erreurs.
 
-## 8. Contrôles particuliers
+## 7. Contrôles particuliers
 
-- front matter YAML valide ;
-- identifiant `DOC-L3-CH04` unique dans le lot ;
-- blocs YAML parsés sans erreur ;
-- script Python parsé statiquement sans erreur de syntaxe ;
-- tous les blocs possèdent un repère reconnu ;
-- commandes PowerShell sous `[PS]` ;
-- fichiers à créer ou modifier sous `[VSC]` avec chemin ;
-- actions Blender et Godot sous `[APP]` ;
-- structures non exécutables sous `[LECTURE]` ;
-- sections Solo et Studio en Markdown ordinaire ;
-- source, staging, export, livraison, cache et archive distingués ;
-- états `not_executed`, `not_materialized`, `blocked` et valeurs nulles empêchent d’inventer des preuves ;
-- le texte lecteur ne contient ni procédure QA interne, ni prochaine action, ni niveau de raisonnement.
+- chaque bloc clôturé possède un repère reconnu ;
+- les commandes PowerShell sont identifiées `[PS]` ;
+- les fichiers à créer utilisent `[VSC]` avec leur chemin ;
+- les interfaces Blender et Godot utilisent `[APP]` ;
+- le téléchargement officiel utilise `[WEB]` ;
+- les structures non exécutables utilisent `[LECTURE]` ;
+- les sections Solo et Studio restent en Markdown ordinaire ;
+- le script Blender ne sauvegarde pas la scène ;
+- le script d’export exige une collection `__EXPORT` unique ;
+- le script Godot utilise des codes de retour distincts ;
+- les manifestes emploient `pending`, `candidate` ou `not_executed` lorsqu’aucune preuve runtime n’existe ;
+- les sorties générées ne sont jamais présentées comme sources canoniques ;
+- les versions publiées sont immuables.
 
-## 9. Réserves
+## 8. Réserves
 
-- Blender `4.5 LTS` non installé ni exécuté pour `Project Asteria` ;
-- version corrective exacte non épinglée dans un manifeste réel ;
-- addons et extensions réels non sélectionnés ni qualifiés ;
-- template `.blend` non matérialisé ;
-- bibliothèques liées et overrides non créés ;
-- arborescence, manifests et presets réels non créés ;
-- asset de calibration non modélisé ;
-- script Blender proposé non exécuté ;
-- export GLB/glTF non produit ;
-- empreintes de source et d’export non calculées ;
-- import Godot et scène de validation non matérialisés ;
-- test aller-retour non exécuté ;
-- réouverture sur une seconde machine non exécutée ;
-- budgets de temps, taille et fiabilité non mesurés ;
-- revue de licences détaillée laissée au chapitre 5 ;
+- Blender `5.2.0` non installé ni exécuté pour `Project Asteria` ;
+- template `ASTERIA-BLENDER-TEMPLATE.blend` non matérialisé ;
+- profil Blender et liste d’extensions non capturés ;
+- arborescence de production réelle non créée ;
+- bibliothèques liées et overrides non testés ;
+- ouverture sur une seconde machine non réalisée ;
+- cube d’un mètre non créé ;
+- scripts Blender proposés non exécutés ;
+- export GLB et empreintes non produits ;
+- import et réimport Godot non exécutés ;
+- script GDScript proposé non exécuté ;
+- aller-retour et revue visuelle non réalisés ;
+- tailles, durées et performances non mesurées ;
+- licences des futures extensions et dépendances non qualifiées ;
+- Starter Kit non matérialisé ;
 - PDF du Livre III non construit conformément à la politique de fin de Livre.
 
-## 10. Décision
+## 9. Décision
 
-Le chapitre 4 du Livre III est **accepté au niveau `static-review`**. Il fournit le template cible, les conventions de fichiers, la séparation des états, les règles de bibliothèques, le contrat glTF/GLB, le contrôle statique et la porte Blender vers Godot demandés, tout en maintenant ouvertes la matérialisation du pipeline, les mesures runtime et la validation juridique détaillée.
+Le chapitre 4 du Livre III est **accepté au niveau `static-review` sous réserve de réussite des validations documentaires permanentes**. Il installe l’environnement Blender, les conventions de fichiers, les formats d’échange, l’asset test et les portes de contrôle exigés, tout en maintenant ouvertes la matérialisation du template, l’exécution Blender, l’import Godot, l’ouverture sur une seconde machine et la publication de fin de Livre.
