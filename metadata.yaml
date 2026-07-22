@@ -9,6 +9,7 @@ documentclass: book
 classoption: openany
 papersize: a4
 fontsize: 11pt
+pagestyle: plain
 geometry:
   - margin=2.2cm
 toc: true
@@ -28,7 +29,7 @@ header-includes:
     \setlength{\cftsecnumwidth}{4.5em}
     \setlength{\cftsubsecnumwidth}{5.5em}
     \setlength{\cftsubsubsecnumwidth}{6.5em}
-version: "0.1.0-dev"
+version: "0.1.1-dev"
 status: "production"
 reference-hardware:
   gpu: "AMD Radeon RX 6750 XT 12 Go"
