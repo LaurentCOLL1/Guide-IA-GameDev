@@ -215,7 +215,7 @@ Une **résolution** est le calcul autoritaire qui transforme une commande accept
 
 Un **participant** est un personnage engagé. Sa santé reste dans le système de personnages ; son initiative, sa garde et ses états de combat restent dans `CombatantState`.
 
-Un **tick logique** ordonne les décisions. Il ne représente pas une heure murale et ne dépend pas de la vitesse du processeur.
+Un **tick logique** ordonne les décisions. Il ne représente pas une heure système et ne dépend pas de la vitesse du processeur.
 
 ## 7. Identifiants stables de combat
 
