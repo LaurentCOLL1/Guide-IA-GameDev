@@ -1,1 +1,1 @@
-Trigger the simplified Chapter 2 continuity closure workflow.
+Trigger the Chapter 2 continuity closure from the script stored on main.
