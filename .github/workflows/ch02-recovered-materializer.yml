@@ -1,4 +1,4 @@
-name: Chapter 2 Recovered Materializer
+name: Chapter 2 Recovery Correction
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  materialize:
+  correct:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout chapter branch
@@ -18,75 +18,77 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Patch, materialize, or publish diagnostic
+      - name: Restore verified front matter byte
         shell: bash
         run: |
           set -euo pipefail
           branch='docs/livre-iii-ch02-direction-artistique'
-          for attempt in 1 2 3; do
-            git fetch origin "$branch"
-            git reset --hard "origin/$branch"
+          git fetch origin "$branch"
+          git reset --hard "origin/$branch"
 
-            if [ ! -f .qa/ch02/finalize.py ]; then
-              echo 'Chapter 2 is already materialized.'
-              exit 0
-            fi
-
-            python - <<'PY'
+          python - <<'PY'
           from pathlib import Path
+          import hashlib
+          import zlib
 
-          path = Path('.qa/ch02/finalize.py')
-          text = path.read_text(encoding='utf-8')
+          chapter = Path('Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md')
+          proof = Path('Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml')
+          malformed = 'usage-context-standard: "DOC-V0-ANN-CONTEXTES"----\n'
+          restored = 'usage-context-standard: "DOC-V0-ANN-CONTEXTES"\n---\n'
+          expected_sha = 'cffc01cb1880b55dae3a536c8f6bf99a96b016dff65c91dc19c1bc0ed38a0c2d'
+          expected_crc = '604d0434'
+
+          text = chapter.read_text(encoding='utf-8')
+          if text.count(malformed) == 1:
+              text = text.replace(malformed, restored, 1)
+              chapter.write_text(text, encoding='utf-8', newline='\n')
+          elif text.count(restored) != 1:
+              raise SystemExit('front matter recovery pattern is neither malformed nor restored exactly once')
+
+          payload = chapter.read_bytes()
+          actual_sha = hashlib.sha256(payload).hexdigest()
+          actual_crc = f'{zlib.crc32(payload) & 0xffffffff:08x}'
+          if actual_sha != expected_sha or actual_crc != expected_crc:
+              raise SystemExit(
+                  f'restored chapter integrity mismatch: sha256={actual_sha}, crc={actual_crc}'
+              )
+
+          proof_text = proof.read_text(encoding='utf-8')
           replacements = [
               (
-                  "text = replace_once(text, 'status: \"en cours — 1 chapitre sur 30\"', 'status: \"en cours — 2 chapitres sur 30\"', \"statut plan\")",
-                  "text = replace_once(text, '> **Statut :** en cours — 1 chapitre sur 30', '> **Statut :** en cours — 2 chapitres sur 30', \"statut plan\")",
-                  'plan status',
+                  '  chapter-sha256: d5c1d7be7d472d6fec3541ae2b0c6306070d374d281defd71e139b660bcfba23',
+                  f'  chapter-sha256: {expected_sha}',
+                  'chapter recovery sha',
               ),
               (
-                  "text = replace_once(text, \"> **Progression :** chapitre 1 terminé au niveau `static-review` ; chapitres 2 à 30 à produire.\", \"> **Progression :** chapitres 1 et 2 terminés au niveau `static-review` ; chapitres 3 à 30 à produire.\", \"progression plan\")",
-                  "text = replace_once(text, \"> **Progression :** chapitre 1 rédigé, repéré et audité au niveau `static-review` ; chapitres 2 à 30 à produire.\", \"> **Progression :** chapitres 1 et 2 rédigés, repérés et audités au niveau `static-review` ; chapitres 3 à 30 à produire.\", \"progression plan\")",
-                  'plan progression',
+                  "  chapter-recovered-crc: '01de0909'",
+                  f"  chapter-recovered-crc: '{expected_crc}'",
+                  'chapter recovery crc',
+              ),
+              (
+                  '  original-proof-regenerated-after-validation: true',
+                  '  original-proof-regenerated-as-pending-evidence: true',
+                  'proof recovery status',
               ),
           ]
           for old, new, label in replacements:
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f'{label} replacement count: {count}')
-              text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8', newline='\n')
+              if old in proof_text:
+                  proof_text = proof_text.replace(old, new, 1)
+              elif new not in proof_text:
+                  raise SystemExit(f'{label} line not found')
+          proof.write_text(proof_text, encoding='utf-8', newline='\n')
+          print(f'chapter02_front_matter_restored sha256={actual_sha} crc={actual_crc}')
           PY
 
-            set +e
-            python .qa/ch02/finalize.py > /tmp/ch02-recovered-materializer.log 2>&1
-            status=$?
-            set -e
+          if git diff --quiet; then
+            echo 'No recovery correction required.'
+            exit 0
+          fi
 
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-            if [ "$status" -ne 0 ]; then
-              git reset --hard "origin/$branch"
-              {
-                printf 'run_id: %s\n' "$GITHUB_RUN_ID"
-                printf 'exit_code: %s\n\n' "$status"
-                cat /tmp/ch02-recovered-materializer.log
-              } > .qa/ch02/recovered-materializer-error.txt
-              git add .qa/ch02/recovered-materializer-error.txt
-              git commit -m 'chore(qa): publier le diagnostic du matérialiseur récupéré'
-            else
-              rm -f .github/workflows/ch02-branch-finalizer.yml
-              git add -A
-              git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
-              git commit -m 'docs(livre-iii): matérialiser le chapitre 2 récupéré'
-            fi
-
-            if git push origin "HEAD:$branch"; then
-              if [ "$status" -ne 0 ]; then
-                exit "$status"
-              fi
-              exit 0
-            fi
-            echo "Concurrent update detected; retrying ($attempt/3)."
-          done
-          exit 1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md \
+            Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml
+          git commit -m 'fix(livre-iii): restaurer le front matter vérifié du chapitre 2'
+          git push origin "HEAD:$branch"
