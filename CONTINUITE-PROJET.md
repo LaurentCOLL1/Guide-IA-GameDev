@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.36.0"
+version: "3.36.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T01:08:11+02:00"
+last-updated: "2026-07-23T01:16:33+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1707,6 +1707,19 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 7 adaptera le contrat de la base humaine à des espèces humanoïdes distinctes, en documentant les écarts anatomiques, profils de rig, compatibilités d’équipement, variations culturelles et tests de silhouette sans produire les créatures non humanoïdes du chapitre 9.
 
 ## 27. Journal
+
+### 2026-07-23T01:16:33+02:00 — version 3.36.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-06.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire réussie au run `29965382843` sur la tête `12f949fcf53f53eaafb774b5d86b0d706b228191` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8547618141`, digest `51ba9423ef5f80744ac63ee8d9a0ce880c058d24fe6f81bf52f02bcf14b7dd03` ;
+- validation des contextes réussie au run `29965382828` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8547616966`, digest `5b4e2105ae83c656c5bcc0e08b797c9260da1a62ffc4f212bed08121403d178a` ;
+- empreinte SHA-256 du chapitre : `199af753e3c11117af44b8e8dac1911955654d734d5a64375b86af4238dcebeb` ;
+- empreinte SHA-256 de l’audit : `13106867a157ad14d5ebcf2fae09263ccce2d039813a4bc856a23ace6bcbbd16` ;
+- métriques finales : 1 755 lignes, 68 titres, 26 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 7 — Création des humanoïdes, niveau Élevée ;
+- aucun maillage humain, rig, animation, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T01:08:11+02:00 — version 3.36.0
 
