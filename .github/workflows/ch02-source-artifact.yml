@@ -12,13 +12,33 @@ jobs:
     if: github.event.pull_request.head.ref == 'docs/livre-iii-ch02-direction-artistique'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout chapter branch
+      - name: Checkout chapter branch with history
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 1
+          fetch-depth: 0
 
-      - name: Upload untouched source package
+      - name: Export targeted Git history
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ch02-history
+          paths=(
+            ".qa/ch02/package-01.b64"
+            ".qa/ch02/package-03.b64"
+            "Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml"
+          )
+          for path in "${paths[@]}"; do
+            safe="$(printf '%s' "$path" | tr '/.' '__')"
+            git log --all --full-history --format='%H %cI %s' -- "$path" > "ch02-history/${safe}.log"
+            git log --all --full-history --format='%H' -- "$path" | while read -r sha; do
+              if git cat-file -e "$sha:$path" 2>/dev/null; then
+                git show "$sha:$path" > "ch02-history/${safe}-${sha}.txt"
+              fi
+            done
+          done
+
+      - name: Upload untouched source package and history
         uses: actions/upload-artifact@v4
         with:
           name: ch02-source-${{ github.event.pull_request.head.sha }}
@@ -28,6 +48,7 @@ jobs:
             .qa/ch02/chunk-*.b64
             .qa/ch02/finalize.py
             .qa/ch02/finalizer-error.txt
+            ch02-history/
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 1
