@@ -1,4 +1,4 @@
-run_id: 29939933865
+run_id: 29940395144
 exit_code: 1
 
 Traceback (most recent call last):
@@ -20,24 +20,8 @@ Traceback (most recent call last):
     raise RuntimeError(f"récupération Base64 non concluante: {len(matches)} correspondance(s)") from initial_error
 RuntimeError: récupération Base64 non concluante: 0 correspondance(s)
 
---- candidate diagnostics ---
-package: parts=4
-package[0]: file=package-00.b64 length=12000 mod4=0 text_sha256=5d30cd2ad73f04fc91c3997ccc853f899976ab9465c43fb6e4ee8ea6be29fad1 head='UEsDBBQAAAAIACl+' tail='FyJMmoOnxtskgVh9'
-package[1]: file=package-01.b64 length=11999 mod4=3 text_sha256=b0c4f278e50d837926f25915a92db1d32d38b36eb7d53e5ce02fee222d2d1850 head='wZs3ueqJ1ute8mlw' tail='XZQ84zZWAQOxBfMu'
-package[2]: file=package-02.b64 length=12000 mod4=0 text_sha256=e6dc9ed49deb652e1630ab9417d2bd1c082429e82609d68ec1d3115435be19a5 head='TxjZhuXFnPSbOYxM' tail='UWsZVW5mQTv7HSMT'
-package[3]: file=package-03.b64 length=9764 mod4=0 text_sha256=5c4da61c8af0e1a76fa38eddc1d31b5cdda57529fd07037dd34755215245115b head='YMP+bmgquVPfD7so' tail='GQEAAB2JAAAAAA=='
-package: encoded_length=45763 body_length=45761 padding='==' body_mod4=1
-package: decode_error=Error: Invalid base64-encoded string: number of data characters (45761) cannot be 1 more than a multiple of 4
-package: expected_sha256=2e9761edfadd9f7dfe93b9653ba5fde0238cb8b769e1448c8cfe81a5c76bc465
-package: tested_insert_positions=[0, 11992, 11993, 11994, 11995, 11996, 11997, 11998, 11999, 12000, 12001, 12002, 12003, 12004, 12005, 12006, 12007, 12008, 23991, 23992, 23993, 23994, 23995, 23996, 23997, 23998, 23999, 24000, 24001, 24002, 24003, 24004, 24005, 24006, 24007, 35991, 35992, 35993, 35994, 35995, 35996, 35997, 35998, 35999, 36000, 36001, 36002, 36003, 36004, 36005, 36006, 36007, 45761]
-package: boundary_recoveries=[]
-bundle: parts=1
-bundle[0]: file=bundle-00.b64 length=8000 mod4=0 text_sha256=77cde4489a9785fa78b83aa6d266df114f3b462dc396bde6eb292a6582a995c0 head='UEsDBBQAAAAIADx1' tail='COHRFNUME6BHUcI4'
-bundle: encoded_length=8000 body_length=8000 padding='' body_mod4=0
-bundle: decoded_bytes=6000 sha256=b2b11bf3966d0cb22e77f9c452d5addc9ee7ea9d36b197fb4ac4e2b210eff9a7
-bundle: zip_error=BadZipFile: File is not a zip file
-chunk: parts=1
-chunk[0]: file=chunk-00.b64 length=16000 mod4=0 text_sha256=ce281271c3755aeb45af5b580ba1ece8c6b6b1ca5038a226010764993e4a9c15 head='UEsDBBQAAAAIAKdx' tail='lnyPdscp1QgI+JzC'
-chunk: encoded_length=16000 body_length=16000 padding='' body_mod4=0
-chunk: decoded_bytes=12000 sha256=8534d58756955da0b48383636605748d23cffd45a9f74a15f2d3aa57fd12b19e
-chunk: zip_error=BadZipFile: File is not a zip file
+--- exhaustive ZIP CRC recovery ---
+parts=[('package-00.b64', 12000), ('package-01.b64', 11999), ('package-02.b64', 12000), ('package-03.b64', 9764)]
+body_length=45761 padding='==' body_mod4=1
+global_start=12000 position_count=12000 ranges=[(12000, 15000), (15000, 18000), (18000, 21000), (21000, 24000)]
+zip_crc_recoveries=[]
