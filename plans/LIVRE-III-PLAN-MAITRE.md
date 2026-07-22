@@ -1324,7 +1324,7 @@ Créer des effets lisibles, modulaires et budgétés qui renforcent le gameplay 
 
 ### Résultats d’apprentissage
 
-- produire feu, fumée, impacts, magie, météo et débris ;
+- produire feu, fumée, impacts, magie, météo, fluides corporels, boue, hologramme, éclipse solaire, éclipse lunaire, disque d'accrétion autour d'un trou noir, poussière en suspension dans un rayon de soleil, buée sur une vitre, bulles de savon, geyser, traces de pas et débris ;
 - choisir entre GPU, CPU, shader, particules ou simulation précalculée ;
 - gérer collisions, pooling, LOD et lumière ;
 - fixer des budgets par contexte ;
