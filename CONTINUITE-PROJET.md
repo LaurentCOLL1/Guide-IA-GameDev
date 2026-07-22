@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.33.0"
+version: "3.33.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T20:42:28+02:00"
+last-updated: "2026-07-22T21:21:47+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1641,6 +1641,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 
 Le chapitre 4 qualifiera la version de Blender et les addons, puis fixera unités, axes, échelle, origines, collections, arborescence source/travail/cache/export/archive, formats d’échange et test aller-retour vers Godot. Il ne produira pas encore les assets définitifs.
 ## 27. Journal
+
+### 2026-07-22T21:21:47+02:00 — version 3.33.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-03.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+- workflow permanent `Validate Chapters Without PDF` réussi au run `29949966935` sur la base `7bbab5accaf56fd6560579a08a8c9dee8bdc8f6c` et la tête documentaire `ab7fefc9422ee16a1e32b7db1e2bc933684f515d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8541707655`, digest `395aba9d4fdde611ccddcc12a623c0cf25a36738acb3657b2619bce269a24fd7` ;
+- audit des contextes réussi au run `29950382307` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8541869318`, digest `cbd05e077f333c541341bd50d335ce76ac71f352018d339ba2086d94c19dbabb` ;
+- empreinte SHA-256 du chapitre fermée à `71f196636f663e00b3c925ed792c3323187bf7f22db30c95c313805f5f2fd912` ;
+- matérialiseur, runner de contextes, fichiers de résultat et déclencheurs temporaires supprimés avant fusion ;
+- prochaine action maintenue sur le chapitre 4 — Pipeline Blender et organisation des fichiers, niveau Élevée ;
+- aucune exécution ComfyUI ou Godot et aucun PDF du Livre III construits.
 
 ### 2026-07-22T20:42:28+02:00 — version 3.33.0
 
