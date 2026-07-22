@@ -175,7 +175,7 @@ Un même nom d’asset peut désigner des niveaux de maturité très différents
 
 1. **Prototype** : prouver l’usage, l’échelle et l’intégration minimale.
 2. **Vertical slice** : démontrer une qualité cible sur un périmètre limité.
-3. **Alpha de contenu** : couvrir la totalité des besoins prévus, avec des éléments encore perfectibles.
+3. **Contenu en Alpha** : couvrir la totalité des besoins prévus, avec des éléments encore perfectibles.
 4. **Finition** : corriger cohérence, optimisation, transitions et défauts visibles.
 5. **Livraison** : figer les sources, droits, budgets, imports et preuves du build candidat.
 
