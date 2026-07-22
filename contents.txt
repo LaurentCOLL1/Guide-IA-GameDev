@@ -61,6 +61,7 @@ Livre-II/CHAPITRE-24-Construction-et-gestion-de-domaines.md
 Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md
 Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md
 Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
+Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
 Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
 Livre-II/QA/AUDIT-CHAPITRES-01-02.md
 Livre-II/QA/AUDIT-CHAPITRE-03.md
@@ -88,6 +89,7 @@ Livre-II/QA/AUDIT-CHAPITRE-24.md
 Livre-II/QA/AUDIT-CHAPITRE-25.md
 Livre-II/QA/AUDIT-CHAPITRE-26.md
 Livre-II/QA/AUDIT-CHAPITRE-27.md
+Livre-II/QA/AUDIT-CHAPITRE-28.md
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-14.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-15.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-16.yaml
@@ -102,6 +104,7 @@ Livre-II/QA/VALIDATION-FINALE-CHAPITRE-24.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-25.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-26.yaml
 Livre-II/QA/VALIDATION-FINALE-CHAPITRE-27.yaml
+Livre-II/QA/VALIDATION-FINALE-CHAPITRE-28.yaml
 Livre-II/QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md
 Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md
 Livre-III/index.md

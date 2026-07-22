@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.27.1"
+version: "3.28.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T01:40:00+02:00"
+last-updated: "2026-07-22T03:13:32+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1458,14 +1458,25 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas employer le calque `durée murale` ; utiliser `durée réelle (durée basée sur l’horloge système)` ;
 - ne pas employer les calques `temps mur`, `temps mural` ou `temps horloge` ; utiliser `temps basé sur l'horloge système` ;
 
+- ne pas donner aux journaux, métriques ou traces une autorité métier ;
+- ne pas utiliser l’horloge système pour mesurer une durée ; utiliser un compteur monotone ;
+- ne pas journaliser de mot de passe, jeton, clé, chaîne de connexion, prompt ou réponse IA brute ;
+- ne pas utiliser un identifiant d’instance, un chemin ou un message libre comme label de métrique ;
+- ne pas écrire directement depuis un callback `Logger` multithread ni rappeler la journalisation depuis ce callback ;
+- ne pas exporter récursivement `user://` ; utiliser une liste fermée et des chemins relatifs ;
+- ne pas présenter un marqueur de session comme une preuve certaine de crash ;
+- ne pas présenter une archive ZIP comme chiffrée ou signée ;
+- ne pas échantillonner les événements `ERROR`, `FATAL` ou de sécurité ;
+- ne pas reconstruire un état autoritaire depuis un journal de diagnostic ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 27 chapitres sur 30 ;
-- industrialisation : 2 chapitres sur 5 ;
+- progression : 28 chapitres sur 30 ;
+- industrialisation : 3 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1490,26 +1501,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 25 : version `1.0.2` ;
 - chapitre 26 : version `1.0.2` ;
 - chapitre 27 : version `1.0.1` ;
+- chapitre 28 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 27 est terminé au niveau `static-review`. La stratégie de tests sépare unités, composants, intégrations, simulations et campagnes de plateforme ; elle contrôle les dépendances, le temps, l’aléatoire, les stockages temporaires, les scénarios et les critères de passage sans revendiquer une exécution runtime non réalisée.
+Le chapitre 28 est terminé au niveau `static-review`. La chaîne d’observabilité distingue journaux, métriques, traces et artefacts ; elle encadre sévérité, temps UTC et monotone, corrélation, causalité, minimisation, rétention, intégrité, consentement et support hors ligne sans revendiquer une exécution runtime non réalisée.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
+Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : journalisation structurée, niveaux de sévérité, identifiants d’événements stables, corrélation et causalité, rédaction des secrets, métriques, traces, paquets de diagnostic, manifestes de reproduction, collecte après crash et support hors ligne. Le chapitre 28 exploitera les sorties des tests sans redéfinir leurs suites, fixtures ou scénarios.
+Périmètre attendu : environnement Python du projet, scripts et CLI typés, configurations versionnées, orchestration des validations et simulations, génération déterministe de données, validation de schémas, parallélisme borné, reprise sur erreur, manifestes, empreintes et artefacts reproductibles. Le chapitre 29 automatisera les contrats des chapitres 26 à 28 sans transférer d’autorité métier aux scripts.
 
 ## 27. Journal
+
+### 2026-07-22T03:13:32+02:00 — version 3.28.0
+
+- chapitre 28 créé, relu et audité au niveau `static-review` ;
+- journaux structurés, sévérités, identifiants stables, temps UTC et monotone, corrélation et causalité documentés ;
+- listes autorisées, rédaction des secrets, métriques de faible cardinalité, traces et files bornées encadrées ;
+- marqueur de session, manifeste de reproduction, empreintes SHA-256, paquet ZIP, consentement et support hors ligne définis ;
+- résultats du chapitre 27 consommés sans redéfinir les suites, scénarios ou golden files ;
+- progression portée à 28 chapitres sur 30 et prochaine action déplacée vers le chapitre 29 ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-22T01:40:00+02:00 — version 3.27.1
 
