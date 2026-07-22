@@ -1,0 +1,61 @@
+name: Chapter 2 Recovered Materializer
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch02-direction-artistique
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Patch obsolete plan status and materialize
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='docs/livre-iii-ch02-direction-artistique'
+          for attempt in 1 2 3; do
+            git fetch origin "$branch"
+            git reset --hard "origin/$branch"
+
+            if [ ! -f .qa/ch02/finalize.py ]; then
+              echo 'Chapter 2 is already materialized.'
+              exit 0
+            fi
+
+            python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.qa/ch02/finalize.py')
+          text = path.read_text(encoding='utf-8')
+          old = "text = replace_once(text, 'status: \"en cours — 1 chapitre sur 30\"', 'status: \"en cours — 2 chapitres sur 30\"', \"statut plan\")"
+          new = "text = replace_once(text, '> **Statut :** en cours — 1 chapitre sur 30', '> **Statut :** en cours — 2 chapitres sur 30', \"statut plan\")"
+          if text.count(old) != 1:
+              raise SystemExit(f'plan status replacement count: {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+          PY
+
+            python .qa/ch02/finalize.py
+            rm -f .github/workflows/ch02-branch-finalizer.yml
+
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -A
+            git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
+            git commit -m 'docs(livre-iii): matérialiser le chapitre 2 récupéré'
+
+            if git push origin "HEAD:$branch"; then
+              exit 0
+            fi
+            echo "Concurrent update detected; retrying ($attempt/3)."
+          done
+          exit 1
