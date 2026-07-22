@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH03
-status: pending
+status: complete
 validation-date: '2026-07-22'
-validated-base-commit: null
-validated-head-commit: null
+validated-base-commit: 7bbab5accaf56fd6560579a08a8c9dee8bdc8f6c
+validated-head-commit: ab7fefc9422ee16a1e32b7db1e2bc933684f515d
 chapter:
   id: DOC-L3-CH03
   path: Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
@@ -50,15 +50,19 @@ integrity:
   chapter-sha256: 71f196636f663e00b3c925ed792c3323187bf7f22db30c95c313805f5f2fd912
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29949966935
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29950382307
+    conclusion: success
   artifact:
-    id: null
+    id: 8541707655
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 395aba9d4fdde611ccddcc12a623c0cf25a36738acb3657b2619bce269a24fd7
+  context-artifact:
+    id: 8541869318
+    name: usage-context-audit
+    digest: cbd05e077f333c541341bd50d335ce76ac71f352018d339ba2086d94c19dbabb
 reservations:
   - Starter Kit not materialized.
   - Real reference folders and moodboards not created.
