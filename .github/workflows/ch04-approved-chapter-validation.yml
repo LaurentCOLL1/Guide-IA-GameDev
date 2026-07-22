@@ -1,0 +1,132 @@
+name: Chapter 4 Approved Chapter Validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch04-approved-chapter-validation.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+      - Livre-III/QA/AUDIT-CHAPITRE-04.md
+      - Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+      - CONTINUITE-PROJET.md
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  validate-chapter:
+    name: Validate Chapter 4 without PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR 154 merged state
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/154/merge
+          fetch-depth: 1
+
+      - name: Install lightweight dependencies
+        run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Validate structure, metadata, links and duplicates
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
+
+      - name: Validate structured code explanations
+        run: |
+          set -o pipefail
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/QA-EXPLICATIONS-CODE.log
+
+      - name: Audit usage marker presence
+        run: |
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Upload lightweight QA evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-EXPLICATIONS-CODE.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Publish immutable validation coordinates on PR 154
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact=''
+          for attempt in $(seq 1 12); do
+            artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
+              --jq '.artifacts[] | select(.name == "chapter-validation-without-pdf") | [.id, .digest] | @tsv' | head -n1)"
+            if [ -n "$artifact" ]; then break; fi
+            sleep 5
+          done
+          if [ -z "$artifact" ]; then
+            echo 'Artefact chapter-validation-without-pdf introuvable.' >&2
+            exit 1
+          fi
+          artifact_id="${artifact%%$'\t'*}"
+          artifact_digest="${artifact#*$'\t'}"
+          validated_head="$(gh api "repos/${GITHUB_REPOSITORY}/pulls/154" --jq '.head.sha')"
+          validated_merge="$(git rev-parse HEAD)"
+          chapter_sha="$(sha256sum Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md | cut -d' ' -f1)"
+          audit_sha="$(sha256sum Livre-III/QA/AUDIT-CHAPITRE-04.md | cut -d' ' -f1)"
+          body="$(cat <<EOF
+          <!-- ch04-approved-chapter-validation -->
+          **Validation approuvée du chapitre 4 — succès**
+
+          - run-id: \`${GITHUB_RUN_ID}\`
+          - run-url: \`${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\`
+          - validated-head: \`${validated_head}\`
+          - validated-merge: \`${validated_merge}\`
+          - chapter-sha256: \`${chapter_sha}\`
+          - audit-sha256: \`${audit_sha}\`
+          - artifact-name: \`chapter-validation-without-pdf\`
+          - artifact-id: \`${artifact_id}\`
+          - artifact-digest: \`${artifact_digest}\`
+          - conclusion: \`success\`
+          - pdf-produced: \`false\`
+          EOF
+          )"
+          gh pr comment 154 --body "$body"

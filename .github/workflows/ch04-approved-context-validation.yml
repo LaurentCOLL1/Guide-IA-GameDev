@@ -1,0 +1,102 @@
+name: Chapter 4 Approved Context Validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch04-approved-context-validation.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+      - Livre-III/QA/AUDIT-CHAPITRE-04.md
+      - Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+      - CONTINUITE-PROJET.md
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  validate-contexts:
+    name: Validate Chapter 4 usage contexts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR 154 merged state
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/154/merge
+          fetch-depth: 1
+
+      - name: Audit marker presence and metadata
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Upload context audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Publish immutable context coordinates on PR 154
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact=''
+          for attempt in $(seq 1 12); do
+            artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
+              --jq '.artifacts[] | select(.name == "usage-context-audit") | [.id, .digest] | @tsv' | head -n1)"
+            if [ -n "$artifact" ]; then break; fi
+            sleep 5
+          done
+          if [ -z "$artifact" ]; then
+            echo 'Artefact usage-context-audit introuvable.' >&2
+            exit 1
+          fi
+          artifact_id="${artifact%%$'\t'*}"
+          artifact_digest="${artifact#*$'\t'}"
+          validated_head="$(gh api "repos/${GITHUB_REPOSITORY}/pulls/154" --jq '.head.sha')"
+          validated_merge="$(git rev-parse HEAD)"
+          body="$(cat <<EOF
+          <!-- ch04-approved-context-validation -->
+          **Validation approuvée des contextes du chapitre 4 — succès**
+
+          - run-id: \`${GITHUB_RUN_ID}\`
+          - run-url: \`${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\`
+          - validated-head: \`${validated_head}\`
+          - validated-merge: \`${validated_merge}\`
+          - artifact-name: \`usage-context-audit\`
+          - artifact-id: \`${artifact_id}\`
+          - artifact-digest: \`${artifact_digest}\`
+          - conclusion: \`success\`
+          EOF
+          )"
+          gh pr comment 154 --body "$body"
