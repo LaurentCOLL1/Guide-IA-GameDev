@@ -46,13 +46,43 @@ jobs:
 
           if [ "$status" -ne 0 ]; then
             git reset --hard HEAD
+            python - <<'PY' >> /tmp/ch02-finalizer.log 2>&1
+          from pathlib import Path
+          import base64
+          import hashlib
+          import io
+          import zipfile
+
+          root = Path('.qa/ch02')
+          print('\n--- candidate diagnostics ---')
+          for stem in ('package', 'bundle', 'chunk'):
+              parts = sorted(root.glob(f'{stem}-*.b64'))
+              print(f'{stem}: parts={len(parts)}')
+              if not parts:
+                  continue
+              encoded = ''.join(part.read_text(encoding='utf-8').strip() for part in parts)
+              data_chars = ''.join(char for char in encoded if not char.isspace())
+              print(f'{stem}: encoded_length={len(encoded)} data_chars={len(data_chars)} mod4={len(data_chars) % 4}')
+              try:
+                  payload = base64.b64decode(data_chars, validate=True)
+              except Exception as exc:
+                  print(f'{stem}: decode_error={type(exc).__name__}: {exc}')
+                  continue
+              print(f'{stem}: decoded_bytes={len(payload)} sha256={hashlib.sha256(payload).hexdigest()}')
+              try:
+                  with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+                      print(f'{stem}: zip_test={archive.testzip()!r}')
+                      print(f'{stem}: names={archive.namelist()}')
+              except Exception as exc:
+                  print(f'{stem}: zip_error={type(exc).__name__}: {exc}')
+          PY
             {
               printf 'run_id: %s\n' "$GITHUB_RUN_ID"
               printf 'exit_code: %s\n\n' "$status"
               cat /tmp/ch02-finalizer.log
             } > .qa/ch02/finalizer-error.txt
             git add .qa/ch02/finalizer-error.txt
-            git commit -m "chore(qa): publier le diagnostic du finaliseur du chapitre 2"
+            git commit -m "chore(qa): publier le diagnostic des paquets du chapitre 2"
           else
             rm -f .github/workflows/ch02-branch-finalizer.yml
             git add -A
