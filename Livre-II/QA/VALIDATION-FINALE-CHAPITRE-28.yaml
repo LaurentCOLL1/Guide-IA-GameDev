@@ -2,8 +2,8 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH28
 status: pending
 validation-date: '2026-07-22'
-validated-base-commit: 2c62e1f6de55dfc8ebcbb4325363de178388ed3c
-validated-head-commit: pending
+validated-base-commit: c0ed98465f8d6bd59b416387864f01d3283ea3a1
+validated-head-commit: da0524e373f48c8b9ef7495399bac229918fa7f8
 chapter:
   id: DOC-L2-CH28
   path: Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
