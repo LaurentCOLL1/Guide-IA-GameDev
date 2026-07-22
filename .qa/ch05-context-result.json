@@ -1,9 +1,0 @@
-{
-  "document_head": "ea8f6a6b9c6cd66b9c3a7922d801274e2405f5e7",
-  "context_run_id": 29961125128,
-  "context_artifact_id": 8545999556,
-  "context_artifact_digest": "f701349af7c1e7694d736925e30153a6419b4f32fcf1656d2f3f601b13825d84",
-  "chapter_sha256": "652cdf06964e9354e310fdbb152f9e34dff1f4062b3af313b976901d3ec9d4ec",
-  "audit_sha256": "b2a7782ead143c01ef1fe4e040365bb1cd4cfeab982e570ea09ac75bedd3ef1f",
-  "conclusion": "success"
-}

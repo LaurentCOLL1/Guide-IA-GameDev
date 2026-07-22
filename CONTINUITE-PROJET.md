@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.35.0"
+version: "3.35.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T23:35:44+02:00"
+last-updated: "2026-07-23T00:26:51+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1706,6 +1706,19 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 6 produira une base humaine modulaire, crédible, animable et compatible avec les contraintes de personnalisation, de topologie, de matériaux, de LOD et de performance. Les visages, cheveux et vêtements resteront approfondis dans leurs chapitres spécialisés.
 
 ## 27. Journal
+
+### 2026-07-23T00:26:51+02:00 — version 3.35.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire réussie au run `29960812166` sur la tête `ea8f6a6b9c6cd66b9c3a7922d801274e2405f5e7` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8545871720`, digest `b4ae05177e0fc97a7d79cac93c7610046a84db483b0bd8a134032dad9c13083f` ;
+- validation des contextes réussie au run `29961125128` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8545999556`, digest `f701349af7c1e7694d736925e30153a6419b4f32fcf1656d2f3f601b13825d84` ;
+- empreinte SHA-256 du chapitre : `652cdf06964e9354e310fdbb152f9e34dff1f4062b3af313b976901d3ec9d4ec` ;
+- empreinte SHA-256 de l’audit : `b2a7782ead143c01ef1fe4e040365bb1cd4cfeab982e570ea09ac75bedd3ef1f` ;
+- métriques finales : 1 555 lignes, 63 titres, 26 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 6 — Création des humains, niveau Élevée ;
+- aucun registre réel, contrat, consentement, runtime ou PDF du Livre III produits.
 
 ### 2026-07-22T23:35:44+02:00 — version 3.35.0
 
