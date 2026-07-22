@@ -65,6 +65,7 @@ Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
 Livre-III/index.md
 Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
 Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
+Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.32.1"
+version: "3.33.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T19:53:29+02:00"
+last-updated: "2026-07-22T21:21:47+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,12 +150,13 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 2 chapitres sur 30.**
+**En cours : 3 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
+3. Références, concept art et ComfyUI — terminé au niveau `static-review`.
 
-Les chapitres 3 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 4 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1278,6 +1279,21 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - toute modification influençant coûts ou priorités passe par la demande de changement du chapitre 1 ;
 - la validation cible une scène Godot comparative, mais aucune exécution runtime n’est revendiquée avant matérialisation des assets pilotes.
 
+### 11.28 Références, concept art et ComfyUI
+
+- toute collecte commence par une question visuelle et une relation explicite avec la bible ;
+- inspiration, référence, concept, source de production et asset final restent des statuts distincts ;
+- chaque référence retenue possède une provenance, un contexte d’usage, des droits connus ou un état bloqué ;
+- les moodboards sont annotés et produisent des décisions, pas seulement une ambiance ;
+- le workflow ComfyUI JSON, les modèles, custom nodes, paramètres et runs sont versionnés séparément ;
+- une seed n’est reproductible qu’avec l’environnement, le graphe et les paramètres associés ;
+- les custom nodes sont traités comme du code exécutable et qualifiés avant adoption ;
+- les propositions sont critiquées humainement sur l’anatomie, les matériaux, la culture et la fonction ;
+- une image générée ne devient jamais directement une texture, un modèle ou un asset final ;
+- les sorties destinées au partage sont séparées des sources et vérifiées pour leurs métadonnées ;
+- la configuration AMD Windows de référence reste non qualifiée tant qu’aucun test réel n’est exécuté ;
+- le dossier consolidé transmet règles, sources modifiables, inconnues et rapport de sélection aux chapitres de production.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1554,15 +1570,27 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas accepter une dérogation uniquement orale ;
 - ne pas déclarer la direction validée dans Godot avant les assets pilotes et la scène comparative ;
 
+- ne pas collecter des images sans question visuelle ;
+- ne pas employer une référence dont la provenance ou les droits sont inconnus ;
+- ne pas installer automatiquement tous les custom nodes manquants ;
+- ne pas considérer une seed fixe comme une garantie d’identité ;
+- ne pas modifier plusieurs variables dans une même expérience non tracée ;
+- ne pas sélectionner une proposition uniquement parce qu’elle est spectaculaire ;
+- ne pas présenter une image générée comme un asset final ;
+- ne pas ignorer les incohérences anatomiques, matérielles ou culturelles ;
+- ne pas publier une image sans contrôler les métadonnées de workflow qu’elle contient ;
+- ne pas accumuler des variantes sans budget ni règle d’arrêt ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 2 chapitres sur 30 ;
+- progression du Livre III : 3 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1600,19 +1628,45 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 2 du Livre III est rédigé, repéré et audité au niveau `static-review`. La bible visuelle formalise formes, silhouettes, proportions, palettes, matériaux, lumière, profondeur, UI, VFX, variations, grilles de revue et dérogations. Aucun asset pilote, benchmark ou test Godot n’est revendiqué comme exécuté.
+Le chapitre 3 du Livre III est rédigé, repéré et audité au niveau `static-review`. La chaîne de références et de concepts distingue les statuts, enregistre provenance et droits, versionne les workflows ComfyUI, manifeste modèles et dépendances, puis impose une sélection humaine. Aucun environnement ComfyUI, concept réel, benchmark ou test Godot n’est revendiqué comme exécuté.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
+Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 3 organisera les références légalement sourcées, les moodboards annotés et les workflows ComfyUI versionnés avec modèles, seeds, prompts et paramètres. Il distinguera référence, concept, source de production et asset final, puis imposera une sélection humaine sans modifier silencieusement la bible visuelle.
+Le chapitre 4 qualifiera la version de Blender et les addons, puis fixera unités, axes, échelle, origines, collections, arborescence source/travail/cache/export/archive, formats d’échange et test aller-retour vers Godot. Il ne produira pas encore les assets définitifs.
 ## 27. Journal
+
+### 2026-07-22T21:21:47+02:00 — version 3.33.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-03.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+- workflow permanent `Validate Chapters Without PDF` réussi au run `29949966935` sur la base `7bbab5accaf56fd6560579a08a8c9dee8bdc8f6c` et la tête documentaire `ab7fefc9422ee16a1e32b7db1e2bc933684f515d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8541707655`, digest `395aba9d4fdde611ccddcc12a623c0cf25a36738acb3657b2619bce269a24fd7` ;
+- audit des contextes réussi au run `29950382307` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8541869318`, digest `cbd05e077f333c541341bd50d335ce76ac71f352018d339ba2086d94c19dbabb` ;
+- empreinte SHA-256 du chapitre fermée à `71f196636f663e00b3c925ed792c3323187bf7f22db30c95c313805f5f2fd912` ;
+- matérialiseur, runner de contextes, fichiers de résultat et déclencheurs temporaires supprimés avant fusion ;
+- prochaine action maintenue sur le chapitre 4 — Pipeline Blender et organisation des fichiers, niveau Élevée ;
+- aucune exécution ComfyUI ou Godot et aucun PDF du Livre III construits.
+
+### 2026-07-22T20:42:28+02:00 — version 3.33.0
+
+- chapitre 3 du Livre III créé, relu et audité au niveau `static-review` ;
+- distinctions entre inspiration, référence, concept, source de production et asset final documentées ;
+- registre de provenance, droits d’usage, quarantaine et empreintes définis ;
+- moodboards annotés, planches comparatives et questions visuelles encadrés ;
+- ComfyUI `0.28.0`, workflows JSON, modèles, custom nodes, seeds, paramètres et manifestes documentés ;
+- sélection humaine, contrôles anatomiques, matériels, culturels et fonctionnels définis ;
+- sécurité des extensions, métadonnées de partage, budgets d’itération et règle d’arrêt documentés ;
+- configuration AMD Windows de référence maintenue en réserve runtime ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 4 — Pipeline Blender et organisation des fichiers, niveau Élevée ;
+- aucune exécution ComfyUI ou Godot et aucun PDF du Livre III construits.
 
 ### 2026-07-22T19:53:29+02:00 — version 3.32.1
 

@@ -1,0 +1,81 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH03
+status: complete
+validation-date: '2026-07-22'
+validated-base-commit: 7bbab5accaf56fd6560579a08a8c9dee8bdc8f6c
+validated-head-commit: ab7fefc9422ee16a1e32b7db1e2bc933684f515d
+chapter:
+  id: DOC-L3-CH03
+  path: Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2674
+  chapter-headings: 53
+  chapter-code-and-data-blocks: 48
+  significant-code-and-data-blocks: 46
+  code-explanation-markers: 48
+  structured-non-error-code-explanations: 28
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  reference-statuses-distinguished: true
+  provenance-register-documented: true
+  usage-rights-documented: true
+  annotated-moodboards-documented: true
+  comfyui-workflow-json-documented: true
+  model-manifest-documented: true
+  custom-node-manifest-documented: true
+  seed-and-run-manifest-documented: true
+  human-selection-documented: true
+  anatomy-material-cultural-review-documented: true
+  generated-image-not-final-asset: true
+  godot-reference-board-contract-documented: true
+  amd-rdna2-runtime-not-claimed: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 71f196636f663e00b3c925ed792c3323187bf7f22db30c95c313805f5f2fd912
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29949966935
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29950382307
+    conclusion: success
+  artifact:
+    id: 8541707655
+    name: chapter-validation-without-pdf
+    digest: 395aba9d4fdde611ccddcc12a623c0cf25a36738acb3657b2619bce269a24fd7
+  context-artifact:
+    id: 8541869318
+    name: usage-context-audit
+    digest: cbd05e077f333c541341bd50d335ce76ac71f352018d339ba2086d94c19dbabb
+reservations:
+  - Starter Kit not materialized.
+  - Real reference folders and moodboards not created.
+  - Real authors, licences and rights not populated.
+  - ComfyUI 0.28.0 not installed or executed for Project Asteria.
+  - Models, checkpoints, LoRA and custom nodes not selected or qualified.
+  - AMD Windows support for the RX 6750 XT not qualified.
+  - Real workflows, manifests, runs and concept boards not produced.
+  - Proposed Python verifier not executed on a real project folder.
+  - Godot reference board not materialized.
+  - Human Solo or Studio review not executed.
+  - VRAM, runtime, batch size and performance not measured.
+  - Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 774ed65b899765a9451c2c4b7aabaca10f64a0b8
+  conclusion: success

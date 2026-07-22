@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre III"
 id: "DOC-PLAN-L3"
 status: "active"
-version: "1.1.2"
+version: "1.1.3"
 lang: "fr-FR"
-last-updated: "2026-07-22T18:10:53+02:00"
+last-updated: "2026-07-22T20:42:28+02:00"
 book: "Livre III"
 chapter-count: 30
 ---
@@ -12,7 +12,7 @@ chapter-count: 30
 # Plan maître détaillé — Livre III
 
 > **Titre du Livre :** Production des contenus et des assets  
-> **Statut :** en cours — 2 chapitres sur 30  
+> **Statut :** en cours — 3 chapitres sur 30  
 > **Rôle :** transformer la direction artistique en assets traçables, juridiquement documentés, optimisés et directement intégrables dans Godot.
 
 ## 1. Fonction de ce document dans une nouvelle conversation
@@ -145,7 +145,7 @@ Les versions de Blender, ComfyUI, extensions, modèles et outils audio devront �
 
 ## 7. Chapitres
 
-> **Progression :** chapitres 1 et 2 rédigés, repérés et audités au niveau `static-review` ; chapitres 3 à 30 à produire.
+> **Progression :** chapitres 1, 2 et 3 rédigés, repérés et audités au niveau `static-review` ; chapitres 4 à 30 à produire.
 
 ## Chapitre 1 — Préproduction et cahier des charges artistique
 
