@@ -523,7 +523,7 @@ La commande :
 - refuse les commandes sans effet ;
 - limite l’amplitude d’une seule opération.
 
-Le tick logique appartient à la simulation ou au coordinateur de partie. Il ne dépend pas de l’horloge murale du système.
+Le tick logique appartient à la simulation ou au coordinateur de partie. Il ne dépend pas de l’horloge du système.
 
 ## 10. Conserver un historique borné
 
