@@ -1,26 +1,29 @@
 ---
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
-status: "draft"
-version: "0.1.0"
+status: "active"
+version: "1.0.0"
+lang: "fr-FR"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
 # Livre III — Production des contenus et des assets
 
-Ce livre couvre la production concrète des contenus visuels, 3D, audio et interactifs du jeu.
+> **Repères d’utilisation :** **[PS]** PowerShell 7, **[CMD]** Invite de commandes, **[WSL]** terminal WSL, **[DCT]** terminal dans un conteneur, **[DCK]** Docker Desktop, **[VSC]** Visual Studio Code, **[WEB]** navigateur, **[APP]** application graphique, **[SORTIE]** résultat à lire sans le saisir, **[LECTURE]** exemple ou structure de référence. Voir la [convention complète](../Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md).
 
-## Contenu principal
+Ce livre transforme la direction artistique en assets traçables, budgétés, optimisés et intégrables dans Godot. Le fil rouge reste `Project Asteria`.
 
-- préproduction et direction artistique ;
-- humains, humanoïdes, animaux et créatures ;
-- objets, bâtiments, végétation et matériaux ;
-- rigging, animation et cinématiques ;
-- effets visuels et simulations ;
-- interfaces et expérience utilisateur ;
-- audio et synchronisation labiale ;
-- intégration et optimisation dans Godot ;
-- automatisation par IA et production en lots.
+## Chapitres
 
-## Statut
+1. [Préproduction et cahier des charges artistique](CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md)
 
-Plan validé, rédaction à venir.
+Les chapitres 2 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+
+## Principes du Livre III
+
+- une source canonique reste distincte de ses exports et fichiers générés ;
+- chaque asset possède une identité, une provenance, une licence ou un statut juridique, une version et un budget ;
+- les hypothèses sont remplacées par des mesures réalisées dans Godot ;
+- les procédures Solo et Studio partagent les mêmes contrats d’asset ;
+- l’automatisation ne décide jamais seule de la qualité artistique ;
+- les audits et preuves internes restent hors du manuel lecteur.

@@ -26,7 +26,7 @@ FILE_LANGS = {
 
 def files() -> list[Path]:
     result: list[Path] = []
-    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II"):
+    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II", ROOT / "Livre-III"):
         result.extend(sorted(base.rglob("*.md")))
     result.append(ROOT / "STYLE_GUIDE.md")
     return [path for path in result if path.is_file()]

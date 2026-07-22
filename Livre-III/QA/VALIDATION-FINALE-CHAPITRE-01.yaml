@@ -1,0 +1,71 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH01
+status: pending
+validation-date: '2026-07-22'
+validated-base-commit: 598ce8e85993346e1e06cc9b40c94ab4c69d41c8
+validated-head-commit: pending
+chapter:
+  id: DOC-L3-CH01
+  path: Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1692
+  chapter-headings: 43
+  chapter-code-and-data-blocks: 49
+  significant-code-and-data-blocks: 43
+  code-explanation-markers: 49
+  structured-non-error-code-explanations: 29
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  artistic-brief-documented: true
+  asset-matrix-documented: true
+  initial-budgets-documented: true
+  schedule-and-critical-path-documented: true
+  risk-register-documented: true
+  acceptance-checklist-documented: true
+  pilot-assets-identified: true
+  final-visual-style-not-locked: true
+  budgets-marked-as-hypotheses: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Starter Kit not materialized.
+  - Proposed art and content files not created in a real Godot project.
+  - Blender version and addons not qualified.
+  - Pilot assets not produced.
+  - Source formats and export presets not exercised.
+  - Godot validation scene not materialized.
+  - Performance monitors not queried.
+  - Budgets not measured on reference hardware.
+  - Import and reimport not executed.
+  - Future asset provenance and licences not populated.
+  - Schedule not calibrated from completed production items.
+  - Livre III PDF not built by per-chapter policy.
+evidence-closure:
+  commit: pending
+  conclusion: pending
