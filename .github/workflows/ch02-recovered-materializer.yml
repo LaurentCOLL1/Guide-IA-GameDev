@@ -37,11 +37,24 @@ jobs:
 
           path = Path('.qa/ch02/finalize.py')
           text = path.read_text(encoding='utf-8')
-          old = "text = replace_once(text, 'status: \"en cours — 1 chapitre sur 30\"', 'status: \"en cours — 2 chapitres sur 30\"', \"statut plan\")"
-          new = "text = replace_once(text, '> **Statut :** en cours — 1 chapitre sur 30', '> **Statut :** en cours — 2 chapitres sur 30', \"statut plan\")"
-          if text.count(old) != 1:
-              raise SystemExit(f'plan status replacement count: {text.count(old)}')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+          replacements = [
+              (
+                  "text = replace_once(text, 'status: \"en cours — 1 chapitre sur 30\"', 'status: \"en cours — 2 chapitres sur 30\"', \"statut plan\")",
+                  "text = replace_once(text, '> **Statut :** en cours — 1 chapitre sur 30', '> **Statut :** en cours — 2 chapitres sur 30', \"statut plan\")",
+                  'plan status',
+              ),
+              (
+                  "text = replace_once(text, \"> **Progression :** chapitre 1 terminé au niveau `static-review` ; chapitres 2 à 30 à produire.\", \"> **Progression :** chapitres 1 et 2 terminés au niveau `static-review` ; chapitres 3 à 30 à produire.\", \"progression plan\")",
+                  "text = replace_once(text, \"> **Progression :** chapitre 1 rédigé, repéré et audité au niveau `static-review` ; chapitres 2 à 30 à produire.\", \"> **Progression :** chapitres 1 et 2 rédigés, repérés et audités au niveau `static-review` ; chapitres 3 à 30 à produire.\", \"progression plan\")",
+                  'plan progression',
+              ),
+          ]
+          for old, new, label in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label} replacement count: {count}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
           PY
 
             set +e
