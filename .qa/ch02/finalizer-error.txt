@@ -1,24 +1,13 @@
-run_id: 29941395859
+run_id: 29941752340
 exit_code: 1
 
 Traceback (most recent call last):
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 58, in decode_verified_package
-    payload = base64.b64decode(encoded, validate=True)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/base64.py", line 88, in b64decode
-    return binascii.a2b_base64(s, strict_mode=validate)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-binascii.Error: Invalid base64-encoded string: number of data characters (45761) cannot be 1 more than a multiple of 4
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 115, in <module>
-    payload = decode_verified_package()
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 100, in decode_verified_package
-    raise RuntimeError(f"récupération Base64 non concluante: {len(matches)} correspondance(s)") from initial_error
-RuntimeError: récupération Base64 non concluante: 0 correspondance(s)
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 243, in <module>
+    text = replace_once(text, 'status: "en cours — 1 chapitre sur 30"', 'status: "en cours — 2 chapitres sur 30"', "statut plan")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 23, in replace_once
+    raise RuntimeError(f"{label}: attendu 1 motif, trouvé {count}")
+RuntimeError: statut plan: attendu 1 motif, trouvé 0
 
 --- exhaustive ZIP CRC recovery ---
 parts=[('package-00.b64', 12000), ('package-01.b64', 11999), ('package-02.b64', 12000), ('package-03.b64', 9764)]
