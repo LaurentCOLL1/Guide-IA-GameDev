@@ -1754,7 +1754,7 @@ autorisé :
 
 - **Point d’explication complémentaire — complément 2 :** L’état final devient la seule base de matérialisation.
 
-- **Limites et réserves — complément 2 :** Le guide ne simule pas automatiquement le temps réel écoulé lorsque l’application était fermée. Une fonctionnalité d’« évolution hors connexion » exigerait une politique explicite, une horloge murale non autoritaire et des bornes de sécurité supplémentaires.
+- **Limites et réserves — complément 2 :** Le guide ne simule pas automatiquement le temps réel écoulé lorsque l’application était fermée. Une fonctionnalité d’« évolution hors connexion » exigerait une politique explicite, une horloge système non autoritaire et des bornes de sécurité supplémentaires.
 
 ## 29. Population logique et représentation en scène
 
