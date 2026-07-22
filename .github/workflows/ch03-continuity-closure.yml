@@ -1,0 +1,41 @@
+name: Chapter 3 Continuity Closure
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  close-continuity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch03-references-concept-art-comfyui
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record final QA closure in continuity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git show origin/main:.github/scripts/ch03_close_continuity.py | python3 -
+
+      - name: Commit continuity closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo 'Continuity already closed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add CONTINUITE-PROJET.md
+          git commit -m 'docs(continuité): fermer la validation du chapitre 3'
+          git push origin HEAD:docs/livre-iii-ch03-references-concept-art-comfyui
