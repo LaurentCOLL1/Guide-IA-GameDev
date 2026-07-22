@@ -34,7 +34,11 @@ jobs:
           set -o pipefail
           {
             set -x
-            python3 .qa/ch29-python-compatibility/fix.py apply
+            if grep -q '^version: "1.0.0"$' Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md; then
+              python3 .qa/ch29-python-compatibility/fix.py apply
+            else
+              echo "Chapter 29 compatibility documentation already applied."
+            fi
             python3 tools/validate_chapters.py --report /tmp/ch29-python-compatibility-QA.md
             python3 tools/check_context_markers.py --check
             python3 tools/audit_contextes_semantiques.py --check
@@ -49,10 +53,14 @@ jobs:
           path: /tmp/ch29-python-compatibility-apply.log
           if-no-files-found: error
 
-      - name: Push intermediate documentation
+      - name: Push intermediate documentation when needed
         shell: bash
         run: |
           set -euxo pipefail
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No intermediate documentation commit required."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
@@ -79,7 +87,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           architecture: x64
-          cache: pip
 
       - name: Install binary distributions only
         run: |
