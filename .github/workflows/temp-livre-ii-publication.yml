@@ -25,7 +25,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             pandoc texlive-xetex texlive-latex-extra texlive-fonts-recommended \
-            fonts-dejavu-core poppler-utils qpdf python3-pil
+            lmodern librsvg2-bin fonts-dejavu-core poppler-utils qpdf python3-pil
 
       - name: Validate Livre II transversally
         run: |
