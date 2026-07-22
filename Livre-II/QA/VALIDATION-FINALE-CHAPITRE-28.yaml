@@ -1,0 +1,82 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH28
+status: pending
+validation-date: '2026-07-22'
+validated-base-commit: 2c62e1f6de55dfc8ebcbb4325363de178388ed3c
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH28
+  path: Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2091
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 67
+  code-explanation-markers: 67
+  structured-non-error-code-explanations: 47
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  structured-logging-documented: true
+  stable-event-catalog-documented: true
+  severity-policy-documented: true
+  utc-and-monotonic-time-separated: true
+  opaque-correlation-identifiers: true
+  causality-documented: true
+  secret-redaction-and-allowlist: true
+  bounded-jsonl-sink: true
+  threaded-engine-logger-documented: true
+  low-cardinality-metrics: true
+  bounded-traces-and-sampling: true
+  unclean-session-marker-documented: true
+  reproduction-manifest-documented: true
+  sha256-integrity-documented: true
+  zip-package-without-false-encryption-claim: true
+  explicit-consent-before-export: true
+  offline-support-documented: true
+  chapter-27-artifacts-consumed-without-redefinition: true
+  solo-studio-rendered-as-markdown: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  forbidden-wall-clock-calques-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+- Godot parser not executed.
+- Observability scripts not materialized.
+- Custom Logger not registered in a running Godot process.
+- Thread synchronization not exercised.
+- JSONL persistence and flush not platform-tested.
+- Metrics and traces not exported.
+- Forced termination and native crash not executed.
+- Debug symbols not produced or tested.
+- ZIP packages not created or reopened.
+- Consent UI not materialized.
+- No OpenTelemetry collector installed.
+- No remote telemetry transmission executed.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: pending
+  conclusion: pending
