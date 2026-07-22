@@ -72,5 +72,5 @@ reservations:
 - Generated data not published.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: pending
+  commit: c732e1664cdc3711ddbf152bb9cc7e2007855ff3
   conclusion: success
