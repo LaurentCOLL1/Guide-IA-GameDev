@@ -63,6 +63,7 @@ Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
 Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
 Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
 Livre-III/index.md
+Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

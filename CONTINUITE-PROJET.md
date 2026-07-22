@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.30.5"
+version: "3.31.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T12:45:00+02:00"
+last-updated: "2026-07-22T13:55:05+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -148,9 +148,17 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 29. Automatisation Python et génération de données — terminé au niveau `static-review`.
 30. Architecture Solo et architecture Studio — terminé au niveau `static-review`.
 
-### Livres III à V et Companion Pack
+### Livre III
 
-Le détail chapitre par chapitre ou pack par pack se trouve dans les quatre plans maîtres. Chaque entrée y possède objectifs, livrables, dépendances, frontières et critères de validation.
+**En cours : 1 chapitre sur 30.**
+
+1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
+
+Les chapitres 2 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+
+### Livres IV à V et Companion Pack
+
+Le détail chapitre par chapitre ou pack par pack se trouve dans leurs plans maîtres. Chaque entrée y possède objectifs, livrables, dépendances, frontières et critères de validation.
 
 ## 6. Repères d’utilisation
 
@@ -1525,9 +1533,11 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 ## 25. État courant
 
 - branche principale : `main` ;
-- jalon : M3 — Livre II ;
-- progression : 30 chapitres sur 30 ;
-- industrialisation : 5 chapitres sur 5 ;
+- jalon : M4 — Livre III ;
+- progression du Livre III : 1 chapitre sur 30 ;
+- chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
+- Livre II : 30 chapitres sur 30, publication technique terminée ;
+- industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1563,19 +1573,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre II est terminé, validé transversalement, compilé avec Pandoc/XeLaTeX et inspecté visuellement. Les réserves techniques propres à son PDF de clôture sont closes. Les réserves globales de licence, de balisage d’accessibilité et d’exécution runtime restent explicitement ouvertes.
+Le chapitre 1 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le cahier des charges, la matrice d’assets, les budgets initiaux, le calendrier, les risques et les critères d’acceptation sont définis comme contrats de préproduction. Aucun asset, pipeline Blender ou benchmark runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
+Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 1 du Livre III traduira la vision du jeu en contraintes artistiques et techniques, catégories d’assets, quantités, priorités, budgets, calendrier, responsabilités, risques et critères d’acceptation. Il préparera la direction artistique du chapitre 2 sans produire encore les assets définitifs.
+Le chapitre 2 transformera les objectifs perceptuels du cahier des charges en bible visuelle : références, formes, proportions, palettes, matériaux, lumière, caméras de comparaison, règles d’inclusion et d’exclusion. Il ne modifiera ni les budgets ni les priorités sans demande de changement explicite.
 ## 27. Journal
+
+### 2026-07-22T13:55:05+02:00 — version 3.31.0
+
+- ouverture du jalon M4 et du Livre III ;
+- chapitre 1 créé, relu et audité au niveau `static-review` ;
+- cahier des charges, matrice d’assets, budgets initiaux, calendrier, registre des risques et checklist d’acceptation documentés ;
+- budgets marqués comme hypothèses révisables et aucun résultat runtime inventé ;
+- outils et workflows légers étendus au Livre III ;
+- index, roadmap, ordre lecteur et plan maître mis à jour ;
+- prochaine action déplacée vers le chapitre 2 — Direction artistique et bible visuelle, niveau Élevée ;
+- aucun PDF du Livre III construit.
 
 ### 2026-07-22T12:45:00+02:00 — version 3.30.5
 

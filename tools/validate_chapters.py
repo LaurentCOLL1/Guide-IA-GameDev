@@ -13,7 +13,7 @@ from urllib.parse import unquote
 
 import yaml
 
-CHAPTER_RE = re.compile(r"Livre-(I|II)/CHAPITRE-(\d{2})-.+\.md$")
+CHAPTER_RE = re.compile(r"Livre-(I|II|III)/CHAPITRE-(\d{2})-.+\.md$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 INLINE_CODE_RE = re.compile(r"(`+)([^\n]*?)\1")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
@@ -356,7 +356,7 @@ def main() -> int:
         if not source.is_file():
             errors.append(f"Source absente dans contents.txt : {entry}")
 
-    chapter_entries: dict[str, list[tuple[str, int]]] = {"I": [], "II": []}
+    chapter_entries: dict[str, list[tuple[str, int]]] = {"I": [], "II": [], "III": []}
     for entry in entries:
         match = CHAPTER_RE.fullmatch(entry)
         if match:
@@ -369,6 +369,10 @@ def main() -> int:
     actual_ii = [number for _, number in chapter_entries["II"]]
     if actual_ii != list(range(1, len(actual_ii) + 1)):
         errors.append(f"Les chapitres présents du Livre II doivent être continus depuis 01 ; détectés : {actual_ii}.")
+
+    actual_iii = [number for _, number in chapter_entries["III"]]
+    if actual_iii != list(range(1, len(actual_iii) + 1)):
+        errors.append(f"Les chapitres présents du Livre III doivent être continus depuis 01 ; détectés : {actual_iii}.")
 
     ids: dict[str, str] = {}
     stats: list[ChapterStats] = []
@@ -413,7 +417,7 @@ def main() -> int:
         if chapter_match:
             book_code, number_text = chapter_match.groups()
             number = int(number_text)
-            expected_book = "Livre I" if book_code == "I" else "Livre II"
+            expected_book = {"I": "Livre I", "II": "Livre II", "III": "Livre III"}[book_code]
             if metadata.get("book") != expected_book:
                 errors.append(f"Métadonnée book incorrecte pour {rel}.")
             if metadata.get("chapter") != number:
@@ -421,11 +425,11 @@ def main() -> int:
             if not metadata.get("last-verified"):
                 errors.append(f"Métadonnée last-verified absente : {rel}")
             actual_id = metadata.get("id") or metadata.get("identifier")
-            expected_id = expected_livre_i_ids[number] if book_code == "I" else f"DOC-L2-CH{number:02d}"
+            expected_id = expected_livre_i_ids[number] if book_code == "I" else f"DOC-L{2 if book_code == 'II' else 3}-CH{number:02d}"
             if actual_id != expected_id:
                 errors.append(f"Identifiant stable incorrect pour {rel} : attendu {expected_id}, reçu {actual_id}.")
 
-            if book_code == "II":
+            if book_code in {"II", "III"}:
                 if "recommended-reasoning:" in text or "Niveau de raisonnement conseillé" in text:
                     errors.append(
                         f"Le niveau GPT-5.6 Sol appartient au processus de production, pas au chapitre publié : {rel}"
@@ -434,7 +438,7 @@ def main() -> int:
                     errors.append(f"Audit post-création incomplet : {rel}")
                 if not metadata.get("audit-date"):
                     errors.append(f"Métadonnée audit-date absente : {rel}")
-                if number >= 17:
+                if book_code == "III" or number >= 17:
                     validate_timestamp(metadata.get("last-verified"), "last-verified", rel, errors)
                     validate_timestamp(metadata.get("audit-date"), "audit-date", rel, errors)
                 if metadata.get("audit-level") not in VALID_AUDIT_LEVELS:
@@ -446,7 +450,7 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-report absente : {rel}")
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
-                elif number >= 17:
+                elif book_code == "III" or number >= 17:
                     audit_path = root / str(audit_report)
                     audit_text = audit_path.read_text(encoding="utf-8")
                     audit_metadata = parse_front_matter(audit_text, str(audit_report), errors)
@@ -483,10 +487,11 @@ def main() -> int:
         f"- Sources déclarées : **{len(sources)}**",
         f"- Chapitres du Livre I : **{len(chapter_entries['I'])}**",
         f"- Chapitres du Livre II : **{len(chapter_entries['II'])}**",
+        f"- Chapitres du Livre III : **{len(chapter_entries['III'])}**",
         f"- Identifiants uniques : **{len(ids)}**",
         f"- Erreurs bloquantes : **{len(errors)}**",
         f"- Avertissements : **{len(warnings)}**", "",
-        "## Doublons par chapitre du Livre II", "",
+        "## Doublons par chapitre des Livres II et III", "",
         "| Chapitre | Lignes | Titres | Blocs significatifs | Titres dupliqués | Blocs dupliqués | Paragraphes dupliqués |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]

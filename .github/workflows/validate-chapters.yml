@@ -8,6 +8,9 @@ on:
     paths:
       - "Livre-II/**/*.md"
       - "Livre-II/index.md"
+      - "Livre-III/**/*.md"
+      - "Livre-III/index.md"
+      - "plans/LIVRE-III-PLAN-MAITRE.md"
       - "contents.txt"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
