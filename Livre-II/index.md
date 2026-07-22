@@ -2,7 +2,7 @@
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
 status: "in-progress"
-version: "1.21.0"
+version: "1.22.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -61,7 +61,7 @@ Project Asteria
 27. [Tests unitaires, tests d’intégration et simulations](CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md) — **rédigé, repéré, expliqué bloc par bloc, suites, doubles et simulations déterministes documentés, audité au niveau static-review**
 28. [Journalisation, diagnostic et reproductibilité](CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md) — **rédigé, repéré, expliqué bloc par bloc, journaux structurés, métriques, traces et paquets de reproduction documentés, audité au niveau static-review**
 29. [Automatisation Python et génération de données](CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md) — **rédigé, repéré, expliqué bloc par bloc, environnements, CLI, schémas, génération déterministe, reprise et artefacts reproductibles documentés, audité au niveau static-review**
-30. Architecture Solo et architecture Studio — à rédiger
+30. [Architecture Solo et architecture Studio](CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md) — **rédigé, repéré, expliqué bloc par bloc, profils Solo et Studio, gouvernance, qualification des dépendances et plan du Starter Kit documentés, audité au niveau static-review**
 
 ## Audit post-création
 
@@ -96,6 +96,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 27](QA/AUDIT-CHAPITRE-27.md) ;
 - [audit du chapitre 28](QA/AUDIT-CHAPITRE-28.md) ;
 - [audit du chapitre 29](QA/AUDIT-CHAPITRE-29.md) ;
+- [audit du chapitre 30](QA/AUDIT-CHAPITRE-30.md) ;
 - [audit de restructuration des explications, chapitres 17 à 26](QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
@@ -126,11 +127,11 @@ Avant la rédaction d’un nouveau chapitre, la conversation doit annoncer le ni
 - **Moyenne** pour un chapitre principalement descriptif ou linéaire ;
 - **Élevée** pour architecture, code imbriqué, données, IA, sécurité, optimisation ou dépendances nombreuses.
 
-Les chapitres 3 à 29 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
+Les chapitres 3 à 30 ont utilisé **Élevée**. La recommandation doit être justifiée avant le début du travail et reste une donnée de gouvernance du processus, jamais une métadonnée du chapitre publié.
 
 ## Principes du Livre II
 
-Les chapitres 17 à 29 utilisent désormais des explications structurées : les formulations pédagogiques antérieures sont conservées et reclassées, puis complétées seulement lorsque le bloc l’exige. Les parcours Solo et Studio restent en Markdown ordinaire lorsqu’ils ne constituent pas un format littéral.
+Les chapitres 17 à 30 utilisent désormais des explications structurées : les formulations pédagogiques antérieures sont conservées et reclassées, puis complétées seulement lorsque le bloc l’exige. Les parcours Solo et Studio restent en Markdown ordinaire lorsqu’ils ne constituent pas un format littéral.
 
 - Le projet doit rester exécutable après chaque chapitre.
 - Les scènes et scripts sont organisés par fonctionnalité.
@@ -156,4 +157,4 @@ Au 19 juillet 2026 :
 
 ## Statut
 
-Le milestone **M3 — Livre II : Développement et architecture** est en cours. **Vingt-neuf chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les neuf chapitres de fondation, les quatre chapitres de plateforme IA locale et les douze systèmes de gameplay sont complets. La partie industrialisation compte **quatre chapitres sur cinq** : pipelines de contenu, tests et simulations, observabilité et reproductibilité, puis automatisation Python et génération déterministe de données. Les réserves runtime et le PDF restent différés conformément au protocole QA.
+Le milestone **M3 — Livre II : Développement et architecture** est en cours de clôture. **Trente chapitres sur trente** sont rédigés, repérés et audités au niveau documentaire et statique. Les fondations, la plateforme IA locale, les douze systèmes de gameplay et les cinq chapitres d’industrialisation sont complets. Le dernier chapitre consolide les profils Solo et Studio, les responsabilités, les portes de validation et le plan de matérialisation du Starter Kit. La validation transversale, les réserves runtime et le PDF complet restent à traiter.
