@@ -1377,7 +1377,7 @@ func test_small_world_stays_within_operation_budget() -> void:
 - **Rôle précis du bloc :** Le cas mesure des compteurs d’opérations déterministes plutôt qu’une durée CPU très sensible à la machine.
 - **Paramètres et types importants :** Les trois seuils portent sur des nœuds de planification, requêtes et événements en attente.
 - **Invariants protégés :** Une optimisation ne peut pas augmenter sans borne la recherche, les accès persistants ou la file.
-- **Limites et réserves :** La durée réelle (durée de l’horloge système), la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.
+- **Limites et réserves :** La durée réelle (durée basée sur l’horloge système), la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.
 
 ## 45. Catégoriser les suites
 > **[LECTURE] Matrice de suites — Ne pas saisir.**
@@ -1620,7 +1620,7 @@ assert_eq(clock.now_tick(), 12)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans dépendre d’une durée réelle (durée de l’horloge système).
+**Pourquoi la correction fonctionne :** Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans dépendre d’une durée réelle (durée basée sur l’horloge système).
 
 ### 55.3 Utiliser le RNG global
 
