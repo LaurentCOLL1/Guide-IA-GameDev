@@ -1,0 +1,58 @@
+name: Chapter 2 Finalizer Runner
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  finalize:
+    if: github.event.pull_request.head.ref == 'docs/livre-iii-ch02-direction-artistique'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch02-direction-artistique
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Finalize chapter lot
+        run: python .qa/ch02/finalize.py
+
+      - name: Validate chapters without PDF
+        run: python tools/validate_chapters.py --report QA-CHAPTERS.md
+
+      - name: Validate usage markers
+        run: python tools/check_context_markers.py --check
+
+      - name: Audit usage semantics
+        run: python tools/audit_contextes_semantiques.py --check
+
+      - name: Build usage coverage report
+        run: python tools/report_contextes_utilisation.py > QA-CONTEXTES.md
+
+      - name: Assert no PDF was produced
+        shell: bash
+        run: |
+          if find . -type f -iname '*.pdf' -print -quit | grep -q .; then
+            echo 'A PDF was produced during lightweight chapter validation.' >&2
+            exit 1
+          fi
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git reset -- QA-CHAPTERS.md QA-CONTEXTES.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "docs(livre-iii): finaliser le chapitre 2"
+          git push origin HEAD:docs/livre-iii-ch02-direction-artistique
