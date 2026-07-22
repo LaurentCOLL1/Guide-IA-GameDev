@@ -32,8 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-13.md`.
-
 ## 1. Rôle du chapitre
 
 Les chapitres 10 à 12 ont ajouté la mémoire vectorielle, `LocalAiGateway`, un processus compagnon, HTTP, WebSocket et des files de tâches. Le présent chapitre ferme la plateforme IA locale avant le début des systèmes de gameplay.

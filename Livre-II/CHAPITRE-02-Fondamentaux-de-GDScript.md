@@ -33,7 +33,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **État technique vérifié le :** 18 juillet 2026  
 > **Résultat attendu :** lire, écrire, tester et corriger un script GDScript typé simple, sans confondre GDScript avec Python et sans introduire prématurément une architecture globale.  
-> **Audit post-création :** terminé — voir `Livre-II/QA/AUDIT-CHAPITRES-01-02.md`.
 
 ## 1. Rôle du chapitre
 
@@ -137,7 +136,6 @@ Exemple minimal :
 
 ```gdscript
 extends Node
-
 
 func _ready() -> void:
 	print("Bonjour depuis Godot.")
@@ -272,14 +270,11 @@ var _state: State = State.IDLE
 
 @onready var _label: Label = $Label
 
-
 func _ready() -> void:
 	value = initial_value
 
-
 func activate() -> void:
 	_set_state(State.ACTIVE)
-
 
 func _set_state(new_state: State) -> void:
 	_state = new_state
@@ -329,7 +324,6 @@ Les commentaires `##` alimentent la documentation intégrée de Godot.
 class_name HealthPool
 extends RefCounted
 ## Stocke une quantité de points de vie bornée.
-
 
 ## Retire [param amount] points et renvoie la valeur réellement retirée.
 func apply_damage(amount: int) -> int:
@@ -1962,7 +1956,6 @@ var status: Status = Status.UNKNOWN
 var messages: Array[String] = []
 var metrics: Dictionary[StringName, float] = {}
 
-
 func add_message(message: String) -> void:
 	var normalized := message.strip_edges()
 	if normalized.is_empty():
@@ -1972,28 +1965,22 @@ func add_message(message: String) -> void:
 		return
 	messages.append(normalized)
 
-
 func set_metric(key: StringName, value: float) -> void:
 	metrics[key] = value
 
-
 func mark_ready() -> void:
 	status = Status.READY
-
 
 func mark_degraded(reason: String) -> void:
 	status = Status.DEGRADED
 	add_message(reason)
 
-
 func mark_failed(reason: String) -> void:
 	status = Status.FAILED
 	add_message(reason)
 
-
 func is_usable() -> bool:
 	return status == Status.READY or status == Status.DEGRADED
-
 
 func status_text() -> String:
 	match status:
@@ -2007,7 +1994,6 @@ func status_text() -> String:
 			return "failed"
 		_:
 			return "invalid"
-
 
 func summary() -> String:
 	return "status=%s messages=%d metrics=%d" % [
@@ -2033,15 +2019,12 @@ const ROTATION_SPEED: float = 0.5
 
 var _report := BootstrapReport.new()
 
-
 func _ready() -> void:
 	_run_bootstrap_validation()
 	print("%s : %s" % [VALIDATION_ID, _report.summary()])
 
-
 func _process(delta: float) -> void:
 	marker.rotate_y(ROTATION_SPEED * delta)
-
 
 func _run_bootstrap_validation() -> void:
 	if marker == null:

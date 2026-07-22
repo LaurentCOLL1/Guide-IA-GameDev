@@ -32,8 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-11.md`.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 10 a construit une chaîne locale de connaissances en Python : sources canoniques, découpage, embeddings, index Qdrant dérivé, repli lexical et évaluation. Cette chaîne reste volontairement extérieure aux scènes Godot.

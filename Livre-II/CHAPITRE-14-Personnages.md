@@ -32,8 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-14.md`.
-
 ## 1. Rôle du chapitre
 
 Les treize premiers chapitres ont construit les fondations Godot, l’architecture, les données, la persistance et la plateforme IA locale. Le présent chapitre ouvre les douze systèmes de gameplay avec l’objet le plus transversal du jeu : le personnage.

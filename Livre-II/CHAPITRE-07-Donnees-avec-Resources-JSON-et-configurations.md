@@ -33,8 +33,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-07.md`.
-
 ## 1. Rôle du chapitre
 
 Les chapitres précédents ont créé le projet, présenté GDScript, structuré les scènes, défini l’architecture modulaire, construit les services et séparé les entrées du gameplay.

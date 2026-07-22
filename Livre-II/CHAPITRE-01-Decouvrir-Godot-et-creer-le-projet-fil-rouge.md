@@ -35,7 +35,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **État technique vérifié le :** 18 juillet 2026  
 > **Résultat attendu :** installer une version stable et reproductible de Godot, créer le projet fil rouge 3D, comprendre les notions de nœud et de scène, exécuter une première scène et enregistrer une base saine dans Git.  
-> **Audit post-création :** terminé — voir `Livre-II/QA/AUDIT-CHAPITRES-01-02.md`.
 
 ## 1. Rôle de ce chapitre
 
@@ -1000,10 +999,8 @@ const ROTATION_SPEED: float = 0.5
 
 @onready var marker: MeshInstance3D = $Marker
 
-
 func _ready() -> void:
     print("%s : scène principale prête." % VALIDATION_ID)
-
 
 func _process(delta: float) -> void:
     marker.rotate_y(ROTATION_SPEED * delta)

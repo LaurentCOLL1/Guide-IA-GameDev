@@ -32,8 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-15.md`.
-> **Explications de code :** contextualisées bloc par bloc selon la porte QA Q1.1, sans répéter le chemin ou les rappels généraux de syntaxe.
 > **Convention de lecture :** la consigne `[VSC]` placée avant un bloc porte déjà son chemin canonique ; l’explication ne le répète pas. Les annotations GDScript `:` et `->` sont présentées au [chapitre 2](CHAPITRE-02-Fondamentaux-de-GDScript.md) et ne sont rappelées ici que lorsqu’un choix de type ou de retour demande une attention particulière.
 
 ## 1. Rôle du chapitre
@@ -2471,11 +2469,10 @@ var result := social_service.apply_change(command)
 - [ ] Les références de personnages sont validées.
 - [ ] La section prépare toutes les entrées avant application.
 - [ ] Les liens familiaux restent hors du système.
-- [ ] Aucun PDF intermédiaire n’est produit.
 
-## 34. Critères d’acceptation
+## 34. Critères de validation
 
-Le chapitre est acceptable au niveau documentaire lorsque :
+La mise en œuvre respecte le contrat du chapitre lorsque :
 
 1. une relation dirigée peut être identifiée sans nom affiché ;
 2. deux directions divergentes peuvent coexister ;
@@ -2488,34 +2485,9 @@ Le chapitre est acceptable au niveau documentaire lorsque :
 9. le snapshot ne contient ni nœud ni ressource ;
 10. une entrée invalide empêche toute application ;
 11. les frontières avec les chapitres 16, 17, 20, 23 et 25 restent explicites ;
-12. le rapport d’audit post-création documente les réserves runtime.
 
-## 35. Tests à préparer
-
-Le chapitre 27 devra notamment couvrir :
-
-- deux directions indépendantes ;
-- refus d’une auto-relation ;
-- refus d’un personnage inconnu ;
-- bornage de chaque axe ;
-- commande sans effet ;
-- delta excessif ;
-- tick décroissant ;
-- ordre des révisions ;
-- historique limité à `32` ;
-- vue mutuelle complète et incomplète ;
-- création paresseuse ;
-- remplacement atomique du dépôt ;
-- snapshot avec type invalide ;
-- snapshot avec clé inconnue ;
-- doublon de relation ;
-- référence vers un personnage absent du snapshot ;
-- déterminisme de l’ordre sérialisé ;
-- restauration après sauvegarde.
 
 ## 36. Réserves runtime
-
-Ce chapitre reste au niveau `static-review`.
 
 Ne sont pas exécutés ici :
 
@@ -2528,7 +2500,6 @@ Ne sont pas exécutés ici :
 - les lots d’événements mondiaux ;
 - la concurrence ou le multijoueur ;
 - le packaging multi-plateforme ;
-- la compilation PDF de fin de Livre.
 
 ## 37. Résumé
 

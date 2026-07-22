@@ -1,4 +1,4 @@
-# Ordre de compilation officiel
+# Ordre de compilation officiel — contenu destiné au lecteur
 README.md
 Volume-0/index.md
 Volume-0/CHAPITRE-01-Vision-generale-du-projet.md
@@ -12,7 +12,6 @@ Volume-0/CHAPITRE-08-Standards-IA.md
 Volume-0/CHAPITRE-09-Politique-de-compatibilite.md
 Volume-0/CHAPITRE-10-Production-validation-et-publication.md
 Volume-0/CHAPITRE-11-Glossaire-bibliographie-et-index.md
-Volume-0/ASSURANCE-QUALITE-DOCUMENTAIRE.md
 Volume-0/annexes/GLOSSAIRE.md
 Volume-0/annexes/BIBLIOGRAPHIE.md
 Volume-0/annexes/INDEX-ALPHABETIQUE.md
@@ -32,7 +31,6 @@ Livre-I/CHAPITRE-07-ComfyUI-et-workflows-graphiques.md
 Livre-I/CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md
 Livre-I/CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md
 Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md
-Volume-0/QA/AUDIT-VOLUME-0-LIVRE-I.md
 Livre-II/index.md
 Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md
 Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md
@@ -64,39 +62,6 @@ Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
 Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
 Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
 Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
-Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md
-Livre-II/QA/AUDIT-CHAPITRES-01-02.md
-Livre-II/QA/AUDIT-CHAPITRE-03.md
-Livre-II/QA/AUDIT-CHAPITRE-04.md
-Livre-II/QA/AUDIT-CHAPITRE-05.md
-Livre-II/QA/AUDIT-CHAPITRE-06.md
-Livre-II/QA/AUDIT-CHAPITRE-07.md
-Livre-II/QA/AUDIT-CHAPITRE-08.md
-Livre-II/QA/AUDIT-CHAPITRE-09.md
-Livre-II/QA/AUDIT-CHAPITRE-10.md
-Livre-II/QA/AUDIT-CHAPITRE-11.md
-Livre-II/QA/AUDIT-CHAPITRE-12.md
-Livre-II/QA/AUDIT-CHAPITRE-13.md
-Livre-II/QA/AUDIT-CHAPITRE-14.md
-Livre-II/QA/AUDIT-CHAPITRE-15.md
-Livre-II/QA/AUDIT-CHAPITRE-16.md
-Livre-II/QA/AUDIT-CHAPITRE-17.md
-Livre-II/QA/AUDIT-CHAPITRE-18.md
-Livre-II/QA/AUDIT-CHAPITRE-19.md
-Livre-II/QA/AUDIT-CHAPITRE-20.md
-Livre-II/QA/AUDIT-CHAPITRE-21.md
-Livre-II/QA/AUDIT-CHAPITRE-22.md
-Livre-II/QA/AUDIT-CHAPITRE-23.md
-Livre-II/QA/AUDIT-CHAPITRE-24.md
-Livre-II/QA/AUDIT-CHAPITRE-25.md
-Livre-II/QA/AUDIT-CHAPITRE-26.md
-Livre-II/QA/AUDIT-CHAPITRE-27.md
-Livre-II/QA/AUDIT-CHAPITRE-28.md
-Livre-II/QA/AUDIT-CHAPITRE-29.md
-Livre-II/QA/AUDIT-CHAPITRE-30.md
-Livre-II/QA/RAPPORT-VALIDATION-TRANSVERSALE-LIVRE-II.md
-Livre-II/QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md
-Livre-II/QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md
 Livre-III/index.md
 Livre-IV/index.md
 Livre-V/index.md

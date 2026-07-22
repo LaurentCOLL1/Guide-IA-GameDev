@@ -32,9 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-20.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 19 a séparé les définitions de compétences, leur progression et leur état runtime. Il a aussi établi qu’un objet peut accorder une compétence sans devenir propriétaire de ses coûts, effets, charges ou recharges.

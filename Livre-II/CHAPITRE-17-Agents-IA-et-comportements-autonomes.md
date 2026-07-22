@@ -32,9 +32,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Public :** débutant à avancé  
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-17.md`.
-> **Explications de code :** structurées bloc par bloc ; les informations pédagogiques antérieures sont conservées dans des rubriques explicites, complétées seulement lorsque le bloc l’exige.
-
 ## 1. Rôle du chapitre
 
 Les chapitres 14 à 16 ont défini l’identité et l’état des personnages, leurs perceptions sociales et leurs liens familiaux. Aucun de ces systèmes ne doit décider à la place d’un agent.

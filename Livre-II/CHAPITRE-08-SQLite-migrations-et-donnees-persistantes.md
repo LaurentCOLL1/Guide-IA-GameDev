@@ -38,8 +38,6 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Version de référence :** Godot `4.7.1-stable`, édition Standard, GDScript, Forward+  
 > **Addon de référence :** Godot-SQLite `4.7`, licence MIT  
 
-> **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-08.md`.
-
 ## 1. Rôle du chapitre
 
 Le chapitre 7 a séparé les données de conception, la configuration, l’état runtime et la persistance. Il a aussi créé des identifiants stables, des catalogues typés et des objets d’état vivants.
