@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.34.1"
+version: "3.35.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T23:08:24+02:00"
+last-updated: "2026-07-23T00:26:51+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,14 +150,15 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 4 chapitres sur 30.**
+**En cours : 5 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
 3. Références, concept art et ComfyUI — terminé au niveau `static-review`.
 4. Pipeline Blender et organisation des fichiers — terminé au niveau `static-review`.
+5. Provenance, licences et validation des assets — terminé au niveau `static-review`.
 
-Les chapitres 5 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 6 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1313,6 +1314,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - le cube d’un mètre vérifie échelle, orientation, pivot, marqueurs et réimportation dans Godot ;
 - aucune exécution Blender, export, import Godot, réouverture multi-poste ou mesure n’est revendiquée avant matérialisation.
 
+### 11.30 Provenance, licences et validation des assets
+
+- aucun fichier ne devient publiable par simple présence, achat, commande, gratuité ou génération ;
+- chaque asset possède un identifiant stable, une version immuable, une fiche, un statut, des dépendances et un paquet de preuves ;
+- auteur, titulaire de droits, fournisseur, acquéreur et responsable de publication restent des rôles distincts ;
+- droit d’auteur, droits patrimoniaux, droit moral, droits voisins, consentement, données personnelles, image et marques ne sont pas fusionnés ;
+- les licences standards utilisent un identifiant exact lorsque possible ; contrats, boutiques et consentements utilisent `LicenseRef-...` ;
+- commercial, modification, redistributions, attribution, territoire, durée, sous-licence, entraînement et clonage restent séparés ;
+- `unknown`, une contestation ou une dépendance non publiable bloquent la livraison ;
+- les transformations sont append-only et relient entrées, outils, paramètres, sorties et empreintes ;
+- les chaînes IA qualifient application, extensions, modèles, poids, datasets, entrées, workflow, sorties et sélection humaine ;
+- voix, image, interprétation, scan et mocap utilisent des autorisations adaptées et un stockage restreint ;
+- les contrôles automatiques vérifient la structure sans prononcer de conclusion juridique ;
+- la publication exige une décision humaine et un paquet de preuves haché ;
+- un retrait conserve l’historique, gèle les nouvelles livraisons et crée un remplacement versionné ;
+- aucune fiche réelle, licence, contrat, consentement, revue juridique ou CI de provenance n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1612,17 +1630,31 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas installer automatiquement un add-on inconnu ;
 - ne pas déplacer le pivot après publication sans nouvelle version et validation ;
 
+- ne pas considérer qu’un asset gratuit est libre ou redistribuable ;
+- ne pas déduire l’étendue des droits d’une facture ou d’un paiement ;
+- ne pas utiliser `royalty-free`, `free`, `open` ou `AI-generated` comme identifiant de licence ;
+- ne pas fusionner auteur, titulaire, fournisseur et plateforme ;
+- ne pas publier une sortie générée sans qualifier modèles, entrées, workflow et conditions ;
+- ne pas déduire clonage vocal ou entraînement d’une autorisation générale d’enregistrement ;
+- ne pas effacer un asset contesté avec ses preuves ;
+- ne pas accepter un asset dont une dépendance reste bloquée ;
+- ne pas stocker contrats, signatures ou données personnelles dans un dépôt public ;
+- ne pas écraser une licence ancienne sans nouvelle version et requalification ;
+- ne pas confondre empreinte et preuve de validité juridique ;
+- ne pas laisser une décision automatique remplacer la revue humaine ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 4 chapitres sur 30 ;
+- progression du Livre III : 5 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 5 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1660,19 +1692,45 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 4 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pipeline fixe Blender `5.2.0` Stable, les unités, axes, pivots, collections, bibliothèques, versions, chemins, exports GLB/glTF et la porte d’import Godot. Aucun template réel, cube pilote, export, import, test multi-poste ou benchmark n’est revendiqué comme exécuté.
+Le chapitre 5 du Livre III est rédigé, repéré et audité au niveau `static-review`. La politique de provenance distingue auteurs, titulaires, fournisseurs, licences, consentements, données personnelles, chaînes IA, transformations, dépendances, statuts de blocage, publication et retrait. Aucun registre réel, contrat, consentement, asset ou contrôle runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md
+Livre-III/CHAPITRE-06-Creation-des-humains.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 5 établira les fiches d’assets, le registre de provenance, la matrice des licences, les statuts de blocage et les procédures de retrait ou remplacement. Il ne fournira pas d’avis juridique personnalisé.
+Le chapitre 6 produira une base humaine modulaire, crédible, animable et compatible avec les contraintes de personnalisation, de topologie, de matériaux, de LOD et de performance. Les visages, cheveux et vêtements resteront approfondis dans leurs chapitres spécialisés.
+
 ## 27. Journal
+
+### 2026-07-23T00:26:51+02:00 — version 3.35.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire réussie au run `29960812166` sur la tête `ea8f6a6b9c6cd66b9c3a7922d801274e2405f5e7` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8545871720`, digest `b4ae05177e0fc97a7d79cac93c7610046a84db483b0bd8a134032dad9c13083f` ;
+- validation des contextes réussie au run `29961125128` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8545999556`, digest `f701349af7c1e7694d736925e30153a6419b4f32fcf1656d2f3f601b13825d84` ;
+- empreinte SHA-256 du chapitre : `652cdf06964e9354e310fdbb152f9e34dff1f4062b3af313b976901d3ec9d4ec` ;
+- empreinte SHA-256 de l’audit : `b2a7782ead143c01ef1fe4e040365bb1cd4cfeab982e570ea09ac75bedd3ef1f` ;
+- métriques finales : 1 555 lignes, 63 titres, 26 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 6 — Création des humains, niveau Élevée ;
+- aucun registre réel, contrat, consentement, runtime ou PDF du Livre III produits.
+
+### 2026-07-22T23:35:44+02:00 — version 3.35.0
+
+- chapitre 5 du Livre III créé, relu et audité au niveau `static-review` ;
+- auteurs, titulaires, licences, consentements, données personnelles, image, droits voisins et marques distingués ;
+- fiches, registre, preuves, transformations, restrictions, statuts et dépendances documentés ;
+- chaînes IA, voix, scans, mocap, polices, audio, marques et contenus sensibles encadrés ;
+- contrôles structurels, porte humaine de publication, retrait et remplacement définis ;
+- sources institutionnelles françaises, européennes et standards de licences vérifiés au 22 juillet 2026 ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 6 — Création des humains, niveau Élevée ;
+- aucun registre réel, contrat, consentement, runtime ou PDF du Livre III produits.
 
 ### 2026-07-22T23:08:24+02:00 — version 3.34.1
 

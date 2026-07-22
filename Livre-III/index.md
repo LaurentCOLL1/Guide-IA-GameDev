@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -19,8 +19,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 2. [Direction artistique et bible visuelle](CHAPITRE-02-Direction-artistique-et-bible-visuelle.md)
 3. [Références, concept art et ComfyUI](CHAPITRE-03-References-concept-art-et-ComfyUI.md)
 4. [Pipeline Blender et organisation des fichiers](CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md)
+5. [Provenance, licences et validation des assets](CHAPITRE-05-Provenance-licences-et-validation-des-assets.md)
 
-Les chapitres 5 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 6 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 
