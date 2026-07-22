@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH30
-status: pending
+status: complete
 validation-date: '2026-07-22'
-validated-base-commit: c954b098c5178b0855367dc9458c45b9f12b7d5f
-validated-head-commit: pending
+validated-base-commit: 571224c3a5320d093f95ebd2753f1ae38379a788
+validated-head-commit: a588c98caf0ac52147b54e22b5f40dd1525fdada
 chapter:
   id: DOC-L2-CH30
   path: Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1932
   chapter-headings: 39
   chapter-code-and-data-blocks: 65
@@ -57,15 +57,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29896980247
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29896980317
+    conclusion: success
   artifact:
-    id: pending
+    id: 8520345981
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:b096c2146877c7b411e55dc174b1ad9300eb497e5da90b7c15d6c0ffe2196bd9
 reservations:
 - Starter Kit not materialized.
 - Full project not opened with Godot 4.7.1-stable.
@@ -83,4 +83,4 @@ reservations:
 - Complete Livre II PDF not built or inspected.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
