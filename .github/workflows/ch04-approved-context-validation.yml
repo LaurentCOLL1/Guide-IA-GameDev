@@ -9,7 +9,10 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   validate-contexts:
@@ -43,7 +46,6 @@ jobs:
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
       - name: Upload context audit
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: usage-context-audit
@@ -53,3 +55,40 @@ jobs:
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Publish immutable context coordinates on PR 154
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact=''
+          for attempt in $(seq 1 12); do
+            artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
+              --jq '.artifacts[] | select(.name == "usage-context-audit") | [.id, .digest] | @tsv' | head -n1)"
+            if [ -n "$artifact" ]; then break; fi
+            sleep 5
+          done
+          if [ -z "$artifact" ]; then
+            echo 'Artefact usage-context-audit introuvable.' >&2
+            exit 1
+          fi
+          artifact_id="${artifact%%$'\t'*}"
+          artifact_digest="${artifact#*$'\t'}"
+          validated_head="$(gh api "repos/${GITHUB_REPOSITORY}/pulls/154" --jq '.head.sha')"
+          validated_merge="$(git rev-parse HEAD)"
+          body="$(cat <<EOF
+          <!-- ch04-approved-context-validation -->
+          **Validation approuvée des contextes du chapitre 4 — succès**
+
+          - run-id: \`${GITHUB_RUN_ID}\`
+          - run-url: \`${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\`
+          - validated-head: \`${validated_head}\`
+          - validated-merge: \`${validated_merge}\`
+          - artifact-name: \`usage-context-audit\`
+          - artifact-id: \`${artifact_id}\`
+          - artifact-digest: \`${artifact_digest}\`
+          - conclusion: \`success\`
+          EOF
+          )"
+          gh pr comment 154 --body "$body"
