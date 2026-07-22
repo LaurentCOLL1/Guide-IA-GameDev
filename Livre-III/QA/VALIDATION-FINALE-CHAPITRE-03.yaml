@@ -77,5 +77,5 @@ reservations:
   - VRAM, runtime, batch size and performance not measured.
   - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: 774ed65b899765a9451c2c4b7aabaca10f64a0b8
+  conclusion: success
