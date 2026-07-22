@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.29.0"
+version: "3.29.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T04:30:00+02:00"
+last-updated: "2026-07-22T05:14:39+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 27 chapitres sur 30.**
+**En cours : 29 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -144,8 +144,8 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 26. Outils d’édition internes et pipelines de contenu — terminé au niveau `static-review`.
 27. Tests unitaires, tests d’intégration et simulations — terminé au niveau `static-review`.
-28. Journalisation, diagnostic et reproductibilité.
-29. Automatisation Python et génération de données.
+28. Journalisation, diagnostic et reproductibilité — terminé au niveau `static-review`.
+29. Automatisation Python et génération de données — terminé au niveau `static-review`.
 30. Architecture Solo et architecture Studio.
 
 ### Livres III à V et Companion Pack
@@ -190,7 +190,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 27 : **Élevée**.
+Chapitres 3 à 29 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -1485,8 +1485,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un retry automatique pour masquer un test instable ;
 - ne pas oublier de borner les attentes de signaux, le nombre de ticks et les files simulées ;
 - ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;
-- ne pas employer le calque `durée murale` ; utiliser `durée réelle (durée basée sur l’horloge système)` ;
-- ne pas employer les calques `temps mur`, `temps mural` ou `temps horloge` ; utiliser `temps basé sur l'horloge système` ;
+- ne pas employer les calques `durée murale`, `temps mur`, `temps mural` ou `temps horloge` ; utiliser `durée réelle (durée de l’horloge système)` et `horloge système` selon le contexte ;
 
 - ne pas donner aux journaux, métriques ou traces une autorité métier ;
 - ne pas utiliser l’horloge système pour mesurer une durée ; utiliser un compteur monotone ;
@@ -1568,6 +1567,14 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : synthèse finale du Livre II, architecture de référence pour Mode Solo et Mode Studio, responsabilités, profils d’environnement, conventions de modules, flux de travail, revues, validations, intégration continue, empaquetage, exploitation locale, critères de passage et plan de matérialisation du Starter Kit. Le chapitre 30 consolidera les contrats existants sans créer une nouvelle autorité transversale.
 
 ## 27. Journal
+
+### 2026-07-22T05:14:39+02:00 — version 3.29.1
+
+- compteur supérieur du Livre II aligné sur 29 chapitres sur 30 ;
+- chapitres 28 et 29 marqués terminés au niveau `static-review` dans la liste de collection ;
+- plage des niveaux de production alignée sur les chapitres 3 à 29 ;
+- terminologie temporelle harmonisée sur `durée réelle (durée de l’horloge système)` et `horloge système` ;
+- aucune modification du chapitre 29, aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-22T04:30:00+02:00 — version 3.29.0
 
