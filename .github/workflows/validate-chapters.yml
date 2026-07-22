@@ -8,6 +8,9 @@ on:
     paths:
       - "Livre-II/**/*.md"
       - "Livre-II/index.md"
+      - "Livre-III/**/*.md"
+      - "Livre-III/index.md"
+      - "plans/LIVRE-III-PLAN-MAITRE.md"
       - "contents.txt"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
@@ -21,7 +24,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
@@ -32,20 +35,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-
-      - name: Apply Livre III chapter finalizer
-        run: |
-          if [ -f .qa/finalize-l3-ch01.py ]; then
-            python3 .qa/finalize-l3-ch01.py
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "docs(livre-iii): finaliser le chapitre 1"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
 
       - name: Install lightweight dependencies
         run: |
