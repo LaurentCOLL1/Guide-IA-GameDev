@@ -78,5 +78,5 @@ reservations:
 - No remote telemetry transmission executed.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: pending
+  commit: e4d4b4a961abf9fde94082237b6ff1b0507d428a
   conclusion: success
