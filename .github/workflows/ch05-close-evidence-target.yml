@@ -22,10 +22,9 @@ permissions:
 jobs:
   close-evidence:
     if: >-
-      (github.event_name == 'push' ||
+      github.event_name == 'push' ||
       (github.event.pull_request.number == 162 &&
-      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences')) &&
-      github.actor != 'github-actions[bot]'
+      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
