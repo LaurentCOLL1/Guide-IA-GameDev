@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.36.1"
+version: "3.36.2"
 lang: "fr-FR"
-last-updated: "2026-07-23T01:16:33+02:00"
+last-updated: "2026-07-23T01:25:59+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1650,12 +1650,13 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 5 chapitres sur 30 ;
+- progression du Livre III : 6 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 5 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 6 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1707,6 +1708,14 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 7 adaptera le contrat de la base humaine à des espèces humanoïdes distinctes, en documentant les écarts anatomiques, profils de rig, compatibilités d’équipement, variations culturelles et tests de silhouette sans produire les créatures non humanoïdes du chapitre 9.
 
 ## 27. Journal
+
+### 2026-07-23T01:25:59+02:00 — version 3.36.2
+
+- correction de cohérence de la section `État courant` après la fusion du chapitre 6 ;
+- progression du Livre III alignée de 5 à 6 chapitres sur 30 ;
+- chapitre 6 ajouté à la liste des versions courantes en `1.0.0`, niveau `static-review` ;
+- prochaine action, preuve QA, empreintes et périmètre documentaire inchangés ;
+- aucun asset, runtime ou PDF produit par cette correction de gouvernance.
 
 ### 2026-07-23T01:16:33+02:00 — version 3.36.1
 
