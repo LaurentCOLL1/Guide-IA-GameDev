@@ -1,0 +1,106 @@
+0.**", "**En cours : 3 chapitres sur 30.**", "collection Livre III")
+text = replace_once(
+    text,
+    "1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.\n"
+    "2. Direction artistique et bible visuelle — terminé au niveau `static-review`.\n\n"
+    "Les chapitres 3 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.",
+    "1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.\n"
+    "2. Direction artistique et bible visuelle — terminé au niveau `static-review`.\n"
+    "3. Références, concept art et ComfyUI — terminé au niveau `static-review`.\n\n"
+    "Les chapitres 4 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.",
+    "liste Livre III",
+)
+
+architecture = """
+### 11.28 Références, concept art et ComfyUI
+
+- toute collecte commence par une question visuelle et une relation explicite avec la bible ;
+- inspiration, référence, concept, source de production et asset final restent des statuts distincts ;
+- chaque référence retenue possède une provenance, un contexte d’usage, des droits connus ou un état bloqué ;
+- les moodboards sont annotés et produisent des décisions, pas seulement une ambiance ;
+- le workflow ComfyUI JSON, les modèles, custom nodes, paramètres et runs sont versionnés séparément ;
+- une seed n’est reproductible qu’avec l’environnement, le graphe et les paramètres associés ;
+- les custom nodes sont traités comme du code exécutable et qualifiés avant adoption ;
+- les propositions sont critiquées humainement sur l’anatomie, les matériaux, la culture et la fonction ;
+- une image générée ne devient jamais directement une texture, un modèle ou un asset final ;
+- les sorties destinées au partage sont séparées des sources et vérifiées pour leurs métadonnées ;
+- la configuration AMD Windows de référence reste non qualifiée tant qu’aucun test réel n’est exécuté ;
+- le dossier consolidé transmet règles, sources modifiables, inconnues et rapport de sélection aux chapitres de production.
+"""
+if "### 11.28 Références, concept art et ComfyUI" not in text:
+    text = replace_once(text, "\n## 24. Erreurs à ne pas reproduire", architecture + "\n## 24. Erreurs à ne pas reproduire", "architecture chapitre 3")
+
+chapter_errors = """- ne pas collecter des images sans question visuelle ;
+- ne pas employer une référence dont la provenance ou les droits sont inconnus ;
+- ne pas installer automatiquement tous les custom nodes manquants ;
+- ne pas considérer une seed fixe comme une garantie d’identité ;
+- ne pas modifier plusieurs variables dans une même expérience non tracée ;
+- ne pas sélectionner une proposition uniquement parce qu’elle est spectaculaire ;
+- ne pas présenter une image générée comme un asset final ;
+- ne pas ignorer les incohérences anatomiques, matérielles ou culturelles ;
+- ne pas publier une image sans contrôler les métadonnées de workflow qu’elle contient ;
+- ne pas accumuler des variantes sans budget ni règle d’arrêt ;
+
+"""
+if chapter_errors.strip() not in text:
+    text = replace_once(
+        text,
+        "- ne pas oublier la mise à jour de ce fichier.",
+        chapter_errors + "- ne pas oublier la mise à jour de ce fichier.",
+        "erreurs chapitre 3",
+    )
+
+text = replace_once(text, "- progression du Livre III : 2 chapitres sur 30 ;", "- progression du Livre III : 3 chapitres sur 30 ;", "état progression")
+text = replace_once(
+    text,
+    "- chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;",
+    "- chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;\n"
+    "- chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;",
+    "état chapitre 3",
+)
+
+next_section = """## 26. Prochaine action
+
+Le chapitre 3 du Livre III est rédigé, repéré et audité au niveau `static-review`. La chaîne de références et de concepts distingue les statuts, enregistre provenance et droits, versionne les workflows ComfyUI, manifeste modèles et dépendances, puis impose une sélection humaine. Aucun environnement ComfyUI, concept réel, benchmark ou test Godot n’est revendiqué comme exécuté.
+
+Action suivante :
+
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+
+```text
+Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+Niveau GPT-5.6 Sol recommandé : Élevée
+```
+
+Le chapitre 4 qualifiera la version de Blender et les addons, puis fixera unités, axes, échelle, origines, collections, arborescence source/travail/cache/export/archive, formats d’échange et test aller-retour vers Godot. Il ne produira pas encore les assets définitifs.
+"""
+text = regex_once(
+    text,
+    r"## 26\. Prochaine action\n.*?(?=## 27\. Journal)",
+    next_section,
+    "prochaine action",
+    flags=re.S,
+)
+
+journal = f"""### {TIMESTAMP} — version 3.33.0
+
+- chapitre 3 du Livre III créé, relu et audité au niveau `static-review` ;
+- distinctions entre inspiration, référence, concept, source de production et asset final documentées ;
+- registre de provenance, droits d’usage, quarantaine et empreintes définis ;
+- moodboards annotés, planches comparatives et questions visuelles encadrés ;
+- ComfyUI `0.28.0`, workflows JSON, modèles, custom nodes, seeds, paramètres et manifestes documentés ;
+- sélection humaine, contrôles anatomiques, matériels, culturels et fonctionnels définis ;
+- sécurité des extensions, métadonnées de partage, budgets d’itération et règle d’arrêt documentés ;
+- configuration AMD Windows de référence maintenue en réserve runtime ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 4 — Pipeline Blender et organisation des fichiers, niveau Élevée ;
+- aucune exécution ComfyUI ou Godot et aucun PDF du Livre III construits.
+
+"""
+text = replace_once(text, "## 27. Journal\n\n", "## 27. Journal\n\n" + journal, "journal")
+write(path, text)
+
+print(
+    "chapter03_materialized_pending_ci "
+    f"chapter_sha256={chapter_sha} lines={len(chapter_text.splitlines())}"
+)
