@@ -73,3 +73,69 @@ jobs:
             git commit -m "docs(livre-iii): appliquer la gouvernance du chapitre 6"
             git push origin HEAD:"$HEAD_BRANCH"
           fi
+
+      - name: Prepare Chapter 6 context evidence
+        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+          sha256sum \
+            Livre-III/CHAPITRE-06-Creation-des-humains.md \
+            Livre-III/QA/AUDIT-CHAPITRE-06.md \
+            | tee dist/CH06-SHA256.txt
+
+      - name: Upload Chapter 6 context evidence
+        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
+        id: upload_ch06_context
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+            dist/CH06-SHA256.txt
+
+      - name: Record Chapter 6 context coordinates
+        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+          CONTEXT_ARTIFACT_ID: ${{ steps.upload_ch06_context.outputs.artifact-id }}
+          CONTEXT_ARTIFACT_DIGEST: ${{ steps.upload_ch06_context.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          if [[ -f .qa/ch06-context-result.json ]]; then
+            echo "Chapter 6 context result already recorded."
+            exit 0
+          fi
+          chapter_sha="$(awk '/CHAPITRE-06-Creation/{print $1}' dist/CH06-SHA256.txt)"
+          audit_sha="$(awk '/AUDIT-CHAPITRE-06/{print $1}' dist/CH06-SHA256.txt)"
+          digest="${CONTEXT_ARTIFACT_DIGEST#sha256:}"
+          document_head="$(git rev-parse HEAD)"
+          mkdir -p .qa
+          cat > .qa/ch06-context-result.json <<EOF
+          {
+            "document_head": "${document_head}",
+            "context_run_id": ${GITHUB_RUN_ID},
+            "context_artifact_id": ${CONTEXT_ARTIFACT_ID},
+            "context_artifact_digest": "${digest}",
+            "chapter_sha256": "${chapter_sha}",
+            "audit_sha256": "${audit_sha}",
+            "conclusion": "success"
+          }
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .qa/ch06-context-result.json
+          git commit -m "ci(ch06): enregistrer les coordonnées de validation des contextes"
+          git push origin HEAD:"$HEAD_BRANCH"
