@@ -1,0 +1,90 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH04
+status: complete
+validation-date: '2026-07-22'
+validated-base-commit: 662d26de8c548f5c18ea5bba2ea5e1e71943998e
+validated-head-commit: b760a5640c5ae8bd69c1c35aaa38a4d36bf1dec0
+chapter:
+  id: DOC-L3-CH04
+  path: Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1578
+  chapter-headings: 52
+  chapter-code-and-data-blocks: 44
+  significant-code-and-data-blocks: 30
+  code-explanation-markers: 44
+  structured-non-error-code-explanations: 24
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  blender-stable-version-qualified: true
+  no-required-third-party-addon: true
+  canonical-source-documented: true
+  source-work-cache-export-delivery-separated: true
+  metric-unit-contract-documented: true
+  axis-and-model-front-documented: true
+  pivot-and-origin-contract-documented: true
+  collections-and-export-boundary-documented: true
+  link-append-overrides-distinguished: true
+  relative-paths-documented: true
+  versioning-and-backups-documented: true
+  gltf-glb-contract-documented: true
+  direct-blend-import-limits-documented: true
+  blender-static-validator-documented: true
+  bounded-glb-exporter-documented: true
+  godot-import-validation-documented: true
+  roundtrip-documented: true
+  second-machine-reopen-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 6d811877b5d30a3675ba00dae1950d3ad68b4529eeaddb93ab6c5c1027c90c9c
+  audit-sha256: 907d1cfc1ae110990dfe12e6c64727524198727d3ece354941ce292ba15bce7b
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29957934668
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29957934555
+    conclusion: success
+  artifact:
+    id: 8544781576
+    name: chapter-validation-without-pdf
+    digest: a9446929811cbf1d62d55f0ff8340e843ed7f1981d74d469c75c571c3dac1457
+  context-artifact:
+    id: 8544781110
+    name: usage-context-audit
+    digest: 57449276e4cb121519d26e1cf45e4b2dc9f556af64cdb6fdfb592aba893f28dd
+reservations:
+- Blender 5.2.0 not installed or executed for Project Asteria.
+- No real Blender profile or extension inventory captured.
+- Template blend file, linked libraries and overrides not materialized.
+- Real folder tree, manifests and export presets not materialized.
+- One-meter test asset not modeled.
+- Proposed Blender validator and exporter not executed.
+- No GLB or glTF export produced.
+- Source and export hashes not computed on real asset files.
+- Godot import, GDScript validation and visual review not executed.
+- Round-trip and second-machine reopen not executed.
+- Runtime, file size and reliability budgets not measured.
+- Future addon and asset licences not qualified.
+- Detailed licence review deferred to chapter 5.
+- Starter Kit not materialized.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 319d130ab66b6cc51fb131b53a819385191a9b5e
+  conclusion: success
