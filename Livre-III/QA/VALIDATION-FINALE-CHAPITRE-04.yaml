@@ -86,5 +86,5 @@ reservations:
 - Starter Kit not materialized.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: 319d130ab66b6cc51fb131b53a819385191a9b5e
+  conclusion: success
