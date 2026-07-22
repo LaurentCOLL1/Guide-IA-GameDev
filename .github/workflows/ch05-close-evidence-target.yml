@@ -1,6 +1,11 @@
 name: Chapter 5 Targeted Evidence Closure
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch05-close-evidence-target.yml
   pull_request_target:
     branches:
       - main
@@ -17,8 +22,9 @@ permissions:
 jobs:
   close-evidence:
     if: >-
-      github.event.pull_request.number == 162 &&
-      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences' &&
+      (github.event_name == 'push' ||
+      (github.event.pull_request.number == 162 &&
+      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences')) &&
       github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 15
