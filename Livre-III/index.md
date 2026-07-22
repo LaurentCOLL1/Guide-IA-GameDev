@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.0.0"
+version: "1.1.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -16,8 +16,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 ## Chapitres
 
 1. [Préproduction et cahier des charges artistique](CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md)
+2. [Direction artistique et bible visuelle](CHAPITRE-02-Direction-artistique-et-bible-visuelle.md)
 
-Les chapitres 2 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 3 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 

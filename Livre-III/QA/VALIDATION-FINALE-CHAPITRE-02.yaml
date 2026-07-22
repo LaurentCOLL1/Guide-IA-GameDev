@@ -1,0 +1,84 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH02
+status: pending
+validation-date: '2026-07-22'
+validated-base-commit: null
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH02
+  path: Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2560
+  chapter-headings: 59
+  chapter-code-and-data-blocks: 62
+  significant-code-and-data-blocks: 62
+  code-explanation-markers: 62
+  structured-non-error-code-explanations: 42
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  visual-bible-documented: true
+  visual-pillars-documented: true
+  shape-language-documented: true
+  silhouette-and-proportion-rules-documented: true
+  palette-and-non-color-redundancy-documented: true
+  materials-and-wear-causality-documented: true
+  lighting-and-tonemapping-rules-documented: true
+  family-and-variation-rules-documented: true
+  review-grid-and-exceptions-documented: true
+  godot-comparison-scene-contract-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+recovery:
+  source-package-recovered: true
+  package-01-insertion-position: 7805
+  package-01-insertion-character: 'S'
+  chapter-sha256: d5c1d7be7d472d6fec3541ae2b0c6306070d374d281defd71e139b660bcfba23
+  audit-sha256: df5304b3f3a8f24f7d8b21cfe97bcc3915f3272a8b777bf9cad094eb2fcae283
+  chapter-declared-crc: '604d0434'
+  chapter-recovered-crc: '01de0909'
+  missing-original-proof-local-record-bytes: 1083
+  original-proof-regenerated-after-validation: true
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Starter Kit not materialized.
+  - Proposed docs, tools, scenes and captures not created in a real Godot project.
+  - Real visual bible not produced from selected references.
+  - References, authors, licences and rights not populated.
+  - Blender version and addons not qualified.
+  - Pilot assets not produced.
+  - Godot validation scene not materialized.
+  - Camera script not analyzed or executed.
+  - Environment profiles, tonemapper, exposure and fog not exercised.
+  - UI contrasts not measured.
+  - Comparative captures not produced.
+  - GPU, memory and frame-time costs not measured.
+  - Solo or Studio review not executed.
+  - Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending

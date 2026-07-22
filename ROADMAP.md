@@ -112,12 +112,13 @@
 ## M4 — Livre III : Production des contenus et assets
 
 - [x] Chapitre 1 — Préproduction et cahier des charges artistique.
-- [ ] Préproduction et direction artistique — 1 chapitre sur 5.
+- [x] Chapitre 2 — Direction artistique et bible visuelle.
+- [ ] Préproduction et direction artistique — 2 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 1 chapitre rédigé, repéré et audité sur 30.**
+**Statut M4 : en cours — 2 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

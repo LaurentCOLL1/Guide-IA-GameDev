@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.31.0"
+version: "3.32.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T13:55:05+02:00"
+last-updated: "2026-07-22T18:10:53+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,11 +150,12 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 1 chapitre sur 30.**
+**En cours : 2 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
+2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
 
-Les chapitres 2 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 3 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -199,6 +200,8 @@ Justification : …
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
 Chapitres 3 à 29 : **Élevée**.
+
+Livre III, chapitres 1 et 2 : **Élevée**.
 
 À chaque clôture de chapitre, la section **Prochaine action** de `CONTINUITE-PROJET.md` doit contenir dans le même bloc de texte le chemin canonique et la ligne `Niveau GPT-5.6 Sol recommandé : Moyenne ou Élevée`. Le chapitre publié ne contient ni section `Prochaine étape`, ni chemin ou niveau du chapitre suivant : ces informations restent exclusivement dans la continuité du projet.
 
@@ -1263,6 +1266,18 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chaque lot publiable possède provenance, manifeste, SHA-256, rapport et archive vérifiée ;
 - Python orchestre les chapitres 26 à 28 sans acquérir d’autorité métier.
 
+### 11.27 Direction artistique et bible visuelle
+
+- la bible transforme des intentions perceptuelles en règles visuelles observables et versionnées ;
+- formes, silhouettes, proportions, valeurs, saturation, température, matériaux, lumière, profondeur, UI et VFX partagent une grammaire commune ;
+- les signaux gameplay importants restent lisibles sans dépendre de la couleur seule ;
+- les matériaux sont évalués sous plusieurs éclairages et leur usure suit des causes localisées ;
+- les variations culturelles, régionales, sociales et temporelles dérivent de règles communes documentées ;
+- les exemples conformes, limites et non conformes rendent les règles classables par une autre personne ;
+- les exceptions sont écrites, limitées, approuvées et réévaluées ;
+- toute modification influençant coûts ou priorités passe par la demande de changement du chapitre 1 ;
+- la validation cible une scène Godot comparative, mais aucune exécution runtime n’est revendiquée avant matérialisation des assets pilotes.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1528,14 +1543,26 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas considérer SHA-256 comme une preuve d’auteur ou ZIP comme un chiffrement ;
 - ne pas laisser l’orchestrateur Python modifier directement un état métier Godot ;
 
+- ne pas traiter un moodboard comme une bible visuelle ;
+- ne pas employer des adjectifs artistiques sans critère observable ;
+- ne pas maximiser détail, saturation ou contraste sur chaque élément ;
+- ne pas coder une information essentielle par la couleur seule ;
+- ne pas valider un matériau sous un seul éclairage avantageux ;
+- ne pas distribuer usure et salissures sans cause ;
+- ne pas réduire les régions ou cultures à une recoloration aléatoire ;
+- ne pas modifier la bible sans version, propriétaire et conséquences identifiées ;
+- ne pas accepter une dérogation uniquement orale ;
+- ne pas déclarer la direction validée dans Godot avant les assets pilotes et la scène comparative ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 1 chapitre sur 30 ;
+- progression du Livre III : 2 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1573,19 +1600,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 1 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le cahier des charges, la matrice d’assets, les budgets initiaux, le calendrier, les risques et les critères d’acceptation sont définis comme contrats de préproduction. Aucun asset, pipeline Blender ou benchmark runtime n’est revendiqué comme matérialisé.
+Le chapitre 2 du Livre III est rédigé, repéré et audité au niveau `static-review`. La bible visuelle formalise formes, silhouettes, proportions, palettes, matériaux, lumière, profondeur, UI, VFX, variations, grilles de revue et dérogations. Aucun asset pilote, benchmark ou test Godot n’est revendiqué comme exécuté.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
+Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 2 transformera les objectifs perceptuels du cahier des charges en bible visuelle : références, formes, proportions, palettes, matériaux, lumière, caméras de comparaison, règles d’inclusion et d’exclusion. Il ne modifiera ni les budgets ni les priorités sans demande de changement explicite.
+Le chapitre 3 organisera les références légalement sourcées, les moodboards annotés et les workflows ComfyUI versionnés avec modèles, seeds, prompts et paramètres. Il distinguera référence, concept, source de production et asset final, puis imposera une sélection humaine sans modifier silencieusement la bible visuelle.
 ## 27. Journal
+
+### 2026-07-22T18:10:53+02:00 — version 3.32.0
+
+- chapitre 2 du Livre III créé, relu et audité au niveau `static-review` ;
+- bible visuelle, piliers, formes, silhouettes, proportions, palettes, matériaux, lumière, profondeur, UI et VFX documentés ;
+- variations culturelles, régionales, sociales et temporelles encadrées par des règles communes ;
+- exemples conformes, limites et non conformes, grille de revue, dérogations et gestion des changements définis ;
+- scène comparative Godot et captures documentées sans revendiquer leur exécution ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- récupération documentée du chapitre et de l’audit depuis le paquet source ;
+- prochaine action déplacée vers le chapitre 3 — Références, concept art et ComfyUI, niveau Élevée ;
+- aucun PDF du Livre III construit.
+
 
 ### 2026-07-22T13:55:05+02:00 — version 3.31.0
 
