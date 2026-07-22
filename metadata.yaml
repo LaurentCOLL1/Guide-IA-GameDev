@@ -6,6 +6,7 @@ author:
 language: fr-FR
 lang: fr-FR
 documentclass: book
+classoption: openany
 papersize: a4
 fontsize: 11pt
 geometry:
