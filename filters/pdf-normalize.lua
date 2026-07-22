@@ -1,7 +1,7 @@
 -- Normalisation du livrable PDF destiné au lecteur.
 -- Le filtre protège les métadonnées globales, retire quelques pictogrammes
--- absents des polices choisies et exclut les sections de gouvernance QA qui
--- appartiennent au dépôt de conception, pas au manuel commercial.
+-- absents des polices choisies et exclut les éléments de fabrication éditoriale
+-- qui appartiennent au dépôt de conception, pas au manuel commercial.
 
 local function plain_text(block)
   local text = pandoc.utils.stringify(block):lower()
@@ -10,28 +10,57 @@ local function plain_text(block)
   return text
 end
 
-local function is_process_section(header, section_blocks)
-  local heading = plain_text(header)
-  local body_parts = {}
-  for _, block in ipairs(section_blocks) do
-    table.insert(body_parts, plain_text(block))
-  end
-  local body = table.concat(body_parts, " ")
+local process_headings = {
+  "audit post",
+  "audit transversal des contextes d'utilisation",
+  "assurance qualité",
+  "checklist d'audit",
+  "limites de l'audit statique",
+  "niveau de raisonnement",
+  "politique pdf",
+  "tests à préparer",
+}
 
-  if heading:find("audit post", 1, true) or heading:find("checklist d'audit", 1, true) then
+local process_block_phrases = {
+  "rapport d'audit post-création",
+  "rapport d'audit post-creation",
+  "sources principales relues pour l'audit statique",
+  "présent audit documentaire",
+  "present audit documentaire",
+  "cette sortie est une cible documentaire ; elle n'a pas été obtenue dans cet audit",
+  "reste donc au niveau static-review",
+  "reste au niveau static-review",
+  "accepté au niveau static-review",
+  "accepte au niveau static-review",
+  "instructions concernant le chapitre suivant restent exclusivement dans continuite-projet.md",
+  "validation transversale, les réserves runtime et le pdf complet restent à traiter",
+  "un chapitre ne peut être déclaré audité",
+  "un chapitre ne peut etre declare audite",
+  "rapport qa final",
+  "validation transversale et publication du livre ii",
+}
+
+local function is_process_heading(header)
+  local heading = plain_text(header)
+  for _, phrase in ipairs(process_headings) do
+    if heading:find(phrase, 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
+local function is_process_block(block)
+  local text = plain_text(block)
+  if text:match("/qa/")
+     or text:match("audit%-chapitre")
+     or text:match("protocole%-audit%-post%-creation") then
     return true
   end
-  if heading:find("niveau de raisonnement", 1, true) or heading:find("politique pdf", 1, true) then
-    return true
-  end
-  if body:match("livre%-ii/qa/audit%-chapitre") then
-    return true
-  end
-  if body:match("protocole%-audit%-post%-creation") then
-    return true
-  end
-  if body:find("validation transversale et publication du livre ii", 1, true) then
-    return true
+  for _, phrase in ipairs(process_block_phrases) do
+    if text:find(phrase, 1, true) then
+      return true
+    end
   end
   return false
 end
@@ -52,36 +81,20 @@ end
 
 function Pandoc(document)
   local output = pandoc.List()
-  local blocks = document.blocks
-  local index = 1
+  local skipped_level = nil
 
-  while index <= #blocks do
-    local block = blocks[index]
+  for _, block in ipairs(document.blocks) do
     if block.t == "Header" then
-      local level = block.level
-      local section = pandoc.List()
-      local cursor = index + 1
-      while cursor <= #blocks do
-        local candidate = blocks[cursor]
-        if candidate.t == "Header" and candidate.level <= level then
-          break
-        end
-        section:insert(candidate)
-        cursor = cursor + 1
+      if skipped_level ~= nil and block.level <= skipped_level then
+        skipped_level = nil
       end
-
-      if not is_process_section(block, section) then
-        output:insert(block)
-        output:extend(section)
-      end
-      index = cursor
-    else
-      local text = plain_text(block)
-      if not text:match("livre%-ii/qa/audit%-chapitre")
-         and not text:match("protocole%-audit%-post%-creation") then
+      if skipped_level == nil and is_process_heading(block) then
+        skipped_level = block.level
+      elseif skipped_level == nil then
         output:insert(block)
       end
-      index = index + 1
+    elseif skipped_level == nil and not is_process_block(block) then
+      output:insert(block)
     end
   end
 
