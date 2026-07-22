@@ -1,0 +1,33 @@
+name: Chapter 2 Source Artifact
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  archive-source:
+    if: github.event.pull_request.head.ref == 'docs/livre-iii-ch02-direction-artistique'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+
+      - name: Upload untouched source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch02-source-${{ github.event.pull_request.head.sha }}
+          path: |
+            .qa/ch02/package-*.b64
+            .qa/ch02/bundle-*.b64
+            .qa/ch02/chunk-*.b64
+            .qa/ch02/finalize.py
+            .qa/ch02/finalizer-error.txt
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
