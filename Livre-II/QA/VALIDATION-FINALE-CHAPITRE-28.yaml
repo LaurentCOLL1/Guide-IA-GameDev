@@ -1,0 +1,82 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH28
+status: complete
+validation-date: '2026-07-22'
+validated-base-commit: c0ed98465f8d6bd59b416387864f01d3283ea3a1
+validated-head-commit: da0524e373f48c8b9ef7495399bac229918fa7f8
+chapter:
+  id: DOC-L2-CH28
+  path: Livre-II/CHAPITRE-28-Journalisation-diagnostic-et-reproductibilite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2091
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 67
+  code-explanation-markers: 67
+  structured-non-error-code-explanations: 47
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  structured-logging-documented: true
+  stable-event-catalog-documented: true
+  severity-policy-documented: true
+  utc-and-monotonic-time-separated: true
+  opaque-correlation-identifiers: true
+  causality-documented: true
+  secret-redaction-and-allowlist: true
+  bounded-jsonl-sink: true
+  threaded-engine-logger-documented: true
+  low-cardinality-metrics: true
+  bounded-traces-and-sampling: true
+  unclean-session-marker-documented: true
+  reproduction-manifest-documented: true
+  sha256-integrity-documented: true
+  zip-package-without-false-encryption-claim: true
+  explicit-consent-before-export: true
+  offline-support-documented: true
+  chapter-27-artifacts-consumed-without-redefinition: true
+  solo-studio-rendered-as-markdown: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  forbidden-wall-clock-calques-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29882825771
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29882825815
+    conclusion: success
+  artifact:
+    id: 8515408912
+    name: chapter-validation-without-pdf
+    digest: sha256:a23b5c03cda7db7868130dc66ecfe123a4229b46347d3a2aac57f331d00713be
+reservations:
+- Godot parser not executed.
+- Observability scripts not materialized.
+- Custom Logger not registered in a running Godot process.
+- Thread synchronization not exercised.
+- JSONL persistence and flush not platform-tested.
+- Metrics and traces not exported.
+- Forced termination and native crash not executed.
+- Debug symbols not produced or tested.
+- ZIP packages not created or reopened.
+- Consent UI not materialized.
+- No OpenTelemetry collector installed.
+- No remote telemetry transmission executed.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: e4d4b4a961abf9fde94082237b6ff1b0507d428a
+  conclusion: success
