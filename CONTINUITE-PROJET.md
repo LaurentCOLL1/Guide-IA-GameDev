@@ -1455,8 +1455,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un retry automatique pour masquer un test instable ;
 - ne pas oublier de borner les attentes de signaux, le nombre de ticks et les files simulées ;
 - ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;
-- ne pas employer les calques `durée murale` ; utiliser `durée réelle (durée basées sur l’horloge système)` ;
-- ne pas employer les calques `temps mur`, `temps mural` ou `temps horloge` ; utiliser `temps basées sur l'horloge système` ;
+- ne pas employer le calque `durée murale` ; utiliser `durée réelle (durée basée sur l’horloge système)` ;
+- ne pas employer les calques `temps mur`, `temps mural` ou `temps horloge` ; utiliser `temps basé sur l'horloge système` ;
 
 - ne pas oublier la mise à jour de ce fichier.
 
