@@ -60,8 +60,8 @@
 - [x] Fondations Godot, GDScript, architecture et données — 9 chapitres rédigés, repérés et audités sur 9.
 - [x] Plateforme IA locale — 4 chapitres rédigés, repérés et audités sur 4.
 - [x] Douze grands systèmes de jeu — 12 chapitres rédigés, repérés et audités sur 12.
-- [ ] Industrialisation du projet — 3 chapitres rédigés, repérés et audités sur 5.
-- [x] Convention des outils et contextes appliquée aux chapitres 1 à 28.
+- [ ] Industrialisation du projet — 4 chapitres rédigés, repérés et audités sur 5.
+- [x] Convention des outils et contextes appliquée aux chapitres 1 à 29.
 - [x] Audit anti-doublon et approfondissement pédagogique du chapitre 2.
 - [x] Chapitre 3 — scènes, nœuds, Resources et signaux — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 4 — architecture modulaire, arborescence, dépendances et ADR — rédigé et audité au niveau `static-review`.
@@ -88,6 +88,7 @@
 - [x] Chapitre 26 — plugins d’éditeur, docks, inspecteurs, validation, importeurs, provenance, staging et pipelines de contenu — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 27 — tests unitaires, intégration, doubles, fixtures, simulations déterministes, non-régression et critères de passage — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 28 — journalisation structurée, sévérité, corrélation, causalité, métriques, traces, rédaction, paquets de diagnostic et support hors ligne — rédigé et audité au niveau `static-review`.
+- [x] Chapitre 29 — environnement Python, CLI typées, schémas, génération déterministe, orchestration, parallélisme borné, checkpoints, manifestes et archives reproductibles — rédigé et audité au niveau `static-review`.
 - [x] Chapitre 24 — domaines, parcelles, liens de tenure, bâtiments, chantiers, matériaux, production, entretien, permissions et sauvegarde — rédigé et audité au niveau `static-review`.
 - [x] Clarification du chapitre 17 — intervalles nominaux explicités, codes de retour distingués des erreurs pédagogiques et échéances reportées conservées.
 - [x] Correction de clôture du chapitre 17 — prochaine étape réservée à la continuité et synthèse finale consacrée à `Project Asteria`.
@@ -104,7 +105,7 @@
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
 - [ ] Validation technique, documentaire et compilation du Livre II complet.
 
-**Statut M3 : en cours — 28 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base actuelle de `Project Asteria`. Les fondations, la plateforme IA locale et les douze systèmes de gameplay sont documentés. Les trois premiers chapitres d’industrialisation couvrent les pipelines de contenu, les tests déterministes, puis la journalisation structurée, les métriques, les traces et les paquets de reproduction minimisés. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
+**Statut M3 : en cours — 29 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé, Forward+ et CPython 3.14.6 constituent la base actuelle de `Project Asteria`. Les fondations, la plateforme IA locale et les douze systèmes de gameplay sont documentés. Les quatre premiers chapitres d’industrialisation couvrent les pipelines de contenu, les tests déterministes, l’observabilité et les paquets de reproduction, puis l’automatisation Python, les schémas et la génération déterministe de données. Le workflow léger valide chaque chapitre sans PDF ; la publication complète reste différée à la fin du Livre II.
 
 ## M4 — Livre III : Production des contenus et assets
 

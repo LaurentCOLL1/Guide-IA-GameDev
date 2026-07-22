@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.28.0"
+version: "3.29.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T03:13:32+02:00"
+last-updated: "2026-07-22T04:30:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1219,6 +1219,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - les exécutions headless conservent les codes de sortie et publient les rapports JUnit et artefacts de diagnostic ;
 - aucun retry automatique ne masque un test instable ; les services IA et réseaux réels restent hors des suites déterministes.
 
+### 11.24 Journalisation, diagnostic et reproductibilité
+
+- journaux, métriques et traces restent descriptifs et n’acquièrent aucune autorité métier ;
+- les événements utilisent des identifiants stables, des sévérités explicites et une corrélation séparée de la causalité ;
+- UTC décrit un instant civil, un compteur monotone mesure une durée et le tick logique ordonne la simulation ;
+- secrets, jetons, clés, chaînes de connexion, prompts et réponses IA brutes sont exclus des exports ;
+- métriques et traces utilisent une cardinalité bornée et des politiques d’échantillonnage conservant les événements graves ;
+- le logger moteur multithread écrit dans une file protégée sans rappel récursif de la journalisation ;
+- un marqueur de session non fermé indique une fin non propre possible, jamais une preuve certaine de crash ;
+- les paquets de diagnostic utilisent une liste fermée, des chemins relatifs, un manifeste, des empreintes et un consentement explicite ;
+- ZIP est un conteneur compressé et ne constitue ni un chiffrement ni une signature ;
+- le support hors ligne reste possible sans transmission distante obligatoire.
+
+### 11.25 Automatisation Python et génération de données
+
+- CPython 3.14.6 constitue la référence documentaire du paquet `asteria-tools` ;
+- les environnements utilisent `venv`, `pyproject.toml` et des verrous séparés lorsque la plateforme l’exige ;
+- `pip lock` reste expérimental et ne devient obligatoire qu’après validation dans le Starter Kit ;
+- les CLI utilisent `argparse`, des codes de sortie stables et des chemins `Path` confinés ;
+- configurations TOML, instances JSON, checkpoints et manifestes portent une version ;
+- JSON Schema Draft 2020-12 valide les échanges sans remplacer les règles métier ;
+- les générateurs utilisent des RNG locaux, des graines dérivées, des identités et des ordres stables ;
+- les écritures passent par staging, validation, empreintes et promotion contrôlée ;
+- les processus externes reçoivent une liste d’arguments, `shell=False`, des délais et leurs codes non nuls conservés ;
+- le parallélisme est borné et les résultats sont réordonnés canoniquement ;
+- une reprise exige un plan identique et des empreintes valides ;
+- les nouvelles tentatives sont limitées à des erreurs transitoires cataloguées ;
+- chaque lot publiable possède provenance, manifeste, SHA-256, rapport et archive vérifiée ;
+- Python orchestre les chapitres 26 à 28 sans acquérir d’autorité métier.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1469,14 +1499,29 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas échantillonner les événements `ERROR`, `FATAL` ou de sécurité ;
 - ne pas reconstruire un état autoritaire depuis un journal de diagnostic ;
 
+- ne pas utiliser un environnement Python global pour le projet ;
+- ne pas présenter `pip freeze` comme un verrou résolu ;
+- ne pas traiter `pip lock` comme une interface stabilisée tant que son statut reste expérimental ;
+- ne pas accepter une configuration TOML ou JSON sans limite de taille et validation de version ;
+- ne pas construire une commande externe par concaténation ni avec `shell=True` ;
+- ne pas laisser un chemin configuré sortir du workspace autorisé ;
+- ne pas utiliser le RNG global ou `hash()` pour une génération reproductible ;
+- ne pas dépendre de l’ordre du système de fichiers ou de l’ordre de fin des tâches parallèles ;
+- ne pas écrire directement dans les sources ou sorties publiées ; utiliser staging, validation et promotion ;
+- ne pas reprendre une tâche sur la seule présence d’un fichier ; vérifier plan et empreinte ;
+- ne pas retenter sans limite ni retenter une erreur de schéma, d’intégrité ou d’autorité ;
+- ne pas lancer un pool non borné ni utiliser `ProcessPoolExecutor` avec des fonctions non sérialisables ;
+- ne pas considérer SHA-256 comme une preuve d’auteur ou ZIP comme un chiffrement ;
+- ne pas laisser l’orchestrateur Python modifier directement un état métier Godot ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 28 chapitres sur 30 ;
-- industrialisation : 3 chapitres sur 5 ;
+- progression : 29 chapitres sur 30 ;
+- industrialisation : 4 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1502,26 +1547,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 26 : version `1.0.2` ;
 - chapitre 27 : version `1.0.1` ;
 - chapitre 28 : version `1.0.0` ;
+- chapitre 29 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 28 est terminé au niveau `static-review`. La chaîne d’observabilité distingue journaux, métriques, traces et artefacts ; elle encadre sévérité, temps UTC et monotone, corrélation, causalité, minimisation, rétention, intégrité, consentement et support hors ligne sans revendiquer une exécution runtime non réalisée.
+Le chapitre 29 est terminé au niveau `static-review`. L’automatisation Python sépare environnement, configuration, planification, exécution, validation et publication ; elle stabilise graines, ordres, chemins, codes de sortie, checkpoints, empreintes et manifestes sans transférer l’autorité métier aux scripts.
 
 Chapitre suivant :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
+Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Périmètre attendu : environnement Python du projet, scripts et CLI typés, configurations versionnées, orchestration des validations et simulations, génération déterministe de données, validation de schémas, parallélisme borné, reprise sur erreur, manifestes, empreintes et artefacts reproductibles. Le chapitre 29 automatisera les contrats des chapitres 26 à 28 sans transférer d’autorité métier aux scripts.
+Périmètre attendu : synthèse finale du Livre II, architecture de référence pour Mode Solo et Mode Studio, responsabilités, profils d’environnement, conventions de modules, flux de travail, revues, validations, intégration continue, empaquetage, exploitation locale, critères de passage et plan de matérialisation du Starter Kit. Le chapitre 30 consolidera les contrats existants sans créer une nouvelle autorité transversale.
 
 ## 27. Journal
+
+### 2026-07-22T04:30:00+02:00 — version 3.29.0
+
+- chapitre 29 créé, relu et audité au niveau `static-review` ;
+- CPython 3.14.6, environnements virtuels, `pyproject.toml`, verrouillage et CLI typées documentés ;
+- configurations versionnées, JSON Schema, génération déterministe, graines locales et identités stables encadrés ;
+- processus externes, parallélisme borné, reprise par checkpoint, staging, promotion, manifestes et archives vérifiées définis ;
+- chapitres 26 à 28 orchestrés sans transfert d’autorité métier ;
+- progression portée à 29 chapitres sur 30 et prochaine action déplacée vers le chapitre 30 ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-22T03:13:32+02:00 — version 3.28.0
 
