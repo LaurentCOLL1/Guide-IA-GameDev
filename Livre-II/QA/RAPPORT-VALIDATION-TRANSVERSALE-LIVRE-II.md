@@ -2,9 +2,9 @@
 title: "Validation transversale et publication du Livre II"
 id: "DOC-L2-QA-TRANSVERSE-PUBLICATION"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
-last-verified: "2026-07-22T10:11:47+02:00"
+last-verified: "2026-07-22T10:22:13+02:00"
 audit-level: "static-review+pdf-inspected"
 validation-evidence: "Livre-II/QA/VALIDATION-PUBLICATION-LIVRE-II.yaml"
 ---
@@ -15,7 +15,7 @@ validation-evidence: "Livre-II/QA/VALIDATION-PUBLICATION-LIVRE-II.yaml"
 
 La campagne couvre les trente chapitres du Livre II, leurs rapports d’audit, les preuves QA disponibles, l’index du Livre, l’ordre de compilation, les liens et identifiants, les repères d’utilisation, les doublons, la chaîne Pandoc/XeLaTeX et le PDF complet de la collection à l’état de clôture du Livre II.
 
-La preuve contenant le nombre final de pages, l’empreinte SHA-256 et les identifiants GitHub Actions est conservée dans `Livre-II/QA/VALIDATION-PUBLICATION-LIVRE-II.yaml`. Elle n’est pas compilée dans le PDF afin d’éviter une preuve auto-référentielle.
+Les preuves YAML restent versionnées dans le dépôt mais sont exclues de `contents.txt`. Cette séparation évite de présenter au lecteur des pages de données techniques brutes et empêche qu’une preuve modifie le PDF qu’elle décrit. La preuve de publication contenant le nombre final de pages, l’empreinte SHA-256 et les identifiants GitHub Actions est conservée dans `Livre-II/QA/VALIDATION-PUBLICATION-LIVRE-II.yaml`.
 
 ## 2. Validation transversale
 
@@ -26,6 +26,7 @@ La validation confirme :
 - un rapport d’audit référencé et présent pour chaque chapitre, avec rapport groupé autorisé pour les chapitres 1 et 2 ;
 - toutes les preuves finales présentes au dépôt contrôlées sans état `pending` ;
 - trente chapitres du Livre II déclarés dans `contents.txt` ;
+- preuves YAML conservées hors de l’ordre de compilation lecteur ;
 - zéro erreur bloquante dans le validateur documentaire ;
 - zéro doublon de titre, bloc significatif ou paragraphe long dans les chapitres ;
 - zéro bloc sans repère d’utilisation ;
@@ -41,6 +42,8 @@ La compilation utilise `build.sh`, `metadata.yaml`, `contents.txt`, le filtre Lu
 Une première compilation a révélé deux dépendances manquantes (`lmodern.sty` et `rsvg-convert`). Elles ont été ajoutées au runner de publication. La compilation suivante a produit un PDF A4 lisible et extractible.
 
 L’option LaTeX `openany` a été ajoutée à la classe `book`. Elle supprime les pages verso quasi vides qui conservaient un en-tête courant tronqué entre deux chapitres. Le nombre de ces pages parasites est passé de cinquante et une à zéro, hors dernière page normale de la table des matières.
+
+Une inspection ultérieure a révélé que les preuves YAML des chapitres 14 à 30 étaient encore compilées comme du texte. Elles ont été retirées de l’ordre Pandoc sans être supprimées du dépôt.
 
 ## 4. Préflight PDF
 
@@ -62,7 +65,8 @@ L’inspection a couvert :
 - des pages représentatives aux quarts, à la moitié et aux trois quarts du volume ;
 - les trente ouvertures de chapitre du Livre II ainsi que son index ;
 - des pages contenant du code dense, des listes et des explications structurées ;
-- les dernières pages et les index des Livres futurs.
+- le rapport transversal, les audits de clôture et les dernières pages ;
+- les index des Livres futurs.
 
 Aucun texte rogné, chevauchement, tableau hors page, rotation incorrecte, glyphe manquant ou carré noir n’a été retenu. Les titres longs se replient dans les marges et les blocs de code observés restent lisibles.
 
