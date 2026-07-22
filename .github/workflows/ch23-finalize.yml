@@ -11,10 +11,7 @@ permissions:
 
 jobs:
   finalize:
-    if: >-
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      (github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice' ||
-       github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains')
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,124 +19,26 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Finalize supported chapter
+      - name: Finalize chapter 23 when scripts are present
         shell: bash
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
           set -euo pipefail
-
-          if [[ "$HEAD_BRANCH" == "docs/livre-ii-ch23-politique-factions-justice" ]]; then
-            if [[ ! -f .qa/ch23-fix.py ]]; then
-              echo "No chapter 23 finalizer scripts present."
-              exit 0
-            fi
-            python3 .qa/ch23-fix.py
-            python3 .qa/ch23-audit-proof.py
-            python3 .qa/ch23-governance.py
-            python3 -m pip install --disable-pip-version-check --quiet PyYAML
-            mkdir -p dist
-            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
-            python3 tools/check_context_markers.py --check
-            python3 tools/audit_contextes_semantiques.py --check
-            rm -f .qa/ch23-fix.py .qa/ch23-audit-proof.py .qa/ch23-governance.py
-            rm -f .qa/ch23-metrics.json .qa/ch23-finalizer-ready.txt .qa/ch23-finalizer-placeholder.txt
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
-            git push origin HEAD:"$HEAD_BRANCH"
+          if [[ ! -f .qa/ch23-fix.py ]]; then
+            echo "No chapter 23 finalizer scripts present."
             exit 0
           fi
-
-          if [[ "$HEAD_BRANCH" == "docs/livre-iii-ch06-creation-humains" ]]; then
-            if [[ ! -f .qa/ch06-governance.py ]]; then
-              echo "No chapter 6 governance script present."
-              exit 0
-            fi
-            python3 .qa/ch06-governance.py
-            python3 -m pip install --disable-pip-version-check --quiet PyYAML
-            mkdir -p dist
-            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
-            python3 tools/check_code_explanation_structure.py --check
-            python3 tools/check_context_markers.py --check
-            python3 tools/audit_contextes_semantiques.py --check
-            python3 tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
-            rm -f .qa/ch06-governance.py
-            rmdir .qa 2>/dev/null || true
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "docs(livre-iii): appliquer la gouvernance du chapitre 6"
-            git push origin HEAD:"$HEAD_BRANCH"
-          fi
-
-      - name: Prepare Chapter 6 context evidence
-        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
-        shell: bash
-        run: |
-          set -euo pipefail
+          python3 .qa/ch23-fix.py
+          python3 .qa/ch23-audit-proof.py
+          python3 .qa/ch23-governance.py
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
           mkdir -p dist
-          python3 tools/check_context_markers.py --check \
-            | tee dist/QA-CONTEXTES.log
-          python3 tools/audit_contextes_semantiques.py --check \
-            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
-          python3 tools/report_contextes_utilisation.py \
-            | tee dist/QA-CONTEXTES-COUVERTURE.md
-          sha256sum \
-            Livre-III/CHAPITRE-06-Creation-des-humains.md \
-            Livre-III/QA/AUDIT-CHAPITRE-06.md \
-            | tee dist/CH06-SHA256.txt
-
-      - name: Upload Chapter 6 context evidence
-        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
-        id: upload_ch06_context
-        uses: actions/upload-artifact@v4
-        with:
-          name: usage-context-audit
-          if-no-files-found: error
-          retention-days: 30
-          path: |
-            dist/QA-CONTEXTES.log
-            dist/QA-CONTEXTES-SEMANTIQUES.log
-            dist/QA-CONTEXTES-COUVERTURE.md
-            dist/CH06-SHA256.txt
-
-      - name: Record Chapter 6 context coordinates
-        if: github.event.pull_request.head.ref == 'docs/livre-iii-ch06-creation-humains'
-        shell: bash
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
-          CONTEXT_ARTIFACT_ID: ${{ steps.upload_ch06_context.outputs.artifact-id }}
-          CONTEXT_ARTIFACT_DIGEST: ${{ steps.upload_ch06_context.outputs.artifact-digest }}
-        run: |
-          set -euo pipefail
-          if grep -q '^status: complete$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-06.yaml; then
-            echo "Chapter 6 proof is closed; context coordinates will not be recreated."
-            exit 0
-          fi
-          if [[ -f .qa/ch06-context-result.json ]]; then
-            echo "Chapter 6 context result already recorded."
-            exit 0
-          fi
-          chapter_sha="$(awk '/CHAPITRE-06-Creation/{print $1}' dist/CH06-SHA256.txt)"
-          audit_sha="$(awk '/AUDIT-CHAPITRE-06/{print $1}' dist/CH06-SHA256.txt)"
-          digest="${CONTEXT_ARTIFACT_DIGEST#sha256:}"
-          document_head="$(git rev-parse HEAD)"
-          mkdir -p .qa
-          cat > .qa/ch06-context-result.json <<EOF
-          {
-            "document_head": "${document_head}",
-            "context_run_id": ${GITHUB_RUN_ID},
-            "context_artifact_id": ${CONTEXT_ARTIFACT_ID},
-            "context_artifact_digest": "${digest}",
-            "chapter_sha256": "${chapter_sha}",
-            "audit_sha256": "${audit_sha}",
-            "conclusion": "success"
-          }
-          EOF
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          rm -f .qa/ch23-fix.py .qa/ch23-audit-proof.py .qa/ch23-governance.py
+          rm -f .qa/ch23-metrics.json .qa/ch23-finalizer-ready.txt .qa/ch23-finalizer-placeholder.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .qa/ch06-context-result.json
-          git commit -m "ci(ch06): enregistrer les coordonnées de validation des contextes"
-          git push origin HEAD:"$HEAD_BRANCH"
+          git add -A
+          git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
+          git push origin HEAD:${{ github.head_ref }}
