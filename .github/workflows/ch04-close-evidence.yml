@@ -1,0 +1,177 @@
+name: CH04 Close Evidence
+
+on:
+  push:
+    branches:
+      - docs/livre-iii-ch04-pipeline-blender
+    paths:
+      - .github/workflows/ch04-close-evidence.yml
+
+permissions:
+  contents: write
+
+jobs:
+  close-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch04-pipeline-blender
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependency
+        run: python -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Close proof and continuity
+        shell: python
+        run: |
+          from pathlib import Path
+          import yaml
+
+          timestamp = "2026-07-22T23:08:24+02:00"
+          validated_head = "b760a5640c5ae8bd69c1c35aaa38a4d36bf1dec0"
+          chapter_sha = "6d811877b5d30a3675ba00dae1950d3ad68b4529eeaddb93ab6c5c1027c90c9c"
+          audit_sha = "907d1cfc1ae110990dfe12e6c64727524198727d3ece354941ce292ba15bce7b"
+          chapter_run = 29957934668
+          context_run = 29957934555
+          chapter_artifact_id = 8544781576
+          context_artifact_id = 8544781110
+          chapter_digest = "a9446929811cbf1d62d55f0ff8340e843ed7f1981d74d469c75c571c3dac1457"
+          context_digest = "57449276e4cb121519d26e1cf45e4b2dc9f556af64cdb6fdfb592aba893f28dd"
+
+          proof_path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml")
+          proof = yaml.safe_load(proof_path.read_text(encoding="utf-8"))
+          proof["status"] = "complete"
+          proof["validated-head-commit"] = validated_head
+          results = proof["results"]
+          results["blocking-errors"] = 0
+          results["warnings"] = 1
+          results["significant-code-and-data-blocks"] = 30
+          results["duplicate-headings"] = 0
+          results["duplicate-blocks"] = 0
+          results["duplicate-paragraphs"] = 0
+          proof["integrity"]["chapter-sha256"] = chapter_sha
+          proof["integrity"]["audit-sha256"] = audit_sha
+          proof["ci"]["validate-chapters-without-pdf"] = {
+              "run-id": chapter_run,
+              "conclusion": "success",
+          }
+          proof["ci"]["validate-usage-contexts"] = {
+              "run-id": context_run,
+              "conclusion": "success",
+          }
+          proof["ci"]["artifact"] = {
+              "id": chapter_artifact_id,
+              "name": "chapter-validation-without-pdf",
+              "digest": chapter_digest,
+          }
+          proof["ci"]["context-artifact"] = {
+              "id": context_artifact_id,
+              "name": "usage-context-audit",
+              "digest": context_digest,
+          }
+          proof["evidence-closure"] = {"commit": None, "conclusion": "pending"}
+          proof_path.write_text(
+              yaml.safe_dump(proof, sort_keys=False, allow_unicode=True, width=120),
+              encoding="utf-8",
+          )
+
+          continuity_path = Path("CONTINUITE-PROJET.md")
+          continuity = continuity_path.read_text(encoding="utf-8")
+          replacements = {
+              'version: "3.34.0"': 'version: "3.34.1"',
+              'last-updated: "2026-07-22T22:37:42+02:00"': f'last-updated: "{timestamp}"',
+          }
+          for old, new in replacements.items():
+              count = continuity.count(old)
+              if count != 1:
+                  raise RuntimeError(f"Motif de continuité inattendu : {old!r}, trouvé {count}")
+              continuity = continuity.replace(old, new, 1)
+
+          journal = f"""### {timestamp} — version 3.34.1
+
+          - preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+          - validation chapitre réussie au run `{chapter_run}` sur la tête documentaire `{validated_head}` ;
+          - artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `{chapter_artifact_id}`, digest `{chapter_digest}` ;
+          - validation des contextes réussie au run `{context_run}` sur la même tête documentaire ;
+          - artefact `usage-context-audit` enregistré sous l’identifiant `{context_artifact_id}`, digest `{context_digest}` ;
+          - empreinte SHA-256 du chapitre : `{chapter_sha}` ;
+          - empreinte SHA-256 de l’audit : `{audit_sha}` ;
+          - les huit fichiers permanents du lot restent seuls dans la PR ;
+          - prochaine action maintenue au chapitre 5 — Provenance, licences et validation des assets, niveau Élevée ;
+          - aucune exécution Blender ou Godot et aucun PDF du Livre III produits.
+
+          """
+          marker = "## 27. Journal\n\n"
+          if continuity.count(marker) != 1:
+              raise RuntimeError("Marqueur de journal absent ou dupliqué")
+          continuity = continuity.replace(marker, marker + journal, 1)
+          continuity_path.write_text(continuity, encoding="utf-8")
+
+      - name: Validate the closed documentary state
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          python tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo 'Un PDF a été produit pendant la clôture.' >&2
+            exit 1
+          fi
+
+      - name: Commit evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add CONTINUITE-PROJET.md Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+          git commit -m 'docs(qa): fermer la preuve du chapitre 4'
+          git push origin HEAD:docs/livre-iii-ch04-pipeline-blender
+          echo "CLOSURE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Record closure commit in proof
+        shell: python
+        run: |
+          from pathlib import Path
+          import os
+          import yaml
+
+          proof_path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml")
+          proof = yaml.safe_load(proof_path.read_text(encoding="utf-8"))
+          proof["evidence-closure"] = {
+              "commit": os.environ["CLOSURE_SHA"],
+              "conclusion": "success",
+          }
+          proof_path.write_text(
+              yaml.safe_dump(proof, sort_keys=False, allow_unicode=True, width=120),
+              encoding="utf-8",
+          )
+
+      - name: Commit closure coordinates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+          git commit -m 'docs(qa): enregistrer le commit de clôture du chapitre 4'
+          git push origin HEAD:docs/livre-iii-ch04-pipeline-blender
+
+      - name: Remove temporary closure workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/ch04-close-evidence.yml
+          git add -A
+          git commit -m 'chore(ci): retirer le clôtureur temporaire du chapitre 4'
+          git push origin HEAD:docs/livre-iii-ch04-pipeline-blender
