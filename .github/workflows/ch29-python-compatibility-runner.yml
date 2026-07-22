@@ -1,0 +1,115 @@
+name: Chapter 29 Python Compatibility Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  apply-documentation:
+    if: github.event.pull_request.head.ref == 'fix/ch29-python-compatibility'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Install validator dependency
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Apply documentation correction
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 .qa/ch29-python-compatibility/fix.py apply
+          python3 tools/validate_chapters.py --report /tmp/ch29-python-compatibility-QA.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          python3 tools/check_code_explanation_structure.py
+
+      - name: Push intermediate documentation
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): qualify chapter 29 Python targets"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+  compatibility:
+    if: github.event.pull_request.head.ref == 'fix/ch29-python-compatibility'
+    needs: apply-documentation
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python: ['3.14.6', '3.13.14']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout latest correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Set up CPython
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: x64
+          cache: pip
+
+      - name: Install binary distributions only
+        run: |
+          python -m pip install --disable-pip-version-check --upgrade pip
+          python -m pip install --disable-pip-version-check --only-binary=:all: hatchling==1.31.0 jsonschema==4.26.0
+          python -m pip check
+
+      - name: Verify direct and native transitive imports
+        run: python -c "from importlib.metadata import version; import hatchling, jsonschema, rpds; assert version('hatchling') == '1.31.0'; assert version('jsonschema') == '4.26.0'; print({'python': __import__('sys').version, 'hatchling': version('hatchling'), 'jsonschema': version('jsonschema'), 'rpds-py': version('rpds-py')})"
+
+  finalize-documentation:
+    if: github.event.pull_request.head.ref == 'fix/ch29-python-compatibility'
+    needs: compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Install validator dependency
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Record successful hosted matrix
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 .qa/ch29-python-compatibility/fix.py close "${{ github.run_id }}"
+          python3 tools/validate_chapters.py --report /tmp/ch29-python-compatibility-final-QA.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          python3 tools/check_code_explanation_structure.py
+
+      - name: Push permanent correction
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf .qa/ch29-python-compatibility
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(livre-ii): qualify chapter 29 Python compatibility"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
