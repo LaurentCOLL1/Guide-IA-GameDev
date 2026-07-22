@@ -1,12 +1,12 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-PUBLICATION
-status: pending
+status: complete
 validation-date: 2026-07-22
 validated-base-commit: ff349d1fd13f3834ca4b5a0f958fbf061e378883
-validated-head-commit: 9bc96af55cab79f80d6ca5dcee3c81e8d74f9597
+validated-head-commit: 727be3ab7bebb61d7cf140f6f951c78d0c58b81f
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: 727be3ab7bebb61d7cf140f6f951c78d0c58b81f
+  conclusion: success
 book:
   id: LIV-II-INDEX
   path: Livre-II/index.md
@@ -19,33 +19,43 @@ results:
   chapter-identifiers-unique: true
   audit-reports-resolved: true
   available-final-proofs-complete: true
+  reader-proof-yaml-excluded-from-pdf: true
   usage-context-nonconformities: 0
   semantic-context-inconsistencies: 0
   duplicate-headings: 0
   duplicate-significant-blocks: 0
   duplicate-long-paragraphs: 0
-  pandoc-xelatex-build: pending
-  visual-inspection: pending
+  pandoc-xelatex-build: success
+  visual-inspection: success
 pdf:
   path: dist/Guide-IA-GameDev.pdf
-  pages: null
+  pages: 1900
   format: A4
-  pdf-version: null
-  sha256: null
+  pdf-version: "1.5"
+  sha256: deee2431846e52956b616b1022fc6cca7eebbb317c545d2d43457ec0a76048a8
   encrypted: false
   tagged: false
-  text-extractable: null
-  qpdf-check: pending
-  fonts-embedded: null
-  parasitic-chapter-separator-pages: null
+  text-extractable: true
+  qpdf-check: success
+  fonts-embedded: true
+  parasitic-chapter-separator-pages: 0
 ci:
+  validate-chapters-without-pdf:
+    run-id: 29903851364
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29903851581
+    conclusion: success
   publication-workflow:
-    run-id: null
-    conclusion: pending
+    run-id: 29903851313
+    conclusion: success
   artifact:
-    id: null
+    id: 8523054754
     name: livre-ii-publication-candidate
-    digest: null
+    digest: sha256:4e940e867ee99c7020bcb4890d0b9e573b66dd8499a5333a3d40751629c298a1
+  temporary-workflows-cleanup:
+    commit: 5a313206594c3482910138f64ebd5caf04303917
+    conclusion: success
 reservations:
   - Global collection license is undefined and LICENSE.md is absent.
   - PDF accessibility tagging is not implemented; pdfinfo reports Tagged: no.
