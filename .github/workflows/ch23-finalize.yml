@@ -11,10 +11,7 @@ permissions:
 
 jobs:
   finalize:
-    if: >-
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      (github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice' ||
-      github.event.pull_request.head.ref == 'docs/livre-iii-ch05-provenance-licences')
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,58 +19,10 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Finalize supported chapter
+      - name: Finalize chapter 23 when scripts are present
         shell: bash
         run: |
           set -euo pipefail
-
-          if [[ "${GITHUB_HEAD_REF}" == "docs/livre-iii-ch05-provenance-licences" ]]; then
-            if [[ ! -f .qa/ch05-close.py ]]; then
-              echo "No Chapter 5 closure script present."
-              exit 0
-            fi
-
-            python3 -m pip install --disable-pip-version-check --quiet PyYAML
-            python3 .qa/ch05-close.py
-            mkdir -p dist
-            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
-            python3 tools/check_code_explanation_structure.py --check
-            python3 tools/check_context_markers.py --check
-            python3 tools/audit_contextes_semantiques.py --check
-            python3 tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
-            rm -rf dist
-            rm -f .qa/ch05-close.py
-            rmdir .qa 2>/dev/null || true
-
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "docs(qa): fermer la preuve du chapitre 5"
-            closure_sha="$(git rev-parse HEAD)"
-            git push origin HEAD:${GITHUB_HEAD_REF}
-
-            CLOSURE_SHA="$closure_sha" python3 - <<'PY'
-          import os
-          from pathlib import Path
-          import yaml
-
-          path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml")
-          proof = yaml.safe_load(path.read_text(encoding="utf-8"))
-          proof["evidence-closure"] = {
-              "commit": os.environ["CLOSURE_SHA"],
-              "conclusion": "success",
-          }
-          path.write_text(
-              yaml.safe_dump(proof, sort_keys=False, allow_unicode=True, width=120),
-              encoding="utf-8",
-          )
-          PY
-            git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml
-            git commit -m "docs(qa): enregistrer le commit de clôture du chapitre 5"
-            git push origin HEAD:${GITHUB_HEAD_REF}
-            exit 0
-          fi
-
           if [[ ! -f .qa/ch23-fix.py ]]; then
             echo "No chapter 23 finalizer scripts present."
             exit 0
@@ -92,4 +41,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
-          git push origin HEAD:${GITHUB_HEAD_REF}
+          git push origin HEAD:${{ github.head_ref }}
