@@ -1,1 +1,1 @@
-synchronize chapter 2 finalizer
+synchronize chapter 2 finalizer after PR 121
