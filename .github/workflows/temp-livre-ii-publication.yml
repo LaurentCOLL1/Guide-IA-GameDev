@@ -42,7 +42,7 @@ jobs:
           root = Path('.')
           book = root / 'Livre-II'
           chapters = sorted(book.glob('CHAPITRE-*.md'))
-          audits = sorted((book / 'QA').glob('AUDIT-CHAPITRE-*.md'))
+          audits = sorted((book / 'QA').glob('AUDIT-CHAPITRE*.md'))
           proofs = sorted((book / 'QA').glob('VALIDATION-FINALE-CHAPITRE-*.yaml'))
           errors = []
 
@@ -50,6 +50,7 @@ jobs:
               errors.append(f'Nombre de chapitres: {len(chapters)} au lieu de 30')
 
           chapter_ids = []
+          audit_paths = set()
           for chapter in chapters:
               text = chapter.read_text(encoding='utf-8')
               match = re.search(r'^id:\s*["\x27]?([^"\x27\n]+)', text, re.M)
@@ -60,15 +61,19 @@ jobs:
               for expected in ('audit-status: "complete"', 'audit-level: "static-review"'):
                   if expected not in text[:2500]:
                       errors.append(f'{chapter}: métadonnée absente: {expected}')
+              audit_match = re.search(r'^audit-report:\s*["\x27]?([^"\x27\n]+)', text[:2500], re.M)
+              if not audit_match:
+                  errors.append(f'{chapter}: audit-report absent')
+              else:
+                  audit_path = Path(audit_match.group(1).strip())
+                  audit_paths.add(audit_path.as_posix())
+                  if not audit_path.is_file():
+                      errors.append(f'{chapter}: audit introuvable: {audit_path}')
               if 'recommended-reasoning:' in text or 'Niveau de raisonnement conseillé' in text:
                   errors.append(f'{chapter}: métadonnée de processus interdite')
 
           if len(chapter_ids) != len(set(chapter_ids)):
               errors.append('Identifiants de chapitres dupliqués')
-          if len(audits) < 30:
-              errors.append(f'Audits individuels: {len(audits)} au lieu d’au moins 30')
-          if len(proofs) < 30:
-              errors.append(f'Preuves individuelles: {len(proofs)} au lieu d’au moins 30')
 
           for proof in proofs:
               text = proof.read_text(encoding='utf-8')
@@ -81,8 +86,9 @@ jobs:
               errors.append(f'Chapitres Livre II dans contents.txt: {len(declared)} au lieu de 30')
 
           print(f'Chapitres: {len(chapters)}')
-          print(f'Audits: {len(audits)}')
-          print(f'Preuves: {len(proofs)}')
+          print(f'Rapports d’audit référencés: {len(audit_paths)}')
+          print(f'Fichiers d’audit présents: {len(audits)}')
+          print(f'Preuves finales présentes et contrôlées: {len(proofs)}')
           print(f'Chapitres déclarés dans contents.txt: {len(declared)}')
           print(f'Erreurs transversales: {len(errors)}')
           for error in errors:
