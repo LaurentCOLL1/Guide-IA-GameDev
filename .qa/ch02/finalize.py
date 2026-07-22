@@ -3,19 +3,18 @@ from __future__ import annotations
 
 import base64
 import hashlib
-import multiprocessing
-import os
 import re
-import shutil
-import zipfile
-from concurrent.futures import ProcessPoolExecutor
+import struct
+import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 QA = ROOT / ".qa/ch02"
-EXPECTED = "2e9761edfadd9f7dfe93b9653ba5fde0238cb8b769e1448c8cfe81a5c76bc465"
 NOW = "2026-07-22T18:10:53+02:00"
-BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+RECOVERY_POSITION = 7805
+RECOVERY_CHARACTER = "S"
+EXPECTED_CHAPTER_SHA256 = "d5c1d7be7d472d6fec3541ae2b0c6306070d374d281defd71e139b660bcfba23"
+EXPECTED_AUDIT_SHA256 = "df5304b3f3a8f24f7d8b21cfe97bcc3915f3272a8b777bf9cad094eb2fcae283"
 
 
 def replace_once(text: str, old: str, new: str, label: str) -> str:
@@ -26,107 +25,186 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 
 
 def write(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8", newline="\n")
 
 
-def recover_range(
-    body: str,
-    padding: str,
-    start: int,
-    stop: int,
-    expected: str,
-) -> tuple[int, str, bytes] | None:
-    for position in range(start, stop):
-        prefix = body[:position]
-        suffix = body[position:]
-        for char in BASE64_ALPHABET:
-            candidate = prefix + char + suffix + padding
-            payload = base64.b64decode(candidate, validate=True)
-            if hashlib.sha256(payload).hexdigest() == expected:
-                return position, char, payload
-    return None
-
-
-def decode_verified_package() -> bytes:
+def decode_recovered_payload() -> bytes:
     parts = sorted(QA.glob("package-*.b64"))
-    if not parts:
-        raise RuntimeError("aucun fragment package-*.b64")
+    if [part.name for part in parts] != [
+        "package-00.b64",
+        "package-01.b64",
+        "package-02.b64",
+        "package-03.b64",
+    ]:
+        raise RuntimeError("les quatre fragments package-00 à package-03 sont requis")
 
-    texts = ["".join(char for char in part.read_text(encoding="utf-8") if not char.isspace()) for part in parts]
-    encoded = "".join(texts)
-    try:
-        payload = base64.b64decode(encoded, validate=True)
-    except ValueError as initial_error:
-        suspect_indexes = [
-            index
-            for index, (part, text) in enumerate(zip(parts, texts))
-            if part.name == "package-01.b64" and len(text) == 11999
-        ]
-        if len(suspect_indexes) != 1:
-            raise RuntimeError(f"paquet Base64 invalide sans fragment récupérable: {initial_error}") from initial_error
+    texts = [
+        "".join(char for char in part.read_text(encoding="utf-8") if not char.isspace())
+        for part in parts
+    ]
+    if len(texts[1]) != 11999:
+        raise RuntimeError(f"longueur inattendue pour package-01.b64: {len(texts[1])}")
+    texts[1] = (
+        texts[1][:RECOVERY_POSITION]
+        + RECOVERY_CHARACTER
+        + texts[1][RECOVERY_POSITION:]
+    )
+    return base64.b64decode("".join(texts), validate=True)
 
-        suspect_index = suspect_indexes[0]
-        body = encoded.rstrip("=")
-        padding = encoded[len(body):]
-        if len(body) % 4 != 1 or padding != "==":
-            raise RuntimeError(
-                f"forme Base64 inattendue pour récupération: body_mod4={len(body) % 4}, padding={padding!r}"
-            ) from initial_error
 
-        global_start = sum(len(text) for text in texts[:suspect_index])
-        position_count = len(texts[suspect_index]) + 1
-        worker_count = min(4, os.cpu_count() or 1, position_count)
-        chunk_size = (position_count + worker_count - 1) // worker_count
-        ranges: list[tuple[int, int]] = []
-        for worker_index in range(worker_count):
-            start = global_start + worker_index * chunk_size
-            stop = min(global_start + position_count, start + chunk_size)
-            if start < stop:
-                ranges.append((start, stop))
-
-        context = multiprocessing.get_context("fork")
-        matches: list[tuple[int, str, bytes]] = []
-        with ProcessPoolExecutor(max_workers=len(ranges), mp_context=context) as executor:
-            futures = [
-                executor.submit(recover_range, body, padding, start, stop, EXPECTED)
-                for start, stop in ranges
-            ]
-            for future in futures:
-                result = future.result()
-                if result is not None:
-                    matches.append(result)
-
-        if len(matches) != 1:
-            raise RuntimeError(f"récupération Base64 non concluante: {len(matches)} correspondance(s)") from initial_error
-
-        position, char, payload = matches[0]
-        local_position = position - global_start
-        print(
-            "package_recovered "
-            f"file=package-01.b64 local_position={local_position} char={char!r} sha256={EXPECTED}"
+def extract_local_entry(payload: bytes, offset: int) -> tuple[str, bytes, int, int, int]:
+    if payload[offset : offset + 4] != b"PK\x03\x04":
+        raise RuntimeError(f"signature ZIP locale absente à l’offset {offset}")
+    (
+        _signature,
+        _version,
+        _flags,
+        method,
+        _mtime,
+        _mdate,
+        declared_crc,
+        compressed_size,
+        uncompressed_size,
+        name_length,
+        extra_length,
+    ) = struct.unpack_from("<IHHHHHIIIHH", payload, offset)
+    name_start = offset + 30
+    name_end = name_start + name_length
+    name = payload[name_start:name_end].decode("utf-8")
+    data_start = name_end + extra_length
+    data_end = data_start + compressed_size
+    compressed = payload[data_start:data_end]
+    if method == 8:
+        data = zlib.decompress(compressed, -15)
+    elif method == 0:
+        data = compressed
+    else:
+        raise RuntimeError(f"méthode ZIP non prise en charge pour {name}: {method}")
+    if len(data) != uncompressed_size:
+        raise RuntimeError(
+            f"taille extraite inattendue pour {name}: {len(data)} au lieu de {uncompressed_size}"
         )
-
-    digest = hashlib.sha256(payload).hexdigest()
-    if digest != EXPECTED:
-        raise RuntimeError(f"empreinte du paquet inattendue: {digest}")
-    return payload
+    return name, data, data_end, declared_crc, zlib.crc32(data) & 0xFFFFFFFF
 
 
-payload = decode_verified_package()
-archive = QA / "chapter-02.zip"
-archive.write_bytes(payload)
-with zipfile.ZipFile(archive) as zf:
-    bad = zf.testzip()
-    if bad:
-        raise RuntimeError(f"entrée ZIP corrompue: {bad}")
-    zf.extractall(ROOT)
+payload = decode_recovered_payload()
+chapter_name, chapter_data, offset, chapter_declared_crc, chapter_actual_crc = extract_local_entry(payload, 0)
+audit_name, audit_data, offset, audit_declared_crc, audit_actual_crc = extract_local_entry(payload, offset)
 
-chapter = ROOT / "Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md"
-audit = ROOT / "Livre-III/QA/AUDIT-CHAPITRE-02.md"
+expected_chapter_name = "Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md"
+expected_audit_name = "Livre-III/QA/AUDIT-CHAPITRE-02.md"
+if chapter_name != expected_chapter_name or audit_name != expected_audit_name:
+    raise RuntimeError(
+        f"entrées récupérées inattendues: {chapter_name!r}, {audit_name!r}"
+    )
+if payload[offset : offset + 4] != b"PK\x01\x02":
+    raise RuntimeError("le répertoire central attendu après l’audit est absent")
+
+chapter_sha = hashlib.sha256(chapter_data).hexdigest()
+audit_sha = hashlib.sha256(audit_data).hexdigest()
+if chapter_sha != EXPECTED_CHAPTER_SHA256:
+    raise RuntimeError(f"empreinte du chapitre récupéré inattendue: {chapter_sha}")
+if audit_sha != EXPECTED_AUDIT_SHA256:
+    raise RuntimeError(f"empreinte de l’audit récupéré inattendue: {audit_sha}")
+if audit_declared_crc != audit_actual_crc:
+    raise RuntimeError("le CRC de l’audit intact ne correspond pas")
+
+chapter = ROOT / expected_chapter_name
+audit = ROOT / expected_audit_name
 proof = ROOT / "Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml"
-for path in (chapter, audit, proof):
-    if not path.exists():
-        raise RuntimeError(f"fichier extrait absent: {path}")
+chapter.parent.mkdir(parents=True, exist_ok=True)
+audit.parent.mkdir(parents=True, exist_ok=True)
+chapter.write_bytes(chapter_data)
+audit.write_bytes(audit_data)
+
+proof_text = f"""schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH02
+status: pending
+validation-date: '2026-07-22'
+validated-base-commit: null
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH02
+  path: Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2560
+  chapter-headings: 59
+  chapter-code-and-data-blocks: 62
+  significant-code-and-data-blocks: 62
+  code-explanation-markers: 62
+  structured-non-error-code-explanations: 42
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  visual-bible-documented: true
+  visual-pillars-documented: true
+  shape-language-documented: true
+  silhouette-and-proportion-rules-documented: true
+  palette-and-non-color-redundancy-documented: true
+  materials-and-wear-causality-documented: true
+  lighting-and-tonemapping-rules-documented: true
+  family-and-variation-rules-documented: true
+  review-grid-and-exceptions-documented: true
+  godot-comparison-scene-contract-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+recovery:
+  source-package-recovered: true
+  package-01-insertion-position: {RECOVERY_POSITION}
+  package-01-insertion-character: '{RECOVERY_CHARACTER}'
+  chapter-sha256: {chapter_sha}
+  audit-sha256: {audit_sha}
+  chapter-declared-crc: '{chapter_declared_crc:08x}'
+  chapter-recovered-crc: '{chapter_actual_crc:08x}'
+  missing-original-proof-local-record-bytes: 1083
+  original-proof-regenerated-after-validation: true
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+  - Starter Kit not materialized.
+  - Proposed docs, tools, scenes and captures not created in a real Godot project.
+  - Real visual bible not produced from selected references.
+  - References, authors, licences and rights not populated.
+  - Blender version and addons not qualified.
+  - Pilot assets not produced.
+  - Godot validation scene not materialized.
+  - Camera script not analyzed or executed.
+  - Environment profiles, tonemapper, exposure and fog not exercised.
+  - UI contrasts not measured.
+  - Comparative captures not produced.
+  - GPU, memory and frame-time costs not measured.
+  - Solo or Studio review not executed.
+  - Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
+"""
+write(proof, proof_text)
+
 chapter_text = chapter.read_text(encoding="utf-8")
 if "recommended-reasoning" in chapter_text or "Niveau GPT-5.6 Sol" in chapter_text:
     raise RuntimeError("métadonnée de raisonnement interdite dans le chapitre")
@@ -138,6 +216,8 @@ if chapter_text.count("**Exemple fautif :**") != 10 or chapter_text.count("**Exe
     raise RuntimeError("les dix séquences d’erreurs ne sont pas présentes")
 if "## 41. Mode Solo" not in chapter_text or "## 42. Mode Studio" not in chapter_text:
     raise RuntimeError("sections Solo/Studio absentes")
+if "manque de finition" not in chapter_text or "Principe de forme" not in chapter_text:
+    raise RuntimeError("les deux passages de récupération sémantique ne sont pas restaurés")
 
 path = ROOT / "Livre-III/index.md"
 text = path.read_text(encoding="utf-8")
@@ -235,7 +315,8 @@ journal = f"""### {NOW} — version 3.32.0
 - variations culturelles, régionales, sociales et temporelles encadrées par des règles communes ;
 - exemples conformes, limites et non conformes, grille de revue, dérogations et gestion des changements définis ;
 - scène comparative Godot et captures documentées sans revendiquer leur exécution ;
-- index, roadmap, ordre lecteur, plan maître, audit, preuve QA initiale et continuité mis à jour ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- récupération documentée du chapitre et de l’audit depuis le paquet source ;
 - prochaine action déplacée vers le chapitre 3 — Références, concept art et ComfyUI, niveau Élevée ;
 - aucun PDF du Livre III construit.
 
@@ -243,11 +324,15 @@ journal = f"""### {NOW} — version 3.32.0
 text = replace_once(text, "## 27. Journal\n", "## 27. Journal\n\n" + journal, "journal")
 write(path, text)
 
-for temp in QA.glob("*"):
+for temp in list(QA.glob("*")):
     if temp.is_file():
         temp.unlink()
 try:
     QA.rmdir()
 except OSError:
     pass
-print("chapter02_finalized")
+print(
+    "chapter02_materialized_pending_ci "
+    f"chapter_sha256={chapter_sha} audit_sha256={audit_sha} "
+    f"chapter_crc={chapter_actual_crc:08x}"
+)
