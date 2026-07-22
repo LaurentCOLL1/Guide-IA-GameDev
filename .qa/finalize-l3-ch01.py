@@ -23,13 +23,23 @@ for relative, content in data["new_files"].items():
 for operation in data["ops"]:
     path = ROOT / operation["path"]
     text = path.read_text(encoding="utf-8")
-    count = text.count(operation["old"])
+    old = operation["old"]
+    new = operation["new"]
+    count = text.count(old)
+
+    # Les étapes d’un workflow GitHub sont indentées sous `steps:`. Le bundle
+    # conserve leur forme lisible sans indentation ; on la rétablit ici.
+    if count == 0 and operation["label"] == "restore workflow hook":
+        old = "\n".join(("      " + line) if line else "" for line in old.splitlines()) + "\n"
+        new = "\n".join(("      " + line) if line else "" for line in new.splitlines()) + "\n"
+        count = text.count(old)
+
     if count != 1:
         raise RuntimeError(
             f"{operation['label']}: attendu une occurrence, trouvé {count} dans {operation['path']}"
         )
     path.write_text(
-        text.replace(operation["old"], operation["new"], 1),
+        text.replace(old, new, 1),
         encoding="utf-8",
         newline="\n",
     )
