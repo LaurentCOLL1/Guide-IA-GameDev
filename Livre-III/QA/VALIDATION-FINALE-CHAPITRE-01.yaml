@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH01
-status: pending
+status: complete
 validation-date: '2026-07-22'
 validated-base-commit: 598ce8e85993346e1e06cc9b40c94ab4c69d41c8
-validated-head-commit: pending
+validated-head-commit: 564c39926f7a6c4bb07f8820952399bbd962099e
 chapter:
   id: DOC-L3-CH01
   path: Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1692
   chapter-headings: 43
   chapter-code-and-data-blocks: 49
@@ -44,15 +44,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29920403286
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29920403291
+    conclusion: success
   artifact:
-    id: pending
+    id: 8529643627
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:a919c29f6b5c1d218d5a583fd1570f6a7686addcaa1ccd603336ca5cf18601c0
 reservations:
   - Starter Kit not materialized.
   - Proposed art and content files not created in a real Godot project.
