@@ -1,0 +1,39 @@
+name: Chapter 3 Usage Context Audit
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch03-references-concept-art-comfyui
+          fetch-depth: 1
+
+      - name: Install lightweight dependencies
+        run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Run permanent usage-context validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/context
+          python3 tools/check_context_markers.py --check | tee dist/context/QA-CONTEXTES.log
+          python3 tools/audit_contextes_semantiques.py --check | tee dist/context/QA-CONTEXTES-SEMANTIQUES.log
+          python3 tools/report_contextes_utilisation.py | tee dist/context/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Upload usage-context evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: dist/context/
