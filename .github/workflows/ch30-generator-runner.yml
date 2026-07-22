@@ -37,11 +37,22 @@ jobs:
       - name: Validate chapter and governance
         shell: bash
         run: |
-          set -euxo pipefail
-          python3 tools/validate_chapters.py --report /tmp/ch30-QA.md
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          python3 tools/check_code_explanation_structure.py
+          set -o pipefail
+          {
+            set -x
+            python3 tools/validate_chapters.py --report /tmp/ch30-QA.md
+            python3 tools/check_context_markers.py --check
+            python3 tools/audit_contextes_semantiques.py --check
+            python3 tools/check_code_explanation_structure.py
+          } 2>&1 | tee /tmp/ch30-validation.log
+
+      - name: Upload validation diagnostic on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch30-validation-diagnostic
+          path: /tmp/ch30-validation.log
+          if-no-files-found: error
 
       - name: Push generated documentation when needed
         shell: bash
