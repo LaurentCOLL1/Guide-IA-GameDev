@@ -1,0 +1,86 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH30
+status: complete
+validation-date: '2026-07-22'
+validated-base-commit: 571224c3a5320d093f95ebd2753f1ae38379a788
+validated-head-commit: a588c98caf0ac52147b54e22b5f40dd1525fdada
+chapter:
+  id: DOC-L2-CH30
+  path: Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1932
+  chapter-headings: 39
+  chapter-code-and-data-blocks: 65
+  significant-code-and-data-blocks: 59
+  code-explanation-markers: 65
+  structured-non-error-code-explanations: 45
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  solo-studio-common-domain-core: true
+  authority-map-documented: true
+  explicit-composition-root-documented: true
+  service-locator-avoided: true
+  project-organization-documented: true
+  dependency-direction-documented: true
+  typed-architecture-profiles-documented: true
+  solo-operational-profile-documented: true
+  studio-responsibility-profile-documented: true
+  starter-kit-future-dependency-rule-documented: true
+  binary-wheel-qualification-documented: true
+  per-platform-locks-documented: true
+  real-wsl-validation-still-required: true
+  content-staging-and-promotion-documented: true
+  ci-gates-documented: true
+  headless-export-boundaries-documented: true
+  release-manifest-and-provenance-documented: true
+  secrets-and-ai-fallbacks-documented: true
+  incident-and-rollback-documented: true
+  solo-to-studio-transition-documented: true
+  starter-kit-materialization-plan-documented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  forbidden-wall-clock-calques-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: 29896980247
+    conclusion: success
+  validate-usage-contexts:
+    run-id: 29896980317
+    conclusion: success
+  artifact:
+    id: 8520345981
+    name: chapter-validation-without-pdf
+    digest: sha256:b096c2146877c7b411e55dc174b1ad9300eb497e5da90b7c15d6c0ffe2196bd9
+reservations:
+- Starter Kit not materialized.
+- Full project not opened with Godot 4.7.1-stable.
+- GDScript not parsed or executed.
+- Architecture profiles not loaded.
+- Composition graph not instantiated.
+- Export presets and templates not exercised.
+- Windows and Linux packages not built.
+- Real WSL environment not qualified.
+- Future Starter Kit dependencies not yet known.
+- Locks, SBOM and license inventory not generated.
+- Simulations and migrations not executed.
+- Byte reproducibility not measured.
+- Real signatures and provenance not produced.
+- Complete Livre II PDF not built or inspected.
+evidence-closure:
+  commit: e37c07e37949af22cb4f0fa197325c050d5a8313
+  conclusion: success

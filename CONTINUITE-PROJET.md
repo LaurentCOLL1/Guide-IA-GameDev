@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.29.2"
+version: "3.30.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T07:05:00+02:00"
+last-updated: "2026-07-22T07:41:06+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1236,6 +1236,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - CPython 3.14.6 constitue la cible principale provisoire du paquet `asteria-tools`, avec CPython 3.13.14 comme repli ;
 - `hatchling 1.31.0` et `jsonschema 4.26.0` constituent les dépendances directes minimales de qualification ;
+- toute dépendance future ajoutée, supprimée ou mise à jour dans le Starter Kit doit être qualifiée avant adoption : résolution complète, environnement vierge, roues binaires des paquets natifs, contrôle des dépendances, imports et commandes utilisés, tests concernés, verrous par plateforme et série Python, inventaire de licences, SBOM et réserves explicites pour les environnements non exécutés ;
 - la compatibilité doit être vérifiée avec des roues binaires sous Windows et Linux, puis sur un WSL réel avant toute garantie spécifique à WSL ;
 - les piles IA lourdes conservent des environnements Python séparés ;
 - les environnements utilisent `venv`, `pyproject.toml` et des verrous séparés lorsque la plateforme l’exige ;
@@ -1504,6 +1505,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un environnement Python global pour le projet ;
 - ne pas présenter `pip freeze` comme un verrou résolu ;
 - ne pas traiter `pip lock` comme une interface stabilisée tant que son statut reste expérimental ;
+- ne pas adopter une dépendance future du Starter Kit sans qualification explicite des versions Python, plateformes, roues natives, transitives, licences et usages réellement concernés ;
 - ne pas accepter une configuration TOML ou JSON sans limite de taille et validation de version ;
 - ne pas construire une commande externe par concaténation ni avec `shell=True` ;
 - ne pas laisser un chemin configuré sortir du workspace autorisé ;
@@ -1522,8 +1524,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M3 — Livre II ;
-- progression : 29 chapitres sur 30 ;
-- industrialisation : 4 chapitres sur 5 ;
+- progression : 30 chapitres sur 30 ;
+- industrialisation : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
 - chapitre 2 : version `1.5.0` ;
 - chapitres 3 à 6 : version `1.1.0` ;
@@ -1550,26 +1552,38 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 27 : version `1.0.1` ;
 - chapitre 28 : version `1.0.0` ;
 - chapitre 29 : version `1.0.1` ;
+- chapitre 30 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
 
 ## 26. Prochaine action
 
-Le chapitre 29 est terminé au niveau `static-review`. L’automatisation Python sépare environnement, configuration, planification, exécution, validation et publication ; elle stabilise graines, ordres, chemins, codes de sortie, checkpoints, empreintes et manifestes sans transférer l’autorité métier aux scripts.
+Le chapitre 30 est terminé au niveau `static-review`. Les trente chapitres du Livre II sont rédigés, repérés et audités. Les profils Solo et Studio partagent le même cœur métier ; la gouvernance, les responsabilités, les matrices de plateforme et les portes de publication diffèrent sans créer de nouvelle autorité transversale.
 
-Chapitre suivant :
+Action suivante :
 
-> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+> **[LECTURE] Porte de clôture du Livre II — Ne pas saisir.**
 
 ```text
-Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md
-Niveau GPT-5.6 Sol recommandé : Élevée
+Validation technique et documentaire transversale du Livre II
+Compilation Pandoc/XeLaTeX du PDF complet
+Inspection visuelle et fermeture des réserves de publication
 ```
 
-Périmètre attendu : synthèse finale du Livre II, architecture de référence pour Mode Solo et Mode Studio, responsabilités, profils d’environnement, conventions de modules, flux de travail, revues, validations, intégration continue, empaquetage, exploitation locale, critères de passage et plan de matérialisation du Starter Kit. Le chapitre 30 consolidera les contrats existants sans créer une nouvelle autorité transversale.
+La validation de clôture doit contrôler les trente chapitres, les audits, les preuves QA, les liens, les identifiants, les contextes, les doublons, la compilation et un échantillon visuel représentatif du PDF. Elle doit aussi confirmer que la règle de qualification des dépendances futures du Starter Kit est présente dans la continuité et reprise lors de la matérialisation du Companion Pack.
 
 ## 27. Journal
+
+### 2026-07-22T07:41:06+02:00 — version 3.30.0
+
+- règle permanente ajoutée : toute dépendance future du Starter Kit doit être qualifiée avant adoption ;
+- chapitre 30 créé, relu et audité au niveau `static-review` ;
+- profils Solo et Studio consolidés autour d’un même cœur métier ;
+- autorités, dépendances, composition, responsabilités, environnements, revues, CI, exports, incidents et plan de matérialisation documentés ;
+- progression portée à 30 chapitres sur 30 et industrialisation à 5 chapitres sur 5 ;
+- prochaine action déplacée vers la validation transversale et le PDF complet du Livre II ;
+- aucun Starter Kit, test runtime, paquet exporté ou PDF revendiqué comme produit.
 
 ### 2026-07-22T07:05:00+02:00 — version 3.29.2
 
