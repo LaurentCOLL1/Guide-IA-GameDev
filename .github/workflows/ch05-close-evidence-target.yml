@@ -190,3 +190,5 @@ jobs:
           git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-05.yaml
           git commit -m 'docs(qa): enregistrer le commit de clôture du chapitre 5'
           git push origin HEAD:docs/livre-iii-ch05-provenance-licences
+
+# trigger: close chapter 5 evidence
