@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH27
-status: pending
+status: complete
 validation-date: '2026-07-22'
 validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
-validated-head-commit: 4fbc80f92e6ef42518bde6a15521206c70d1ee59
+validated-head-commit: 095388b96a35c6942b6ab2976bf9f075e45da8a4
 chapter:
   id: DOC-L2-CH27
   path: Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
   version: 1.0.1
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1961
   chapter-headings: 74
   chapter-code-and-data-blocks: 64
@@ -42,15 +42,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29878805605
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29878805599
+    conclusion: success
   artifact:
-    id: pending
+    id: 8513972052
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:f92d9ad2736724733468d7dd8ba0c821d01bae803b9d161226f1c21b14ea0472
 reservations:
 - Godot parser not executed.
 - GUT not installed or executed.
@@ -65,4 +65,4 @@ reservations:
 - PDF deferred until end of Livre II.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
