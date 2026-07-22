@@ -4,7 +4,10 @@
 -- appartiennent au dépôt de conception, pas au manuel commercial.
 
 local function plain_text(block)
-  return pandoc.utils.stringify(block):lower()
+  local text = pandoc.utils.stringify(block):lower()
+  text = text:gsub("’", "'")
+  text = text:gsub("‘", "'")
+  return text
 end
 
 local function is_process_section(header, section_blocks)
@@ -15,10 +18,10 @@ local function is_process_section(header, section_blocks)
   end
   local body = table.concat(body_parts, " ")
 
-  if heading:match("audit post") or heading:match("checklist d.audit") then
+  if heading:find("audit post", 1, true) or heading:find("checklist d'audit", 1, true) then
     return true
   end
-  if heading:match("niveau de raisonnement") or heading:match("politique pdf") then
+  if heading:find("niveau de raisonnement", 1, true) or heading:find("politique pdf", 1, true) then
     return true
   end
   if body:match("livre%-ii/qa/audit%-chapitre") then
@@ -27,7 +30,7 @@ local function is_process_section(header, section_blocks)
   if body:match("protocole%-audit%-post%-creation") then
     return true
   end
-  if body:match("validation transversale et publication du livre ii") then
+  if body:find("validation transversale et publication du livre ii", 1, true) then
     return true
   end
   return false
