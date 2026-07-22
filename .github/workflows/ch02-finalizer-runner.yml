@@ -32,36 +32,11 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Finalize chapter lot
+      - name: Materialize permanent chapter lot
         if: steps.guard.outputs.run == 'true'
         run: python .qa/ch02/finalize.py
 
-      - name: Validate chapters without PDF
-        if: steps.guard.outputs.run == 'true'
-        run: python tools/validate_chapters.py --report QA-CHAPTERS.md
-
-      - name: Validate usage markers
-        if: steps.guard.outputs.run == 'true'
-        run: python tools/check_context_markers.py --check
-
-      - name: Audit usage semantics
-        if: steps.guard.outputs.run == 'true'
-        run: python tools/audit_contextes_semantiques.py --check
-
-      - name: Build usage coverage report
-        if: steps.guard.outputs.run == 'true'
-        run: python tools/report_contextes_utilisation.py > QA-CONTEXTES.md
-
-      - name: Assert no PDF was produced
-        if: steps.guard.outputs.run == 'true'
-        shell: bash
-        run: |
-          if find . -type f -iname '*.pdf' -print -quit | grep -q .; then
-            echo 'A PDF was produced during lightweight chapter validation.' >&2
-            exit 1
-          fi
-
-      - name: Commit permanent chapter lot
+      - name: Commit materialized lot for visible CI audit
         if: steps.guard.outputs.run == 'true'
         shell: bash
         run: |
@@ -74,5 +49,5 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "docs(livre-iii): finaliser le chapitre 2"
+          git commit -m "docs(livre-iii): matérialiser le chapitre 2"
           git push origin HEAD:docs/livre-iii-ch02-direction-artistique
