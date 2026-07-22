@@ -31,12 +31,23 @@ jobs:
       - name: Apply documentation correction
         shell: bash
         run: |
-          set -euxo pipefail
-          python3 .qa/ch29-python-compatibility/fix.py apply
-          python3 tools/validate_chapters.py --report /tmp/ch29-python-compatibility-QA.md
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          python3 tools/check_code_explanation_structure.py
+          set -o pipefail
+          {
+            set -x
+            python3 .qa/ch29-python-compatibility/fix.py apply
+            python3 tools/validate_chapters.py --report /tmp/ch29-python-compatibility-QA.md
+            python3 tools/check_context_markers.py --check
+            python3 tools/audit_contextes_semantiques.py --check
+            python3 tools/check_code_explanation_structure.py
+          } 2>&1 | tee /tmp/ch29-python-compatibility-apply.log
+
+      - name: Upload application diagnostic on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch29-python-compatibility-apply-diagnostic
+          path: /tmp/ch29-python-compatibility-apply.log
+          if-no-files-found: error
 
       - name: Push intermediate documentation
         shell: bash
