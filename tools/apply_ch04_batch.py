@@ -1,15 +1,9 @@
 from __future__ import annotations
 
-import base64
-import hashlib
-import lzma
 from pathlib import Path
 
-TIMESTAMP = "2026-07-22T22:25:35+02:00"
+TIMESTAMP = "2026-07-22T22:37:42+02:00"
 CHAPTER = "Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md"
-CHAPTER_SHA256 = "9d8cce0ea1a4ff51405a45117b0843290321fb9108edb2f7325459271a69278b"
-AUDIT_SHA256 = "6edc688a059bac1c1cc9b0bad766a9ca22fed74f739cb83b860abde4e5faf89b"
-PROOF_SHA256 = "c5a0df832d4943a40ae0f13f9f4c40a0d9f191bac987978ff5fdf98702253cc1"
 
 
 def replace_once(path: str, old: str, new: str) -> None:
@@ -21,35 +15,24 @@ def replace_once(path: str, old: str, new: str) -> None:
     target.write_text(content.replace(old, new, 1), encoding="utf-8")
 
 
-def sha256(path: str) -> str:
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def verify_permanent_files() -> None:
+    chapter = Path(CHAPTER).read_text(encoding="utf-8")
+    required = (
+        'id: "DOC-L3-CH04"',
+        'version: "1.0.0"',
+        'blender:\n    version: "5.2.0"',
+        'audit-status: "complete"',
+        '## 41. Références officielles vérifiées',
+    )
+    for marker in required:
+        if marker not in chapter:
+            raise RuntimeError(f"chapitre 4 incomplet: {marker!r}")
+    if "__PLACEHOLDER__" in chapter or "Blender `4.5 LTS`" in chapter:
+        raise RuntimeError("chapitre 4 obsolète ou non matérialisé")
 
-
-def materialize_chapter() -> None:
-    parts = sorted(Path(".qa/ch04").glob("chapter.b85.*"))
-    if [part.name for part in parts] != [
-        "chapter.b85.00",
-        "chapter.b85.01",
-        "chapter.b85.02",
-        "chapter.b85.03",
-    ]:
-        raise RuntimeError(f"paquet incomplet: {[part.name for part in parts]}")
-    encoded = "".join(part.read_text(encoding="ascii") for part in parts)
-    data = lzma.decompress(base64.b85decode(encoded.encode("ascii")))
-    digest = hashlib.sha256(data).hexdigest()
-    if digest != CHAPTER_SHA256:
-        raise RuntimeError(f"empreinte chapitre inattendue: {digest}")
-    Path(CHAPTER).write_bytes(data)
-
-    checks = {
-        CHAPTER: CHAPTER_SHA256,
-        "Livre-III/QA/AUDIT-CHAPITRE-04.md": AUDIT_SHA256,
-        "Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml": PROOF_SHA256,
-    }
-    for path, expected in checks.items():
-        actual = sha256(path)
-        if actual != expected:
-            raise RuntimeError(f"empreinte inattendue pour {path}: {actual} != {expected}")
+    audit = Path("Livre-III/QA/AUDIT-CHAPITRE-04.md").read_text(encoding="utf-8")
+    if "Blender `5.2.0`" not in audit or "1 578" not in audit:
+        raise RuntimeError("audit du chapitre 4 non aligné")
 
 
 def patch_index() -> None:
@@ -129,17 +112,20 @@ def patch_continuity() -> None:
 
     architecture = """### 11.29 Pipeline Blender et organisation des fichiers
 
-- Blender `4.5 LTS` constitue la branche documentaire ; la version corrective réelle est épinglée dans le manifeste d’environnement ;
-- le fichier `.blend` publié reste la source canonique 3D et ne se confond ni avec les caches, ni avec les exports, ni avec les livraisons ;
-- unités métriques, échelle unitaire, face avant, axes, origine, pivot et transforms neutres forment un contrat vérifiable ;
-- les collections distinguent travail, publication et validation ; seule la collection de publication alimente l’export ;
+- Blender `5.2.0` Stable constitue la référence documentaire ; toute mise à jour future repasse par une qualification et un asset pilote ;
+- aucun add-on tiers n’est obligatoire pour le chemin de référence ; une extension future est qualifiée comme du code et une dépendance de production ;
+- le fichier `.blend` reste la source canonique 3D et ne se confond ni avec les caches, ni avec les exports, ni avec les livraisons ;
+- les scènes utilisent le système métrique avec une unité pour un mètre ; `Unit Scale` ne sert pas à réparer une géométrie incorrecte ;
+- les assets orientés regardent vers `-Y` dans Blender et arrivent vers `+Z` dans Godot par la conversion glTF, sans parent correctif ;
+- origines et pivots sont fonctionnels et ne changent pas après publication sans nouvelle version ;
+- les collections distinguent géométrie, rig, sockets, guides et frontière `__EXPORT` unique ;
 - Link conserve l’autorité de la bibliothèque, Append crée une copie locale, et Library Override encadre les adaptations autorisées ;
-- les dépendances utilisent des chemins relatifs et une réouverture sur une autre machine fait partie de la porte de validation ;
-- sources, travail, caches, staging, exports, livraisons et archives occupent des chemins distincts ;
+- les dépendances utilisent des chemins relatifs et une réouverture sur une autre machine fait partie de la porte runtime ;
+- sources, travail, bibliothèques, caches, exports, livraisons et archives occupent des chemins distincts ;
 - les versions approuvées sont immuables, les sauvegardes automatiques ne sont pas des versions publiées ;
-- GLB ou glTF constitue le contrat d’échange explicite vers Godot ; l’import direct `.blend` reste une voie d’itération dépendante de Blender ;
+- GLB constitue la livraison par défaut, glTF séparé répond aux besoins d’inspection, et l’import direct `.blend` reste une voie Solo dépendante de Blender ;
 - tout export cite source, preset, collection, empreinte et autorité de publication ;
-- la scène Godot de calibration vérifie échelle, orientation, pivot et réimportation sans réparer silencieusement la source ;
+- le cube d’un mètre vérifie échelle, orientation, pivot, marqueurs et réimportation dans Godot ;
 - aucune exécution Blender, export, import Godot, réouverture multi-poste ou mesure n’est revendiquée avant matérialisation.
 """
     replace_once(
@@ -151,16 +137,17 @@ def patch_continuity() -> None:
         + "\n## 24. Erreurs à ne pas reproduire",
     )
 
-    errors = """- ne pas utiliser `Unit Scale` comme réparation d’une géométrie ou de transforms incohérents ;
-- ne pas corriger une mauvaise échelle uniquement dans Godot ;
-- ne pas exporter une collection dont le contrat de publication est ambigu ;
-- ne pas versionner des chemins absolus vers des textures ou bibliothèques ;
+    errors = """- ne pas utiliser `Unit Scale` comme réparation d’une géométrie incorrecte ;
+- ne pas ajouter un parent tourné à 90 degrés pour masquer une mauvaise convention d’axes ;
+- ne pas appliquer toutes les transformations sans examiner rigs, contraintes et hiérarchies ;
+- ne pas exporter une sélection manuelle lorsque la collection `__EXPORT` est le contrat ;
+- ne pas versionner des chemins personnels absolus vers des textures ou bibliothèques ;
 - ne pas modifier une donnée liée comme si elle était possédée localement ;
 - ne pas versionner caches, temporaires ou sauvegardes automatiques comme sources ;
 - ne pas écraser une version approuvée ;
-- ne pas livrer uniquement un `.blend` sans manifeste ni contrat d’échange ;
-- ne pas supposer que des réglages d’export mémorisés remplacent un preset contrôlé ;
-- ne pas déplacer le pivot après publication sans nouvelle version et nouvelle validation ;
+- ne pas livrer uniquement un `.blend` en Studio sans GLB contrôlé et manifeste ;
+- ne pas installer automatiquement un add-on inconnu ;
+- ne pas déplacer le pivot après publication sans nouvelle version et validation ;
 
 """
     replace_once(path, "- ne pas oublier la mise à jour de ce fichier.", errors + "- ne pas oublier la mise à jour de ce fichier.")
@@ -196,7 +183,7 @@ Le chapitre 4 qualifiera la version de Blender et les addons, puis fixera unité
 """
     new_next = """## 26. Prochaine action
 
-Le chapitre 4 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pipeline fixe Blender `4.5 LTS`, la source canonique, les unités, axes, pivots, collections, bibliothèques, versions, chemins, exports glTF/GLB et la porte d’import Godot. Aucun template réel, asset de calibration, export, import, test multi-poste ou benchmark n’est revendiqué comme exécuté.
+Le chapitre 4 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pipeline fixe Blender `5.2.0` Stable, les unités, axes, pivots, collections, bibliothèques, versions, chemins, exports GLB/glTF et la porte d’import Godot. Aucun template réel, cube pilote, export, import, test multi-poste ou benchmark n’est revendiqué comme exécuté.
 
 Action suivante :
 
@@ -214,13 +201,13 @@ Le chapitre 5 établira les fiches d’assets, le registre de provenance, la mat
     journal = f"""### {TIMESTAMP} — version 3.34.0
 
 - chapitre 4 du Livre III créé, relu et audité au niveau `static-review` ;
-- Blender `4.5 LTS` qualifié comme branche documentaire, sans version corrective inventée ;
-- template, unités, axes, pivots, transforms, collections, bibliothèques liées et overrides documentés ;
-- arborescence source, travail, cache, staging, export, livraison et archive définie ;
+- Blender `5.2.0` Stable qualifié comme référence documentaire, sans add-on tiers obligatoire ;
+- template, unités, axes, pivots, transformations, collections, bibliothèques liées et overrides documentés ;
+- arborescence source, travail, bibliothèque, cache, export, livraison et archive définie ;
 - conventions de noms, versions, sauvegardes, chemins relatifs et dépendances encadrées ;
 - formats GLB, glTF séparé et import direct `.blend` comparés avec leurs limites ;
-- asset de calibration, validateur Blender, contrat d’export, empreintes et scène Godot de validation documentés ;
-- procédures Solo, Studio, réouverture multi-poste, migration, sécurité et checklists ajoutées ;
+- cube d’un mètre, validateur Blender, exporteur GLB, empreintes et contrôle Godot documentés ;
+- procédures Solo, Studio, réouverture multi-poste, sécurité et checklists ajoutées ;
 - index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
 - prochaine action déplacée vers le chapitre 5 — Provenance, licences et validation des assets, niveau Élevée ;
 - aucune exécution Blender ou Godot et aucun PDF du Livre III construits.
@@ -229,14 +216,28 @@ Le chapitre 5 établira les fiches d’assets, le registre de provenance, la mat
     replace_once(path, "## 27. Journal\n\n", "## 27. Journal\n\n" + journal)
 
 
+def cleanup_temporary_files() -> None:
+    for part in Path(".qa/ch04").glob("chapter.b85.*"):
+        part.unlink()
+    qa_dir = Path(".qa/ch04")
+    if qa_dir.exists() and not any(qa_dir.iterdir()):
+        qa_dir.rmdir()
+    qa_root = Path(".qa")
+    if qa_root.exists() and not any(qa_root.iterdir()):
+        qa_root.rmdir()
+    Path("tools/apply_ch04_batch.py").unlink(missing_ok=True)
+    Path(".github/workflows/ch04-apply-governance.yml").unlink(missing_ok=True)
+
+
 def main() -> None:
-    materialize_chapter()
+    verify_permanent_files()
     patch_index()
     patch_roadmap()
     patch_contents()
     patch_plan()
     patch_continuity()
-    print("CH04_BATCH_APPLIED")
+    cleanup_temporary_files()
+    print("CH04_GOVERNANCE_APPLIED")
 
 
 if __name__ == "__main__":
