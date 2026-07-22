@@ -1,4 +1,4 @@
-run_id: 29939291296
+run_id: 29939559356
 exit_code: 1
 
 Traceback (most recent call last):
@@ -9,3 +9,16 @@ Traceback (most recent call last):
     return binascii.a2b_base64(s, strict_mode=validate)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 binascii.Error: Invalid base64-encoded string: number of data characters (45761) cannot be 1 more than a multiple of 4
+
+--- candidate diagnostics ---
+package: parts=4
+package: encoded_length=45763 data_chars=45763 mod4=3
+package: decode_error=Error: Invalid base64-encoded string: number of data characters (45761) cannot be 1 more than a multiple of 4
+bundle: parts=1
+bundle: encoded_length=8000 data_chars=8000 mod4=0
+bundle: decoded_bytes=6000 sha256=b2b11bf3966d0cb22e77f9c452d5addc9ee7ea9d36b197fb4ac4e2b210eff9a7
+bundle: zip_error=BadZipFile: File is not a zip file
+chunk: parts=1
+chunk: encoded_length=16000 data_chars=16000 mod4=0
+chunk: decoded_bytes=12000 sha256=8534d58756955da0b48383636605748d23cffd45a9f74a15f2d3aa57fd12b19e
+chunk: zip_error=BadZipFile: File is not a zip file
