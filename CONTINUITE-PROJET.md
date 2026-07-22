@@ -559,7 +559,7 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 ### 11.17 Monde vivant et simulation écologique
 
 - `WorldClockState` constitue l’horloge logique globale persistée ;
-- l’heure système, les `Timer` et les durées murales ne sont jamais autoritaires ;
+- l’heure système, les `Timer` et les durées basées sur l'heure réelle ne sont jamais autoritaires ;
 - les régions sont des unités logiques indépendantes des scènes ;
 - définitions de régions, espèces et ressources restent des `Resource` immuables ;
 - populations et réserves sont des états agrégés persistants séparés des représentations ;
@@ -1455,7 +1455,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un retry automatique pour masquer un test instable ;
 - ne pas oublier de borner les attentes de signaux, le nombre de ticks et les files simulées ;
 - ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;
-- ne pas employer les calques `durée murale`, `temps mur`, `temps mural` ou `temps horloge` ; utiliser `durée réelle (durée de l’horloge système)` et `horloge système` ;
+- ne pas employer les calques `durée murale` ; utiliser `durée réelle (durée basées sur l’horloge système)` ;
+- ne pas employer les calques `temps mur`, `temps mural` ou `temps horloge` ; utiliser `temps basées sur l'horloge système` ;
 
 - ne pas oublier la mise à jour de ce fichier.
 
