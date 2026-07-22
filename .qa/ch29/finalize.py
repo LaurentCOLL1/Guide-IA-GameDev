@@ -129,8 +129,19 @@ journal=f'''### {STAMP} — version 3.29.0
 text=replace_once(text,'## 27. Journal\n\n','## 27. Journal\n\n'+journal,'continuity journal')
 write(path,text)
 
+# qualify the semantic error section inside its body
+chapter_path='Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md'
+chapter=read(chapter_path)
+chapter=replace_once(
+    chapter,
+    '<!-- qa:error-correction-section -->\n## 53. Erreurs fréquentes et corrections',
+    '## 53. Erreurs fréquentes et corrections\n\n<!-- qa:error-correction-section -->',
+    'chapter error marker placement',
+)
+write(chapter_path, chapter)
+
 # chapter assertions
-chapter=read('Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md')
+chapter=read(chapter_path)
 assert 'recommended-reasoning' not in chapter
 assert 'Niveau GPT-5.6 Sol' not in chapter
 for forbidden in ('durée murale','temps mur','temps mural','temps horloge'):
