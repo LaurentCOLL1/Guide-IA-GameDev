@@ -20,7 +20,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Record final QA closure in continuity
-        run: python3 .github/scripts/ch02_close_continuity.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git show origin/main:.github/scripts/ch02_close_continuity.py | python3 -
 
       - name: Commit continuity closure
         shell: bash
