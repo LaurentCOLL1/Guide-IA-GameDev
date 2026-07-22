@@ -19,7 +19,8 @@ reference-engine:
 reference-project:
   name: "Project Asteria"
   renderer: "Forward+"
-usage-context-standard: "DOC-V0-ANN-CONTEXTES"----
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+---
 
 # Direction artistique et bible visuelle
 

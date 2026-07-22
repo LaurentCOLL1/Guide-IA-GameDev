@@ -47,12 +47,12 @@ recovery:
   source-package-recovered: true
   package-01-insertion-position: 7805
   package-01-insertion-character: 'S'
-  chapter-sha256: d5c1d7be7d472d6fec3541ae2b0c6306070d374d281defd71e139b660bcfba23
+  chapter-sha256: cffc01cb1880b55dae3a536c8f6bf99a96b016dff65c91dc19c1bc0ed38a0c2d
   audit-sha256: df5304b3f3a8f24f7d8b21cfe97bcc3915f3272a8b777bf9cad094eb2fcae283
   chapter-declared-crc: '604d0434'
-  chapter-recovered-crc: '01de0909'
+  chapter-recovered-crc: '604d0434'
   missing-original-proof-local-record-bytes: 1083
-  original-proof-regenerated-after-validation: true
+  original-proof-regenerated-as-pending-evidence: true
 ci:
   validate-chapters-without-pdf:
     run-id: null
