@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.33.1"
+version: "3.34.0"
 lang: "fr-FR"
-last-updated: "2026-07-22T21:21:47+02:00"
+last-updated: "2026-07-22T22:37:42+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,13 +150,14 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 3 chapitres sur 30.**
+**En cours : 4 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
 3. Références, concept art et ComfyUI — terminé au niveau `static-review`.
+4. Pipeline Blender et organisation des fichiers — terminé au niveau `static-review`.
 
-Les chapitres 4 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 5 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1294,6 +1295,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la configuration AMD Windows de référence reste non qualifiée tant qu’aucun test réel n’est exécuté ;
 - le dossier consolidé transmet règles, sources modifiables, inconnues et rapport de sélection aux chapitres de production.
 
+### 11.29 Pipeline Blender et organisation des fichiers
+
+- Blender `5.2.0` Stable constitue la référence documentaire ; toute mise à jour future repasse par une qualification et un asset pilote ;
+- aucun add-on tiers n’est obligatoire pour le chemin de référence ; une extension future est qualifiée comme du code et une dépendance de production ;
+- le fichier `.blend` reste la source canonique 3D et ne se confond ni avec les caches, ni avec les exports, ni avec les livraisons ;
+- les scènes utilisent le système métrique avec une unité pour un mètre ; `Unit Scale` ne sert pas à réparer une géométrie incorrecte ;
+- les assets orientés regardent vers `-Y` dans Blender et arrivent vers `+Z` dans Godot par la conversion glTF, sans parent correctif ;
+- origines et pivots sont fonctionnels et ne changent pas après publication sans nouvelle version ;
+- les collections distinguent géométrie, rig, sockets, guides et frontière `__EXPORT` unique ;
+- Link conserve l’autorité de la bibliothèque, Append crée une copie locale, et Library Override encadre les adaptations autorisées ;
+- les dépendances utilisent des chemins relatifs et une réouverture sur une autre machine fait partie de la porte runtime ;
+- sources, travail, bibliothèques, caches, exports, livraisons et archives occupent des chemins distincts ;
+- les versions approuvées sont immuables, les sauvegardes automatiques ne sont pas des versions publiées ;
+- GLB constitue la livraison par défaut, glTF séparé répond aux besoins d’inspection, et l’import direct `.blend` reste une voie Solo dépendante de Blender ;
+- tout export cite source, preset, collection, empreinte et autorité de publication ;
+- le cube d’un mètre vérifie échelle, orientation, pivot, marqueurs et réimportation dans Godot ;
+- aucune exécution Blender, export, import Godot, réouverture multi-poste ou mesure n’est revendiquée avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1581,16 +1600,29 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas publier une image sans contrôler les métadonnées de workflow qu’elle contient ;
 - ne pas accumuler des variantes sans budget ni règle d’arrêt ;
 
+- ne pas utiliser `Unit Scale` comme réparation d’une géométrie incorrecte ;
+- ne pas ajouter un parent tourné à 90 degrés pour masquer une mauvaise convention d’axes ;
+- ne pas appliquer toutes les transformations sans examiner rigs, contraintes et hiérarchies ;
+- ne pas exporter une sélection manuelle lorsque la collection `__EXPORT` est le contrat ;
+- ne pas versionner des chemins personnels absolus vers des textures ou bibliothèques ;
+- ne pas modifier une donnée liée comme si elle était possédée localement ;
+- ne pas versionner caches, temporaires ou sauvegardes automatiques comme sources ;
+- ne pas écraser une version approuvée ;
+- ne pas livrer uniquement un `.blend` en Studio sans GLB contrôlé et manifeste ;
+- ne pas installer automatiquement un add-on inconnu ;
+- ne pas déplacer le pivot après publication sans nouvelle version et validation ;
+
 - ne pas oublier la mise à jour de ce fichier.
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 3 chapitres sur 30 ;
+- progression du Livre III : 4 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 4 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1628,19 +1660,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 3 du Livre III est rédigé, repéré et audité au niveau `static-review`. La chaîne de références et de concepts distingue les statuts, enregistre provenance et droits, versionne les workflows ComfyUI, manifeste modèles et dépendances, puis impose une sélection humaine. Aucun environnement ComfyUI, concept réel, benchmark ou test Godot n’est revendiqué comme exécuté.
+Le chapitre 4 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pipeline fixe Blender `5.2.0` Stable, les unités, axes, pivots, collections, bibliothèques, versions, chemins, exports GLB/glTF et la porte d’import Godot. Aucun template réel, cube pilote, export, import, test multi-poste ou benchmark n’est revendiqué comme exécuté.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
+Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 4 qualifiera la version de Blender et les addons, puis fixera unités, axes, échelle, origines, collections, arborescence source/travail/cache/export/archive, formats d’échange et test aller-retour vers Godot. Il ne produira pas encore les assets définitifs.
+Le chapitre 5 établira les fiches d’assets, le registre de provenance, la matrice des licences, les statuts de blocage et les procédures de retrait ou remplacement. Il ne fournira pas d’avis juridique personnalisé.
 ## 27. Journal
+
+### 2026-07-22T22:37:42+02:00 — version 3.34.0
+
+- chapitre 4 du Livre III créé, relu et audité au niveau `static-review` ;
+- Blender `5.2.0` Stable qualifié comme référence documentaire, sans add-on tiers obligatoire ;
+- template, unités, axes, pivots, transformations, collections, bibliothèques liées et overrides documentés ;
+- arborescence source, travail, bibliothèque, cache, export, livraison et archive définie ;
+- conventions de noms, versions, sauvegardes, chemins relatifs et dépendances encadrées ;
+- formats GLB, glTF séparé et import direct `.blend` comparés avec leurs limites ;
+- cube d’un mètre, validateur Blender, exporteur GLB, empreintes et contrôle Godot documentés ;
+- procédures Solo, Studio, réouverture multi-poste, sécurité et checklists ajoutées ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 5 — Provenance, licences et validation des assets, niveau Élevée ;
+- aucune exécution Blender ou Godot et aucun PDF du Livre III construits.
 
 ### 2026-07-22T21:21:47+02:00 — version 3.33.1
 
