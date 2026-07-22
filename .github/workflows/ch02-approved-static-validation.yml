@@ -1,0 +1,242 @@
+name: Chapter 2 Approved Static Validation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch02-direction-artistique
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare pull request merge state
+        id: prepare
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          branch_head="$(git rev-parse HEAD)"
+          git fetch origin main
+          git merge --no-commit --no-ff origin/main
+          echo "branch_head=$branch_head" >> "$GITHUB_OUTPUT"
+          echo "base_head=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Install lightweight dependencies
+        run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Run permanent chapter and context validators
+        id: validation
+        shell: bash
+        run: |
+          set +e
+          mkdir -p dist/chapter dist/context
+
+          python3 tools/validate_chapters.py --report dist/chapter/QA-CHAPTERS.md \
+            | tee dist/chapter/QA-CHAPTERS.log
+          structure_status=${PIPESTATUS[0]}
+
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/chapter/QA-EXPLICATIONS-CODE.log
+          explanations_status=${PIPESTATUS[0]}
+
+          python3 tools/check_context_markers.py --check \
+            | tee dist/chapter/QA-CONTEXTES.log
+          chapter_markers_status=${PIPESTATUS[0]}
+
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/chapter/QA-CONTEXTES-SEMANTIQUES.log
+          chapter_semantics_status=${PIPESTATUS[0]}
+
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/chapter/QA-CONTEXTES-COUVERTURE.md
+          chapter_coverage_status=${PIPESTATUS[0]}
+
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo 'Un PDF a été produit pendant une validation légère.' \
+              | tee dist/chapter/QA-NO-PDF.log
+            pdf_status=1
+          else
+            echo 'Aucun PDF produit.' | tee dist/chapter/QA-NO-PDF.log
+            pdf_status=0
+          fi
+
+          python3 tools/check_context_markers.py --check \
+            | tee dist/context/QA-CONTEXTES.log
+          context_markers_status=${PIPESTATUS[0]}
+
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/context/QA-CONTEXTES-SEMANTIQUES.log
+          context_semantics_status=${PIPESTATUS[0]}
+
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/context/QA-CONTEXTES-COUVERTURE.md
+          context_coverage_status=${PIPESTATUS[0]}
+
+          statuses=(
+            "$structure_status"
+            "$explanations_status"
+            "$chapter_markers_status"
+            "$chapter_semantics_status"
+            "$chapter_coverage_status"
+            "$pdf_status"
+            "$context_markers_status"
+            "$context_semantics_status"
+            "$context_coverage_status"
+          )
+          overall=0
+          for status in "${statuses[@]}"; do
+            if [ "$status" -ne 0 ]; then
+              overall=1
+            fi
+          done
+
+          {
+            echo "structure=$structure_status"
+            echo "explanations=$explanations_status"
+            echo "chapter_markers=$chapter_markers_status"
+            echo "chapter_semantics=$chapter_semantics_status"
+            echo "chapter_coverage=$chapter_coverage_status"
+            echo "pdf=$pdf_status"
+            echo "context_markers=$context_markers_status"
+            echo "context_semantics=$context_semantics_status"
+            echo "context_coverage=$context_coverage_status"
+            echo "overall=$overall"
+          } | tee dist/CH02-VALIDATION-STATUSES.txt
+
+          echo "overall=$overall" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload chapter validation evidence
+        id: chapter_artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/chapter/
+            dist/CH02-VALIDATION-STATUSES.txt
+
+      - name: Upload usage-context evidence
+        id: context_artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/context/
+            dist/CH02-VALIDATION-STATUSES.txt
+
+      - name: Record failure or close provisional evidence
+        shell: bash
+        env:
+          BRANCH_HEAD: ${{ steps.prepare.outputs.branch_head }}
+          BASE_HEAD: ${{ steps.prepare.outputs.base_head }}
+          VALIDATION_STATUS: ${{ steps.validation.outputs.overall }}
+          CHAPTER_ARTIFACT_ID: ${{ steps.chapter_artifact.outputs.artifact-id }}
+          CHAPTER_ARTIFACT_DIGEST: ${{ steps.chapter_artifact.outputs.artifact-digest }}
+          CONTEXT_ARTIFACT_ID: ${{ steps.context_artifact.outputs.artifact-id }}
+          CONTEXT_ARTIFACT_DIGEST: ${{ steps.context_artifact.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          branch='docs/livre-iii-ch02-direction-artistique'
+          git merge --abort 2>/dev/null || true
+          git reset --hard "$BRANCH_HEAD"
+          rm -rf dist
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if [ "$VALIDATION_STATUS" -ne 0 ]; then
+            mkdir -p Livre-III/QA
+            {
+              printf 'run_id: %s\n' "$GITHUB_RUN_ID"
+              printf 'validated_base: %s\n' "$BASE_HEAD"
+              printf 'validated_head: %s\n' "$BRANCH_HEAD"
+              printf 'chapter_artifact_id: %s\n' "$CHAPTER_ARTIFACT_ID"
+              printf 'chapter_artifact_digest: %s\n' "$CHAPTER_ARTIFACT_DIGEST"
+              printf 'context_artifact_id: %s\n' "$CONTEXT_ARTIFACT_ID"
+              printf 'context_artifact_digest: %s\n' "$CONTEXT_ARTIFACT_DIGEST"
+              printf 'conclusion: failure\n'
+            } > Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
+            git add Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
+            git commit -m 'chore(qa): publier l’échec de validation approuvée du chapitre 2'
+            git push origin "HEAD:$branch"
+            exit 1
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+          import os
+
+          path = Path('Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml')
+          text = path.read_text(encoding='utf-8')
+          replacements = [
+              ('status: pending', 'status: complete', 'proof status'),
+              ('validated-base-commit: null', f"validated-base-commit: {os.environ['BASE_HEAD']}", 'validated base'),
+              ('validated-head-commit: null', f"validated-head-commit: {os.environ['BRANCH_HEAD']}", 'validated head'),
+              (
+                  '  validate-chapters-without-pdf:\n    run-id: null\n    conclusion: pending',
+                  f"  validate-chapters-without-pdf:\n    run-id: {os.environ['GITHUB_RUN_ID']}\n    conclusion: success",
+                  'chapter validation run',
+              ),
+              (
+                  '  validate-usage-contexts:\n    run-id: null\n    conclusion: pending',
+                  f"  validate-usage-contexts:\n    run-id: {os.environ['GITHUB_RUN_ID']}\n    conclusion: success",
+                  'context validation run',
+              ),
+              (
+                  '  artifact:\n    id: null\n    name: chapter-validation-without-pdf\n    digest: null',
+                  '  artifact:\n'
+                  f"    id: {os.environ['CHAPTER_ARTIFACT_ID']}\n"
+                  '    name: chapter-validation-without-pdf\n'
+                  f"    digest: {os.environ['CHAPTER_ARTIFACT_DIGEST']}\n"
+                  '  context-artifact:\n'
+                  f"    id: {os.environ['CONTEXT_ARTIFACT_ID']}\n"
+                  '    name: usage-context-audit\n'
+                  f"    digest: {os.environ['CONTEXT_ARTIFACT_DIGEST']}",
+                  'validation artifacts',
+              ),
+          ]
+          for old, new, label in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one match, found {count}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+
+          rm -f Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml \
+            Livre-III/QA/CH02-APPROVED-VALIDATION-ERROR.txt
+          git commit -m 'qa(livre-iii): enregistrer la validation statique du chapitre 2'
+          git push origin "HEAD:$branch"
+          evidence_commit="$(git rev-parse HEAD)"
+
+          python - <<PY
+          from pathlib import Path
+
+          path = Path('Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml')
+          text = path.read_text(encoding='utf-8')
+          old = 'evidence-closure:\n  commit: null\n  conclusion: pending'
+          new = 'evidence-closure:\n  commit: ${evidence_commit}\n  conclusion: success'
+          if text.count(old) != 1:
+              raise SystemExit(f'evidence closure: expected one match, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+          PY
+
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-02.yaml
+          git commit -m 'qa(livre-iii): fermer la preuve du chapitre 2'
+          git push origin "HEAD:$branch"
