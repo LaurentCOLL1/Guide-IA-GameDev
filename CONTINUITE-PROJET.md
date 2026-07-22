@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.35.1"
+version: "3.36.0"
 lang: "fr-FR"
-last-updated: "2026-07-23T00:26:51+02:00"
+last-updated: "2026-07-23T01:08:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,15 +150,16 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 5 chapitres sur 30.**
+**En cours : 6 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
 3. Références, concept art et ComfyUI — terminé au niveau `static-review`.
 4. Pipeline Blender et organisation des fichiers — terminé au niveau `static-review`.
 5. Provenance, licences et validation des assets — terminé au niveau `static-review`.
+6. Création des humains — terminé au niveau `static-review`.
 
-Les chapitres 6 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 7 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1692,20 +1693,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 5 du Livre III est rédigé, repéré et audité au niveau `static-review`. La politique de provenance distingue auteurs, titulaires, fournisseurs, licences, consentements, données personnelles, chaînes IA, transformations, dépendances, statuts de blocage, publication et retrait. Aucun registre réel, contrat, consentement, asset ou contrôle runtime n’est revendiqué comme matérialisé.
+Le chapitre 6 du Livre III est rédigé, repéré et audité au niveau `static-review`. La base humaine documentaire couvre références anatomiques, proportions, topologie de déformation, modules, variantes morphologiques, préparation UV et matériaux, budgets LOD et scène Godot de validation. Aucun maillage, rig, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-06-Creation-des-humains.md
+Livre-III/CHAPITRE-07-Creation-des-humanoides.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 6 produira une base humaine modulaire, crédible, animable et compatible avec les contraintes de personnalisation, de topologie, de matériaux, de LOD et de performance. Les visages, cheveux et vêtements resteront approfondis dans leurs chapitres spécialisés.
+Le chapitre 7 adaptera le contrat de la base humaine à des espèces humanoïdes distinctes, en documentant les écarts anatomiques, profils de rig, compatibilités d’équipement, variations culturelles et tests de silhouette sans produire les créatures non humanoïdes du chapitre 9.
 
 ## 27. Journal
+
+### 2026-07-23T01:08:11+02:00 — version 3.36.0
+
+- chapitre 6 du Livre III créé, relu et audité au niveau `static-review` ;
+- références anatomiques, proportions métriques, pose de construction et base neutre documentées ;
+- topologie des épaules, coudes, hanches, genoux, mains et pieds encadrée ;
+- modules, variantes morphologiques et séparation avec les données de gameplay définis ;
+- préparation UV, matériaux, rig futur, export GLB et import Godot documentée ;
+- budgets provisoires, profils LOD, scène de poses et protocole de mesure définis sans résultat runtime inventé ;
+- dix erreurs fréquentes fournissent exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 7 — Création des humanoïdes, niveau Élevée ;
+- aucun maillage humain, rig, animation, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T00:26:51+02:00 — version 3.35.1
 
