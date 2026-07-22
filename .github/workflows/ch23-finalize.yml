@@ -114,6 +114,10 @@ jobs:
           CONTEXT_ARTIFACT_DIGEST: ${{ steps.upload_ch06_context.outputs.artifact-digest }}
         run: |
           set -euo pipefail
+          if grep -q '^status: complete$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-06.yaml; then
+            echo "Chapter 6 proof is closed; context coordinates will not be recreated."
+            exit 0
+          fi
           if [[ -f .qa/ch06-context-result.json ]]; then
             echo "Chapter 6 context result already recorded."
             exit 0
