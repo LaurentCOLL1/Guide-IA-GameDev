@@ -1,6 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH28
-status: pending
+status: complete
 validation-date: '2026-07-22'
 validated-base-commit: c0ed98465f8d6bd59b416387864f01d3283ea3a1
 validated-head-commit: da0524e373f48c8b9ef7495399bac229918fa7f8
@@ -10,8 +10,8 @@ chapter:
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2091
   chapter-headings: 74
   chapter-code-and-data-blocks: 67
@@ -54,15 +54,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: pending
-    conclusion: pending
+    run-id: 29882825771
+    conclusion: success
   validate-usage-contexts:
-    run-id: pending
-    conclusion: pending
+    run-id: 29882825815
+    conclusion: success
   artifact:
-    id: pending
+    id: 8515408912
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:a23b5c03cda7db7868130dc66ecfe123a4229b46347d3a2aac57f331d00713be
 reservations:
 - Godot parser not executed.
 - Observability scripts not materialized.
@@ -79,4 +79,4 @@ reservations:
 - PDF deferred until end of Livre II.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
