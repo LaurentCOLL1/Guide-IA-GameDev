@@ -2,8 +2,8 @@ schema-version: 1
 evidence-id: DOC-L2-QA-PUBLICATION
 status: pending
 validation-date: 2026-07-22
-validated-base-commit: null
-validated-head-commit: null
+validated-base-commit: ff349d1fd13f3834ca4b5a0f958fbf061e378883
+validated-head-commit: 9bc96af55cab79f80d6ca5dcee3c81e8d74f9597
 evidence-closure:
   commit: null
   conclusion: pending
