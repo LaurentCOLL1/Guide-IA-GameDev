@@ -1,1 +1,0 @@
-Déclencheur temporaire pour valider le head permanent exact avant fusion.
