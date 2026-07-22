@@ -1,0 +1,55 @@
+name: Chapter 5 Approved Context Validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch05-approved-context-validation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-contexts:
+    name: Validate Chapter 5 usage contexts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR 162 merged state
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/162/merge
+          fetch-depth: 1
+
+      - name: Audit marker presence and metadata
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Upload context audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
