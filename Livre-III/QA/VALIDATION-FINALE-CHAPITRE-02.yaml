@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH02
-status: pending
+status: complete
 validation-date: '2026-07-22'
-validated-base-commit: null
-validated-head-commit: null
+validated-base-commit: 8f8271a407c7978cfc668aad90e073e3ef3b3713
+validated-head-commit: b05c502ee5c39451784a288ceee09669f60065cd
 chapter:
   id: DOC-L3-CH02
   path: Livre-III/CHAPITRE-02-Direction-artistique-et-bible-visuelle.md
@@ -55,15 +55,19 @@ recovery:
   original-proof-regenerated-as-pending-evidence: true
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29943194826
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29943194826
+    conclusion: success
   artifact:
-    id: null
+    id: 8539045265
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 07f9309cec632d7be4490ecb7fa16d8b31f5728cd8b143215b1f87ea1b3a14dd
+  context-artifact:
+    id: 8539045793
+    name: usage-context-audit
+    digest: f0e67e60f1cfb8ec320d9f6d0111d0ca2b9bb68ffebda59df863c1a23cfc35a8
 reservations:
   - Starter Kit not materialized.
   - Proposed docs, tools, scenes and captures not created in a real Godot project.
