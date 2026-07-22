@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.34.0"
+version: "3.34.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T22:37:42+02:00"
+last-updated: "2026-07-22T23:08:24+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1673,6 +1673,19 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 
 Le chapitre 5 établira les fiches d’assets, le registre de provenance, la matrice des licences, les statuts de blocage et les procédures de retrait ou remplacement. Il ne fournira pas d’avis juridique personnalisé.
 ## 27. Journal
+
+### 2026-07-22T23:08:24+02:00 — version 3.34.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml` fermée avec zéro erreur bloquante et une réserve documentaire ;
+- validation chapitre réussie au run `29957934668` sur la tête documentaire `b760a5640c5ae8bd69c1c35aaa38a4d36bf1dec0` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8544781576`, digest `a9446929811cbf1d62d55f0ff8340e843ed7f1981d74d469c75c571c3dac1457` ;
+- validation des contextes réussie au run `29957934555` sur la même tête documentaire ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8544781110`, digest `57449276e4cb121519d26e1cf45e4b2dc9f556af64cdb6fdfb592aba893f28dd` ;
+- empreinte SHA-256 du chapitre : `6d811877b5d30a3675ba00dae1950d3ad68b4529eeaddb93ab6c5c1027c90c9c` ;
+- empreinte SHA-256 de l’audit : `907d1cfc1ae110990dfe12e6c64727524198727d3ece354941ce292ba15bce7b` ;
+- les huit fichiers permanents du lot restent seuls dans la PR ;
+- prochaine action maintenue au chapitre 5 — Provenance, licences et validation des assets, niveau Élevée ;
+- aucune exécution Blender ou Godot et aucun PDF du Livre III produits.
 
 ### 2026-07-22T22:37:42+02:00 — version 3.34.0
 
