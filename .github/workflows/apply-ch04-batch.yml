@@ -1,0 +1,53 @@
+name: Apply Chapter 4 Batch
+
+on:
+  push:
+    branches:
+      - docs/livre-iii-ch04-pipeline-blender
+    paths:
+      - tools/apply_ch04_batch.py
+      - .github/workflows/apply-ch04-batch.yml
+      - .qa/ch04/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iii-ch04-pipeline-blender
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Materialize chapter and governance
+        run: python tools/apply_ch04_batch.py
+
+      - name: Commit permanent files
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            ROADMAP.md \
+            contents.txt \
+            Livre-III/index.md \
+            plans/LIVRE-III-PLAN-MAITRE.md \
+            Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md \
+            Livre-III/QA/AUDIT-CHAPITRE-04.md \
+            Livre-III/QA/VALIDATION-FINALE-CHAPITRE-04.yaml
+          if git diff --cached --quiet; then
+            echo "No permanent change to commit."
+            exit 0
+          fi
+          git commit -m "docs(livre-iii): matérialiser le chapitre 4 et aligner la gouvernance"
+          git push
