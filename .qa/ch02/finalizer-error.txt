@@ -1,0 +1,11 @@
+run_id: 29939291296
+exit_code: 1
+
+Traceback (most recent call last):
+  File "/home/runner/work/Guide-IA-GameDev/Guide-IA-GameDev/.qa/ch02/finalize.py", line 26, in <module>
+    payload = base64.b64decode(encoded, validate=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/base64.py", line 88, in b64decode
+    return binascii.a2b_base64(s, strict_mode=validate)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+binascii.Error: Invalid base64-encoded string: number of data characters (45761) cannot be 1 more than a multiple of 4
