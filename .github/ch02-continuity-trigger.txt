@@ -1,1 +1,1 @@
-Trigger the temporary Chapter 2 continuity closure workflow.
+Trigger the simplified Chapter 2 continuity closure workflow.
