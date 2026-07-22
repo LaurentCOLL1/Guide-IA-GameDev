@@ -31,13 +31,21 @@ jobs:
       - name: Apply technical review corrections
         shell: bash
         run: |
-          set -euxo pipefail
-          python3 .qa/ch28/prepare_review_patch.py
-          python3 .qa/ch28/review_patch.py
-          python3 tools/validate_chapters.py --report /tmp/ch28-technical-review-QA.md
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          python3 tools/check_code_explanation_structure.py
+          set -o pipefail
+          python3 .qa/ch28/prepare_review_patch.py 2>&1 | tee /tmp/ch28-technical-review.log
+          python3 .qa/ch28/review_patch.py 2>&1 | tee -a /tmp/ch28-technical-review.log
+          python3 tools/validate_chapters.py --report /tmp/ch28-technical-review-QA.md 2>&1 | tee -a /tmp/ch28-technical-review.log
+          python3 tools/check_context_markers.py --check 2>&1 | tee -a /tmp/ch28-technical-review.log
+          python3 tools/audit_contextes_semantiques.py --check 2>&1 | tee -a /tmp/ch28-technical-review.log
+          python3 tools/check_code_explanation_structure.py 2>&1 | tee -a /tmp/ch28-technical-review.log
+
+      - name: Upload diagnostic on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch28-technical-review-diagnostic
+          path: /tmp/ch28-technical-review.log
+          if-no-files-found: error
 
       - name: Push permanent corrections
         shell: bash
