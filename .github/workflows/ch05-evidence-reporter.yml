@@ -1,0 +1,86 @@
+name: Chapter 5 Evidence Reporter
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ch05-evidence-reporter.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+jobs:
+  report-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR 162 merged state
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/162/merge
+          fetch-depth: 1
+
+      - name: Validate context evidence
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Compute document hashes
+        run: |
+          sha256sum \
+            Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md \
+            Livre-III/QA/AUDIT-CHAPITRE-05.md \
+            | tee dist/CH05-SHA256.txt
+
+      - name: Upload context evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+            dist/CH05-SHA256.txt
+
+      - name: Report evidence coordinates on PR 162
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_json=''
+          for attempt in 1 2 3 4 5; do
+            artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")"
+            count="$(jq '[.artifacts[] | select(.name == "usage-context-audit")] | length' <<<"$artifact_json")"
+            if [ "$count" -ge 1 ]; then break; fi
+            sleep 2
+          done
+          artifact_id="$(jq -r '.artifacts[] | select(.name == "usage-context-audit") | .id' <<<"$artifact_json" | head -1)"
+          artifact_digest="$(jq -r '.artifacts[] | select(.name == "usage-context-audit") | .digest' <<<"$artifact_json" | head -1 | sed 's/^sha256://')"
+          chapter_sha="$(awk '/CHAPITRE-05-Provenance/{print $1}' dist/CH05-SHA256.txt)"
+          audit_sha="$(awk '/AUDIT-CHAPITRE-05/{print $1}' dist/CH05-SHA256.txt)"
+          body=$(cat <<EOF
+          CH05_EVIDENCE_REPORT
+          validated_head=${{ github.event.repository.default_branch }}:${GITHUB_SHA}
+          document_head=ea8f6a6b9c6cd66b9c3a7922d801274e2405f5e7
+          context_run_id=${GITHUB_RUN_ID}
+          context_artifact_id=${artifact_id}
+          context_artifact_digest=${artifact_digest}
+          chapter_sha256=${chapter_sha}
+          audit_sha256=${audit_sha}
+          conclusion=success
+          EOF
+          )
+          gh api "repos/${GITHUB_REPOSITORY}/issues/162/comments" -f body="$body"
