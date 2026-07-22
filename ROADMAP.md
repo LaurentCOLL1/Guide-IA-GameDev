@@ -116,12 +116,13 @@
 - [x] Chapitre 3 — Références, concept art et ComfyUI.
 - [x] Chapitre 4 — Pipeline Blender et organisation des fichiers.
 - [x] Chapitre 5 — Provenance, licences et validation des assets.
+- [x] Chapitre 6 — Création des humains.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 5 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 6 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 
