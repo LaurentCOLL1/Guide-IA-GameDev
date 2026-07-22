@@ -67,5 +67,5 @@ reservations:
   - Schedule not calibrated from completed production items.
   - Livre III PDF not built by per-chapter policy.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: fb157c0b773e98d5c047df5d552fea33d68532cf
+  conclusion: success
