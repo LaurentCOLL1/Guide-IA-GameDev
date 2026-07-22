@@ -77,7 +77,8 @@ jobs:
           python -m pip check
 
       - name: Verify direct and native transitive imports
-        run: python -c "from importlib.metadata import version; import hatchling, jsonschema, rpds; assert version('hatchling') == '1.31.0'; assert version('jsonschema') == '4.26.0'; print({'python': __import__('sys').version, 'hatchling': version('hatchling'), 'jsonschema': version('jsonschema'), 'rpds-py': version('rpds-py')})"
+        run: |
+          python -c "from importlib.metadata import version; import hatchling, jsonschema, rpds, sys; assert version('hatchling') == '1.31.0'; assert version('jsonschema') == '4.26.0'; print('python=' + sys.version); print('hatchling=' + version('hatchling')); print('jsonschema=' + version('jsonschema')); print('rpds-py=' + version('rpds-py'))"
 
   finalize-documentation:
     if: github.event.pull_request.head.ref == 'fix/ch29-python-compatibility'
