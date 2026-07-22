@@ -105,9 +105,9 @@
 - [x] Gouvernance GPT-5.6 Sol corrigée : recommandation conservée dans le processus, retirée des métadonnées et des en-têtes lecteurs des chapitres.
 - [x] Explications des blocs restructurées sans perte pour les chapitres 17 à 26 ; Solo/Studio replacé en Markdown ordinaire dans les chapitres 25 et 26.
 - [x] Validation automatique rétroactive sans PDF des chapitres 5 et 6.
-- [ ] Validation technique, documentaire et compilation du Livre II complet.
+- [x] Validation technique, documentaire, compilation Pandoc/XeLaTeX et inspection visuelle du Livre II complet.
 
-**Statut M3 : en cours de clôture — 30 chapitres rédigés, repérés et audités sur 30.** Godot 4.7.1-stable, l’édition Standard, GDScript typé et Forward+ constituent la base de `Project Asteria`. CPython 3.14.6 reste la cible principale provisoire de l’automatisation, avec CPython 3.13.14 comme repli. Le chapitre final consolide les profils Solo et Studio et rend obligatoire la qualification de toute dépendance future du Starter Kit. La validation technique et documentaire transversale, la compilation du PDF complet et son inspection restent à exécuter avant de terminer M3.
+**Statut M3 : terminé — 30 chapitres rédigés, repérés, audités et validés transversalement sur 30.** La compilation Pandoc/XeLaTeX du PDF complet, le préflight structurel et l’inspection visuelle sont réussis. Les réserves de publication propres au Livre II sont closes ; la licence globale, le PDF balisé et les réserves runtime restent des chantiers de collection distincts.
 
 ## M4 — Livre III : Production des contenus et assets
 
@@ -142,6 +142,8 @@
 - [ ] Knowledge Base.
 
 ## M8 — Publications
+
+- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.
 
 - [ ] Définir la licence globale du projet.
 - [ ] Produire les versions PDF, HTML et EPUB.
