@@ -11,8 +11,9 @@ CHUNKS = [ROOT / ".qa" / f"l3-ch01-{index:02d}.b64" for index in range(5)]
 DIAGNOSTIC = ROOT / "dist" / "QA-CHAPTERS.log"
 
 
-def indented_workflow_block(value: str) -> str:
-    return "\n".join(("      " + line) if line else "" for line in value.splitlines()) + "\n"
+def indent_block(value: str, spaces: int) -> str:
+    prefix = " " * spaces
+    return "".join(prefix + line if line.strip() else line for line in value.splitlines(keepends=True))
 
 
 try:
@@ -56,9 +57,19 @@ try:
 """
             count = text.count(old)
 
+        if count == 0 and path.suffix == ".py":
+            for spaces in (4, 8, 12, 16):
+                candidate_old = indent_block(old, spaces)
+                candidate_count = text.count(candidate_old)
+                if candidate_count == 1:
+                    old = candidate_old
+                    new = indent_block(new, spaces)
+                    count = 1
+                    break
+
         if count == 0 and operation["label"] == "restore workflow hook":
-            old = indented_workflow_block(old)
-            new = indented_workflow_block(new)
+            old = indent_block(old, 6)
+            new = indent_block(new, 6)
             count = text.count(old)
 
         if count != 1:
