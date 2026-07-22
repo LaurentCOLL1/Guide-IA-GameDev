@@ -1,0 +1,1 @@
+run chapter 30 validation with diagnostic
