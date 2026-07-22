@@ -34,3 +34,21 @@ with tempfile.TemporaryDirectory(prefix="ch30-") as tmp:
     with tarfile.open(fileobj=io.BytesIO(archive_bytes), mode="r:gz") as archive:
         archive.extractall(extracted)
     runpy.run_path(str(extracted / "apply.py"), run_name="__main__")
+
+chapter_path = ROOT / "Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md"
+chapter = chapter_path.read_text(encoding="utf-8")
+faulty_labels = (
+    "Architecture fautive", "Configuration fautive", "Dépendances fautives",
+    "Organisation fautive", "Flux fautif", "Arbre fautif",
+    "Formulation fautive", "Commande fautive", "Approche fautive",
+)
+corrected_labels = (
+    "Architecture corrigée", "Configuration corrigée", "Dépendances corrigées",
+    "Organisation corrigée", "Flux corrigé", "Arbre corrigé",
+    "Formulation corrigée", "Commande corrigée", "Approche corrigée",
+)
+for label in faulty_labels:
+    chapter = chapter.replace(f"**{label} :**", "**Exemple fautif :**")
+for label in corrected_labels:
+    chapter = chapter.replace(f"**{label} :**", "**Exemple corrigé :**")
+chapter_path.write_text(chapter, encoding="utf-8")
