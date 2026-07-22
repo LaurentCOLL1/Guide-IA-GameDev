@@ -82,5 +82,5 @@ reservations:
 - Real signatures and provenance not produced.
 - Complete Livre II PDF not built or inspected.
 evidence-closure:
-  commit: pending
+  commit: e37c07e37949af22cb4f0fa197325c050d5a8313
   conclusion: success
