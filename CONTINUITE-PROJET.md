@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.30.0"
+version: "3.30.1"
 lang: "fr-FR"
-last-updated: "2026-07-22T07:41:06+02:00"
+last-updated: "2026-07-22T10:11:47+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -104,7 +104,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre II
 
-**En cours : 29 chapitres sur 30.**
+**Terminé, audité transversalement et compilé : 30 chapitres sur 30.**
 
 #### Partie A — Fondations Godot, architecture et données
 
@@ -146,7 +146,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 27. Tests unitaires, tests d’intégration et simulations — terminé au niveau `static-review`.
 28. Journalisation, diagnostic et reproductibilité — terminé au niveau `static-review`.
 29. Automatisation Python et génération de données — terminé au niveau `static-review`.
-30. Architecture Solo et architecture Studio.
+30. Architecture Solo et architecture Studio — terminé au niveau `static-review`.
 
 ### Livres III à V et Companion Pack
 
@@ -1555,25 +1555,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 30 : version `1.0.0` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
-- accessibilité PDF avancée à traiter avant publication.
+- publication technique du Livre II acceptée après compilation et inspection PDF ;
+- licence globale à décider avant publication officielle de la collection ;
+- accessibilité PDF avancée et balisage à traiter avant publication officielle.
 
 ## 26. Prochaine action
 
-Le chapitre 30 est terminé au niveau `static-review`. Les trente chapitres du Livre II sont rédigés, repérés et audités. Les profils Solo et Studio partagent le même cœur métier ; la gouvernance, les responsabilités, les matrices de plateforme et les portes de publication diffèrent sans créer de nouvelle autorité transversale.
+Le Livre II est terminé, validé transversalement, compilé avec Pandoc/XeLaTeX et inspecté visuellement. Les réserves techniques propres à son PDF de clôture sont closes. Les réserves globales de licence, de balisage d’accessibilité et d’exécution runtime restent explicitement ouvertes.
 
 Action suivante :
 
-> **[LECTURE] Porte de clôture du Livre II — Ne pas saisir.**
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Validation technique et documentaire transversale du Livre II
-Compilation Pandoc/XeLaTeX du PDF complet
-Inspection visuelle et fermeture des réserves de publication
+Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md
+Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-La validation de clôture doit contrôler les trente chapitres, les audits, les preuves QA, les liens, les identifiants, les contextes, les doublons, la compilation et un échantillon visuel représentatif du PDF. Elle doit aussi confirmer que la règle de qualification des dépendances futures du Starter Kit est présente dans la continuité et reprise lors de la matérialisation du Companion Pack.
-
+Le chapitre 1 du Livre III traduira la vision du jeu en contraintes artistiques et techniques, catégories d’assets, quantités, priorités, budgets, calendrier, responsabilités, risques et critères d’acceptation. Il préparera la direction artistique du chapitre 2 sans produire encore les assets définitifs.
 ## 27. Journal
+
+### 2026-07-22T10:11:47+02:00 — version 3.30.1
+
+- validation transversale des trente chapitres du Livre II réussie ;
+- audits référencés, preuves disponibles, identifiants, liens, contextes et doublons contrôlés ;
+- compilation Pandoc/XeLaTeX et préflight PDF réussis ;
+- cinquante et une pages de séparation parasites supprimées avec `openany` ;
+- couverture, table des matières, trente ouvertures de chapitre, pages de code et pages finales inspectées ;
+- rapport de validation transversal ajouté au PDF et preuve de publication conservée hors compilation ;
+- M3 et Livre II marqués terminés ; prochaine action déplacée vers le Livre III, chapitre 1 ;
+- licence globale, balisage d’accessibilité et réserves runtime maintenus sans revendication excessive.
 
 ### 2026-07-22T07:41:06+02:00 — version 3.30.0
 

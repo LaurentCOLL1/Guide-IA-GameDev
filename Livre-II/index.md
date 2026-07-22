@@ -1,8 +1,8 @@
 ---
 title: "Livre II — Développement du jeu et plateforme IA"
 id: "LIV-II-INDEX"
-status: "in-progress"
-version: "1.22.0"
+status: "complete"
+version: "1.23.0"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -97,6 +97,7 @@ Chaque chapitre du Livre II fait l’objet d’un audit distinct après rédacti
 - [audit du chapitre 28](QA/AUDIT-CHAPITRE-28.md) ;
 - [audit du chapitre 29](QA/AUDIT-CHAPITRE-29.md) ;
 - [audit du chapitre 30](QA/AUDIT-CHAPITRE-30.md) ;
+- [validation transversale et publication du Livre II](QA/RAPPORT-VALIDATION-TRANSVERSALE-LIVRE-II.md) ;
 - [audit de restructuration des explications, chapitres 17 à 26](QA/AUDIT-RESTRUCTURATION-EXPLICATIONS-CH17-CH26.md) ;
 - [audit rétroactif des exemples d’erreurs, chapitres 1 à 6](QA/AUDIT-RETROACTIF-EXEMPLES-ERREURS-CH01-CH06.md).
 
@@ -106,13 +107,13 @@ La mention **rédigé, repéré et audité** signifie que :
 - chaque commande, fichier, action graphique, sortie ou exemple possède un contexte explicite ;
 - le contrôle des doublons a été effectué ;
 - les limites runtime restent déclarées ;
-- le PDF de fin de Livre reste différé.
+- le PDF de fin du Livre II a été compilé, préflighté et inspecté visuellement ; les réserves globales de licence et de balisage d’accessibilité restent distinctes.
 
 Elle ne remplace pas un test runtime sur le projet matérialisé.
 
 ## Politique PDF
 
-Le PDF complet n’est plus construit après chaque chapitre. Il sera généré et inspecté :
+Le PDF complet n’est plus construit après chaque chapitre. Le PDF de clôture du Livre II a été généré et inspecté ; les prochaines compilations complètes auront lieu :
 
 1. à la fin du Livre II ;
 2. à la fin de chaque Livre suivant ;
