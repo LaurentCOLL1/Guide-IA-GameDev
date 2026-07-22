@@ -1,13 +1,13 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH27
 status: complete
-validation-date: '2026-07-21'
-validated-base-commit: 4df6f5ffec8718756817b115ca827db2f6d4b7d8
-validated-head-commit: f51d83f5bc1fc367e90f7184edc8aed7ed36d117
+validation-date: '2026-07-22'
+validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
+validated-head-commit: 095388b96a35c6942b6ab2976bf9f075e45da8a4
 chapter:
   id: DOC-L2-CH27
   path: Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
@@ -42,15 +42,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29862111418
+    run-id: 29878805605
     conclusion: success
   validate-usage-contexts:
-    run-id: 29862111412
+    run-id: 29878805599
     conclusion: success
   artifact:
-    id: 8507704291
+    id: 8513972052
     name: chapter-validation-without-pdf
-    digest: sha256:678af704b617e916593159dacca254703150b390a6f1b4a367743925dd87b370
+    digest: sha256:f92d9ad2736724733468d7dd8ba0c821d01bae803b9d161226f1c21b14ea0472
 reservations:
 - Godot parser not executed.
 - GUT not installed or executed.
@@ -64,5 +64,5 @@ reservations:
 - Cross-platform reproducibility not measured.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: 769b424af8312fa66676110cad97cb523a25bde8
+  commit: f9865bb26a056b0c128803212d2345181d302e2e
   conclusion: success

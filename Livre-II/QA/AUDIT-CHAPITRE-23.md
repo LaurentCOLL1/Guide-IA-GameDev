@@ -2,12 +2,12 @@
 title: "Audit du Livre II — Chapitre 23"
 id: "DOC-L2-QA-AUDIT-CH23"
 status: "complete"
-version: "1.0.2"
+version: "1.0.3"
 chapter-id: "DOC-L2-CH23"
-chapter-version: "1.0.2"
+chapter-version: "1.0.3"
 audit-level: "static-review"
-audit-date: "2026-07-21T19:59:30+02:00"
-last-verified: "2026-07-21T19:59:30+02:00"
+audit-date: "2026-07-22T01:40:00+02:00"
+last-verified: "2026-07-22T01:40:00+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -107,6 +107,10 @@ La dernière section synthétise les décisions retenues pour `Project Asteria`.
 
 
 Les sections pédagogiques d’erreurs conservent leur séquence sémantique directe : symptôme, exemple fautif, explication du défaut, exemple corrigé et explication de la correction. Les rubriques générales de restructuration ne sont pas appliquées à ces deux explications, afin d’éviter répétitions, sous-titres intermédiaires et commentaires génériques.
+
+## Correction terminologique du 22 juillet 2026
+
+Les calques anglais relatifs à `wall-clock time` ou `wall-clock duration` ont été remplacés par `durée réelle (durée de l’horloge système)` ; `horloge système` désigne la source temporelle réelle. Le validateur documentaire refuse désormais les anciennes formulations.
 
 ## 12. Décision
 

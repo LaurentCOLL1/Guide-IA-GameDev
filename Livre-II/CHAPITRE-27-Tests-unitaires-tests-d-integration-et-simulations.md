@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 27 : Tests unitaires, tests d’intégration et simulations"
 id: "DOC-L2-CH27"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 27
-last-verified: "2026-07-21T21:00:05+02:00"
+last-verified: "2026-07-22T01:40:00+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T21:00:05+02:00"
+audit-date: "2026-07-22T01:40:00+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-27.md"
 audit-level: "static-review"
 reference-engine:
@@ -1154,7 +1154,7 @@ func run(
 - **Responsabilités des classes ou fonctions :** `restore()` construit le monde contrôlé ; `_apply_commands()` injecte les entrées ; `step()` fait progresser les systèmes.
 - **Déroulement ou instructions importantes :** La boucle commence au tick `1`, inclut `maximum_ticks` et peut se terminer plus tôt sur un état terminal.
 - **Valeur de retour ou code d’échec :** Un scénario invalide produit `SimulationRunResult.invalid`; une exécution valide produit un résultat final borné.
-- **Invariants protégés :** Le harness ne saute aucun tick, n’en ajoute aucun et n’attend aucune durée murale.
+- **Invariants protégés :** Le harness ne saute aucun tick, n’en ajoute aucun et ne dépend d’aucune durée réelle (durée de l’horloge système).
 
 ## 38. Enregistrer des événements canoniques
 > **[VSC] Projection stable des événements — Ne pas saisir.**
@@ -1377,7 +1377,7 @@ func test_small_world_stays_within_operation_budget() -> void:
 - **Rôle précis du bloc :** Le cas mesure des compteurs d’opérations déterministes plutôt qu’une durée CPU très sensible à la machine.
 - **Paramètres et types importants :** Les trois seuils portent sur des nœuds de planification, requêtes et événements en attente.
 - **Invariants protégés :** Une optimisation ne peut pas augmenter sans borne la recherche, les accès persistants ou la file.
-- **Limites et réserves :** Le temps mur, la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.
+- **Limites et réserves :** La durée réelle (durée de l’horloge système), la mémoire et le rendu exigent des benchmarks séparés sur la configuration de référence.
 
 ## 45. Catégoriser les suites
 > **[LECTURE] Matrice de suites — Ne pas saisir.**
@@ -1605,7 +1605,7 @@ assert_true(
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** Le temps horloge et un délai réel introduisent une dépendance externe sans rapport avec la règle métier.
+**Pourquoi cet exemple est fautif :** L’horloge système et une attente réelle introduisent une dépendance externe sans rapport avec la règle métier.
 
 **Exemple corrigé :**
 
@@ -1620,7 +1620,7 @@ assert_eq(clock.now_tick(), 12)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :** Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans attendre de durée murale.
+**Pourquoi la correction fonctionne :** Le test contrôle exactement l’état initial et l’avancement de l’horloge logique, sans dépendre d’une durée réelle (durée de l’horloge système).
 
 ### 55.3 Utiliser le RNG global
 

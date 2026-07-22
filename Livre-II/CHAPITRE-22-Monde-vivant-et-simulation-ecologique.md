@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 22 : Monde vivant et simulation écologique"
 id: "DOC-L2-CH22"
 status: "reviewed"
-version: "1.0.3"
+version: "1.0.4"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 22
-last-verified: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-22T01:40:00+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T19:59:30+02:00"
+audit-date: "2026-07-22T01:40:00+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-22.md"
 audit-level: "static-review"
 reference-engine:
@@ -389,7 +389,7 @@ func snapshot() -> WorldClockState:
 
 **Explication structurée du bloc :**
 
-- **Limites et réserves :** Le service reçoit un nombre de ticks explicite ; il ne mesure pas une durée murale.
+- **Limites et réserves :** Le service reçoit un nombre de ticks explicite ; il ne mesure pas une durée réelle (durée de l’horloge système).
 
 - **Point d’explication complémentaire :** La révision empêche deux avances concurrentes d’écraser le même état.
 

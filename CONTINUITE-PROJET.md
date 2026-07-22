@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.27.0"
+version: "3.27.1"
 lang: "fr-FR"
-last-updated: "2026-07-21T21:00:05+02:00"
+last-updated: "2026-07-22T01:40:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1455,6 +1455,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un retry automatique pour masquer un test instable ;
 - ne pas oublier de borner les attentes de signaux, le nombre de ticks et les files simulées ;
 - ne pas considérer une couverture élevée comme preuve de qualité ou de correction métier ;
+- ne pas employer les calques `durée murale`, `temps mur`, `temps mural` ou `temps horloge` ; utiliser `durée réelle (durée de l’horloge système)` et `horloge système` ;
 
 - ne pas oublier la mise à jour de ce fichier.
 
@@ -1482,12 +1483,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 19 : version `1.0.3` ;
 - chapitre 20 : version `1.0.2` ;
 - chapitre 21 : version `1.0.2` ;
-- chapitre 22 : version `1.0.3` ;
-- chapitre 23 : version `1.0.2` ;
+- chapitre 22 : version `1.0.4` ;
+- chapitre 23 : version `1.0.3` ;
 - chapitre 24 : version `1.0.2` ;
 - chapitre 25 : version `1.0.2` ;
 - chapitre 26 : version `1.0.2` ;
-- chapitre 27 : version `1.0.0` ;
+- chapitre 27 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1508,6 +1509,14 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : journalisation structurée, niveaux de sévérité, identifiants d’événements stables, corrélation et causalité, rédaction des secrets, métriques, traces, paquets de diagnostic, manifestes de reproduction, collecte après crash et support hors ligne. Le chapitre 28 exploitera les sorties des tests sans redéfinir leurs suites, fixtures ou scénarios.
 
 ## 27. Journal
+
+### 2026-07-22T01:40:00+02:00 — version 3.27.1
+
+- chapitres 22, 23 et 27 corrigés : les calques liés à `wall-clock time` et `wall-clock duration` sont remplacés par `durée réelle (durée de l’horloge système)` ou `horloge système` selon le contexte ;
+- versions portées à `1.0.4`, `1.0.3` et `1.0.1` ; audits portés à `1.0.4`, `1.0.3` et `1.0.2` ;
+- règle terminologique permanente ajoutée au validateur des chapitres ;
+- preuves QA des trois chapitres remises en attente de validation ;
+- aucun test runtime revendiqué et aucun PDF construit.
 
 ### 2026-07-21T21:00:05+02:00 — version 3.27.0
 

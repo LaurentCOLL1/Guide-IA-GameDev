@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 23 : Politique, factions et justice"
 id: "DOC-L2-CH23"
 status: "reviewed"
-version: "1.0.2"
+version: "1.0.3"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 23
-last-verified: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-22T01:40:00+02:00"
 audit-status: "complete"
-audit-date: "2026-07-21T19:59:30+02:00"
+audit-date: "2026-07-22T01:40:00+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-23.md"
 audit-level: "static-review"
 reference-engine:
@@ -4178,7 +4178,7 @@ mandate.started_tick = int(Time.get_unix_time_from_system())
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :** Le temps réel (temps horloge) ne fait pas partie de la simulation sauvegardée.
+**Pourquoi cet exemple est fautif :** Le temps réel (horloge système) ne fait pas partie de la simulation sauvegardée.
 
 **Exemple corrigé :**
 

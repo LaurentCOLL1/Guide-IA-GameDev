@@ -1,20 +1,20 @@
 schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH22
 status: complete
-validation-date: '2026-07-21'
-validated-base-commit: 4e0c7152a76aefc93ccf7a115ccbee23e5965385
-validated-head-commit: bbfced8c7792c98938c5c3e989e14fd22d9e47d8
+validation-date: '2026-07-22'
+validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
+validated-head-commit: 095388b96a35c6942b6ab2976bf9f075e45da8a4
 evidence-closure:
-  commit: bbfced8c7792c98938c5c3e989e14fd22d9e47d8
+  commit: 42f405a91fd60465589425a55a0ae7bc5340cd4b
   conclusion: success
 chapter:
   id: DOC-L2-CH22
   path: Livre-II/CHAPITRE-22-Monde-vivant-et-simulation-ecologique.md
-  version: 1.0.3
+  version: 1.0.4
   audit-level: static-review
 results:
   blocking-errors: 0
-  warnings: 0
+  warnings: 1
   chapter-lines: 3218
   chapter-headings: 69
   chapter-code-and-data-blocks: 61
@@ -51,15 +51,15 @@ results:
   runtime-executed: false
 ci:
   validate-chapters-without-pdf:
-    run-id: 29855954911
+    run-id: 29878805605
     conclusion: success
   validate-usage-contexts:
-    run-id: 29855954936
+    run-id: 29878805599
     conclusion: success
   artifact:
-    id: 8505270544
+    id: 8513972052
     name: chapter-validation-without-pdf
-    digest: sha256:d0a0b1d6b63ffb37588c7aeb0e26a780b23a116553e7db24b156b78c1bc3e826
+    digest: sha256:f92d9ad2736724733468d7dd8ba0c821d01bae803b9d161226f1c21b14ea0472
 reservations:
 - Godot parser not executed.
 - Typed Dictionary signatures not runtime-verified.
