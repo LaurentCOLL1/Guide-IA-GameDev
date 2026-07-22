@@ -1119,28 +1119,6 @@ Les identifiants et paramètres externes sont validés, les collections sont bor
 - preuves produites par l’intégration continue
 
 Le contrat métier reste identique. Le mode Studio ajoute la responsabilité éditoriale, la revue des changements de schéma et les validations automatisées sans créer une seconde architecture runtime.
-## 40. Tests à préparer
-
-> **[LECTURE] Exemple de référence — Ne pas saisir.**
-
-```text
-Unit: conditions, progress, idempotency, visibility
-Integration: fact→quest→consequence commit
-Save: round-trip and future-version refusal
-Simulation: event storms and bounded queues
-```
-
-<!-- qa:code-explanation -->
-
-**Explication structurée du bloc :**
-
-- **Frontières d’autorité :** La matrice distingue tests unitaires, intégration multi-autorités, sauvegarde et charge.
-
-- **Rôle précis du bloc :** Le chapitre 27 matérialisera l’infrastructure de tests complète. Le schéma fait circuler le traitement de `Unit: conditions, progress, idempotency, visibility` vers `Simulation: event storms and bounded queues`.
-
-- **Déroulement ou instructions importantes :** Les transitions visibles sont `Integration: fact→quest→consequence commit`.
-
-- **Résultat attendu :** La lecture doit conserver l’ordre et les correspondances explicites entre les éléments listés, sans inventer de relation absente du schéma.
 
 ## 41. Erreurs fréquentes et corrections
 
