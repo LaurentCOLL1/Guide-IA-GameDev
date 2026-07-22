@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.30.2"
+version: "3.30.3"
 lang: "fr-FR"
-last-updated: "2026-07-22T11:18:12+02:00"
+last-updated: "2026-07-22T12:07:56+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1576,6 +1576,14 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 
 Le chapitre 1 du Livre III traduira la vision du jeu en contraintes artistiques et techniques, catégories d’assets, quantités, priorités, budgets, calendrier, responsabilités, risques et critères d’acceptation. Il préparera la direction artistique du chapitre 2 sans produire encore les assets définitifs.
 ## 27. Journal
+
+### 2026-07-22T12:07:56+02:00 — version 3.30.3
+
+- `plans/LIVRE-III-PLAN-MAITRE.md` enrichi et porté en version `1.1.0` ;
+- les trente chapitres possèdent désormais intention, résultats d’apprentissage, contenu obligatoire, livrables, dépendances, variantes Solo/Studio, critères de validation et frontière ;
+- le plan contient une procédure de reprise explicite pour une nouvelle conversation ;
+- la règle de publication est confirmée : le manuel lecteur exclut protocoles, audits, preuves, rapports QA, continuité et documents de fabrication ;
+- la prochaine action reste `Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md` après validation du PDF lecteur du Livre II.
 
 ### 2026-07-22T11:18:12+02:00 — version 3.30.2
 
