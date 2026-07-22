@@ -1,0 +1,53 @@
+name: Chapter 29 PR Finalizer Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  finalize:
+    if: github.event.pull_request.head.ref == 'docs/livre-ii-ch29-python-generation'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Install validator dependency
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Reconstruct and validate chapter lot
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cat .qa/ch29/chunk-* | base64 -d > /tmp/ch29-package.tar.gz
+          tar -xzf /tmp/ch29-package.tar.gz
+          python3 .qa/ch29/finalize.py
+          python3 tools/validate_chapters.py --report /tmp/ch29-QA-CHAPTERS.md
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+          python3 tools/report_contextes_utilisation.py > /tmp/ch29-context-coverage.md
+          python3 tools/check_code_explanation_structure.py
+
+      - name: Push permanent chapter lot
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm -rf .qa/ch29
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-ii): finalize chapter 29 Python automation"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
