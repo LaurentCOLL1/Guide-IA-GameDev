@@ -1,0 +1,96 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH05
+status: pending_ci
+validation-date: '2026-07-22'
+validated-base-commit: e8a662335533865e4fdf8df52e2efe507c1a89a1
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH05
+  path: Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 1555
+  chapter-headings: 63
+  chapter-code-and-data-blocks: 36
+  significant-code-and-data-blocks: null
+  code-explanation-markers: 36
+  structured-non-error-code-explanations: 16
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  copyright-and-licence-distinguished: true
+  authors-and-rightsholders-distinguished: true
+  asset-categories-documented: true
+  stable-id-and-versioning-documented: true
+  provenance-register-documented: true
+  asset-card-documented: true
+  transformation-chain-documented: true
+  proof-package-documented: true
+  licence-matrix-documented: true
+  spdx-and-licenseref-documented: true
+  creative-commons-conditions-documented: true
+  internal-and-commissioned-assets-documented: true
+  purchased-and-open-assets-documented: true
+  ai-model-dataset-input-output-chain-documented: true
+  voice-performance-and-consent-documented: true
+  image-mocap-and-personal-data-documented: true
+  trademarks-and-cultural-review-documented: true
+  transitive-dependencies-documented: true
+  blocking-rules-documented: true
+  publish-gate-documented: true
+  withdrawal-and-replacement-documented: true
+  structural-validator-documented: true
+  no-personalised-legal-advice: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: null
+  audit-sha256: null
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+  - Real central provenance register not materialized.
+  - Real asset cards, licences, contracts and receipts not collected.
+  - Voice, image, scan and mocap consents not obtained.
+  - Restricted evidence storage not configured.
+  - Real licence matrix not populated.
+  - AI models, datasets, weights and extensions not qualified.
+  - Real transformation chains and hashes not produced.
+  - Proposed Python validator not executed on a real register.
+  - Provenance CI not installed.
+  - Legal or designated responsible review not executed.
+  - Trademark and sensitive-content inventory not performed.
+  - Withdrawal procedure not exercised on a pilot incident.
+  - Retention and deletion periods not decided for real personal data.
+  - Starter Kit not materialized.
+  - Collection-wide licence not defined.
+  - Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
