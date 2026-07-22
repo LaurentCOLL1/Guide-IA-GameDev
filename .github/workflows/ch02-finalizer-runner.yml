@@ -51,30 +51,75 @@ jobs:
           import base64
           import hashlib
           import io
+          import re
           import zipfile
 
           root = Path('.qa/ch02')
+          finalizer = (root / 'finalize.py').read_text(encoding='utf-8')
+          expected_match = re.search(r'EXPECTED\s*=\s*"([0-9a-f]{64})"', finalizer)
+          expected = expected_match.group(1) if expected_match else None
+          alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
           print('\n--- candidate diagnostics ---')
           for stem in ('package', 'bundle', 'chunk'):
               parts = sorted(root.glob(f'{stem}-*.b64'))
               print(f'{stem}: parts={len(parts)}')
               if not parts:
                   continue
-              encoded = ''.join(part.read_text(encoding='utf-8').strip() for part in parts)
-              data_chars = ''.join(char for char in encoded if not char.isspace())
-              print(f'{stem}: encoded_length={len(encoded)} data_chars={len(data_chars)} mod4={len(data_chars) % 4}')
+              part_texts = [''.join(char for char in part.read_text(encoding='utf-8') if not char.isspace()) for part in parts]
+              for index, (part, text) in enumerate(zip(parts, part_texts)):
+                  print(
+                      f'{stem}[{index}]: file={part.name} length={len(text)} '
+                      f'mod4={len(text) % 4} text_sha256={hashlib.sha256(text.encode()).hexdigest()} '
+                      f'head={text[:16]!r} tail={text[-16:]!r}'
+                  )
+              encoded = ''.join(part_texts)
+              body = encoded.rstrip('=')
+              padding = encoded[len(body):]
+              print(
+                  f'{stem}: encoded_length={len(encoded)} body_length={len(body)} '
+                  f'padding={padding!r} body_mod4={len(body) % 4}'
+              )
               try:
-                  payload = base64.b64decode(data_chars, validate=True)
+                  payload = base64.b64decode(encoded, validate=True)
               except Exception as exc:
                   print(f'{stem}: decode_error={type(exc).__name__}: {exc}')
+              else:
+                  print(f'{stem}: decoded_bytes={len(payload)} sha256={hashlib.sha256(payload).hexdigest()}')
+                  try:
+                      with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+                          print(f'{stem}: zip_test={archive.testzip()!r}')
+                          print(f'{stem}: names={archive.namelist()}')
+                  except Exception as exc:
+                      print(f'{stem}: zip_error={type(exc).__name__}: {exc}')
+
+              if stem != 'package' or expected is None or len(body) % 4 != 1:
                   continue
-              print(f'{stem}: decoded_bytes={len(payload)} sha256={hashlib.sha256(payload).hexdigest()}')
-              try:
-                  with zipfile.ZipFile(io.BytesIO(payload)) as archive:
-                      print(f'{stem}: zip_test={archive.testzip()!r}')
-                      print(f'{stem}: names={archive.namelist()}')
-              except Exception as exc:
-                  print(f'{stem}: zip_error={type(exc).__name__}: {exc}')
+
+              cumulative = []
+              offset = 0
+              for text in part_texts[:-1]:
+                  offset += len(text)
+                  cumulative.append(offset)
+              positions = {0, len(body)}
+              for boundary in cumulative:
+                  for delta in range(-8, 9):
+                      position = boundary + delta
+                      if 0 <= position <= len(body):
+                          positions.add(position)
+              print(f'package: expected_sha256={expected}')
+              print(f'package: tested_insert_positions={sorted(positions)}')
+              recoveries = []
+              for position in sorted(positions):
+                  for char in alphabet:
+                      candidate = body[:position] + char + body[position:] + padding
+                      try:
+                          payload = base64.b64decode(candidate, validate=True)
+                      except Exception:
+                          continue
+                      if hashlib.sha256(payload).hexdigest() == expected:
+                          recoveries.append((position, char, len(payload)))
+              print(f'package: boundary_recoveries={recoveries}')
           PY
             {
               printf 'run_id: %s\n' "$GITHUB_RUN_ID"
@@ -82,7 +127,7 @@ jobs:
               cat /tmp/ch02-finalizer.log
             } > .qa/ch02/finalizer-error.txt
             git add .qa/ch02/finalizer-error.txt
-            git commit -m "chore(qa): publier le diagnostic des paquets du chapitre 2"
+            git commit -m "chore(qa): publier le diagnostic des frontières du paquet chapitre 2"
           else
             rm -f .github/workflows/ch02-branch-finalizer.yml
             git add -A
