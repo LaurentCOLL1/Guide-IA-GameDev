@@ -30,6 +30,10 @@ try:
         path.write_text(content, encoding="utf-8", newline="\n")
 
     for operation in data["ops"]:
+        if operation["path"] == ".github/workflows/validate-chapters.yml":
+            print(f"Différé au connecteur GitHub : {operation['label']}")
+            continue
+
         print(f"Application : {operation['label']} -> {operation['path']}")
         path = ROOT / operation["path"]
         text = path.read_text(encoding="utf-8")
@@ -66,11 +70,6 @@ try:
                     new = indent_block(new, spaces)
                     count = 1
                     break
-
-        if count == 0 and operation["label"] == "restore workflow hook":
-            old = indent_block(old, 6)
-            new = indent_block(new, 6)
-            count = text.count(old)
 
         if count != 1:
             raise RuntimeError(
