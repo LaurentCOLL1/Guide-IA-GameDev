@@ -402,7 +402,7 @@ def main(argv: list[str] | None = None) -> int:
 ```python
 from pathlib import Path
 
-MARKER = "CONTINUITE-PROJET.md"
+MARKER = "pyproject.toml"
 
 def find_repository_root(start: Path) -> Path:
     current = start.resolve()
