@@ -5,7 +5,7 @@ validation-date: '2026-07-22'
 validated-base-commit: d8aea5aaba323e934454d43ead879abdaf12a84a
 validated-head-commit: 095388b96a35c6942b6ab2976bf9f075e45da8a4
 evidence-closure:
-  commit: pending
+  commit: cfa65e8f15c4650453c3807b90d978e7c2178e7b
   conclusion: success
 chapter:
   id: DOC-L2-CH23
