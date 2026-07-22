@@ -1,0 +1,76 @@
+schema-version: 1
+evidence-id: DOC-L2-QA-EVIDENCE-CH29
+status: pending
+validation-date: '2026-07-22'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L2-CH29
+  path: Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1682
+  chapter-headings: 71
+  chapter-code-and-data-blocks: 65
+  code-explanation-markers: 65
+  structured-non-error-code-explanations: 45
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  project-asteria-final-synthesis: true
+  python-3146-reference-documented: true
+  virtual-environment-documented: true
+  pyproject-and-lock-governance-documented: true
+  typed-cli-and-exit-codes-documented: true
+  path-confinement-documented: true
+  canonical-json-and-sha256-documented: true
+  deterministic-rng-and-ordering-documented: true
+  json-schema-2020-12-documented: true
+  bounded-subprocesses-documented: true
+  bounded-parallelism-documented: true
+  checkpoint-integrity-documented: true
+  staging-and-promotion-documented: true
+  bounded-retry-policy-documented: true
+  deterministic-zip-without-false-security-claim: true
+  business-authority-remains-in-godot: true
+  solo-studio-rendered-as-markdown: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  structured-error-explanation-wrapper-absent: true
+  forbidden-wall-clock-calques-absent: true
+  pdf-produced: false
+  runtime-executed: false
+ci:
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+- CPython 3.14.6 not installed in Starter Kit.
+- Python dependencies not resolved.
+- pip lock not executed.
+- JSON schemas not materialized.
+- Python type checker not executed.
+- Godot orchestration not executed.
+- Deterministic generation not replayed.
+- Parallel execution not tested on Windows and WSL.
+- Checkpoint recovery not exercised.
+- ZIP byte reproducibility not measured.
+- Generated data not published.
+- PDF deferred until end of Livre II.
+evidence-closure:
+  commit: pending
+  conclusion: pending
