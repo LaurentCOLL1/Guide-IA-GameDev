@@ -129,7 +129,7 @@ journal=f'''### {STAMP} — version 3.29.0
 text=replace_once(text,'## 27. Journal\n\n','## 27. Journal\n\n'+journal,'continuity journal')
 write(path,text)
 
-# qualify the semantic error section inside its body
+# qualify the semantic error section and correct command contexts
 chapter_path='Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md'
 chapter=read(chapter_path)
 chapter=replace_once(
@@ -138,6 +138,8 @@ chapter=replace_once(
     '## 53. Erreurs fréquentes et corrections\n\n<!-- qa:error-correction-section -->',
     'chapter error marker placement',
 )
+chapter=replace_once(chapter,'> **[VSC] Contre-exemple — Ne pas saisir.**\n\n```powershell','> **[PS] Contre-exemple — Ne pas saisir.**\n\n```powershell','chapter faulty PowerShell context')
+chapter=replace_once(chapter,'> **[VSC] Correction — Ne pas saisir.**\n\n```powershell','> **[PS] Correction — Ne pas saisir.**\n\n```powershell','chapter corrected PowerShell context')
 write(chapter_path, chapter)
 
 # chapter assertions
