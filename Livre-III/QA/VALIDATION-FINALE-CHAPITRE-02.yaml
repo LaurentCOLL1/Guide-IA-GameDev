@@ -84,5 +84,5 @@ reservations:
   - Solo or Studio review not executed.
   - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: null
-  conclusion: pending
+  commit: 882c88e796e4a5dc9fc9fc474391f1c91680b857
+  conclusion: success
