@@ -3,8 +3,8 @@
 -- absents des polices choisies et exclut les éléments de fabrication éditoriale
 -- qui appartiennent au dépôt de conception, pas au manuel commercial.
 
-local function plain_text(block)
-  local text = pandoc.utils.stringify(block):lower()
+local function plain_text(element)
+  local text = pandoc.utils.stringify(element):lower()
   text = text:gsub("’", "'")
   text = text:gsub("‘", "'")
   return text
@@ -30,6 +30,8 @@ local process_block_phrases = {
   "cette sortie est une cible documentaire ; elle n'a pas été obtenue dans cet audit",
   "reste donc au niveau static-review",
   "reste au niveau static-review",
+  "le statut reste static-review",
+  "reste donc static-review",
   "accepté au niveau static-review",
   "accepte au niveau static-review",
   "instructions concernant le chapitre suivant restent exclusivement dans continuite-projet.md",
@@ -38,20 +40,11 @@ local process_block_phrases = {
   "un chapitre ne peut etre declare audite",
   "rapport qa final",
   "validation transversale et publication du livre ii",
+  "aucun pdf intermédiaire",
 }
 
-local function is_process_heading(header)
-  local heading = plain_text(header)
-  for _, phrase in ipairs(process_headings) do
-    if heading:find(phrase, 1, true) then
-      return true
-    end
-  end
-  return false
-end
-
-local function is_process_block(block)
-  local text = plain_text(block)
+local function contains_process_phrase(element)
+  local text = plain_text(element)
   if text:match("/qa/")
      or text:match("audit%-chapitre")
      or text:match("protocole%-audit%-post%-creation") then
@@ -65,6 +58,26 @@ local function is_process_block(block)
   return false
 end
 
+local function is_process_heading(header)
+  local heading = plain_text(header)
+  for _, phrase in ipairs(process_headings) do
+    if heading:find(phrase, 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
+local function clean_list_items(items)
+  local cleaned = pandoc.List()
+  for _, item in ipairs(items) do
+    if not contains_process_phrase(pandoc.Div(item)) then
+      cleaned:insert(item)
+    end
+  end
+  return cleaned
+end
+
 function Meta(meta)
   meta.title = pandoc.MetaString("Guide réaliste de création de jeux vidéo 3D avec IA locale")
   meta.subtitle = pandoc.MetaString("Godot, Blender, ComfyUI, Open WebUI et outils open source locaux")
@@ -76,6 +89,22 @@ function Str(element)
   element.text = element.text:gsub("🟢", "")
   element.text = element.text:gsub("👤", "")
   element.text = element.text:gsub("👥", "")
+  return element
+end
+
+function BulletList(element)
+  element.content = clean_list_items(element.content)
+  if #element.content == 0 then
+    return {}
+  end
+  return element
+end
+
+function OrderedList(element)
+  element.content = clean_list_items(element.content)
+  if #element.content == 0 then
+    return {}
+  end
   return element
 end
 
@@ -93,7 +122,7 @@ function Pandoc(document)
       elseif skipped_level == nil then
         output:insert(block)
       end
-    elseif skipped_level == nil and not is_process_block(block) then
+    elseif skipped_level == nil and not contains_process_phrase(block) then
       output:insert(block)
     end
   end
