@@ -10,39 +10,40 @@ chapter:
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: 0
-  warnings: 1
-  chapter-lines: 2042
-  chapter-headings: 62
-  chapter-code-and-data-blocks: 48
-  significant-code-and-data-blocks: 48
-  code-explanation-markers: 48
-  structured-non-error-code-explanations: 28
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 1578
+  chapter-headings: 52
+  chapter-code-and-data-blocks: 44
+  significant-code-and-data-blocks: null
+  code-explanation-markers: 44
+  structured-non-error-code-explanations: 24
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: 0
-  duplicate-blocks: 0
-  duplicate-paragraphs: 0
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
   solo-studio-markdown-only: true
-  blender-version-branch-qualified: true
-  corrective-version-not-invented: true
+  blender-stable-version-qualified: true
+  no-required-third-party-addon: true
   canonical-source-documented: true
-  source-cache-export-delivery-separated: true
+  source-work-cache-export-delivery-separated: true
   metric-unit-contract-documented: true
   axis-and-model-front-documented: true
   pivot-and-origin-contract-documented: true
-  collections-and-publication-documented: true
+  collections-and-export-boundary-documented: true
   link-append-overrides-distinguished: true
   relative-paths-documented: true
   versioning-and-backups-documented: true
   gltf-glb-contract-documented: true
   direct-blend-import-limits-documented: true
   blender-static-validator-documented: true
-  godot-validation-scene-documented: true
+  bounded-glb-exporter-documented: true
+  godot-import-validation-documented: true
   roundtrip-documented: true
   second-machine-reopen-documented: true
   runtime-values-not-invented: true
@@ -51,8 +52,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 9d8cce0ea1a4ff51405a45117b0843290321fb9108edb2f7325459271a69278b
-  audit-sha256: 6edc688a059bac1c1cc9b0bad766a9ca22fed74f739cb83b860abde4e5faf89b
+  chapter-sha256: null
+  audit-sha256: null
 ci:
   validate-chapters-without-pdf:
     run-id: null
@@ -69,20 +70,21 @@ ci:
     name: usage-context-audit
     digest: null
 reservations:
-- Blender 4.5 LTS not installed or executed for Project Asteria.
-- Exact Blender corrective version not pinned in a real manifest.
-- Real addons and extensions not selected or qualified.
-- Template blend file, linked libraries and overrides not materialized.
-- Real folder tree, manifests and export presets not materialized.
-- Calibration asset not modeled.
-- Proposed Blender validator not executed.
-- No GLB or glTF export produced.
-- Source and export hashes not computed on real files.
-- Godot import and validation scene not materialized.
-- Round-trip and second-machine reopen not executed.
-- Runtime, file size and reliability budgets not measured.
-- Detailed licence review deferred to chapter 5.
-- Livre III PDF not built by end-of-book policy.
+  - Blender 5.2.0 not installed or executed for Project Asteria.
+  - No real Blender profile or extension inventory captured.
+  - Template blend file, linked libraries and overrides not materialized.
+  - Real folder tree, manifests and export presets not materialized.
+  - One-meter test asset not modeled.
+  - Proposed Blender validator and exporter not executed.
+  - No GLB or glTF export produced.
+  - Source and export hashes not computed on real asset files.
+  - Godot import, GDScript validation and visual review not executed.
+  - Round-trip and second-machine reopen not executed.
+  - Runtime, file size and reliability budgets not measured.
+  - Future addon and asset licences not qualified.
+  - Detailed licence review deferred to chapter 5.
+  - Starter Kit not materialized.
+  - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
   conclusion: pending
