@@ -2,17 +2,17 @@ schema-version: 1
 evidence-id: DOC-L2-QA-EVIDENCE-CH29
 status: complete
 validation-date: '2026-07-22'
-validated-base-commit: 5e7c140a3f0df0462607860e4b57748e39117b4a
-validated-head-commit: 986b172c4f84aaf8f4523e010ae3b008014ad14d
+validated-base-commit: b86e1b2b5b9fa3b994cdf0573a99330aa4240f50
+validated-head-commit: 01c5e89757338ef7dd9994fb23d1ed0a57f372e3
 chapter:
   id: DOC-L2-CH29
   path: Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 1682
+  chapter-lines: 1714
   chapter-headings: 71
   chapter-code-and-data-blocks: 65
   code-explanation-markers: 65
@@ -25,7 +25,14 @@ results:
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
   project-asteria-final-synthesis: true
-  python-3146-reference-documented: true
+  python-3146-primary-target-provisional: true
+  python-31314-fallback-documented: true
+  hatchling-1310-documented: true
+  jsonschema-4260-documented: true
+  binary-wheel-qualification-documented: true
+  hosted-compatibility-matrix-documented: true
+  real-wsl-validation-still-required: true
+  heavy-ai-environments-separated: true
   virtual-environment-documented: true
   pyproject-and-lock-governance-documented: true
   typed-cli-and-exit-codes-documented: true
@@ -47,21 +54,29 @@ results:
   forbidden-wall-clock-calques-absent: true
   pdf-produced: false
   runtime-executed: false
+compatibility-matrix:
+  run-id: 29893539614
+  conclusion: success
+  windows-python-3146: success
+  linux-python-3146: success
+  windows-python-31314: success
+  linux-python-31314: success
 ci:
   validate-chapters-without-pdf:
-    run-id: 29887718308
+    run-id: 29893760397
     conclusion: success
   validate-usage-contexts:
-    run-id: 29887718314
+    run-id: 29893760399
     conclusion: success
   artifact:
-    id: 8517098553
+    id: 8519180698
     name: chapter-validation-without-pdf
-    digest: sha256:5c5f528752427211d533b1d70b4376a2bc73501a394cbd80dcc514427b66930b
+    digest: sha256:1b716249dbcb161a7d98d01cef71a40e76b88d22c84975ba21f12c9f911e1497
 reservations:
-- CPython 3.14.6 not installed in Starter Kit.
-- Python dependencies not resolved.
-- pip lock not executed.
+- CPython 3.14.6 and 3.13.14 not installed in Starter Kit.
+- Full future dependency set not resolved.
+- Real WSL environment not qualified.
+- pip lock not executed in Starter Kit.
 - JSON schemas not materialized.
 - Python type checker not executed.
 - Godot orchestration not executed.
@@ -72,5 +87,5 @@ reservations:
 - Generated data not published.
 - PDF deferred until end of Livre II.
 evidence-closure:
-  commit: c732e1664cdc3711ddbf152bb9cc7e2007855ff3
+  commit: c1c1308a910a266eaef5d20640b2761cef3691c6
   conclusion: success

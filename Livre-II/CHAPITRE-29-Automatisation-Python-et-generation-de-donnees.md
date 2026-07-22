@@ -2,13 +2,13 @@
 title: "Livre II — Chapitre 29 : Automatisation Python et génération de données"
 id: "DOC-L2-CH29"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre II"
 chapter: 29
-last-verified: "2026-07-22T04:30:00+02:00"
+last-verified: "2026-07-22T07:05:00+02:00"
 audit-status: "complete"
-audit-date: "2026-07-22T04:30:00+02:00"
+audit-date: "2026-07-22T07:05:00+02:00"
 audit-report: "Livre-II/QA/AUDIT-CHAPITRE-29.md"
 audit-level: "static-review"
 reference-engine:
@@ -19,6 +19,8 @@ reference-engine:
 reference-python:
   implementation: "CPython"
   version: "3.14.6"
+  fallback-version: "3.13.14"
+  qualification-status: "provisional"
 reference-project:
   name: "Project Asteria"
   renderer: "Forward+"
@@ -33,7 +35,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 > **Priorité :** Obligatoire  
 > **Parcours :** Mode Solo · Mode Studio  
 > **Public :** débutant à avancé  
-> **Versions de référence :** Godot `4.7.1-stable`, CPython `3.14.6`, édition Standard, GDScript, Forward+  
+> **Versions de référence :** Godot `4.7.1-stable`, cible principale CPython `3.14.6`, repli CPython `3.13.14`, édition Standard, GDScript, Forward+  
 > **Audit post-création :** terminé au niveau `static-review` — voir `Livre-II/QA/AUDIT-CHAPITRE-29.md`.  
 > **Explications de code :** structurées bloc par bloc ; les sections d’erreurs conservent la séquence directe symptôme, exemple fautif, explication, exemple corrigé et explication de la correction.
 
@@ -50,6 +52,8 @@ Le lecteur doit connaître les pipelines de contenu du chapitre 26, les suites e
 Le chapitre automatise ces contrats sans les redéfinir. Un script Python peut demander une validation de contenu, lancer une simulation ou empaqueter un diagnostic ; il ne peut pas décider qu’un contenu invalide devient valide, qu’un test échoué devient réussi ou qu’une donnée générée est promue sans contrôle.
 
 Le chapitre 30 restera responsable de l’architecture finale des parcours Solo et Studio.
+
+CPython `3.14.6` est une **cible principale de qualification**, pas encore un environnement universellement garanti. CPython `3.13.14` reste le repli documenté tant que l’ensemble réel des dépendances du Starter Kit n’a pas passé la matrice de qualification. Cette distinction interdit de déduire la compatibilité de futures bibliothèques à partir des seules dépendances minimales de ce chapitre.
 
 ## 3. Définitions opérationnelles
 
@@ -120,8 +124,8 @@ py -3.14 -m venv .venv
 
 **Explication structurée du bloc :**
 
-- **Rôle précis du bloc :** Les commandes créent un environnement isolé lié à CPython 3.14 puis mettent à niveau `pip` dans cet environnement uniquement.
-- **Paramètres importants :** `-3.14` sélectionne la série Python attendue ; `.venv` est un répertoire local non versionné.
+- **Rôle précis du bloc :** Les commandes créent un environnement isolé lié à la cible principale CPython 3.14 puis mettent à niveau `pip` dans cet environnement uniquement.
+- **Paramètres importants :** `-3.14` sélectionne la cible principale ; le repli utilise `-3.13` dans un environnement distinct ; `.venv` est un répertoire local non versionné.
 - **Valeur de retour ou code d’échec :** Chaque commande doit retourner `0`; une absence d’interpréteur ou un échec d’installation bloque la préparation.
 - **Effets de bord :** Le dossier `.venv` est créé ou réutilisé et reçoit les paquets installés.
 - **Invariants protégés :** Les dépendances du projet ne polluent pas l’installation Python globale de Windows.
@@ -150,15 +154,15 @@ python3.14 -m venv .venv
 
 ```toml
 [build-system]
-requires = ["hatchling==1.27.0"]
+requires = ["hatchling==1.31.0"]
 build-backend = "hatchling.build"
 
 [project]
 name = "asteria-tools"
 version = "0.1.0"
-requires-python = "==3.14.*"
+requires-python = ">=3.13.14,<3.15"
 dependencies = [
-  "jsonschema==4.25.1",
+  "jsonschema==4.26.0",
 ]
 
 [project.scripts]
@@ -173,7 +177,7 @@ asteria-tools = "asteria_tools.cli:main"
 - **Paramètres et types importants :** `requires-python` est une contrainte de version ; `dependencies` est une liste de spécifications épinglées ; `project.scripts` associe un nom exécutable à une fonction.
 - **Effets de bord :** Les outils d’installation utilisent ces métadonnées pour construire et exposer la commande `asteria-tools`.
 - **Invariants protégés :** Une exécution avec une série Python non prévue ou une dépendance non résolue doit échouer avant la génération.
-- **Limites et réserves :** Les versions d’exemple doivent être revues lors de la matérialisation ; le chapitre ne prétend pas avoir installé ces paquets.
+- **Limites et réserves :** `hatchling 1.31.0` et `jsonschema 4.26.0` déclarent Python 3.14, mais leur présence ne garantit ni les futures dépendances ni les intégrations propres au Starter Kit.
 
 ## 9. Produire un fichier de verrouillage
 > **[PS] Exemple du chapitre — Ne pas saisir.**
@@ -192,6 +196,34 @@ asteria-tools = "asteria_tools.cli:main"
 - **Valeur de retour :** `pip check` retourne `0` si les dépendances installées sont compatibles et `1` lorsqu’une exigence manque ou possède une mauvaise version.
 - **Invariants protégés :** Le verrou est distinct par environnement lorsque les roues ou marqueurs de plateforme diffèrent.
 - **Limites et réserves :** `pip lock` est expérimental ; son format de sortie et son intégration doivent être validés avant d’en faire une dépendance de publication.
+
+**Statut de qualification de l’interpréteur et des dépendances.**
+
+La cible principale est CPython `3.14.6`. CPython `3.13.14` constitue le repli tant que la matrice complète du Starter Kit n’est pas validée. Le paquet d’automatisation reste volontairement minimal : les environnements de ComfyUI, de génération vocale, de LLM, de bases vectorielles ou d’autres services spécialisés conservent leurs propres interpréteurs et verrous.
+
+Les dépendances minimales vérifiées par la matrice sont `hatchling==1.31.0` et `jsonschema==4.26.0`, ainsi que les dépendances transitives résolues par `pip`. L’installation doit utiliser `--only-binary=:all:` pendant la qualification afin qu’une roue native manquante provoque un échec visible au lieu d’une compilation implicite.
+
+**État de qualification CI :** les quatre combinaisons hébergées ont installé les dépendances et leurs transitives avec des roues binaires, puis réussi `pip check` et les imports — run `29893539614`. Ce résultat ne couvre ni les futures dépendances, ni le Starter Kit complet, ni un WSL réel.
+
+| Environnement de qualification | Interpréteur | Rôle | État |
+|---|---:|---|---|
+| Windows hébergé x86-64 | CPython 3.14.6 | cible principale | confirmé par la matrice CI |
+| Linux hébergé x86-64 | CPython 3.14.6 | proxy de compatibilité pour WSL | confirmé par la matrice CI |
+| Windows hébergé x86-64 | CPython 3.13.14 | repli | confirmé par la matrice CI |
+| Linux hébergé x86-64 | CPython 3.13.14 | proxy de compatibilité pour WSL | confirmé par la matrice CI |
+
+Linux hébergé vérifie la disponibilité des distributions et les imports sous Linux, mais ne valide pas à lui seul les chemins montés, permissions, interactions Windows/WSL ou performances d’un WSL réel.
+
+**Critères avant de déclarer un environnement validé.**
+
+1. résolution complète sans conflit ;
+2. installation avec roues binaires uniquement pour tout paquet natif ;
+3. `pip check` sans erreur ;
+4. import et lecture de version de chaque dépendance directe ;
+5. exécution des tests et commandes du Starter Kit ;
+6. verrous distincts pour chaque version de Python et chaque plateforme ;
+7. reconstruction réussie dans un environnement vierge ;
+8. validation séparée sur un WSL réel avant toute promesse spécifique à WSL.
 
 ## 10. Décrire la configuration de campagne
 > **[VSC] Exemple du chapitre — Ne pas saisir.**

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.29.1"
+version: "3.29.2"
 lang: "fr-FR"
-last-updated: "2026-07-22T05:14:39+02:00"
+last-updated: "2026-07-22T07:05:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1234,7 +1234,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ### 11.25 Automatisation Python et génération de données
 
-- CPython 3.14.6 constitue la référence documentaire du paquet `asteria-tools` ;
+- CPython 3.14.6 constitue la cible principale provisoire du paquet `asteria-tools`, avec CPython 3.13.14 comme repli ;
+- `hatchling 1.31.0` et `jsonschema 4.26.0` constituent les dépendances directes minimales de qualification ;
+- la compatibilité doit être vérifiée avec des roues binaires sous Windows et Linux, puis sur un WSL réel avant toute garantie spécifique à WSL ;
+- les piles IA lourdes conservent des environnements Python séparés ;
 - les environnements utilisent `venv`, `pyproject.toml` et des verrous séparés lorsque la plateforme l’exige ;
 - `pip lock` reste expérimental et ne devient obligatoire qu’après validation dans le Starter Kit ;
 - les CLI utilisent `argparse`, des codes de sortie stables et des chemins `Path` confinés ;
@@ -1546,7 +1549,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 26 : version `1.0.2` ;
 - chapitre 27 : version `1.0.1` ;
 - chapitre 28 : version `1.0.0` ;
-- chapitre 29 : version `1.0.0` ;
+- chapitre 29 : version `1.0.1` ;
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - accessibilité PDF avancée à traiter avant publication.
@@ -1567,6 +1570,15 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Périmètre attendu : synthèse finale du Livre II, architecture de référence pour Mode Solo et Mode Studio, responsabilités, profils d’environnement, conventions de modules, flux de travail, revues, validations, intégration continue, empaquetage, exploitation locale, critères de passage et plan de matérialisation du Starter Kit. Le chapitre 30 consolidera les contrats existants sans créer une nouvelle autorité transversale.
 
 ## 27. Journal
+
+### 2026-07-22T07:05:00+02:00 — version 3.29.2
+
+- chapitre 29 porté à `1.0.1` après revue de compatibilité Python ;
+- CPython 3.14.6 reclassé en cible principale provisoire et CPython 3.13.14 ajouté comme repli ;
+- dépendances directes mises à jour vers `hatchling 1.31.0` et `jsonschema 4.26.0` ;
+- matrice Windows/Linux avec roues binaires et critères de qualification documentés ;
+- WSL réel et ensemble futur des dépendances maintenus en réserve ;
+- preuve QA remise en attente ; aucun PDF ni test du Starter Kit revendiqué.
 
 ### 2026-07-22T05:14:39+02:00 — version 3.29.1
 
