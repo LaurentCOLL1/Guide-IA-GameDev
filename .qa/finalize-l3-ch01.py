@@ -36,6 +36,26 @@ try:
         new = operation["new"]
         count = text.count(old)
 
+        if count == 0 and operation["label"] == "jalon M4":
+            old = """## M4 — Livre III : Production des contenus et assets
+
+- [ ] Préproduction et direction artistique.
+- [ ] Êtres vivants, objets et environnements.
+- [ ] Animation, audio, VFX, UI et UX.
+- [ ] Automatisation et validation artistique.
+"""
+            new = """## M4 — Livre III : Production des contenus et assets
+
+- [x] Chapitre 1 — Préproduction et cahier des charges artistique.
+- [ ] Préproduction et direction artistique — 1 chapitre sur 5.
+- [ ] Êtres vivants, objets et environnements.
+- [ ] Animation, audio, VFX, UI et UX.
+- [ ] Automatisation et validation artistique.
+
+**Statut M4 : en cours — 1 chapitre rédigé, repéré et audité sur 30.**
+"""
+            count = text.count(old)
+
         if count == 0 and operation["label"] == "restore workflow hook":
             old = indented_workflow_block(old)
             new = indented_workflow_block(new)
