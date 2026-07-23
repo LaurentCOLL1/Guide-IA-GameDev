@@ -1,68 +1,8 @@
-from __future__ import annotations
-
-import base64
-import gzip
-import hashlib
-import json
-import os
-from pathlib import Path
-
-CHAPTER = Path('Livre-III/CHAPITRE-15-Vegetation-et-biomes.md')
-AUDIT = Path('Livre-III/QA/AUDIT-CHAPITRE-15.md')
-PROOF = Path('Livre-III/QA/VALIDATION-FINALE-CHAPITRE-15.yaml')
-EXPECTED_CHAPTER = '7db682e1b4c4bc85519a056b45d5ffb80b340d50a5d9c7663e38690cdcf0f85a'
-EXPECTED_AUDIT = 'a54b97367c5fc1434f369b67505dc130fec37a111e9d8602abc0afa880dab728'
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def load_package() -> dict[str, str]:
-    parts = sorted(Path('.qa').glob('ch15-package-*.txt'))
-    if len(parts) != 4:
-        raise RuntimeError(f'Quatre fragments attendus, {len(parts)} reçus.')
-
-    chunks = [path.read_text(encoding='ascii').strip() for path in parts]
-
-    # Le premier transfert a remplacé le dernier caractère du fragment 1.
-    # La réparation est bornée, explicite et disparaît avec le transport temporaire.
-    if chunks[0].endswith('u'):
-        chunks[0] = chunks[0][:-1] + 'O'
-
-    encoded = ''.join(chunks)
-    payload = json.loads(gzip.decompress(base64.b64decode(encoded)).decode('utf-8'))
-    required = {'chapter', 'audit', 'governance', 'close'}
-    if set(payload) != required:
-        raise RuntimeError(f'Clés de paquet inattendues: {sorted(payload)}')
-    return payload
-
-
-def main() -> None:
-    if os.environ.get('HEAD_BRANCH') != 'docs/livre-iii-ch15-vegetation-biomes':
-        raise RuntimeError('Branche inattendue pour le lot du chapitre 15.')
-
-    payload = load_package()
-    CHAPTER.parent.mkdir(parents=True, exist_ok=True)
-    AUDIT.parent.mkdir(parents=True, exist_ok=True)
-    CHAPTER.write_text(payload['chapter'], encoding='utf-8')
-    AUDIT.write_text(payload['audit'], encoding='utf-8')
-    Path('.qa/ch15-governance.py').write_text(payload['governance'], encoding='utf-8')
-    Path('.qa/ch15-close.py').write_text(payload['close'], encoding='utf-8')
-
-    chapter_hash = sha256(CHAPTER)
-    audit_hash = sha256(AUDIT)
-    if chapter_hash != EXPECTED_CHAPTER:
-        raise RuntimeError(f'Empreinte du chapitre inattendue: {chapter_hash}')
-    if audit_hash != EXPECTED_AUDIT:
-        raise RuntimeError(f'Empreinte de l audit inattendue: {audit_hash}')
-
-    base_commit = os.environ['BASE_COMMIT']
-    PROOF.write_text(f'''schema-version: 1
+schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH15
 status: pending
 validation-date: '2026-07-23'
-validated-base-commit: {base_commit}
+validated-base-commit: bb5d7653117e7b7dd0d9e4d83cdfe5b521a147e7
 validated-head-commit: null
 chapter:
   id: DOC-L3-CH15
@@ -129,8 +69,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: {chapter_hash}
-  audit-sha256: {audit_hash}
+  chapter-sha256: 7db682e1b4c4bc85519a056b45d5ffb80b340d50a5d9c7663e38690cdcf0f85a
+  audit-sha256: a54b97367c5fc1434f369b67505dc130fec37a111e9d8602abc0afa880dab728
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 15 Finalizer Runner
@@ -180,8 +120,3 @@ reservations:
 evidence-closure:
   commit: null
   conclusion: pending
-''', encoding='utf-8')
-
-
-if __name__ == '__main__':
-    main()

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.44.1"
+version: "3.45.0"
 lang: "fr-FR"
-last-updated: "2026-07-23T17:21:59+02:00"
+last-updated: "2026-07-23T20:23:04+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 14 chapitres sur 30.**
+**En cours : 15 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -166,8 +166,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 12. Objets, équipements et armes — terminé au niveau `static-review`.
 13. Architecture, bâtiments et kits modulaires — terminé au niveau `static-review`.
 14. Terrains, paysages et mondes ouverts — terminé au niveau `static-review`.
+15. Végétation et biomes — terminé au niveau `static-review`.
 
-Les chapitres 15 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 16 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1658,7 +1659,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 14 chapitres sur 30 ;
+- progression du Livre III : 15 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1673,6 +1674,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 13 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 14 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 15 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1710,20 +1712,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 14 du Livre III est rédigé, repéré et audité au niveau `static-review`. La région pilote couvre échelle et coordonnées, partition région-secteur-cellule-tuile, heightmaps haute précision, sculpt, érosion contrôlée, bordures, routes, rivières, lac, littoral, pads architecturaux, matériaux préparatoires, collisions, navigation, scènes de cellules, manifestes, chargement en arrière-plan, préchargement, hystérésis, épinglage, retrait, LOD, HLOD, horizon, occlusion qualifiée et benchmarks. Aucun terrain, heightmap, tuile, route, eau, matériau, collision, navmesh, scène, GLB, LOD, HLOD ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 15 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le biome pilote couvre fonctions visuelles et strates, catalogue d’espèces, provenance, échelle, pivots, sources Blender, arbres, arbustes, herbes, fleurs, couvre-sols, débris, feuillage, atlas préparatoires, variantes, états visuels, vent, interaction locale, LOD, imposteurs, cartes de distribution, exclusions, placement déterministe, prévisualisation Geometry Nodes, `MultiMesh`, culling, collisions, navigation, ombres, overdraw et benchmark de densité. Aucun végétal, texture, matériau, atlas, shader, carte, `MultiMesh`, imposteur, collision, scène, GLB, benchmark ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-15-Vegetation-et-biomes.md
+Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 15 produira une bibliothèque végétale, des profils de biome, des cartes de distribution, des shaders de vent et un benchmark de densité, sans refaire les terrains et le streaming du chapitre 14 ni déplacer la simulation écologique dynamique du Livre II.
+Le chapitre 16 établira le pipeline PBR commun : rôles des cartes, espaces colorimétriques, résolutions, mipmaps, compression, densité de texels, matériaux tilables, trim sheets, atlas, configuration Godot et scène d’éclairage comparative, sans refaire les matériaux préparatoires propres aux terrains ou à la végétation ni anticiper les UV et le baking approfondis du chapitre 17.
 
 ## 27. Journal
+
+### 2026-07-23T20:23:04+02:00 — version 3.45.0
+
+- chapitre 15 du Livre III créé, relu et audité au niveau `static-review` ;
+- biome pilote `AST-VEG-BIOME-DELTA-001`, fonctions visuelles, strates et transitions documentés ;
+- catalogue d’espèces, provenance, échelle, pivots, collections Blender et contrats d’export encadrés ;
+- arbres, arbustes, herbes, fleurs, couvre-sols, débris, feuillage et atlas préparatoires documentés ;
+- variantes de taille, saison et santé, vent hiérarchique et interaction locale préparés ;
+- LOD, imposteurs, cartes de distribution, exclusions, graines et prévisualisation Geometry Nodes encadrés ;
+- lots `MultiMesh`, boîtes englobantes, cycle des cellules, collisions, navigation, ombres et overdraw documentés ;
+- benchmark de densité, profils de qualité, mesures CPU/GPU/mémoire et porte d’acceptation préparés ;
+- métriques statiques : 2 236 lignes, 64 titres, 66 blocs significatifs, 46 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 16 — Textures, matériaux et pipeline PBR, niveau Élevée ;
+- aucun végétal, texture, matériau, atlas, shader, carte, `MultiMesh`, imposteur, collision, scène, GLB, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T17:21:59+02:00 — version 3.44.1
 
