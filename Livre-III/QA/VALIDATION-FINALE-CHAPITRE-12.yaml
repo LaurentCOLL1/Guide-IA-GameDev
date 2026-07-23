@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH12
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: b60c38532deeed0af47987a32fdc45c6e1f295a0
-validated-head-commit: null
+validated-head-commit: 55317ee6bba9a0c98e442234632f7bb80565f45d
 chapter:
   id: DOC-L3-CH12
   path: Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
@@ -70,21 +70,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 12 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30005722322
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 12 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30005722322
+    conclusion: success
   artifact:
-    id: null
+    id: 8562880714
     name: chapter-validation-without-pdf
-    digest: null
+    digest: cdb144885bf89c65fa758326bac5c339e044a8678a82f3c567e5dfdf9ef2b56a
   context-artifact:
-    id: null
+    id: 8562881257
     name: usage-context-audit
-    digest: null
+    digest: 1b585b8b385a5acb878a45bd37bf20a67846c8852b89e3ed4bef584e9fde2932
 reservations:
 - Functional pilot object library brief not approved by a production review.
 - References, rights and provenance not qualified.

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.42.0"
+version: "3.42.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T13:30:28+02:00"
+last-updated: "2026-07-23T14:07:25+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1717,6 +1717,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 13 créera des kits architecturaux modulaires fondés sur une grille métrique, des règles d’assemblage, des pivots de snapping, des collisions, de la navigation, de l’occlusion et des LOD, sans refaire les objets individuels du chapitre 12 ni déplacer les règles de construction par le joueur du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T14:07:25+02:00 — version 3.42.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-12.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 12 Finalizer Runner`, run `30005722322`, sur la tête documentaire `55317ee6bba9a0c98e442234632f7bb80565f45d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8562880714`, digest `cdb144885bf89c65fa758326bac5c339e044a8678a82f3c567e5dfdf9ef2b56a` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8562881257`, digest `1b585b8b385a5acb878a45bd37bf20a67846c8852b89e3ed4bef584e9fde2932` ;
+- empreinte SHA-256 du chapitre : `73905a954ffe28f11fb1e8f9350df80969829a9520cfa4bd98c2f9e620f960ac` ;
+- empreinte SHA-256 de l’audit : `c8196c7ed13377c180011844cc1e269f7721328b3746d21ff708bdd39bb31856` ;
+- métriques finales : 2 312 lignes, 57 titres, 61 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 13 — Architecture, bâtiments et kits modulaires, niveau Élevée ;
+- aucun objet, outil, arme, pivot, socket, collision, matériau, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T13:30:28+02:00 — version 3.42.0
 
