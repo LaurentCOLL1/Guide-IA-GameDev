@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.41.1"
+version: "3.42.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T12:33:11+02:00"
+last-updated: "2026-07-23T14:07:25+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1653,7 +1653,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 11 chapitres sur 30 ;
+- progression du Livre III : 12 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1665,6 +1665,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 9 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 10 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 11 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 12 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1702,20 +1703,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 11 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système d’équipement visuel porté couvre kit pilote, layering, profils morphologiques, patrons, marges, topologie, skinning, rigidité, attaches, proxies de collision, simulation Blender qualifiée, conversion, clipping, masques corporels, matériaux, variantes, LOD, matrice de compatibilité, export GLB et scène Godot de validation. Aucun vêtement, armure, accessoire, patron, poids, simulation, collision, masque, atlas, LOD, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 12 du Livre III est rédigé, repéré et audité au niveau `static-review`. La bibliothèque d’objets couvre fonctions observables, références dimensionnelles, ergonomie, échelle, axes, origines, pivots, prises, sockets de rangement et d’environnement, pièces mobiles, collisions d’interaction, physiques et d’impact, états visuels, variantes, LOD, export GLB et scènes Godot de validation. Aucun objet, outil, arme, pivot, socket, collision, matériau, atlas, LOD, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
+Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 12 produira des objets, équipements et armes cohérents avec leur usage, leur échelle, leurs pivots, sockets, collisions, états visuels et LOD, sans refaire les vêtements portés du chapitre 11 ni déplacer les règles d’inventaire, de dégâts et de combat du Livre II.
+Le chapitre 13 créera des kits architecturaux modulaires fondés sur une grille métrique, des règles d’assemblage, des pivots de snapping, des collisions, de la navigation, de l’occlusion et des LOD, sans refaire les objets individuels du chapitre 12 ni déplacer les règles de construction par le joueur du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T14:07:25+02:00 — version 3.42.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-12.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 12 Finalizer Runner`, run `30005722322`, sur la tête documentaire `55317ee6bba9a0c98e442234632f7bb80565f45d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8562880714`, digest `cdb144885bf89c65fa758326bac5c339e044a8678a82f3c567e5dfdf9ef2b56a` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8562881257`, digest `1b585b8b385a5acb878a45bd37bf20a67846c8852b89e3ed4bef584e9fde2932` ;
+- empreinte SHA-256 du chapitre : `73905a954ffe28f11fb1e8f9350df80969829a9520cfa4bd98c2f9e620f960ac` ;
+- empreinte SHA-256 de l’audit : `c8196c7ed13377c180011844cc1e269f7721328b3746d21ff708bdd39bb31856` ;
+- métriques finales : 2 312 lignes, 57 titres, 61 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 13 — Architecture, bâtiments et kits modulaires, niveau Élevée ;
+- aucun objet, outil, arme, pivot, socket, collision, matériau, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T13:30:28+02:00 — version 3.42.0
+
+- chapitre 12 du Livre III créé, relu et audité au niveau `static-review` ;
+- bibliothèque pilote `AST-PROP-KIT-EXPLORER-001` encadrée par cinq objets aux contraintes distinctes ;
+- fonctions observables, références dimensionnelles, ergonomie, échelle et gabarits documentés ;
+- axes, origines, pivots, prises, sockets de rangement, environnement et émission encadrés ;
+- pièces mobiles, silhouette, blockout, topologie, ombrage et matériaux provisoires préparés ;
+- interaction, physique, impact et émission séparés en profils de collision distincts ;
+- états visuels, variantes, dégradation, LOD et représentations fonctionnelles documentés ;
+- export GLB, scènes Godot dérivées, validateur structurel et campagnes de mesure préparés ;
+- dix erreurs fréquentes fournissent symptômes, exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 13 — Architecture, bâtiments et kits modulaires, niveau Élevée ;
+- aucun objet, outil, arme, pivot, socket, collision, matériau, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T12:33:11+02:00 — version 3.41.1
 
