@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened, edited]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   materialize:
@@ -19,46 +19,61 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Capture Chapter 7 materialization diagnostic
+      - name: Repair and materialize Chapter 7
         shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
-          set +e
-          log=.qa/ch07-materialize-debug.log
-          {
-            echo "STEP files"
-            wc -c .qa/ch07-package-*.b64
+          set -euo pipefail
+          if ! compgen -G ".qa/ch07-package-*.b64" > /dev/null; then
+            echo "No Chapter 7 package to materialize."
+            exit 0
+          fi
 
-            echo "STEP fragment-digests"
-            sha256sum .qa/ch07-package-*.b64
+          python3 - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
 
-            echo "STEP decode"
-            cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
-            echo "decode_rc=$?"
+          path = Path('.qa/ch07-package-02.b64')
+          data = path.read_text(encoding='utf-8')
+          current = sha256(data.encode()).hexdigest()
+          corrupted = '964f5df7f551c12c3e5ecb22e535375b32dfe8a755f74121173c87417c8ecf34'
+          expected = '2791b053c936d6282c6906eb2f645468a2ed07a56fd1313de57a67d84736f9e6'
 
-            echo "STEP digest"
-            sha256sum /tmp/ch07-package.tar.gz
-            echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
-              | sha256sum --check --strict
-            echo "digest_rc=$?"
+          if current == corrupted:
+              old = 'S3eV5t5O7o'
+              new = 'S3fl5t5O7o'
+              if data.count(old) != 1:
+                  raise RuntimeError(f'Séquence corrompue attendue une fois, trouvée {data.count(old)} fois.')
+              data = data.replace(old, new, 1)
+              path.write_text(data, encoding='utf-8')
+          elif current != expected:
+              raise RuntimeError(f'Fragment 2 inconnu : {current}')
 
-            echo "STEP archive-list"
-            tar -tzf /tmp/ch07-package.tar.gz
-            echo "list_rc=$?"
+          repaired = sha256(path.read_bytes()).hexdigest()
+          if repaired != expected:
+              raise RuntimeError(f'Fragment 2 réparé hors empreinte : {repaired}')
+          print(f'Fragment 2 vérifié : {repaired}')
+          PY
 
-            echo "STEP extract"
-            tar -xzf /tmp/ch07-package.tar.gz
-            echo "extract_rc=$?"
+          echo "2791b053c936d6282c6906eb2f645468a2ed07a56fd1313de57a67d84736f9e6  .qa/ch07-package-02.b64" \
+            | sha256sum --check --strict
+          cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
+          echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
+            | sha256sum --check --strict
+          tar -tzf /tmp/ch07-package.tar.gz
+          tar -xzf /tmp/ch07-package.tar.gz
+          python3 .qa/ch07-governance.py
 
-            echo "STEP governance"
-            python3 .qa/ch07-governance.py
-            echo "governance_rc=$?"
-          } > "$log" 2>&1
-          exit 0
+          rm -f .qa/ch07-package-*.b64
+          rm -f .qa/ch07-diagnostic-trigger*.txt
+          rm -f .qa/ch07-governance.py .qa/ch07-materialize-debug.log
+          cat > .qa/ch07-stage.json <<'EOF'
+          {"stage":"validate-and-close"}
+          EOF
 
-      - name: Upload Chapter 7 materialization diagnostic
-        uses: actions/upload-artifact@v4
-        with:
-          name: ch07-materialization-diagnostic
-          if-no-files-found: error
-          retention-days: 7
-          path: .qa/ch07-materialize-debug.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-iii): matérialiser le chapitre 7 et sa gouvernance"
+          git push origin HEAD:"$HEAD_BRANCH"
