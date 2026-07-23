@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.41.0"
+version: "3.41.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T11:50:40+02:00"
+last-updated: "2026-07-23T12:33:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1716,6 +1716,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 12 produira des objets, équipements et armes cohérents avec leur usage, leur échelle, leurs pivots, sockets, collisions, états visuels et LOD, sans refaire les vêtements portés du chapitre 11 ni déplacer les règles d’inventaire, de dégâts et de combat du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T12:33:11+02:00 — version 3.41.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-11.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 11 Finalizer Runner`, run `29999720086`, sur la tête documentaire `61703c5c010d267e525fe138ed02ca41096cab86` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8560445995`, digest `960e88fe4a2f2b501effb7145a69217e1099f1852aa277e158af852833539298` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8560446417`, digest `5620ac27632218aa33759a1592d076d4142490dc82f2309018be6b7b3527d84c` ;
+- empreinte SHA-256 du chapitre : `bcc38ce80457fc3b765d9d818f8a8d82c102bd9387d9eb11af57f94c5f8e73ee` ;
+- empreinte SHA-256 de l’audit : `afc04b0d138f789788f3a16144281b8c060c1f0bb8a13bf8ce7b3d06fc722288` ;
+- métriques finales : 1 975 lignes, 52 titres, 56 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 12 — Objets, équipements et armes, niveau Élevée ;
+- aucun vêtement, armure, accessoire, patron, skinning, simulation, collision, masque, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T11:50:40+02:00 — version 3.41.0
 

@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH11
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 85d71f842161957d0b64156c45642894822a6255
-validated-head-commit: null
+validated-head-commit: 61703c5c010d267e525fe138ed02ca41096cab86
 chapter:
   id: DOC-L3-CH11
   path: Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md
@@ -68,21 +68,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 11 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29999720086
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 11 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29999720086
+    conclusion: success
   artifact:
-    id: null
+    id: 8560445995
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 960e88fe4a2f2b501effb7145a69217e1099f1852aa277e158af852833539298
   context-artifact:
-    id: null
+    id: 8560446417
     name: usage-context-audit
-    digest: null
+    digest: 5620ac27632218aa33759a1592d076d4142490dc82f2309018be6b7b3527d84c
 reservations:
 - Functional wearable kit brief not approved by a production review.
 - References, rights and provenance not qualified.
