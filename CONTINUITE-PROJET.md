@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.43.0"
+version: "3.43.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T14:35:47+02:00"
+last-updated: "2026-07-23T16:22:54+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1722,6 +1722,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 14 produira un terrain pilote, un découpage spatial, des raccords avec les bâtiments, des profils de streaming, des matériaux de terrain et une scène de benchmark, sans refaire les kits architecturaux du chapitre 13 ni déplacer la simulation écologique du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T16:22:54+02:00 — version 3.43.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-13.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 13 Finalizer Runner`, run `30015525117`, sur la tête documentaire `612bc2878246229b691d7a420e4ec3e6efd41ff7` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8566943950`, digest `5dcc0c417a79d6f058a8caabacb96b388b545be8da695a205f8b51866d385cf3` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8566944381`, digest `6783ea5316695ef04a95f16d1c3feefda48ce9e95e3c07547f95c1fb96fe5970` ;
+- empreinte SHA-256 du chapitre : `fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9` ;
+- empreinte SHA-256 de l’audit : `48defcdb19887a51643c87d3ad2aa02d37792c5d42409d1d9508b511d255af0e` ;
+- métriques finales : 2 381 lignes, 63 titres, 69 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 14 — Terrains, paysages et mondes ouverts, niveau Élevée ;
+- aucun module, bâtiment, collision, navigation, occluder, matériau, atlas, LOD, HLOD, GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T14:35:47+02:00 — version 3.43.0
 

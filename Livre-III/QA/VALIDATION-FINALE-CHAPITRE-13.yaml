@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH13
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: e2aae006ab18ccb7b40e11cb859e41680d188c3f
-validated-head-commit: null
+validated-head-commit: 612bc2878246229b691d7a420e4ec3e6efd41ff7
 chapter:
   id: DOC-L3-CH13
   path: Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2381
   chapter-headings: 63
   chapter-code-and-data-blocks: 69
@@ -70,21 +70,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 13 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30015525117
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 13 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30015525117
+    conclusion: success
   artifact:
-    id: null
+    id: 8566943950
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 5dcc0c417a79d6f058a8caabacb96b388b545be8da695a205f8b51866d385cf3
   context-artifact:
-    id: null
+    id: 8566944381
     name: usage-context-audit
-    digest: null
+    digest: 6783ea5316695ef04a95f16d1c3feefda48ce9e95e3c07547f95c1fb96fe5970
 reservations:
 - Functional modular architecture kit brief not approved by a production review.
 - References, rights and provenance not qualified.
