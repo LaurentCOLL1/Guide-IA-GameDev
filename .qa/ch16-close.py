@@ -6,11 +6,13 @@ from pathlib import Path
 PROOF = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-16.yaml")
 CONTINUITY = Path("CONTINUITE-PROJET.md")
 
+
 def replace_once(text: str, old: str, new: str, label: str) -> str:
     count = text.count(old)
     if count != 1:
         raise RuntimeError(f"{label}: attendu 1 occurrence, trouvé {count}")
     return text.replace(old, new, 1)
+
 
 document_head = os.environ["DOCUMENT_HEAD"]
 run_id = os.environ["VALIDATION_RUN_ID"]
@@ -22,8 +24,18 @@ context_artifact_digest = os.environ["CONTEXT_ARTIFACT_DIGEST"]
 text = PROOF.read_text(encoding="utf-8")
 text = replace_once(text, "status: pending", "status: complete", "preuve statut")
 text = replace_once(text, "validated-head-commit: null", f"validated-head-commit: {document_head}", "preuve tête")
-text = replace_once(text, "    run-id: null\n    conclusion: pending", f"    run-id: {run_id}\n    conclusion: success", "CI chapitres")
-text = replace_once(text, "    run-id: null\n    conclusion: pending", f"    run-id: {run_id}\n    conclusion: success", "CI contextes")
+text = replace_once(
+    text,
+    "  validate-chapters-without-pdf:\n    workflow-name: Chapter 16 Finalizer Runner\n    execution: embedded-command\n    run-id: null\n    conclusion: pending",
+    f"  validate-chapters-without-pdf:\n    workflow-name: Chapter 16 Finalizer Runner\n    execution: embedded-command\n    run-id: {run_id}\n    conclusion: success",
+    "CI chapitres",
+)
+text = replace_once(
+    text,
+    "  validate-usage-contexts:\n    workflow-name: Chapter 16 Finalizer Runner\n    execution: embedded-command\n    run-id: null\n    conclusion: pending",
+    f"  validate-usage-contexts:\n    workflow-name: Chapter 16 Finalizer Runner\n    execution: embedded-command\n    run-id: {run_id}\n    conclusion: success",
+    "CI contextes",
+)
 text = replace_once(text, "    id: null\n    name: chapter-validation-without-pdf\n    digest: null", f"    id: {main_artifact_id}\n    name: chapter-validation-without-pdf\n    digest: {main_artifact_digest}", "artefact principal")
 text = replace_once(text, "    id: null\n    name: usage-context-audit\n    digest: null", f"    id: {context_artifact_id}\n    name: usage-context-audit\n    digest: {context_artifact_digest}", "artefact contextes")
 PROOF.write_text(text, encoding="utf-8")
