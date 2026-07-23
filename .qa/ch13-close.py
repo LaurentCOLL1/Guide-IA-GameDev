@@ -40,17 +40,22 @@ proof = replace_once(
 )
 proof = replace_once(proof, "  blocking-errors: null", "  blocking-errors: 0", "erreurs bloquantes")
 proof = replace_once(proof, "  warnings: null", "  warnings: 1", "avertissements")
-proof = replace_once(
-    proof,
-    "    run-id: null\n    conclusion: pending",
+run_placeholder = "    run-id: null\n    conclusion: pending"
+if proof.count(run_placeholder) != 2:
+    raise RuntimeError(
+        f"Deux blocs CI en attente étaient attendus, trouvé {proof.count(run_placeholder)}."
+    )
+proof = proof.replace(
+    run_placeholder,
     f"    run-id: {run_id}\n    conclusion: success",
-    "validation chapitres",
+    1,
 )
-proof = replace_once(
-    proof,
-    "    run-id: null\n    conclusion: pending",
+if proof.count(run_placeholder) != 1:
+    raise RuntimeError("Le bloc CI des contextes n'est plus identifiable après le premier remplacement.")
+proof = proof.replace(
+    run_placeholder,
     f"    run-id: {run_id}\n    conclusion: success",
-    "validation contextes",
+    1,
 )
 proof = replace_once(
     proof,
