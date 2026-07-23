@@ -1,0 +1,115 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH11
+status: complete
+validation-date: '2026-07-23'
+validated-base-commit: 85d71f842161957d0b64156c45642894822a6255
+validated-head-commit: 61703c5c010d267e525fe138ed02ca41096cab86
+chapter:
+  id: DOC-L3-CH11
+  path: Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1975
+  chapter-headings: 52
+  chapter-code-and-data-blocks: 56
+  significant-code-and-data-blocks: 56
+  code-explanation-markers: 56
+  structured-non-error-code-explanations: 36
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  layering-rules-documented: true
+  fit-and-patterns-documented: true
+  skinning-profiles-documented: true
+  rigid-armor-strategy-documented: true
+  attachments-documented: true
+  simulation-collisions-documented: true
+  blender-cloth-boundary-documented: true
+  clipping-and-body-masks-documented: true
+  compatibility-matrix-documented: true
+  material-atlas-boundary-documented: true
+  wearable-lod-profile-documented: true
+  gltf-export-documented: true
+  godot-derived-scene-documented: true
+  structural-gdscript-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  pose-grid-documented: true
+  performance-protocol-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-human-base-duplication: true
+  no-face-lookdev-duplication: true
+  no-held-object-or-weapon-duplication: true
+  no-general-pbr-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-final-rig-animation-duplication: true
+  no-inventory-combat-rules: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: bcc38ce80457fc3b765d9d818f8a8d82c102bd9387d9eb11af57f94c5f8e73ee
+  audit-sha256: afc04b0d138f789788f3a16144281b8c060c1f0bb8a13bf8ce7b3d06fc722288
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 11 Finalizer Runner
+    execution: embedded-command
+    run-id: 29999720086
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Chapter 11 Finalizer Runner
+    execution: embedded-command
+    run-id: 29999720086
+    conclusion: success
+  artifact:
+    id: 8560445995
+    name: chapter-validation-without-pdf
+    digest: 960e88fe4a2f2b501effb7145a69217e1099f1852aa277e158af852833539298
+  context-artifact:
+    id: 8560446417
+    name: usage-context-audit
+    digest: 5620ac27632218aa33759a1592d076d4142490dc82f2309018be6b7b3527d84c
+reservations:
+- Functional wearable kit brief not approved by a production review.
+- References, rights and provenance not qualified.
+- Pilot wearable kit not produced.
+- Morphology profiles not measured.
+- Patterns and movement ease not created.
+- Blockouts not reviewed.
+- Topologies not produced.
+- Skinning and weight transfer not executed.
+- Rigid armor regions not tested.
+- Attachments not materialized.
+- Simulation collision proxies not produced.
+- Blender cloth simulation not executed.
+- Simulation conversion or baking not tested.
+- Extreme poses and clipping not tested.
+- Body masks not produced.
+- Materials and atlases not created.
+- Visual variants not produced.
+- LOD meshes, materials and thresholds not produced or measured.
+- Compatibility matrix not validated.
+- GLB export not produced.
+- Godot validation scene not materialized.
+- GDScript validator not executed.
+- CPU, GPU, VRAM, draw-call, skinning and overdraw values not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 3cd22799a7812fce45e5ab516df5a371f09e0ff4
+  conclusion: success

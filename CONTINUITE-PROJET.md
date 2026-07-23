@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.40.1"
+version: "3.41.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T11:14:44+02:00"
+last-updated: "2026-07-23T12:33:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1653,7 +1653,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 10 chapitres sur 30 ;
+- progression du Livre III : 11 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1664,6 +1664,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 8 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 9 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 10 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 11 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1701,20 +1702,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 10 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de lookdev facial couvre références et consentement, repères anatomiques, topologie de déformation, sculpture par niveaux, asymétrie contrôlée, formes faciales de test, peau, diffusion sous-surface, yeux, bouche, dents, cheveux, barbe, sourcils, cils, pilosité, transparence, LOD, export GLB et scène Godot de validation. Aucune tête finale, texture, matériau, œil, dentition, solution capillaire, blendshape, export, scène ou mesure runtime n’est revendiqué comme matérialisé.
+Le chapitre 11 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système d’équipement visuel porté couvre kit pilote, layering, profils morphologiques, patrons, marges, topologie, skinning, rigidité, attaches, proxies de collision, simulation Blender qualifiée, conversion, clipping, masques corporels, matériaux, variantes, LOD, matrice de compatibilité, export GLB et scène Godot de validation. Aucun vêtement, armure, accessoire, patron, poids, simulation, collision, masque, atlas, LOD, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md
+Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 11 créera un système d’équipement visuel modulaire pour vêtements, armures et accessoires, compatible avec les morphologies, l’animation, les collisions et les LOD, sans refaire le lookdev facial du chapitre 10 ni déplacer les règles d’inventaire et d’équipement du Livre II.
+Le chapitre 12 produira des objets, équipements et armes cohérents avec leur usage, leur échelle, leurs pivots, sockets, collisions, états visuels et LOD, sans refaire les vêtements portés du chapitre 11 ni déplacer les règles d’inventaire, de dégâts et de combat du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T12:33:11+02:00 — version 3.41.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-11.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 11 Finalizer Runner`, run `29999720086`, sur la tête documentaire `61703c5c010d267e525fe138ed02ca41096cab86` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8560445995`, digest `960e88fe4a2f2b501effb7145a69217e1099f1852aa277e158af852833539298` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8560446417`, digest `5620ac27632218aa33759a1592d076d4142490dc82f2309018be6b7b3527d84c` ;
+- empreinte SHA-256 du chapitre : `bcc38ce80457fc3b765d9d818f8a8d82c102bd9387d9eb11af57f94c5f8e73ee` ;
+- empreinte SHA-256 de l’audit : `afc04b0d138f789788f3a16144281b8c060c1f0bb8a13bf8ce7b3d06fc722288` ;
+- métriques finales : 1 975 lignes, 52 titres, 56 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 12 — Objets, équipements et armes, niveau Élevée ;
+- aucun vêtement, armure, accessoire, patron, skinning, simulation, collision, masque, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T11:50:40+02:00 — version 3.41.0
+
+- chapitre 11 du Livre III créé, relu et audité au niveau `static-review` ;
+- kit pilote `AST-WEAR-KIT-WARDEN-001` encadré par catégories de comportement et cas d’usage ;
+- layering, conflits, prérequis, profils morphologiques et matrice de compatibilité documentés ;
+- patrons, marges de mouvement, blockout, topologie, coutures et épaisseurs encadrés ;
+- transfert de poids, skinning, rigidité locale, armures et attaches préparés ;
+- proxies de collision, simulation Blender, conversion et frontière runtime Godot explicités ;
+- clipping, masques corporels réversibles, matériaux, variantes et LOD documentés ;
+- export GLB, scène Godot dérivée, validateur structurel et campagne de performance préparés ;
+- dix erreurs fréquentes fournissent symptômes, exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 12 — Objets, équipements et armes, niveau Élevée ;
+- aucun vêtement, armure, accessoire, patron, skinning, simulation, collision, masque, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T11:14:44+02:00 — version 3.40.1
 

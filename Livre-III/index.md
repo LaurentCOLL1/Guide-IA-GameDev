@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.9.0"
+version: "1.10.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -25,8 +25,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 8. [Création des animaux](CHAPITRE-08-Creation-des-animaux.md)
 9. [Création des créatures](CHAPITRE-09-Creation-des-creatures.md)
 10. [Visages, peau, yeux, cheveux et pilosité](CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md)
+11. [Vêtements, armures et accessoires](CHAPITRE-11-Vetements-armures-et-accessoires.md)
 
-Les chapitres 11 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 12 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 
