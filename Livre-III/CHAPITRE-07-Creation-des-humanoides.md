@@ -1638,7 +1638,7 @@ Les cas suivants doivent être relus comme des diagnostics reproductibles. Chaqu
 
 **Symptôme ou risque :** les animations ou équipements humains sont appliqués sans test dès que l’espèce possède deux bras et deux jambes.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 species_id: AST-SPECIES-VELARI-001
@@ -1650,7 +1650,7 @@ human_compatible: true
 
 **Pourquoi cet exemple est fautif :** le booléen fusionne anatomie, rig, poses de repos, équipements, sockets et animations dans une seule affirmation impossible à auditer.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 species_id: AST-SPECIES-VELARI-001
@@ -1673,7 +1673,7 @@ compatibility:
 
 **Symptôme ou risque :** les coudes ou genoux plient au milieu d’une zone étirée et provoquent pincement ou perte de volume.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```text
 Base humaine
@@ -1686,7 +1686,7 @@ Base humaine
 
 **Pourquoi cet exemple est fautif :** la géométrie change de proportion, mais les boucles conçues pour la compression restent décalées par rapport au nouvel axe de rotation.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```text
 Base humaine
@@ -1704,7 +1704,7 @@ Base humaine
 
 **Symptôme ou risque :** le BoneMap paraît complet, mais les membres tournent dans un axe incorrect ou changent de volume.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 bone_map:
@@ -1718,7 +1718,7 @@ rest_pose_check: "skipped"
 
 **Pourquoi cet exemple est fautif :** des noms correspondants ne prouvent ni l’orientation, ni le parentage, ni la longueur, ni la pose de repos des os.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 bone_map:
@@ -1742,7 +1742,7 @@ status: "blocked_until_qualification"
 
 **Symptôme ou risque :** des os sans géométrie ou sans fonction reçoivent des poids artificiels et perturbent les animations de préhension.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```text
 Main à trois doigts
@@ -1755,7 +1755,7 @@ Main à trois doigts
 
 **Pourquoi cet exemple est fautif :** les chaînes cachées ne correspondent pas à l’anatomie, compliquent le skinning et créent des pistes sans résultat visuel fiable.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```text
 Main à trois doigts
@@ -1774,7 +1774,7 @@ Main à trois doigts
 
 **Symptôme ou risque :** la chaussure flotte, écrase le pied ou force une pose de repos incompatible avec le contact au sol.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```csv
 species_id,equipment_id,region,status
@@ -1785,7 +1785,7 @@ AST-SPECIES-VELARI-001,AST-EQUIP-BOOT-001,feet,compatible
 
 **Pourquoi cet exemple est fautif :** la ligne ne mentionne ni le profil de pied, ni la pose, ni les contacts, et présente la compatibilité comme acquise.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```csv
 species_id,equipment_id,region,status,required_variant,test_set
@@ -1801,7 +1801,7 @@ AST-SPECIES-VELARI-001,AST-EQUIP-FOOTWRAP-003,feet,compatible_with_variant,velar
 
 **Symptôme ou risque :** les armes ou sacs arrivent avec une rotation différente selon l’espèce et reçoivent des correctifs par objet.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 socket_id: hand_grip_r
@@ -1813,7 +1813,7 @@ position: [0.0, 0.0, 0.0]
 
 **Pourquoi cet exemple est fautif :** la transformation ne définit ni unités, ni rotation, ni axes, ni volume libre, donc chaque consommateur doit deviner.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 socket_id: hand_grip_r
@@ -1834,7 +1834,7 @@ test_set: "right_hand_grip"
 
 **Symptôme ou risque :** tous les membres portent les mêmes couleurs, objets et rôles, et l’anatomie sert de raccourci narratif.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 species_id: AST-SPECIES-VELARI-001
@@ -1847,7 +1847,7 @@ occupation: "merchant"
 
 **Pourquoi cet exemple est fautif :** la structure déduit personnalité et profession depuis l’espèce et efface les variations régionales, historiques et individuelles.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 species_id: AST-SPECIES-VELARI-001
@@ -1869,7 +1869,7 @@ forbidden_inferences:
 
 **Symptôme ou risque :** l’espèce devient visuellement humaine dès la distance de gameplay malgré un budget de triangles respecté.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 LOD1:
@@ -1884,7 +1884,7 @@ LOD1:
 
 **Pourquoi cet exemple est fautif :** la simplification retire les deux traits secondaires qui portent la reconnaissance et n’inclut aucun test de silhouette.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 LOD1:
@@ -1908,7 +1908,7 @@ LOD1:
 
 **Symptôme ou risque :** le modèle paraît correct sur un poste mais devient incompatible avec un renderer ou une cible de livraison.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 skin:
@@ -1921,7 +1921,7 @@ platform_tests: []
 
 **Pourquoi cet exemple est fautif :** la qualité supposée remplace la qualification technique et aucune cible n’est associée au choix.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
 skin:
@@ -1947,7 +1947,7 @@ status: "pending_measurement"
 
 **Symptôme ou risque :** une réimportation efface les corrections et personne ne sait si l’autorité réside dans Blender ou Godot.
 
-**Exemple fautif :**
+> **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```text
 Importer Velari.glb
@@ -1960,7 +1960,7 @@ Importer Velari.glb
 
 **Pourquoi cet exemple est fautif :** la scène importée est générée ; les modifications locales sont fragiles, non traçables et peuvent disparaître au prochain import.
 
-**Exemple corrigé :**
+> **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```text
 Corriger la pose de repos ou les poids dans la source Blender
