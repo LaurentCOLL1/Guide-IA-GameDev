@@ -1,16 +1,16 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH09
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: a245457dc14b17e229dea70fc3c1c176c5a60cd6
-validated-head-commit: null
+validated-head-commit: 8c97f97f8217ef2aa547aa2cc159c54dda024e12
 chapter:
   id: DOC-L3-CH09
   path: Livre-III/CHAPITRE-09-Creation-des-creatures.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
+  blocking-errors: 0
   warnings: 1
   chapter-lines: 2332
   chapter-headings: 66
@@ -65,27 +65,27 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: null
-  audit-sha256: null
+  chapter-sha256: 6f17a958c6b19825d86d3cdfc4c337e9ebcbc05cdf75c1115d9b71ee2333eb2f
+  audit-sha256: 6d1a40d71c768a840e91c6d157c46ed906495ae724d7c139923acb5d0b4a32a2
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 9 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29989288114
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 9 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29989288114
+    conclusion: success
   artifact:
-    id: null
+    id: 8556352553
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 44f0efe8d9f79f7e1516f3146476089e3e2d3c135f27d949432300ec515522b5
   context-artifact:
-    id: null
+    id: 8556352744
     name: usage-context-audit
-    digest: null
+    digest: fa0c0a7c0de16fdb8715fbd4589bff0d28af77cd441c42ae4ea8f5d2abe62a80
 reservations:
 - Functional brief not approved by a production review.
 - Real analogue references and rights not qualified.

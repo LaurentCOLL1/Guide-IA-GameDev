@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.39.0"
+version: "3.39.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T09:06:37+02:00"
+last-updated: "2026-07-23T09:48:12+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1714,6 +1714,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 10 approfondira le lookdev de gros plan des visages, de la peau, des yeux, des cheveux et de la pilosité, sans refaire les contrats anatomiques, de rig ou de collision du chapitre 9 ni anticiper l’animation faciale complète du chapitre 27.
 
 ## 27. Journal
+
+### 2026-07-23T09:48:12+02:00 — version 3.39.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 9 Finalizer Runner`, run `29989288114`, sur la tête documentaire `8c97f97f8217ef2aa547aa2cc159c54dda024e12` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8556352553`, digest `44f0efe8d9f79f7e1516f3146476089e3e2d3c135f27d949432300ec515522b5` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8556352744`, digest `fa0c0a7c0de16fdb8715fbd4589bff0d28af77cd441c42ae4ea8f5d2abe62a80` ;
+- empreinte SHA-256 du chapitre : `6f17a958c6b19825d86d3cdfc4c337e9ebcbc05cdf75c1115d9b71ee2333eb2f` ;
+- empreinte SHA-256 de l’audit : `6d1a40d71c768a840e91c6d157c46ed906495ae724d7c139923acb5d0b4a32a2` ;
+- métriques finales : 2 332 lignes, 66 titres, 45 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 10 — Visages, peau, yeux, cheveux et pilosité, niveau Élevée ;
+- aucun concept final, modèle, rig, collision, socket, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T09:06:37+02:00 — version 3.39.0
 
