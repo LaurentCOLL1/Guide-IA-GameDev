@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.15.0"
+version: "1.16.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -31,8 +31,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 14. [Terrains, paysages et mondes ouverts](CHAPITRE-14-Terrains-paysages-et-mondes-ouverts.md)
 15. [Végétation et biomes](CHAPITRE-15-Vegetation-et-biomes.md)
 16. [Textures, matériaux et pipeline PBR](CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md)
+17. [UV, retopologie et baking](CHAPITRE-17-UV-retopologie-et-baking.md)
 
-Les chapitres 17 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 18 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 

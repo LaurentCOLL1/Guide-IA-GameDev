@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.46.1"
+version: "3.47.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T21:35:00+02:00"
+last-updated: "2026-07-23T23:35:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 16 chapitres sur 30.**
+**En cours : 17 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -168,8 +168,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 14. Terrains, paysages et mondes ouverts — terminé au niveau `static-review`.
 15. Végétation et biomes — terminé au niveau `static-review`.
 16. Textures, matériaux et pipeline PBR — terminé au niveau `static-review`.
+17. UV, retopologie et baking — terminé au niveau `static-review`.
 
-Les chapitres 17 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 18 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1660,7 +1661,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 16 chapitres sur 30 ;
+- progression du Livre III : 17 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1677,6 +1678,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 15 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 16 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1714,20 +1716,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 16 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le laboratoire PBR couvre sémantique des cartes, sRGB et données linéaires, formats, résolution, mémoire, mipmaps, compression, packing ORM, densité de texels, matériaux maîtres, tiling, trim sheets, atlas, détails, Principled BSDF, glTF, import Godot, `StandardMaterial3D`, `ORMMaterial3D`, samplers, éclairages comparatifs, étalons, captures, budgets et campagne de mesure. Aucune texture, matériau, ressource Godot, scène, capture, GLB, preset ou mesure runtime n’est revendiqué comme matérialisé.
+Le chapitre 17 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-BAKE-PILOT-RELAY-001` couvre maillages haute et basse résolution, retopologie statique et déformable, edge flow, densité locale, normales, triangulation, UV, densité de texels, marges, chevauchements, bake sets, cages, distances de rayon, baking tangent-space, AO, curvature, cohérence OpenGL et comparaison Blender–Godot. Aucun maillage, UV, cage, bake, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
+Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 17 traitera la retopologie, les UV, les marges, les cages, le baking des normales, AO et curvature, la cohérence tangentielle Blender-Godot et le diagnostic des artefacts, sans refaire le pipeline PBR transversal du chapitre 16 ni anticiper la chaîne LOD du chapitre 18.
+Le chapitre 18 traitera les budgets par taille écran, la décimation contrôlée, les LOD, imposteurs, billboards, seuils, hystérésis, transitions, popping, ombres, collisions simplifiées et benchmark avant/après, sans refaire la retopologie, les UV ou le baking du chapitre 17.
 
 ## 27. Journal
+
+### 2026-07-23T23:35:00+02:00 — version 3.47.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-17.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 17 Finalizer Runner`, run `30047507706`, sur la tête documentaire `c803916a02416ad0338ace6d4fdaf66e2595d65d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8579697669`, digest `4586c47733f516f4988aebbae51fe725467cf1bd962a74e1116acad3fc09f847` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8579697878`, digest `16e07a6f3eb6df1ab92cfeaea4b895188b97eae790867caee70e11700a5b0130` ;
+- empreinte SHA-256 du chapitre : `127d06c2bc9bbd28c606088e303ea74d447b91c57f8a906c5b8e1da046f58a2d` ;
+- empreinte SHA-256 de l’audit : `35eeabea1cdd67cc858a7dcceb4abeab9f436c182fc206177f4b2511864b3d86` ;
+- métriques finales : 2 890 lignes, 82 titres, 84 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 18 — LOD, imposteurs et optimisation géométrique, niveau Élevée ;
+- aucun maillage, UV, cage, texture bakée, GLB, scène, capture, rapport, benchmark, résultat runtime ou PDF du Livre III produit.
+
+### 2026-07-23T23:15:00+02:00 — version 3.47.0
+
+- chapitre 17 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-BAKE-PILOT-RELAY-001` combinant coque technique statique et sangle déformable documenté ;
+- haute résolution, basse résolution, cage, conventions de nommage et collections Blender encadrées ;
+- retopologie statique et déformable, silhouette, edge flow, densité locale, pôles, quads, triangles et n-gons documentés ;
+- normales, arêtes dures, seams, triangulation, UV, îlots, distortion, densité de texels, packing, marges et chevauchements encadrés ;
+- bake sets, correspondance par noms, images cibles, Selected to Active, cages et distances de rayon documentés ;
+- normales tangentes OpenGL, AO, curvature, cartes auxiliaires, dilation, sampling, skew, géométries fines et miroir encadrés ;
+- glTF, tangentes Blender–Godot, import, scène comparative, validateur structurel, captures et rapport de contrôle préparés ;
+- métriques statiques : 2 890 lignes, 82 titres, 84 blocs significatifs, 64 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 18 — LOD, imposteurs et optimisation géométrique, niveau Élevée ;
+- aucun maillage, UV, cage, texture bakée, GLB, scène, capture, rapport, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T21:35:00+02:00 — version 3.46.1
 
