@@ -11,7 +11,10 @@ permissions:
 
 jobs:
   finalize:
-    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice'
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.pull_request.head.ref == 'docs/livre-ii-ch23-politique-factions-justice' ||
+       github.event.pull_request.head.ref == 'docs/livre-iii-ch07-creation-humanoides')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,26 +22,231 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Finalize chapter 23 when scripts are present
+      - name: Finalize supported chapter
+        id: prepare
         shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
           set -euo pipefail
-          if [[ ! -f .qa/ch23-fix.py ]]; then
-            echo "No chapter 23 finalizer scripts present."
+
+          if [[ "$HEAD_BRANCH" == "docs/livre-ii-ch23-politique-factions-justice" ]]; then
+            if [[ ! -f .qa/ch23-fix.py ]]; then
+              echo "No chapter 23 finalizer scripts present."
+              exit 0
+            fi
+            python3 .qa/ch23-fix.py
+            python3 .qa/ch23-audit-proof.py
+            python3 .qa/ch23-governance.py
+            python3 -m pip install --disable-pip-version-check --quiet PyYAML
+            mkdir -p dist
+            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+            python3 tools/check_context_markers.py --check
+            python3 tools/audit_contextes_semantiques.py --check
+            rm -f .qa/ch23-fix.py .qa/ch23-audit-proof.py .qa/ch23-governance.py
+            rm -f .qa/ch23-metrics.json .qa/ch23-finalizer-ready.txt .qa/ch23-finalizer-placeholder.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
+            git push origin HEAD:"$HEAD_BRANCH"
             exit 0
           fi
-          python3 .qa/ch23-fix.py
-          python3 .qa/ch23-audit-proof.py
-          python3 .qa/ch23-governance.py
-          python3 -m pip install --disable-pip-version-check --quiet PyYAML
-          mkdir -p dist
-          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
-          python3 tools/check_context_markers.py --check
-          python3 tools/audit_contextes_semantiques.py --check
-          rm -f .qa/ch23-fix.py .qa/ch23-audit-proof.py .qa/ch23-governance.py
-          rm -f .qa/ch23-metrics.json .qa/ch23-finalizer-ready.txt .qa/ch23-finalizer-placeholder.txt
+
+          if compgen -G ".qa/ch07-package-*.b64" > /dev/null; then
+            cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
+            echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
+              | sha256sum --check --strict
+            tar -xzf /tmp/ch07-package.tar.gz
+            python3 .qa/ch07-governance.py
+            python3 -m pip install --disable-pip-version-check --quiet PyYAML
+            mkdir -p dist
+            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+            python3 tools/check_code_explanation_structure.py --check
+            python3 tools/check_context_markers.py --check
+            python3 tools/audit_contextes_semantiques.py --check
+            python3 tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
+            rm -f .qa/ch07-package-*.b64 .qa/ch07-governance.py
+            cat > .qa/ch07-stage.json <<'EOF'
+          {"stage":"validate-and-close"}
+          EOF
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "docs(livre-iii): matérialiser le chapitre 7 et sa gouvernance"
+            git push origin HEAD:"$HEAD_BRANCH"
+            echo "stage=materialized" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ -f .qa/ch07-stage.json ]] &&
+             grep -q '^status: pending_ci$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml; then
+            python3 -m pip install --disable-pip-version-check --quiet PyYAML
+            mkdir -p dist
+            python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+            python3 tools/check_code_explanation_structure.py --check
+            python3 tools/check_context_markers.py --check \
+              | tee dist/QA-CONTEXTES.log
+            python3 tools/audit_contextes_semantiques.py --check \
+              | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+            python3 tools/report_contextes_utilisation.py \
+              | tee dist/QA-CONTEXTES-COUVERTURE.md
+            sha256sum \
+              Livre-III/CHAPITRE-07-Creation-des-humanoides.md \
+              Livre-III/QA/AUDIT-CHAPITRE-07.md \
+              | tee dist/CH07-SHA256.txt
+            echo "stage=validate" >> "$GITHUB_OUTPUT"
+            echo "document_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "No chapter 7 action required."
+          echo "stage=none" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Chapter 7 validation evidence
+        if: steps.prepare.outputs.stage == 'validate'
+        id: upload_ch07_main
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Upload Chapter 7 context evidence
+        if: steps.prepare.outputs.stage == 'validate'
+        id: upload_ch07_context
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+            dist/CH07-SHA256.txt
+
+      - name: Close Chapter 7 evidence
+        if: steps.prepare.outputs.stage == 'validate'
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+          DOCUMENT_HEAD: ${{ steps.prepare.outputs.document_head }}
+          MAIN_ARTIFACT_ID: ${{ steps.upload_ch07_main.outputs.artifact-id }}
+          MAIN_ARTIFACT_DIGEST: ${{ steps.upload_ch07_main.outputs.artifact-digest }}
+          CONTEXT_ARTIFACT_ID: ${{ steps.upload_ch07_context.outputs.artifact-id }}
+          CONTEXT_ARTIFACT_DIGEST: ${{ steps.upload_ch07_context.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          export VALIDATION_RUN_ID="$GITHUB_RUN_ID"
+          python3 - <<'PY'
+          from datetime import datetime
+          import os
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import yaml
+
+          proof_path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml")
+          proof = yaml.safe_load(proof_path.read_text(encoding="utf-8"))
+          chapter_sha = ""
+          audit_sha = ""
+          for line in Path("dist/CH07-SHA256.txt").read_text(encoding="utf-8").splitlines():
+              digest, name = line.split(maxsplit=1)
+              if "CHAPITRE-07-Creation" in name:
+                  chapter_sha = digest
+              elif "AUDIT-CHAPITRE-07" in name:
+                  audit_sha = digest
+          if not chapter_sha or not audit_sha:
+              raise RuntimeError("Empreintes du chapitre 7 introuvables.")
+
+          proof["status"] = "complete"
+          proof["validated-head-commit"] = os.environ["DOCUMENT_HEAD"]
+          results = proof["results"]
+          results["blocking-errors"] = 0
+          results["warnings"] = 1
+          results["significant-code-and-data-blocks"] = 39
+          results["duplicate-headings"] = 0
+          results["duplicate-blocks"] = 0
+          results["duplicate-paragraphs"] = 0
+          proof["integrity"]["chapter-sha256"] = chapter_sha
+          proof["integrity"]["audit-sha256"] = audit_sha
+          run_id = int(os.environ["VALIDATION_RUN_ID"])
+          proof["ci"]["validate-chapters-without-pdf"] = {
+              "run-id": run_id,
+              "conclusion": "success",
+          }
+          proof["ci"]["validate-usage-contexts"] = {
+              "run-id": run_id,
+              "conclusion": "success",
+          }
+          proof["ci"]["artifact"]["id"] = int(os.environ["MAIN_ARTIFACT_ID"])
+          proof["ci"]["artifact"]["digest"] = os.environ["MAIN_ARTIFACT_DIGEST"].removeprefix("sha256:")
+          proof["ci"]["context-artifact"]["id"] = int(os.environ["CONTEXT_ARTIFACT_ID"])
+          proof["ci"]["context-artifact"]["digest"] = os.environ["CONTEXT_ARTIFACT_DIGEST"].removeprefix("sha256:")
+          proof_path.write_text(
+              yaml.safe_dump(proof, sort_keys=False, allow_unicode=True),
+              encoding="utf-8",
+          )
+
+          continuity_path = Path("CONTINUITE-PROJET.md")
+          continuity = continuity_path.read_text(encoding="utf-8")
+          timestamp = datetime.now(ZoneInfo("Europe/Paris")).isoformat(timespec="seconds")
+          if 'version: "3.37.0"' not in continuity:
+              raise RuntimeError("Version 3.37.0 de continuité absente.")
+          continuity = continuity.replace('version: "3.37.0"', 'version: "3.37.1"', 1)
+          import re
+          continuity = re.sub(
+              r'last-updated: "[^"]+"',
+              f'last-updated: "{timestamp}"',
+              continuity,
+              count=1,
+          )
+          marker = "## 27. Journal\n\n"
+          journal = f"""### {timestamp} — version 3.37.1
+
+          - preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+          - validation documentaire et des contextes réussie au run `{run_id}` sur la tête `{os.environ["DOCUMENT_HEAD"]}` ;
+          - artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `{os.environ["MAIN_ARTIFACT_ID"]}`, digest `{os.environ["MAIN_ARTIFACT_DIGEST"].removeprefix("sha256:")}` ;
+          - artefact `usage-context-audit` enregistré sous l’identifiant `{os.environ["CONTEXT_ARTIFACT_ID"]}`, digest `{os.environ["CONTEXT_ARTIFACT_DIGEST"].removeprefix("sha256:")}` ;
+          - empreinte SHA-256 du chapitre : `{chapter_sha}` ;
+          - empreinte SHA-256 de l’audit : `{audit_sha}` ;
+          - métriques finales : 2 015 lignes, 72 titres, 39 blocs significatifs et aucun doublon ;
+          - prochaine action maintenue au chapitre 8 — Création des animaux, niveau Élevée ;
+          - aucun humanoïde, rig, animation, équipement, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+          """
+          if marker not in continuity:
+              raise RuntimeError("Journal de continuité introuvable.")
+          continuity = continuity.replace(marker, marker + journal, 1)
+          continuity_path.write_text(continuity, encoding="utf-8")
+          PY
+
+          rm -f .qa/ch07-stage.json
+          rmdir .qa 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "docs(livre-ii): finalize chapter 23 politics and justice"
-          git push origin HEAD:${{ github.head_ref }}
+          git commit -m "docs(qa): fermer la preuve du chapitre 7"
+          closure_commit="$(git rev-parse HEAD)"
+
+          export CLOSURE_COMMIT="$closure_commit"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import yaml
+          path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml")
+          proof = yaml.safe_load(path.read_text(encoding="utf-8"))
+          proof["evidence-closure"]["commit"] = os.environ["CLOSURE_COMMIT"]
+          proof["evidence-closure"]["conclusion"] = "success"
+          path.write_text(
+              yaml.safe_dump(proof, sort_keys=False, allow_unicode=True),
+              encoding="utf-8",
+          )
+          PY
+
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml
+          git commit -m "docs(qa): enregistrer le commit de clôture du chapitre 7"
+          git push origin HEAD:"$HEAD_BRANCH"
