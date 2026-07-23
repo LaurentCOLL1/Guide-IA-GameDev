@@ -1,0 +1,115 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH10
+status: pending_ci
+validation-date: '2026-07-23'
+validated-base-commit: ec43d99f2baa7fa1210be172664b1820b23aa7ea
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH10
+  path: Livre-III/CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1978
+  chapter-headings: 49
+  chapter-code-and-data-blocks: 52
+  significant-code-and-data-blocks: 52
+  code-explanation-markers: 52
+  structured-non-error-code-explanations: 32
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  facial-topology-documented: true
+  sculpt-asymmetry-documented: true
+  skin-material-profile-documented: true
+  subsurface-test-documented: true
+  eye-cornea-iris-wetness-documented: true
+  mouth-teeth-intersections-documented: true
+  hair-cards-groom-transparency-documented: true
+  eyebrows-eyelashes-beard-fuzz-documented: true
+  test-shapes-documented: true
+  chapter-27-lip-sync-boundary-documented: true
+  facial-lod-profile-documented: true
+  gltf-export-documented: true
+  godot-derived-scene-documented: true
+  structural-gdscript-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  multi-light-test-documented: true
+  performance-protocol-documented: true
+  provenance-consent-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-human-base-duplication: true
+  no-general-pbr-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-final-rig-animation-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: a39df80e5f6a37d9290f87464f02b5804d0193b262db3c6209560cc10e3e375c
+  audit-sha256: cf9a9fa649b59b07c7a70b1193fa1340291cbf9a18ce6b02e268bdc88e082a7e
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 10 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 10 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+- Functional close-up brief not approved by a production review.
+- Face references, consent and rights not qualified.
+- Reference diversity and bias review not completed.
+- Pilot head not produced.
+- Landmarks and primary forms not reviewed.
+- Topology and deformation poses not tested.
+- Controlled asymmetry not validated.
+- Primary, secondary and tertiary sculpt not created.
+- Skin textures not produced.
+- Skin material not created.
+- Subsurface profile not measured.
+- Eye, cornea, iris and wetline not produced.
+- Blink and eyelid contact not tested.
+- Mouth, teeth, gums and tongue not produced.
+- Intersections and light leaks not tested.
+- Hair solution not selected.
+- Hair cards and overdraw not measured.
+- Groom conversion not tested.
+- Eyebrows, eyelashes, beard and peach fuzz not produced.
+- Facial deformation test shapes not produced.
+- Facial LOD meshes, materials and thresholds not produced or measured.
+- GLB export not produced.
+- Godot validation scene not materialized.
+- GDScript validator not executed.
+- Lighting captures not produced.
+- CPU, GPU, VRAM, draw-call and overdraw values not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
