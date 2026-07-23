@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH10
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: ec43d99f2baa7fa1210be172664b1820b23aa7ea
-validated-head-commit: null
+validated-head-commit: 5ca5d5b21395df3f45365b8885c40b78d92b3d4e
 chapter:
   id: DOC-L3-CH10
   path: Livre-III/CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md
@@ -65,21 +65,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 10 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29994474356
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 10 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 29994474356
+    conclusion: success
   artifact:
-    id: null
+    id: 8558361544
     name: chapter-validation-without-pdf
-    digest: null
+    digest: e853f5235aa9a5bf045ed3372ff52f07268b7779668bf0200236eb3f22a13258
   context-artifact:
-    id: null
+    id: 8558362006
     name: usage-context-audit
-    digest: null
+    digest: b9d4c95525d780fcbc30fd8018223e281b9f9421dbad254232cbb976b4c4da72
 reservations:
 - Functional close-up brief not approved by a production review.
 - Face references, consent and rights not qualified.
