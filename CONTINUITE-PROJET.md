@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.45.0"
+version: "3.45.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T20:23:04+02:00"
+last-updated: "2026-07-23T20:38:21+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1726,6 +1726,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 16 établira le pipeline PBR commun : rôles des cartes, espaces colorimétriques, résolutions, mipmaps, compression, densité de texels, matériaux tilables, trim sheets, atlas, configuration Godot et scène d’éclairage comparative, sans refaire les matériaux préparatoires propres aux terrains ou à la végétation ni anticiper les UV et le baking approfondis du chapitre 17.
 
 ## 27. Journal
+
+### 2026-07-23T20:38:21+02:00 — version 3.45.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-15.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 15 Finalizer Runner`, run `30034556687`, sur la tête documentaire `d90cf18dec3755309f23eaff9d62838bb6e6adea` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8574685813`, digest `417f0bcf07d8de36ab648f92f6d8e9496f48643157a32774187c6981bfd0bdff` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8574686290`, digest `1bc30e64a303926e6518666c382e0b7569327f49a40e2dbf6d73af92539741e9` ;
+- empreinte SHA-256 du chapitre : `7db682e1b4c4bc85519a056b45d5ffb80b340d50a5d9c7663e38690cdcf0f85a` ;
+- empreinte SHA-256 de l’audit : `a54b97367c5fc1434f369b67505dc130fec37a111e9d8602abc0afa880dab728` ;
+- métriques finales : 2 236 lignes, 64 titres, 66 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 16 — Textures, matériaux et pipeline PBR, niveau Élevée ;
+- aucun végétal, texture, matériau, atlas, shader, carte, `MultiMesh`, imposteur, collision, scène, GLB, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T20:23:04+02:00 — version 3.45.0
 

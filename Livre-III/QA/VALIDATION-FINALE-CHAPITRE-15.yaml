@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH15
-status: pending
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: bb5d7653117e7b7dd0d9e4d83cdfe5b521a147e7
-validated-head-commit: null
+validated-head-commit: d90cf18dec3755309f23eaff9d62838bb6e6adea
 chapter:
   id: DOC-L3-CH15
   path: Livre-III/CHAPITRE-15-Vegetation-et-biomes.md
@@ -75,21 +75,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 15 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30034556687
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 15 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30034556687
+    conclusion: success
   artifact:
-    id: null
+    id: 8574685813
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 417f0bcf07d8de36ab648f92f6d8e9496f48643157a32774187c6981bfd0bdff
   context-artifact:
-    id: null
+    id: 8574686290
     name: usage-context-audit
-    digest: null
+    digest: 1bc30e64a303926e6518666c382e0b7569327f49a40e2dbf6d73af92539741e9
 reservations:
 - Pilot biome brief not approved by a production review.
 - References, rights and provenance not qualified.
