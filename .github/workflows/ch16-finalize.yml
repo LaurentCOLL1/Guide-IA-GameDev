@@ -1,0 +1,170 @@
+name: Chapter 16 Finalizer Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'docs/livre-iii-ch16-textures-materiaux-pbr'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Prepare Chapter 16 stage
+        id: prepare
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+          BASE_COMMIT: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [[ ! -f .qa/ch16-materialize.py ]]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          python3 .qa/ch16-materialize.py
+          python3 .qa/ch16-governance.py
+
+          rm -f .qa/ch16-package-*.txt
+          rm -f .qa/ch16-materialize.py
+          rm -f .qa/ch16-governance.py
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-iii): intégrer le chapitre 16 et sa gouvernance"
+          git push origin "HEAD:${HEAD_BRANCH}"
+
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "document_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Install lightweight dependencies
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Validate structure, metadata, links and duplicates
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
+
+      - name: Validate structured code explanations
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          set -o pipefail
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/QA-EXPLICATIONS-CODE.log
+
+      - name: Audit usage marker presence
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
+        if: steps.prepare.outputs.should_run == 'true'
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Upload Chapter 16 validation evidence
+        id: upload_main
+        if: steps.prepare.outputs.should_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-validation-without-pdf
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-EXPLICATIONS-CODE.log
+
+      - name: Upload Chapter 16 context evidence
+        id: upload_context
+        if: steps.prepare.outputs.should_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: usage-context-audit
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Close Chapter 16 evidence
+        if: steps.prepare.outputs.should_run == 'true'
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+          DOCUMENT_HEAD: ${{ steps.prepare.outputs.document_head }}
+          VALIDATION_RUN_ID: ${{ github.run_id }}
+          MAIN_ARTIFACT_ID: ${{ steps.upload_main.outputs.artifact-id }}
+          MAIN_ARTIFACT_DIGEST: ${{ steps.upload_main.outputs.artifact-digest }}
+          CONTEXT_ARTIFACT_ID: ${{ steps.upload_context.outputs.artifact-id }}
+          CONTEXT_ARTIFACT_DIGEST: ${{ steps.upload_context.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python3 .qa/ch16-close.py
+          rm -f .qa/ch16-close.py
+
+          git add -A
+          git commit -m "docs(qa): fermer la preuve du chapitre 16"
+          git push origin "HEAD:${HEAD_BRANCH}"
+
+          CLOSURE_COMMIT="$(git rev-parse HEAD)"
+          CLOSURE_COMMIT="$CLOSURE_COMMIT" python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-16.yaml")
+          text = path.read_text(encoding="utf-8")
+          old = "evidence-closure:\n  commit: null\n  conclusion: pending\n"
+          new = (
+              "evidence-closure:\n"
+              f"  commit: {os.environ['CLOSURE_COMMIT']}\n"
+              "  conclusion: success\n"
+          )
+          if text.count(old) != 1:
+              raise RuntimeError("Bloc de clôture de preuve introuvable ou dupliqué.")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          PY
+
+          git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-16.yaml
+          git commit -m "docs(qa): enregistrer le commit de clôture du chapitre 16"
+          git push origin "HEAD:${HEAD_BRANCH}"
