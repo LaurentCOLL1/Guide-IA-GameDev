@@ -19,30 +19,58 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Verify and materialize Chapter 7
+      - name: Diagnose Chapter 7 materialization
         shell: bash
         env:
           HEAD_BRANCH: ${{ github.head_ref }}
         run: |
-          set -euo pipefail
+          set -u
+          if [[ -f .qa/ch07-materialize-debug.log ]]; then
+            echo "Chapter 7 diagnostic already recorded."
+            exit 0
+          fi
           if ! compgen -G ".qa/ch07-package-*.b64" > /dev/null; then
-            echo "No Chapter 7 package to materialize."
+            echo "No Chapter 7 package to diagnose."
             exit 0
           fi
 
-          cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
-          echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
-            | sha256sum --check --strict
-          tar -xzf /tmp/ch07-package.tar.gz
-          python3 .qa/ch07-governance.py
+          log=.qa/ch07-materialize-debug.log
+          set +e
+          {
+            echo "STEP files"
+            wc -c .qa/ch07-package-*.b64
 
-          rm -f .qa/ch07-package-*.b64 .qa/ch07-governance.py
-          cat > .qa/ch07-stage.json <<'EOF'
-          {"stage":"validate-and-close"}
-          EOF
+            echo "STEP decode"
+            cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
+            echo "decode_rc=$?"
+
+            echo "STEP digest"
+            sha256sum /tmp/ch07-package.tar.gz
+            echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
+              | sha256sum --check --strict
+            echo "digest_rc=$?"
+
+            echo "STEP archive-list"
+            tar -tzf /tmp/ch07-package.tar.gz
+            echo "list_rc=$?"
+
+            echo "STEP extract"
+            tar -xzf /tmp/ch07-package.tar.gz
+            echo "extract_rc=$?"
+
+            echo "STEP governance"
+            python3 .qa/ch07-governance.py
+            echo "governance_rc=$?"
+          } > "$log" 2>&1
+          set -e
+
+          git restore CONTINUITE-PROJET.md Livre-III/index.md ROADMAP.md contents.txt plans/LIVRE-III-PLAN-MAITRE.md 2>/dev/null || true
+          rm -f Livre-III/CHAPITRE-07-Creation-des-humanoides.md
+          rm -f Livre-III/QA/AUDIT-CHAPITRE-07.md Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml
+          rm -f .qa/ch07-governance.py
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "docs(livre-iii): matérialiser le chapitre 7 et sa gouvernance"
+          git add "$log"
+          git commit -m "ci(ch07): enregistrer le diagnostic de matérialisation"
           git push origin HEAD:"$HEAD_BRANCH"
