@@ -1,8 +1,9 @@
 from __future__ import annotations
-import base64, gzip, hashlib, json
+import base64, gzip, hashlib, json, os
 from pathlib import Path
 
 EXPECTED_PACKAGE_SHA256 = "62185242fd9d0c41b4cff6c2439465610491305fd7943785a512a9731ed48dd0"
+PACKAGED_BASE_COMMIT = "c772bddf609ad903fd43b224b212fffc58bc4ead"
 ROOT = Path(".")
 parts = sorted((ROOT / ".qa").glob("ch17-package-*.txt"))
 if not parts:
@@ -22,4 +23,17 @@ for relative, entry in payload["files"].items():
         raise RuntimeError(f"Empreinte invalide pour {relative}: {actual}")
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(data)
-print(f"Chapitre 17 matérialisé: {len(payload['files'])} fichiers vérifiés.")
+
+base_commit = os.environ.get("BASE_COMMIT", PACKAGED_BASE_COMMIT)
+proof = ROOT / "Livre-III/QA/VALIDATION-FINALE-CHAPITRE-17.yaml"
+proof_text = proof.read_text(encoding="utf-8")
+old_base = f"validated-base-commit: {PACKAGED_BASE_COMMIT}"
+new_base = f"validated-base-commit: {base_commit}"
+if proof_text.count(old_base) != 1:
+    raise RuntimeError("Base empaquetée de la preuve absente ou dupliquée.")
+proof.write_text(proof_text.replace(old_base, new_base, 1), encoding="utf-8")
+
+print(
+    f"Chapitre 17 matérialisé: {len(payload['files'])} fichiers vérifiés; "
+    f"base de preuve: {base_commit}."
+)
