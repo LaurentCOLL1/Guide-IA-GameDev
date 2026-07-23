@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.42.1"
+version: "3.43.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T14:07:25+02:00"
+last-updated: "2026-07-23T16:22:54+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 9 chapitres sur 30.**
+**En cours : 13 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -161,8 +161,12 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 7. Création des humanoïdes — terminé au niveau `static-review`.
 8. Création des animaux — terminé au niveau `static-review`.
 9. Création des créatures — terminé au niveau `static-review`.
+10. Visages, peau, yeux, cheveux et pilosité — terminé au niveau `static-review`.
+11. Vêtements, armures et accessoires — terminé au niveau `static-review`.
+12. Objets, équipements et armes — terminé au niveau `static-review`.
+13. Architecture, bâtiments et kits modulaires — terminé au niveau `static-review`.
 
-Les chapitres 10 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 14 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1653,7 +1657,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 12 chapitres sur 30 ;
+- progression du Livre III : 13 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1666,6 +1670,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 10 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 11 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 12 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 13 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1703,20 +1708,46 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 12 du Livre III est rédigé, repéré et audité au niveau `static-review`. La bibliothèque d’objets couvre fonctions observables, références dimensionnelles, ergonomie, échelle, axes, origines, pivots, prises, sockets de rangement et d’environnement, pièces mobiles, collisions d’interaction, physiques et d’impact, états visuels, variantes, LOD, export GLB et scènes Godot de validation. Aucun objet, outil, arme, pivot, socket, collision, matériau, atlas, LOD, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 13 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le kit architectural couvre métriques humaines, grille, catalogue de modules, connecteurs, règles d’assemblage, murs, ouvertures, coins, transitions, sols, escaliers, toitures, intérieurs, pivots, snapping, tolérances, collisions, navigation, occlusion, états visuels de destruction, matériaux partagés, variantes, LOD, HLOD, export GLB, scènes Godot dérivées, `GridMap`, `MeshLibrary` et campagnes de validation. Aucun module, bâtiment, collision, navigation, occluder, matériau, atlas, LOD, HLOD, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
+Livre-III/CHAPITRE-14-Terrains-paysages-et-mondes-ouverts.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 13 créera des kits architecturaux modulaires fondés sur une grille métrique, des règles d’assemblage, des pivots de snapping, des collisions, de la navigation, de l’occlusion et des LOD, sans refaire les objets individuels du chapitre 12 ni déplacer les règles de construction par le joueur du Livre II.
+Le chapitre 14 produira un terrain pilote, un découpage spatial, des raccords avec les bâtiments, des profils de streaming, des matériaux de terrain et une scène de benchmark, sans refaire les kits architecturaux du chapitre 13 ni déplacer la simulation écologique du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T16:22:54+02:00 — version 3.43.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-13.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 13 Finalizer Runner`, run `30015525117`, sur la tête documentaire `612bc2878246229b691d7a420e4ec3e6efd41ff7` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8566943950`, digest `5dcc0c417a79d6f058a8caabacb96b388b545be8da695a205f8b51866d385cf3` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8566944381`, digest `6783ea5316695ef04a95f16d1c3feefda48ce9e95e3c07547f95c1fb96fe5970` ;
+- empreinte SHA-256 du chapitre : `fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9` ;
+- empreinte SHA-256 de l’audit : `48defcdb19887a51643c87d3ad2aa02d37792c5d42409d1d9508b511d255af0e` ;
+- métriques finales : 2 381 lignes, 63 titres, 69 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 14 — Terrains, paysages et mondes ouverts, niveau Élevée ;
+- aucun module, bâtiment, collision, navigation, occluder, matériau, atlas, LOD, HLOD, GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T14:35:47+02:00 — version 3.43.0
+
+- chapitre 13 du Livre III récupéré avec son empreinte originale, relu et audité au niveau `static-review` ;
+- audit QA reconstruit depuis le chapitre vérifié, le plan maître et le protocole après corruption du conteneur de transport temporaire ;
+- kit pilote `AST-ARCH-KIT-WAYSTATION-001`, grille, modules, connecteurs, tolérances et porte de blockout à trois bâtiments documentés ;
+- murs, ouvertures, coins, transitions, sols, escaliers, toitures, intérieurs et variantes encadrés ;
+- rendu, collisions, navigation et occlusion séparés ; destruction limitée à une préparation visuelle ;
+- scènes modulaires, `GridMap`, `MeshLibrary`, LOD de module et HLOD de bâtiment documentés ;
+- métriques statiques : 2 381 lignes, 63 titres, 69 blocs significatifs, 49 explications structurées et dix diagnostics ;
+- synthèse supérieure du Livre III corrigée de 9/30 à 13/30 pour rejoindre l’état courant et les preuves ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 14 — Terrains, paysages et mondes ouverts, niveau Élevée ;
+- aucun module, bâtiment, collision, navigation, occluder, matériau, atlas, LOD, HLOD, GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T14:07:25+02:00 — version 3.42.1
 

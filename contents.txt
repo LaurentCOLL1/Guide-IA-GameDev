@@ -75,6 +75,7 @@ Livre-III/CHAPITRE-09-Creation-des-creatures.md
 Livre-III/CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md
 Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md
 Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
+Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md
