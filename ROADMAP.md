@@ -124,12 +124,13 @@
 - [x] Chapitre 11 — Vêtements, armures et accessoires.
 - [x] Chapitre 12 — Objets, équipements et armes.
 - [x] Chapitre 13 — Architecture, bâtiments et kits modulaires.
+- [x] Chapitre 14 — Terrains, paysages et mondes ouverts.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 13 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 14 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 
