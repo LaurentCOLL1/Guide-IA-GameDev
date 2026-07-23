@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.37.1"
+version: "3.38.0"
 lang: "fr-FR"
-last-updated: "2026-07-23T02:47:39+02:00"
+last-updated: "2026-07-23T05:13:25+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 7 chapitres sur 30.**
+**En cours : 8 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -159,8 +159,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 5. Provenance, licences et validation des assets — terminé au niveau `static-review`.
 6. Création des humains — terminé au niveau `static-review`.
 7. Création des humanoïdes — terminé au niveau `static-review`.
+8. Création des animaux — terminé au niveau `static-review`.
 
-Les chapitres 8 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 9 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1651,7 +1652,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 7 chapitres sur 30 ;
+- progression du Livre III : 8 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1659,6 +1660,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 5 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 6 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 7 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 8 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1696,20 +1698,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 7 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système d’adaptation humanoïde couvre écarts anatomiques, silhouettes, topologie, modules, profils de rig, BoneMap, retargeting partiel, équipements, sockets, variations culturelles, LOD et scènes de test. Aucun modèle, rig, animation, équipement, export ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 8 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de production animal couvre familles anatomiques, masses, appuis, topologie, profils de rig, cycles pilotes, pelage, plumes, écailles, variantes, LOD, représentations de groupe et scènes Godot de validation. Aucun modèle, rig, cycle, surface, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-08-Creation-des-animaux.md
+Livre-III/CHAPITRE-09-Creation-des-creatures.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 8 couvrira les grandes familles animales, la répartition des masses, les contacts au sol, les cycles de locomotion, les surfaces de pelage, plumes ou écailles, les variantes pertinentes, le LOD et les scènes Godot de validation, sans créer les comportements de simulation du Livre II.
+Le chapitre 9 transformera des concepts fantastiques en créatures identifiables, anatomiquement cohérentes avec leurs fonctions, riggables et animables, sans refaire les familles animales réelles du chapitre 8 ni les comportements de gameplay du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T05:13:25+02:00 — version 3.38.0
+
+- chapitre 8 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilotes quadrupède, oiseau, poisson, reptile bas et morphologie serpentine documentés ;
+- références, masses, repères, appuis et calendriers de contacts encadrés ;
+- bases maillées, topologies, profils de rig, skinning et influences préparés ;
+- cycles de marche, course, vol, nage, repos et transitions décrits sans animation inventée ;
+- pelage, plumes, écailles, variantes et représentations de livraison séparés des sources Blender ;
+- LOD, densité, limites de MultiMesh, export GLB, import Godot et laboratoire de validation documentés ;
+- dix erreurs fréquentes fournissent exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 9 — Création des créatures, niveau Élevée ;
+- aucun modèle animal, rig, animation, surface, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T02:47:39+02:00 — version 3.37.1
 

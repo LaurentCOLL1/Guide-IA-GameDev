@@ -1,3 +1,0 @@
-trigger: synchronize
-purpose: launch approved chapter 8 materialization
-attempt: split-materialization-validation

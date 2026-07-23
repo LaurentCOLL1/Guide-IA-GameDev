@@ -1,0 +1,103 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH08
+status: pending_ci
+validation-date: '2026-07-23'
+validated-base-commit: 559e9a0b629823840ebace150883d781c27b63ad
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH08
+  path: Livre-III/CHAPITRE-08-Creation-des-animaux.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 1928
+  chapter-headings: 66
+  chapter-code-and-data-blocks: 43
+  significant-code-and-data-blocks: null
+  code-explanation-markers: 43
+  structured-non-error-code-explanations: 23
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  quadrupeds-documented: true
+  birds-documented: true
+  fish-documented: true
+  reptiles-documented: true
+  particular-morphologies-documented: true
+  mass-distribution-documented: true
+  ground-contact-documented: true
+  locomotion-cycles-documented: true
+  walk-run-flight-swim-rest-documented: true
+  fur-feathers-scales-documented: true
+  variants-documented: true
+  lod-and-density-documented: true
+  multimesh-limitations-documented: true
+  rig-profiles-documented: true
+  skinning-influences-documented: true
+  gltf-export-documented: true
+  godot-import-documented: true
+  godot-validation-lab-documented: true
+  structural-gdscript-documented: true
+  contact-measurement-documented: true
+  performance-protocol-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-gameplay-simulation-duplication: true
+  no-fantasy-creature-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: null
+  audit-sha256: null
+ci:
+  validate-chapters-without-pdf:
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+- Real animal references not collected or qualified.
+- Real animal bases not modeled.
+- Real topology and deformation tests not executed.
+- Real armatures and skinning not produced.
+- Real locomotion clips and transitions not produced.
+- Fur, feathers and scales not materialized.
+- Blender hair-curve delivery conversion not tested.
+- GLB exports not produced.
+- Godot validation scenes not materialized.
+- GDScript validator not executed.
+- Contact sliding and penetration not measured.
+- LOD thresholds not measured.
+- MultiMesh group representations not tested.
+- CPU, GPU, draw-call and memory values not measured.
+- Animal variants not produced.
+- Anatomy, rigging, animation, lookdev and performance reviews not executed.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
