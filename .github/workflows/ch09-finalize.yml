@@ -62,6 +62,34 @@ jobs:
             exit 0
           fi
 
+          if [[ -f Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml ]] &&
+             grep -q '^status: complete$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml &&
+             grep -q '^  commit: null$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml; then
+            CLOSURE_COMMIT="$(git rev-parse HEAD)" python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          proof_path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml")
+          proof = proof_path.read_text(encoding="utf-8")
+          old = "evidence-closure:\n  commit: null\n  conclusion: pending\n"
+          new = (
+              "evidence-closure:\n"
+              f"  commit: {os.environ['CLOSURE_COMMIT']}\n"
+              "  conclusion: success\n"
+          )
+          if old not in proof:
+              raise RuntimeError("Section de clôture en attente introuvable.")
+          proof_path.write_text(proof.replace(old, new, 1), encoding="utf-8")
+          PY
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml
+            git commit -m "docs(qa): enregistrer le commit de clôture du chapitre 9"
+            git push origin HEAD:"$HEAD_BRANCH"
+            echo "stage=recorded" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           echo "No Chapter 9 action required."
           echo "stage=none" >> "$GITHUB_OUTPUT"
 
