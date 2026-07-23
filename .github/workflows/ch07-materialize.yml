@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened, edited]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   materialize:
@@ -19,23 +19,11 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Diagnose Chapter 7 materialization
+      - name: Capture Chapter 7 materialization diagnostic
         shell: bash
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
         run: |
-          set -u
-          if [[ -f .qa/ch07-materialize-debug.log ]]; then
-            echo "Chapter 7 diagnostic already recorded."
-            exit 0
-          fi
-          if ! compgen -G ".qa/ch07-package-*.b64" > /dev/null; then
-            echo "No Chapter 7 package to diagnose."
-            exit 0
-          fi
-
-          log=.qa/ch07-materialize-debug.log
           set +e
+          log=.qa/ch07-materialize-debug.log
           {
             echo "STEP files"
             wc -c .qa/ch07-package-*.b64
@@ -62,15 +50,12 @@ jobs:
             python3 .qa/ch07-governance.py
             echo "governance_rc=$?"
           } > "$log" 2>&1
-          set -e
+          exit 0
 
-          git restore CONTINUITE-PROJET.md Livre-III/index.md ROADMAP.md contents.txt plans/LIVRE-III-PLAN-MAITRE.md 2>/dev/null || true
-          rm -f Livre-III/CHAPITRE-07-Creation-des-humanoides.md
-          rm -f Livre-III/QA/AUDIT-CHAPITRE-07.md Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml
-          rm -f .qa/ch07-governance.py
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$log"
-          git commit -m "ci(ch07): enregistrer le diagnostic de matérialisation"
-          git push origin HEAD:"$HEAD_BRANCH"
+      - name: Upload Chapter 7 materialization diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch07-materialization-diagnostic
+          if-no-files-found: error
+          retention-days: 7
+          path: .qa/ch07-materialize-debug.log
