@@ -28,6 +28,9 @@ jobs:
             echo "STEP files"
             wc -c .qa/ch07-package-*.b64
 
+            echo "STEP fragment-digests"
+            sha256sum .qa/ch07-package-*.b64
+
             echo "STEP decode"
             cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
             echo "decode_rc=$?"
