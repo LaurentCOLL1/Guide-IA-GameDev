@@ -121,12 +121,13 @@
 - [x] Chapitre 8 — Création des animaux.
 - [x] Chapitre 9 — Création des créatures.
 - [x] Chapitre 10 — Visages, peau, yeux, cheveux et pilosité.
+- [x] Chapitre 11 — Vêtements, armures et accessoires.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 10 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 11 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 
