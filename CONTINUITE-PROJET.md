@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.36.2"
+version: "3.37.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T01:25:59+02:00"
+last-updated: "2026-07-23T02:47:39+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 6 chapitres sur 30.**
+**En cours : 7 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -158,8 +158,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 4. Pipeline Blender et organisation des fichiers — terminé au niveau `static-review`.
 5. Provenance, licences et validation des assets — terminé au niveau `static-review`.
 6. Création des humains — terminé au niveau `static-review`.
+7. Création des humanoïdes — terminé au niveau `static-review`.
 
-Les chapitres 7 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 8 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1650,13 +1651,14 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 6 chapitres sur 30 ;
+- progression du Livre III : 7 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 5 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 6 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 7 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1694,20 +1696,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 6 du Livre III est rédigé, repéré et audité au niveau `static-review`. La base humaine documentaire couvre références anatomiques, proportions, topologie de déformation, modules, variantes morphologiques, préparation UV et matériaux, budgets LOD et scène Godot de validation. Aucun maillage, rig, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 7 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système d’adaptation humanoïde couvre écarts anatomiques, silhouettes, topologie, modules, profils de rig, BoneMap, retargeting partiel, équipements, sockets, variations culturelles, LOD et scènes de test. Aucun modèle, rig, animation, équipement, export ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-07-Creation-des-humanoides.md
+Livre-III/CHAPITRE-08-Creation-des-animaux.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 7 adaptera le contrat de la base humaine à des espèces humanoïdes distinctes, en documentant les écarts anatomiques, profils de rig, compatibilités d’équipement, variations culturelles et tests de silhouette sans produire les créatures non humanoïdes du chapitre 9.
+Le chapitre 8 couvrira les grandes familles animales, la répartition des masses, les contacts au sol, les cycles de locomotion, les surfaces de pelage, plumes ou écailles, les variantes pertinentes, le LOD et les scènes Godot de validation, sans créer les comportements de simulation du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T02:47:39+02:00 — version 3.37.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire et des contextes réussie au run `29970060048` sur la tête `71595cdea8f3eec006112d301bf969ea3bf5e2ac` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8549296753`, digest `09ba794a1b5de6abb9e6e7d9f2beaeb216186fa3d6b5336be4f0153cdb47b063` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8549296962`, digest `2a8d9520185a8d5a946077fb3e3df34126e3cbd4500d048dbeaab99c77b19068` ;
+- empreinte SHA-256 du chapitre : `7cc7ea64b3e4f86ef16cb043ab5436e52dd95f006bbb1d11162a798f72eba2c8` ;
+- empreinte SHA-256 de l’audit : `7a0961703c8038698937aab2e68325ff13fed5731854e68b35675481fdaca64c` ;
+- métriques finales : 2 015 lignes, 72 titres, 39 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 8 — Création des animaux, niveau Élevée ;
+- aucun humanoïde, rig, animation, équipement, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T02:42:14+02:00 — version 3.37.0
+
+- chapitre 7 du Livre III créé, relu et audité au niveau `static-review` ;
+- fiche d’espèce, registre des écarts anatomiques et classes d’impact documentés ;
+- proportions, posture, centre de masse, membres, extrémités et traits secondaires encadrés ;
+- silhouettes, topologie, variantes, modules et interfaces versionnées définis ;
+- profils de rig, BoneMap, poses de repos, retargeting local, global et partiel documentés ;
+- vêtements, armures, masques corporels, sockets et interactions qualifiés par matrice ;
+- variations culturelles séparées de l’anatomie et protégées contre les inférences réductrices ;
+- LOD, budgets, export GLB, import Godot, scènes de test et validateur structurel documentés ;
+- dix erreurs fréquentes fournissent exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 8 — Création des animaux, niveau Élevée ;
+- aucun humanoïde, rig, animation, équipement, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T01:25:59+02:00 — version 3.36.2
 

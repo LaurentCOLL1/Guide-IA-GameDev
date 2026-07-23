@@ -69,6 +69,7 @@ Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md
 Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md
 Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md
 Livre-III/CHAPITRE-06-Creation-des-humains.md
+Livre-III/CHAPITRE-07-Creation-des-humanoides.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md
