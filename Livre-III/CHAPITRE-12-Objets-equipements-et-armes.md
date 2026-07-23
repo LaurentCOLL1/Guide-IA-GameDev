@@ -179,43 +179,42 @@ chapter_12:
 
 Avant de commencer, le lecteur doit disposer :
 
-- d’une bible visuelle et d’une échelle de référence ;
-- d’un personnage ou humanoïde de référence ;
-- d’un squelette de référence et de noms d’os stables ;
-- d’une main de test et d’une grille de poses ;
-- d’identifiants d’assets stables ;
-- d’un registre de provenance ;
-- de budgets provisoires par plateforme ;
-- des conventions Blender et Godot du projet.
+- d’une direction artistique et d’un registre de provenance ;
+- d’un système d’unités et d’axes validé par le chapitre 4 ;
+- d’une main, d’un squelette et de noms d’os de référence ;
+- d’un inventaire des interactions prévues, sans leurs règles métier ;
+- d’un budget provisoire par plateforme ;
+- d’une scène Godot de personnage et d’une scène d’environnement de test ;
+- des conventions de matériaux, même si leur production détaillée appartient au chapitre 16.
 
 Le lecteur ouvre :
 
-- **[APP] Blender 5.2.0** pour les références, gabarits, blockouts, pivots, sockets, géométrie, matériaux provisoires et collections d’export ;
-- **[APP] Godot 4.7.1-stable** pour l’import, les scènes dérivées, les attaches, collisions, interactions, LOD et mesures ;
-- **[VSC] Visual Studio Code** pour les contrats YAML, rapports JSON et scripts GDScript ;
-- **[PS] PowerShell 7** pour créer les dossiers et exécuter les contrôles documentaires.
+- **[APP] Blender 5.2.0** pour les références, le blockout, les pivots, les pièces mobiles et les exports ;
+- **[APP] Godot 4.7.1-stable** pour la scène dérivée, les attaches, collisions, LOD et mesures ;
+- **[VSC] Visual Studio Code** pour les contrats YAML, manifestes JSON et le validateur GDScript ;
+- **[PS] PowerShell 7** pour créer les dossiers et lancer les contrôles documentaires ;
+- **[WEB] navigateur** uniquement pour les documentations officielles et les références dont la licence est enregistrée.
 
 > **[PS] Créer l’arborescence de travail.**
 
 ```powershell
-$Root = "art/props/AST-PROP-KIT-EXPLORER-001"
-$Folders = @(
-    "$Root/briefs",
-    "$Root/references",
-    "$Root/dimensions",
-    "$Root/pivots",
-    "$Root/sockets",
-    "$Root/collisions",
-    "$Root/states",
-    "$Root/variants",
-    "$Root/lod",
+$paths = @(
     "art/blender/props/AST-PROP-KIT-EXPLORER-001",
-    "art/exports/props/AST-PROP-KIT-EXPLORER-001",
+    "art/props/briefs",
+    "art/props/dimensions",
+    "art/props/pivots",
+    "art/props/sockets",
+    "art/props/collisions",
+    "art/props/states",
+    "art/props/materials",
+    "art/props/lod",
+    "art/exports/props",
     "tests/art/props/reports",
     "tests/art/props/captures"
 )
-foreach ($Folder in $Folders) {
-    New-Item -ItemType Directory -Force -Path $Folder | Out-Null
+
+foreach ($path in $paths) {
+    New-Item -ItemType Directory -Path $path -Force | Out-Null
 }
 ```
 
@@ -223,11 +222,11 @@ foreach ($Folder in $Folders) {
 
 **Explication structurée du bloc :**
 
-- **Entrées :** `$Root` est une chaîne contenant le dossier canonique de la bibliothèque pilote ; `$Folders` est un tableau de chaînes.
-- **Boucle :** `foreach` parcourt chaque chemin sans modifier la liste.
-- **Paramètres :** `-ItemType Directory` exige un dossier, `-Force` rend la création idempotente et `-Path` reçoit le chemin courant.
-- **Effet de bord :** les dossiers sont créés sur le disque ; `Out-Null` masque les objets retournés par PowerShell.
-- **Résultat attendu :** l’arborescence existe sans effacer un dossier déjà présent.
+- **Entrée :** `$paths` est un tableau de chaînes contenant des chemins relatifs au dépôt.
+- **Boucle :** `foreach` traite chaque chemin sans dépendre de l’ordre du système de fichiers.
+- **Paramètres :** `-Force` rend la création idempotente et `Out-Null` masque les objets retournés.
+- **Effet de bord :** les dossiers sont créés ; aucun fichier source ou export n’est produit.
+- **Résultat attendu :** les sources Blender restent séparées des contrats, exports, rapports et captures.
 
 > **[LECTURE] Arborescence canonique — Ne pas saisir.**
 
@@ -236,18 +235,15 @@ art/
 ├── blender/props/
 │   └── AST-PROP-KIT-EXPLORER-001/
 ├── props/
-│   └── AST-PROP-KIT-EXPLORER-001/
-│       ├── briefs/
-│       ├── references/
-│       ├── dimensions/
-│       ├── pivots/
-│       ├── sockets/
-│       ├── collisions/
-│       ├── states/
-│       ├── variants/
-│       └── lod/
+│   ├── briefs/
+│   ├── dimensions/
+│   ├── pivots/
+│   ├── sockets/
+│   ├── collisions/
+│   ├── states/
+│   ├── materials/
+│   └── lod/
 ├── exports/props/
-│   └── AST-PROP-KIT-EXPLORER-001/
 ├── provenance/
 └── budgets/
 tests/
@@ -262,112 +258,103 @@ tests/
 
 **Explication structurée du bloc :**
 
-- **Sources :** les fichiers Blender restent sous `art/blender` et ne sont pas confondus avec les exports.
-- **Contrats :** dimensions, pivots, sockets, collisions, états, variantes et LOD possèdent des dossiers distincts.
-- **Tests :** scène, validateur, rapports et captures sont regroupés sous `tests/art/props`.
-- **Publication :** les rapports QA internes ne sont pas ajoutés au manuel lecteur.
+- **Sources :** les `.blend` restent sous `art/blender/props` et ne sont jamais remplacés par un export.
+- **Contrats :** dimensions, pivots, sockets, collisions, états et LOD possèdent des dossiers séparés.
+- **Tests :** scène, script, rapports et captures sont regroupés sous `tests/art/props`.
+- **Publication :** les preuves internes ne sont pas ajoutées au manuel lecteur.
 
 ## 6. Bibliothèque pilote et cas d’usage
 
-La bibliothèque pilote n’est pas choisie pour représenter toutes les catégories d’objets. Elle sert à exercer des contraintes différentes avec un lot réduit :
+La bibliothèque pilote ne cherche pas à couvrir tout le catalogue du jeu. Elle sélectionne cinq objets qui exercent des contraintes différentes et réutilisables :
 
-- la lanterne doit être tenue, posée et suspendue ;
-- le marteau d’arpentage doit sembler avoir une tête plus lourde que son manche ;
-- la lame courte fictive exige prise, garde, fourreau et sécurité visuelle ;
-- le bouclier exige une prise secondaire, une sangle et une silhouette lisible ;
-- le dispositif fictif exige un repère d’émission, des pièces mobiles et des états lumineux sans définir de tir réel.
+| Objet | Cas principal | Contraintes révélées |
+|---|---|---|
+| Lanterne | tenir, poser, suspendre | poignée, gravité visuelle, point lumineux, base stable |
+| Marteau d’arpentage | tenir, ranger | prise unique, tête lourde, centre de masse visuel |
+| Lame courte fictive | tenir, rengainer | garde, prise, fourreau, silhouette |
+| Bouclier léger | main secondaire | prise décentrée, avant-bras, surface large |
+| Dispositif à impulsion fictif | tenir, viser visuellement | prise, point d’émission, pièce mobile, repère VFX |
 
-La bibliothèque exclut volontairement les objets à deux mains complexes, les véhicules, les machines industrielles, les armes à feu réalistes et les objets nécessitant une simulation mécanique détaillée. Ces exclusions réduisent le risque de transformer un chapitre de production d’assets en manuel de mécanique ou d’armement.
+Chaque objet reçoit un identifiant stable, une fonction observable, des interactions prévues, des états visuels et des limites. Une entrée de catalogue n’accorde aucune capacité de gameplay ; elle décrit uniquement ce que l’asset doit permettre de tester.
 
 > **[LECTURE] Manifeste initial de la bibliothèque — Ne pas saisir.**
 
 ```yaml
 library_id: AST-PROP-KIT-EXPLORER-001
-status: blocked
-objects:
+version: 1
+assets:
   - id: AST-PROP-LANTERN-001
-    category: portable_light
-    required_contexts: [held, placed, suspended]
+    category: held_and_placeable
+    priority: high
   - id: AST-TOOL-SURVEY-HAMMER-001
-    category: hand_tool
-    required_contexts: [held, stored]
+    category: held_tool
+    priority: high
   - id: AST-WPN-SHORT-BLADE-001
-    category: fictional_melee_prop
-    required_contexts: [held, sheathed]
+    category: held_weapon_visual
+    priority: high
   - id: AST-EQP-BUCKLER-001
-    category: offhand_prop
-    required_contexts: [held, stored]
+    category: offhand_equipment
+    priority: medium
   - id: AST-DEVICE-PULSE-001
-    category: fictional_device
-    required_contexts: [held, placed]
+    category: fictional_emitter_device
+    priority: medium
+status: blocked
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication structurée du bloc :**
 
-- **Identité :** `library_id` nomme le lot ; chaque objet possède un identifiant indépendant.
-- **Type :** `objects` est une liste de mappings YAML ; `required_contexts` est une liste de chaînes.
-- **État :** `blocked` empêche de confondre le manifeste documentaire avec des assets produits.
-- **Frontière :** `fictional_melee_prop` et `fictional_device` décrivent une apparence, pas des règles de dégâts ou de tir.
+- **Identité :** `library_id` et chaque `id` sont stables et indépendants du nom affiché.
+- **Types :** `version` est un entier ; `assets` est une liste de dictionnaires ; les autres valeurs sont des chaînes.
+- **Priorité :** `priority` ordonne la production sans signifier que l’asset est accepté.
+- **État :** `blocked` reste obligatoire tant que les assets et preuves n’existent pas.
+- **Frontière :** `held_weapon_visual` ne contient aucune donnée de dégâts ou de combat.
 
 ## 7. Vocabulaire fonctionnel
 
-- **origine d’objet** : point local de référence du transform de l’objet ;
-- **pivot fonctionnel** : point autour duquel une rotation ou une manipulation doit être évaluée ;
-- **socket** : repère nommé fournissant position et orientation pour une attache ;
-- **prise principale** : repère aligné avec la main dominante ;
-- **prise secondaire** : repère destiné à une deuxième main ou à une sangle ;
-- **socket de rangement** : repère utilisé lorsque l’objet est au dos, à la ceinture ou dans un fourreau ;
-- **socket d’environnement** : repère permettant de poser, suspendre ou fixer l’objet au décor ;
-- **volume d’interaction** : zone de détection qui rend l’objet sélectionnable ou utilisable ;
-- **collision physique** : forme utilisée par la physique pour empêcher ou résoudre une pénétration ;
-- **proxy d’impact** : volume simplifié utilisé comme entrée visuelle ou de test, sans autorité de dégâts ;
-- **point d’émission** : repère orienté d’où un VFX ou un projectile métier pourra partir ;
-- **état visuel** : représentation d’une condition, sans devenir l’autorité de cette condition ;
-- **LOD fonctionnel** : représentation simplifiée qui conserve les repères et collisions encore nécessaires dans son contexte.
+Avant de modéliser, distinguer les termes suivants :
+
+- **origine d’objet** : repère de transformation principal exporté avec l’objet ;
+- **pivot fonctionnel** : point autour duquel une rotation ou un placement doit être évalué ;
+- **socket** : repère nommé servant à attacher un autre nœud ou à aligner l’objet ;
+- **prise principale** : repère de la main qui porte l’objet ;
+- **prise secondaire** : repère optionnel utilisé par une seconde main ;
+- **monture** : repère de rangement sur le dos, la ceinture, un fourreau ou l’environnement ;
+- **volume de détection** : région utilisée pour détecter une interaction potentielle ;
+- **collision physique** : forme participant au moteur physique ;
+- **proxy d’impact** : volume descriptif destiné à un futur système autoritaire ;
+- **point d’émission** : repère visuel pour VFX, son ou projectile futur ;
+- **état visuel** : variante de représentation sans décision métier ;
+- **LOD** : représentation simplifiée sélectionnée selon distance, taille écran ou profil.
+
+Un même emplacement ne doit pas recevoir plusieurs responsabilités implicites. L’origine peut coïncider avec la prise principale, mais seulement si ce choix est documenté et reste stable.
 
 ## 8. Brief fonctionnel par objet
 
-Le brief commence par des verbes observables : tenir, poser, suspendre, ranger, ouvrir, allumer, inspecter. Il évite les adjectifs isolés comme « puissant », « rare » ou « rapide », qui appartiennent au design ou aux systèmes métier.
-
-Chaque objet reçoit :
-
-- un propriétaire artistique ;
-- une fonction visible ;
-- des contextes d’usage ;
-- des utilisateurs ou morphologies de référence ;
-- des contacts avec les mains, le corps et l’environnement ;
-- des pièces mobiles ;
-- des états visuels ;
-- des repères requis ;
-- des preuves attendues ;
-- des inconnues bloquantes.
+Le brief transforme une intention narrative en observations testables. Il évite les formulations comme « faire une belle épée » ou « rendre la lanterne réaliste », qui ne donnent aucune décision de production.
 
 > **[LECTURE] Brief fonctionnel de la lanterne — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
-visible_functions:
-  - held_by_handle
-  - placed_on_base
-  - suspended_from_top_loop
-reference_users:
-  - AST-HUMAN-BASE-001
-required_sockets:
-  - grip_primary
-  - mount_base
-  - mount_hanging
-  - light_origin
+functions:
+  - held_in_right_hand
+  - placed_on_flat_surface
+  - suspended_from_hook
+visual_invariants:
+  - handle_clears_fingers
+  - base_remains_stable
+  - light_origin_stays_inside_lantern
 moving_parts:
   - handle
-visual_states:
-  - unlit
-  - lit
-  - damaged_visual
-unknowns:
-  - final_dimensions
-  - final_light_profile
+required_sockets:
+  - grip_primary
+  - mount_hook
+  - light_origin
+forbidden_claims:
+  - runtime_light_validated
+  - physics_stability_measured
 status: blocked
 ```
 
@@ -375,31 +362,33 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Entrées :** les listes décrivent fonctions, utilisateurs, repères, pièces et états attendus.
-- **Inconnues :** `unknowns` conserve les décisions non prises au lieu d’inventer des nombres.
-- **État :** `blocked` reste obligatoire tant que dimensions et lumière ne sont pas validées.
-- **Frontière :** `lit` est un état visuel ; l’énergie, l’autonomie ou les règles d’usage restent hors de ce manifeste.
+- **Fonctions :** `functions` énumère des usages observables sans règles métier.
+- **Invariants :** `visual_invariants` décrit ce qui doit rester vrai dans chaque usage.
+- **Pièces mobiles :** `moving_parts` force la création d’un pivot distinct pour la poignée.
+- **Sockets :** les noms sont des contrats de scène et doivent rester stables après publication.
+- **Réserves :** `forbidden_claims` interdit de présenter une hypothèse comme un résultat exécuté.
 
 > **[LECTURE] Brief fonctionnel de la lame courte — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-WPN-SHORT-BLADE-001
-visible_functions:
-  - held_in_primary_hand
+functions:
+  - held_primary
   - stored_in_sheath
+  - displayed_on_table
+visual_invariants:
+  - grip_axis_matches_hand_contract
+  - guard_clears_fingers
+  - blade_enters_sheath_without_intersection
 required_sockets:
   - grip_primary
   - sheath_entry
-  - impact_proxy_origin
-visual_states:
-  - clean
-  - worn
-  - damaged_visual
+  - sheath_mount
 excluded_data:
   - damage
   - reach
   - attack_speed
-  - durability_current
+  - durability_rules
 status: blocked
 ```
 
@@ -407,23 +396,25 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Fonctions :** les deux fonctions visibles suffisent à guider prises et fourreau.
-- **Repères :** `impact_proxy_origin` prépare un contrôle visuel sans devenir une collision de combat.
-- **Exclusion :** les quatre champs métier sont explicitement interdits dans le contrat artistique.
-- **Résultat attendu :** le brief peut être revu par modélisation, animation et intégration sans débat sur l’équilibrage.
+- **Usage :** tenir, ranger et exposer sont trois configurations visuelles distinctes.
+- **Alignement :** l’axe de prise et l’entrée du fourreau sont testés sans définir d’animation finale.
+- **Exclusions :** `excluded_data` protège la frontière avec inventaire et combat.
+- **Décision :** l’asset reste bloqué jusqu’aux tests Blender et Godot.
 
 ## 9. Références dimensionnelles et ergonomie
 
-Une image isolée ne fournit pas une mesure. La perspective, la focale, le recadrage et l’absence d’objet étalon déforment les proportions apparentes. Pour chaque objet, réunir :
+Une image de concept ne constitue pas une mesure. La perspective, la focale, les proportions stylisées et l’absence d’échelle peuvent produire des erreurs importantes. Les dimensions proviennent de sources qualifiées, de mesures internes cohérentes ou de comparaisons avec la main et le personnage de référence.
 
-- une fiche fabricant ou muséale lorsque disponible ;
-- une photographie avec échelle connue ;
-- une vue orthographique ou un dessin coté ;
-- une comparaison avec une main et un personnage de référence ;
-- une source distincte pour les mécanismes ou attaches ;
-- une note d’incertitude pour chaque dimension extrapolée.
+Pour chaque objet, enregistrer :
 
-L’ergonomie de jeu est ensuite comparée au réel. Une poignée réaliste peut être trop fine pour la silhouette, les gants, le rig ou la caméra. Toute adaptation est documentée comme décision artistique, jamais dissimulée comme mesure historique.
+- longueur, largeur, hauteur et épaisseur maximales ;
+- dimensions de la zone de prise ;
+- dégagement nécessaire aux doigts et aux articulations ;
+- distance entre prise et centre de masse visuel ;
+- rayon d’encombrement pendant les poses ;
+- hauteur de pose au sol ou sur support ;
+- tolérances de fourreau, support ou monture ;
+- incertitude et origine de chaque valeur.
 
 > **[LECTURE] Fiche dimensionnelle — Ne pas saisir.**
 
@@ -431,23 +422,19 @@ L’ergonomie de jeu est ensuite comparée au réel. Une poignée réaliste peut
 asset_id: AST-TOOL-SURVEY-HAMMER-001
 unit: meter
 dimensions:
-  total_length:
-    value: null
-    source: pending
-    confidence: unknown
-  handle_diameter:
-    value: null
-    source: pending
-    confidence: unknown
-  head_width:
-    value: null
-    source: pending
-    confidence: unknown
-ergonomic_checks:
-  - dominant_hand_clearance
-  - glove_clearance
-  - wrist_rotation
-  - silhouette_at_gameplay_camera
+  overall_length: 0.42
+  head_width: 0.14
+  grip_length: 0.13
+  grip_diameter: 0.032
+reference_basis:
+  - internal_character_hand_profile
+  - licensed_tool_reference_set
+uncertainty:
+  overall_length: provisional
+  grip_diameter: provisional
+review:
+  hand_clearance: pending
+  pose_alignment: pending
 status: blocked
 ```
 
@@ -455,118 +442,31 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Unité :** `meter` impose la convention métrique du projet.
-- **Valeurs nulles :** `null` indique une mesure absente ; ce n’est ni zéro ni une valeur par défaut.
-- **Confiance :** chaque dimension sépare la valeur, la source et la confiance.
-- **Contrôles :** l’ergonomie inclut la main, le gant, le poignet et la caméra.
-- **Résultat attendu :** aucune modélisation finale ne commence tant que les dimensions prioritaires restent inconnues.
+- **Unité :** `unit: meter` rend les nombres comparables avec Blender et Godot.
+- **Dimensions :** les valeurs sont des nombres décimaux provisoires, pas des vérités universelles.
+- **Sources :** `reference_basis` relie la fiche au profil de main et aux références autorisées.
+- **Incertitude :** chaque valeur non mesurée est explicitement marquée `provisional`.
+- **Blocage :** la revue des doigts et des poses est obligatoire avant acceptation.
 
 ## 10. Provenance des références
 
-Les références d’objets peuvent contenir marques, dessins industriels, œuvres protégées ou documents restreints. Le registre conserve :
-
-- URL ou emplacement interne ;
-- auteur, titulaire ou institution ;
-- date d’accès ;
-- licence ou statut ;
-- restrictions de copie et de redistribution ;
-- usage autorisé dans le projet ;
-- transformations appliquées ;
-- décision : accepté, limité, remplacé ou bloqué.
-
-Une photographie d’un objet ne transfère pas automatiquement les droits sur la photographie, le design, la marque ou le modèle 3D. Les références bloquées peuvent guider une recherche ultérieure mais ne deviennent pas des sources de production.
+Chaque planche, photographie, scan ou modèle externe possède une fiche de provenance. Une référence peut être consultée sans être redistribuable ; un modèle acheté peut être utilisable sans autoriser sa republication comme source.
 
 > **[LECTURE] Entrée de provenance — Ne pas saisir.**
 
 ```yaml
-reference_id: AST-REF-PROP-001
-asset_scope: AST-PROP-LANTERN-001
-source_uri: pending
-source_kind: museum_catalog
-rights_status: unqualified
-allowed_use:
-  internal_reference: false
-  redistribution: false
-brand_review: pending
-transformations: []
-decision: blocked
-```
-
-<!-- qa:code-explanation -->
-
-**Explication structurée du bloc :**
-
-- **Portée :** `asset_scope` relie la référence à un objet sans en faire la source unique.
-- **Booléens :** `false` interdit l’usage tant que les droits ne sont pas qualifiés.
-- **Liste :** `transformations` est vide parce qu’aucune transformation n’est encore documentée.
-- **Décision :** `blocked` est cohérent avec `unqualified` et `pending`.
-
-## 11. Échelle et gabarit de contrôle
-
-Dans Blender, vérifier :
-
-1. unités métriques du fichier ;
-2. dimensions globales de l’objet ;
-3. échelle du personnage de référence ;
-4. dimensions de la main et des gants ;
-5. hauteur de pose sur une table ou au sol ;
-6. passage par une porte ou un couloir lorsque pertinent ;
-7. silhouette dans les caméras de dialogue et de gameplay.
-
-Créer des gabarits simples : boîte englobante, cylindre de poignée, volumes de doigts et repères de sol. Ces gabarits ne deviennent pas des collisions automatiquement. Ils servent à vérifier l’échelle avant le détail.
-
-> **[LECTURE] Rapport d’échelle — Ne pas saisir.**
-
-```yaml
-asset_id: AST-EQP-BUCKLER-001
-scene_unit: meter
-reference_character: AST-HUMAN-BASE-001
-reference_hand: hand_l
-checks:
-  overall_dimensions: pending
-  forearm_clearance: pending
-  torso_clearance: pending
-  camera_readability: pending
-approval: blocked
-```
-
-<!-- qa:code-explanation -->
-
-**Explication structurée du bloc :**
-
-- **Références :** le personnage et la main donnent un contexte reproductible.
-- **Statuts :** chaque contrôle peut être fermé indépendamment.
-- **Approbation :** `blocked` empêche une décision globale tant que les contrôles restent en attente.
-- **Limite :** le rapport ne contient aucune statistique de protection ou de combat.
-
-## 12. Axes, orientation et origine
-
-L’origine est un contrat d’échange, pas un point décoratif. Avant de la placer, décider :
-
-- l’orientation avant de l’objet ;
-- l’axe vertical ;
-- le sens d’insertion dans une main ou un support ;
-- le plan de pose ;
-- la rotation attendue des pièces mobiles ;
-- le repère qui doit rester stable entre variantes et LOD.
-
-Dans Blender, les objets exportés doivent respecter la convention du projet sans parent correctif destiné à masquer un axe erroné. Une origine canonique est souvent placée au pivot principal ou à un point stable de fabrication. Les besoins locaux de prise ou de rangement sont portés par des sockets séparés.
-
-> **[LECTURE] Contrat d’orientation — Ne pas saisir.**
-
-```yaml
-asset_id: AST-PROP-LANTERN-001
-coordinate_contract:
-  forward_axis: project_forward
-  up_axis: project_up
-  unit: meter
-origin:
-  role: canonical_object_origin
-  location_rule: base_center
-  immutable_after_publication: true
-validation:
-  blender_gizmo: pending
-  godot_gizmo: pending
+reference_id: REF-PROP-HAMMER-001
+kind: dimensional_reference
+source_uri: pending_private_registry
+author: pending
+rights_holder: pending
+licence_id: pending
+allowed_uses:
+  - internal_reference
+redistribution:
+  source_image: false
+  derived_measurements: pending
+review_owner: art_legal
 status: blocked
 ```
 
@@ -574,133 +474,166 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Contrat :** les axes utilisent les conventions du projet plutôt qu’une rotation corrective locale.
-- **Origine :** `base_center` rend la pose sur une surface vérifiable.
-- **Immutabilité :** le booléen protège les animations, sockets et variantes après publication.
-- **Validation :** les deux gizmos doivent être comparés après l’import GLB.
+- **Séparation :** auteur, titulaire des droits, licence et usages autorisés restent distincts.
+- **Confidentialité :** `source_uri` pointe vers un registre privé plutôt que vers un document sensible dans le dépôt public.
+- **Redistribution :** l’image et les mesures dérivées peuvent avoir des statuts différents.
+- **Responsabilité :** `review_owner` nomme le rôle qui doit fermer l’incertitude.
+- **État :** une licence ou un titulaire inconnu maintient la référence bloquée.
 
-## 13. Taxonomie des pivots
+## 11. Échelle et gabarit de contrôle
 
-Un objet peut avoir plusieurs pivots fonctionnels sans déplacer son origine canonique :
+Dans Blender, importer ou lier le gabarit de main et le personnage de référence sans modifier leur source. Placer l’objet dans une collection de travail et comparer sa boîte englobante au profil dimensionnel.
 
-- pivot de prise ;
-- pivot de rotation d’une poignée ;
-- pivot de charnière ;
-- pivot de pose ;
-- pivot de suspension ;
-- pivot de prévisualisation ;
-- pivot de montage dans l’environnement.
+Contrôler au minimum :
 
-Dans Blender, représenter ces pivots avec des objets vides nommés. Leur transform local doit être lisible et leur parent explicite. Éviter d’appliquer les transformations sans comprendre les conséquences sur les enfants.
+1. l’unité de scène et l’échelle d’objet ;
+2. la longueur réelle de la boîte englobante ;
+3. le dégagement des doigts en pose neutre ;
+4. l’encombrement dans les poses de marche, course et interaction ;
+5. la hauteur de pose au sol ;
+6. la cohérence avec les objets proches du décor.
 
-> **[LECTURE] Hiérarchie Blender proposée — Ne pas saisir.**
+> **[LECTURE] Rapport d’échelle — Ne pas saisir.**
 
-```text
-AST_PROP_LANTERN_ROOT
-├── GEO_render
-├── GEO_handle
-├── PIVOT_handle
-├── SOCKET_grip_primary
-├── SOCKET_mount_base
-├── SOCKET_mount_hanging
-├── SOCKET_light_origin
-├── COL_interaction_proxy
-└── COL_physics_proxy
+```json
+{
+  "asset_id": "AST-PROP-LANTERN-001",
+  "source_unit": "meter",
+  "object_scale": [1.0, 1.0, 1.0],
+  "bounding_box_m": [0.18, 0.18, 0.31],
+  "checks": {
+    "hand_clearance": "pending",
+    "ground_contact": "pending",
+    "character_ratio": "pending"
+  },
+  "status": "blocked"
+}
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication structurée du bloc :**
 
-- **Racine :** `AST_PROP_LANTERN_ROOT` porte l’identité et l’origine canonique.
-- **Préfixes :** `GEO`, `PIVOT`, `SOCKET` et `COL` séparent les responsabilités.
-- **Parentage :** la poignée géométrique et son pivot restent distingués pour la rotation.
-- **Résultat attendu :** la hiérarchie permet de retrouver automatiquement les repères sans interpréter le nom du maillage.
+- **Tableaux :** `object_scale` et `bounding_box_m` sont des listes ordonnées de trois nombres.
+- **Invariant :** l’échelle exportée doit rester uniforme et documentée.
+- **Contrôles :** les chaînes `pending` empêchent une validation implicite.
+- **Résultat attendu :** le rapport compare la source Blender au gabarit sans modifier l’un ou l’autre.
+
+## 12. Axes, orientation et origine
+
+Le projet fixe une convention unique pour les objets tenus. Le sens exact dépend du pipeline du chapitre 4 ; le chapitre 12 ne le redéfinit pas. Chaque objet enregistre cependant :
+
+- l’axe longitudinal ;
+- le sens « avant » ;
+- le sens « haut » ;
+- la position de l’origine ;
+- la rotation au repos ;
+- la transformation attendue au socket de main.
+
+L’origine ne doit pas être déplacée après publication sans nouvelle version, car les scènes, animations et attaches peuvent dépendre de sa transformation.
+
+> **[LECTURE] Contrat d’orientation — Ne pas saisir.**
+
+```yaml
+asset_id: AST-WPN-SHORT-BLADE-001
+coordinate_contract: AST-COORD-OBJECT-001-v001
+longitudinal_axis: local_z
+forward_direction: local_negative_z
+up_direction: local_y
+origin_role: grip_primary
+rest_transform:
+  position_m: [0.0, 0.0, 0.0]
+  rotation_deg: [0.0, 0.0, 0.0]
+  scale: [1.0, 1.0, 1.0]
+status: blocked
+```
+
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Contrat partagé :** `coordinate_contract` renvoie vers la convention du pipeline plutôt que de la recopier.
+- **Repères :** les axes sont des chaînes explicites, pas une interprétation visuelle.
+- **Transformation :** position, rotation et échelle sont trois listes de nombres séparées.
+- **Invariant :** une échelle uniforme et une origine stable sont exigées.
+- **Réserve :** les valeurs doivent être contrôlées après import GLB.
+
+## 13. Taxonomie des pivots
+
+Un objet peut nécessiter plusieurs pivots sans déplacer son origine principale :
+
+- `pivot_primary` — origine ou pivot principal de placement ;
+- `pivot_moving_<name>` — pivot d’une pièce mobile ;
+- `pivot_ground` — repère de pose au sol ;
+- `pivot_display` — repère d’exposition ;
+- `pivot_storage` — repère de rangement ;
+- `pivot_environment` — repère d’ancrage au décor.
+
+Dans Blender, une origine d’objet appartient à l’objet. Les repères secondaires sont représentés par des objets vides nommés et orientés. Ils doivent rester sans échelle non uniforme.
+
+> **[LECTURE] Hiérarchie Blender proposée — Ne pas saisir.**
+
+```text
+AST-PROP-LANTERN-001
+├── GEO_lantern_body
+├── GEO_lantern_handle
+├── PIVOT_handle
+├── SOCKET_grip_primary
+├── SOCKET_mount_hook
+├── SOCKET_light_origin
+└── COLLISION_proxy
+```
+
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Hiérarchie :** le corps, la poignée, les repères et la collision restent des objets distincts.
+- **Pivot mobile :** `PIVOT_handle` porte l’axe de rotation de la poignée.
+- **Sockets :** le préfixe `SOCKET_` facilite la lecture et la validation automatique.
+- **Collision :** `COLLISION_proxy` ne remplace pas le maillage de rendu.
+- **Résultat attendu :** l’export conserve une structure assez explicite pour être contrôlée dans Godot.
 
 ## 14. Conventions de sockets
 
-Un socket contient au minimum :
+Un socket est un repère transformé, nommé et versionné. Il ne contient pas de règle métier. Les noms de base proposés sont :
 
-- identifiant stable ;
-- rôle ;
-- parent ;
-- transform local ;
-- axe d’insertion ou de sortie ;
-- contexte d’usage ;
-- morphologie ou rig de référence ;
-- état de validation.
+| Socket | Usage visuel |
+|---|---|
+| `grip_primary` | main porteuse |
+| `grip_secondary` | seconde main optionnelle |
+| `mount_belt` | rangement à la ceinture |
+| `mount_back` | rangement au dos |
+| `mount_sheath` | liaison avec un fourreau |
+| `mount_environment` | fixation à un support |
+| `interaction_focus` | point de focalisation visuelle |
+| `vfx_origin` | point de départ d’un effet |
+| `audio_origin` | point d’émission sonore |
+| `projectile_origin` | origine descriptive d’un projectile futur |
 
-Adopter des noms explicites :
-
-- `SOCKET_grip_primary` ;
-- `SOCKET_grip_secondary` ;
-- `SOCKET_storage_back` ;
-- `SOCKET_storage_belt` ;
-- `SOCKET_sheath_entry` ;
-- `SOCKET_mount_environment` ;
-- `SOCKET_emission` ;
-- `SOCKET_vfx_impact`.
+La présence d’un socket ne garantit pas que le système futur l’utilise. Elle garantit seulement qu’un repère existe et peut être évalué.
 
 > **[LECTURE] Manifeste de sockets — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-DEVICE-PULSE-001
 sockets:
-  - id: SOCKET_grip_primary
-    role: primary_hand_alignment
+  grip_primary:
+    required: true
     parent: root
-    direction_axis: insertion_forward
-    status: pending
-  - id: SOCKET_emission
-    role: visual_emission_origin
-    parent: barrel_visual
-    direction_axis: emission_forward
-    status: pending
-  - id: SOCKET_mount_environment
-    role: static_display_mount
+  grip_secondary:
+    required: false
     parent: root
-    direction_axis: mount_normal
-    status: pending
-```
-
-<!-- qa:code-explanation -->
-
-**Explication structurée du bloc :**
-
-- **Liste :** chaque entrée de `sockets` est un mapping indépendant.
-- **Parent :** le socket d’émission suit la pièce visuelle concernée ; les autres suivent la racine.
-- **Direction :** l’axe est nommé pour être inspecté, pas déduit de la position seule.
-- **Frontière :** `visual_emission_origin` prépare VFX et gameplay sans créer de projectile.
-
-## 15. Prise principale et prise secondaire
-
-La prise principale doit être revue avec :
-
-- main ouverte ;
-- main fermée ;
-- gant ou morphologie épaisse ;
-- flexion et extension du poignet ;
-- rotation de l’avant-bras ;
-- caméra proche ;
-- silhouette de gameplay.
-
-La prise secondaire n’est pas une copie. Elle peut définir une orientation différente, une zone glissante, une sangle ou un maintien temporaire. Une arme fictive ou un outil à deux mains n’est accepté qu’après validation des deux prises et de la distance entre les mains.
-
-> **[LECTURE] Profil de prise — Ne pas saisir.**
-
-```yaml
-asset_id: AST-EQP-BUCKLER-001
-grips:
-  primary:
-    socket: SOCKET_grip_primary
-    reference_bone: hand_l
-    finger_clearance: pending
-    wrist_clearance: pending
-  secondary_support:
-    socket: SOCKET_forearm_support
-    reference_bone: forearm_l
-    strap_clearance: pending
-pose_set: AST-POSE-PROP-GRIP-001-v001
+  vfx_origin:
+    required: true
+    parent: emitter_head
+  audio_origin:
+    required: true
+    parent: emitter_head
+  projectile_origin:
+    required: false
+    parent: emitter_head
+socket_scale_policy: uniform_only
 status: blocked
 ```
 
@@ -708,38 +641,78 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Mappings :** `primary` et `secondary_support` possèdent des responsabilités différentes.
-- **Os :** les références servent au test, sans modifier le rig.
-- **Dégagements :** `pending` interdit d’affirmer que doigts, poignet et sangle sont compatibles.
-- **Jeu de poses :** l’identifiant rend la revue reproductible.
+- **Dictionnaire :** `sockets` associe chaque nom stable à un contrat.
+- **Obligation :** `required` est un booléen et distingue les repères indispensables des options.
+- **Parent :** le parent explicite suit correctement une pièce mobile.
+- **Échelle :** `uniform_only` interdit les transformations susceptibles de déformer l’orientation.
+- **Frontière :** `projectile_origin` ne définit ni vitesse, ni trajectoire, ni dégâts.
+
+## 15. Prise principale et prise secondaire
+
+La prise principale doit être testée avec une main réelle du projet, pas avec un cylindre arbitraire. Examiner :
+
+- fermeture des doigts ;
+- contact de la paume ;
+- dégagement de la garde, du levier ou de la poignée ;
+- orientation du poignet ;
+- position apparente du centre de masse ;
+- absence de pénétration dans l’avant-bras ;
+- cohérence en vue première et troisième personne si ces vues existent.
+
+Une prise secondaire est un repère d’aide. Elle ne force pas une animation à deux mains et ne remplace pas l’IK du chapitre 20.
+
+> **[LECTURE] Profil de prise — Ne pas saisir.**
+
+```yaml
+profile_id: AST-GRIP-SHORT-BLADE-001-v001
+asset_id: AST-WPN-SHORT-BLADE-001
+primary:
+  socket: grip_primary
+  hand_profile: AST-HAND-HUMAN-M-001-v001
+  wrist_alignment: pending
+  finger_clearance: pending
+secondary:
+  socket: null
+  allowed: false
+center_of_mass_visual:
+  relation_to_grip: forward
+  review: pending
+status: blocked
+```
+
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Référence :** `hand_profile` lie la prise à une main versionnée.
+- **Valeur nulle :** `socket: null` indique qu’aucune prise secondaire n’est prévue.
+- **Booléen :** `allowed: false` empêche une interprétation à deux mains.
+- **Centre de masse :** la relation est visuelle et ne prétend pas mesurer une masse physique.
+- **Blocage :** poignet et doigts doivent être contrôlés avant acceptation.
 
 ## 16. Rangement, fourreaux et montures
 
-Le rangement doit préciser :
+Un objet rangé utilise un repère différent de la prise. Le fourreau, le crochet ou le support possède son propre socket. Tester :
 
-- socket sur l’objet ;
-- socket correspondant sur le personnage ou l’environnement ;
-- orientation d’insertion ;
-- profondeur ;
-- dégagement avec le corps et les vêtements ;
-- animation candidate ;
-- état visible ou masqué ;
-- combinaison compatible.
-
-Un fourreau possède une entrée, un axe et une profondeur. Un simple point ne suffit pas. Une monture murale ou une table possède une normale et une zone de contact. Les ajustements restent dans un profil d’intégration, pas dans l’origine canonique de l’objet.
+- l’entrée et la sortie sans intersection ;
+- la profondeur de rangement ;
+- la cohérence avec les vêtements du chapitre 11 ;
+- le dégagement pendant la marche et l’accroupissement ;
+- la visibilité des pièces identitaires ;
+- les variantes de morphologie autorisées.
 
 > **[LECTURE] Contrat de rangement — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-WPN-SHORT-BLADE-001
-storage_profile:
-  object_socket: SOCKET_sheath_entry
-  character_socket: SOCKET_storage_belt_l
-  insertion_axis: sheath_forward
-  insertion_depth: pending
-  clothing_clearance: pending
-  animation_alignment: pending
-  compatible_wearable_profiles: []
+storage:
+  carrier_asset: AST-WEAR-SHEATH-SHORT-001
+  object_socket: mount_sheath
+  carrier_socket: sheath_entry
+  insertion_axis: local_negative_z
+  depth_m: provisional
+  clearance_review: pending
+  wearable_compatibility: pending
 status: blocked
 ```
 
@@ -747,39 +720,40 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Deux repères :** l’objet et le personnage conservent chacun leur socket.
-- **Profondeur :** la valeur reste inconnue tant que fourreau et animation ne sont pas testés.
-- **Compatibilité :** la liste vide n’autorise aucune combinaison par défaut.
-- **Frontière :** le profil décrit un alignement visuel, pas la règle métier qui équipe l’objet.
+- **Deux assets :** l’objet et le fourreau conservent des identités séparées.
+- **Deux sockets :** chaque côté de la liaison expose son propre repère.
+- **Axe :** `insertion_axis` décrit l’orientation sans définir l’animation.
+- **Dimension :** `depth_m` reste provisoire jusqu’au test réel.
+- **Dépendance :** la compatibilité avec les vêtements doit être relue avec le chapitre 11.
 
 ## 17. Pièces mobiles et dégagements
 
-Les pièces mobiles possibles incluent poignée, couvercle, charnière, levier, sangle, aiguille, bouton ou panneau. Pour chaque pièce :
+Une pièce mobile possède :
 
-- axe ou contrainte candidate ;
-- amplitude visuelle ;
-- volume balayé ;
-- collisions potentielles ;
-- position neutre ;
-- position de rangement ;
-- représentation LOD ;
-- animation future propriétaire.
+- un pivot local ;
+- une plage visuelle candidate ;
+- une position de repos ;
+- un volume de dégagement ;
+- une liste d’éléments susceptibles d’entrer en collision ;
+- un statut de validation.
 
-Le chapitre ne crée pas les contrôleurs finaux. Il prépare une hiérarchie et des repères que les chapitres de rig et d’animation pourront consommer.
+Le chapitre ne définit pas les contrôleurs finaux. Il prépare seulement des transforms et des limites que le rig ou l’animation pourront consommer.
 
 > **[LECTURE] Profil de pièce mobile — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
-moving_part:
-  id: handle
-  pivot: PIVOT_handle
-  candidate_axis: local_x
-  visual_range_deg: pending
-  swept_volume_review: pending
-  neutral_pose: down
-  lod_policy: preserve_until_lod2
-  animation_owner: chapter_20
+part: handle
+pivot: PIVOT_handle
+rest_rotation_deg: 0.0
+candidate_range_deg:
+  min: -75.0
+  max: 75.0
+clearance_against:
+  - lantern_body
+  - character_hand
+  - character_forearm
+animation_owner: chapter_20
 status: blocked
 ```
 
@@ -787,39 +761,40 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Axe candidat :** `local_x` doit être confirmé par le gizmo et l’orientation exportée.
-- **Amplitude :** aucune valeur angulaire n’est inventée.
-- **Volume balayé :** la revue détecte les intersections avec le corps ou l’environnement.
-- **Propriétaire :** l’animation finale reste explicitement hors du chapitre.
+- **Plage candidate :** `min` et `max` sont des nombres provisoires, pas des limites finales.
+- **Dégagement :** `clearance_against` indique les géométries à vérifier.
+- **Responsabilité :** `animation_owner` réserve le contrôleur final au chapitre 20.
+- **Résultat attendu :** la poignée peut être testée sans intégrer de logique runtime.
+- **Réserve :** aucune collision ni animation n’est annoncée comme exécutée.
 
 ## 18. Silhouette et lisibilité de fonction
 
-Une silhouette doit communiquer la fonction avant les détails :
+La silhouette doit indiquer rapidement :
 
-- poignée identifiable ;
-- tête, lame, surface de protection ou source lumineuse lisible ;
-- orientation avant/arrière compréhensible ;
-- zone de manipulation distincte de la zone active ;
-- échelle crédible par rapport au personnage ;
-- état rangé reconnaissable ;
-- variantes liées à la même identité.
+- où l’objet se tient ;
+- quelle extrémité est fonctionnelle ;
+- quelles pièces sont mobiles ;
+- comment il se pose ou se range ;
+- quel côté est orienté vers l’avant ;
+- quels détails disparaîtront dans les LOD.
 
-Tester en aplats sous trois vues et aux distances prévues. Les détails tertiaires ne corrigent pas une poignée trop courte, une tête trop légère visuellement ou un bouclier sans orientation claire.
+La lisibilité n’exige pas d’exagérer chaque détail. Elle exige de hiérarchiser les masses principales, les vides utiles et les contrastes de matériau.
 
 > **[LECTURE] Carte de silhouette — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-TOOL-SURVEY-HAMMER-001
-primary_shapes:
-  - elongated_handle
-  - weighted_head
-secondary_shapes:
-  - grip_zone
-  - head_transition
-readability_tests:
-  side_silhouette: pending
-  front_silhouette: pending
-  gameplay_distance: pending
+asset_id: AST-EQP-BUCKLER-001
+primary_shape: shallow_disc
+functional_cues:
+  - forearm_clearance
+  - central_grip
+  - reinforced_rim
+identity_cues:
+  - asymmetrical_notch
+  - radial_boss
+lod_protection:
+  - outer_contour
+  - boss_volume
 status: blocked
 ```
 
@@ -827,81 +802,83 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Formes :** les listes séparent masses principales et transitions secondaires.
-- **Tests :** les vues et la distance sont contrôlées indépendamment.
-- **État :** aucune silhouette n’est déclarée lisible avant capture.
-- **Résultat attendu :** l’outil paraît fonctionnel sans texture ni détail fin.
+- **Forme primaire :** `primary_shape` décrit la masse dominante.
+- **Indices fonctionnels :** `functional_cues` expliquent la prise et la protection visuelle sans statistique.
+- **Identité :** `identity_cues` contient les traits qui distinguent l’objet.
+- **LOD :** `lod_protection` indique les volumes à préserver lors de la simplification.
+- **État :** la silhouette doit être capturée et comparée avant acceptation.
 
 ## 19. Blockout métrique
 
-Le blockout utilise des primitives séparées pour :
+Le blockout utilise des primitives et des valeurs lisibles. Il doit démontrer :
 
-- volumes principaux ;
-- poignée ;
+- dimensions globales ;
+- prise et orientation ;
+- centre de masse visuel ;
 - pièces mobiles ;
-- zone de contact ;
-- gabarit de main ;
-- gabarit d’environnement ;
-- encombrement rangé ;
-- enveloppe de mouvement.
+- pose au sol ;
+- rangement ;
+- interactions avec la main, l’avant-bras et le décor.
 
-Conserver les dimensions dans un rapport, pas uniquement dans le fichier Blender. Une capture orthographique avec règle et gizmo complète le rapport.
+Ne pas détailler les vis, gravures ou dommages avant cette validation. Une erreur de longueur ou de pivot ne sera pas corrigée par un matériau plus riche.
 
 > **[LECTURE] Journal de blockout — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
-blockout_version: v001
-unit: meter
-primary_volume: pending
-handle_volume: pending
-base_contact: pending
-swept_handle_envelope: pending
-captures:
-  front: missing
-  side: missing
-  perspective_with_hand: missing
-review: blocked
+blockout_version: 1
+checks:
+  dimensions_match_profile: pending
+  grip_clearance: pending
+  handle_rotation: pending
+  ground_stability: pending
+  hook_mount: pending
+  character_silhouette: pending
+decision: blocked
+review_notes: []
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication structurée du bloc :**
 
-- **Version :** chaque reprise de proportions crée une nouvelle version identifiable.
-- **Volumes :** les valeurs restent en attente jusqu’à leur mesure dans Blender.
-- **Captures :** `missing` distingue une preuve absente d’un contrôle échoué.
-- **Décision :** `blocked` interdit de passer à la production détaillée.
+- **Version :** `blockout_version` augmente lorsque les volumes fonctionnels changent.
+- **Contrôles :** chaque vérification possède un statut indépendant.
+- **Décision :** `blocked` évite de poursuivre par inertie.
+- **Notes :** `review_notes` est une liste vide prête à recevoir des observations.
+- **Résultat attendu :** le blockout est évalué avant toute finition.
 
 ## 20. Topologie et séparation des pièces
 
-La topologie dépend de l’usage :
+La topologie suit l’usage :
 
-- zones rigides : plans stables et arêtes contrôlées ;
-- poignées : section régulière et biseaux lisibles ;
-- charnières : pièces séparées et pivots cohérents ;
-- sangles : géométrie ou cartes selon distance ;
-- petites fixations : géométrie seulement si la silhouette ou l’ombre le justifie ;
-- surfaces cachées : suppression uniquement après preuve qu’elles ne sont jamais visibles ;
-- variantes : composants modulaires plutôt que duplication complète lorsque pertinent.
+- pièces immobiles séparées seulement si cela facilite matériau, LOD ou remplacement ;
+- pièces mobiles obligatoirement séparées ou préparées pour une articulation ;
+- densité accrue autour des courbes de silhouette et des petits rayons réellement visibles ;
+- surfaces planes conservées simples ;
+- détails répétitifs déplacés vers texture ou normal lorsque pertinent ;
+- normales et arêtes dures contrôlées avant export.
 
-Les opérations génériques de retopologie, UV et baking restent au chapitre 17. Ici, la topologie est décrite par sa fonction et ses frontières de pièces.
+Les choix génériques de retopologie, d’UV et de baking restent au chapitre 17.
 
 > **[LECTURE] Profil de topologie — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-EQP-BUCKLER-001
-components:
-  shield_body:
-    behavior: rigid
-    silhouette_priority: high
-  grip:
-    behavior: rigid
-    hand_clearance_priority: high
-  strap:
-    behavior: deformable_candidate
-    silhouette_priority: medium
-hidden_surface_policy: review_required
+asset_id: AST-DEVICE-PULSE-001
+parts:
+  body:
+    behavior: static
+    topology_focus: silhouette_and_bevels
+  emitter_head:
+    behavior: movable
+    topology_focus: pivot_clearance
+  trigger_guard:
+    behavior: static
+    topology_focus: finger_clearance
+  indicator:
+    behavior: material_state
+    topology_focus: minimal_geometry
+generic_uv_baking_owner: chapter_17
 status: blocked
 ```
 
@@ -909,33 +886,40 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Composants :** chaque pièce possède un comportement et une priorité distincts.
-- **Rigidité :** `rigid` décrit la déformation attendue, pas une collision physique.
-- **Politique :** aucune surface cachée n’est supprimée par défaut.
-- **Résultat attendu :** la topologie peut être revue sans connaître les statistiques de protection.
+- **Parties :** chaque sous-objet associe comportement et priorité topologique.
+- **Pièce mobile :** `emitter_head` reçoit une attention spécifique autour du pivot.
+- **Détail matériel :** `indicator` évite une géométrie inutile lorsque le matériau suffit.
+- **Frontière :** `generic_uv_baking_owner` réserve la méthode générale au chapitre 17.
+- **État :** la topologie n’est pas déclarée créée.
 
 ## 21. Ombrage, biseaux et normales
 
-Les objets rigides réalistes ont rarement des arêtes mathématiquement infinies. Les biseaux :
+Un objet hard-surface crédible dépend souvent plus de ses transitions que de sa densité brute. Contrôler :
 
-- capturent la lumière ;
-- clarifient les assemblages ;
-- évitent une silhouette artificiellement tranchante ;
-- consomment de la géométrie ;
-- doivent rester cohérents entre LOD.
+- largeur relative des biseaux ;
+- continuité des normales ;
+- arêtes réellement coupantes ou volontairement adoucies ;
+- absence de facettes sur les courbes importantes ;
+- cohérence du tangent space après GLB ;
+- silhouette sous lumière rasante.
 
-Les normales pondérées ou personnalisées ne compensent pas une mauvaise silhouette. Vérifier les transformations avant d’appliquer des modificateurs dépendants de l’échelle. Le chapitre 17 approfondit les tangentes et le baking.
+Le chapitre peut définir un profil spécialisé, mais la bibliothèque PBR et les réglages généraux appartiennent au chapitre 16.
 
 > **[LECTURE] Profil d’ombrage — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-DEVICE-PULSE-001
-shading_profile:
-  bevel_strategy: measured_from_scale
-  weighted_normals: candidate
-  hard_edges: reviewed_with_uv_seams
-  transformation_scale: must_be_applied_before_final_review
-lod_consistency: pending
+asset_id: AST-WPN-SHORT-BLADE-001
+bevel_policy:
+  visible_edges: required
+  width: provisional
+normal_policy:
+  custom_normals: candidate
+  glb_tangent_review: pending
+lighting_tests:
+  - soft_front
+  - hard_side
+  - rim_back
+general_pbr_owner: chapter_16
 status: blocked
 ```
 
@@ -943,42 +927,39 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Biseau :** la largeur doit dériver de l’échelle, pas d’une valeur copiée entre objets.
-- **Candidat :** `weighted_normals` reste une option à comparer.
-- **Arêtes :** leur relation avec les UV est renvoyée au chapitre spécialisé.
-- **Précondition :** l’échelle doit être cohérente avant la revue finale des modificateurs.
+- **Biseaux :** la largeur reste provisoire et dépend de l’échelle réelle.
+- **Normales :** `custom_normals` est une candidate, pas une obligation universelle.
+- **Éclairages :** trois directions révèlent les cassures et facettes.
+- **Frontière :** les règles PBR communes restent au chapitre 16.
+- **Blocage :** le tangent space doit être comparé dans Godot.
 
 ## 22. Matériaux, atlas et variantes
 
-Le chapitre attribue des familles matérielles provisoires : métal peint, métal nu, bois, cuir, verre, tissu, plastique fictif ou surface émissive. Il ne recrée pas le pipeline PBR du chapitre 16.
+Les objets pilotes utilisent des matériaux provisoires pour distinguer bois, métal, verre, cuir, tissu ou surface émissive. Le chapitre documente les groupes et les besoins, sans établir le pipeline PBR général.
 
-Pour chaque objet, documenter :
+Pour réduire les changements de matériau :
 
-- nombre de surfaces ;
-- familles matérielles ;
-- transparence ;
-- double face ;
-- émission ;
-- variantes de couleur ;
-- stratégie d’atlas ;
-- consolidation prévue par LOD ;
-- mémoire provisoire ;
-- preuves sous plusieurs éclairages.
+- grouper les surfaces compatibles ;
+- partager un atlas seulement entre assets dont les cycles de vie et résolutions sont compatibles ;
+- éviter de fusionner un matériau transparent avec un matériau opaque sans justification ;
+- préserver les variantes utiles ;
+- mesurer draw calls, mémoire et qualité réelle dans Godot.
 
 > **[LECTURE] Profil matériel provisoire — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
 material_slots:
-  - painted_metal
-  - glass
-  - emissive_core
-transparency:
-  glass: alpha_or_transmission_to_qualify
-emission:
-  source_socket: SOCKET_light_origin
-  gameplay_light_authority: excluded
-atlas_candidate: true
+  - id: MAT_lantern_metal
+    family: painted_metal
+  - id: MAT_lantern_glass
+    family: transparent_glass
+  - id: MAT_lantern_emissive
+    family: emissive_insert
+atlas_candidate:
+  group: AST-ATLAS-PROP-EXPLORER-001
+  decision: pending
+general_material_owner: chapter_16
 status: blocked
 ```
 
@@ -986,36 +967,35 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Surfaces :** les trois emplacements correspondent à des comportements visuels distincts.
-- **Qualification :** le verre reste à comparer dans Godot avant de choisir son mode.
-- **Émission :** le socket localise la source visuelle sans créer la logique d’éclairage ou d’énergie.
-- **Atlas :** `true` autorise une étude ; il ne prouve ni gain ni compatibilité.
+- **Slots :** chaque matériau possède un identifiant local et une famille.
+- **Transparence :** le verre reste séparé pour conserver ses contraintes de rendu.
+- **Atlas :** `decision: pending` empêche un regroupement prématuré.
+- **Frontière :** le chapitre 16 reste propriétaire des matériaux généraux.
+- **Mesure :** l’acceptation dépendra des draw calls et de la mémoire observés.
 
 ## 23. Volumes de détection d’interaction
 
-Un volume d’interaction sert à détecter une proximité, une sélection ou un rayon. Il n’empêche pas nécessairement un corps de traverser l’objet. Dans Godot, une `Area3D` avec `CollisionShape3D` peut représenter ce volume, mais la logique d’interaction reste dans le Livre II.
+Un volume de détection indique où une interaction peut être proposée. Il ne décide pas si l’action est autorisée. Dans Godot, un `Area3D` peut porter une ou plusieurs `CollisionShape3D`, mais la logique métier doit rester dans le système d’interaction du Livre II.
 
-Le profil précise :
+Le volume doit être :
 
-- but ;
-- forme ;
-- couches et masques candidats ;
-- distance de sélection ;
-- accessibilité depuis plusieurs angles ;
-- relation avec les pièces mobiles ;
-- état selon le LOD.
+- assez large pour être accessible ;
+- assez précis pour ne pas sélectionner l’objet voisin ;
+- distinct du maillage de rendu ;
+- aligné avec le point de focalisation ;
+- testé dans un environnement encombré.
 
-> **[LECTURE] Profil d’interaction — Ne pas saisir.**
+> **[LECTURE] Profil de détection — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
-interaction_volume:
+interaction_area:
   node_type: Area3D
-  shape_candidate: capsule
-  purpose: selection_and_proximity
-  collision_layer: pending
-  collision_mask: pending
-  lod_policy: preserve_while_interactable
+  shape_type: BoxShape3D
+  dimensions_m: provisional
+  focus_socket: interaction_focus
+  collision_layer_profile: AST-LAYER-INTERACTABLE-001-v001
+  authorization_owner: Livre_II_interaction_system
 status: blocked
 ```
 
@@ -1023,36 +1003,37 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Nœud :** `Area3D` détecte des superpositions sans devenir un corps physique.
-- **Forme :** la capsule est un candidat simple à ajuster.
-- **Couches :** aucune valeur n’est inventée avant l’intégration au projet.
-- **LOD :** le volume est conservé tant que l’objet reste interactif.
+- **Nœud :** `Area3D` décrit une région de détection, pas un corps solide.
+- **Forme :** `BoxShape3D` est une primitive candidate simple à contrôler.
+- **Couche :** le profil de collision est référencé plutôt que codé en nombre arbitraire.
+- **Autorité :** l’autorisation reste dans le système d’interaction du Livre II.
+- **Réserve :** dimensions et comportement doivent être testés dans la scène.
 
 ## 24. Collisions physiques
 
-Une collision physique correspond au comportement attendu :
+La collision physique doit correspondre à l’usage et au coût :
 
-- objet posé : boîte, capsule ou combinaison simple ;
-- bouclier : forme convexe simplifiée si une interaction physique le justifie ;
-- objet décoratif immobile : collision statique qualifiée ;
-- petit objet tenu : collision parfois désactivée pendant l’attache ;
-- objet complexe : plusieurs primitives plutôt qu’un maillage concave dynamique.
-
-Les primitives sont rapides et prévisibles. Les formes convexes sont plus coûteuses mais adaptées à certaines silhouettes. Les formes concaves sont réservées aux corps statiques appropriés. La collision générée depuis le maillage de rendu sert au diagnostic initial et doit être remplacée ou explicitement qualifiée.
+- primitives pour les formes simples ;
+- plusieurs convexes pour les volumes complexes dynamiques ;
+- concave réservée aux géométries statiques lorsque le contrat l’autorise ;
+- maillage de rendu jamais accepté automatiquement comme collision finale ;
+- échelle uniforme sur `CollisionShape3D` ;
+- marge et tolérances mesurées dans la scène.
 
 > **[LECTURE] Profil de collision physique — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-TOOL-SURVEY-HAMMER-001
+asset_id: AST-EQP-BUCKLER-001
 physics_collision:
-  representation: compound_primitives
-  parts:
-    - role: handle
-      shape: capsule
-    - role: head
-      shape: box
-  non_uniform_scale_allowed: false
-  generated_mesh_collision: diagnostic_only
+  body_candidate: RigidBody3D
+  shapes:
+    - type: CylinderShape3D
+      purpose: main_disc
+    - type: BoxShape3D
+      purpose: central_grip
+  mesh_generated_collision: testing_only
+  non_uniform_scale: forbidden
+  gameplay_authority: excluded
 status: blocked
 ```
 
@@ -1060,36 +1041,31 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Représentation :** deux primitives suivent mieux les masses qu’une forme unique.
-- **Liste :** chaque partie associe un rôle à une forme candidate.
-- **Échelle :** `false` bloque les transforms non uniformes sur les nœuds de collision.
-- **Diagnostic :** une collision générée ne peut pas être promue automatiquement.
+- **Corps candidat :** `RigidBody3D` reste une hypothèse à qualifier selon l’usage final.
+- **Formes :** deux primitives remplacent un maillage concave coûteux.
+- **Génération :** `testing_only` interdit de promouvoir automatiquement une collision dérivée du rendu.
+- **Échelle :** la non-uniformité est explicitement refusée.
+- **Frontière :** la collision ne contient aucune règle de dégâts.
 
 ## 25. Proxies d’impact et point d’émission
 
-Le proxy d’impact et le point d’émission ne définissent pas la résolution du combat. Ils permettent :
+Un proxy d’impact est un volume descriptif préparé pour un futur système. Il peut représenter une tête d’outil, une surface de bouclier ou une zone de contact. Il ne calcule ni dégâts, ni priorité, ni équipe.
 
-- une revue visuelle de l’alignement ;
-- une zone candidate pour les animations ;
-- une origine de VFX ;
-- une entrée pour les systèmes métier futurs ;
-- une capture de validation.
+Un point d’émission est un `Marker3D` ou un repère importé. Il indique où placer un VFX, un son ou un projectile futur. Son orientation doit être testée avec un gizmo visible.
 
-Pour une lame fictive, le proxy peut suivre sa longueur sans fournir de dégâts. Pour un dispositif fictif, `SOCKET_emission` fournit position et orientation sans créer projectile, cadence, portée ou munition.
-
-> **[LECTURE] Profil d’émission et d’impact — Ne pas saisir.**
+> **[LECTURE] Profil d’émission — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-DEVICE-PULSE-001
 emission:
-  socket: SOCKET_emission
-  direction_axis: emission_forward
-  visual_debug_length_m: provisional
-  authoritative_projectile: excluded
-impact_proxy:
-  shape_candidate: capsule
-  purpose: alignment_debug_only
-  damage_authority: excluded
+  socket: projectile_origin
+  node_type: Marker3D
+  forward_axis: local_negative_z
+  vfx_socket: vfx_origin
+  audio_socket: audio_origin
+  trajectory: excluded
+  velocity: excluded
+  damage: excluded
 status: blocked
 ```
 
@@ -1097,42 +1073,53 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Direction :** l’axe est explicite et doit être vérifié par un gizmo.
-- **Longueur :** `provisional` représente un guide visuel, pas une portée.
-- **Exclusions :** projectile et dégâts restent absents du contrat.
-- **Résultat attendu :** animation et VFX disposent d’un repère sans duplication métier.
+- **Repère :** `Marker3D` rend la position et l’orientation visibles dans l’éditeur.
+- **Axe :** `forward_axis` doit correspondre au contrat exporté.
+- **Séparation :** VFX, son et projectile peuvent partager une pièce parente sans partager le même socket.
+- **Exclusions :** trajectoire, vitesse et dégâts restent absents.
+- **Résultat attendu :** le repère peut être validé sans simuler de tir.
 
 ## 26. Intégration aux mains et au squelette
 
-Deux stratégies principales :
+Dans la scène de personnage, l’objet est placé sous un `BoneAttachment3D` lié à l’os de main approprié. Le nœud d’attache suit l’os ; l’objet conserve sa transformation locale de correction.
 
-1. l’objet est enfant d’un `BoneAttachment3D` lié à l’os de main ;
-2. l’objet est placé par un système d’équipement dans un nœud de socket déjà attaché au squelette.
+La correction doit rester dans la scène dérivée ou dans un profil versionné. Ne pas déplacer arbitrairement le pivot source pour corriger un seul personnage.
 
-Le chapitre documente les transforms d’ajustement sans décider des règles d’équipement. Le profil inclut :
+> **[LECTURE] Hiérarchie d’attache — Ne pas saisir.**
 
-- rig et os de référence ;
-- socket objet ;
-- socket personnage ;
-- transform d’ajustement ;
-- main dominante ;
-- prise secondaire ;
-- poses validées ;
-- animation candidate ;
-- statut.
+```text
+CharacterRoot
+└── Skeleton3D
+    ├── BoneAttachment3D_HandR
+    │   └── EquippedObject
+    └── BoneAttachment3D_HandL
+        └── OffhandObject
+```
 
-> **[LECTURE] Profil d’attache à la main — Ne pas saisir.**
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Squelette :** `BoneAttachment3D` copie la transformation de l’os sélectionné.
+- **Main droite :** l’objet principal est instancié sous l’attache correspondante.
+- **Main gauche :** l’équipement secondaire possède une branche indépendante.
+- **Correction :** les offsets locaux ne modifient pas la source GLB.
+- **Frontière :** la sélection d’objet équipé reste une responsabilité du Livre II.
+
+> **[LECTURE] Profil d’attache personnage — Ne pas saisir.**
 
 ```yaml
+profile_id: AST-ATTACH-SHORT-BLADE-HUMAN-001-v001
 asset_id: AST-WPN-SHORT-BLADE-001
-attachment_profile:
-  reference_rig: AST-RIG-HUMAN-001
-  bone: hand_r
-  character_socket: SOCKET_hand_r
-  object_socket: SOCKET_grip_primary
-  adjustment_transform: pending
-  secondary_grip: not_applicable
-  pose_set: AST-POSE-PROP-GRIP-001-v001
+skeleton_profile: AST-RIG-HUMAN-001-v001
+bone_attachment:
+  bone_name: hand_r
+  object_socket: grip_primary
+local_correction:
+  position_m: [0.0, 0.0, 0.0]
+  rotation_deg: [0.0, 0.0, 0.0]
+  scale: [1.0, 1.0, 1.0]
+pose_review: pending
 status: blocked
 ```
 
@@ -1140,42 +1127,45 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Deux sockets :** le profil aligne un repère du personnage avec un repère de l’objet.
-- **Transform :** l’ajustement local reste dans le profil et ne déplace pas l’origine canonique.
-- **Sentinelle :** `not_applicable` distingue l’absence voulue d’une donnée inconnue.
-- **Jeu de poses :** l’identifiant relie la validation future aux mêmes conditions.
+- **Références :** asset, squelette et profil d’attache sont versionnés séparément.
+- **Os :** `bone_name` doit exister dans le squelette importé.
+- **Socket :** `object_socket` sélectionne la prise de l’objet.
+- **Correction locale :** les trois composantes restent explicites et mesurables.
+- **Blocage :** la grille de poses doit confirmer l’alignement.
 
 ## 27. États visuels et dégradation
 
-Les états visuels possibles :
+Un état visuel décrit une représentation possible :
 
-- propre ;
-- poussiéreux ;
-- mouillé ;
+- intact ;
+- utilisé ou sali ;
 - usé ;
-- ébréché ;
-- fissuré ;
-- éteint ou allumé ;
+- endommagé visuellement ;
+- éteint ou activé visuellement ;
 - ouvert ou fermé ;
-- incomplet ;
-- réparation visible.
+- vide ou chargé visuellement, si pertinent.
 
-Ils peuvent être réalisés par matériau, decal, masque, géométrie, pièce alternative ou paramètre de shader. Le chapitre ne stocke ni durabilité courante ni règle de transition. Le système métier choisira l’état visuel par identifiant.
+L’état ne décide pas quand la transition se produit. Il ne contient ni points de durabilité, ni seuil de dégâts, ni consommation. Les règles métier sélectionnent un identifiant d’état ; l’asset fournit la représentation correspondante.
 
-> **[LECTURE] Manifeste d’états visuels — Ne pas saisir.**
+> **[LECTURE] Profil d’états visuels — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-PROP-LANTERN-001
 visual_states:
-  clean:
-    material_variant: MAT_LANTERN_CLEAN
-  worn:
-    material_variant: MAT_LANTERN_WORN
-  damaged_visual:
-    mesh_variant: GEO_LANTERN_DAMAGED
+  intact:
+    mesh_variant: default
+    emissive_variant: off
   lit:
-    material_variant: MAT_LANTERN_LIT
-business_state_fields: excluded
+    mesh_variant: default
+    emissive_variant: warm
+  worn:
+    mesh_variant: worn
+    emissive_variant: off
+  broken_visual:
+    mesh_variant: broken
+    emissive_variant: off
+state_selection_owner: Livre_II_item_runtime
+transition_logic: excluded
 status: blocked
 ```
 
@@ -1183,10 +1173,11 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Clés :** chaque état visuel possède un identifiant stable.
-- **Ressources :** les états peuvent sélectionner un matériau ou un maillage.
-- **Exclusion :** aucun compteur de durabilité ou déclencheur métier n’est stocké.
-- **Résultat attendu :** l’intégration peut demander un état par identifiant sans réécrire l’asset.
+- **Dictionnaire :** chaque clé d’état associe variantes de maillage et de matériau.
+- **Autorité :** `state_selection_owner` indique qui choisira l’état au runtime.
+- **Exclusion :** les transitions et seuils ne sont pas définis ici.
+- **Réutilisation :** un même maillage peut servir à plusieurs états matériels.
+- **État documentaire :** les variantes restent bloquées tant qu’elles ne sont pas produites.
 
 ## 28. Variantes sans duplication métier
 
@@ -1195,34 +1186,32 @@ Une variante visuelle peut changer :
 - couleur ;
 - finition ;
 - gravure ;
-- culture fictive ;
-- niveau d’entretien ;
-- accessoire décoratif ;
-- état de surface ;
-- silhouette secondaire.
+- niveau d’usure ;
+- emblème ;
+- petites pièces décoratives ;
+- silhouette secondaire si elle conserve les sockets et collisions.
 
-Elle ne crée pas automatiquement une nouvelle définition métier. Le manifeste sépare :
+Elle ne doit pas inventer un nouvel objet métier lorsque seule l’apparence change. Inversement, une géométrie qui modifie fortement prise, encombrement ou collision peut nécessiter un profil d’asset distinct.
 
-- `asset_variant_id` ;
-- `content_definition_ref` ;
-- différences visuelles ;
-- composants partagés ;
-- matériaux ;
-- LOD ;
-- preuves.
-
-> **[LECTURE] Variante visuelle — Ne pas saisir.**
+> **[LECTURE] Famille de variantes — Ne pas saisir.**
 
 ```yaml
-asset_variant_id: AST-PROP-LANTERN-001-BRASS
+family_id: AST-PROP-LANTERN-FAMILY-001-v001
 base_asset: AST-PROP-LANTERN-001
-content_definition_ref: ITEM_LANTERN_STANDARD
-visual_changes:
-  - brass_finish
-  - blue_glass_tint
-shared_geometry: true
-shared_collision_profile: pending
-new_gameplay_definition: false
+variants:
+  - id: brass_clean
+    geometry_profile: base
+    material_profile: brass_clean
+  - id: iron_worn
+    geometry_profile: base
+    material_profile: iron_worn
+  - id: hooded
+    geometry_profile: hooded
+    material_profile: iron_worn
+compatibility_invariants:
+  - grip_primary
+  - mount_hook
+  - interaction_collision
 status: blocked
 ```
 
@@ -1230,51 +1219,55 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Référence métier :** la variante pointe vers une définition sans recopier ses champs.
-- **Changements :** la liste décrit uniquement les différences visuelles.
-- **Partage :** géométrie et collision sont qualifiées séparément.
-- **Booléen :** `false` empêche de créer une nouvelle règle de jeu par accident.
+- **Famille :** les variantes partagent un identifiant de famille et une base.
+- **Géométrie :** `hooded` peut modifier une pièce sans changer les contrats indispensables.
+- **Invariants :** prises, monture et collision doivent rester compatibles.
+- **Frontière :** les différences de statistiques ne figurent pas dans le profil visuel.
+- **Décision :** une rupture d’invariant impose un asset ou profil distinct.
 
 ## 29. LOD géométriques et fonctionnels
 
-Un LOD d’objet ne consiste pas seulement à réduire les triangles. Il doit préserver selon le contexte :
+Un LOD ne réduit pas seulement les triangles. Il peut aussi :
 
-- silhouette ;
-- poignée ou zone de prise ;
-- pièces mobiles visibles ;
-- socket d’attache actif ;
-- point d’émission actif ;
-- interaction ;
-- collision physique ;
-- état visuel ;
-- matériaux essentiels.
+- fusionner de petites pièces ;
+- supprimer des mécanismes non visibles ;
+- réduire le nombre de matériaux ;
+- remplacer une transparence par une surface opaque ;
+- désactiver un mouvement secondaire ;
+- conserver les sockets indispensables ;
+- simplifier les collisions ;
+- préserver la silhouette et l’orientation fonctionnelle.
 
-Un objet équipé à moyenne distance n’a pas les mêmes besoins qu’un objet décoratif lointain. Documenter plusieurs représentations :
+Les seuils sont mesurés dans Godot. Une distance copiée depuis un autre projet n’est pas une preuve.
 
-- `equipped_close` ;
-- `equipped_gameplay` ;
-- `world_interactable` ;
-- `world_distant` ;
-- `inventory_preview` si réellement utilisée.
-
-> **[LECTURE] Profil LOD — Ne pas saisir.**
+> **[LECTURE] Profil LOD de la lanterne — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-DEVICE-PULSE-001
-representations:
-  equipped_close:
-    lod: LOD0
-    required_sockets: [SOCKET_grip_primary, SOCKET_emission]
-  equipped_gameplay:
-    lod: LOD1
-    required_sockets: [SOCKET_grip_primary, SOCKET_emission]
-  world_interactable:
-    lod: LOD1
-    required_nodes: [InteractionArea]
-  world_distant:
-    lod: LOD2
-    required_sockets: []
-thresholds: pending
+asset_id: AST-PROP-LANTERN-001
+lod_profiles:
+  lod0:
+    geometry: full
+    materials: 3
+    moving_handle: true
+    required_sockets:
+      - grip_primary
+      - mount_hook
+      - light_origin
+  lod1:
+    geometry: simplified
+    materials: 2
+    moving_handle: false
+    required_sockets:
+      - grip_primary
+      - mount_hook
+      - light_origin
+  lod2:
+    geometry: silhouette_proxy
+    materials: 1
+    moving_handle: false
+    required_sockets:
+      - mount_hook
+thresholds: pending_measurement
 status: blocked
 ```
 
@@ -1282,46 +1275,34 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Représentations :** chaque contexte associe un LOD à ses fonctions requises.
-- **Sockets :** prise et émission restent présentes tant que l’objet est équipé.
-- **Nœuds :** l’aire d’interaction est conservée pour l’objet sélectionnable.
-- **Seuils :** les distances restent à mesurer dans Godot.
+- **Niveaux :** chaque LOD combine géométrie, matériaux, mouvements et sockets.
+- **Fonction :** les repères indispensables restent présents tant que l’usage les exige.
+- **Simplification :** la poignée peut devenir statique lorsque sa mobilité n’est plus perceptible.
+- **Seuils :** `pending_measurement` interdit une distance inventée.
+- **Résultat attendu :** la silhouette et l’usage restent lisibles malgré la réduction.
 
 ## 30. Collisions et états selon le LOD
 
-Les collisions et états ne suivent pas obligatoirement la géométrie :
+La collision ne suit pas automatiquement le LOD de rendu. Une collision de gameplay ou d’interaction peut rester stable lorsque le maillage change. Les collisions purement décoratives peuvent être simplifiées ou désactivées, mais cette décision doit être documentée.
 
-- une collision simple peut être partagée entre LOD ;
-- un objet distant peut perdre son interaction ;
-- un objet équipé conserve ses prises ;
-- un point d’émission reste requis tant que VFX ou gameplay le consomment ;
-- une dégradation fine peut être fusionnée dans le matériau ;
-- une pièce mobile peut devenir statique à distance ;
-- la transition ne doit pas déplacer l’objet.
-
-> **[LECTURE] Matrice fonctionnelle des représentations — Ne pas saisir.**
+> **[LECTURE] Profil de collision par représentation — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-PROP-LANTERN-001
+asset_id: AST-EQP-BUCKLER-001
 representations:
-  equipped_gameplay:
-    render: LOD1
-    interaction: disabled
-    physics_collision: disabled_while_attached
-    light_origin: preserved
-    visual_state: preserved
-  world_interactable:
-    render: LOD1
-    interaction: enabled
-    physics_collision: enabled
-    light_origin: preserved
-    visual_state: preserved
-  world_distant:
-    render: LOD2
-    interaction: disabled
-    physics_collision: static_or_disabled_to_measure
-    light_origin: candidate_for_removal
-    visual_state: simplified
+  equipped:
+    render_lod: dynamic
+    interaction_area: disabled
+    physical_collision_profile: equipped_proxy
+  dropped_near:
+    render_lod: dynamic
+    interaction_area: enabled
+    physical_collision_profile: dropped_convex
+  distant_static:
+    render_lod: lod2
+    interaction_area: disabled
+    physical_collision_profile: static_simple
+selection_owner: presentation_layer
 status: blocked
 ```
 
@@ -1329,53 +1310,67 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Découplage :** rendu, interaction, physique, lumière et état possèdent des politiques indépendantes.
-- **Attache :** la collision peut être désactivée pendant que l’objet suit la main.
-- **Distance :** la suppression du repère lumineux reste une décision à mesurer.
-- **Résultat attendu :** chaque représentation possède un contrat vérifiable.
+- **Représentations :** équipé, posé proche et distant statique sont des contextes différents.
+- **Détection :** l’`interaction_area` peut être désactivée lorsque l’objet est déjà équipé.
+- **Collision :** chaque contexte référence un profil distinct.
+- **Autorité :** `presentation_layer` sélectionne la représentation sans modifier l’état métier.
+- **Réserve :** les profils doivent être mesurés et testés.
 
 ## 31. Collection d’export et GLB
 
-La collection `__EXPORT` contient uniquement :
+La source Blender contient travail, références, guides et objets exclus. La collection `__EXPORT` ne contient que ce qui doit traverser vers Godot :
 
-- racine de l’objet ;
-- géométries retenues ;
-- pièces mobiles ;
-- LOD si le profil d’export les inclut ;
-- objets vides représentant pivots et sockets ;
+- maillages de rendu ;
+- pièces mobiles nécessaires ;
+- repères exportés ;
+- armature éventuelle si réellement requise ;
 - propriétés personnalisées qualifiées ;
-- matériaux pris en charge.
+- collisions explicitement destinées à l’import.
 
-Elle exclut :
+Les propriétés personnalisées peuvent être exportées comme `extras` glTF, mais leur présence doit être vérifiée après import. Un nom ou un champ non normalisé ne devient pas automatiquement un contrat moteur.
 
-- références ;
-- gabarits de main ;
-- guides de mesure ;
-- caches ;
-- sauvegardes ;
-- collisions de diagnostic non retenues ;
-- données privées de provenance.
+> **[LECTURE] Collection d’export — Ne pas saisir.**
 
-Les propriétés personnalisées peuvent être exportées comme `extras` glTF lorsque le preset le prévoit. Elles restent des métadonnées, pas une garantie d’interprétation automatique par Godot.
+```text
+__EXPORT
+└── AST-PROP-LANTERN-001
+    ├── GEO_body
+    ├── GEO_handle
+    ├── SOCKET_grip_primary
+    ├── SOCKET_mount_hook
+    ├── SOCKET_light_origin
+    └── COLLISION_static_simple
+```
 
-> **[LECTURE] Manifeste d’export — Ne pas saisir.**
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Sélection :** `__EXPORT` évite un export manuel variable.
+- **Maillages :** corps et poignée restent séparés car la poignée possède un pivot.
+- **Repères :** les sockets nécessaires traversent avec des noms stables.
+- **Collision :** seule la collision qualifiée est incluse.
+- **Exclusion :** références, guides et caches restent hors du GLB.
+
+> **[LECTURE] Preset d’export documentaire — Ne pas saisir.**
 
 ```yaml
-export_id: AST-PROP-EXPORT-001-v001
-asset_id: AST-PROP-LANTERN-001
-source_blend: art/blender/props/AST-PROP-KIT-EXPLORER-001/lantern.blend
-collection: __EXPORT
-container: GLB
-include:
-  - render_meshes
-  - moving_parts
+preset_id: AST-GLTF-PROP-001-v001
+format: GLB
+selection_source: collection___EXPORT
+apply_modifiers: reviewed_per_object
+export_custom_properties: true
+export_materials: true
+export_animations: false
+export_cameras: false
+export_lights: false
+post_export_checks:
+  - node_names
+  - transforms
   - sockets
-  - qualified_custom_properties
-exclude:
-  - references
-  - measurement_guides
-  - diagnostic_collisions
-  - caches
+  - materials
+  - bounds
+  - collisions
 status: blocked
 ```
 
@@ -1383,72 +1378,80 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Source :** le fichier Blender reste distinct du conteneur GLB.
-- **Collection :** l’export est fondé sur un contrat nommé, pas une sélection manuelle.
-- **Listes :** `include` et `exclude` rendent le périmètre explicite.
-- **État :** le GLB ne peut pas être déclaré produit avant exécution et inspection.
+- **Conteneur :** `GLB` regroupe la scène et ses données d’échange.
+- **Sélection :** la collection dédiée remplace une sélection manuelle.
+- **Propriétés :** les propriétés personnalisées sont exportées comme candidates à vérifier.
+- **Animations :** elles sont désactivées dans ce preset d’objet statique ou attaché.
+- **Contrôles :** l’export n’est accepté qu’après inspection des nœuds, transforms et volumes.
 
 ## 32. Scène Godot importée et scène dérivée
 
-Godot importe le GLB comme ressource générée. Ne pas modifier cette scène comme source principale. Créer une scène héritée ou une scène enveloppe qui ajoute :
+Godot importe le GLB comme scène. Cette scène importée peut être régénérée lors d’une réimportation ; elle ne reçoit pas directement les nœuds métier ou les corrections manuelles.
 
-- `Area3D` d’interaction ;
-- collisions physiques ;
-- marqueurs de debug ;
-- profil d’attache ;
-- LOD et plages de visibilité ;
-- état visuel ;
-- métadonnées de validation ;
-- scripts de test.
+Créer une scène dérivée qui ajoute :
 
-Cette séparation protège les réimports. Les ajustements artistiques retournent dans Blender ; les nœuds moteur restent dans la scène dérivée.
+- racine de présentation ;
+- collisions et `Area3D` ;
+- `Marker3D` de contrôle ;
+- nœuds d’éclairage ou VFX provisoires ;
+- script de validation ;
+- variantes et logique de présentation non autoritaire.
 
-> **[LECTURE] Hiérarchie Godot dérivée — Ne pas saisir.**
+> **[LECTURE] Hiérarchie de scène dérivée — Ne pas saisir.**
 
 ```text
-PropDerivedRoot (Node3D)
-├── ImportedProp (instance GLB)
-├── InteractionArea (Area3D)
+PropValidationRoot
+├── ImportedObject
+├── InteractionArea
 │   └── CollisionShape3D
-├── PhysicsBody (StaticBody3D ou RigidBody3D selon profil)
+├── PhysicsBodyCandidate
 │   └── CollisionShape3D
-├── SocketDebug (Node3D)
-├── LODController (Node3D)
-└── ValidationMetadata (Node)
+├── SocketDebug
+│   ├── Marker3D_GripPrimary
+│   ├── Marker3D_Mount
+│   └── Marker3D_Emission
+├── CameraRig
+├── LightingRig
+└── PropAssetValidator
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication structurée du bloc :**
 
-- **Racine :** la scène dérivée possède le transform d’intégration sans réécrire le GLB.
-- **Instance :** `ImportedProp` reste remplaçable lors d’un réimport.
-- **Responsabilités :** interaction et physique utilisent des branches distinctes.
-- **Profil :** le type de corps dépend de l’usage validé, pas du nom de l’objet.
+- **Import :** `ImportedObject` reste une instance de la scène générée depuis le GLB.
+- **Détection :** `InteractionArea` possède sa forme propre.
+- **Physique :** le corps candidat et sa collision sont séparés de la détection.
+- **Repères :** les `Marker3D` rendent les sockets inspectables.
+- **Validation :** le script lit la structure sans modifier l’asset.
 
 ## 33. Contrat de scène Godot
 
-Le contrat JSON ou YAML décrit les nœuds attendus sans supposer leur présence :
+Le contrat de scène décrit les nœuds requis selon la catégorie de l’objet. Un objet posé peut exiger une collision physique ; un objet purement attaché peut ne pas en avoir. Les exigences restent déclaratives.
 
-> **[LECTURE] Contrat de scène — Ne pas saisir.**
+> **[VSC] Créer `tests/art/props/contracts/AST-PROP-LANTERN-001.yaml`.**
 
 ```yaml
-scene_id: AST-PROP-SCENE-LANTERN-001
 asset_id: AST-PROP-LANTERN-001
-imported_scene: res://art/exports/props/AST-PROP-KIT-EXPLORER-001/lantern.glb
-derived_scene: res://tests/art/props/lantern_validation.tscn
+root_type: Node3D
 required_nodes:
-  - ImportedProp
-  - InteractionArea
-  - PhysicsBody
+  - path: ImportedObject
+    type: Node3D
+  - path: InteractionArea
+    type: Area3D
+  - path: InteractionArea/CollisionShape3D
+    type: CollisionShape3D
 required_sockets:
-  - SOCKET_grip_primary
-  - SOCKET_mount_base
-  - SOCKET_mount_hanging
-  - SOCKET_light_origin
-collision_profiles:
-  interaction: AST-COL-INTERACT-LANTERN-001-v001
-  physics: AST-COL-PHYS-LANTERN-001-v001
+  - grip_primary
+  - mount_hook
+  - light_origin
+required_visual_states:
+  - intact
+  - lit
+required_lod_profiles:
+  - lod0
+  - lod1
+  - lod2
 status: blocked
 ```
 
@@ -1456,118 +1459,174 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Chemins :** import et scène dérivée sont explicitement séparés.
-- **Listes :** nœuds et sockets requis alimentent le validateur structurel.
-- **Profils :** interaction et physique renvoient vers deux contrats différents.
-- **État :** la scène reste bloquée tant que chemins et nœuds ne sont pas matérialisés.
+- **Chemins :** chaque entrée de `required_nodes` associe un chemin relatif et un type attendu.
+- **Sockets :** la liste est comparée aux repères importés ou dérivés.
+- **États :** les identifiants visuels n’incluent aucune règle de transition.
+- **LOD :** trois profils sont attendus sans imposer leurs seuils.
+- **Décision :** le contrat reste bloqué tant que la scène n’est pas matérialisée.
 
 ## 34. Validateur GDScript structurel
 
-Créer **[VSC]** `tests/art/props/prop_asset_validator.gd`.
+Le validateur suivant vérifie une scène déjà instanciée. Il ne crée pas les nœuds manquants, ne corrige pas les transforms et ne décide pas si un objet peut être équipé.
 
-> **[LECTURE] Exemple GDScript — Ne pas saisir sans créer le fichier indiqué.**
+> **[VSC] Créer `tests/art/props/prop_asset_validator.gd`.**
 
 ```gdscript
 class_name PropAssetValidator
-extends RefCounted
+extends Node
 
-const REQUIRED_SOCKET_PREFIX: String = "SOCKET_"
+enum ValidationCode {
+    OK,
+    ROOT_MISSING,
+    IMPORTED_OBJECT_MISSING,
+    REQUIRED_NODE_MISSING,
+    REQUIRED_SOCKET_MISSING,
+    COLLISION_SHAPE_MISSING,
+    NON_UNIFORM_COLLISION_SCALE,
+    INVALID_LOD_PROFILE
+}
 
-func validate_prop(root: Node, profile: Dictionary) -> Dictionary:
-    var errors: Array[String] = []
-    var warnings: Array[String] = []
+const EPSILON: float = 0.0001
+
+func validate_scene(
+    root: Node,
+    required_node_paths: Array[NodePath],
+    required_socket_names: PackedStringArray,
+    required_lod_names: PackedStringArray
+) -> Dictionary:
+    var issues: Array[Dictionary] = []
 
     if root == null:
-        errors.append("PROP_ROOT_MISSING")
-        return _result(errors, warnings)
+        return _result(ValidationCode.ROOT_MISSING, issues)
 
-    _check_required_nodes(root, profile, errors)
-    _check_required_sockets(root, profile, errors)
-    _check_collision_shapes(root, errors, warnings)
-    _check_lod_contract(root, profile, errors, warnings)
+    if root.get_node_or_null(^"ImportedObject") == null:
+        issues.append(_issue(
+            ValidationCode.IMPORTED_OBJECT_MISSING,
+            "ImportedObject",
+            "La scène importée est absente."
+        ))
 
-    return _result(errors, warnings)
+    _validate_required_nodes(root, required_node_paths, issues)
+    _validate_sockets(root, required_socket_names, issues)
+    _validate_collision_shapes(root, issues)
+    _validate_lod_profiles(root, required_lod_names, issues)
 
-func _check_required_nodes(
+    var code := ValidationCode.OK
+    if not issues.is_empty():
+        code = int(issues[0]["code"]) as ValidationCode
+
+    return _result(code, issues)
+
+func _validate_required_nodes(
     root: Node,
-    profile: Dictionary,
-    errors: Array[String]
+    paths: Array[NodePath],
+    issues: Array[Dictionary]
 ) -> void:
-    var required: Array = profile.get("required_nodes", [])
-    for node_name_value: Variant in required:
-        var node_name := StringName(str(node_name_value))
-        if root.find_child(String(node_name), true, false) == null:
-            errors.append("REQUIRED_NODE_MISSING:%s" % node_name)
+    for path: NodePath in paths:
+        if root.get_node_or_null(path) == null:
+            issues.append(_issue(
+                ValidationCode.REQUIRED_NODE_MISSING,
+                String(path),
+                "Un nœud requis est absent."
+            ))
 
-func _check_required_sockets(
+func _validate_sockets(
     root: Node,
-    profile: Dictionary,
-    errors: Array[String]
+    socket_names: PackedStringArray,
+    issues: Array[Dictionary]
 ) -> void:
-    var required: Array = profile.get("required_sockets", [])
-    var found := _collect_named_nodes(root, REQUIRED_SOCKET_PREFIX)
-    for socket_value: Variant in required:
-        var socket_name := StringName(str(socket_value))
-        if not found.has(socket_name):
-            errors.append("REQUIRED_SOCKET_MISSING:%s" % socket_name)
+    var socket_root := root.get_node_or_null(^"ImportedObject")
+    if socket_root == null:
+        return
 
-func _collect_named_nodes(root: Node, prefix: String) -> Dictionary:
-    var result: Dictionary = {}
+    for socket_name: String in socket_names:
+        if not _contains_named_node(socket_root, socket_name):
+            issues.append(_issue(
+                ValidationCode.REQUIRED_SOCKET_MISSING,
+                socket_name,
+                "Un socket requis est absent."
+            ))
+
+func _contains_named_node(root: Node, expected_name: String) -> bool:
+    if String(root.name).to_lower() == expected_name.to_lower():
+        return true
+
     for child: Node in root.get_children():
-        if child.name.begins_with(prefix):
-            result[child.name] = child
-        var descendants := _collect_named_nodes(child, prefix)
-        result.merge(descendants, true)
-    return result
+        if _contains_named_node(child, expected_name):
+            return true
 
-func _check_collision_shapes(
+    return false
+
+func _validate_collision_shapes(
     root: Node,
-    errors: Array[String],
-    warnings: Array[String]
+    issues: Array[Dictionary]
 ) -> void:
-    for node: Node in root.find_children("*", "CollisionShape3D", true, false):
+    for node: Node in root.find_children(
+        "*",
+        "CollisionShape3D",
+        true,
+        false
+    ):
         var collision := node as CollisionShape3D
-        if collision == null:
-            continue
         if collision.shape == null:
-            errors.append("COLLISION_SHAPE_RESOURCE_MISSING:%s" % collision.get_path())
-        if not _is_uniform_scale(collision.scale):
-            errors.append("COLLISION_NON_UNIFORM_SCALE:%s" % collision.get_path())
-        if collision.disabled:
-            warnings.append("COLLISION_DISABLED:%s" % collision.get_path())
+            issues.append(_issue(
+                ValidationCode.COLLISION_SHAPE_MISSING,
+                collision.get_path(),
+                "La CollisionShape3D ne référence aucune Shape3D."
+            ))
+            continue
 
-func _is_uniform_scale(value: Vector3) -> bool:
-    return is_equal_approx(value.x, value.y) and is_equal_approx(value.y, value.z)
+        var scale_value := collision.scale
+        var uniform_xy := absf(scale_value.x - scale_value.y) <= EPSILON
+        var uniform_yz := absf(scale_value.y - scale_value.z) <= EPSILON
+        if not (uniform_xy and uniform_yz):
+            issues.append(_issue(
+                ValidationCode.NON_UNIFORM_COLLISION_SCALE,
+                collision.get_path(),
+                "La collision utilise une échelle non uniforme."
+            ))
 
-func _check_lod_contract(
+func _validate_lod_profiles(
     root: Node,
-    profile: Dictionary,
-    errors: Array[String],
-    warnings: Array[String]
+    lod_names: PackedStringArray,
+    issues: Array[Dictionary]
 ) -> void:
-    var lod_root_name := StringName(str(profile.get("lod_root", "")))
-    if lod_root_name == StringName():
-        warnings.append("LOD_ROOT_NOT_DECLARED")
+    var lod_root := root.get_node_or_null(^"LOD")
+    if lod_root == null and not lod_names.is_empty():
+        issues.append(_issue(
+            ValidationCode.INVALID_LOD_PROFILE,
+            "LOD",
+            "La racine LOD est absente."
+        ))
         return
 
-    var lod_root := root.find_child(String(lod_root_name), true, false)
-    if lod_root == null:
-        errors.append("LOD_ROOT_MISSING:%s" % lod_root_name)
-        return
+    for lod_name: String in lod_names:
+        if lod_root.get_node_or_null(NodePath(lod_name)) == null:
+            issues.append(_issue(
+                ValidationCode.INVALID_LOD_PROFILE,
+                lod_name,
+                "Un profil LOD requis est absent."
+            ))
 
-    var expected_lods: Array = profile.get("expected_lods", [])
-    for lod_value: Variant in expected_lods:
-        var lod_name := StringName(str(lod_value))
-        if lod_root.find_child(String(lod_name), true, false) == null:
-            errors.append("LOD_NODE_MISSING:%s" % lod_name)
-
-func _result(errors: Array[String], warnings: Array[String]) -> Dictionary:
+func _issue(
+    code: ValidationCode,
+    subject: Variant,
+    message: String
+) -> Dictionary:
     return {
-        "status": "blocked" if not errors.is_empty() else "reviewable",
-        "errors": errors,
-        "warnings": warnings,
-        "error_count": errors.size(),
-        "warning_count": warnings.size(),
+        "code": int(code),
+        "subject": str(subject),
+        "message": message
+    }
+
+func _result(
+    code: ValidationCode,
+    issues: Array[Dictionary]
+) -> Dictionary:
+    return {
+        "ok": code == ValidationCode.OK,
+        "code": int(code),
+        "issues": issues.duplicate(true)
     }
 ```
 
@@ -1575,44 +1634,36 @@ func _result(errors: Array[String], warnings: Array[String]) -> Dictionary:
 
 **Explication structurée du bloc :**
 
-- **Classe et héritage :** `class_name` rend le validateur référençable ; `RefCounted` convient à un service sans présence dans l’arbre.
-- **Entrées :** `validate_prop` reçoit `root: Node`, racine de la scène dérivée, et `profile: Dictionary`, contrat chargé depuis des données validées.
-- **Retour :** la fonction renvoie toujours un `Dictionary` structuré ; une racine nulle provoque un retour anticipé avec `PROP_ROOT_MISSING`.
-- **Collections typées :** `Array[String]` limite erreurs et avertissements à des chaînes ; `Dictionary` associe des clés aux résultats.
-- **Lecture défensive :** `profile.get("required_nodes", [])` renvoie une liste vide si la clé manque ; les valeurs sont converties vers `StringName` après lecture comme `Variant`.
-- **Recherche :** `find_child(name, true, false)` cherche récursivement sans exiger que le nœud soit possédé par la scène éditée.
-- **Sockets :** `_collect_named_nodes` descend récursivement, sélectionne les noms commençant par `SOCKET_`, puis fusionne les dictionnaires descendants.
-- **Paramètres de `merge` :** le second argument `true` autorise les descendants à remplacer une clé identique ; un doublon de nom doit donc être traité par une règle supplémentaire si le projet l’interdit.
-- **Collisions :** `find_children("*", "CollisionShape3D", true, false)` collecte les nœuds du type demandé ; le cast `as CollisionShape3D` est vérifié avant usage.
-- **Invariants :** une ressource `shape` est obligatoire et l’échelle locale du nœud doit rester uniforme.
-- **Opérateurs :** `and` exige les deux comparaisons approximatives ; `not` inverse `is_empty()` ou `has()` ; `==` compare la sentinelle vide ou l’absence d’un nœud.
-- **LOD :** une racine non déclarée produit un avertissement, tandis qu’une racine déclarée mais absente produit une erreur.
-- **Condition ternaire :** le statut vaut `blocked` si la liste d’erreurs n’est pas vide, sinon `reviewable` ; ce dernier statut n’est pas une acceptation runtime.
-- **Effets de bord :** le script ne modifie aucun nœud ; il remplit seulement les listes locales et renvoie un rapport.
-- **Limites :** il ne vérifie ni qualité artistique, ni alignement des mains, ni collision réelle, ni performance, ni autorité métier.
+- **Classe :** `PropAssetValidator` étend `Node` afin d’être instancié dans une scène de test.
+- **Énumération :** `ValidationCode` fournit des codes stables plutôt que des chaînes libres comme autorité.
+- **Paramètres :** `validate_scene` reçoit une racine `Node`, des chemins `Array[NodePath]` et deux listes `PackedStringArray`.
+- **Valeur de retour :** chaque fonction publique renvoie un `Dictionary` contenant `ok`, `code` et une copie profonde des problèmes.
+- **Opérateurs :** `==`, `!=`, `not`, `and` et `<=` comparent les états et la tolérance d’échelle.
+- **Récursion :** `_contains_named_node` parcourt les enfants et renvoie un booléen dès qu’un nom correspond.
+- **Conversions :** `as CollisionShape3D`, `int()`, `str()` et `NodePath()` rendent les types attendus explicites.
+- **Effets de bord :** le script ne modifie aucun nœud ; il ajoute seulement des dictionnaires à la liste locale `issues`.
+- **Invariant :** une collision doit avoir une `Shape3D` et une échelle uniforme à `EPSILON` près.
+- **Limite :** la présence structurelle ne prouve ni l’alignement visuel, ni la qualité des collisions, ni les performances.
 
 ## 35. Rapport JSON du validateur
 
-Le rapport sérialise le résultat sans modifier les assets.
+Le rapport conserve les codes et sujets sans prétendre que le contrôle a été exécuté dans ce chapitre.
 
-> **[LECTURE] Exemple de sortie — Ne pas saisir.**
+> **[SORTIE] Exemple de rapport attendu — Ne pas saisir.**
 
 ```json
 {
-  "schema_version": 1,
   "asset_id": "AST-PROP-LANTERN-001",
-  "scene": "res://tests/art/props/lantern_validation.tscn",
-  "status": "blocked",
-  "errors": [
-    "REQUIRED_SOCKET_MISSING:SOCKET_mount_hanging"
-  ],
-  "warnings": [
-    "LOD_ROOT_NOT_DECLARED"
-  ],
-  "metrics": {
-    "error_count": 1,
-    "warning_count": 1
-  }
+  "validator": "PropAssetValidator",
+  "executed": false,
+  "result": {
+    "ok": false,
+    "code": 1,
+    "issues": []
+  },
+  "notes": [
+    "Exemple documentaire uniquement."
+  ]
 }
 ```
 
@@ -1620,91 +1671,97 @@ Le rapport sérialise le résultat sans modifier les assets.
 
 **Explication structurée du bloc :**
 
-- **Schéma :** `schema_version` prépare les migrations futures du format.
-- **Identité :** l’asset et la scène sont enregistrés avec le résultat.
-- **Listes :** erreurs et avertissements gardent des codes stables et contextualisés.
-- **Métriques :** les compteurs sont dérivés du contenu, pas saisis manuellement dans l’implémentation.
-- **Décision :** un socket requis absent maintient le statut `blocked`.
+- **Exécution :** `executed: false` empêche de confondre l’exemple et une preuve runtime.
+- **Résultat :** `ok`, `code` et `issues` reproduisent le contrat du validateur.
+- **Notes :** la liste explique la limite de la sortie.
+- **Persistance :** un rapport réel serait conservé sous `tests/art/props/reports`.
+- **Décision :** l’absence de problèmes dans un exemple non exécuté ne vaut aucune acceptation.
 
 ## 36. Tests d’alignement et grille de poses
 
-La grille minimale comprend :
+Tester chaque objet dans les poses qui révèlent ses défauts :
 
-- pose neutre ;
-- bras détendu ;
-- coude fléchi ;
-- poignet en flexion et extension ;
-- rotation de l’avant-bras ;
-- main ouverte ;
-- main fermée ;
-- prise proche du visage ;
-- objet rangé ;
-- transition tenue vers rangée à préparer ;
-- silhouette à la caméra de gameplay ;
-- plan rapproché.
+- main ouverte et fermée ;
+- poignet neutre, flexion et déviation ;
+- bras le long du corps ;
+- marche et course ;
+- accroupissement ;
+- rangement et extraction ;
+- pose au sol ;
+- interaction avec une table, un crochet ou un support ;
+- vues première et troisième personne lorsque pertinentes.
 
-Les animations finales appartiennent au chapitre 20. Ici, des poses statiques ou captures intermédiaires suffisent à repérer pénétrations, orientation inversée et dégagement insuffisant.
-
-> **[LECTURE] Rapport de poses — Ne pas saisir.**
+> **[LECTURE] Grille d’alignement — Ne pas saisir.**
 
 ```yaml
+suite_id: AST-POSE-PROP-001-v001
 asset_id: AST-WPN-SHORT-BLADE-001
-pose_set: AST-POSE-PROP-GRIP-001-v001
-checks:
+poses:
   neutral_grip: pending
   wrist_flexion: pending
-  forearm_rotation: pending
-  near_face_clearance: pending
-  sheathed_alignment: pending
-  gameplay_silhouette: pending
-captures: []
-status: blocked
+  walk_cycle_sample: pending
+  crouch_sample: pending
+  sheath_insert: pending
+  sheath_remove: pending
+  table_display: pending
+captures:
+  front: pending
+  side: pending
+  hand_closeup: pending
+decision: blocked
 ```
 
 <!-- qa:code-explanation -->
 
 **Explication structurée du bloc :**
 
-- **Jeu de poses :** l’identifiant garantit que plusieurs objets sont comparés dans les mêmes conditions.
-- **Contrôles :** chaque pose révèle un risque différent.
-- **Captures :** la liste vide indique qu’aucune preuve n’est produite.
-- **Statut :** aucun alignement n’est revendiqué avant les captures.
+- **Suite :** le jeu de poses possède un identifiant versionné.
+- **Échantillons :** les entrées décrivent des configurations de contrôle, pas des animations produites.
+- **Captures :** trois vues permettent de comparer échelle, intersection et prise.
+- **Décision :** toute valeur `pending` maintient le blocage.
+- **Frontière :** les animations complètes restent au chapitre 20.
 
 ## 37. Tests d’environnement et d’interaction
 
-Tester l’objet :
+Placer les objets dans un petit laboratoire comprenant :
 
-- au sol ;
-- sur table ;
-- contre un mur ;
-- suspendu si prévu ;
-- près d’un autre objet ;
-- dans une porte ou un passage étroit ;
-- avec raycast ou volume de proximité du système d’interaction ;
-- avec collision active et inactive ;
-- dans chaque représentation LOD ;
-- sous plusieurs éclairages.
+- sol plat ;
+- table ;
+- étagère ;
+- crochet ;
+- coffre ;
+- mur proche ;
+- personnage de référence ;
+- plusieurs objets voisins ;
+- éclairages neutres et rasants.
 
-Le test vérifie position, orientation, stabilité, accessibilité, collision et lisibilité. Il ne valide pas la logique métier de collecte ou d’usage.
+Vérifier la sélection, le chevauchement, la stabilité de pose, les ombres, les collisions et la lisibilité des repères.
 
-> **[LECTURE] Matrice d’environnement — Ne pas saisir.**
+> **[LECTURE] Scénarios d’environnement — Ne pas saisir.**
 
 ```yaml
-asset_id: AST-PROP-LANTERN-001
-contexts:
-  floor:
-    mount_socket: SOCKET_mount_base
-    physics: pending
-  table:
-    mount_socket: SOCKET_mount_base
-    physics: pending
-  hanging:
-    mount_socket: SOCKET_mount_hanging
-    physics: pending
-  held:
-    mount_socket: SOCKET_grip_primary
-    physics: disabled_candidate
-interaction_detection: pending
+lab_id: AST-PROP-VALIDATION-LAB-001-v001
+scenarios:
+  - id: floor_drop
+    object: AST-EQP-BUCKLER-001
+    checks:
+      - collision_fit
+      - resting_orientation
+  - id: shelf_selection
+    object: AST-PROP-LANTERN-001
+    checks:
+      - interaction_isolation
+      - focus_socket
+  - id: hook_mount
+    object: AST-PROP-LANTERN-001
+    checks:
+      - mount_alignment
+      - handle_clearance
+  - id: character_hold
+    object: AST-TOOL-SURVEY-HAMMER-001
+    checks:
+      - grip_alignment
+      - forearm_clearance
 status: blocked
 ```
 
@@ -1712,52 +1769,52 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Contextes :** chacun nomme le socket et le comportement physique candidat.
-- **Attache :** le contexte tenu utilise la prise, pas le pivot de pose.
-- **Candidat :** la désactivation physique pendant l’attache reste à mesurer.
-- **Frontière :** la détection est testée sans exécuter l’ajout à l’inventaire.
+- **Scénarios :** chaque entrée associe un objet et des contrôles observables.
+- **Sélection :** `interaction_isolation` vérifie que les objets voisins ne sont pas détectés à tort.
+- **Monture :** le crochet révèle les erreurs de pivot et de dégagement.
+- **Personnage :** la prise est contrôlée avec le gabarit réel.
+- **État :** le laboratoire n’est pas annoncé comme matérialisé.
 
 ## 38. Campagne de performance
 
-Mesurer séparément :
+Mesurer dans Godot, sur le matériel de référence :
 
-- triangles et sommets par LOD ;
-- surfaces et draw calls ;
-- taille des textures et mémoire ;
-- nombre de nœuds ;
-- nombre et type de formes de collision ;
-- coût des objets physiques actifs ;
-- coût des aires d’interaction ;
-- temps d’import ;
-- temps de chargement ;
-- coût d’un objet tenu ;
-- coût d’un groupe d’objets au sol ;
-- transitions LOD ;
-- overdraw des surfaces transparentes ou émissives.
+- triangles et sommets réellement importés ;
+- nombre de surfaces et matériaux ;
+- draw calls ;
+- mémoire des maillages et textures ;
+- coût des transparences ;
+- coût des collisions ;
+- nombre d’objets simultanés ;
+- coût des LOD et transitions ;
+- temps de chargement et réimportation ;
+- différences entre objet équipé, posé et distant.
 
-Les budgets sont des hypothèses jusqu’à mesure sur la Radeon RX 6750 XT, le Ryzen 7 2700 et les profils de plateforme retenus.
-
-> **[LECTURE] Plan de benchmark — Ne pas saisir.**
+> **[LECTURE] Plan de mesure — Ne pas saisir.**
 
 ```yaml
-benchmark_id: AST-BENCH-PROPS-001-v001
+benchmark_id: AST-PROP-BENCH-001-v001
+hardware_profile: AST-HW-RX6750XT-001-v001
 scenarios:
-  single_equipped_close:
+  equipped_single:
     object_count: 1
-    status: pending
-  room_with_interactable_props:
-    object_count: pending
-    status: pending
-  distant_prop_cluster:
-    object_count: pending
-    status: pending
+    measurements: pending
+  shelf_dense:
+    object_count: provisional
+    measurements: pending
+  dropped_cluster:
+    object_count: provisional
+    measurements: pending
+  distant_display:
+    object_count: provisional
+    measurements: pending
 metrics:
-  - cpu_frame_time
-  - gpu_frame_time
-  - vram
+  - frame_time_cpu_ms
+  - frame_time_gpu_ms
   - draw_calls
-  - collision_count
-  - load_time
+  - mesh_memory_bytes
+  - texture_memory_bytes
+  - physics_step_ms
 status: blocked
 ```
 
@@ -1765,74 +1822,84 @@ status: blocked
 
 **Explication structurée du bloc :**
 
-- **Scénarios :** gros plan, pièce interactive et groupe distant isolent des coûts différents.
-- **Quantités :** seule la scène à objet unique possède une quantité déterminée ; les autres restent à fixer.
-- **Métriques :** les noms décrivent des mesures à collecter, pas des valeurs attendues.
-- **Décision :** le benchmark reste bloqué sans scènes et captures réelles.
+- **Matériel :** `hardware_profile` relie les mesures à la machine de référence.
+- **Scénarios :** un objet équipé, une étagère dense, un groupe au sol et un affichage distant couvrent des coûts différents.
+- **Nombres :** `provisional` signale que les densités ne sont pas encore fixées.
+- **Métriques :** CPU, GPU, mémoire, draw calls et physique sont mesurés séparément.
+- **Blocage :** aucune valeur n’est inventée dans le chapitre.
 
 ## 39. Parcours Solo et Studio
 
 ### 39.1 Mode Solo
 
-- limiter la bibliothèque aux objets réellement visibles dans le vertical slice ;
-- partager conventions de pivots, sockets et rapports ;
-- produire un objet complet avant de multiplier les variantes ;
-- préférer des collisions simples ;
-- réutiliser des matériaux maîtres qualifiés ;
-- mesurer un petit nombre de scénarios représentatifs ;
-- conserver les inconnues plutôt que créer de faux niveaux de précision.
+Le parcours Solo limite la bibliothèque aux objets réellement visibles dans le vertical slice. Il réutilise :
+
+- une convention de pivots ;
+- une convention de sockets ;
+- trois familles de collisions ;
+- un laboratoire Godot ;
+- un petit atlas lorsque la mesure le justifie ;
+- une grille de poses commune.
+
+La priorité est donnée à un objet complet par famille avant d’ajouter des variantes.
 
 ### 39.2 Mode Studio
 
-- assigner un propriétaire par catégorie ;
-- faire relire échelle et ergonomie par animation et intégration ;
-- versionner les conventions de pivots et sockets ;
-- partager des profils de collision ;
-- automatiser la validation structurelle ;
-- conserver une bibliothèque de gabarits approuvés ;
-- séparer création, lookdev, collisions et intégration ;
-- exiger des scènes de test communes ;
-- publier les versions approuvées comme immuables ;
-- gérer les changements d’origine comme ruptures de contrat.
+Le parcours Studio sépare les responsabilités :
+
+| Responsabilité | Propriétaire principal |
+|---|---|
+| brief fonctionnel et silhouette | direction artistique |
+| dimensions et ergonomie | prop artist avec revue animation |
+| pivots et sockets | prop artist et technical artist |
+| collisions | technical artist et intégration |
+| matériaux | lookdev |
+| LOD | prop artist et performance |
+| scènes dérivées | intégration Godot |
+| validation finale | revue croisée |
+
+Les identifiants, versions, profils et preuves sont publiés dans un catalogue partagé. Une modification de pivot ou de socket après approbation exige une nouvelle version et une revue des dépendances.
 
 ## 40. Porte d’acceptation
 
-Un objet ne passe à l’état accepté que si :
+Un objet ne passe pas au statut accepté tant que les preuves suivantes ne sont pas réunies :
 
-- le brief fonctionnel est approuvé ;
-- les références et droits sont qualifiés ;
-- les dimensions prioritaires sont mesurées ;
-- l’échelle est revue avec personnage, main et environnement ;
-- origine, axes et pivots sont approuvés ;
-- les sockets requis existent et sont orientés ;
-- les prises sont testées ;
-- les pièces mobiles ont leurs dégagements ;
-- la silhouette est lisible ;
-- la géométrie et les matériaux respectent le profil ;
-- interaction, physique et impact sont séparés ;
-- les collisions sont qualifiées ;
-- les états visuels et variantes sont traçables ;
-- les LOD préservent les fonctions requises ;
-- le GLB est exporté et inspecté ;
-- la scène Godot dérivée est matérialisée ;
-- le validateur est exécuté ;
-- les poses et environnements sont testés ;
-- les performances sont mesurées ;
-- les réserves bloquantes sont fermées.
+- brief fonctionnel approuvé ;
+- provenance et droits qualifiés ;
+- dimensions et incertitudes enregistrées ;
+- origine, axes et pivots contrôlés ;
+- sockets présents et orientés ;
+- prise et rangement testés ;
+- pièces mobiles vérifiées ;
+- topologie et ombrage relus ;
+- matériaux et atlas qualifiés ;
+- collisions adaptées à chaque usage ;
+- états visuels et variantes disponibles ;
+- LOD produits et mesurés ;
+- GLB importé ;
+- scène Godot dérivée matérialisée ;
+- alignements, interactions et performance mesurés ;
+- réserves fermées ou explicitement acceptées par un responsable.
 
-> **[LECTURE] Porte de décision — Ne pas saisir.**
+> **[LECTURE] Porte d’acceptation — Ne pas saisir.**
 
 ```yaml
+gate_id: AST-PROP-GATE-001-v001
 asset_id: AST-PROP-LANTERN-001
-gates:
+evidence:
   brief: pending
-  rights: pending
+  provenance: pending
   dimensions: pending
-  pivots_and_sockets: pending
-  geometry_and_materials: pending
+  pivots: pending
+  sockets: pending
+  grip_and_mounts: pending
+  moving_parts: pending
+  topology_and_shading: pending
+  materials: pending
   collisions: pending
+  visual_states: pending
   lod: pending
-  glb_export: pending
+  glb_import: pending
   godot_scene: pending
   alignment_tests: pending
   performance: pending
@@ -1843,10 +1910,11 @@ decision: blocked
 
 **Explication structurée du bloc :**
 
-- **Portes :** chaque domaine peut être fermé indépendamment par une preuve.
-- **Statut :** `pending` représente une preuve absente, pas un échec.
-- **Décision :** `blocked` reste obligatoire tant qu’une porte n’est pas acceptée.
-- **Responsabilité :** la décision finale nécessite une revue humaine.
+- **Porte :** chaque preuve possède un statut indépendant.
+- **Décision :** `blocked` reste obligatoire dès qu’une preuve est absente.
+- **Traçabilité :** `gate_id` et `asset_id` relient la décision au bon objet.
+- **Responsabilité :** un humain ferme ou accepte explicitement les réserves.
+- **Résultat attendu :** l’apparence seule ne suffit pas à publier l’asset.
 
 ## 41. Erreurs fréquentes et corrections
 
@@ -1854,16 +1922,16 @@ decision: blocked
 
 ### 41.1 Modéliser depuis une image sans échelle
 
-**Symptôme :** l’objet paraît plausible seul mais devient minuscule ou surdimensionné dans la main.
+**Symptôme :** l’objet paraît crédible isolément mais devient trop grand ou trop petit dans la main.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
-reference:
-  source: perspective_image
-  known_dimension: none
-  confidence: high
-status: accepted
+dimensions:
+  source: concept_image
+  perspective_review: none
+  hand_profile: none
+  status: accepted
 ```
 
 <!-- qa:code-explanation -->
@@ -1873,14 +1941,13 @@ status: accepted
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
-reference:
-  sources:
-    - dimensioned_record
-    - scaled_photograph
-  unknown_dimensions: documented
-  confidence: pending_review
-hand_scale_test: required
-status: blocked
+dimensions:
+  source:
+    - licensed_reference_set
+    - character_hand_profile
+  uncertainty: documented
+  hand_review: pending
+  status: blocked
 ```
 
 <!-- qa:code-explanation -->
@@ -1889,16 +1956,15 @@ status: blocked
 
 ### 41.2 Déplacer l’origine pour corriger une seule animation
 
-**Symptôme :** la variante corrigée ne s’aligne plus avec le fourreau, les LOD ou les autres scènes.
+**Symptôme :** l’objet s’aligne dans une scène mais casse ses poses au sol, son fourreau et ses autres personnages.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 origin_change:
-  reason: one_animation_misaligned
-  published_contract_review: skipped
-  socket_updates: none
-status: accepted
+  reason: fix_one_animation
+  version_increment: false
+  dependency_review: none
 ```
 
 <!-- qa:code-explanation -->
@@ -1909,10 +1975,10 @@ status: accepted
 
 ```yaml
 origin_change:
-  action: preserve_canonical_origin
-  integration_adjustment_profile: AST-ATTACH-BLADE-001-v002
-  animation_review: pending
-status: blocked
+  source_origin: preserved
+  local_attachment_profile: AST-ATTACH-FIX-001-v001
+  dependency_review: pending
+  status: blocked
 ```
 
 <!-- qa:code-explanation -->
@@ -1921,15 +1987,15 @@ status: blocked
 
 ### 41.3 Utiliser le même repère pour prise et rangement
 
-**Symptôme :** l’objet est correct dans la main mais traverse le corps lorsqu’il est rangé.
+**Symptôme :** la lame est correcte en main mais traverse le fourreau ou s’oriente mal à la ceinture.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 sockets:
-  grip_primary: SOCKET_shared
-  storage_belt: SOCKET_shared
-  insertion_axis: unspecified
+  grip_primary: object_origin
+  mount_sheath: object_origin
+  insertion_axis: assumed
 ```
 
 <!-- qa:code-explanation -->
@@ -1941,9 +2007,9 @@ sockets:
 ```yaml
 sockets:
   grip_primary: SOCKET_grip_primary
-  storage_belt: SOCKET_sheath_entry
-  insertion_axis: sheath_forward
-storage_test: pending
+  mount_sheath: SOCKET_mount_sheath
+  insertion_axis: local_negative_z
+  sheath_test: pending
 ```
 
 <!-- qa:code-explanation -->
@@ -1952,15 +2018,16 @@ storage_test: pending
 
 ### 41.4 Promouvoir la collision générée depuis le maillage
 
-**Symptôme :** la physique devient coûteuse ou instable pour un objet pourtant simple.
+**Symptôme :** un objet dynamique coûte cher, accroche le décor ou se comporte différemment selon sa triangulation.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
-physics_collision:
-  source: render_mesh_generated
-  simplification_review: none
-  dynamic_use: accepted
+collision:
+  source: render_mesh
+  generated: automatic
+  runtime_use: final
+  review: none
 ```
 
 <!-- qa:code-explanation -->
@@ -1970,11 +2037,13 @@ physics_collision:
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
-physics_collision:
-  source: compound_primitives
-  generated_collision_use: diagnostic_only
-  dynamic_use_review: pending
-status: blocked
+collision:
+  source: dedicated_proxy
+  shapes:
+    - BoxShape3D
+    - CylinderShape3D
+  generated_collision: testing_only
+  runtime_review: pending
 ```
 
 <!-- qa:code-explanation -->
@@ -1983,15 +2052,15 @@ status: blocked
 
 ### 41.5 Appliquer une échelle non uniforme à CollisionShape3D
 
-**Symptôme :** la collision ne correspond plus visuellement à sa forme ou produit un comportement imprévisible.
+**Symptôme :** la forme de collision ne correspond pas au gizmo ou produit des contacts inattendus.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
-collision_node:
+collision_shape:
   scale: [1.0, 0.5, 2.0]
-  shape_resource_updated: false
-status: accepted
+  resource_dimensions: unchanged
+  status: accepted
 ```
 
 <!-- qa:code-explanation -->
@@ -2001,11 +2070,11 @@ status: accepted
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
-collision_node:
+collision_shape:
   scale: [1.0, 1.0, 1.0]
-  shape_resource_updated: true
-  visual_review: pending
-status: blocked
+  resource_dimensions: adjusted
+  verification: pending
+  status: blocked
 ```
 
 <!-- qa:code-explanation -->
@@ -2014,15 +2083,16 @@ status: blocked
 
 ### 41.6 Définir dégâts et portée dans le manifeste visuel
 
-**Symptôme :** deux fichiers deviennent propriétaires de valeurs de combat différentes.
+**Symptôme :** une variante de matériau modifie implicitement les règles de combat.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 asset_id: AST-WPN-SHORT-BLADE-001
-damage: 24
+material_variant: iron_worn
+damage: 25
 reach_m: 1.2
-attack_speed: 1.5
+attack_speed: 1.1
 ```
 
 <!-- qa:code-explanation -->
@@ -2033,10 +2103,9 @@ attack_speed: 1.5
 
 ```yaml
 asset_id: AST-WPN-SHORT-BLADE-001
-content_definition_ref: ITEM_SHORT_BLADE_STANDARD
-visual_profiles:
-  - AST-BLADE-VISUAL-CLEAN-001
-combat_values: excluded
+visual_variant: iron_worn
+content_definition_id: ITEM-SHORT-BLADE-001
+combat_data: excluded
 ```
 
 <!-- qa:code-explanation -->
@@ -2045,15 +2114,16 @@ combat_values: excluded
 
 ### 41.7 Utiliser un seul volume pour interaction, physique et impact
 
-**Symptôme :** agrandir la zone de sélection élargit aussi la collision et le proxy d’impact.
+**Symptôme :** l’objet est difficile à sélectionner et sa physique ne correspond pas à sa zone de contact visuelle.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 volumes:
-  universal:
-    purpose: [interaction, physics, impact]
-    shape: render_mesh
+  universal_shape: render_bounds
+  interaction: universal_shape
+  physics: universal_shape
+  impact: universal_shape
 ```
 
 <!-- qa:code-explanation -->
@@ -2064,10 +2134,10 @@ volumes:
 
 ```yaml
 volumes:
-  interaction: AST-COL-INTERACT-001
-  physics: AST-COL-PHYS-001
-  impact_debug: AST-COL-IMPACT-DEBUG-001
-authoritative_damage: excluded
+  interaction: AST-AREA-LANTERN-001-v001
+  physics: AST-COLL-LANTERN-DROP-001-v001
+  impact_proxy: AST-IMPACT-LANTERN-001-v001
+  shared_geometry: false
 ```
 
 <!-- qa:code-explanation -->
@@ -2076,15 +2146,15 @@ authoritative_damage: excluded
 
 ### 41.8 Orienter le point d’émission à l’œil
 
-**Symptôme :** le VFX paraît correct dans Blender mais part latéralement après import.
+**Symptôme :** le VFX part latéralement ou vers l’arrière après import.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
 emission_socket:
-  position_review: passed
-  direction_axis: assumed
-  godot_gizmo_review: absent
+  position: visually_placed
+  forward_axis: undocumented
+  godot_gizmo_review: none
 ```
 
 <!-- qa:code-explanation -->
@@ -2095,11 +2165,10 @@ emission_socket:
 
 ```yaml
 emission_socket:
-  position_review: pending
-  direction_axis: emission_forward
-  blender_gizmo_review: required
-  godot_gizmo_review: required
-status: blocked
+  name: projectile_origin
+  forward_axis: local_negative_z
+  godot_gizmo_review: pending
+  status: blocked
 ```
 
 <!-- qa:code-explanation -->
@@ -2108,15 +2177,15 @@ status: blocked
 
 ### 41.9 Supprimer les prises dans les LOD
 
-**Symptôme :** l’objet distant fonctionne, mais le même LOD utilisé en main se détache ou revient à l’origine.
+**Symptôme :** l’objet distant redevient proche ou équipé mais ne possède plus les repères nécessaires.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
 ```yaml
-lod1:
-  geometry: simplified
-  sockets: removed
-  allowed_contexts: [equipped, distant]
+lod2:
+  geometry: silhouette_proxy
+  sockets: removed_all
+  reuse_when_equipped: true
 ```
 
 <!-- qa:code-explanation -->
@@ -2126,13 +2195,13 @@ lod1:
 > **[LECTURE] Exemple corrigé — Ne pas saisir.**
 
 ```yaml
-lod1:
-  geometry: simplified
-  sockets: [SOCKET_grip_primary]
-  allowed_contexts: [equipped]
 lod2:
-  sockets: []
-  allowed_contexts: [world_distant]
+  geometry: silhouette_proxy
+  sockets:
+    - mount_environment
+  allowed_representations:
+    - distant_static
+  equipped_representation: lod0_or_lod1
 ```
 
 <!-- qa:code-explanation -->
@@ -2141,7 +2210,7 @@ lod2:
 
 ### 41.10 Déclarer l’objet terminé après la revue Blender
 
-**Symptôme :** l’objet paraît correct dans Blender mais ses pivots, collisions et LOD n’ont jamais été vérifiés dans Godot.
+**Symptôme :** le modèle paraît correct dans Blender mais son pivot, ses sockets, ses collisions ou ses matériaux sont incorrects dans Godot.
 
 > **[LECTURE] Exemple fautif — Ne pas saisir.**
 
@@ -2150,7 +2219,7 @@ blender_review: passed
 glb_export: not_executed
 godot_import: not_executed
 alignment_tests: not_executed
-performance_test: not_executed
+performance_tests: not_executed
 status: accepted
 ```
 
@@ -2165,7 +2234,7 @@ blender_review: passed
 glb_export: not_executed
 godot_import: not_executed
 alignment_tests: not_executed
-performance_test: not_executed
+performance_tests: not_executed
 status: blocked
 ```
 
@@ -2177,35 +2246,30 @@ status: blocked
 
 Le plan maître exige cinq livrables permanents :
 
-1. **bibliothèque d’objets pilotes** — sources, manifestes, variantes et exports ;
-2. **conventions de pivots et sockets** — axes, noms, parents, transforms et usages ;
-3. **collisions** — profils d’interaction, physique et impact ;
-4. **LOD** — géométrie, matériaux, fonctions, seuils et mesures ;
-5. **scènes Godot d’équipement** — imports, scènes dérivées, attaches, collisions et rapports.
-
-L’arborescence du début du chapitre devient l’inventaire permanent. Les sources restent distinctes des exports et les rapports QA internes ne sont pas ajoutés au manuel lecteur.
+1. **bibliothèque d’objets pilotes** — sources, variantes, états, exports et manifeste ;
+2. **conventions de pivots et sockets** — axes, noms, transformations et politiques de version ;
+3. **collisions** — détection, physique, proxies et responsabilités ;
+4. **LOD** — géométrie, matériaux, fonctions, collisions et seuils ;
+5. **scènes Godot d’équipement** — scènes importées, scènes dérivées, attaches et rapports.
 
 > **[LECTURE] Manifeste de livraison — Ne pas saisir.**
 
 ```yaml
 deliverable_manifest: AST-PROP-DELIVERY-001-v001
-pilot_library:
-  id: AST-PROP-KIT-EXPLORER-001
+object_library:
+  profile: AST-PROP-KIT-EXPLORER-001
   status: blocked
-pivot_socket_conventions:
+pivot_and_socket_conventions:
   profile: AST-PROP-SOCKET-CONVENTIONS-001-v001
   status: blocked
 collisions:
-  profiles:
-    - AST-COL-INTERACTION-PROPS-001-v001
-    - AST-COL-PHYSICS-PROPS-001-v001
-    - AST-COL-IMPACT-DEBUG-PROPS-001-v001
+  profile: AST-PROP-COLLISIONS-001-v001
   status: blocked
 lod:
   profile: AST-PROP-LOD-001-v001
   status: blocked
-godot_scenes:
-  lab: AST-PROP-VALIDATION-LAB-001
+godot_equipment_scenes:
+  profile: AST-PROP-GODOT-SCENES-001-v001
   status: blocked
 ```
 
@@ -2213,34 +2277,36 @@ godot_scenes:
 
 **Explication structurée du bloc :**
 
-- **Manifeste :** les cinq livrables sont regroupés sous un identifiant versionné.
-- **Profils :** collisions d’interaction, de physique et d’impact restent séparées.
-- **État :** chaque livrable demeure bloqué jusqu’à sa matérialisation.
+- **Manifeste :** les cinq livrables du plan maître sont regroupés dans un lot versionné.
+- **Profils :** chaque livrable pointe vers un contrat indépendant.
+- **État :** toutes les entrées restent bloquées tant que les fichiers et preuves ne sont pas produits.
 - **Traçabilité :** le manifeste sert d’entrée à la revue de production.
+- **Frontière :** aucune règle d’inventaire ou de combat n’est ajoutée.
 
 ## 43. Synthèse opérationnelle pour Project Asteria
 
-Le chapitre 12 fournit à `Project Asteria` une méthode complète pour produire des objets individuels. La bibliothèque de l’Explorateur est encadrée par des briefs fonctionnels, des références qualifiées, des fiches dimensionnelles, des gabarits, une convention d’axes, des origines, des pivots, des sockets de prise, rangement, environnement et émission, des pièces mobiles, des profils de silhouette, de topologie, d’ombrage, de matériaux, de collisions, d’états, de variantes, de LOD, d’export et d’intégration Godot.
+Le chapitre 12 fournit à `Project Asteria` une méthode complète pour produire des objets individuels cohérents avec leur usage. La bibliothèque de l’Explorateur est encadrée par des briefs fonctionnels, des références dimensionnelles, un registre de provenance, des profils d’échelle, des conventions d’axes, d’origines, de pivots et de sockets, des prises, des montures, des pièces mobiles, des topologies, des profils d’ombrage, des matériaux provisoires, des collisions distinctes, des états visuels, des variantes, des LOD, un preset GLB, une scène Godot dérivée, un validateur structurel, une grille de poses et une campagne de performance.
 
-La bibliothèque reste bloquée tant que les objets, dimensions, pivots, sockets, géométries, matériaux, collisions, états, variantes, LOD, GLB, scènes Godot, alignements et mesures ne sont pas réellement produits. Le chapitre prépare les rigs, animations, VFX et systèmes métier sans définir leurs contrôleurs, statistiques ou décisions.
+Les objets restent bloqués tant que les dimensions, modèles, prises, pivots, sockets, collisions, états, matériaux, LOD, GLB, scènes Godot, alignements et mesures ne sont pas réellement produits. Le chapitre prépare les attaches de rig, les animations, les VFX et l’intégration, mais ne définit ni statistiques, ni dégâts, ni trajectoires, ni règles d’équipement.
 
 ## 44. Références techniques officielles
 
 Les références suivantes doivent être consultées et qualifiées lors de la matérialisation :
 
-- [Blender Manual — Object Origin](https://docs.blender.org/manual/en/latest/scene_layout/object/origin.html) ;
-- [Blender Manual — Transform](https://docs.blender.org/manual/en/latest/scene_layout/object/editing/transform/introduction.html) ;
-- [Blender Manual — Empty Objects](https://docs.blender.org/manual/en/latest/modeling/empties.html) ;
-- [Blender Manual — Custom Properties](https://docs.blender.org/manual/en/latest/files/custom_properties.html) ;
-- [Blender Manual — glTF 2.0](https://docs.blender.org/manual/en/latest/addons/import_export/scene_gltf2.html) ;
-- [Godot 4.7 — Importing 3D scenes](https://docs.godotengine.org/en/4.7/tutorials/assets_pipeline/importing_3d_scenes/index.html) ;
+- [Blender Manual — Pivot Point](https://docs.blender.org/manual/en/5.0/editors/3dview/controls/pivot_point/index.html) ;
+- [Blender Manual — Individual Origins](https://docs.blender.org/manual/en/5.0/editors/3dview/controls/pivot_point/individual_origins.html) ;
+- [Blender Manual — Empties](https://docs.blender.org/manual/en/latest/modeling/empties.html) ;
+- [Blender Manual — glTF 2.0](https://docs.blender.org/manual/en/5.0/addons/import_export/scene_gltf2.html) ;
+- [Godot 4.7 — Available 3D formats](https://docs.godotengine.org/en/4.7/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html) ;
 - [Godot 4.7 — Import configuration](https://docs.godotengine.org/en/4.7/tutorials/assets_pipeline/importing_3d_scenes/import_configuration.html) ;
+- [Godot 4.7 — MeshInstance3D](https://docs.godotengine.org/en/4.7/classes/class_meshinstance3d.html) ;
 - [Godot 4.7 — BoneAttachment3D](https://docs.godotengine.org/en/4.7/classes/class_boneattachment3d.html) ;
 - [Godot 4.7 — Marker3D](https://docs.godotengine.org/en/4.7/classes/class_marker3d.html) ;
 - [Godot 4.7 — Area3D](https://docs.godotengine.org/en/4.7/classes/class_area3d.html) ;
 - [Godot 4.7 — CollisionShape3D](https://docs.godotengine.org/en/4.7/classes/class_collisionshape3d.html) ;
+- [Godot 4.7 — Collision shapes 3D](https://docs.godotengine.org/en/4.7/tutorials/physics/collision_shapes_3d.html) ;
 - [Godot 4.7 — Shape3D](https://docs.godotengine.org/en/4.7/classes/class_shape3d.html) ;
-- [Godot — Mesh level of detail](https://docs.godotengine.org/en/stable/tutorials/3d/mesh_lod.html) ;
-- [Godot — Visibility ranges](https://docs.godotengine.org/en/stable/tutorials/3d/visibility_ranges.html).
+- [Godot 4.7 — Mesh level of detail](https://docs.godotengine.org/en/4.7/tutorials/3d/mesh_lod.html) ;
+- [Godot 4.7 — Visibility ranges](https://docs.godotengine.org/en/4.7/tutorials/3d/visibility_ranges.html).
 
 Les pages `latest` ou `stable` ne sont utilisées que lorsqu’aucune page versionnée équivalente n’est exposée. Toute différence observée avec Blender `5.2.0` ou Godot `4.7.1-stable` doit être consignée avant d’appliquer la procédure.

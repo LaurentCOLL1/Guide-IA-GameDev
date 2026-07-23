@@ -2,7 +2,7 @@ schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH12
 status: pending_ci
 validation-date: '2026-07-23'
-validated-base-commit: BASE_COMMIT_PLACEHOLDER
+validated-base-commit: b60c38532deeed0af47987a32fdc45c6e1f295a0
 validated-head-commit: null
 chapter:
   id: DOC-L3-CH12
