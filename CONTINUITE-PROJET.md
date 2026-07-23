@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.46.0"
+version: "3.46.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T21:15:00+02:00"
+last-updated: "2026-07-23T21:35:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1728,6 +1728,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 17 traitera la retopologie, les UV, les marges, les cages, le baking des normales, AO et curvature, la cohérence tangentielle Blender-Godot et le diagnostic des artefacts, sans refaire le pipeline PBR transversal du chapitre 16 ni anticiper la chaîne LOD du chapitre 18.
 
 ## 27. Journal
+
+### 2026-07-23T21:35:00+02:00 — version 3.46.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-16.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 16 Finalizer Runner`, run `30040252690`, sur la tête documentaire `1944934b3213f986cf84422bfb6bc254cc5c4c20` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8576919800`, digest `c40b945f5592cb8bd0f948506b40822159703287d0337b55fe1cb93166597b65` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8576920326`, digest `a6a5f5a2c71966717d0a11707775ee4035a69036d93c804ec1a8a76689a41c51` ;
+- empreinte SHA-256 du chapitre : `2c5d9182ff27921ee14905e5a516a73a054e3657a6d8e7394347c957044e105b` ;
+- empreinte SHA-256 de l’audit : `55eb5d449c8fc79ecbda55ef66b2ed76de1c6a5fa3bf78d87efa3cf218d8d3e8` ;
+- métriques finales : 1 654 lignes, 63 titres, 68 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 17 — UV, retopologie et baking, niveau Élevée ;
+- aucune texture, matériau, ressource Godot, scène, capture, GLB, preset, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T21:15:00+02:00 — version 3.46.0
 

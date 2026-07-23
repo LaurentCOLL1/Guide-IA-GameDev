@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH16
-status: pending
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 9ec3fbe5f751ff1fccebb9b6b3d1da5168ef2c60
-validated-head-commit: null
+validated-head-commit: 1944934b3213f986cf84422bfb6bc254cc5c4c20
 chapter:
   id: DOC-L3-CH16
   path: Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
@@ -79,21 +79,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 16 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30040252690
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 16 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30040252690
+    conclusion: success
   artifact:
-    id: null
+    id: 8576919800
     name: chapter-validation-without-pdf
-    digest: null
+    digest: c40b945f5592cb8bd0f948506b40822159703287d0337b55fe1cb93166597b65
   context-artifact:
-    id: null
+    id: 8576920326
     name: usage-context-audit
-    digest: null
+    digest: a6a5f5a2c71966717d0a11707775ee4035a69036d93c804ec1a8a76689a41c51
 reservations:
 - PBR laboratory not created.
 - Calibration geometry and lighting environments not produced.
