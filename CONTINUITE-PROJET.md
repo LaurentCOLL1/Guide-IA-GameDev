@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.39.1"
+version: "3.40.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T09:48:12+02:00"
+last-updated: "2026-07-23T11:14:44+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1653,7 +1653,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 9 chapitres sur 30 ;
+- progression du Livre III : 10 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1663,6 +1663,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 7 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 8 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 9 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 10 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1700,20 +1701,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 9 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de création des créatures couvre brief fonctionnel, analogues qualifiés, niveaux de spéculation, masses, appuis, silhouettes, blockout métrique, anatomie inventée, topologie, profil de rig, sockets, proxies de collision, zones de lisibilité, poses d’action, variantes, LOD, export GLB et scène Godot de validation. Aucun concept final, modèle, rig, collision, socket, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 10 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de lookdev facial couvre références et consentement, repères anatomiques, topologie de déformation, sculpture par niveaux, asymétrie contrôlée, formes faciales de test, peau, diffusion sous-surface, yeux, bouche, dents, cheveux, barbe, sourcils, cils, pilosité, transparence, LOD, export GLB et scène Godot de validation. Aucune tête finale, texture, matériau, œil, dentition, solution capillaire, blendshape, export, scène ou mesure runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md
+Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 10 approfondira le lookdev de gros plan des visages, de la peau, des yeux, des cheveux et de la pilosité, sans refaire les contrats anatomiques, de rig ou de collision du chapitre 9 ni anticiper l’animation faciale complète du chapitre 27.
+Le chapitre 11 créera un système d’équipement visuel modulaire pour vêtements, armures et accessoires, compatible avec les morphologies, l’animation, les collisions et les LOD, sans refaire le lookdev facial du chapitre 10 ni déplacer les règles d’inventaire et d’équipement du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T11:14:44+02:00 — version 3.40.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-10.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 10 Finalizer Runner`, run `29994474356`, sur la tête documentaire `5ca5d5b21395df3f45365b8885c40b78d92b3d4e` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8558361544`, digest `e853f5235aa9a5bf045ed3372ff52f07268b7779668bf0200236eb3f22a13258` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8558362006`, digest `b9d4c95525d780fcbc30fd8018223e281b9f9421dbad254232cbb976b4c4da72` ;
+- empreinte SHA-256 du chapitre : `a39df80e5f6a37d9290f87464f02b5804d0193b262db3c6209560cc10e3e375c` ;
+- empreinte SHA-256 de l’audit : `cf9a9fa649b59b07c7a70b1193fa1340291cbf9a18ce6b02e268bdc88e082a7e` ;
+- métriques finales : 1 978 lignes, 49 titres, 52 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 11 — Vêtements, armures et accessoires, niveau Élevée ;
+- aucune tête, texture, matériau, œil, dentition, solution capillaire, blendshape, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T10:56:17+02:00 — version 3.40.0
+
+- chapitre 10 du Livre III créé, relu et audité au niveau `static-review` ;
+- tête pilote `AST-CHR-FACE-PILOT-001` encadrée par un brief de gros plan et des caméras de référence ;
+- provenance, consentement, diversité des références et risques de perspective documentés ;
+- repères anatomiques, topologie, sculpture primaire-secondaire-tertiaire et asymétrie contrôlée encadrés ;
+- profils de peau, diffusion sous-surface, œil, bouche, dents et intersections préparés ;
+- cheveux, hair cards, groom, sourcils, cils, barbe, duvet, transparence et overdraw documentés ;
+- formes faciales limitées aux tests de déformation, sans visèmes ni timings du chapitre 27 ;
+- LOD, export GLB, scène Godot dérivée, validateur structurel et campagne de performance documentés ;
+- dix erreurs fréquentes fournissent symptômes, exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 11 — Vêtements, armures et accessoires, niveau Élevée ;
+- aucune tête, texture, matériau, œil, dentition, solution capillaire, blendshape, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T09:48:12+02:00 — version 3.39.1
 
