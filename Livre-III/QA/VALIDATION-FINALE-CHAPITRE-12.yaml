@@ -1,0 +1,113 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH12
+status: pending_ci
+validation-date: '2026-07-23'
+validated-base-commit: BASE_COMMIT_PLACEHOLDER
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH12
+  path: Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2312
+  chapter-headings: 57
+  chapter-code-and-data-blocks: 61
+  significant-code-and-data-blocks: 61
+  code-explanation-markers: 61
+  structured-non-error-code-explanations: 41
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  dimensional-references-documented: true
+  ergonomics-and-grip-documented: true
+  origin-axis-pivot-documented: true
+  socket-conventions-documented: true
+  storage-and-environment-mounts-documented: true
+  moving-parts-clearance-documented: true
+  render-interaction-physics-impact-separation: true
+  primitive-collision-strategy-documented: true
+  collision-scale-warning-documented: true
+  visual-states-and-degradation-documented: true
+  variant-business-boundary-documented: true
+  object-lod-profiles-documented: true
+  gltf-export-documented: true
+  godot-derived-scene-documented: true
+  structural-gdscript-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  pose-grid-documented: true
+  environment-tests-documented: true
+  performance-protocol-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-wearable-layering-duplication: true
+  no-building-kit-duplication: true
+  no-general-pbr-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-final-rig-animation-duplication: true
+  no-inventory-combat-rules: true
+  no-real-weapon-construction-guidance: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 73905a954ffe28f11fb1e8f9350df80969829a9520cfa4bd98c2f9e620f960ac
+  audit-sha256: c8196c7ed13377c180011844cc1e269f7721328b3746d21ff708bdd39bb31856
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 12 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 12 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+- Functional pilot object library brief not approved by a production review.
+- References, rights and provenance not qualified.
+- Pilot objects not produced.
+- Dimensions and ergonomics not measured.
+- Metric blockouts not created.
+- Origins, axes and pivots not validated.
+- Grip, storage, environment and emission sockets not materialized.
+- Topologies and moving parts not produced.
+- Materials and atlases not created.
+- Interaction, physical and impact collisions not produced.
+- Hand and skeleton alignment not tested.
+- Visual states and degradation not produced.
+- Visual variants not produced.
+- LOD meshes, materials and thresholds not produced or measured.
+- GLB export not produced.
+- Godot validation scenes not materialized.
+- GDScript validator not executed.
+- Pose grid and environment tests not executed.
+- CPU, GPU, VRAM, draw-call, memory and collision values not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
