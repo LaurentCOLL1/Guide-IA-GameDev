@@ -12,7 +12,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 1973
+  chapter-lines: 1975
   chapter-headings: 52
   chapter-code-and-data-blocks: 56
   significant-code-and-data-blocks: 56
@@ -62,8 +62,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 70862593df9ea757123d6285f1cecd12e621ed02ce48111723af6632c1e0a874
-  audit-sha256: 939e775c3bfdb1c46398426ee14aa48262f3fe673a65433b1caa34571582a4af
+  chapter-sha256: bcc38ce80457fc3b765d9d818f8a8d82c102bd9387d9eb11af57f94c5f8e73ee
+  audit-sha256: afc04b0d138f789788f3a16144281b8c060c1f0bb8a13bf8ce7b3d06fc722288
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 11 Finalizer Runner

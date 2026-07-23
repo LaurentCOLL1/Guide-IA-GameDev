@@ -1567,6 +1567,8 @@ decision:
 
 ## 38. Erreurs fréquentes et corrections
 
+<!-- qa:error-correction-section -->
+
 ### 38.1 Autoriser toutes les combinaisons par défaut
 
 **Symptôme :** des pièces se traversent ou écrasent leurs volumes alors que le catalogue les annonce compatibles.

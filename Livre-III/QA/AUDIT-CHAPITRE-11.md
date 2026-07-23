@@ -124,7 +124,7 @@ Les dix diagnostics suivent la séquence imposée :
 
 ## 6. Métriques statiques
 
-- lignes : 1 973 ;
+- lignes : 1 975 ;
 - titres Markdown comptés : 52 ;
 - blocs code ou données : 56 ;
 - blocs significatifs retenus : 56 ;

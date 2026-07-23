@@ -54,9 +54,9 @@ journal = f"""### {closed_at} — version 3.41.1
 - validations légères sans PDF réussies dans `Chapter 11 Finalizer Runner`, run `{run_id}`, sur la tête documentaire `{document_head}` ;
 - artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `{main_artifact_id}`, digest `{main_artifact_digest}` ;
 - artefact `usage-context-audit` enregistré sous l’identifiant `{context_artifact_id}`, digest `{context_artifact_digest}` ;
-- empreinte SHA-256 du chapitre : `70862593df9ea757123d6285f1cecd12e621ed02ce48111723af6632c1e0a874` ;
-- empreinte SHA-256 de l’audit : `939e775c3bfdb1c46398426ee14aa48262f3fe673a65433b1caa34571582a4af` ;
-- métriques finales : 1 973 lignes, 52 titres, 56 blocs significatifs et aucun doublon ;
+- empreinte SHA-256 du chapitre : `bcc38ce80457fc3b765d9d818f8a8d82c102bd9387d9eb11af57f94c5f8e73ee` ;
+- empreinte SHA-256 de l’audit : `afc04b0d138f789788f3a16144281b8c060c1f0bb8a13bf8ce7b3d06fc722288` ;
+- métriques finales : 1 975 lignes, 52 titres, 56 blocs significatifs et aucun doublon ;
 - prochaine action maintenue au chapitre 12 — Objets, équipements et armes, niveau Élevée ;
 - aucun vêtement, armure, accessoire, patron, skinning, simulation, collision, masque, atlas, LOD, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
