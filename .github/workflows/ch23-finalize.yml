@@ -72,12 +72,20 @@ jobs:
             exit 0
           fi
 
+          if [[ -f .qa/ch08-fix-validation.py ]]; then
+            python3 .qa/ch08-fix-validation.py
+            rm -f .qa/ch08-fix-validation.py
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "fix(ch08): corriger les métadonnées et la section d'erreurs"
+            git push origin HEAD:"$HEAD_BRANCH"
+            echo "stage=corrected" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           if [[ -f .qa/ch08-stage.json ]] &&
              grep -q '^status: pending_ci$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-08.yaml; then
-            if [[ -f .qa/ch08-fix-validation.py ]]; then
-              python3 .qa/ch08-fix-validation.py
-              rm -f .qa/ch08-fix-validation.py
-            fi
             python3 -m pip install --disable-pip-version-check --quiet PyYAML
             mkdir -p dist
             python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
