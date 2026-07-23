@@ -1,0 +1,120 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH16
+status: complete
+validation-date: '2026-07-23'
+validated-base-commit: 9ec3fbe5f751ff1fccebb9b6b3d1da5168ef2c60
+validated-head-commit: 1944934b3213f986cf84422bfb6bc254cc5c4c20
+chapter:
+  id: DOC-L3-CH16
+  path: Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1654
+  chapter-headings: 63
+  chapter-code-and-data-blocks: 68
+  significant-code-and-data-blocks: 68
+  code-explanation-markers: 68
+  structured-non-error-code-explanations: 48
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  pbr-channel-semantics-documented: true
+  base-color-metallic-roughness-normal-documented: true
+  ao-height-emissive-opacity-documented: true
+  srgb-and-linear-data-separated: true
+  image-format-precision-documented: true
+  raw-memory-estimation-documented: true
+  mipmap-cost-and-benefit-documented: true
+  vram-compression-profiles-documented: true
+  normal-map-compression-documented: true
+  orm-channel-packing-documented: true
+  texel-density-documented: true
+  material-families-documented: true
+  tilable-materials-documented: true
+  trim-sheets-documented: true
+  atlases-documented: true
+  decals-and-detail-masks-documented: true
+  blender-principled-reference-documented: true
+  gltf-material-boundary-documented: true
+  godot-image-import-documented: true
+  standardmaterial3d-documented: true
+  ormmaterial3d-documented: true
+  sampler-filter-repeat-anisotropy-documented: true
+  reference-lighting-scene-documented: true
+  calibration-set-documented: true
+  comparison-capture-manifest-documented: true
+  texture-budget-documented: true
+  material-library-documented: true
+  structural-gdscript-validator-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  comparison-campaign-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-terrain-material-duplication: true
+  no-vegetation-material-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-general-lod-duplication: true
+  no-global-integration-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 2c5d9182ff27921ee14905e5a516a73a054e3657a6d8e7394347c957044e105b
+  audit-sha256: 55eb5d449c8fc79ecbda55ef66b2ed76de1c6a5fa3bf78d87efa3cf218d8d3e8
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 16 Finalizer Runner
+    execution: embedded-command
+    run-id: 30040252690
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Chapter 16 Finalizer Runner
+    execution: embedded-command
+    run-id: 30040252690
+    conclusion: success
+  artifact:
+    id: 8576919800
+    name: chapter-validation-without-pdf
+    digest: c40b945f5592cb8bd0f948506b40822159703287d0337b55fe1cb93166597b65
+  context-artifact:
+    id: 8576920326
+    name: usage-context-audit
+    digest: a6a5f5a2c71966717d0a11707775ee4035a69036d93c804ec1a8a76689a41c51
+reservations:
+- PBR laboratory not created.
+- Calibration geometry and lighting environments not produced.
+- Texture sources, rights and provenance not qualified.
+- PBR maps not authored or baked.
+- Color spaces not checked in Blender and Godot.
+- Resolutions and texel densities not measured.
+- Mipmaps and compression artifacts not reviewed.
+- ORM textures not packed.
+- Tilable materials, trim sheets and atlases not produced.
+- Blender Principled materials not created.
+- GLB exports not produced.
+- Godot import profiles not materialized.
+- StandardMaterial3D and ORMMaterial3D resources not created.
+- Filter, repeat and anisotropy not tested.
+- Comparative captures not produced.
+- GDScript validator not executed.
+- CPU, GPU and VRAM not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 87d583ea081a13b45aef7aa181b175e9c38647c9
+  conclusion: success

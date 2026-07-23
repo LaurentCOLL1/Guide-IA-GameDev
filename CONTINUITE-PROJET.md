@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.45.1"
+version: "3.46.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T20:38:21+02:00"
+last-updated: "2026-07-23T21:35:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 15 chapitres sur 30.**
+**En cours : 16 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -167,8 +167,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 13. Architecture, bâtiments et kits modulaires — terminé au niveau `static-review`.
 14. Terrains, paysages et mondes ouverts — terminé au niveau `static-review`.
 15. Végétation et biomes — terminé au niveau `static-review`.
+16. Textures, matériaux et pipeline PBR — terminé au niveau `static-review`.
 
-Les chapitres 16 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 17 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1659,7 +1660,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 15 chapitres sur 30 ;
+- progression du Livre III : 16 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1675,6 +1676,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 13 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 14 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 15 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 16 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1712,20 +1714,46 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 15 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le biome pilote couvre fonctions visuelles et strates, catalogue d’espèces, provenance, échelle, pivots, sources Blender, arbres, arbustes, herbes, fleurs, couvre-sols, débris, feuillage, atlas préparatoires, variantes, états visuels, vent, interaction locale, LOD, imposteurs, cartes de distribution, exclusions, placement déterministe, prévisualisation Geometry Nodes, `MultiMesh`, culling, collisions, navigation, ombres, overdraw et benchmark de densité. Aucun végétal, texture, matériau, atlas, shader, carte, `MultiMesh`, imposteur, collision, scène, GLB, benchmark ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 16 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le laboratoire PBR couvre sémantique des cartes, sRGB et données linéaires, formats, résolution, mémoire, mipmaps, compression, packing ORM, densité de texels, matériaux maîtres, tiling, trim sheets, atlas, détails, Principled BSDF, glTF, import Godot, `StandardMaterial3D`, `ORMMaterial3D`, samplers, éclairages comparatifs, étalons, captures, budgets et campagne de mesure. Aucune texture, matériau, ressource Godot, scène, capture, GLB, preset ou mesure runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
+Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 16 établira le pipeline PBR commun : rôles des cartes, espaces colorimétriques, résolutions, mipmaps, compression, densité de texels, matériaux tilables, trim sheets, atlas, configuration Godot et scène d’éclairage comparative, sans refaire les matériaux préparatoires propres aux terrains ou à la végétation ni anticiper les UV et le baking approfondis du chapitre 17.
+Le chapitre 17 traitera la retopologie, les UV, les marges, les cages, le baking des normales, AO et curvature, la cohérence tangentielle Blender-Godot et le diagnostic des artefacts, sans refaire le pipeline PBR transversal du chapitre 16 ni anticiper la chaîne LOD du chapitre 18.
 
 ## 27. Journal
+
+### 2026-07-23T21:35:00+02:00 — version 3.46.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-16.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 16 Finalizer Runner`, run `30040252690`, sur la tête documentaire `1944934b3213f986cf84422bfb6bc254cc5c4c20` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8576919800`, digest `c40b945f5592cb8bd0f948506b40822159703287d0337b55fe1cb93166597b65` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8576920326`, digest `a6a5f5a2c71966717d0a11707775ee4035a69036d93c804ec1a8a76689a41c51` ;
+- empreinte SHA-256 du chapitre : `2c5d9182ff27921ee14905e5a516a73a054e3657a6d8e7394347c957044e105b` ;
+- empreinte SHA-256 de l’audit : `55eb5d449c8fc79ecbda55ef66b2ed76de1c6a5fa3bf78d87efa3cf218d8d3e8` ;
+- métriques finales : 1 654 lignes, 63 titres, 68 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 17 — UV, retopologie et baking, niveau Élevée ;
+- aucune texture, matériau, ressource Godot, scène, capture, GLB, preset, benchmark, résultat runtime ou PDF du Livre III produit.
+
+### 2026-07-23T21:15:00+02:00 — version 3.46.0
+
+- chapitre 16 du Livre III créé, relu et audité au niveau `static-review` ;
+- laboratoire `AST-MAT-LAB-PBR-001`, géométries de contrôle, caméras, étalons et profils d’éclairage documentés ;
+- base color, metallic, roughness, normal, AO, height, emissive, opacity, transmission et subsurface encadrés ;
+- sRGB, données linéaires, formats, mémoire brute, mipmaps, compression et packing ORM documentés ;
+- densité de texels, matériaux maîtres, tiling, trim sheets, atlas, détails et décalcomanies encadrés ;
+- Principled BSDF Blender, glTF, import Godot, `StandardMaterial3D`, `ORMMaterial3D` et samplers documentés ;
+- captures comparatives, inventaire, budgets, validateur structurel et campagne de mesure préparés ;
+- métriques statiques : 1 654 lignes, 63 titres, 68 blocs significatifs, 48 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 17 — UV, retopologie et baking, niveau Élevée ;
+- aucune texture, matériau, ressource Godot, scène, capture, GLB, preset, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T20:38:21+02:00 — version 3.45.1
 
