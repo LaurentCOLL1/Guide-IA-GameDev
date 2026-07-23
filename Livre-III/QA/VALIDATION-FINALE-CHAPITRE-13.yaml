@@ -1,0 +1,113 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH13
+status: pending_ci
+validation-date: '2026-07-23'
+validated-base-commit: BASE_COMMIT_PLACEHOLDER
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH13
+  path: Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2381
+  chapter-headings: 63
+  chapter-code-and-data-blocks: 69
+  significant-code-and-data-blocks: 69
+  code-explanation-markers: 69
+  structured-non-error-code-explanations: 49
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  human-scale-and-grid-documented: true
+  module-catalog-documented: true
+  connector-and-assembly-rules-documented: true
+  tolerance-and-seam-control-documented: true
+  origins-pivots-and-snapping-documented: true
+  three-building-blockout-gate-documented: true
+  wall-opening-corner-transition-families-documented: true
+  floor-stair-roof-interior-families-documented: true
+  render-collision-navigation-occlusion-separation: true
+  visual-destruction-boundary-documented: true
+  shared-material-boundary-documented: true
+  module-lod-and-building-hlod-documented: true
+  gltf-export-documented: true
+  godot-derived-scene-documented: true
+  gridmap-meshlibrary-hybrid-documented: true
+  structural-gdscript-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  assembly-matrix-documented: true
+  camera-navigation-collision-tests-documented: true
+  performance-protocol-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-individual-prop-duplication: true
+  no-terrain-streaming-duplication: true
+  no-general-pbr-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-authoritative-construction-rules: true
+  no-authoritative-destruction: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9
+  audit-sha256: 48defcdb19887a51643c87d3ad2aa02d37792c5d42409d1d9508b511d255af0e
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 13 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 13 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+- Functional modular architecture kit brief not approved by a production review.
+- References, rights and provenance not qualified.
+- Pilot modules and three proof buildings not produced.
+- Grid, bays, substeps and tolerances not measured.
+- Module catalog, connectors and assembly matrix not validated.
+- Blender blockouts not created.
+- Wall, opening, corner, transition, floor, stair and roof families not produced.
+- Interiors, facades, variants, trim sheets and atlases not produced.
+- Origins, pivots and snapping not validated.
+- Architectural collisions not produced.
+- Navigation sources and connections not produced.
+- Occluders not produced or tested.
+- Visual destruction states not produced.
+- GLB exports not produced.
+- Godot scenes, GridMap and MeshLibrary not materialized.
+- GDScript validator not executed.
+- Assembly matrix, camera, navigation and collision tests not executed.
+- LOD and HLOD meshes, materials and thresholds not produced or measured.
+- CPU, GPU, VRAM, draw-call, memory, navigation and occlusion values not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
