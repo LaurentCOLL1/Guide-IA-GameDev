@@ -1,6 +1,5 @@
 {
-  "fragment_count": 14,
-  "original_lengths": [
+  "fragment_lengths": [
     4000,
     4000,
     4000,
@@ -16,26 +15,5 @@
     6263,
     20
   ],
-  "corrected_lengths": [
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    2284
-  ],
-  "encoded_length": 54284,
-  "base64_valid": true,
-  "actual_package_sha256": "914cee76a22311a43c5181e58030f1f6765a4a1f2d5c3df44f53accf49384a4c",
-  "package_sha_matches": false,
-  "compressed_length": 40711,
-  "error": "BadGzipFile: CRC check failed"
+  "candidates": []
 }
