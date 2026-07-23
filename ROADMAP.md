@@ -118,12 +118,13 @@
 - [x] Chapitre 5 — Provenance, licences et validation des assets.
 - [x] Chapitre 6 — Création des humains.
 - [x] Chapitre 7 — Création des humanoïdes.
+- [x] Chapitre 8 — Création des animaux.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 7 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 8 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 
