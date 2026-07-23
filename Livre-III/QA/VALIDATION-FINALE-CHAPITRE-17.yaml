@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH17
-status: pending
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 2fff9f970f4597bfc24efd14a0dfba505604d46c
-validated-head-commit: null
+validated-head-commit: c803916a02416ad0338ace6d4fdaf66e2595d65d
 chapter:
   id: DOC-L3-CH17
   path: Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
@@ -72,21 +72,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 17 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30047507706
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 17 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30047507706
+    conclusion: success
   artifact:
-    id: null
+    id: 8579697669
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 4586c47733f516f4988aebbae51fe725467cf1bd962a74e1116acad3fc09f847
   context-artifact:
-    id: null
+    id: 8579697878
     name: usage-context-audit
-    digest: null
+    digest: 16e07a6f3eb6df1ab92cfeaea4b895188b97eae790867caee70e11700a5b0130
 reservations:
 - Pilot asset not approved by a production review.
 - High-resolution, low-resolution and cage meshes not created.

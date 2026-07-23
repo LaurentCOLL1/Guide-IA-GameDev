@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.47.0"
+version: "3.47.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T23:15:00+02:00"
+last-updated: "2026-07-23T23:35:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1730,6 +1730,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 18 traitera les budgets par taille écran, la décimation contrôlée, les LOD, imposteurs, billboards, seuils, hystérésis, transitions, popping, ombres, collisions simplifiées et benchmark avant/après, sans refaire la retopologie, les UV ou le baking du chapitre 17.
 
 ## 27. Journal
+
+### 2026-07-23T23:35:00+02:00 — version 3.47.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-17.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 17 Finalizer Runner`, run `30047507706`, sur la tête documentaire `c803916a02416ad0338ace6d4fdaf66e2595d65d` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8579697669`, digest `4586c47733f516f4988aebbae51fe725467cf1bd962a74e1116acad3fc09f847` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8579697878`, digest `16e07a6f3eb6df1ab92cfeaea4b895188b97eae790867caee70e11700a5b0130` ;
+- empreinte SHA-256 du chapitre : `127d06c2bc9bbd28c606088e303ea74d447b91c57f8a906c5b8e1da046f58a2d` ;
+- empreinte SHA-256 de l’audit : `35eeabea1cdd67cc858a7dcceb4abeab9f436c182fc206177f4b2511864b3d86` ;
+- métriques finales : 2 890 lignes, 82 titres, 84 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 18 — LOD, imposteurs et optimisation géométrique, niveau Élevée ;
+- aucun maillage, UV, cage, texture bakée, GLB, scène, capture, rapport, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T23:15:00+02:00 — version 3.47.0
 
