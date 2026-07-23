@@ -1,1 +1,0 @@
-Temporary runner branch marker for Chapter 15. This file will not be merged; it only verifies branch write access before opening the infrastructure PR.
