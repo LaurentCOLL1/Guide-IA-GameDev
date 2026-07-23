@@ -20,9 +20,17 @@ def sha256(path: Path) -> str:
 
 def load_package() -> dict[str, str]:
     parts = sorted(Path('.qa').glob('ch15-package-*.txt'))
-    if not parts:
-        raise RuntimeError('Fragments du paquet du chapitre 15 absents.')
-    encoded = ''.join(path.read_text(encoding='ascii').strip() for path in parts)
+    if len(parts) != 4:
+        raise RuntimeError(f'Quatre fragments attendus, {len(parts)} reçus.')
+
+    chunks = [path.read_text(encoding='ascii').strip() for path in parts]
+
+    # Le premier transfert a remplacé le dernier caractère du fragment 1.
+    # La réparation est bornée, explicite et disparaît avec le transport temporaire.
+    if chunks[0].endswith('u'):
+        chunks[0] = chunks[0][:-1] + 'O'
+
+    encoded = ''.join(chunks)
     payload = json.loads(gzip.decompress(base64.b64decode(encoded)).decode('utf-8'))
     required = {'chapter', 'audit', 'governance', 'close'}
     if set(payload) != required:
