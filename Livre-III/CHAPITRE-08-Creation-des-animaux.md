@@ -511,7 +511,7 @@ Les zones prioritaires varient selon la famille, mais le contrôle suit les mêm
 - le LOD simplifié conserve-t-il les mêmes points de contrôle essentiels.
 
 Les poids automatiques sont un point de départ, jamais une validation. Blender peut nécessiter une correction manuelle des groupes de sommets lorsque le résultat ne correspond pas au mouvement attendu.
-> **[APP] Blender — Grille de poses de déformation — Ne pas saisir.**
+> **[LECTURE] Grille de poses de déformation — Ne pas saisir.**
 
 ```yaml
 schema_version: 1
@@ -616,7 +616,7 @@ La peinture de poids suit une procédure reproductible :
 9. documenter les différences.
 
 Les os de contrôle qui ne déforment pas le maillage sont exclus de l’export si le pipeline le permet. Les os de plumes, moustaches, oreilles ou nageoires restent optionnels et doivent justifier leur coût.
-> **[APP] Blender — Rapport d’influences attendu — Ne pas saisir.**
+> **[SORTIE] Blender — Rapport d’influences attendu — Ne pas saisir.**
 
 ```json
 {
