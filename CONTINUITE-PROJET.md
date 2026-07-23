@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.38.0"
+version: "3.38.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T05:13:25+02:00"
+last-updated: "2026-07-23T05:31:31+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1712,6 +1712,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 9 transformera des concepts fantastiques en créatures identifiables, anatomiquement cohérentes avec leurs fonctions, riggables et animables, sans refaire les familles animales réelles du chapitre 8 ni les comportements de gameplay du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T05:31:31+02:00 — version 3.38.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-08.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire et des contextes réussie au run `29977206341` sur la tête `7d07b1ffd26c80aa996e6306608ca7334415bc82` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8551861160`, digest `24b629ad09a2c02bd72d688a976715c851a59716693f962def4ac6a7c3cc0c8f` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8551861420`, digest `3637966f882e3063e619fa355738a3bf9eafc914bc6aa6bcef59dd522bdb8815` ;
+- empreinte SHA-256 du chapitre : `5d58026bee2abf1c142e20b6f8b2ede9cabf681453a097f5f3153da3f4de46d2` ;
+- empreinte SHA-256 de l’audit : `470c892898124408e60f930c9a78d4818b998125e05a7a642d23a67286ba7123` ;
+- métriques finales : 1 929 lignes, 67 titres, 32 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 9 — Création des créatures, niveau Élevée ;
+- aucun animal, rig, animation, surface, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T05:13:25+02:00 — version 3.38.0
 

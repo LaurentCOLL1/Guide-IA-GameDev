@@ -1,29 +1,29 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH08
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 559e9a0b629823840ebace150883d781c27b63ad
-validated-head-commit: null
+validated-head-commit: 7d07b1ffd26c80aa996e6306608ca7334415bc82
 chapter:
   id: DOC-L3-CH08
   path: Livre-III/CHAPITRE-08-Creation-des-animaux.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1929
   chapter-headings: 67
   chapter-code-and-data-blocks: 43
-  significant-code-and-data-blocks: null
+  significant-code-and-data-blocks: 32
   code-explanation-markers: 43
   structured-non-error-code-explanations: 23
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -61,23 +61,23 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: null
-  audit-sha256: null
+  chapter-sha256: 5d58026bee2abf1c142e20b6f8b2ede9cabf681453a097f5f3153da3f4de46d2
+  audit-sha256: 470c892898124408e60f930c9a78d4818b998125e05a7a642d23a67286ba7123
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29977206341
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29977206341
+    conclusion: success
   artifact:
-    id: null
+    id: 8551861160
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 24b629ad09a2c02bd72d688a976715c851a59716693f962def4ac6a7c3cc0c8f
   context-artifact:
-    id: null
+    id: 8551861420
     name: usage-context-audit
-    digest: null
+    digest: 3637966f882e3063e619fa355738a3bf9eafc914bc6aa6bcef59dd522bdb8815
 reservations:
 - Real animal references not collected or qualified.
 - Real animal bases not modeled.
