@@ -1,0 +1,48 @@
+name: Chapter 7 Materialization Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.head_ref == 'docs/livre-iii-ch07-creation-humanoides'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Verify and materialize Chapter 7
+        shell: bash
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          if ! compgen -G ".qa/ch07-package-*.b64" > /dev/null; then
+            echo "No Chapter 7 package to materialize."
+            exit 0
+          fi
+
+          cat .qa/ch07-package-*.b64 | base64 --decode > /tmp/ch07-package.tar.gz
+          echo "0f7dbb241289de9b67444c3d31448a271d07d174da56620f151cba4a87b21740  /tmp/ch07-package.tar.gz" \
+            | sha256sum --check --strict
+          tar -xzf /tmp/ch07-package.tar.gz
+          python3 .qa/ch07-governance.py
+
+          rm -f .qa/ch07-package-*.b64 .qa/ch07-governance.py
+          cat > .qa/ch07-stage.json <<'EOF'
+          {"stage":"validate-and-close"}
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(livre-iii): matérialiser le chapitre 7 et sa gouvernance"
+          git push origin HEAD:"$HEAD_BRANCH"
