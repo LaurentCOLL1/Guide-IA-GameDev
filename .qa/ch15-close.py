@@ -29,10 +29,43 @@ def main() -> None:
     proof = proof_path.read_text(encoding='utf-8')
     proof = replace_once(proof, 'status: pending', 'status: complete', 'statut preuve')
     proof = replace_once(proof, 'validated-head-commit: null', f'validated-head-commit: {document_head}', 'tête validée')
-    proof = replace_once(proof, '    run-id: null\n    conclusion: pending', f'    run-id: {run_id}\n    conclusion: success', 'validation chapitres')
-    proof = replace_once(proof, '    run-id: null\n    conclusion: pending', f'    run-id: {run_id}\n    conclusion: success', 'validation contextes')
-    proof = replace_once(proof, '  artifact:\n    id: null\n    name: chapter-validation-without-pdf\n    digest: null', f'  artifact:\n    id: {artifact_id}\n    name: chapter-validation-without-pdf\n    digest: {artifact_digest}', 'artefact principal')
-    proof = replace_once(proof, '  context-artifact:\n    id: null\n    name: usage-context-audit\n    digest: null', f'  context-artifact:\n    id: {context_id}\n    name: usage-context-audit\n    digest: {context_digest}', 'artefact contextes')
+
+    main_ci = '''  validate-chapters-without-pdf:
+    workflow-name: Chapter 15 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending'''
+    main_ci_closed = f'''  validate-chapters-without-pdf:
+    workflow-name: Chapter 15 Finalizer Runner
+    execution: embedded-command
+    run-id: {run_id}
+    conclusion: success'''
+    proof = replace_once(proof, main_ci, main_ci_closed, 'validation chapitres')
+
+    context_ci = '''  validate-usage-contexts:
+    workflow-name: Chapter 15 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending'''
+    context_ci_closed = f'''  validate-usage-contexts:
+    workflow-name: Chapter 15 Finalizer Runner
+    execution: embedded-command
+    run-id: {run_id}
+    conclusion: success'''
+    proof = replace_once(proof, context_ci, context_ci_closed, 'validation contextes')
+
+    proof = replace_once(
+        proof,
+        '  artifact:\n    id: null\n    name: chapter-validation-without-pdf\n    digest: null',
+        f'  artifact:\n    id: {artifact_id}\n    name: chapter-validation-without-pdf\n    digest: {artifact_digest}',
+        'artefact principal',
+    )
+    proof = replace_once(
+        proof,
+        '  context-artifact:\n    id: null\n    name: usage-context-audit\n    digest: null',
+        f'  context-artifact:\n    id: {context_id}\n    name: usage-context-audit\n    digest: {context_digest}',
+        'artefact contextes',
+    )
     proof_path.write_text(proof, encoding='utf-8')
 
     now = datetime.now(ZoneInfo('Europe/Paris')).replace(microsecond=0).isoformat()
