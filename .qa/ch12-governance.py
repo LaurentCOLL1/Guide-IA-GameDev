@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import base64
+import gzip
 import hashlib
 import os
 from pathlib import Path
@@ -11,6 +13,16 @@ BASE_COMMIT = os.environ["BASE_COMMIT"]
 chapter_path = Path("Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md")
 audit_path = Path("Livre-III/QA/AUDIT-CHAPITRE-12.md")
 proof_path = Path("Livre-III/QA/VALIDATION-FINALE-CHAPITRE-12.yaml")
+
+chapter_parts = [Path(f".qa/ch12-chapter-{index:02d}.txt") for index in range(1, 6)]
+if all(path.is_file() for path in chapter_parts):
+    encoded = "".join(path.read_text(encoding="utf-8").strip() for path in chapter_parts)
+    chapter_path.write_bytes(gzip.decompress(base64.b64decode(encoded)))
+    for path in chapter_parts:
+        path.unlink()
+elif any(path.is_file() for path in chapter_parts):
+    missing = [str(path) for path in chapter_parts if not path.is_file()]
+    raise RuntimeError("Fragments exacts du chapitre 12 incomplets : " + ", ".join(missing))
 
 for target in (chapter_path, audit_path, proof_path):
     if not target.is_file():
@@ -35,6 +47,7 @@ def replace_once(path: str, old: str, new: str) -> None:
         raise RuntimeError(f"Motif introuvable dans {path}: {old[:120]!r}")
     target.write_text(text.replace(old, new, 1), encoding="utf-8")
 
+# Livre III index
 replace_once("Livre-III/index.md", 'version: "1.10.0"', 'version: "1.11.0"')
 replace_once(
     "Livre-III/index.md",
@@ -47,6 +60,7 @@ replace_once(
     "Les chapitres 13 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`."
 )
 
+# Roadmap
 replace_once(
     "ROADMAP.md",
     "- [x] Chapitre 11 — Vêtements, armures et accessoires.\n"
@@ -61,6 +75,7 @@ replace_once(
     "**Statut M4 : en cours — 12 chapitres rédigés, repérés et audités sur 30.**"
 )
 
+# Ordre de compilation
 replace_once(
     "contents.txt",
     "Livre-III/CHAPITRE-11-Vetements-armures-et-accessoires.md\nLivre-IV/index.md",
@@ -69,6 +84,7 @@ replace_once(
     "Livre-IV/index.md"
 )
 
+# Plan maître
 replace_once("plans/LIVRE-III-PLAN-MAITRE.md", 'version: "1.1.11"', 'version: "1.1.12"')
 replace_once(
     "plans/LIVRE-III-PLAN-MAITRE.md",
@@ -86,6 +102,7 @@ replace_once(
     "> **Progression :** chapitres 1 à 12 rédigés, repérés et audités au niveau `static-review` ; chapitres 13 à 30 à produire."
 )
 
+# Continuité
 replace_once("CONTINUITE-PROJET.md", 'version: "3.41.1"', 'version: "3.42.0"')
 replace_once(
     "CONTINUITE-PROJET.md",
@@ -131,6 +148,7 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
 Le chapitre 13 créera des kits architecturaux modulaires fondés sur une grille métrique, des règles d’assemblage, des pivots de snapping, des collisions, de la navigation, de l’occlusion et des LOD, sans refaire les objets individuels du chapitre 12 ni déplacer les règles de construction par le joueur du Livre II."""
+
 replace_once("CONTINUITE-PROJET.md", old_next, new_next)
 
 journal = f"""### {CREATED_AT} — version 3.42.0
