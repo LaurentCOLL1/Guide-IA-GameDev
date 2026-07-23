@@ -1,82 +1,37 @@
 {
   "fragment_count": 14,
-  "expected_fragment_count": 14,
-  "expected_package_sha256": "2d70d119a36bf61e6cdb6bb38b24abb79adc5cee48806149083ce5393e6fc494",
-  "expected_chapter_sha256": "fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9",
-  "expected_audit_sha256": "1eaa54f65360d61d2268e6037892b0be671a4f1cdc49957c6f9c31263f17b6dc",
-  "fragments": [
-    {
-      "path": ".qa/ch13-package-01.txt",
-      "length": 4000,
-      "sha256": "771e80fa70ad1d1581f19556900f7dbc8ffcc575e84decc86c7384a1d6f32313"
-    },
-    {
-      "path": ".qa/ch13-package-02.txt",
-      "length": 4000,
-      "sha256": "a8352ea724821519400a76d75807e0366e4bb2b533d20cbc531ae5c2dd5f9544"
-    },
-    {
-      "path": ".qa/ch13-package-03.txt",
-      "length": 4000,
-      "sha256": "9bbd243aa3ae585b9247ca0a0d1de934ad29920f900c606ded87b36e8df0b7dd"
-    },
-    {
-      "path": ".qa/ch13-package-04.txt",
-      "length": 4000,
-      "sha256": "7b46c25adca8bffdd4c65b4592a00f60556a9de6831f0056985574c2961623bd"
-    },
-    {
-      "path": ".qa/ch13-package-05.txt",
-      "length": 4000,
-      "sha256": "324b84c0bd160be2fd83ad221fef227e8abe030faf17a15b531c9b310a45d5a3"
-    },
-    {
-      "path": ".qa/ch13-package-06.txt",
-      "length": 4000,
-      "sha256": "caa01dd5167307b72e4d6d167a5d77f85bb446e797811cb1d8223ed320b53e7a"
-    },
-    {
-      "path": ".qa/ch13-package-07.txt",
-      "length": 4000,
-      "sha256": "8989b40844aee2e17fcc0baa6e7cd74fd495decd516364ca41c5c9c9f10ea9f6"
-    },
-    {
-      "path": ".qa/ch13-package-08.txt",
-      "length": 4000,
-      "sha256": "d8c89b51fc66060d49e1dd93a338f5588c85b1f973ed09cd244792507e9af115"
-    },
-    {
-      "path": ".qa/ch13-package-09.txt",
-      "length": 4000,
-      "sha256": "da3bee5e888046cdbd4d2e33a43b08c68c568bd6f50e2fca19f357101e734b4c"
-    },
-    {
-      "path": ".qa/ch13-package-10.txt",
-      "length": 4000,
-      "sha256": "23da7f7e834a5eac581d7480114ab571e65946fd90c9b06bd91b3e04785ad2b9"
-    },
-    {
-      "path": ".qa/ch13-package-11.txt",
-      "length": 4000,
-      "sha256": "85fd3218e1046d49f01e17f1986990d8d693619fbd08cbf20a6c212e2b1eaf91"
-    },
-    {
-      "path": ".qa/ch13-package-12.txt",
-      "length": 4000,
-      "sha256": "514d1ea09a1a13ef55fd395800235a1990772309bf7c7d6116ea1fe8b139143a"
-    },
-    {
-      "path": ".qa/ch13-package-13.txt",
-      "length": 6263,
-      "sha256": "9c6f310c6f1747a8488dc417e037f85831feecda125963e65c4d218c64231f60"
-    },
-    {
-      "path": ".qa/ch13-package-14.txt",
-      "length": 20,
-      "sha256": "6a8f10479f394f2c67e108a3ad2ad7505e862db7fabc41b4cdfc5ae9b3eb28c5"
-    }
+  "original_lengths": [
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    6263,
+    20
+  ],
+  "corrected_lengths": [
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    4000,
+    2283
   ],
   "encoded_length": 54283,
-  "base64_valid": false,
-  "base64_error": "Error: Incorrect padding"
+  "error": "Error: Incorrect padding"
 }
