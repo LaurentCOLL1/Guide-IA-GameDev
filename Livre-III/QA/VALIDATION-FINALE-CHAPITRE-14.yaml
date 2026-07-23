@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH14
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 4e2b3aaa2297e05fff4c7ce00f2b09a5ea613c84
-validated-head-commit: null
+validated-head-commit: 5a9e20a3d861e70ca72b50110c4c9a9e2b4b2687
 chapter:
   id: DOC-L3-CH14
   path: Livre-III/CHAPITRE-14-Terrains-paysages-et-mondes-ouverts.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2806
   chapter-headings: 74
   chapter-code-and-data-blocks: 78
@@ -93,21 +93,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 14 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30020181756
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 14 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30020181756
+    conclusion: success
   artifact:
-    id: null
+    id: 8568886690
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 8dc797d970acc956f327f385050a99b693953767cad3c0d76d71d0eecfd83bce
   context-artifact:
-    id: null
+    id: 8568887308
     name: usage-context-audit
-    digest: null
+    digest: 07ca8b78a0a1a330fce1170fc96944deb96d2974387b155424b7b060759a6288
 reservations:
 - Pilot region brief not approved by a production review.
 - Traversal routes, landmarks and sightlines not tested.

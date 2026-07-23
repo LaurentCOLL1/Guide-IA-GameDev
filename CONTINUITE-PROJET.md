@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.44.0"
+version: "3.44.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T16:43:43+02:00"
+last-updated: "2026-07-23T17:21:59+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1724,6 +1724,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 15 produira une bibliothèque végétale, des profils de biome, des cartes de distribution, des shaders de vent et un benchmark de densité, sans refaire les terrains et le streaming du chapitre 14 ni déplacer la simulation écologique dynamique du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T17:21:59+02:00 — version 3.44.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-14.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 14 Finalizer Runner`, run `30020181756`, sur la tête documentaire `5a9e20a3d861e70ca72b50110c4c9a9e2b4b2687` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8568886690`, digest `8dc797d970acc956f327f385050a99b693953767cad3c0d76d71d0eecfd83bce` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8568887308`, digest `07ca8b78a0a1a330fce1170fc96944deb96d2974387b155424b7b060759a6288` ;
+- empreinte SHA-256 du chapitre : `72cfb38fac389935c3099b09b00f68d8ee416f4ad413a30f8fab21855077c01e` ;
+- empreinte SHA-256 de l’audit : `35c311478ecda349ae6850dbef8ae9c65fbb3db9ab62490ab7cc8abd53f7145c` ;
+- métriques finales : 2806 lignes, 74 titres, 78 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 15 — Végétation et biomes, niveau Élevée ;
+- aucun terrain, heightmap, tuile, route, rivière, lac, matériau, collision, navmesh, scène, GLB, LOD, HLOD, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T16:43:43+02:00 — version 3.44.0
 
