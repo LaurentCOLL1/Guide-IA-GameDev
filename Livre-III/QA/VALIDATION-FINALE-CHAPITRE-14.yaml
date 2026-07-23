@@ -1,0 +1,144 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH14
+status: complete
+validation-date: '2026-07-23'
+validated-base-commit: 4e2b3aaa2297e05fff4c7ce00f2b09a5ea613c84
+validated-head-commit: 5a9e20a3d861e70ca72b50110c4c9a9e2b4b2687
+chapter:
+  id: DOC-L3-CH14
+  path: Livre-III/CHAPITRE-14-Terrains-paysages-et-mondes-ouverts.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2806
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 78
+  significant-code-and-data-blocks: 78
+  code-explanation-markers: 78
+  structured-non-error-code-explanations: 58
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  world-scale-and-coordinate-contract-documented: true
+  region-sector-cell-tile-partition-documented: true
+  stable-cell-identifiers-documented: true
+  source-export-derived-separation-documented: true
+  high-precision-heightmap-contract-documented: true
+  height-resolution-and-spacing-documented: true
+  macro-meso-micro-sculpt-documented: true
+  controlled-erosion-documented: true
+  shared-tile-border-contract-documented: true
+  road-corridor-documented: true
+  terrain-architecture-interface-documented: true
+  river-watershed-and-outlet-documented: true
+  lake-coast-and-wetland-interfaces-documented: true
+  water-visual-collision-navigation-separation: true
+  terrain-material-boundary-documented: true
+  terrain-mask-contract-documented: true
+  heightmapshape3d-collision-documented: true
+  special-geometry-collisions-separated: true
+  navigation-cell-regions-documented: true
+  bidirectional-navigation-border-tests-documented: true
+  autonomous-cell-scenes-documented: true
+  cell-manifests-documented: true
+  explicit-streaming-state-machine-documented: true
+  background-resourceloader-documented: true
+  polling-without-blocking-documented: true
+  controlled-cell-instantiation-documented: true
+  preload-policy-documented: true
+  hysteresis-documented: true
+  pin-ownership-documented: true
+  staged-release-documented: true
+  streaming-save-authority-separated: true
+  terrain-lod-documented: true
+  sector-hlod-and-horizon-documented: true
+  landscape-occlusion-decision-documented: true
+  global-environment-authority-documented: true
+  blender-gltf-export-documented: true
+  godot-derived-scene-documented: true
+  structural-gdscript-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  benchmark-scene-documented: true
+  cold-warm-load-measurements-documented: true
+  memory-and-frame-correlation-documented: true
+  border-rupture-matrix-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-architecture-duplication: true
+  no-vegetation-catalog-duplication: true
+  no-general-pbr-duplication: true
+  no-generic-uv-baking-duplication: true
+  no-authoritative-ecological-simulation: true
+  no-authoritative-gameplay-state: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 72cfb38fac389935c3099b09b00f68d8ee416f4ad413a30f8fab21855077c01e
+  audit-sha256: 35c311478ecda349ae6850dbef8ae9c65fbb3db9ab62490ab7cc8abd53f7145c
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 14 Finalizer Runner
+    execution: embedded-command
+    run-id: 30020181756
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Chapter 14 Finalizer Runner
+    execution: embedded-command
+    run-id: 30020181756
+    conclusion: success
+  artifact:
+    id: 8568886690
+    name: chapter-validation-without-pdf
+    digest: 8dc797d970acc956f327f385050a99b693953767cad3c0d76d71d0eecfd83bce
+  context-artifact:
+    id: 8568887308
+    name: usage-context-audit
+    digest: 07ca8b78a0a1a330fce1170fc96944deb96d2974387b155424b7b060759a6288
+reservations:
+- Pilot region brief not approved by a production review.
+- Traversal routes, landmarks and sightlines not tested.
+- World scale, origin and coordinate strategy not measured.
+- Region-sector-cell-tile partition not validated.
+- Stable identifiers and manifests not instantiated.
+- High-precision heightmaps not produced.
+- Resolution, extent and horizontal spacing not qualified.
+- Blender blockout and sculpt not created.
+- Erosion experiments not executed.
+- Tile borders not compared in assembled form.
+- Roads and cross-sections not produced.
+- Architectural pads not connected.
+- River, lake, coastline and visual water not produced.
+- Terrain materials and masks not produced.
+- Terrain and special-geometry collisions not produced.
+- Navigation regions and bidirectional connections not tested.
+- Cell scenes and manifests not materialized.
+- GDScript stream controller and validator not executed.
+- Preloading, hysteresis, pins and release not tested.
+- Save and Book II authority integration not executed.
+- LOD and HLOD assets not produced.
+- Horizon, fog and occlusion not qualified.
+- GLB exports not produced.
+- Benchmark scene not created.
+- Cold and warm load times not measured.
+- Memory, frame spikes and active-cell peaks not measured.
+- Border rupture matrix not executed.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 7118f767221919a8deaf15e22fe6423b1a957c7f
+  conclusion: success
