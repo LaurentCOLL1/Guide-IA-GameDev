@@ -1,67 +1,56 @@
 #!/usr/bin/env python3
-import base64
 import hashlib
 import json
 import os
+import re
 import subprocess
-import zlib
+from collections import Counter
 from pathlib import Path
 
+CHAPTER_PATH = Path("Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md")
 EXPECTED_CHAPTER_SHA = "fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9"
-CHAPTER_KEY = "Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md"
+ANALYSIS_PATH = Path(".qa/ch13-analysis.json")
 
-fragment_paths = sorted(Path(".qa").glob("ch13-package-*.txt"))
-parts = [path.read_text(encoding="utf-8").strip() for path in fragment_paths]
-if len(parts) != 14 or [len(part) for part in parts[:12]] != [4000] * 12:
-    raise RuntimeError("Fragments initiaux du chapitre 13 invalides.")
-if len(parts[12]) != 6263 or len(parts[13]) != 20:
-    raise RuntimeError(f"Forme finale inattendue : {[len(part) for part in parts]}")
+chapter = CHAPTER_PATH.read_text(encoding="utf-8")
+if hashlib.sha256(chapter.encode("utf-8")).hexdigest() != EXPECTED_CHAPTER_SHA:
+    raise RuntimeError("Empreinte du chapitre récupéré invalide.")
 
-encoded = "".join(parts[:12]) + parts[12] + parts[13] + "="
-compressed = base64.b64decode(encoded, validate=True)
-position = 10
-flags = compressed[3]
-if flags & 0x04:
-    xlen = int.from_bytes(compressed[position:position + 2], "little")
-    position += 2 + xlen
-if flags & 0x08:
-    while compressed[position] != 0:
-        position += 1
-    position += 1
-if flags & 0x10:
-    while compressed[position] != 0:
-        position += 1
-    position += 1
-if flags & 0x02:
-    position += 2
+lines = chapter.splitlines()
+headings = [line.strip() for line in lines if re.match(r"^#{1,6}\s+", line)]
+fences = [index for index, line in enumerate(lines) if line.startswith("```")]
+blocks = []
+for index in range(0, len(fences) - 1, 2):
+    blocks.append("\n".join(lines[fences[index] + 1:fences[index + 1]]).strip())
+paragraphs = []
+for part in re.split(r"\n\s*\n", chapter):
+    normalized = " ".join(part.split())
+    if len(normalized) >= 160 and not normalized.startswith(("```", "<!--", "|")):
+        paragraphs.append(normalized)
 
-decompressor = zlib.decompressobj(-zlib.MAX_WBITS)
-raw = decompressor.decompress(compressed[position:-8]) + decompressor.flush()
-text = raw.decode("utf-8", errors="ignore")
-key = json.dumps(CHAPTER_KEY, ensure_ascii=False)
-index = text.find(key)
-if index < 0:
-    raise RuntimeError("Clé du chapitre 13 introuvable dans la sortie récupérée.")
-colon = text.find(":", index + len(key))
-value_start = colon + 1
-while text[value_start].isspace():
-    value_start += 1
-chapter, _ = json.JSONDecoder().raw_decode(text, value_start)
-if not isinstance(chapter, str):
-    raise RuntimeError("Valeur du chapitre 13 non textuelle.")
-actual_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
-if actual_sha != EXPECTED_CHAPTER_SHA:
-    raise RuntimeError(f"Empreinte récupérée invalide : {actual_sha}.")
+def duplicate_count(values):
+    return sum(count - 1 for count in Counter(values).values() if count > 1)
 
-target = Path(CHAPTER_KEY)
-target.parent.mkdir(parents=True, exist_ok=True)
-target.write_text(chapter, encoding="utf-8")
-Path(".qa/ch13-diagnostic.json").unlink(missing_ok=True)
+analysis = {
+    "chapter_sha256": EXPECTED_CHAPTER_SHA,
+    "lines": len(lines),
+    "headings_count": len(headings),
+    "headings": headings,
+    "code_and_data_blocks": len(blocks),
+    "code_explanation_markers": chapter.count("<!-- qa:code-explanation -->"),
+    "structured_non_error_explanations": chapter.count("**Explication structurée du bloc :**"),
+    "error_section_markers": chapter.count("<!-- qa:error-correction-section -->"),
+    "faulty_explanations": chapter.count("**Pourquoi cet exemple est fautif :**"),
+    "corrected_explanations": chapter.count("**Pourquoi la correction fonctionne :**"),
+    "duplicate_headings": duplicate_count(headings),
+    "duplicate_blocks": duplicate_count(blocks),
+    "duplicate_long_paragraphs": duplicate_count(paragraphs),
+}
+ANALYSIS_PATH.write_text(json.dumps(analysis, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
 subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=True)
-subprocess.run(["git", "add", str(target), ".qa/ch13-diagnostic.json"], check=False)
+subprocess.run(["git", "add", str(ANALYSIS_PATH)], check=True)
 if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode != 0:
-    subprocess.run(["git", "commit", "-m", "docs(ch13): récupérer le chapitre original vérifié"], check=True)
+    subprocess.run(["git", "commit", "-m", "chore(ch13): relever la structure du chapitre récupéré"], check=True)
     subprocess.run(["git", "push", "origin", f"HEAD:{os.environ['HEAD_BRANCH']}"], check=True)
-raise RuntimeError("Chapitre original récupéré et poussé ; reconstruction QA volontairement différée.")
+raise RuntimeError("Structure du chapitre 13 enregistrée ; génération QA différée.")
