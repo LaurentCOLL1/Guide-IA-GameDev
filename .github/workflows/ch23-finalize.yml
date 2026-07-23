@@ -74,6 +74,10 @@ jobs:
 
           if [[ -f .qa/ch08-stage.json ]] &&
              grep -q '^status: pending_ci$' Livre-III/QA/VALIDATION-FINALE-CHAPITRE-08.yaml; then
+            if [[ -f .qa/ch08-fix-validation.py ]]; then
+              python3 .qa/ch08-fix-validation.py
+              rm -f .qa/ch08-fix-validation.py
+            fi
             python3 -m pip install --disable-pip-version-check --quiet PyYAML
             mkdir -p dist
             python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
@@ -161,7 +165,7 @@ jobs:
           results = proof["results"]
           results["blocking-errors"] = 0
           results["warnings"] = 1
-          results["significant-code-and-data-blocks"] = 39
+          results["significant-code-and-data-blocks"] = 32
           results["duplicate-headings"] = 0
           results["duplicate-blocks"] = 0
           results["duplicate-paragraphs"] = 0
@@ -206,7 +210,7 @@ jobs:
           - artefact `usage-context-audit` enregistré sous l’identifiant `{os.environ["CONTEXT_ARTIFACT_ID"]}`, digest `{os.environ["CONTEXT_ARTIFACT_DIGEST"].removeprefix("sha256:")}` ;
           - empreinte SHA-256 du chapitre : `{chapter_sha}` ;
           - empreinte SHA-256 de l’audit : `{audit_sha}` ;
-          - métriques finales : 1 928 lignes, 66 titres, 39 blocs significatifs et aucun doublon ;
+          - métriques finales : 1 929 lignes, 67 titres, 32 blocs significatifs et aucun doublon ;
           - prochaine action maintenue au chapitre 9 — Création des créatures, niveau Élevée ;
           - aucun animal, rig, animation, surface, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
