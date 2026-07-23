@@ -1562,7 +1562,7 @@ decision: blocked
 
 **Symptôme :** le maillage suit quelques poses simples, mais les chaînes de membres se plient comme celles d’un bipède.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 rig_profile: humanoid
@@ -1574,7 +1574,7 @@ compatibility: assumed
 
 **Pourquoi cet exemple est fautif :** Le profil humanoïde ne décrit ni la colonne portée horizontalement, ni les chaînes de membres et d’extrémités du pilote.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 rig_profile: AST-RIG-QUAD-001-v001
@@ -1591,7 +1591,7 @@ compatibility: tested_per_chain
 
 **Symptôme :** la boucle semble dynamique, mais les appuis glissent ou changent d’ordre sans justification.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 clip_id: animal_run
@@ -1603,7 +1603,7 @@ source: none
 
 **Pourquoi cet exemple est fautif :** Le nom `run` ne prouve ni l’ordre des appuis, ni le rythme, ni la source.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 clip_id: quadruped_fast_cycle_v001
@@ -1620,7 +1620,7 @@ source: REF-QUAD-MOTION-003
 
 **Symptôme :** le pelage est correct dans Blender, puis disparaît ou devient inexploitable après export.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 surface_source: blender_hair_curves
@@ -1632,7 +1632,7 @@ export_test: skipped
 
 **Pourquoi cet exemple est fautif :** Une source procédurale Blender n’est pas automatiquement une représentation Godot compatible.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 surface_source: blender_hair_curves
@@ -1649,7 +1649,7 @@ export_test: required
 
 **Symptôme :** un groupe proche coûte peu en appels de dessin, mais perd squelette, clips et variations individuelles.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 profile: near_animals
@@ -1662,7 +1662,7 @@ individual_animation: required
 
 **Pourquoi cet exemple est fautif :** `MultiMesh` ne fournit pas le contrat d’une scène skinnée individuelle et traite les instances comme un seul objet de rendu.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 profile: near_animals
@@ -1680,7 +1680,7 @@ individual_animation: required
 
 **Symptôme :** le nombre de triangles baisse, tandis que le coût des matériaux, os et transparences reste presque identique.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 lod2:
@@ -1694,7 +1694,7 @@ lod2:
 
 **Pourquoi cet exemple est fautif :** Le coût des surfaces, matériaux et os peut rester dominant même après décimation.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 lod2:
@@ -1713,7 +1713,7 @@ lod2:
 
 **Symptôme :** une différence de couleur ou de taille modifie silencieusement des données de comportement.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 variant: dark_fur
@@ -1725,7 +1725,7 @@ social_role: predator
 
 **Pourquoi cet exemple est fautif :** La couleur visuelle ne constitue pas une preuve de comportement ou de statistiques.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 variant: dark_fur
@@ -1742,7 +1742,7 @@ gameplay_inference: forbidden
 
 **Symptôme :** le profil latéral est convaincant, mais les vues frontales ou de jeu révèlent une silhouette incohérente.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 silhouette_review:
@@ -1754,7 +1754,7 @@ silhouette_review:
 
 **Pourquoi cet exemple est fautif :** Un profil latéral peut masquer largeur, asymétrie, appendices et collisions.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 silhouette_review:
@@ -1771,7 +1771,7 @@ silhouette_review:
 
 **Symptôme :** les pieds paraissent posés sur une capture, mais la lecture image par image révèle glissement et pénétration.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 contact_slide: looks_ok
@@ -1783,7 +1783,7 @@ decision: accepted
 
 **Pourquoi cet exemple est fautif :** Une impression visuelle ne quantifie ni glissement ni pénétration et ne peut être rejouée.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 contact_slide_m: null
@@ -1801,7 +1801,7 @@ decision: pending
 
 **Symptôme :** le même fichier est utilisé à toutes les distances, avec des besoins incompatibles entre proximité et densité.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 animal_asset:
@@ -1815,7 +1815,7 @@ animal_asset:
 
 **Pourquoi cet exemple est fautif :** Un même asset ne satisfait pas automatiquement squelette proche, LOD et densité lointaine.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 animal_asset:
@@ -1833,7 +1833,7 @@ animal_asset:
 
 **Symptôme :** l’asset est déclaré terminé après la revue Blender alors que l’export et l’import n’ont jamais été exécutés.
 
-> **[LECTURE] Exemple fautif — Ne pas saisir.**
+**Exemple fautif :**
 
 ```yaml
 blender_review: passed
@@ -1846,7 +1846,7 @@ status: accepted
 
 **Pourquoi cet exemple est fautif :** La conformité Blender ne prouve ni import, ni matériaux, ni LOD, ni coût dans le moteur.
 
-> **[LECTURE] Correction — Ne pas saisir.**
+**Exemple corrigé :**
 
 ```yaml
 blender_review: passed
