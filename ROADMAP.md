@@ -127,12 +127,13 @@
 - [x] Chapitre 14 — Terrains, paysages et mondes ouverts.
 - [x] Chapitre 15 — Végétation et biomes.
 - [x] Chapitre 16 — Textures, matériaux et pipeline PBR.
+- [x] Chapitre 17 — UV, retopologie et baking.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 16 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 17 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

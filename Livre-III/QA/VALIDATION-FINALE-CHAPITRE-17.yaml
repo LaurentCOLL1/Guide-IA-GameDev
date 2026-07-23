@@ -1,0 +1,111 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH17
+status: pending
+validation-date: '2026-07-23'
+validated-base-commit: 2fff9f970f4597bfc24efd14a0dfba505604d46c
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH17
+  path: Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2890
+  chapter-headings: 82
+  chapter-code-and-data-blocks: 84
+  significant-code-and-data-blocks: 84
+  code-explanation-markers: 84
+  structured-non-error-code-explanations: 64
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  static-and-deformable-retopology-documented: true
+  edge-flow-and-local-density-documented: true
+  poly-build-snapping-shrinkwrap-documented: true
+  silhouette-and-hard-surface-topology-documented: true
+  quads-triangles-ngons-poles-documented: true
+  normals-smoothing-and-triangulation-documented: true
+  uv-seams-islands-and-distortion-documented: true
+  average-island-scale-and-texel-density-documented: true
+  packing-margins-and-mipmaps-documented: true
+  overlap-mirroring-and-udim-boundaries-documented: true
+  bake-sets-and-name-matching-documented: true
+  selected-to-active-documented: true
+  cages-extrusion-and-ray-distance-documented: true
+  tangent-normal-baking-documented: true
+  ao-curvature-and-auxiliary-maps-documented: true
+  opengl-normal-orientation-documented: true
+  bake-dilation-and-sampling-documented: true
+  skew-and-thin-geometry-documented: true
+  blender-gltf-godot-comparison-documented: true
+  mikktspace-fallback-documented: true
+  godot-structural-validator-documented: true
+  functions-parameters-types-returns-operators-documented: true
+  capture-manifest-and-control-report-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-general-pbr-duplication: true
+  no-lod-chain-duplication: true
+  no-rigging-or-skinning-duplication: true
+  no-general-animation-duplication: true
+  no-global-integration-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 127d06c2bc9bbd28c606088e303ea74d447b91c57f8a906c5b8e1da046f58a2d
+  audit-sha256: 35eeabea1cdd67cc858a7dcceb4abeab9f436c182fc206177f4b2511864b3d86
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 17 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 17 Finalizer Runner
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+  context-artifact:
+    id: null
+    name: usage-context-audit
+    digest: null
+reservations:
+- Pilot asset not approved by a production review.
+- High-resolution, low-resolution and cage meshes not created.
+- Transforms, silhouette, edge flow and geometric density not measured.
+- UVs, seams, islands, overlaps, margins and texel density not produced or measured.
+- Triangulation and normals not frozen on a real asset.
+- Bake target images and bake sets not materialized.
+- Normal, AO, curvature and auxiliary maps not baked.
+- Cages, ray distances and skew not tested.
+- OpenGL normal texture not imported.
+- Blender tangents and Godot fallback tangents not compared.
+- GLB and review scenes not produced.
+- GDScript validator not executed.
+- Captures and control report not produced.
+- Triangles, exported vertices, memory and draw calls not measured.
+- Sources, brushes, alphas, rights and provenance not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
