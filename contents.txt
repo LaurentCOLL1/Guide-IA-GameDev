@@ -78,6 +78,7 @@ Livre-III/CHAPITRE-12-Objets-equipements-et-armes.md
 Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md
 Livre-III/CHAPITRE-14-Terrains-paysages-et-mondes-ouverts.md
 Livre-III/CHAPITRE-15-Vegetation-et-biomes.md
+Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md
