@@ -1,0 +1,115 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH09
+status: complete
+validation-date: '2026-07-23'
+validated-base-commit: a245457dc14b17e229dea70fc3c1c176c5a60cd6
+validated-head-commit: 8c97f97f8217ef2aa547aa2cc159c54dda024e12
+chapter:
+  id: DOC-L3-CH09
+  path: Livre-III/CHAPITRE-09-Creation-des-creatures.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2332
+  chapter-headings: 66
+  chapter-code-and-data-blocks: 50
+  significant-code-and-data-blocks: 45
+  code-explanation-markers: 50
+  structured-non-error-code-explanations: 30
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  functional-brief-documented: true
+  function-form-cost-limit-matrix-documented: true
+  real-analogues-documented: true
+  speculation-levels-documented: true
+  mass-and-support-documented: true
+  primary-secondary-tertiary-silhouette-documented: true
+  metric-blockout-documented: true
+  speculative-anatomy-contract-documented: true
+  deformation-topology-documented: true
+  creature-rig-profile-documented: true
+  sockets-documented: true
+  collision-proxies-documented: true
+  readability-zones-documented: true
+  ability-poses-documented: true
+  motion-envelopes-documented: true
+  chapter-10-lookdev-boundary-documented: true
+  variants-documented: true
+  lod-and-readability-documented: true
+  gltf-export-documented: true
+  godot-derived-scene-documented: true
+  structural-gdscript-documented: true
+  collision-socket-report-documented: true
+  gameplay-readability-test-documented: true
+  performance-protocol-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-real-animal-duplication: true
+  no-gameplay-authority-duplication: true
+  no-final-rig-animation-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 6f17a958c6b19825d86d3cdfc4c337e9ebcbc05cdf75c1115d9b71ee2333eb2f
+  audit-sha256: 6d1a40d71c768a840e91c6d157c46ed906495ae724d7c139923acb5d0b4a32a2
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 9 Finalizer Runner
+    execution: embedded-command
+    run-id: 29989288114
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Chapter 9 Finalizer Runner
+    execution: embedded-command
+    run-id: 29989288114
+    conclusion: success
+  artifact:
+    id: 8556352553
+    name: chapter-validation-without-pdf
+    digest: 44f0efe8d9f79f7e1516f3146476089e3e2d3c135f27d949432300ec515522b5
+  context-artifact:
+    id: 8556352744
+    name: usage-context-audit
+    digest: fa0c0a7c0de16fdb8715fbd4589bff0d28af77cd441c42ae4ea8f5d2abe62a80
+reservations:
+- Functional brief not approved by a production review.
+- Real analogue references and rights not qualified.
+- Speculative anatomy not reviewed by a specialist.
+- Anatomical boards not produced.
+- Blender blockout and model not created.
+- Topology and deformation poses not tested.
+- Armature, weights and constraints not produced.
+- Sockets not created or measured.
+- Collision proxies not created or tested.
+- Readability zones not tested.
+- Ability poses and animations not produced.
+- Detailed lookdev remains for Chapter 10.
+- Creature variants not produced.
+- LOD meshes and thresholds not produced or measured.
+- GLB export not produced.
+- Godot validation scene not materialized.
+- GDScript validator not executed.
+- Collision, AABB, socket and reimport checks not executed.
+- Gameplay readability not measured.
+- CPU, GPU, draw-call and memory values not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 8be78ebba8802382e5c182f2238de817e9840d51
+  conclusion: success

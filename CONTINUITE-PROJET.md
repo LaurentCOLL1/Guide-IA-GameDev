@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.38.1"
+version: "3.39.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T05:31:31+02:00"
+last-updated: "2026-07-23T09:48:12+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 8 chapitres sur 30.**
+**En cours : 9 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -160,8 +160,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 6. Création des humains — terminé au niveau `static-review`.
 7. Création des humanoïdes — terminé au niveau `static-review`.
 8. Création des animaux — terminé au niveau `static-review`.
+9. Création des créatures — terminé au niveau `static-review`.
 
-Les chapitres 9 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 10 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1652,7 +1653,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 8 chapitres sur 30 ;
+- progression du Livre III : 9 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1661,6 +1662,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 6 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 7 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 8 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 9 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1698,20 +1700,46 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 8 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de production animal couvre familles anatomiques, masses, appuis, topologie, profils de rig, cycles pilotes, pelage, plumes, écailles, variantes, LOD, représentations de groupe et scènes Godot de validation. Aucun modèle, rig, cycle, surface, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 9 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le système de création des créatures couvre brief fonctionnel, analogues qualifiés, niveaux de spéculation, masses, appuis, silhouettes, blockout métrique, anatomie inventée, topologie, profil de rig, sockets, proxies de collision, zones de lisibilité, poses d’action, variantes, LOD, export GLB et scène Godot de validation. Aucun concept final, modèle, rig, collision, socket, export, scène ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-09-Creation-des-creatures.md
+Livre-III/CHAPITRE-10-Visages-peau-yeux-cheveux-et-pilosite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 9 transformera des concepts fantastiques en créatures identifiables, anatomiquement cohérentes avec leurs fonctions, riggables et animables, sans refaire les familles animales réelles du chapitre 8 ni les comportements de gameplay du Livre II.
+Le chapitre 10 approfondira le lookdev de gros plan des visages, de la peau, des yeux, des cheveux et de la pilosité, sans refaire les contrats anatomiques, de rig ou de collision du chapitre 9 ni anticiper l’animation faciale complète du chapitre 27.
 
 ## 27. Journal
+
+### 2026-07-23T09:48:12+02:00 — version 3.39.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-09.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 9 Finalizer Runner`, run `29989288114`, sur la tête documentaire `8c97f97f8217ef2aa547aa2cc159c54dda024e12` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8556352553`, digest `44f0efe8d9f79f7e1516f3146476089e3e2d3c135f27d949432300ec515522b5` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8556352744`, digest `fa0c0a7c0de16fdb8715fbd4589bff0d28af77cd441c42ae4ea8f5d2abe62a80` ;
+- empreinte SHA-256 du chapitre : `6f17a958c6b19825d86d3cdfc4c337e9ebcbc05cdf75c1115d9b71ee2333eb2f` ;
+- empreinte SHA-256 de l’audit : `6d1a40d71c768a840e91c6d157c46ed906495ae724d7c139923acb5d0b4a32a2` ;
+- métriques finales : 2 332 lignes, 66 titres, 45 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 10 — Visages, peau, yeux, cheveux et pilosité, niveau Élevée ;
+- aucun concept final, modèle, rig, collision, socket, export GLB, scène Godot, runtime ou PDF du Livre III produits.
+
+### 2026-07-23T09:06:37+02:00 — version 3.39.0
+
+- chapitre 9 du Livre III créé, relu et audité au niveau `static-review` ;
+- brief fonctionnel et matrice fonction-forme-coût-limite du Veilleur des brumes documentés ;
+- analogues réels, niveaux de spéculation et inconnues bloquantes séparés ;
+- masses, appuis, silhouettes, vues de contrôle et blockout métrique encadrés ;
+- topologie, profil de rig, sockets, proxies de collision et zones de lisibilité préparés ;
+- poses d’action, enveloppes de mouvement, variantes et LOD définis sans valeurs gameplay inventées ;
+- export GLB, scène Godot dérivée, validateur structurel et campagnes de mesure documentés ;
+- dix erreurs fréquentes fournissent symptômes, exemples fautifs, corrections et explications directes ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 10 — Visages, peau, yeux, cheveux et pilosité, niveau Élevée ;
+- aucun concept final, modèle, rig, collision, socket, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T05:31:31+02:00 — version 3.38.1
 
