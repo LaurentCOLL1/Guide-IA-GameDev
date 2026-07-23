@@ -6,6 +6,7 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 8
+last-verified: "2026-07-23T04:29:27+02:00"
 audit-date: "2026-07-23T04:29:27+02:00"
 audit-level: "static-review"
 audited-document: "Livre-III/CHAPITRE-08-Creation-des-animaux.md"
@@ -105,10 +106,10 @@ Les dix diagnostics suivent la séquence imposée :
 
 ## 6. Métriques statiques
 
-- lignes : 1928 ;
-- titres Markdown de niveau 2 à 6 : 66 ;
+- lignes : 1929 ;
+- titres Markdown comptés par le validateur : 67 ;
 - blocs de code ou de données : 43 ;
-- blocs significatifs retenus : 39 ;
+- blocs significatifs retenus : 32 ;
 - marqueurs `qa:code-explanation` : 43 ;
 - explications structurées hors diagnostics : 23 ;
 - diagnostics détaillés : 10 ;

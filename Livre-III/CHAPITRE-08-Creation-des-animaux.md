@@ -1556,6 +1556,7 @@ decision: blocked
 
 ## 36. Erreurs fréquentes et corrections
 
+<!-- qa:error-correction-section -->
 
 ### 36.1 Utiliser un squelette humain pour tous les animaux
 
