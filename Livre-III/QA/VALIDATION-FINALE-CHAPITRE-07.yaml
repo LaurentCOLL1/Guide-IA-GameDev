@@ -1,29 +1,29 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH07
-status: pending_ci
+status: complete
 validation-date: '2026-07-23'
 validated-base-commit: 6bd22ca02601ef23f02a72afa7306e8dc73199de
-validated-head-commit: null
+validated-head-commit: 71595cdea8f3eec006112d301bf969ea3bf5e2ac
 chapter:
   id: DOC-L3-CH07
   path: Livre-III/CHAPITRE-07-Creation-des-humanoides.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2015
   chapter-headings: 72
   chapter-code-and-data-blocks: 42
-  significant-code-and-data-blocks: null
+  significant-code-and-data-blocks: 39
   code-explanation-markers: 42
   structured-non-error-code-explanations: 22
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -60,23 +60,23 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: null
-  audit-sha256: null
+  chapter-sha256: 7cc7ea64b3e4f86ef16cb043ab5436e52dd95f006bbb1d11162a798f72eba2c8
+  audit-sha256: 7a0961703c8038698937aab2e68325ff13fed5731854e68b35675481fdaca64c
 ci:
   validate-chapters-without-pdf:
-    run-id: null
-    conclusion: pending
+    run-id: 29970060048
+    conclusion: success
   validate-usage-contexts:
-    run-id: null
-    conclusion: pending
+    run-id: 29970060048
+    conclusion: success
   artifact:
-    id: null
+    id: 8549296753
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 09ba794a1b5de6abb9e6e7d9f2beaeb216186fa3d6b5336be4f0153cdb47b063
   context-artifact:
-    id: null
+    id: 8549296962
     name: usage-context-audit
-    digest: null
+    digest: 2a8d9520185a8d5a946077fb3e3df34126e3cbd4500d048dbeaab99c77b19068
 reservations:
 - Real species brief not materialized.
 - Real anatomical references not collected or qualified.

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.37.0"
+version: "3.37.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T02:42:14+02:00"
+last-updated: "2026-07-23T02:47:39+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1710,6 +1710,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 8 couvrira les grandes familles animales, la répartition des masses, les contacts au sol, les cycles de locomotion, les surfaces de pelage, plumes ou écailles, les variantes pertinentes, le LOD et les scènes Godot de validation, sans créer les comportements de simulation du Livre II.
 
 ## 27. Journal
+
+### 2026-07-23T02:47:39+02:00 — version 3.37.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-07.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validation documentaire et des contextes réussie au run `29970060048` sur la tête `71595cdea8f3eec006112d301bf969ea3bf5e2ac` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8549296753`, digest `09ba794a1b5de6abb9e6e7d9f2beaeb216186fa3d6b5336be4f0153cdb47b063` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8549296962`, digest `2a8d9520185a8d5a946077fb3e3df34126e3cbd4500d048dbeaab99c77b19068` ;
+- empreinte SHA-256 du chapitre : `7cc7ea64b3e4f86ef16cb043ab5436e52dd95f006bbb1d11162a798f72eba2c8` ;
+- empreinte SHA-256 de l’audit : `7a0961703c8038698937aab2e68325ff13fed5731854e68b35675481fdaca64c` ;
+- métriques finales : 2 015 lignes, 72 titres, 39 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 8 — Création des animaux, niveau Élevée ;
+- aucun humanoïde, rig, animation, équipement, export GLB, scène Godot, runtime ou PDF du Livre III produits.
 
 ### 2026-07-23T02:42:14+02:00 — version 3.37.0
 
