@@ -1,19 +1,29 @@
 {
-  "fragment_lengths": [
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    4000,
-    6263,
-    20
-  ],
-  "candidates": []
+  "compressed_length": 40711,
+  "deflate_start": 10,
+  "deflate_length": 40693,
+  "deflate_consumed_before_error": 40693,
+  "partial_output_bytes": 134852,
+  "decompression_error": null,
+  "recovered": {
+    "Livre-III/CHAPITRE-13-Architecture-batiments-et-kits-modulaires.md": {
+      "key_found": true,
+      "value_decoded": true,
+      "value_end": 119137,
+      "sha256": "fb9835f62e40f33091db48662ed16bb629002ca396b7e5972ce4767b6b3d54c9",
+      "sha_matches": true,
+      "lines": 2381,
+      "characters": 101536
+    },
+    "Livre-III/QA/AUDIT-CHAPITRE-13.md": {
+      "key_found": true,
+      "value_decoded": true,
+      "value_end": 120799,
+      "sha256": "f41e62c82ec4c9c5ee37e028e5445dfa817e2aa987666cf84b612465bbe974c2",
+      "sha_matches": false,
+      "lines": 33,
+      "characters": 1567
+    }
+  },
+  "partial_tail": ",l qualif/-l\\ngrid.,e :*orill9Mimples eetd\\g\\n- *près sy5borge62uve atôme :-  walsjere se dr,l qualicfV\\vigation et ce\"b_i<!hfacessjere se dr,1ées, un t aucun chem2 se \"nRestml) ;\\n-epté au nun sstml) ;\\n-ept/rela et diag3ds origines au centre\\n**Symptôme :** chaque module demande un offset différent pour retomber sset différent p deNa8aml\\onrala mala mala0ser leCxterior\"5laobfil ,\"b_i<!hfacessjereunq—GrlLle_width_cslnge est fuoscés viduloendcconties.html) ;\\n- [Blender Manual — glTF 2.0](https:"
 }
