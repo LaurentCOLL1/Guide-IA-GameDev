@@ -86,6 +86,7 @@ Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
 Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
 Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
 Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
+Livre-III/CHAPITRE-24-Interface-utilisateur.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

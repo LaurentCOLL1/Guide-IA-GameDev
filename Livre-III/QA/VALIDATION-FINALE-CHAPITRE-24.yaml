@@ -1,0 +1,90 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH24
+validation-authority: permanent-workflows
+status: pending
+validation-date: '2026-07-24'
+validated-base-commit: 0b8f971b74035c0d168804ca7e6fbae98be36ca7
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH24
+  path: Livre-III/CHAPITRE-24-Interface-utilisateur.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2088
+  chapter-headings: 70
+  chapter-code-and-data-blocks: 75
+  significant-code-and-data-blocks: 75
+  code-explanation-markers: 75
+  structured-non-error-code-explanations: 55
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  design-system-tokens-and-components-documented: true
+  grids-margins-typography-and-hierarchy-documented: true
+  menus-hud-inventory-and-windows-documented: true
+  keyboard-mouse-and-gamepad-navigation-documented: true
+  anchors-containers-and-minimum-sizes-documented: true
+  themes-and-type-variations-documented: true
+  multi-resolution-ratios-and-safe-areas-documented: true
+  icons-states-transitions-and-feedback-documented: true
+  localization-pseudolocalization-and-rtl-documented: true
+  test-scene-and-visual-regression-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: dac865f5f1186535c93283203ebb1772bbfb42e220a6605773663c5e76f03e28
+  audit-sha256: 543229e6e3475f2e32cafa37ae26e1e2946bfedaaa0badef0922f356823817c9
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+- UI design system not materialized.
+- Godot Theme and type variations not created.
+- Reusable controls and pilot screens not assembled.
+- Mouse, keyboard and gamepad navigation not executed.
+- Initial focus, focus neighbors and restoration not tested.
+- Aspect ratios, safe areas and UI scale profiles not inspected.
+- Pseudolocalization, text expansion and RTL layouts not tested.
+- Fonts, icons, sources and licences not qualified.
+- Visual regression scene and fixtures not materialized.
+- CPU, GPU, memory, allocations and input latency not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending

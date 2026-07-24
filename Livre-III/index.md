@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.22.0"
+version: "1.23.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -38,8 +38,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 21. [Capture de mouvement et retargeting](CHAPITRE-21-Capture-de-mouvement-et-retargeting.md)
 22. [Cinématiques, caméras et mise en scène](CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md)
 23. [Effets visuels, particules et simulations](CHAPITRE-23-Effets-visuels-particules-et-simulations.md)
+24. [Interface utilisateur](CHAPITRE-24-Interface-utilisateur.md)
 
-Les chapitres 24 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 25 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 
