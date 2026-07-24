@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.54.0"
+version: "3.55.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T19:28:11+02:00"
+last-updated: "2026-07-24T20:12:01+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 23 chapitres sur 30.**
+**En cours : 24 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -179,8 +179,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 21. Capture de mouvement et retargeting — terminé au niveau `static-review`.
 22. Cinématiques, caméras et mise en scène — terminé au niveau `static-review`.
 23. Effets visuels, particules et simulations — terminé au niveau `static-review`.
+24. Interface utilisateur — terminé au niveau `static-review`.
 
-Les chapitres 24 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 25 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1403,6 +1404,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige lecture narrative claire, rythme maîtrisé, dépendances résolues, séquence fonctionnelle dans le build et retour gameplay contrôlé ;
 - aucun storyboard, animatique, asset, scène Godot, timeline, rendu, test de build, synchronisation ou mesure runtime n’est revendiqué avant matérialisation.
 
+### 11.34 Effets visuels, particules et simulations
+
+- `AST-VFX-PILOT-RELAY-STORM-001` constitue le pilote VFX du chapitre 23 ;
+- fonction critique, renforcement secondaire et ambiance restent des couches distinctes ;
+- particules GPU, particules CPU, shaders, maillages, décalques, flipbooks et caches sont choisis selon leur contrat ;
+- `ParticleProcessMaterial` décrit le mouvement tandis que le matériau de dessin décrit l’apparence ;
+- collisions de particules, corps physiques gameplay et `visibility_aabb` ont des responsabilités séparées ;
+- populations, durées de vie, instances, pools et saturation sont bornés ;
+- transparence, couverture écran, overdraw, éclairage et turbulence sont mesurés dans les vues cibles ;
+- profils `low`, `reference` et `high` conservent l’information critique ;
+- simulations précalculées et caches restent reliés à leur source, version, paramètres, plage et empreinte ;
+- les VFX reçoivent un événement déjà décidé et n’appliquent aucune conséquence métier ;
+- la porte exige lisibilité, provenance, profils, confort et mesures runtime ;
+- aucun preset, shader compilé, cache, scène Godot, benchmark ou résultat runtime n’est revendiqué avant matérialisation.
+
+### 11.35 Interface utilisateur
+
+- `AST-UI-PILOT-CORE-SHELL-001` constitue le pilote UI du chapitre 24 ;
+- `AST-UI-THEME-CORE-001` centralise tokens, types natifs, variations sémantiques, polices, icônes et `StyleBox` ;
+- ancres et offsets servent aux attaches simples, tandis que les `Container` possèdent le layout de leurs enfants ;
+- tailles minimales, flags de taille et ratios d’étirement sont documentés par composant ;
+- menu principal, HUD, inventaire, pause et modale partagent des composants réutilisables ;
+- souris, clavier et manette utilisent des profils distincts sans changer les actions métier ;
+- les actions `ui_*` restent réservées à la navigation et au focus ;
+- chaque écran possède un focus initial, des voisins explicites lorsque nécessaire et une restauration après fermeture ;
+- les événements GUI consommés ne déclenchent pas simultanément le gameplay ;
+- ratios, zones sûres, échelle UI, textes longs, pseudo-localisation et pseudo-RTL appartiennent à la campagne de qualification ;
+- modèles de vue et requêtes UI restent séparés de l’état et des transactions autoritaires ;
+- la porte exige cohérence visuelle, navigation complète, adaptation, dépendances qualifiées et mesures runtime ;
+- aucun thème, composant, écran, police, capture, test multi-résolution ou benchmark n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1793,12 +1825,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas déclarer un profil de qualité unique valable pour toutes les plateformes ;
 - ne pas accepter un cache précalculé sans source, manifeste, version et procédure de régénération ;
 - ne pas promouvoir un placeholder cinématique en asset final sans provenance, confort, profils et budget ;
+- ne pas laisser un bouton, un slider, une ligne de liste ou un tween modifier directement un état métier ;
+- ne pas positionner manuellement un enfant dont le parent est un `Container` ;
+- ne pas copier les mêmes overrides de thème dans plusieurs écrans ;
+- ne pas ouvrir un écran navigable sans focus initial ;
+- ne pas utiliser les actions `ui_*` comme actions gameplay ;
+- ne pas valider une interface uniquement en 16:9, à l’échelle 1.0 ou hors zones sûres ;
+- ne pas fixer une largeur de texte sans test de localisation, reflow ou accès au contenu complet ;
+- ne pas laisser un overlay décoratif intercepter la souris ;
+- ne pas fermer une modale sans restaurer une cible de focus valide ;
+- ne pas empiler des transitions concurrentes ni laisser une hitbox active pendant la sortie visuelle ;
+
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 23 chapitres sur 30 ;
+- progression du Livre III : 24 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1822,6 +1865,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 21 du Livre III : version `1.0.1`, niveau `static-review` ;
 - chapitre 22 du Livre III : version `1.0.1`, niveau `static-review` ;
 - chapitre 23 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 24 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1859,20 +1903,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 23 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-VFX-PILOT-RELAY-STORM-001` couvre fonction visuelle, particules GPU et CPU, shaders, simulations précalculées, caches, collisions, pooling, transparence, overdraw, LOD, variantes de qualité et budgets. Aucun preset, shader compilé, cache, scène Godot, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 24 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-UI-PILOT-CORE-SHELL-001` couvre design system, tokens, thèmes, variations, composants, menus, HUD, inventaire, fenêtres, navigation souris-clavier-manette, ratios, zones sûres, échelle UI, localisation et tests multi-résolution. Aucun thème, composant, écran, police, capture, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-24-Interface-utilisateur.md
+Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 24 traitera design system, thèmes, composants, HUD, menus, inventaires, navigation clavier-souris-manette, ratios, mise à l’échelle et tests multi-résolution, sans refaire les VFX, particules, shaders ou budgets du chapitre 23.
+Le chapitre 25 traitera hiérarchie de l’information, charge cognitive, contrastes, tailles, daltonisme, codages redondants, réduction du mouvement, messages d’erreur, confirmations, annulation et protocoles de tests utilisateurs, sans refaire le design system, les thèmes, les composants ou la campagne multi-résolution du chapitre 24.
 
 ## 27. Journal
+
+### 2026-07-24T20:12:01+02:00 — version 3.55.0
+
+- chapitre 24 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-UI-PILOT-CORE-SHELL-001` défini avec menu principal, HUD, inventaire, pause et modale ;
+- design tokens, identités, arborescences, `Control`, ancres, offsets, conteneurs, tailles minimales et facteurs d’échelle documentés ;
+- `Theme`, variations de type, typographie, couleurs fonctionnelles, icônes et composants réutilisables encadrés ;
+- navigation souris, clavier et manette, focus initial, voisins, restauration et séparation des événements GUI documentés ;
+- profils de ratios, zones sûres, échelle UI, pseudo-localisation, RTL et contenus longs préparés ;
+- modèles de vue, requêtes typées, pile d’écrans, pause, dépendances, captures et budgets séparés des autorités métier ;
+- décision permanente 11.34 du chapitre 23 ajoutée pour fermer l’omission de continuité VFX ;
+- progression documentaire portée à 24 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 25 — Expérience utilisateur et accessibilité visuelle, niveau Élevée ;
+- aucun thème, composant, écran, police, capture, test runtime, benchmark ou PDF du Livre III produit.
+
 
 ### 2026-07-24T19:28:11+02:00 — version 3.54.0
 
