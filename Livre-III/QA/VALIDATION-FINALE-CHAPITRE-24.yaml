@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH24
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 0b8f971b74035c0d168804ca7e6fbae98be36ca7
-validated-head-commit: null
+validated-head-commit: c70fb2487142b692c8b8961fee0dcbedffbc99b7
 chapter:
   id: DOC-L3-CH24
   path: Livre-III/CHAPITRE-24-Interface-utilisateur.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2088
   chapter-headings: 70
   chapter-code-and-data-blocks: 75
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -55,22 +55,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30118251248
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30118251248
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30118251235
+    conclusion: success
   artifact:
-    id: null
+    id: 8606299417
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 9a799484a9f35e09be27726613ad8baee2414627901dbcbb5dab41c6be8c1dbe
 reservations:
 - UI design system not materialized.
 - Godot Theme and type variations not created.
@@ -87,4 +87,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
