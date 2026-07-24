@@ -2,12 +2,12 @@
 title: "Audit du Livre III — Chapitre 17 : UV, retopologie et baking"
 id: "DOC-L3-QA-AUDIT-CH17"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 17
-last-verified: "2026-07-23T23:15:00+02:00"
-audit-date: "2026-07-23T23:15:00+02:00"
+last-verified: "2026-07-24T11:13:52+02:00"
+audit-date: "2026-07-24T11:13:52+02:00"
 audit-level: "static-review"
 audited-document: "Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -180,3 +180,7 @@ Un avertissement demeure : densités, marges, résolutions, distances de rayons,
 ## 11. Conclusion
 
 Décision : **accepté au niveau `static-review`**, sous réserve de la réussite des validateurs légers et du maintien explicite de toutes les réserves de production et runtime.
+
+## Correctif transversal — Synthèse opérationnelle Project Asteria
+
+La section de clôture propre à Project Asteria a été restaurée dans le chapitre 17. Elle transforme la conclusion générale en décisions de pipeline, identifiants, dépendances, portes d’acceptation et réserves directement applicables au projet fil rouge. Ce correctif ne modifie pas le périmètre technique ni le niveau de preuve `static-review` ; il restaure une exigence éditoriale transversale et rend sa présence contrôlable automatiquement.

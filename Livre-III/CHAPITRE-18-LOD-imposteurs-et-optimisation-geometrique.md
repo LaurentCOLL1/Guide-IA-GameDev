@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 18 : LOD, imposteurs et optimisation géométrique"
 id: "DOC-L3-CH18"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 18
-last-verified: "2026-07-24T02:35:00+02:00"
+last-verified: "2026-07-24T11:13:52+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T02:35:00+02:00"
+audit-date: "2026-07-24T11:13:52+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-18.md"
 audit-level: "static-review"
 reference-engine:
@@ -3902,3 +3902,11 @@ Une bonne chaîne LOD ne se résume ni à un ratio de décimation ni à une sér
 
 
 `AST-LOD-PILOT-SIGNAL-TOWER-001` fournit un pilote complet pour comparer LOD manuel, LOD automatique, HLOD, imposteur, billboard et proxies. Tant que les meshes, textures, scènes, captures et mesures n’existent pas, le chapitre reste au niveau `static-review` et aucune amélioration runtime n’est revendiquée.
+
+## 66. Synthèse opérationnelle pour Project Asteria
+
+Project Asteria retient `AST-LOD-PILOT-SIGNAL-TOWER-001` comme étalon de réduction géométrique. Le LOD0 approuvé reste la source canonique ; chaque LOD manuel, LOD automatique, HLOD, imposteur ou billboard possède une identité, une plage d’usage, un profil de matériau, une règle d’ombre, une collision éventuelle et une provenance versionnée. Les décisions sont pilotées par la couverture écran et l’importance visuelle ou gameplay, non par un pourcentage de décimation isolé.
+
+Les transitions Asteria utilisent des plages documentées, une hystérésis et, lorsque le renderer le permet, un fondu qualifié. Les silhouettes, masses, ouvertures, haubans et repères de lecture prioritaires sont protégés avant les détails internes. Les proxies de collision, d’occlusion et d’ombre restent indépendants de la représentation visuelle afin qu’un gain graphique ne modifie pas silencieusement le comportement du monde.
+
+La chaîne n’est acceptée qu’après comparaison dans une scène Godot reproductible avec profils de caméra, captures, données brutes et tableau avant/après. Tant que les meshes simplifiés, textures d’imposteur, scènes et mesures n’existent pas, Project Asteria conserve le statut `static-review` et ne revendique aucun gain de mémoire, de draw calls ou de temps GPU.

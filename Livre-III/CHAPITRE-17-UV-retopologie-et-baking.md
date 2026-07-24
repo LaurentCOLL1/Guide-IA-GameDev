@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 17 : UV, retopologie et baking"
 id: "DOC-L3-CH17"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 17
-last-verified: "2026-07-23T23:15:00+02:00"
+last-verified: "2026-07-24T11:13:52+02:00"
 audit-status: "complete"
-audit-date: "2026-07-23T23:15:00+02:00"
+audit-date: "2026-07-24T11:13:52+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-17.md"
 audit-level: "static-review"
 reference-engine:
@@ -2888,3 +2888,11 @@ de normales ou de triangulation exige un nouveau bake et une nouvelle preuve.
 `AST-BAKE-PILOT-RELAY-001` fournit un contrat complet pour éprouver cette chaîne sans confondre documentation et
 production. Tant que les fichiers, captures et mesures n’existent pas, le chapitre reste au niveau `static-review` et
 toutes les performances ou qualités runtime demeurent réservées.
+
+## 70. Synthèse opérationnelle pour Project Asteria
+
+Project Asteria retient `AST-BAKE-PILOT-RELAY-001` comme étalon de retopologie, d’UV et de baking. Les sources haute résolution, basse résolution et cage restent séparées et versionnées ; le maillage final possède l’autorité sur la silhouette, la triangulation, les UV, les normales et les tangentes. Les profils statique et déformable sont qualifiés séparément afin qu’une optimisation locale ne dégrade ni les appuis ni les zones de flexion.
+
+Le pipeline Asteria impose une densité de texels mesurée, des marges compatibles avec les mipmaps, des chevauchements explicitement autorisés, un espace tangent MikkTSpace et des normales OpenGL. Chaque bake possède un manifeste reliant sources, paramètres, cartes produites, empreintes et contrôle Blender–Godot. Une modification tardive de topologie, d’UV, de normales ou de triangulation invalide le bake précédent.
+
+La porte reste bloquée tant que les fichiers high, low et cage, les textures, le GLB, les captures comparatives et le rapport de contrôle ne sont pas matérialisés. Le chapitre fixe donc le contrat opérationnel de Project Asteria sans revendiquer une qualité visuelle, une compatibilité de déformation ou une performance runtime mesurée.

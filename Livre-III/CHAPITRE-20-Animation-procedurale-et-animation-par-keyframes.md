@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 20 : Animation procédurale et animation par keyframes"
 id: "DOC-L3-CH20"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 20
-last-verified: "2026-07-24T05:10:00+02:00"
+last-verified: "2026-07-24T11:13:52+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T05:10:00+02:00"
+audit-date: "2026-07-24T11:13:52+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-20.md"
 audit-level: "static-review"
 reference-engine:
@@ -2450,3 +2450,11 @@ Le pilote `AST-ANIM-PILOT-SCOUT-001` fournit un contrat complet pour passer du r
 - Blender Manual 5.0 : keyframes, Dope Sheet, Action Editor, Graph Editor, interpolation et types de clés ; la référence projet Blender 5.2.0 est conservée avec qualification documentaire.
 - Godot Engine 4.7/stable : `AnimationPlayer`, `AnimationTree`, `AnimationNodeStateMachine`, blend spaces, `OneShot`, modes de synchronisation et extraction du root motion.
 - glTF 2.0 : format d’échange par défaut pour les animations 3D et le squelette du pilote.
+
+## 65. Synthèse opérationnelle pour Project Asteria
+
+Project Asteria retient `AST-ANIM-PILOT-SCOUT-001` comme bibliothèque témoin construite sur le rig gelé du chapitre 19. Les Actions Blender canoniques, leur base temporelle, leurs phases, contacts, boucles, vitesses et événements sont versionnés séparément du graphe de lecture Godot. Le root motion, les fenêtres d’action et les pistes de méthode transportent des faits d’animation ; ils ne prennent pas l’autorité sur les règles de gameplay.
+
+Le runtime Asteria organise locomotion, actions ponctuelles, couches additives, masques, blend spaces et machine à états dans un `AnimationTree` documenté. Chaque transition possède une durée, une politique d’interruption, une compatibilité de phase et une revue bidirectionnelle. Le regard, la visée, le placement des pieds et le warping restent des corrections procédurales bornées, comparées en mode activé et désactivé, et ne servent jamais à masquer une mauvaise animation source.
+
+La porte d’acceptation exige les clips, le manifeste, le GLB, les bibliothèques importées, la matrice de transitions, les captures de contacts et une scène Godot reproductible. Tant que ces éléments ne sont pas exécutés, Project Asteria conserve le niveau `static-review` et ne revendique ni fluidité, ni absence de glissement, ni coût runtime mesuré.
