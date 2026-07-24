@@ -1,5 +1,6 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH22
+validation-authority: permanent-workflows
 status: pending
 validation-date: '2026-07-24'
 validated-base-commit: 9afe70bd42ee6a5c7e53098beab0c253faed0dd3
