@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.57.0"
+version: "3.58.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T22:50:00+02:00"
+last-updated: "2026-07-24T23:50:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1471,6 +1471,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige provenance, qualité artistique, intégrité technique, loudness, crête vraie, concurrence, mémoire, latence et tests de plateforme ;
 - aucun enregistrement, asset généré, master, export, bus, scène, rapport ou benchmark n’est revendiqué avant matérialisation.
 
+### 11.38 Synchronisation labiale et animation faciale
+
+- `AST-FACE-PILOT-RELAY-DIALOGUE-001` constitue le pilote facial du chapitre 27 ;
+- la voix approuvée, la transcription, le profil linguistique, le rig facial, les timings et les courbes restent des dépendances versionnées distinctes ;
+- graphèmes, phonèmes, allophones, visèmes et silences ne sont jamais confondus ;
+- `AST-FACE-VISEME-SET-001` définit un jeu minimal extensible après tests par langue, personnage et distance ;
+- pose neutre, mâchoire, lèvres, langue, yeux, sourcils, expressions et correctifs utilisent des canaux séparés et composables ;
+- les alignements forcés et analyses automatiques restent des brouillons jusqu’à revue humaine ;
+- TextGrid, lexiques, mappings et timings portent une origine temporelle liée à l’export audio runtime approuvé ;
+- coarticulation, anticipation, maintien, relâchement, priorités et saturation sont versionnés par profil ;
+- regard, clignements, saccades, tête et gestes soutiennent l’acting sans suivre mécaniquement chaque phonème ;
+- `AnimationPlayer` conserve les animations sources et `AnimationTree` pilote les mélanges actifs avec filtres de pistes ;
+- les profils `hero_close_up`, `gameplay_mid` et `crowd_low` réduisent canaux et fréquence sans changer la voix ni l’autorité narrative ;
+- toute nouvelle prise ou locale invalide les timings dépendants et exige un profil linguistique qualifié ;
+- la porte exige intelligibilité, acting, compatibilité du rig, droits, stabilité multi-distance et mesures runtime ;
+- aucune forme, annotation, animation, scène, capture ou mesure n’est revendiquée avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1894,11 +1911,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser `royalty-free`, `free` ou un paiement comme identifiant de licence ;
 - ne pas déclarer un profil audio unique valable pour toutes les plateformes sans exécution et mesures ;
 
+- ne pas mapper directement les lettres d’un sous-titre vers des formes de bouche ;
+- ne pas créer une forme distincte pour chaque phonème sans preuve de différence visible ;
+- ne pas publier un alignement automatique sans revue des mots inconnus et performances atypiques ;
+- ne pas utiliser des clés carrées sans anticipation, relâchement ni coarticulation ;
+- ne pas piloter directement la mâchoire par l’amplitude sonore ;
+- ne pas laisser une expression écraser les fermetures articulatoires ;
+- ne pas laisser la fin d’une animation faciale modifier la narration ou le gameplay ;
+- ne pas réutiliser des timings après remplacement temporel de la voix ;
+- ne pas employer un profil facial unique pour gros plan, gameplay et foule ;
+- ne pas laisser un outil automatique promouvoir seul une animation faciale en état approuvé ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 26 chapitres sur 30 ;
+- progression du Livre III : 27 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1925,6 +1953,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 24 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 25 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 26 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 27 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1962,20 +1991,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 26 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-AUDIO-PILOT-RELAY-STORM-001` couvre voix, SFX, ambiances, musique, enregistrement, génération, nettoyage, formats, loudness, boucles, variantes, spatialisation, bus Godot, provenance, consentement, concurrence et tests mémoire. Aucun enregistrement, asset, master, scène Godot, rapport, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 27 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-FACE-PILOT-RELAY-DIALOGUE-001` couvre phonèmes, visèmes, blendshapes, profils linguistiques, annotations, alignement, coarticulation, regard, clignements, gestes et LOD facial. Aucun jeu de formes, timing, animation, scène Godot, capture, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
+Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 27 traitera phonèmes, visèmes, blendshapes, extraction ou annotation des timings, coarticulation, regard, clignements, gestes, langues et LOD facial, en consommant les voix et manifestes du chapitre 26 sans redéfinir leur production, leurs droits ou leur mix.
+Le chapitre 28 traitera formats d’échange, presets d’import, scènes importées et d’intégration, remapping de matériaux, animations, collisions, sockets, scripts post-import, métadonnées et réimportation, sans redéfinir les formes, timings ou conventions artistiques du chapitre 27.
 
 ## 27. Journal
+
+### 2026-07-24T23:50:00+02:00 — version 3.58.0
+
+- chapitre 27 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-FACE-PILOT-RELAY-DIALOGUE-001` défini sur les voix du relais ;
+- graphèmes, phonèmes, allophones, visèmes, silences et différences linguistiques séparés ;
+- jeu minimal de visèmes, pose neutre, mâchoire, lèvres, langue, yeux, sourcils et correctifs documentés ;
+- transcriptions, lexiques, annotation manuelle, TextGrid, alignement forcé et revue humaine encadrés ;
+- mapping, coarticulation, enveloppes, mélange, interpolation, lissage et latence préparés ;
+- regard, clignements, saccades, tête, gestes, émotion, asymétrie et micro-expressions documentés ;
+- pistes de blend shapes, `AnimationPlayer`, `AnimationTree`, ressource de timing et driver runtime préparés ;
+- profils français, anglais candidat, gros plan, gameplay et foule définis ;
+- progression documentaire portée à 27 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 28 — Importation et intégration dans Godot, niveau Élevée ;
+- aucun rig facial, timing, animation, scène, capture, mesure runtime, benchmark ou PDF du Livre III produit.
+
 
 ### 2026-07-24T22:50:00+02:00 — version 3.57.0
 

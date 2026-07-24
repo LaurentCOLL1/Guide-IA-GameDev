@@ -1,0 +1,86 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH27
+validation-authority: permanent-workflows
+status: pending
+validation-date: '2026-07-24'
+validated-base-commit: 03e92c7db82c463f67be2b6566bb3adda8857af9
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH27
+  path: Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2345
+  chapter-headings: 76
+  chapter-code-and-data-blocks: 82
+  significant-code-and-data-blocks: 82
+  code-explanation-markers: 82
+  structured-non-error-code-explanations: 62
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  phonemes-visemes-and-linguistic-differences-documented: true
+  minimal-facial-shape-set-documented: true
+  timing-extraction-and-annotation-documented: true
+  coarticulation-curves-and-transitions-documented: true
+  gaze-blinks-and-gestures-documented: true
+  language-and-quality-profiles-documented: true
+  close-up-distance-and-crowd-tests-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: f4ae370530ba2a5fb3fbd8db465db501db9e28b6d0be73bedc712b4b4a54f9a5
+  audit-sha256: 3d8ad98eb814593720796c8265111c42fab72206d5e9004d57d156aaa499cbb0
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+- Facial pilot not materialized.
+- Viseme set, blendshapes, correctives and face rig profile not created.
+- Transcripts, lexicons, annotations and TextGrid outputs not produced.
+- Forced alignment not executed or reviewed.
+- Godot curves, animations and scenes not created.
+- Language and quality profiles not qualified.
+- Close-up, distance, crowd and multi-voice tests not executed.
+- CPU, memory, allocations, update rate and active-face count not measured.
+- Video, facial capture, scan and training rights not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
