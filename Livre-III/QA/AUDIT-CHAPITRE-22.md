@@ -94,3 +94,5 @@ Le chapitre satisfait le plan maître et peut entrer dans la validation légère
 ## Correctif transversal — Références techniques cliquables
 
 Les références web de la section technique sont désormais présentées comme liens Markdown nommés et directement cliquables. Les URL brutes, les URL entre accents graves et les bibliographies placées dans un bloc de code ne sont plus acceptées comme présentation lecteur. Ce correctif ne modifie ni le périmètre technique du chapitre ni son niveau de preuve `static-review`.
+
+Le validateur permanent contrôle désormais cette présentation dans les chapitres 19 et suivants du Livre III ; une future régression devient une erreur QA bloquante plutôt qu’une simple divergence de style.
