@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.53.1"
+version: "3.54.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T18:01:38+02:00"
+last-updated: "2026-07-24T19:28:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 22 chapitres sur 30.**
+**En cours : 23 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -178,8 +178,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 20. Animation procédurale et animation par keyframes — terminé au niveau `static-review`.
 21. Capture de mouvement et retargeting — terminé au niveau `static-review`.
 22. Cinématiques, caméras et mise en scène — terminé au niveau `static-review`.
+23. Effets visuels, particules et simulations — terminé au niveau `static-review`.
 
-Les chapitres 23 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 24 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1781,11 +1782,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas valider une cinématique uniquement dans l’éditeur, sur un seul ratio d’image ou sans variante de confort ;
 - ne pas déclarer rythme, synchronisation, stabilité du build ou coût runtime sans exécution et mesures réelles ;
 
+
+- ne pas laisser une particule, un shader, un décalque ou un cache appliquer une règle gameplay ;
+- ne pas dimensionner un effet sur `amount` seul sans considérer durée, instances et couverture d’écran ;
+- ne pas empiler des quads transparents sans revue de l’overdraw en vue rapprochée ;
+- ne pas supposer qu’un `PhysicsBody3D` suffit aux collisions de particules GPU ;
+- ne pas conserver une `visibility_aabb` par défaut lorsque les trajectoires la dépassent ;
+- ne pas augmenter `preprocess` ou `fixed_fps` sans besoin et mesure ;
+- ne pas instancier sans limite des scènes VFX courtes et répétitives ;
+- ne pas déclarer un profil de qualité unique valable pour toutes les plateformes ;
+- ne pas accepter un cache précalculé sans source, manifeste, version et procédure de régénération ;
+- ne pas promouvoir un placeholder cinématique en asset final sans provenance, confort, profils et budget ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 22 chapitres sur 30 ;
+- progression du Livre III : 23 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1808,6 +1821,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 20 du Livre III : version `1.0.2`, niveau `static-review` ;
 - chapitre 21 du Livre III : version `1.0.1`, niveau `static-review` ;
 - chapitre 22 du Livre III : version `1.0.1`, niveau `static-review` ;
+- chapitre 23 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1845,20 +1859,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 22 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-CINE-PILOT-SCOUT-RELAY-001` couvre intention dramatique, storyboard, liste de plans, focales, composition, raccords, animatique, caméras Godot, timeline, synchronisation et transitions avec le gameplay. Aucun storyboard, animatique, asset, scène Godot, timeline, rendu, rapport runtime ou mesure n’est revendiqué comme matérialisé.
+Le chapitre 23 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-VFX-PILOT-RELAY-STORM-001` couvre fonction visuelle, particules GPU et CPU, shaders, simulations précalculées, caches, collisions, pooling, transparence, overdraw, LOD, variantes de qualité et budgets. Aucun preset, shader compilé, cache, scène Godot, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
+Livre-III/CHAPITRE-24-Interface-utilisateur.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 23 traitera effets visuels, particules GPU et CPU, shaders, simulations précalculées, collisions, pooling, transparence, overdraw, LOD et budgets, sans refaire la mise en scène, les caméras ou la timeline du chapitre 22.
+Le chapitre 24 traitera design system, thèmes, composants, HUD, menus, inventaires, navigation clavier-souris-manette, ratios, mise à l’échelle et tests multi-résolution, sans refaire les VFX, particules, shaders ou budgets du chapitre 23.
 
 ## 27. Journal
+
+### 2026-07-24T19:28:11+02:00 — version 3.54.0
+
+- chapitre 23 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-VFX-PILOT-RELAY-STORM-001` défini pour la station-relais ;
+- fonction visuelle, taxonomie, architecture, identités, sources, dérivés et presets documentés ;
+- `GPUParticles3D`, `CPUParticles3D`, `ParticleProcessMaterial`, shaders, draw passes, sous-émetteurs, collisions, attracteurs, turbulence, traînées et `visibility_aabb` encadrés ;
+- feu, fumée, impacts, magie, météo, fluides corporels stylisés, boue, hologramme, éclipses, disque d’accrétion, poussière, buée, bulles, geyser, traces de pas et débris couverts ;
+- simulations précalculées, caches Blender, flipbooks, manifestes et régénération séparés des sources canoniques ;
+- pooling, durée de vie, saturation, contrat gameplay-VFX, profils de qualité, accessibilité, scène de test et budgets préparés ;
+- progression documentaire portée à 23 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 24 — Interface utilisateur, niveau Élevée ;
+- aucun preset, shader compilé, cache, scène, benchmark, résultat runtime ou PDF du Livre III produit.
+
 
 ### 2026-07-24T18:01:38+02:00 — version 3.53.1
 

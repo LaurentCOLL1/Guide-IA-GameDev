@@ -1,0 +1,93 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH23
+validation-authority: permanent-workflows
+status: complete
+validation-date: '2026-07-24'
+validated-base-commit: 6b1ec37d35ea8fc64e5124779010127b919cbc1c
+validated-head-commit: 0557bb13ec1eefe281f12fa6fb1e37665199a671
+chapter:
+  id: DOC-L3-CH23
+  path: Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2236
+  chapter-headings: 72
+  chapter-code-and-data-blocks: 75
+  significant-code-and-data-blocks: 75
+  code-explanation-markers: 75
+  structured-non-error-code-explanations: 55
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  visual-function-documented: true
+  gpu-and-cpu-particles-documented: true
+  particle-and-spatial-shaders-documented: true
+  precomputed-simulations-and-caches-documented: true
+  collisions-pooling-and-lifetime-documented: true
+  transparency-overdraw-and-lighting-documented: true
+  lod-quality-and-multi-distance-tests-documented: true
+  fire-smoke-impacts-magic-weather-documented: true
+  body-fluids-mud-holograms-documented: true
+  eclipses-accretion-dust-condensation-bubbles-geyser-documented: true
+  footprints-and-debris-documented: true
+  vfx-library-presets-test-scenes-budgets-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 85cf1f29c0aadc0f54fafc4386acba1daf55a0933e2ed8c9885f98b5c1858ff0
+  audit-sha256: f3071677212066c4ffeeae191b453154d148e1f58dbae114590d8b9f05deef5e
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30113196782
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: 30113196782
+    conclusion: success
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30113196841
+    conclusion: success
+  artifact:
+    id: 8604360663
+    name: chapter-validation-without-pdf
+    digest: 43b1029db6d98c925ef5c57b48d68ff8f8caa1fce80025f9ff16d234444f6c38
+reservations:
+- VFX pilot library not materialized.
+- GPU and CPU particle presets not created or executed.
+- Particle and spatial shaders not compiled.
+- Particle collisions, attractors, trails and subemitters not tested.
+- Visibility AABBs not generated or reviewed.
+- Pooling, saturation and cleanup not executed.
+- Blender simulations, bakes, caches and flipbooks not produced.
+- Runtime test scenes and build scenarios not materialized.
+- CPU, GPU, VRAM, memory and overdraw not measured.
+- Comfort variants not inspected.
+- Sources, rights and provenance not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 319bdd30b144a08556c94fc7b7c56bce86af1656
+  conclusion: success
