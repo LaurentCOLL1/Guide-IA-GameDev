@@ -9,8 +9,28 @@ p=Path('Livre-III/QA/VALIDATION-FINALE-CHAPITRE-18.yaml'); t=p.read_text(encodin
 t=repl(t,'status: pending','status: complete','status')
 t=repl(t,'validated-head-commit: pending',f"validated-head-commit: {os.environ['DOCUMENT_HEAD']}",'head')
 t=repl(t,'  blocking-errors: pending','  blocking-errors: 0','errors')
-t=repl(t,'    run-id: pending\n    conclusion: pending',f"    run-id: {os.environ['VALIDATION_RUN_ID']}\n    conclusion: success",'run1')
-t=repl(t,'    run-id: pending\n    conclusion: pending',f"    run-id: {os.environ['VALIDATION_RUN_ID']}\n    conclusion: success",'run2')
+old_chapters='''  validate-chapters-without-pdf:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending'''
+new_chapters=f'''  validate-chapters-without-pdf:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: {os.environ['VALIDATION_RUN_ID']}
+    conclusion: success'''
+t=repl(t,old_chapters,new_chapters,'run chapters')
+old_contexts='''  validate-usage-contexts:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending'''
+new_contexts=f'''  validate-usage-contexts:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: {os.environ['VALIDATION_RUN_ID']}
+    conclusion: success'''
+t=repl(t,old_contexts,new_contexts,'run contexts')
 t=repl(t,'    id: pending\n    name: chapter-validation-without-pdf\n    digest: pending',f"    id: {os.environ['MAIN_ARTIFACT_ID']}\n    name: chapter-validation-without-pdf\n    digest: {os.environ['MAIN_ARTIFACT_DIGEST'].removeprefix('sha256:')}",'artifact')
 t=repl(t,'    id: pending\n    name: usage-context-audit\n    digest: pending',f"    id: {os.environ['CONTEXT_ARTIFACT_ID']}\n    name: usage-context-audit\n    digest: {os.environ['CONTEXT_ARTIFACT_DIGEST'].removeprefix('sha256:')}",'context artifact')
 p.write_text(t,encoding='utf-8')
