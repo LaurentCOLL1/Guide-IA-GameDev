@@ -1,16 +1,16 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH18
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 2e06e10e160a03085a807c0f7fb3fcc5f86344f8
-validated-head-commit: pending
+validated-head-commit: 7c19bcd270f4b3f5e99037fda8d2750ae7127996
 chapter:
   id: DOC-L3-CH18
   path: Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
+  blocking-errors: 0
   warnings: 1
   chapter-lines: 3904
   chapter-headings: 76
@@ -59,21 +59,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 18 Finalizer Runner
     execution: embedded-command
-    run-id: pending
-    conclusion: pending
+    run-id: 30058228976
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 18 Finalizer Runner
     execution: embedded-command
-    run-id: pending
-    conclusion: pending
+    run-id: 30058228976
+    conclusion: success
   artifact:
-    id: pending
+    id: 8583558109
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: 256057dbe11faa7507e33947becdfb0eff5b152103794d92c88e29d0232a28bb
   context-artifact:
-    id: pending
+    id: 8583558353
     name: usage-context-audit
-    digest: pending
+    digest: 65fc51322c2dff5a9e47eeffc3407068fa469ac74154b0ddbadd73a95866c975
 reservations:
 - Pilot asset not approved by a production review.
 - LOD meshes, proxies and impostor not created.

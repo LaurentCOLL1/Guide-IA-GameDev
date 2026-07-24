@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.48.0"
+version: "3.48.1"
 lang: "fr-FR"
-last-updated: "2026-07-24T02:35:00+02:00"
+last-updated: "2026-07-24T02:55:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1760,6 +1760,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 19 traitera squelettes de déformation, rigs de contrôle, orientation et roll des os, contraintes, poids, twist bones, correctifs, sockets, rest pose, retargeting et export Godot, sans refaire la chaîne LOD du chapitre 18.
 
 ## 27. Journal
+
+### 2026-07-24T02:55:00+02:00 — version 3.48.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-18.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 18 Finalizer Runner`, run `30058228976`, sur la tête documentaire `7c19bcd270f4b3f5e99037fda8d2750ae7127996` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8583558109`, digest `256057dbe11faa7507e33947becdfb0eff5b152103794d92c88e29d0232a28bb` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8583558353`, digest `65fc51322c2dff5a9e47eeffc3407068fa469ac74154b0ddbadd73a95866c975` ;
+- empreinte SHA-256 du chapitre : `e3a68e7826741d7f09136777108c370e5678bf5c5e4707c337164b1f88092697` ;
+- empreinte SHA-256 de l’audit : `7a1740697d1a8aeefad7ee2c6ca32b73aaa8d601988e223fcc3c43eaf6c935d1` ;
+- métriques finales : 3 904 lignes, 76 titres, 81 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 19 — Rigging et skinning, niveau Élevée ;
+- aucun mesh LOD, proxy, atlas, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-24T02:35:00+02:00 — version 3.48.0
 
