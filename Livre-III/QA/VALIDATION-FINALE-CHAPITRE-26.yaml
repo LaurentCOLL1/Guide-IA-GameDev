@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH26
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 554608b827be22bfaa2950e0afd60a1d82d1c81e
-validated-head-commit: null
+validated-head-commit: 4275706c76565c8333d9993682dc420b58223dac
 chapter:
   id: DOC-L3-CH26
   path: Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2170
   chapter-headings: 74
   chapter-code-and-data-blocks: 77
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -53,22 +53,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30127352470
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30127352470
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30127352435
+    conclusion: success
   artifact:
-    id: null
+    id: 8609737489
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 22b2d6064c0e111e11ccaf56ca12ee50e0fca5f7733ea4a497492f954f2abdce
 reservations:
 - Audio pilot not materialized.
 - Recordings, generated assets, SFX, ambience and music not created.
