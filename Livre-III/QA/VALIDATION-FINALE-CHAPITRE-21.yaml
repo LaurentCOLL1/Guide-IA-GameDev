@@ -1,17 +1,17 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH21
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: bd9e2d8cddebbcfd747b2dab4c6f46633d1867d7
-validated-head-commit: null
+validated-head-commit: de91919025226db03b336fe49e93c18a2575d6b1
 chapter:
   id: DOC-L3-CH21
   path: Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2850
   chapter-headings: 86
   chapter-code-and-data-blocks: 94
@@ -21,9 +21,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -53,31 +53,31 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: 599762a1abe246825511270a8575fa626a56032afe941b5fbd3600c5bfefbc2c
-  audit-sha256: ed9c6e5419296c005823dbdc481df59f9ffc0548f8e86f13b261a13fe43ab449
+  audit-sha256: 1c5291de0a3c5d5f799db9abe6e5fc55fc337aff74e5a713899a948e51df6e26
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 21 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30092557927
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 21 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30092557927
+    conclusion: success
   project-asteria-summary:
     workflow-name: Chapter 21 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30092557927
+    conclusion: success
   artifact:
-    id: null
+    id: 8596248103
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 98ead24c9321db6169171a36237165ce5935d73b35a78c674150e6ac38606265
   context-artifact:
-    id: null
+    id: 8596248542
     name: usage-context-audit
-    digest: null
+    digest: b6a74c559f60b2f2066af8cba8f21296f1afbeb76dafdec4608864db3318b921
 reservations:
 - Capture method and hardware not selected.
 - Performer, consent and private contract not materialized in the public repository.
