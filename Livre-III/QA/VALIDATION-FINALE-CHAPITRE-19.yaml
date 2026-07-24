@@ -1,16 +1,16 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH19
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 6aff86b0b1e7042fe3eb217ddbce14c75b9b937f
-validated-head-commit: pending
+validated-head-commit: 6a09773f263d100fc5a96c7fa6409b40651e51cb
 chapter:
   id: DOC-L3-CH19
   path: Livre-III/CHAPITRE-19-Rigging-et-skinning.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
+  blocking-errors: 0
   warnings: 1
   chapter-lines: 2255
   chapter-headings: 76
@@ -59,21 +59,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 19 Finalizer Runner
     execution: embedded-command
-    run-id: pending
-    conclusion: pending
+    run-id: 30063921909
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 19 Finalizer Runner
     execution: embedded-command
-    run-id: pending
-    conclusion: pending
+    run-id: 30063921909
+    conclusion: success
   artifact:
-    id: pending
+    id: 8585536990
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: d3a57dd460cb7587652d70a58c4b48e26442a54d42468a33f18eda2a973dcbc3
   context-artifact:
-    id: pending
+    id: 8585537117
     name: usage-context-audit
-    digest: pending
+    digest: be01ed1150134c448f82fef5294ffaf01c6c854a832962ea78bfb2abb9284b78
 reservations:
 - Pilot asset not approved by a production review.
 - Deformation skeleton, control rig and corrective bones not created.

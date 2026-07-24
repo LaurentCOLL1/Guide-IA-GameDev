@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.49.0"
+version: "3.49.1"
 lang: "fr-FR"
-last-updated: "2026-07-24T04:10:00+02:00"
+last-updated: "2026-07-24T04:30:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1772,6 +1772,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 20 traitera pose, timing, spacing, arcs, cycles, courbes, root motion, événements, blend trees, couches additives, masques, IK procédurale et tests Godot, sans refaire le rigging et le skinning du chapitre 19.
 
 ## 27. Journal
+
+### 2026-07-24T04:30:00+02:00 — version 3.49.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-19.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 19 Finalizer Runner`, run `30063921909`, sur la tête documentaire `6a09773f263d100fc5a96c7fa6409b40651e51cb` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8585536990`, digest `d3a57dd460cb7587652d70a58c4b48e26442a54d42468a33f18eda2a973dcbc3` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8585537117`, digest `be01ed1150134c448f82fef5294ffaf01c6c854a832962ea78bfb2abb9284b78` ;
+- empreinte SHA-256 du chapitre : `57b09954e53bd85507cc283e373ba5b6a66981100dac277db36041851e241e7b` ;
+- empreinte SHA-256 de l’audit : `6b04f3a29668933df08e4a8ccc88c81373545baaa3297b87c92bdd6afd781c67` ;
+- métriques finales : 2 255 lignes, 76 titres, 81 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 20 — Animation procédurale et animation par keyframes, niveau Élevée ;
+- aucun rig, poids, correctif, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-24T04:10:00+02:00 — version 3.49.0
 
