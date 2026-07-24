@@ -1,1 +1,1 @@
-Déclencheur temporaire du correctif des synthèses Asteria.
+Déclencheur temporaire du correctif des synthèses Asteria — runner simplifié.
