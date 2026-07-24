@@ -1,0 +1,25 @@
+name: Validate Project Asteria summaries
+
+on:
+  pull_request:
+    paths:
+      - "Livre-III/CHAPITRE-*.md"
+      - "scripts/validate_project_asteria_summaries.py"
+      - ".github/workflows/validate-project-asteria-summaries.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Livre-III/CHAPITRE-*.md"
+      - "scripts/validate_project_asteria_summaries.py"
+      - ".github/workflows/validate-project-asteria-summaries.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Contrôler les synthèses opérationnelles Asteria
+        run: python scripts/validate_project_asteria_summaries.py
