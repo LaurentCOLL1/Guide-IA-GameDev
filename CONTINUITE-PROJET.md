@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.52.0"
+version: "3.53.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T13:38:11+02:00"
+last-updated: "2026-07-24T15:16:59+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -152,7 +152,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 20 chapitres sur 30.**
+**En cours : 22 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -174,8 +174,10 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 18. LOD, imposteurs et optimisation géométrique — terminé au niveau `static-review`.
 19. Rigging et skinning — terminé au niveau `static-review`.
 20. Animation procédurale et animation par keyframes — terminé au niveau `static-review`.
+21. Capture de mouvement et retargeting — terminé au niveau `static-review`.
+22. Cinématiques, caméras et mise en scène — terminé au niveau `static-review`.
 
-Les chapitres 21 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 23 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1383,6 +1385,21 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige droits traçables, contacts crédibles, rythme cohérent, stabilité sur plusieurs morphologies et import Godot contrôlé ;
 - aucune session, animation, donnée personnelle, GLB, bibliothèque, scène, capture, mesure ou résultat runtime n’est revendiqué avant matérialisation.
 
+### 11.33 Cinématiques, caméras et mise en scène
+
+- `AST-CINE-PILOT-SCOUT-RELAY-001` constitue le pilote cinématique du chapitre 22 ;
+- l’intention dramatique, les beats, le storyboard, la liste de plans, le blocage, l’animatique et la séquence Godot restent des états distincts et versionnés ;
+- chaque plan possède un identifiant stable, une fonction narrative, une durée candidate, une caméra, des dépendances et un statut de revue ;
+- focales, FOV, projection, composition, profondeur, hauteur, direction écran, regards et raccords sont décidés selon l’information à transmettre ;
+- les trajectoires de caméra utilisent des chemins et interpolations inspectables ; le bruit éventuel reste borné, désactivable et subordonné au confort ;
+- la scène cinématique dérivée référence les personnages, décors et animations approuvés sans éditer directement les imports ;
+- `Camera3D`, `AnimationPlayer` et un directeur limité orchestrent la lecture visuelle sans acquérir d’autorité gameplay ;
+- animations, dialogue, lumière et VFX partagent une base temporelle documentée, mais leurs assets restent produits dans leurs chapitres propriétaires ;
+- l’entrée, la sortie, le saut, l’annulation et l’interruption restaurent explicitement caméra, entrées, état final et contrôle du joueur ;
+- les versions de revue conservent commentaires, plans concernés, décisions, responsables et historique des reprises ;
+- la porte exige lecture narrative claire, rythme maîtrisé, dépendances résolues, séquence fonctionnelle dans le build et retour gameplay contrôlé ;
+- aucun storyboard, animatique, asset, scène Godot, timeline, rendu, test de build, synchronisation ou mesure runtime n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1750,11 +1767,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas laisser une piste mocap, un événement ou le root motion modifier directement le gameplay ;
 - ne pas déclarer contacts, stabilité, performance ou coût runtime sans exécution et mesures réelles ;
 
+- ne pas ajouter un plan dépourvu de fonction narrative vérifiable ;
+- ne pas franchir l’axe de mise en scène sans préparation ou nouveau plan d’établissement ;
+- ne pas utiliser une focale ou un FOV extrême pour masquer un mauvais placement ;
+- ne pas éditer directement une scène importée comme source de la cinématique ;
+- ne pas laisser une piste de méthode ou la timeline modifier directement l’état gameplay autoritaire ;
+- ne pas désactiver les entrées ou la caméra de gameplay sans restauration garantie ;
+- ne pas traiter un dialogue, une lumière ou un VFX placeholder comme un asset final approuvé ;
+- ne pas démarrer la séquence avant que ses dépendances obligatoires soient chargées et validées ;
+- ne pas valider une cinématique uniquement dans l’éditeur, sur un seul ratio d’image ou sans variante de confort ;
+- ne pas déclarer rythme, synchronisation, stabilité du build ou coût runtime sans exécution et mesures réelles ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 21 chapitres sur 30 ;
+- progression du Livre III : 22 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1776,6 +1804,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 19 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 20 du Livre III : version `1.0.1`, niveau `static-review` ;
 - chapitre 21 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 22 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1813,20 +1842,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 21 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-MOCAP-PILOT-SCOUT-001` couvre choix de capture, droits, calibration, ingestion, nettoyage, contacts, mapping, poses de référence, proportions, corrections, import Godot et validation multi-rigs. Aucune session, donnée personnelle, animation, bibliothèque, GLB, scène, capture, rapport runtime ou mesure n’est revendiqué comme matérialisé.
+Le chapitre 22 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-CINE-PILOT-SCOUT-RELAY-001` couvre intention dramatique, storyboard, liste de plans, focales, composition, raccords, animatique, caméras Godot, timeline, synchronisation et transitions avec le gameplay. Aucun storyboard, animatique, asset, scène Godot, timeline, rendu, rapport runtime ou mesure n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
+Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 22 traitera storyboard, liste de plans, focales, composition, animatique, caméras Godot, timelines, synchronisation, versions et transitions vers le gameplay, sans refaire la production et le retargeting des animations du chapitre 21.
+Le chapitre 23 traitera effets visuels, particules GPU et CPU, shaders, simulations précalculées, collisions, pooling, transparence, overdraw, LOD et budgets, sans refaire la mise en scène, les caméras ou la timeline du chapitre 22.
 
 ## 27. Journal
+
+### 2026-07-24T15:16:59+02:00 — version 3.53.0
+
+- chapitre 22 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-CINE-PILOT-SCOUT-RELAY-001` documenté pour une courte séquence d’éclaireur au relais abandonné ;
+- intention dramatique, beats, storyboard, liste de plans, blocage, animatique et base temporelle encadrés ;
+- focales, FOV, projection, composition, profondeur, axes, regards, raccords et mouvements de caméra documentés ;
+- architecture Godot avec scènes dérivées, `Camera3D`, `AnimationPlayer`, routeur et directeur de séquence préparée ;
+- synchronisation des animations, dialogues, lumières et VFX placeholders séparée de la production de leurs assets ;
+- entrée, sortie, saut, annulation, interruption, chargement et restauration du gameplay encadrés ;
+- versions de revue, commentaires, ratios d’image, confort visuel, sous-titres, budgets candidats et tests de build documentés ;
+- progression documentaire portée à 22 chapitres sur 30 et synthèse supérieure du Livre III alignée ;
+- prochaine action déplacée vers le chapitre 23 — Effets visuels, particules et simulations, niveau Élevée ;
+- aucun storyboard, animatique, asset, scène Godot, timeline, rendu, test runtime, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-24T13:38:11+02:00 — version 3.52.0
 

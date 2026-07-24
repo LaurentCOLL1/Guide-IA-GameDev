@@ -84,6 +84,7 @@ Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
 Livre-III/CHAPITRE-19-Rigging-et-skinning.md
 Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
 Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
+Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md
