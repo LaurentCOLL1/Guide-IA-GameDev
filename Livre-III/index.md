@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.19.0"
+version: "1.20.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -35,8 +35,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 18. [LOD, imposteurs et optimisation géométrique](CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md)
 19. [Rigging et skinning](CHAPITRE-19-Rigging-et-skinning.md)
 20. [Animation procédurale et animation par keyframes](CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md)
+21. [Capture de mouvement et retargeting](CHAPITRE-21-Capture-de-mouvement-et-retargeting.md)
 
-Les chapitres 21 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 22 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 

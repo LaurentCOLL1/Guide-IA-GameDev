@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.51.0"
+version: "3.52.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T11:13:52+02:00"
+last-updated: "2026-07-24T13:38:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1366,6 +1366,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - baseline, variantes, parcours caméra, répétitions, données brutes, captures et tableau comparatif sont requis ;
 - aucune amélioration runtime, mesh, atlas, GLB, scène, capture ou mesure n’est revendiquée avant matérialisation.
 
+### 11.32 Capture de mouvement et retargeting
+
+- `AST-MOCAP-PILOT-SCOUT-001` constitue le pilote de capture et retargeting du chapitre 21 ;
+- session, prise, clip sélectionné, animation nettoyée, retargeting et animation publiée restent des états distincts ;
+- les sources brutes sont immuables et séparées des dérivés de travail, exports et ressources Godot ;
+- consentement, droit à l’image, modification, usage commercial, redistribution et entraînement restent des autorisations séparées ;
+- contrats, identités et données personnelles restent hors du dépôt public, avec références de preuve et statuts publiables ;
+- unités, axes, sol, fréquence, calibration et pose de capture sont déclarés avant toute conversion ;
+- bruit, trous, dérive, échanges d’étiquettes, root, contacts, collisions et équilibre sont diagnostiqués avant filtrage ;
+- les noms d’os seuls ne suffisent pas : hiérarchie, axes, roll, pose de référence et fonctions du profil sont vérifiés ;
+- les différences de proportions sont traitées par chaîne, priorités de contact et corrections artistiques, jamais par une échelle uniforme ;
+- `BoneMap`, `SkeletonProfile`, profils personnalisés et options d’import Godot restent versionnés par rig ;
+- le retargeting runtime avec `RetargetModifier3D` reste une variante à mesurer ; les clips bakés hors runtime constituent la voie de référence ;
+- root motion, phases et événements sont revérifiés après retargeting sans acquérir d’autorité gameplay ;
+- la porte exige droits traçables, contacts crédibles, rythme cohérent, stabilité sur plusieurs morphologies et import Godot contrôlé ;
+- aucune session, animation, donnée personnelle, GLB, bibliothèque, scène, capture, mesure ou résultat runtime n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1714,11 +1731,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas valider les animations uniquement comme clips isolés ;
 - ne pas supposer qu’un graphe complexe compense des poses, arcs ou contacts faibles ;
 
+- ne pas considérer une autorisation d’enregistrement comme une autorisation générale de modification, redistribution ou entraînement ;
+- ne pas stocker contrats, identités, vidéos ou signaux personnels dans le dépôt public ;
+- ne pas modifier une prise brute ni écraser son empreinte ;
+- ne pas traiter `free`, `royalty-free` ou un paiement comme un identifiant de licence ;
+- ne pas choisir une technologie de capture sans besoin, contacts, confidentialité et coût de correction explicites ;
+- ne pas confondre fréquence d’échantillonnage et FPS d’auteur ;
+- ne pas supposer que la pose de capture est la rest pose du rig cible ;
+- ne pas mapper deux squelettes sur les seuls noms d’os ;
+- ne pas copier des composantes Euler entre axes locaux différents ;
+- ne pas employer un filtre global identique sur root, pieds, mains et colonne ;
+- ne pas interpoler un long trou comme s’il avait été mesuré ;
+- ne pas utiliser l’IK pour masquer un glissement présent dans la source, l’échelle ou le root ;
+- ne pas appliquer un ratio de taille uniforme à toutes les translations locales ;
+- ne pas copier doigts ou visage sans source, synchronisation, mapping et droits compatibles ;
+- ne pas traiter un import Godot terminé ou un auto-mapping comme une approbation ;
+- ne pas valider un retargeting multi-rigs sur une seule morphologie ou une seule caméra ;
+- ne pas laisser une piste mocap, un événement ou le root motion modifier directement le gameplay ;
+- ne pas déclarer contacts, stabilité, performance ou coût runtime sans exécution et mesures réelles ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 20 chapitres sur 30 ;
+- progression du Livre III : 21 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1738,7 +1774,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 19 du Livre III : version `1.0.0`, niveau `static-review` ;
-- chapitre 20 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 20 du Livre III : version `1.0.1`, niveau `static-review` ;
+- chapitre 21 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1776,20 +1813,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 20 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-ANIM-PILOT-SCOUT-001` couvre pose, timing, spacing, arcs, cycles, courbes, root motion, événements, couches, blend spaces, machine à états, IK procédurale et validation structurelle Godot. Aucune animation, bibliothèque, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 21 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-MOCAP-PILOT-SCOUT-001` couvre choix de capture, droits, calibration, ingestion, nettoyage, contacts, mapping, poses de référence, proportions, corrections, import Godot et validation multi-rigs. Aucune session, donnée personnelle, animation, bibliothèque, GLB, scène, capture, rapport runtime ou mesure n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
+Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 21 traitera types de capture, provenance, consentement, nettoyage, contacts, mapping, poses de référence, retargeting entre proportions, corrections et intégration en bibliothèque, sans refaire l’animation par keyframes du chapitre 20.
+Le chapitre 22 traitera storyboard, liste de plans, focales, composition, animatique, caméras Godot, timelines, synchronisation, versions et transitions vers le gameplay, sans refaire la production et le retargeting des animations du chapitre 21.
 
 ## 27. Journal
+
+### 2026-07-24T13:38:11+02:00 — version 3.52.0
+
+- chapitre 21 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-MOCAP-PILOT-SCOUT-001` documenté pour une action locomotion-accroupissement-radio sur trois morphologies ;
+- familles optique, inertielle, sans marqueur, profondeur, hybride et référence vidéo comparées ;
+- consentement, droits, données personnelles, accès restreint, provenance et retraits encadrés ;
+- calibration, pose de capture, slate, ingestion, empreintes et chaîne non destructive documentés ;
+- bruit, trous, dérive, trajectoire root, pieds, mains, collisions, équilibre et réduction de clés encadrés ;
+- mapping, hiérarchie, axes, poses de référence, proportions, corrections IK et profils personnalisés documentés ;
+- Blender, `BoneMap`, `SkeletonProfile`, options d’import, `RetargetModifier3D` et `AnimationLibrary` préparés ;
+- matrice multi-rigs, contrôles visuels, mesures candidates, budgets, procédures Solo et Studio et porte d’acceptation ajoutés ;
+- progression documentaire portée à 21 chapitres sur 30 et ligne de progression obsolète du plan maître corrigée ;
+- version réelle du chapitre 20 alignée sur `1.0.1` dans l’état courant ;
+- prochaine action déplacée vers le chapitre 22 — Cinématiques, caméras et mise en scène, niveau Élevée ;
+- aucune session, donnée personnelle, animation, GLB, bibliothèque, scène, benchmark, résultat runtime ou PDF du Livre III produit.
+
 
 ### 2026-07-24T05:30:00+02:00 — version 3.50.1
 
