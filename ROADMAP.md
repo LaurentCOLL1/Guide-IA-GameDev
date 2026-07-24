@@ -129,12 +129,13 @@
 - [x] Chapitre 16 — Textures, matériaux et pipeline PBR.
 - [x] Chapitre 17 — UV, retopologie et baking.
 - [x] Chapitre 18 — LOD, imposteurs et optimisation géométrique.
+- [x] Chapitre 19 — Rigging et skinning.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 18 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 19 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.17.0"
+version: "1.18.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -33,8 +33,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 16. [Textures, matériaux et pipeline PBR](CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md)
 17. [UV, retopologie et baking](CHAPITRE-17-UV-retopologie-et-baking.md)
 18. [LOD, imposteurs et optimisation géométrique](CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md)
+19. [Rigging et skinning](CHAPITRE-19-Rigging-et-skinning.md)
 
-Les chapitres 19 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 20 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 
