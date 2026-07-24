@@ -88,5 +88,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: null
+  commit: 542db5f5a29488cc0e087e74b3451771459210d2
   conclusion: success
