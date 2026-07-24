@@ -1,19 +1,19 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH17
 status: complete
-validation-date: '2026-07-23'
+validation-date: '2026-07-24'
 validated-base-commit: 2fff9f970f4597bfc24efd14a0dfba505604d46c
-validated-head-commit: c803916a02416ad0338ace6d4fdaf66e2595d65d
+validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
 chapter:
   id: DOC-L3-CH17
   path: Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2890
-  chapter-headings: 82
+  chapter-lines: 2898
+  chapter-headings: 83
   chapter-code-and-data-blocks: 84
   significant-code-and-data-blocks: 84
   code-explanation-markers: 84
@@ -29,6 +29,7 @@ results:
   reasoning-process-metadata-absent: true
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
   static-and-deformable-retopology-documented: true
   edge-flow-and-local-density-documented: true
   poly-build-snapping-shrinkwrap-documented: true
@@ -66,8 +67,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 127d06c2bc9bbd28c606088e303ea74d447b91c57f8a906c5b8e1da046f58a2d
-  audit-sha256: 35eeabea1cdd67cc858a7dcceb4abeab9f436c182fc206177f4b2511864b3d86
+  chapter-sha256: 2cdd57134ada96b9a8437623c6ce47cbc6c5091d361a2a205cd1a30e7db8f287
+  audit-sha256: da5f384ca7bae63dfbda652813e56e9121d7f225aa150f5dc11be2ae5098fd8d
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 17 Finalizer Runner
@@ -78,6 +79,10 @@ ci:
     workflow-name: Chapter 17 Finalizer Runner
     execution: embedded-command
     run-id: 30047507706
+    conclusion: success
+  retrofit-validation:
+    workflow-name: Fix Project Asteria summaries
+    execution: dedicated-validator
     conclusion: success
   artifact:
     id: 8579697669

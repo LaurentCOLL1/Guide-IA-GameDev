@@ -3,17 +3,17 @@ evidence-id: DOC-L3-QA-EVIDENCE-CH20
 status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 20f5866f8c51eae421d840fdd2219e2c96aa46b2
-validated-head-commit: d633b32d99c77ae9c1407e7eca4bd3fa8c0a2359
+validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
 chapter:
   id: DOC-L3-CH20
   path: Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2452
-  chapter-headings: 76
+  chapter-lines: 2460
+  chapter-headings: 77
   chapter-code-and-data-blocks: 81
   significant-code-and-data-blocks: 81
   code-explanation-markers: 81
@@ -29,6 +29,7 @@ results:
   reasoning-process-metadata-absent: true
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
   pose-timing-spacing-and-arcs-documented: true
   locomotion-cycles-and-variations-documented: true
   curves-tangents-and-cleanup-documented: true
@@ -52,8 +53,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 9caa2e71f4ad8bb1ecbf3d9dfe0eaf0189bf085ecba7884f7d759c136f9567f9
-  audit-sha256: c132ed7d0950212a32e6689a13ad87ee69b4c94842cddf811d60a1bd2ad82d63
+  chapter-sha256: dc76df1b4e2944dbac9f9702033a33b6464485188e2b872f26f25eab78a6835c
+  audit-sha256: 66acb7119569c7cc0a29b92aaf700d7ada90dc6d8895df323df0c0a7342fe693
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 20 Finalizer Runner
@@ -64,6 +65,10 @@ ci:
     workflow-name: Chapter 20 Finalizer Runner
     execution: embedded-command
     run-id: 30074762997
+    conclusion: success
+  retrofit-validation:
+    workflow-name: Fix Project Asteria summaries
+    execution: dedicated-validator
     conclusion: success
   artifact:
     id: 8589406545

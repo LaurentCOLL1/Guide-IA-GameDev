@@ -3,17 +3,17 @@ evidence-id: DOC-L3-QA-EVIDENCE-CH18
 status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 2e06e10e160a03085a807c0f7fb3fcc5f86344f8
-validated-head-commit: 7c19bcd270f4b3f5e99037fda8d2750ae7127996
+validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
 chapter:
   id: DOC-L3-CH18
   path: Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 3904
-  chapter-headings: 76
+  chapter-lines: 3912
+  chapter-headings: 77
   chapter-code-and-data-blocks: 81
   significant-code-and-data-blocks: 81
   code-explanation-markers: 81
@@ -29,6 +29,7 @@ results:
   reasoning-process-metadata-absent: true
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
   screen-size-and-gameplay-budgets-documented: true
   manual-and-automatic-lod-documented: true
   decimation-modes-documented: true
@@ -53,8 +54,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: e3a68e7826741d7f09136777108c370e5678bf5c5e4707c337164b1f88092697
-  audit-sha256: 7a1740697d1a8aeefad7ee2c6ca32b73aaa8d601988e223fcc3c43eaf6c935d1
+  chapter-sha256: 2fd7645039b427b7a83d9f846a2dbabda3ca126ccf6434dc2313a5bf4ec527d3
+  audit-sha256: a1696b24098b0fa86c902f155ee1f39cb6225fbc375f99e8b06ba315866507ce
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 18 Finalizer Runner
@@ -65,6 +66,10 @@ ci:
     workflow-name: Chapter 18 Finalizer Runner
     execution: embedded-command
     run-id: 30058228976
+    conclusion: success
+  retrofit-validation:
+    workflow-name: Fix Project Asteria summaries
+    execution: dedicated-validator
     conclusion: success
   artifact:
     id: 8583558109
