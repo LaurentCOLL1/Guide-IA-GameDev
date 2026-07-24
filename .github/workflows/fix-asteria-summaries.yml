@@ -20,11 +20,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: fix/livre-iii-syntheses-asteria
-          fetch-depth: 1
-          show-progress: false
+          fetch-depth: 0
       - name: Reconstruire et exécuter le correcteur vérifié
         run: |
-          set -o pipefail
           base64 -d .qa/fix_asteria_summaries.py.gz.b64 | gzip -d > .qa/fix_asteria_summaries.py
           python -m py_compile .qa/fix_asteria_summaries.py
-          python .qa/fix_asteria_summaries.py 2>&1 | tee /tmp/fix-asteria.log
+          python .qa/fix_asteria_summaries.py
