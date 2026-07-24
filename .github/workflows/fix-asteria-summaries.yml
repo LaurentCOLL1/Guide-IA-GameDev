@@ -27,9 +27,10 @@ jobs:
           git checkout -q -B fix/livre-iii-syntheses-asteria FETCH_HEAD
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Exécuter le correcteur vérifié
+      - name: Reconstruire et exécuter le correcteur vérifié
         run: |
           set -o pipefail
+          base64 -d .qa/fix_asteria_summaries.py.gz.b64 | gzip -d > .qa/fix_asteria_summaries.py
           python -m py_compile .qa/fix_asteria_summaries.py
           if ! python .qa/fix_asteria_summaries.py > /tmp/fix-asteria.log 2>&1; then
             cat /tmp/fix-asteria.log
