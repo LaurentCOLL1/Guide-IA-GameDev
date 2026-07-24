@@ -2,12 +2,12 @@
 title: "Audit post-création — Livre III, chapitre 21"
 id: "DOC-L3-QA-AUDIT-CH21"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 chapter-id: "DOC-L3-CH21"
-chapter-version: "1.0.0"
-audit-date: "2026-07-24T13:38:11+02:00"
-last-verified: "2026-07-24T13:38:11+02:00"
+chapter-version: "1.0.1"
+audit-date: "2026-07-24T18:01:38+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-level: "static-review"
 protocol: "Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -46,11 +46,11 @@ Les livrables prévus sont documentés : session ou clip sourcé, profils de map
 
 ## 5. Contrôles documentaires
 
-- lignes : 2850 ;
+- lignes : 2834 ;
 - titres : 86 ;
-- blocs code ou données : 94 ;
-- marqueurs d’explication : 94 ;
-- explications structurées hors diagnostics : 74 ;
+- blocs code ou données : 93 ;
+- marqueurs d’explication : 93 ;
+- explications structurées hors diagnostics : 73 ;
 - diagnostics détaillés : 10 ;
 - synthèse opérationnelle `Project Asteria` présente ;
 - liens locaux limités à la convention des contextes ;
@@ -82,3 +82,7 @@ Les formulations distinguent auto-mapping et approbation, pose de référence et
 ## 8. Conclusion
 
 Le chapitre satisfait le plan maître et peut entrer dans la validation légère sans PDF. La preuve finale sera fermée uniquement par le workflow dédié après réussite de tous les contrôles.
+
+## Correctif transversal — Références techniques cliquables
+
+Les références web de la section technique sont désormais présentées comme liens Markdown nommés et directement cliquables. Les URL brutes, les URL entre accents graves et les bibliographies placées dans un bloc de code ne sont plus acceptées comme présentation lecteur. Ce correctif ne modifie ni le périmètre technique du chapitre ni son niveau de preuve `static-review`.

@@ -1,35 +1,37 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH21
-status: complete
+validation-authority: permanent-workflows
+status: pending
 validation-date: '2026-07-24'
 validated-base-commit: bd9e2d8cddebbcfd747b2dab4c6f46633d1867d7
-validated-head-commit: de91919025226db03b336fe49e93c18a2575d6b1
+validated-head-commit: null
 chapter:
   id: DOC-L3-CH21
   path: Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
-  blocking-errors: 0
-  warnings: 1
-  chapter-lines: 2850
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2834
   chapter-headings: 86
-  chapter-code-and-data-blocks: 94
-  significant-code-and-data-blocks: 94
-  code-explanation-markers: 94
-  structured-non-error-code-explanations: 74
+  chapter-code-and-data-blocks: 93
+  significant-code-and-data-blocks: 93
+  code-explanation-markers: 93
+  structured-non-error-code-explanations: 73
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: 0
-  duplicate-blocks: 0
-  duplicate-paragraphs: 0
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
   solo-studio-documented: true
   master-plan-scope-covered: true
   project-asteria-operational-summary-present: true
+  clickable-technical-references: true
   capture-types-and-limits-documented: true
   provenance-consent-and-rights-documented: true
   trajectories-and-contacts-documented: true
@@ -52,32 +54,28 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 599762a1abe246825511270a8575fa626a56032afe941b5fbd3600c5bfefbc2c
-  audit-sha256: 1c5291de0a3c5d5f799db9abe6e5fc55fc337aff74e5a713899a948e51df6e26
+  chapter-sha256: 80e3395e9abd3c77cfa6c68367b203dfc31e93ee012ccc39a2699881fc1422c3
+  audit-sha256: 7550b3913ca89c66502daec4a4840e3c74d7c57806e879520e9e1ee6951695a0
 ci:
   validate-chapters-without-pdf:
-    workflow-name: Chapter 21 Finalizer Runner
-    execution: embedded-command
-    run-id: 30092557927
-    conclusion: success
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
   validate-usage-contexts:
-    workflow-name: Chapter 21 Finalizer Runner
+    workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: 30092557927
-    conclusion: success
+    run-id: null
+    conclusion: pending
   project-asteria-summary:
-    workflow-name: Chapter 21 Finalizer Runner
-    execution: embedded-command
-    run-id: 30092557927
-    conclusion: success
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
   artifact:
-    id: 8596248103
+    id: null
     name: chapter-validation-without-pdf
-    digest: 98ead24c9321db6169171a36237165ce5935d73b35a78c674150e6ac38606265
-  context-artifact:
-    id: 8596248542
-    name: usage-context-audit
-    digest: b6a74c559f60b2f2066af8cba8f21296f1afbeb76dafdec4608864db3318b921
+    digest: null
 reservations:
 - Capture method and hardware not selected.
 - Performer, consent and private contract not materialized in the public repository.
@@ -93,5 +91,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: 8ee62c9d8da55e308d9e02fc1ff5f7e5c20d06c7
-  conclusion: success
+  commit: null
+  conclusion: pending

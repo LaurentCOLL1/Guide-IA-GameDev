@@ -17,6 +17,8 @@ CHAPTER_RE = re.compile(r"Livre-(I|II|III)/CHAPITRE-(\d{2})-.+\.md$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 INLINE_CODE_RE = re.compile(r"(`+)([^\n]*?)\1")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+REFERENCE_HEADING_RE = re.compile(r"(?:références?|sources?).*(?:techniques?|officielles?|primaires?|qualifiées?)|(?:techniques?|officielles?|primaires?|qualifiées?).*(?:références?|sources?)", re.IGNORECASE)
+EXTERNAL_URL_RE = re.compile(r"https?://[^\s)>\"\']+")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$")
 CONFLICT_MARKERS = ("<<<<<<<", "=======", ">>>>>>>")
 VALID_AUDIT_LEVELS = {"static-review", "runtime-tested"}
@@ -300,6 +302,55 @@ def inspect_duplicates(text: str, rel: str) -> ChapterStats:
     )
 
 
+
+def validate_clickable_reference_sections(
+    text: str,
+    rel: str,
+    errors: list[str],
+) -> None:
+    lines = text.splitlines()
+    headings: list[tuple[int, int, str]] = []
+    in_fence = False
+    fence_char = ""
+    fence_length = 0
+    for index, line in enumerate(lines):
+        fence_match = FENCE_RE.match(line.strip())
+        if fence_match:
+            fence = fence_match.group("fence")
+            if not in_fence:
+                in_fence = True
+                fence_char = fence[0]
+                fence_length = len(fence)
+            elif fence[0] == fence_char and len(fence) >= fence_length:
+                in_fence = False
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if match:
+            headings.append((index, len(match.group(1)), match.group(2).strip()))
+    matched = 0
+    for position, (start, level, title) in enumerate(headings):
+        if REFERENCE_HEADING_RE.search(title) is None:
+            continue
+        matched += 1
+        end = len(lines)
+        for next_start, next_level, _ in headings[position + 1:]:
+            if next_level <= level:
+                end = next_start
+                break
+        body = "\n".join(lines[start + 1:end])
+        targets = [target.strip().split()[0].strip("<>") for target in LINK_RE.findall(body)]
+        external_links = [target for target in targets if target.startswith(("http://", "https://"))]
+        if not external_links:
+            errors.append(f"Section de références techniques sans lien Markdown externe nommé dans {rel} : {title}")
+        without_links = re.sub(r"(?<!!)\[[^\]]+\]\([^)]+\)", "", body)
+        if EXTERNAL_URL_RE.search(without_links):
+            errors.append(f"URL brute ou non cliquable dans une section de références techniques : {rel} — {title}")
+    if matched == 0:
+        errors.append(f"Section de références techniques absente : {rel}")
+
+
 def validate_local_links(
     text: str,
     source: Path,
@@ -457,6 +508,8 @@ def main() -> int:
                     validate_timestamp(audit_metadata.get("last-verified"), "last-verified", str(audit_report), errors)
                     validate_timestamp(audit_metadata.get("audit-date"), "audit-date", str(audit_report), errors)
 
+                if book_code == "III" and number >= 19:
+                    validate_clickable_reference_sections(text, rel, errors)
                 validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)
                 stats.append(chapter_stats)
