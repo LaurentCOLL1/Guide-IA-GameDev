@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 21 : Capture de mouvement et retargeting"
 id: "DOC-L3-CH21"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 21
-last-verified: "2026-07-24T13:38:11+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T13:38:11+02:00"
+audit-date: "2026-07-24T18:01:38+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-21.md"
 audit-level: "static-review"
 reference-engine:
@@ -2788,29 +2788,14 @@ Les pages officielles suivantes servent de base à la qualification technique. E
 
 Les sources juridiques et contrats réels dépendent du pays, du fournisseur et du projet ; le chapitre ne remplace pas un conseil juridique.
 
-> **[LECTURE] Exemple ou structure de référence — Ne pas saisir.**
+- [Godot — Retargeting des squelettes 3D](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/retargeting_3d_skeletons.html)
+- [Godot — SkeletonProfile](https://docs.godotengine.org/en/stable/classes/class_skeletonprofile.html)
+- [Godot — SkeletonProfileHumanoid](https://docs.godotengine.org/en/stable/classes/class_skeletonprofilehumanoid.html)
+- [Godot — RetargetModifier3D](https://docs.godotengine.org/en/stable/classes/class_retargetmodifier3d.html)
+- [Blender Manual — Poser une armature](https://docs.blender.org/manual/en/latest/animation/armatures/posing/index.html)
+- [Blender Manual — Contraintes d’animation](https://docs.blender.org/manual/en/latest/animation/constraints/index.html)
 
-```yaml
-official_references:
-  godot_retargeting: https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/retargeting_3d_skeletons.html
-  godot_skeleton_profile: https://docs.godotengine.org/en/stable/classes/class_skeletonprofile.html
-  godot_humanoid_profile: https://docs.godotengine.org/en/stable/classes/class_skeletonprofilehumanoid.html
-  godot_retarget_modifier: https://docs.godotengine.org/en/stable/classes/class_retargetmodifier3d.html
-  blender_pose_mode: https://docs.blender.org/manual/en/latest/animation/armatures/posing/index.html
-  blender_constraints: https://docs.blender.org/manual/en/latest/animation/constraints/index.html
-```
-
-<!-- qa:code-explanation -->
-
-**Explication structurée du bloc :**
-
-- **Godot :** les pages couvrent import, profils, mapping et retargeting runtime.
-
-- **Blender :** les pages couvrent pose d’armature et pile de contraintes.
-
-- **Version :** les chemins `stable` et `latest` sont revérifiés au moment d’une qualification.
-
-- **Droits :** les contrats et consentements restent des preuves privées spécifiques au projet.
+Ces liens couvrent import, profils, mapping, retargeting runtime, pose d’armature et pile de contraintes. Les chemins `stable` et `latest` sont revérifiés lors d’une qualification ; les contrats et consentements restent des preuves privées propres au projet.
 
 ## 75. Synthèse opérationnelle pour Project Asteria
 
@@ -2847,4 +2832,3 @@ asteria_mocap_decisions:
 - **Porte :** juridique, artistique et technique doivent réussir sans compensation mutuelle.
 
 - **Réserves :** aucune donnée brute, animation, scène, mesure ou test runtime n’est déclaré produit.
-

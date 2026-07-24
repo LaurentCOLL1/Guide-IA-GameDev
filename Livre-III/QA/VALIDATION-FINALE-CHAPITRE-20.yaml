@@ -1,18 +1,19 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH20
+validation-authority: permanent-workflows
 status: complete
 validation-date: '2026-07-24'
-validated-base-commit: 20f5866f8c51eae421d840fdd2219e2c96aa46b2
-validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
+validated-base-commit: ae58414e444ab9f4fc01b368e2712a70d262c5ff
+validated-head-commit: ad57505c187ae156a12fdacbc42f952d24e97786
 chapter:
   id: DOC-L3-CH20
   path: Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2460
+  chapter-lines: 2469
   chapter-headings: 77
   chapter-code-and-data-blocks: 81
   significant-code-and-data-blocks: 81
@@ -30,6 +31,7 @@ results:
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
   project-asteria-operational-summary-present: true
+  clickable-technical-references: true
   pose-timing-spacing-and-arcs-documented: true
   locomotion-cycles-and-variations-documented: true
   curves-tangents-and-cleanup-documented: true
@@ -53,31 +55,28 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: dc76df1b4e2944dbac9f9702033a33b6464485188e2b872f26f25eab78a6835c
-  audit-sha256: 66acb7119569c7cc0a29b92aaf700d7ada90dc6d8895df323df0c0a7342fe693
+  chapter-sha256: 9543cacefaefd3bc921c3b101d6d91d1dd5f4bbd922d1fa3ec4b06125b14df12
+  audit-sha256: 8f2005f026ccb108326d29e9721ba5b05b9c8e21b1222c28460437b914bd0caa
 ci:
   validate-chapters-without-pdf:
-    workflow-name: Chapter 20 Finalizer Runner
-    execution: embedded-command
-    run-id: 30074762997
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30107905385
     conclusion: success
   validate-usage-contexts:
-    workflow-name: Chapter 20 Finalizer Runner
+    workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: 30074762997
+    run-id: 30107905385
     conclusion: success
-  retrofit-validation:
-    workflow-name: Fix Project Asteria summaries
-    execution: dedicated-validator
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30107896629
     conclusion: success
   artifact:
-    id: 8589406545
+    id: 8602386352
     name: chapter-validation-without-pdf
-    digest: 5c1cf6067261e6d10f56a7522357cddcead41de1829c4046c52cfaf523107750
-  context-artifact:
-    id: 8589406911
-    name: usage-context-audit
-    digest: efd5b7133c64c24288c7a0ee083804dded01d8f05b0f641908c9291b6f613786
+    digest: 13d5d5ea2a0c583c4c04aeed422d7139fa40b27228dc43933db4d8a1a6e663c9
 reservations:
 - Pilot animation set not approved by a production review.
 - Actions, cycles, poses and curves not created in Blender.
@@ -94,5 +93,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: 3fbbf5330fb5d42cd81afb9b115a771ca3faea80
+  commit: 1bd881e061fa4143a19a89bedc65d45fcb458873
   conclusion: success

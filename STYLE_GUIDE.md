@@ -79,6 +79,7 @@ Les tableaux servent aux comparaisons compactes. Les procédures détaillées re
 - Donner la date de vérification pour les informations susceptibles d'évoluer.
 - Éviter les liens promotionnels et les sources non fiables.
 - Respecter les licences et les limites de citation.
+- Dans une section de sources ou de références techniques, toute page web citée utilise un lien Markdown nommé et directement cliquable, par exemple `[Documentation officielle — Fonction](https://exemple.invalid/page)`. Une URL brute, une URL entre accents graves ou une URL placée dans un bloc de code ne constitue pas une référence lecteur conforme.
 
 ## Illustrations
 

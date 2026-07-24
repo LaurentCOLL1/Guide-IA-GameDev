@@ -1,18 +1,19 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH19
+validation-authority: permanent-workflows
 status: complete
 validation-date: '2026-07-24'
-validated-base-commit: 6aff86b0b1e7042fe3eb217ddbce14c75b9b937f
-validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
+validated-base-commit: ae58414e444ab9f4fc01b368e2712a70d262c5ff
+validated-head-commit: ad57505c187ae156a12fdacbc42f952d24e97786
 chapter:
   id: DOC-L3-CH19
   path: Livre-III/CHAPITRE-19-Rigging-et-skinning.md
-  version: 1.0.1
+  version: 1.0.2
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2263
+  chapter-lines: 2277
   chapter-headings: 77
   chapter-code-and-data-blocks: 81
   significant-code-and-data-blocks: 81
@@ -30,6 +31,7 @@ results:
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
   project-asteria-operational-summary-present: true
+  clickable-technical-references: true
   deformation-and-control-skeletons-documented: true
   bone-roll-and-hierarchy-documented: true
   constraints-and-joint-limits-documented: true
@@ -54,31 +56,28 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: dd40c812c57dfa9ea79717fd2aa9a885d2072fa690fa5055935513e069e92fd3
-  audit-sha256: be7ff882da69ae428e416f9cafaec92f6ef07644fbb170c4f1503818ea84d501
+  chapter-sha256: c9d76c9c9dc292c5bbdb21673a24207900c333037c4154bde6c6b261d5db353a
+  audit-sha256: 25061736ea080c4f8844adcec6a85432b261372e9df068c748fa03f2828be88d
 ci:
   validate-chapters-without-pdf:
-    workflow-name: Chapter 19 Finalizer Runner
-    execution: embedded-command
-    run-id: 30063921909
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30107905385
     conclusion: success
   validate-usage-contexts:
-    workflow-name: Chapter 19 Finalizer Runner
+    workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: 30063921909
+    run-id: 30107905385
     conclusion: success
-  retrofit-validation:
-    workflow-name: Fix Project Asteria summaries
-    execution: dedicated-validator
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30107896629
     conclusion: success
   artifact:
-    id: 8585536990
+    id: 8602386352
     name: chapter-validation-without-pdf
-    digest: d3a57dd460cb7587652d70a58c4b48e26442a54d42468a33f18eda2a973dcbc3
-  context-artifact:
-    id: 8585537117
-    name: usage-context-audit
-    digest: be01ed1150134c448f82fef5294ffaf01c6c854a832962ea78bfb2abb9284b78
+    digest: 13d5d5ea2a0c583c4c04aeed422d7139fa40b27228dc43933db4d8a1a6e663c9
 reservations:
 - Pilot asset not approved by a production review.
 - Deformation skeleton, control rig and corrective bones not created.
@@ -94,5 +93,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: 3fbbf5330fb5d42cd81afb9b115a771ca3faea80
+  commit: 1bd881e061fa4143a19a89bedc65d45fcb458873
   conclusion: success

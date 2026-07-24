@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 19 : Rigging et skinning"
 id: "DOC-L3-CH19"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 19
-last-verified: "2026-07-24T11:13:52+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T11:13:52+02:00"
+audit-date: "2026-07-24T18:01:38+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-19.md"
 audit-level: "static-review"
 reference-engine:
@@ -2248,7 +2248,21 @@ La livraison documentaire est prête lorsque le lecteur peut identifier la sourc
 
 ## 64. Références techniques primaires
 
-Les procédures s’appuient sur les manuels officiels Blender relatifs aux armatures, au bone roll, aux contraintes et au weight paint, ainsi que sur la documentation stable Godot de `Skeleton3D`, `BoneAttachment3D`, `SkeletonProfile`, `RetargetModifier3D` et de l’import de scènes 3D. Toute différence observée dans Blender `5.2.0` ou Godot `4.7.1-stable` doit être enregistrée dans le rapport de qualification avant de modifier le contrat.
+Les procédures s’appuient sur les manuels officiels Blender relatifs aux armatures, au bone roll, aux contraintes et au weight paint, ainsi que sur la documentation Godot de `Skeleton3D`, `BoneAttachment3D`, `SkeletonProfile`, `BoneMap`, `RetargetModifier3D` et de l’import de scènes 3D.
+
+Toute différence observée dans Blender `5.2.0` ou Godot `4.7.1-stable` doit être enregistrée dans le rapport de qualification avant de modifier le contrat.
+
+- [Blender Manual — Armatures](https://docs.blender.org/manual/en/5.0/animation/armatures/index.html)
+- [Blender Manual — Structure d’une armature](https://docs.blender.org/manual/en/5.0/animation/armatures/bones/structure.html)
+- [Blender Manual — Bone Roll](https://docs.blender.org/manual/en/5.0/animation/armatures/bones/editing/bone_roll.html)
+- [Blender Manual — Contraintes d’armature](https://docs.blender.org/manual/en/5.0/animation/constraints/index.html)
+- [Blender Manual — Weight Paint](https://docs.blender.org/manual/en/5.0/sculpt_paint/weight_paint/index.html)
+- [Godot 4.7 — Skeleton3D](https://docs.godotengine.org/en/4.7/classes/class_skeleton3d.html)
+- [Godot 4.7 — BoneAttachment3D](https://docs.godotengine.org/en/4.7/classes/class_boneattachment3d.html)
+- [Godot 4.7 — SkeletonProfile](https://docs.godotengine.org/en/4.7/classes/class_skeletonprofile.html)
+- [Godot 4.7 — BoneMap](https://docs.godotengine.org/en/4.7/classes/class_bonemap.html)
+- [Godot 4.7 — RetargetModifier3D](https://docs.godotengine.org/en/4.7/classes/class_retargetmodifier3d.html)
+- [Godot 4.7 — Importer des scènes 3D](https://docs.godotengine.org/en/4.7/tutorials/assets_pipeline/importing_3d_scenes/index.html)
 
 ## 65. Conclusion
 

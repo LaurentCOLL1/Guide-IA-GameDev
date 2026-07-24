@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.53.0"
+version: "3.53.1"
 lang: "fr-FR"
-last-updated: "2026-07-24T15:16:59+02:00"
+last-updated: "2026-07-24T18:01:38+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -41,6 +41,8 @@ Une nouvelle conversation doit :
 - **Companion Pack :** `plans/COMPANION-PACK-PLAN-MAITRE.md`.
 
 Aucun titre, ordre ou périmètre ne doit être modifié silencieusement.
+
+Toute section de sources ou de références techniques présente les pages web sous forme de liens Markdown nommés et directement cliquables. Une URL brute, entre accents graves ou placée dans un bloc de code ne remplit pas cette exigence lecteur. Cette règle est contrôlée automatiquement pour le Livre III à partir du chapitre 19.
 
 ## 3. Vision et contraintes permanentes
 
@@ -1712,6 +1714,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas confondre empreinte et preuve de validité juridique ;
 - ne pas laisser une décision automatique remplacer la revue humaine ;
 
+- ne pas remplacer une référence web cliquable par une URL brute, une URL entre accents graves ou un bloc de code ;
 - ne pas oublier la mise à jour de ce fichier.
 
 - ne pas approuver un LOD sur son seul ratio de triangles ;
@@ -1801,10 +1804,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre III : version `1.0.0`, niveau `static-review` ;
-- chapitre 19 du Livre III : version `1.0.0`, niveau `static-review` ;
-- chapitre 20 du Livre III : version `1.0.1`, niveau `static-review` ;
-- chapitre 21 du Livre III : version `1.0.0`, niveau `static-review` ;
-- chapitre 22 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 19 du Livre III : version `1.0.2`, niveau `static-review` ;
+- chapitre 20 du Livre III : version `1.0.2`, niveau `static-review` ;
+- chapitre 21 du Livre III : version `1.0.1`, niveau `static-review` ;
+- chapitre 22 du Livre III : version `1.0.1`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1856,6 +1859,17 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 23 traitera effets visuels, particules GPU et CPU, shaders, simulations précalculées, collisions, pooling, transparence, overdraw, LOD et budgets, sans refaire la mise en scène, les caméras ou la timeline du chapitre 22.
 
 ## 27. Journal
+
+### 2026-07-24T18:01:38+02:00 — version 3.53.1
+
+- régression éditoriale des références techniques corrigée rétroactivement dans les chapitres 19 à 22 du Livre III ;
+- sources officielles restaurées sous forme de liens Markdown nommés et directement cliquables, selon le modèle du chapitre 18 ;
+- bibliographies YAML et intitulés sans URL remplacés par des listes lecteur cliquables ;
+- guide de style et protocole d’audit renforcés ;
+- validateur léger étendu pour bloquer les références techniques sans lien nommé ou contenant une URL brute à partir du chapitre 19 ;
+- versions portées à 1.0.2 pour les chapitres 19 et 20, et à 1.0.1 pour les chapitres 21 et 22 ;
+- prochaine action maintenue au chapitre 23 — Effets visuels, particules et simulations ;
+- aucun asset, test runtime, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-24T15:16:59+02:00 — version 3.53.0
 

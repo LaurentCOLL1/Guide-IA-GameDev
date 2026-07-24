@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 22 : Cinématiques, caméras et mise en scène"
 id: "DOC-L3-CH22"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 22
-last-verified: "2026-07-24T15:16:59+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T15:16:59+02:00"
+audit-date: "2026-07-24T18:01:38+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-22.md"
 audit-level: "static-review"
 reference-engine:
@@ -2024,28 +2024,22 @@ review:
 <!-- qa:code-explanation -->
 **Pourquoi la correction fonctionne :** La matrice couvre les profils ciblés, rend la vibration désactivable et limite explicitement la décision aux cas testés.
 ## 67. Références techniques officielles
-Les références officielles suivantes encadrent la qualification technique. Elles seront relues lors d’une mise à jour de Godot ou des contrats de caméra du projet.
-Les pages de classe décrivent les propriétés et méthodes ; elles ne fournissent pas une validation narrative, artistique ou de confort du pilote.
-> **[LECTURE] Exemple ou structure de référence — Ne pas saisir.**
-```yaml
 
-official_references:
-  camera_3d: https://docs.godotengine.org/en/stable/classes/class_camera3d.html
-  animation_player: https://docs.godotengine.org/en/stable/classes/class_animationplayer.html
-  animation_resource: https://docs.godotengine.org/en/stable/classes/class_animation.html
-  path_3d: https://docs.godotengine.org/en/stable/classes/class_path3d.html
-  path_follow_3d: https://docs.godotengine.org/en/stable/classes/class_pathfollow3d.html
-  audio_stream_player: https://docs.godotengine.org/en/stable/classes/class_audiostreamplayer.html
-  animation_tutorials: https://docs.godotengine.org/en/stable/tutorials/animation/index.html
-  inherited_gameplay_camera_contract: Livre-II/CHAPITRE-06
-```
-<!-- qa:code-explanation -->
-**Explication structurée du bloc :**
-- **Caméra :** la classe couvre projection, FOV, plans de coupe et activation.
-- **Timeline :** `AnimationPlayer` et `Animation` couvrent lecture et pistes.
-- **Trajectoire :** `Path3D` et `PathFollow3D` couvrent courbe et progression.
-- **Audio :** la classe est citée pour la synchronisation, pas pour le mix final.
-- **Héritage :** le contrat caméra gameplay reste celui du Livre II.
+Les références officielles suivantes encadrent la qualification technique. Elles seront relues lors d’une mise à jour de Godot ou des contrats de caméra du projet.
+
+Les pages de classe décrivent les propriétés et méthodes ; elles ne fournissent pas une validation narrative, artistique ou de confort du pilote.
+
+- [Godot — Camera3D](https://docs.godotengine.org/en/stable/classes/class_camera3d.html)
+- [Godot — AnimationPlayer](https://docs.godotengine.org/en/stable/classes/class_animationplayer.html)
+- [Godot — Animation](https://docs.godotengine.org/en/stable/classes/class_animation.html)
+- [Godot — Path3D](https://docs.godotengine.org/en/stable/classes/class_path3d.html)
+- [Godot — PathFollow3D](https://docs.godotengine.org/en/stable/classes/class_pathfollow3d.html)
+- [Godot — AudioStreamPlayer](https://docs.godotengine.org/en/stable/classes/class_audiostreamplayer.html)
+- [Godot — Tutoriels d’animation](https://docs.godotengine.org/en/stable/tutorials/animation/index.html)
+- [Livre II — Chapitre 6 : Entrées, contrôleurs, caméras et interactions](../Livre-II/CHAPITRE-06-Entrees-controleurs-cameras-et-interactions.md)
+
+La classe caméra couvre projection, FOV, plans de coupe et activation. `AnimationPlayer` et `Animation` couvrent la timeline et ses pistes ; `Path3D` et `PathFollow3D` couvrent les trajectoires. `AudioStreamPlayer` est cité pour la synchronisation, pas pour le mix final. Le contrat caméra gameplay reste celui du Livre II.
+
 ## 68. Synthèse opérationnelle pour Project Asteria
 `Project Asteria` retient `AST-CINE-PILOT-SCOUT-RELAY-001` comme séquence témoin. Son brief, ses beats, son storyboard, sa liste de plans, son animatique, ses caméras et sa timeline sont des sources versionnées distinctes. Les animations des chapitres 20 et 21, le décor, la radio et les placeholders audio/VFX restent des dépendances explicitement qualifiées.
 La porte d’acceptation exige une lecture narrative claire, un rythme approuvé, des raccords cohérents, une activation caméra non ambiguë, des chemins de fin complets, une restitution certaine du gameplay et un test dans le build. Tant que les livrables ne sont pas matérialisés, Project Asteria conserve le statut `static-review` et ne revendique ni durée, ni confort, ni stabilité, ni coût runtime mesurés.

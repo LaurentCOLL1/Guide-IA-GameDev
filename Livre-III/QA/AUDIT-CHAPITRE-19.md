@@ -2,12 +2,12 @@
 title: "Audit du Livre III — Chapitre 19 : Rigging et skinning"
 id: "DOC-L3-QA-AUDIT-CH19"
 status: "complete"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 19
-last-verified: "2026-07-24T11:13:52+02:00"
-audit-date: "2026-07-24T11:13:52+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
+audit-date: "2026-07-24T18:01:38+02:00"
 audit-level: "static-review"
 audited-document: "Livre-III/CHAPITRE-19-Rigging-et-skinning.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -60,8 +60,8 @@ Les 81 blocs significatifs possèdent chacun un marqueur d’explication. Les 61
 
 ## 5. Métriques statiques
 
-- lignes : 2255 ;
-- titres Markdown : 76 ;
+- lignes : 2277 ;
+- titres Markdown : 77 ;
 - blocs code ou données significatifs : 81 ;
 - marqueurs `qa:code-explanation` : 81 ;
 - explications structurées hors diagnostics : 61 ;
@@ -98,3 +98,7 @@ Décision : **accepté au niveau `static-review`**, sous réserve de la réussit
 ## Correctif transversal — Synthèse opérationnelle Project Asteria
 
 La section de clôture propre à Project Asteria a été restaurée dans le chapitre 19. Elle transforme la conclusion générale en décisions de pipeline, identifiants, dépendances, portes d’acceptation et réserves directement applicables au projet fil rouge. Ce correctif ne modifie pas le périmètre technique ni le niveau de preuve `static-review` ; il restaure une exigence éditoriale transversale et rend sa présence contrôlable automatiquement.
+
+## Correctif transversal — Références techniques cliquables
+
+Les références web de la section technique sont désormais présentées comme liens Markdown nommés et directement cliquables. Les URL brutes, les URL entre accents graves et les bibliographies placées dans un bloc de code ne sont plus acceptées comme présentation lecteur. Ce correctif ne modifie ni le périmètre technique du chapitre ni son niveau de preuve `static-review`.

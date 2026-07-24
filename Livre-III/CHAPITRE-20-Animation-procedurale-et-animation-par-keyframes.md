@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 20 : Animation procédurale et animation par keyframes"
 id: "DOC-L3-CH20"
 status: "reviewed"
-version: "1.0.1"
+version: "1.0.2"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 20
-last-verified: "2026-07-24T11:13:52+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T11:13:52+02:00"
+audit-date: "2026-07-24T18:01:38+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-20.md"
 audit-level: "static-review"
 reference-engine:
@@ -2447,9 +2447,18 @@ Le pilote `AST-ANIM-PILOT-SCOUT-001` fournit un contrat complet pour passer du r
 
 ## Références techniques qualifiées
 
-- Blender Manual 5.0 : keyframes, Dope Sheet, Action Editor, Graph Editor, interpolation et types de clés ; la référence projet Blender 5.2.0 est conservée avec qualification documentaire.
-- Godot Engine 4.7/stable : `AnimationPlayer`, `AnimationTree`, `AnimationNodeStateMachine`, blend spaces, `OneShot`, modes de synchronisation et extraction du root motion.
-- glTF 2.0 : format d’échange par défaut pour les animations 3D et le squelette du pilote.
+Les liens suivants sont les références primaires utilisées pour les keyframes, éditeurs d’animation, graphes Godot et format d’échange. La référence projet Blender `5.2.0` est conservée ; les pages Blender `5.0` restent utilisées lorsqu’elles exposent la granularité publique vérifiée par le chapitre.
+
+- [Blender Manual — Keyframes](https://docs.blender.org/manual/en/5.0/animation/keyframes/index.html)
+- [Blender Manual — Éditer les keyframes](https://docs.blender.org/manual/en/5.0/animation/keyframes/editing.html)
+- [Blender Manual — Dope Sheet](https://docs.blender.org/manual/en/5.0/editors/dope_sheet/index.html)
+- [Blender Manual — Action Editor](https://docs.blender.org/manual/en/5.0/editors/dope_sheet/modes/action.html)
+- [Blender Manual — Graph Editor](https://docs.blender.org/manual/en/5.0/editors/graph_editor/index.html)
+- [Godot 4.7 — AnimationPlayer](https://docs.godotengine.org/en/4.7/classes/class_animationplayer.html)
+- [Godot 4.7 — AnimationTree](https://docs.godotengine.org/en/4.7/classes/class_animationtree.html)
+- [Godot 4.7 — Tutoriels d’animation](https://docs.godotengine.org/en/4.7/tutorials/animation/index.html)
+- [Godot 4.7 — Types de pistes d’animation](https://docs.godotengine.org/en/4.7/tutorials/animation/animation_track_types.html)
+- [Khronos — Spécification glTF 2.0](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html)
 
 ## 65. Synthèse opérationnelle pour Project Asteria
 

@@ -2,12 +2,12 @@
 title: "Audit post-création — Livre III, chapitre 22"
 id: "DOC-L3-QA-AUDIT-CH22"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 chapter-id: "DOC-L3-CH22"
-chapter-version: "1.0.0"
-audit-date: "2026-07-24T15:16:59+02:00"
-last-verified: "2026-07-24T15:16:59+02:00"
+chapter-version: "1.0.1"
+audit-date: "2026-07-24T18:01:38+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 audit-level: "static-review"
 protocol: "Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -51,11 +51,11 @@ Les livrables obligatoires sont préparés : storyboard, animatique, séquence G
 
 ## 5. Contrôles documentaires
 
-- lignes : 2075 ;
+- lignes : 2069 ;
 - titres : 81 ;
-- blocs code ou données : 86 ;
-- marqueurs d’explication : 86 ;
-- explications structurées hors diagnostics : 66 ;
+- blocs code ou données : 85 ;
+- marqueurs d’explication : 85 ;
+- explications structurées hors diagnostics : 65 ;
 - diagnostics détaillés : 10 ;
 - titres dupliqués : 0 ;
 - blocs significatifs dupliqués : 0 ;
@@ -90,3 +90,9 @@ Les formulations distinguent caméra cinématique et caméra gameplay, timeline 
 ## 8. Conclusion
 
 Le chapitre satisfait le plan maître et peut entrer dans la validation légère sans PDF. La preuve finale sera fermée après réussite des workflows permanents sur le lot matérialisé.
+
+## Correctif transversal — Références techniques cliquables
+
+Les références web de la section technique sont désormais présentées comme liens Markdown nommés et directement cliquables. Les URL brutes, les URL entre accents graves et les bibliographies placées dans un bloc de code ne sont plus acceptées comme présentation lecteur. Ce correctif ne modifie ni le périmètre technique du chapitre ni son niveau de preuve `static-review`.
+
+Le validateur permanent contrôle désormais cette présentation dans les chapitres 19 et suivants du Livre III ; une future régression devient une erreur QA bloquante plutôt qu’une simple divergence de style.

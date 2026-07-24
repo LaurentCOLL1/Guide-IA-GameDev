@@ -2,10 +2,10 @@
 title: "Protocole d’audit post-création des chapitres"
 id: "DOC-L2-QA-POST-CREATION"
 status: "complete"
-version: "1.7.8"
+version: "1.7.9"
 book: "Livre II"
 category: "quality-protocol"
-last-verified: "2026-07-21T19:59:30+02:00"
+last-verified: "2026-07-24T18:01:38+02:00"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 
@@ -251,6 +251,7 @@ Un tableau servant uniquement d’index de diagnostic peut rester compact s’il
 
 - [ ] Les versions et sources sont actuelles à la date d’audit.
 - [ ] Les sources principales sont officielles et épinglées lorsque possible.
+- [ ] Toute source web listée dans une section de références techniques est un lien Markdown nommé et directement cliquable ; aucune URL brute, entre accents graves ou enfermée dans un bloc de code ne remplace ce lien.
 - [ ] Les commandes sont relues argument par argument.
 - [ ] Les exemples de code font l’objet d’une revue syntaxique statique.
 - [ ] Les sorties attendues sont plausibles.
