@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.50.0"
+version: "3.50.1"
 lang: "fr-FR"
-last-updated: "2026-07-24T05:10:00+02:00"
+last-updated: "2026-07-24T05:30:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1786,6 +1786,18 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 21 traitera types de capture, provenance, consentement, nettoyage, contacts, mapping, poses de référence, retargeting entre proportions, corrections et intégration en bibliothèque, sans refaire l’animation par keyframes du chapitre 20.
 
 ## 27. Journal
+
+### 2026-07-24T05:30:00+02:00 — version 3.50.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-20.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 20 Finalizer Runner`, run `30074762997`, sur la tête documentaire `d633b32d99c77ae9c1407e7eca4bd3fa8c0a2359` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8589406545`, digest `5c1cf6067261e6d10f56a7522357cddcead41de1829c4046c52cfaf523107750` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8589406911`, digest `efd5b7133c64c24288c7a0ee083804dded01d8f05b0f641908c9291b6f613786` ;
+- empreinte SHA-256 du chapitre : `9caa2e71f4ad8bb1ecbf3d9dfe0eaf0189bf085ecba7884f7d759c136f9567f9` ;
+- empreinte SHA-256 de l’audit : `c132ed7d0950212a32e6689a13ad87ee69b4c94842cddf811d60a1bd2ad82d63` ;
+- métriques finales : 2 452 lignes, 76 titres, 81 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 21 — Capture de mouvement et retargeting, niveau Élevée ;
+- aucune animation, bibliothèque, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-24T05:10:00+02:00 — version 3.50.0
 

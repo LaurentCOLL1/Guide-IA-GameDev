@@ -1,9 +1,9 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH20
-status: provisional
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 20f5866f8c51eae421d840fdd2219e2c96aa46b2
-validated-head-commit: null
+validated-head-commit: d633b32d99c77ae9c1407e7eca4bd3fa8c0a2359
 chapter:
   id: DOC-L3-CH20
   path: Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
@@ -58,21 +58,21 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 20 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30074762997
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Chapter 20 Finalizer Runner
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30074762997
+    conclusion: success
   artifact:
-    id: null
+    id: 8589406545
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 5c1cf6067261e6d10f56a7522357cddcead41de1829c4046c52cfaf523107750
   context-artifact:
-    id: null
+    id: 8589406911
     name: usage-context-audit
-    digest: null
+    digest: efd5b7133c64c24288c7a0ee083804dded01d8f05b0f641908c9291b6f613786
 reservations:
 - Pilot animation set not approved by a production review.
 - Actions, cycles, poses and curves not created in Blender.
