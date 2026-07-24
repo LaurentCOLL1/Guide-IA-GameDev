@@ -1,0 +1,93 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH20
+status: complete
+validation-date: '2026-07-24'
+validated-base-commit: 20f5866f8c51eae421d840fdd2219e2c96aa46b2
+validated-head-commit: d633b32d99c77ae9c1407e7eca4bd3fa8c0a2359
+chapter:
+  id: DOC-L3-CH20
+  path: Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2452
+  chapter-headings: 76
+  chapter-code-and-data-blocks: 81
+  significant-code-and-data-blocks: 81
+  code-explanation-markers: 81
+  structured-non-error-code-explanations: 61
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  pose-timing-spacing-and-arcs-documented: true
+  locomotion-cycles-and-variations-documented: true
+  curves-tangents-and-cleanup-documented: true
+  root-motion-and-gameplay-speed-documented: true
+  events-contacts-and-action-windows-documented: true
+  blend-trees-additive-layers-and-masks-documented: true
+  procedural-ik-and-godot-tests-documented: true
+  animation-player-and-tree-documented: true
+  blend-space-sync-modes-documented: true
+  state-machine-and-transitions-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-rigging-duplication: true
+  no-mocap-duplication: true
+  no-cinematics-duplication: true
+  no-global-integration-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 9caa2e71f4ad8bb1ecbf3d9dfe0eaf0189bf085ecba7884f7d759c136f9567f9
+  audit-sha256: c132ed7d0950212a32e6689a13ad87ee69b4c94842cddf811d60a1bd2ad82d63
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 20 Finalizer Runner
+    execution: embedded-command
+    run-id: 30074762997
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Chapter 20 Finalizer Runner
+    execution: embedded-command
+    run-id: 30074762997
+    conclusion: success
+  artifact:
+    id: 8589406545
+    name: chapter-validation-without-pdf
+    digest: 5c1cf6067261e6d10f56a7522357cddcead41de1829c4046c52cfaf523107750
+  context-artifact:
+    id: 8589406911
+    name: usage-context-audit
+    digest: efd5b7133c64c24288c7a0ee083804dded01d8f05b0f641908c9291b6f613786
+reservations:
+- Pilot animation set not approved by a production review.
+- Actions, cycles, poses and curves not created in Blender.
+- Timing, spacing, arcs and contacts not inspected.
+- Root motion, in-place variants and gameplay speed not measured.
+- GLB, manifest and Godot animation libraries not produced.
+- AnimationPlayer, AnimationTree, blend spaces and state machine not executed.
+- Events, method tracks and action windows not tested.
+- Additive layers, masks and OneShot not validated.
+- Look, aim, foot placement and interaction warping not measured.
+- CPU, GPU and memory cost not measured.
+- Sources, rights and provenance not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: c151703b74ef1dd37b3eb276e75dd441db9ae91d
+  conclusion: success

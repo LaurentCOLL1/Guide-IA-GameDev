@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.49.1"
+version: "3.50.1"
 lang: "fr-FR"
-last-updated: "2026-07-24T04:30:00+02:00"
+last-updated: "2026-07-24T05:30:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1697,11 +1697,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas activer `override_pose` pour une simple attache visuelle ;
 - ne pas valider un rig uniquement en pose neutre ;
 
+- ne pas enregistrer chaque contrôleur à chaque image sans distinguer clés artistiques et bake ;
+- ne pas utiliser l’Auto Key sans Keying Set, signal visible et revue des canaux créés ;
+- ne pas accélérer une marche pour fabriquer une course ;
+- ne pas mélanger des cycles sans aligner phases et contacts ;
+- ne pas utiliser l’IK procédurale pour masquer un glissement présent dans la source ;
+- ne pas laisser le root motion décider directement collision ou déplacement autoritaire ;
+- ne pas appliquer dégâts, consommation ou progression depuis une piste de méthode ;
+- ne pas éditer directement une scène importée comme surface d’intégration ;
+- ne pas étiqueter un clip absolu comme couche additive sans pose de référence ;
+- ne pas employer un fondu unique pour toutes les transitions ;
+- ne pas valider les animations uniquement comme clips isolés ;
+- ne pas supposer qu’un graphe complexe compense des poses, arcs ou contacts faibles ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 19 chapitres sur 30 ;
+- progression du Livre III : 20 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1721,6 +1734,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 19 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 20 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1758,20 +1772,47 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 19 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-RIG-PILOT-SCOUT-001` couvre squelette de déformation, rig de contrôle, roll, IK/FK, poids, twist, correctifs, sockets, rest pose, retargeting, export glTF et validation structurelle Godot. Aucun rig, poids, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 20 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-ANIM-PILOT-SCOUT-001` couvre pose, timing, spacing, arcs, cycles, courbes, root motion, événements, couches, blend spaces, machine à états, IK procédurale et validation structurelle Godot. Aucune animation, bibliothèque, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
+Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 20 traitera pose, timing, spacing, arcs, cycles, courbes, root motion, événements, blend trees, couches additives, masques, IK procédurale et tests Godot, sans refaire le rigging et le skinning du chapitre 19.
+Le chapitre 21 traitera types de capture, provenance, consentement, nettoyage, contacts, mapping, poses de référence, retargeting entre proportions, corrections et intégration en bibliothèque, sans refaire l’animation par keyframes du chapitre 20.
 
 ## 27. Journal
+
+### 2026-07-24T05:30:00+02:00 — version 3.50.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-20.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 20 Finalizer Runner`, run `30074762997`, sur la tête documentaire `d633b32d99c77ae9c1407e7eca4bd3fa8c0a2359` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8589406545`, digest `5c1cf6067261e6d10f56a7522357cddcead41de1829c4046c52cfaf523107750` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8589406911`, digest `efd5b7133c64c24288c7a0ee083804dded01d8f05b0f641908c9291b6f613786` ;
+- empreinte SHA-256 du chapitre : `9caa2e71f4ad8bb1ecbf3d9dfe0eaf0189bf085ecba7884f7d759c136f9567f9` ;
+- empreinte SHA-256 de l’audit : `c132ed7d0950212a32e6689a13ad87ee69b4c94842cddf811d60a1bd2ad82d63` ;
+- métriques finales : 2 452 lignes, 76 titres, 81 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 21 — Capture de mouvement et retargeting, niveau Élevée ;
+- aucune animation, bibliothèque, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
+
+### 2026-07-24T05:10:00+02:00 — version 3.50.0
+
+- chapitre 20 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-ANIM-PILOT-SCOUT-001` documenté pour actions keyframes, cycles, root motion, événements, graphes et corrections procédurales ;
+- pose, timing, spacing, arcs, silhouette, poids, follow-through, holds et anticipation encadrés ;
+- Dope Sheet, Graph Editor, interpolation, poignées, rotations et réduction de clés documentés ;
+- idle, marche, course, démarrages, arrêts, demi-tours, contacts et vitesse gameplay encadrés ;
+- couches additives, masques, blend spaces, synchronisation, machine à états et OneShot préparés ;
+- `AnimationPlayer`, `AnimationTree`, root motion, événements filtrés et scène pilote Godot documentés ;
+- regard, visée, placement des pieds et ajustement d’interaction bornés et désactivables ;
+- métriques statiques : 2 452 lignes, 76 titres, 81 blocs significatifs, 61 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 21 — Capture de mouvement et retargeting, niveau Élevée ;
+- aucune animation, bibliothèque, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-24T04:30:00+02:00 — version 3.49.1
 

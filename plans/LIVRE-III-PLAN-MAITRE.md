@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre III"
 id: "DOC-PLAN-L3"
 status: "active"
-version: "1.1.19"
+version: "1.1.20"
 lang: "fr-FR"
-last-updated: "2026-07-24T04:10:00+02:00"
+last-updated: "2026-07-24T05:10:00+02:00"
 book: "Livre III"
 chapter-count: 30
 ---
@@ -12,7 +12,7 @@ chapter-count: 30
 # Plan maître détaillé — Livre III
 
 > **Titre du Livre :** Production des contenus et des assets  
-> **Statut :** en cours — 19 chapitres sur 30  
+> **Statut :** en cours — 20 chapitres sur 30  
 > **Rôle :** transformer la direction artistique en assets traçables, juridiquement documentés, optimisés et directement intégrables dans Godot.
 
 ## 1. Fonction de ce document dans une nouvelle conversation
