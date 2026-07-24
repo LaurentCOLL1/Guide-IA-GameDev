@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.24.0"
+version: "1.25.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -40,8 +40,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 23. [Effets visuels, particules et simulations](CHAPITRE-23-Effets-visuels-particules-et-simulations.md)
 24. [Interface utilisateur](CHAPITRE-24-Interface-utilisateur.md)
 25. [Expérience utilisateur et accessibilité visuelle](CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md)
+26. [Voix, bruitages, ambiances et musique](CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md)
 
-Les chapitres 26 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 27 à 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 

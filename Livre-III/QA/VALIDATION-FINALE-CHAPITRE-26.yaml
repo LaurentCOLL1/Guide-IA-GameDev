@@ -1,0 +1,87 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH26
+validation-authority: permanent-workflows
+status: complete
+validation-date: '2026-07-24'
+validated-base-commit: 554608b827be22bfaa2950e0afd60a1d82d1c81e
+validated-head-commit: 4275706c76565c8333d9993682dc420b58223dac
+chapter:
+  id: DOC-L3-CH26
+  path: Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2170
+  chapter-headings: 74
+  chapter-code-and-data-blocks: 77
+  significant-code-and-data-blocks: 77
+  code-explanation-markers: 77
+  structured-non-error-code-explanations: 57
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  voice-sfx-ambience-and-music-documented: true
+  recording-generation-editing-and-restoration-documented: true
+  formats-sample-rate-channels-and-compression-documented: true
+  loudness-true-peak-and-headroom-documented: true
+  loops-variations-and-anti-repetition-documented: true
+  spatialization-zones-and-buses-documented: true
+  provenance-licences-and-consent-documented: true
+  memory-concurrency-and-latency-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: a620a005c31ad54d7436836a76e03d32bb226cf62c54c701bd5f849c7d19a92c
+  audit-sha256: c8c8ec070f422f23014d30f0edbf54e03df755ffe5d76b9eec659ad307eacb84
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30127352470
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: 30127352470
+    conclusion: success
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30127352435
+    conclusion: success
+  artifact:
+    id: 8609737489
+    name: chapter-validation-without-pdf
+    digest: 22b2d6064c0e111e11ccaf56ca12ee50e0fca5f7733ea4a497492f954f2abdce
+reservations:
+- Audio pilot not materialized.
+- Recordings, generated assets, SFX, ambience and music not created.
+- Consents, licences and legal evidence not qualified.
+- Masters, runtime exports, loops and variations not produced.
+- Godot buses, effects, snapshots, zones and scenes not created.
+- Loudness, true peak, headroom and intelligibility not measured.
+- Polyphony, pooling and saturation not executed.
+- CPU, memory, allocations and latency not measured.
+- Desktop, Web and target-device profiles not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: ffe39384ba74fb6e8578fbe6ea8bce936897a821
+  conclusion: success
