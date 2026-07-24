@@ -20,18 +20,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: fix/livre-iii-syntheses-asteria
-          fetch-depth: 1
-          show-progress: false
-      - name: Reconstruire et exécuter le correcteur vérifié
+          fetch-depth: 0
+      - name: Configurer Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Reconstruire et exécuter le correcteur vérifié
+        run: |
           base64 -d .qa/fix_asteria_summaries.py.gz.b64 | gzip -d > .qa/fix_asteria_summaries.py
           python -m py_compile .qa/fix_asteria_summaries.py
-          if ! python .qa/fix_asteria_summaries.py > /tmp/fix-asteria.log 2>&1; then
-            tail -n 120 /tmp/fix-asteria.log > .qa/fix-asteria-error.log
-            git add .qa/fix-asteria-error.log
-            git commit -m "chore: consigner l’erreur du correcteur Asteria" || true
-            git push || true
-            exit 0
-          fi
+          python .qa/fix_asteria_summaries.py
