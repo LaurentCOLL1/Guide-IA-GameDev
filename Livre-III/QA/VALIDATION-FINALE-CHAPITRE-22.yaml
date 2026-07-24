@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH22
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 9afe70bd42ee6a5c7e53098beab0c253faed0dd3
-validated-head-commit: null
+validated-head-commit: 7d2f6f93247f7e9b69e1e05c1495d5faab6addc7
 chapter:
   id: DOC-L3-CH22
   path: Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2075
   chapter-headings: 81
   chapter-code-and-data-blocks: 86
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -62,22 +62,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30099464768
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30099464768
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30099464790
+    conclusion: success
   artifact:
-    id: null
+    id: 8598970792
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 3fb6fc8c8022afa160e9c6770f045ced23075055b647881bd687945774687a6b
 reservations:
 - Storyboard, shot list and animatic not materialized or reviewed.
 - Character, environment, animation, dialogue, light and VFX dependencies not produced for the sequence.
