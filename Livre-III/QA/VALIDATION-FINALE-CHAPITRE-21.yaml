@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH21
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
-validated-base-commit: bd9e2d8cddebbcfd747b2dab4c6f46633d1867d7
-validated-head-commit: null
+validated-base-commit: ae58414e444ab9f4fc01b368e2712a70d262c5ff
+validated-head-commit: ad57505c187ae156a12fdacbc42f952d24e97786
 chapter:
   id: DOC-L3-CH21
   path: Livre-III/CHAPITRE-21-Capture-de-mouvement-et-retargeting.md
   version: 1.0.1
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2834
   chapter-headings: 86
   chapter-code-and-data-blocks: 93
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -60,22 +60,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30107905385
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30107905385
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30107896629
+    conclusion: success
   artifact:
-    id: null
+    id: 8602386352
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 13d5d5ea2a0c583c4c04aeed422d7139fa40b27228dc43933db4d8a1a6e663c9
 reservations:
 - Capture method and hardware not selected.
 - Performer, consent and private contract not materialized in the public repository.
@@ -92,4 +92,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
