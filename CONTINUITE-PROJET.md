@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.47.1"
+version: "3.48.1"
 lang: "fr-FR"
-last-updated: "2026-07-23T23:35:00+02:00"
+last-updated: "2026-07-24T02:55:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -150,7 +150,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 17 chapitres sur 30.**
+**En cours : 18 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -169,8 +169,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 15. Végétation et biomes — terminé au niveau `static-review`.
 16. Textures, matériaux et pipeline PBR — terminé au niveau `static-review`.
 17. UV, retopologie et baking — terminé au niveau `static-review`.
+18. LOD, imposteurs et optimisation géométrique — terminé au niveau `static-review`.
 
-Les chapitres 18 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 19 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1343,6 +1344,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - un retrait conserve l’historique, gèle les nouvelles livraisons et crée un remplacement versionné ;
 - aucune fiche réelle, licence, contrat, consentement, revue juridique ou CI de provenance n’est revendiqué avant matérialisation.
 
+### 11.31 LOD, imposteurs et optimisation géométrique
+
+- `AST-LOD-PILOT-SIGNAL-TOWER-001` constitue le pilote de chaîne LOD du chapitre 18 ;
+- la taille écran, le FOV, la résolution, l’échelle et l’importance gameplay restent des variables séparées ;
+- triangles Blender, sommets exportés, surfaces, draw calls, mémoire et temps CPU/GPU sont mesurés distinctement ;
+- le LOD0 approuvé est gelé avant dérivation et toute modification invalide les niveaux, imposteurs, captures et benchmarks concernés ;
+- LOD manuel, LOD automatique Godot, HLOD, imposteur, billboard, proxy d’ombre et proxy de collision ont des responsabilités distinctes ;
+- Collapse, Planar et Un-Subdivide sont choisis selon la topologie, avec silhouette et signaux visuels protégés ;
+- chaque niveau possède ses normales, tangentes, triangulation, UV et matériaux qualifiés ;
+- `lod_bias` sert au diagnostic et ne masque pas une chaîne mal conçue ;
+- les plages de visibilité utilisent des seuils cohérents et des marges d’hystérésis ;
+- les fades `SELF` et `DEPENDENCIES` ne sont considérés comme doux que sous Forward+ ;
+- collisions et règles gameplay ne sont jamais commandées directement par le niveau visuel ;
+- les imposteurs documentent pivot, angles, atlas, alpha, padding, normales, profondeur et ombres ;
+- MultiMesh, AABB, culling et occlusion sont mesurés sans devenir une optimisation globale du jeu ;
+- baseline, variantes, parcours caméra, répétitions, données brutes, captures et tableau comparatif sont requis ;
+- aucune amélioration runtime, mesh, atlas, GLB, scène, capture ou mesure n’est revendiquée avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1657,11 +1676,21 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - ne pas oublier la mise à jour de ce fichier.
 
+- ne pas approuver un LOD sur son seul ratio de triangles ;
+- ne pas utiliser une distance unique sans FOV, résolution et taille écran ;
+- ne pas laisser des niveaux partager des origines ou AABB incohérentes ;
+- ne pas dépendre d’un fondu Forward+ sur Mobile ou Compatibility ;
+- ne pas lier directement collision ou autorité gameplay au LOD visuel ;
+- ne pas créer un imposteur sans padding, contexte d’alpha et revue multi-angle ;
+- ne pas comparer deux benchmarks qui changent plusieurs variables à la fois ;
+- ne pas forcer une AABB immense pour masquer un défaut de culling ;
+- ne pas présenter le LOD automatique comme approuvé sans inspection humaine ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 17 chapitres sur 30 ;
+- progression du Livre III : 18 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1679,6 +1708,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 15 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 16 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 18 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1716,20 +1746,46 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 17 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-BAKE-PILOT-RELAY-001` couvre maillages haute et basse résolution, retopologie statique et déformable, edge flow, densité locale, normales, triangulation, UV, densité de texels, marges, chevauchements, bake sets, cages, distances de rayon, baking tangent-space, AO, curvature, cohérence OpenGL et comparaison Blender–Godot. Aucun maillage, UV, cage, bake, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 18 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-LOD-PILOT-SIGNAL-TOWER-001` couvre budgets par taille écran, LOD manuels ou automatiques, décimation, silhouette, matériaux, imposteurs, billboards, plages de visibilité, hystérésis, ombres, collisions simplifiées et benchmark. Aucun mesh, atlas, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
+Livre-III/CHAPITRE-19-Rigging-et-skinning.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 18 traitera les budgets par taille écran, la décimation contrôlée, les LOD, imposteurs, billboards, seuils, hystérésis, transitions, popping, ombres, collisions simplifiées et benchmark avant/après, sans refaire la retopologie, les UV ou le baking du chapitre 17.
+Le chapitre 19 traitera squelettes de déformation, rigs de contrôle, orientation et roll des os, contraintes, poids, twist bones, correctifs, sockets, rest pose, retargeting et export Godot, sans refaire la chaîne LOD du chapitre 18.
 
 ## 27. Journal
+
+### 2026-07-24T02:55:00+02:00 — version 3.48.1
+
+- preuve finale `Livre-III/QA/VALIDATION-FINALE-CHAPITRE-18.yaml` fermée avec zéro erreur bloquante et un avertissement documentaire ;
+- validations légères sans PDF réussies dans `Chapter 18 Finalizer Runner`, run `30058228976`, sur la tête documentaire `7c19bcd270f4b3f5e99037fda8d2750ae7127996` ;
+- artefact `chapter-validation-without-pdf` enregistré sous l’identifiant `8583558109`, digest `256057dbe11faa7507e33947becdfb0eff5b152103794d92c88e29d0232a28bb` ;
+- artefact `usage-context-audit` enregistré sous l’identifiant `8583558353`, digest `65fc51322c2dff5a9e47eeffc3407068fa469ac74154b0ddbadd73a95866c975` ;
+- empreinte SHA-256 du chapitre : `e3a68e7826741d7f09136777108c370e5678bf5c5e4707c337164b1f88092697` ;
+- empreinte SHA-256 de l’audit : `7a1740697d1a8aeefad7ee2c6ca32b73aaa8d601988e223fcc3c43eaf6c935d1` ;
+- métriques finales : 3 904 lignes, 76 titres, 81 blocs significatifs et aucun doublon ;
+- prochaine action maintenue au chapitre 19 — Rigging et skinning, niveau Élevée ;
+- aucun mesh LOD, proxy, atlas, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
+
+### 2026-07-24T02:35:00+02:00 — version 3.48.0
+
+- chapitre 18 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-LOD-PILOT-SIGNAL-TOWER-001` documenté pour LOD manuels, LOD automatique Godot, HLOD, imposteur et billboard ;
+- budgets par taille écran, importance gameplay, plateforme, caméra, triangles, sommets, surfaces, mémoire et draw calls encadrés ;
+- Collapse, Planar, Un-Subdivide, protections locales, silhouette, normales, tangentes, UV, matériaux et textures documentés ;
+- plages de visibilité, hystérésis, fades selon renderer, `lod_bias`, proxies d’ombre et collisions simplifiées encadrés ;
+- atlas multi-vues, alpha, padding, normales, profondeur, orientation et ombres d’imposteur documentés ;
+- MultiMesh, AABB, culling, occlusion, scène de benchmark, métriques, captures et non-régression préparés ;
+- métriques statiques : 3 904 lignes, 76 titres, 81 blocs significatifs, 61 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 19 — Rigging et skinning, niveau Élevée ;
+- aucun mesh LOD, proxy, atlas, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-23T23:35:00+02:00 — version 3.47.1
 
