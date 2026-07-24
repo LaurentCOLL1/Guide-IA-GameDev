@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH27
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 03e92c7db82c463f67be2b6566bb3adda8857af9
-validated-head-commit: null
+validated-head-commit: e6130aba62e44e4232e18965b587032158ca1b58
 chapter:
   id: DOC-L3-CH27
   path: Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2345
   chapter-headings: 76
   chapter-code-and-data-blocks: 82
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -52,22 +52,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30130294494
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30130294494
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30130294565
+    conclusion: success
   artifact:
-    id: null
+    id: 8610814469
     name: chapter-validation-without-pdf
-    digest: null
+    digest: a3668f362a13c04ebe9f4a1a28598e6af36f3fa17bac0aecdfc050e6d8f6970f
 reservations:
 - Facial pilot not materialized.
 - Viseme set, blendshapes, correctives and face rig profile not created.
@@ -83,4 +83,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
