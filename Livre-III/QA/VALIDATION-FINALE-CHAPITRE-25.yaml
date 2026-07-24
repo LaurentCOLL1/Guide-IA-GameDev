@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH25
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 9a460a08b55ec277624a77cbaef1a94ee83ad280
-validated-head-commit: null
+validated-head-commit: 191864f57a1d13543d25f2b79650450ae0460b01
 chapter:
   id: DOC-L3-CH25
   path: Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2158
   chapter-headings: 71
   chapter-code-and-data-blocks: 74
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -57,22 +57,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30123756019
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30123756019
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30123755998
+    conclusion: success
   artifact:
-    id: null
+    id: 8608403350
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 7cbfb907685f3428649227164bdba148720eca59c25e9f3b78e6c317f3ede2e7
 reservations:
 - UX pilot not materialized.
 - Accessibility profiles and contrast variants not created.
@@ -89,4 +89,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
