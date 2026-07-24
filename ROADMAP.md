@@ -135,12 +135,13 @@
 - [x] Chapitre 22 — Cinématiques, caméras et mise en scène.
 - [x] Chapitre 23 — Effets visuels, particules et simulations.
 - [x] Chapitre 24 — Interface utilisateur.
+- [x] Chapitre 25 — Expérience utilisateur et accessibilité visuelle.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 24 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 25 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

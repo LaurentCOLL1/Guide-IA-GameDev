@@ -1,8 +1,0 @@
-l3-ch25-generator-part-01.txt: actual=(9000, '259fbc34a50f0db871e0f572e02ce9851b49578e'); expected=(9000, '259fbc34a50f0db871e0f572e02ce9851b49578e'); padding=[]; match=True
-l3-ch25-generator-part-02.txt: actual=(9000, '61e4a706304902cfd395d1fe17446ab705d4aa94'); expected=(9000, '61e4a706304902cfd395d1fe17446ab705d4aa94'); padding=[]; match=True
-l3-ch25-generator-part-03.txt: actual=(9001, '8f083aa50058332acfb6b76a4276ba4a1cb6ac17'); expected=(9000, '22662579ac053852c637112c75f9607ba92b1187'); padding=[]; match=False
-l3-ch25-generator-part-04.txt: actual=(9000, '2d7d535724f67c1bc223de85ec089e843a908982'); expected=(9000, '2d7d535724f67c1bc223de85ec089e843a908982'); padding=[]; match=True
-l3-ch25-generator-part-05.txt: actual=(9000, '34a65c5fdb25f3939365b96c4c6c0559654a9904'); expected=(9000, '34a65c5fdb25f3939365b96c4c6c0559654a9904'); padding=[]; match=True
-l3-ch25-generator-part-06.txt: actual=(3376, 'b1c4727df6498de84a9ff2bbf25c4a498590bc47'); expected=(3376, 'b1c4727df6498de84a9ff2bbf25c4a498590bc47'); padding=[3374, 3375]; match=True
-combined-length=48377
-combined-padding=[48375, 48376]

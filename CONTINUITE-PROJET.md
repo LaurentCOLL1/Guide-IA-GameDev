@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.55.0"
+version: "3.56.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T20:12:01+02:00"
+last-updated: "2026-07-24T21:47:46+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 24 chapitres sur 30.**
+**En cours : 25 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -180,8 +180,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 22. Cinématiques, caméras et mise en scène — terminé au niveau `static-review`.
 23. Effets visuels, particules et simulations — terminé au niveau `static-review`.
 24. Interface utilisateur — terminé au niveau `static-review`.
+25. Expérience utilisateur et accessibilité visuelle — terminé au niveau `static-review`.
 
-Les chapitres 25 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 26 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1435,6 +1436,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige cohérence visuelle, navigation complète, adaptation, dépendances qualifiées et mesures runtime ;
 - aucun thème, composant, écran, police, capture, test multi-résolution ou benchmark n’est revendiqué avant matérialisation.
 
+
+### 11.36 Expérience utilisateur et accessibilité visuelle
+
+- `AST-UX-PILOT-CORE-SHELL-001` constitue le pilote UX et accessibilité visuelle du chapitre 25 ;
+- les cinq écrans de `AST-UI-PILOT-CORE-SHELL-001` sont évalués par tâches, profils et preuves séparées ;
+- hiérarchie, charge cognitive, densité et divulgation progressive sont définies selon la fonction de l’information ;
+- les critères WCAG 2.2 servent de références mesurables sans constituer une certification automatique du jeu ;
+- contraste, taille, reflow, focus et cibles sont mesurés dans les contextes de rendu réels ;
+- toute signification portée par la couleur possède un canal redondant par texte, forme, icône, motif ou position ;
+- les profils de contraste, texte, couleur, mouvement et focus sont composables et n’exigent aucun diagnostic ;
+- le mouvement est inventorié par fonction ; la variante réduite conserve état final, information critique et disponibilité des actions ;
+- erreurs, confirmations, annulation, retour, retry et undo possèdent des contrats distincts et récupérables ;
+- les tests utilisent tâches versionnées, fixtures, consentements séparés, observations brutes et interprétations révisables ;
+- une personne ou un petit panel ne représente jamais tous les joueurs ; toute conclusion cite son périmètre et ses limites ;
+- identités, enregistrements et données sensibles restent hors du dépôt public ;
+- la porte exige preuves techniques, parcours de tâches, retests, confidentialité et mesures runtime ;
+- aucun profil, mesure, participant, session, rapport, benchmark ou résultat runtime n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1836,12 +1855,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas fermer une modale sans restaurer une cible de focus valide ;
 - ne pas empiler des transitions concurrentes ni laisser une hitbox active pendant la sortie visuelle ;
 
+- ne pas coder une information critique par la couleur seule ;
+- ne pas agrandir toute l’interface avec un simple `scale` sans reflow ni tailles minimales recalculées ;
+- ne pas employer un indicateur de focus subtil, non mesuré ou confondu avec le survol ;
+- ne pas accélérer uniformément toutes les animations pour fabriquer un profil de mouvement réduit ;
+- ne pas afficher seulement un code interne lorsqu’une action échoue ;
+- ne pas utiliser `Oui` et `Non` pour une confirmation destructive ambiguë ;
+- ne pas faire disparaître automatiquement une notification critique sans historique ni récupération ;
+- ne pas remplacer un scénario de tâche par une question générale de préférence ;
+- ne pas publier identité, citation, enregistrement ou donnée sensible sans consentement séparé ;
+- ne pas généraliser une observation ou un petit échantillon à tous les joueurs et toutes les plateformes ;
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 24 chapitres sur 30 ;
+- progression du Livre III : 25 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1866,6 +1895,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 22 du Livre III : version `1.0.1`, niveau `static-review` ;
 - chapitre 23 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 24 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 25 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1903,20 +1933,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 24 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-UI-PILOT-CORE-SHELL-001` couvre design system, tokens, thèmes, variations, composants, menus, HUD, inventaire, fenêtres, navigation souris-clavier-manette, ratios, zones sûres, échelle UI, localisation et tests multi-résolution. Aucun thème, composant, écran, police, capture, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 25 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-UX-PILOT-CORE-SHELL-001` couvre hiérarchie de l’information, charge cognitive, contraste, tailles, couleur redondante, focus, cibles, mouvement réduit, erreurs, confirmations, récupération, profils composables, consentement et protocoles de tests utilisateurs. Aucun profil, mesure, participant, session, rapport, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
+Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 25 traitera hiérarchie de l’information, charge cognitive, contrastes, tailles, daltonisme, codages redondants, réduction du mouvement, messages d’erreur, confirmations, annulation et protocoles de tests utilisateurs, sans refaire le design system, les thèmes, les composants ou la campagne multi-résolution du chapitre 24.
+Le chapitre 26 traitera voix, bruitages, ambiances, musique, enregistrement, génération, nettoyage, formats, loudness, boucles, spatialisation, bus Godot, provenance et tests mémoire, sans refaire le design system, les profils visuels ou les protocoles de tests utilisateurs du chapitre 25.
 
 ## 27. Journal
+
+### 2026-07-24T21:47:46+02:00 — version 3.56.0
+
+- chapitre 25 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-UX-PILOT-CORE-SHELL-001` défini sur les cinq écrans du noyau UI ;
+- hiérarchie de l’information, charge cognitive, densité, regroupement et divulgation progressive documentés ;
+- contrastes, tailles, typographie, reflow, perception des couleurs et codages redondants encadrés ;
+- focus visible, ordre logique, taille des cibles, profils de mouvement réduit et revue des flashs préparés ;
+- messages d’erreur, confirmations, annulation, retour, retry, undo et notifications persistantes séparés ;
+- profils composables, brouillon, aperçu, application et migrations de réglages documentés ;
+- scénarios, recrutement, consentement, confidentialité, facilitation, observations, gravité, rapport et retests préparés ;
+- références WCAG utilisées comme objectifs mesurables sans certification automatique du jeu ;
+- progression documentaire portée à 25 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 26 — Voix, bruitages, ambiances et musique, niveau Élevée ;
+- aucun profil, mesure, participant, session, rapport, test runtime, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-24T20:12:01+02:00 — version 3.55.0
 

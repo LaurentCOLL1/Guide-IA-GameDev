@@ -1,0 +1,92 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH25
+validation-authority: permanent-workflows
+status: pending
+validation-date: '2026-07-24'
+validated-base-commit: 9a460a08b55ec277624a77cbaef1a94ee83ad280
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH25
+  path: Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2158
+  chapter-headings: 71
+  chapter-code-and-data-blocks: 74
+  significant-code-and-data-blocks: 74
+  code-explanation-markers: 74
+  structured-non-error-code-explanations: 54
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  information-hierarchy-and-cognitive-load-documented: true
+  contrast-text-size-density-and-readability-documented: true
+  color-vision-and-redundant-coding-documented: true
+  focus-navigation-and-logical-order-documented: true
+  target-size-and-spacing-documented: true
+  motion-reduction-and-flash-review-documented: true
+  errors-confirmations-cancellation-and-recovery-documented: true
+  accessibility-profiles-and-migrations-documented: true
+  user-task-protocol-and-analysis-documented: true
+  consent-privacy-and-retention-documented: true
+  no-gameplay-authority: true
+  no-medical-diagnosis-assumption: true
+  no-wcag-game-certification-claim: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: cad4f2ce3dcf65c00b90b1f284d4b32f74d1efc979a14104640ab31a333d988a
+  audit-sha256: 3f2975f82c6c171d6e74696c99603e55a2c4fca105a35e9212cf2b1c1a8b4e51
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+- UX pilot not materialized.
+- Accessibility profiles and contrast variants not created.
+- Contrast, focus and target measurements not recorded.
+- Reduced-motion and flash variants not inspected.
+- User scenarios and fixtures not materialized.
+- No participant recruited and no user session conducted.
+- Consent, restricted storage, retention and withdrawal not operationalized.
+- Observations, issues, report and retests not produced.
+- WCAG conformance for the game not claimed.
+- CPU, GPU, memory, allocations and latency not measured.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
