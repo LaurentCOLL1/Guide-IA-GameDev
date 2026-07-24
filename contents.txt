@@ -81,6 +81,7 @@ Livre-III/CHAPITRE-15-Vegetation-et-biomes.md
 Livre-III/CHAPITRE-16-Textures-materiaux-et-pipeline-PBR.md
 Livre-III/CHAPITRE-17-UV-retopologie-et-baking.md
 Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
+Livre-III/CHAPITRE-19-Rigging-et-skinning.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

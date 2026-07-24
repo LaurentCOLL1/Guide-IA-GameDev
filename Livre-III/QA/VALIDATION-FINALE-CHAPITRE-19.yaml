@@ -1,0 +1,93 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH19
+status: pending
+validation-date: '2026-07-24'
+validated-base-commit: 6aff86b0b1e7042fe3eb217ddbce14c75b9b937f
+validated-head-commit: pending
+chapter:
+  id: DOC-L3-CH19
+  path: Livre-III/CHAPITRE-19-Rigging-et-skinning.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: 1
+  chapter-lines: 2255
+  chapter-headings: 76
+  chapter-code-and-data-blocks: 81
+  significant-code-and-data-blocks: 81
+  code-explanation-markers: 81
+  structured-non-error-code-explanations: 61
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  deformation-and-control-skeletons-documented: true
+  bone-roll-and-hierarchy-documented: true
+  constraints-and-joint-limits-documented: true
+  weights-influences-and-volumes-documented: true
+  twist-correctives-and-extreme-poses-documented: true
+  sockets-and-accessory-bones-documented: true
+  rest-pose-and-gltf-export-documented: true
+  godot-skeleton3d-documented: true
+  retargeting-and-bone-map-documented: true
+  bone-attachments-documented: true
+  godot-structural-validation-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-lod-duplication: true
+  no-animation-authoring-duplication: true
+  no-mocap-duplication: true
+  no-global-integration-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 57b09954e53bd85507cc283e373ba5b6a66981100dac277db36041851e241e7b
+  audit-sha256: 6b04f3a29668933df08e4a8ccc88c81373545baaa3297b87c92bdd6afd781c67
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 19 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 19 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+  context-artifact:
+    id: pending
+    name: usage-context-audit
+    digest: pending
+reservations:
+- Pilot asset not approved by a production review.
+- Deformation skeleton, control rig and corrective bones not created.
+- Bone roll, constraints, IK/FK and spaces not tested.
+- Skin bind, weights and influence limits not executed.
+- Extreme poses, volumes and intersections not measured.
+- Sockets and accessory attachments not tested.
+- GLB, manifest, Godot scene and captures not produced.
+- Skeleton3D, BoneMap and retargeting not tested.
+- CPU and GPU skinning cost not measured.
+- Sources, rights and provenance not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending

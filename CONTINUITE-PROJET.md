@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.48.1"
+version: "3.49.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T02:55:00+02:00"
+last-updated: "2026-07-24T04:10:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1686,11 +1686,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas forcer une AABB immense pour masquer un défaut de culling ;
 - ne pas présenter le LOD automatique comme approuvé sans inspection humaine ;
 
+- ne pas exporter contrôleurs et mécanismes comme squelette de déformation ;
+- ne pas corriger un mauvais roll par une contrainte compensatoire ;
+- ne pas modifier la rest pose après bind sans nouvelle version et revalidation ;
+- ne pas approuver les poids automatiques sans grille de poses ;
+- ne pas limiter les influences sans nettoyage, normalisation et comparaison ;
+- ne pas miroiter aveuglément une région asymétrique ;
+- ne pas donner à un socket ou `BoneAttachment3D` une autorité gameplay ;
+- ne pas supposer que des noms identiques suffisent au retargeting ;
+- ne pas activer `override_pose` pour une simple attache visuelle ;
+- ne pas valider un rig uniquement en pose neutre ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 18 chapitres sur 30 ;
+- progression du Livre III : 19 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1709,6 +1720,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 17 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 19 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1746,20 +1758,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 18 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-LOD-PILOT-SIGNAL-TOWER-001` couvre budgets par taille écran, LOD manuels ou automatiques, décimation, silhouette, matériaux, imposteurs, billboards, plages de visibilité, hystérésis, ombres, collisions simplifiées et benchmark. Aucun mesh, atlas, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
+Le chapitre 19 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-RIG-PILOT-SCOUT-001` couvre squelette de déformation, rig de contrôle, roll, IK/FK, poids, twist, correctifs, sockets, rest pose, retargeting, export glTF et validation structurelle Godot. Aucun rig, poids, GLB, scène, capture, rapport ou résultat runtime n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-19-Rigging-et-skinning.md
+Livre-III/CHAPITRE-20-Animation-procedurale-et-animation-par-keyframes.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 19 traitera squelettes de déformation, rigs de contrôle, orientation et roll des os, contraintes, poids, twist bones, correctifs, sockets, rest pose, retargeting et export Godot, sans refaire la chaîne LOD du chapitre 18.
+Le chapitre 20 traitera pose, timing, spacing, arcs, cycles, courbes, root motion, événements, blend trees, couches additives, masques, IK procédurale et tests Godot, sans refaire le rigging et le skinning du chapitre 19.
 
 ## 27. Journal
+
+### 2026-07-24T04:10:00+02:00 — version 3.49.0
+
+- chapitre 19 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-RIG-PILOT-SCOUT-001` documenté pour squelette de déformation, rig de contrôle, skinning, sockets et retargeting ;
+- axes, unités, rest pose, noms, hiérarchie, roll, symétrie et collections d’os encadrés ;
+- IK, FK, pole targets, changements d’espace, limites, twist bones et correctifs documentés ;
+- bind, poids automatiques, normalisation, influences, miroir et revues par articulation encadrés ;
+- export GLB filtré, `Skeleton3D`, `BoneMap`, `SkeletonProfile`, retargeting et `BoneAttachment3D` préparés ;
+- métriques statiques : 2 255 lignes, 76 titres, 81 blocs significatifs, 61 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 20 — Animation procédurale et animation par keyframes, niveau Élevée ;
+- aucun rig, poids, correctif, GLB, scène, capture, benchmark, résultat runtime ou PDF du Livre III produit.
 
 ### 2026-07-24T02:55:00+02:00 — version 3.48.1
 
