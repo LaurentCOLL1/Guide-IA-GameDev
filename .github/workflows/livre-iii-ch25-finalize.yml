@@ -1,0 +1,54 @@
+name: Livre III Chapter 25 Finalizer Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'docs/livre-iii-chapitre-25-ux-accessibilite'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Finalize Livre III chapter 25 when script is present
+        shell: bash
+        run: |
+          set -euo pipefail
+          SCRIPT=.qa/l3-ch25-finalize.py
+          if [[ ! -f "$SCRIPT" ]]; then
+            echo "No Livre III chapter 25 finalizer script present."
+            exit 0
+          fi
+
+          python3 "$SCRIPT"
+          rm -f "$SCRIPT"
+
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          mkdir -p dist
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+          python3 tools/check_code_explanation_structure.py --check
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "docs(livre-iii): finaliser le chapitre 25 UX et accessibilité visuelle"
+          git push origin HEAD:${{ github.head_ref }}
