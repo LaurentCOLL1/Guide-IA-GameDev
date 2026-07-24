@@ -4,16 +4,22 @@ on:
   push:
     branches:
       - fix/livre-iii-syntheses-asteria
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
 
 jobs:
   fix-and-validate:
+    if: github.event_name == 'push' || github.head_ref == 'fix/livre-iii-syntheses-asteria'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: fix/livre-iii-syntheses-asteria
           fetch-depth: 0
       - name: Reconstruire et exécuter le correcteur vérifié
         run: |
