@@ -88,6 +88,7 @@ Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
 Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
 Livre-III/CHAPITRE-24-Interface-utilisateur.md
 Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
+Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.56.0"
+version: "3.57.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T21:47:46+02:00"
+last-updated: "2026-07-24T22:50:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -181,8 +181,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 23. Effets visuels, particules et simulations — terminé au niveau `static-review`.
 24. Interface utilisateur — terminé au niveau `static-review`.
 25. Expérience utilisateur et accessibilité visuelle — terminé au niveau `static-review`.
+26. Voix, bruitages, ambiances et musique — terminé au niveau `static-review`.
 
-Les chapitres 26 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 27 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1454,6 +1455,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige preuves techniques, parcours de tâches, retests, confidentialité et mesures runtime ;
 - aucun profil, mesure, participant, session, rapport, benchmark ou résultat runtime n’est revendiqué avant matérialisation.
 
+### 11.37 Voix, bruitages, ambiances et musique
+
+- `AST-AUDIO-PILOT-RELAY-STORM-001` constitue le pilote audio du chapitre 26 ;
+- prises brutes, sources générées ou licenciées, sessions de travail, masters, exports runtime et caches importés restent des états distincts ;
+- voix, SFX, ambiances, musique et UI sont classés selon fonction, spatialisation, durée, priorité et stratégie de lecture ;
+- toute autorisation de voix sépare enregistrement, montage, exploitation, redistribution, entraînement et clonage ;
+- fréquences, profondeur PCM, canaux, compression, loudness, crête vraie, mémoire, polyphonie et latence restent des dimensions séparées ;
+- les boucles conservent points en échantillons, continuité, crossfade éventuel et métadonnées de transition ;
+- les variantes utilisent plusieurs sources, des écarts bornés et une mémoire anti-répétition ;
+- `AudioStreamPlayer` porte les flux non positionnels et `AudioStreamPlayer3D` les sources spatiales qualifiées ;
+- les bus `Music`, `Voice`, `SFX`, `Ambience` et `UI` structurent effets, snapshots, ducking et réglages ;
+- zones, réverbération, atténuation, directionnalité, Doppler et auditeur restent des responsabilités de présentation ;
+- la fin d’un flux, un beat ou une analyse de spectre ne possède aucune autorité gameplay ;
+- la porte exige provenance, qualité artistique, intégrité technique, loudness, crête vraie, concurrence, mémoire, latence et tests de plateforme ;
+- aucun enregistrement, asset généré, master, export, bus, scène, rapport ou benchmark n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1866,11 +1883,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas publier identité, citation, enregistrement ou donnée sensible sans consentement séparé ;
 - ne pas généraliser une observation ou un petit échantillon à tous les joueurs et toutes les plateformes ;
 
+- ne pas écraser une prise brute après nettoyage ou montage ;
+- ne pas déduire entraînement ou clonage vocal d’une autorisation d’enregistrement ;
+- ne pas utiliser la normalisation comme remplacement du mix et de la mesure de loudness ;
+- ne pas choisir une boucle sur le seul passage par zéro sans contrôler pente, spectre et modulation ;
+- ne pas fabriquer toute la variation avec un pitch ou un gain aléatoire extrême ;
+- ne pas utiliser sans revue un fichier stéréo comme source 3D ponctuelle ;
+- ne pas laisser `finished`, un beat ou un seuil de spectre modifier une règle gameplay ;
+- ne pas laisser la polyphonie, les pools ou les files audio sans borne ni priorité ;
+- ne pas utiliser `royalty-free`, `free` ou un paiement comme identifiant de licence ;
+- ne pas déclarer un profil audio unique valable pour toutes les plateformes sans exécution et mesures ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 25 chapitres sur 30 ;
+- progression du Livre III : 26 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1896,6 +1924,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 23 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 24 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 25 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 26 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1933,20 +1962,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 25 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-UX-PILOT-CORE-SHELL-001` couvre hiérarchie de l’information, charge cognitive, contraste, tailles, couleur redondante, focus, cibles, mouvement réduit, erreurs, confirmations, récupération, profils composables, consentement et protocoles de tests utilisateurs. Aucun profil, mesure, participant, session, rapport, test runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 26 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-AUDIO-PILOT-RELAY-STORM-001` couvre voix, SFX, ambiances, musique, enregistrement, génération, nettoyage, formats, loudness, boucles, variantes, spatialisation, bus Godot, provenance, consentement, concurrence et tests mémoire. Aucun enregistrement, asset, master, scène Godot, rapport, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
+Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 26 traitera voix, bruitages, ambiances, musique, enregistrement, génération, nettoyage, formats, loudness, boucles, spatialisation, bus Godot, provenance et tests mémoire, sans refaire le design system, les profils visuels ou les protocoles de tests utilisateurs du chapitre 25.
+Le chapitre 27 traitera phonèmes, visèmes, blendshapes, extraction ou annotation des timings, coarticulation, regard, clignements, gestes, langues et LOD facial, en consommant les voix et manifestes du chapitre 26 sans redéfinir leur production, leurs droits ou leur mix.
 
 ## 27. Journal
+
+### 2026-07-24T22:50:00+02:00 — version 3.57.0
+
+- chapitre 26 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-AUDIO-PILOT-RELAY-STORM-001` défini pour le relais abandonné sous l’orage ;
+- voix, SFX, ambiances, musique, UI, sources, dérivés, masters et exports runtime séparés ;
+- enregistrement, génération, consentement, montage, nettoyage, fades et room tone documentés ;
+- formats WAV, Ogg Vorbis et MP3, fréquences, profondeur PCM, canaux, compression et import Godot encadrés ;
+- loudness, BS.1770-5, crête vraie, headroom, boucles, transitions, variantes et anti-répétition préparés ;
+- `AudioStreamPlayer`, `AudioStreamPlayer3D`, auditeur, atténuation, zones, bus, effets, snapshots et ducking documentés ;
+- contrats d’événements, pooling, polyphonie, saturation et absence d’autorité gameplay encadrés ;
+- manifestes de voix, provenance, licences, retraits, rapports et portes artistique-technique préparés ;
+- progression documentaire portée à 26 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 27 — Synchronisation labiale et animation faciale, niveau Élevée ;
+- aucun enregistrement, asset, master, scène Godot, mesure runtime, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-24T21:47:46+02:00 — version 3.56.0
 
