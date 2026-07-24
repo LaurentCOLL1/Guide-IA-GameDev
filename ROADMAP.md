@@ -132,12 +132,13 @@
 - [x] Chapitre 19 — Rigging et skinning.
 - [x] Chapitre 20 — Animation procédurale et animation par keyframes.
 - [x] Chapitre 21 — Capture de mouvement et retargeting.
+- [x] Chapitre 22 — Cinématiques, caméras et mise en scène.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 21 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 22 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

@@ -1,0 +1,97 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH22
+validation-authority: permanent-workflows
+status: complete
+validation-date: '2026-07-24'
+validated-base-commit: 9afe70bd42ee6a5c7e53098beab0c253faed0dd3
+validated-head-commit: 7d2f6f93247f7e9b69e1e05c1495d5faab6addc7
+chapter:
+  id: DOC-L3-CH22
+  path: Livre-III/CHAPITRE-22-Cinematiques-cameras-et-mise-en-scene.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2075
+  chapter-headings: 81
+  chapter-code-and-data-blocks: 86
+  significant-code-and-data-blocks: 86
+  code-explanation-markers: 86
+  structured-non-error-code-explanations: 66
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  storyboard-and-shot-list-documented: true
+  focal-length-framing-and-composition-documented: true
+  continuity-and-matches-documented: true
+  blocking-animatic-and-rhythm-documented: true
+  godot-cameras-and-timeline-documented: true
+  animation-dialogue-light-and-vfx-sync-documented: true
+  versions-comments-and-revisions-documented: true
+  build-tests-and-gameplay-transitions-documented: true
+  storyboard-deliverable-documented: true
+  animatic-deliverable-documented: true
+  godot-sequence-deliverable-documented: true
+  shot-list-deliverable-documented: true
+  review-versions-deliverable-documented: true
+  no-gameplay-camera-duplication: true
+  no-animation-production-duplication: true
+  no-mocap-duplication: true
+  no-vfx-production-duplication: true
+  no-audio-production-duplication: true
+  no-global-integration-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 3bef016ecab2ccf56f2ed41ac5d0aefc9b16deba597a994c1fc8cfe82628bbaa
+  audit-sha256: 9ee2cab59d8e8495906a85edd804341ec4aa19e96102c79f5f3cafc4d2d78cb5
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30099464768
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: 30099464768
+    conclusion: success
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30099464790
+    conclusion: success
+  artifact:
+    id: 8598970792
+    name: chapter-validation-without-pdf
+    digest: 3fb6fc8c8022afa160e9c6770f045ced23075055b647881bd687945774687a6b
+reservations:
+- Storyboard, shot list and animatic not materialized or reviewed.
+- Character, environment, animation, dialogue, light and VFX dependencies not produced for the sequence.
+- Godot cinematic scene, cameras, timeline and director not created or executed.
+- Camera focal lengths, FOV values, paths, easing and framing not inspected in the target build.
+- Animation, dialogue, lighting and VFX synchronization not executed.
+- Entry, exit, skip, cancellation, interruption and gameplay restoration not tested.
+- Aspect ratios, safe areas, subtitles and reduced-motion variants not validated.
+- Build loading, missing-dependency behavior and platform-specific rendering not tested.
+- CPU, GPU, memory, loading time and frame-time costs not measured.
+- Review renders, comments, approvals and final delivery package not materialized.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 6eb409c33fd9df91a0904a387c92351b7b6c1a2a
+  conclusion: success
