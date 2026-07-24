@@ -1,0 +1,93 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH18
+status: pending
+validation-date: '2026-07-24'
+validated-base-commit: 2e06e10e160a03085a807c0f7fb3fcc5f86344f8
+validated-head-commit: pending
+chapter:
+  id: DOC-L3-CH18
+  path: Livre-III/CHAPITRE-18-LOD-imposteurs-et-optimisation-geometrique.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: 1
+  chapter-lines: 3904
+  chapter-headings: 76
+  chapter-code-and-data-blocks: 81
+  significant-code-and-data-blocks: 81
+  code-explanation-markers: 81
+  structured-non-error-code-explanations: 61
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-markdown-only: true
+  master-plan-scope-covered: true
+  screen-size-and-gameplay-budgets-documented: true
+  manual-and-automatic-lod-documented: true
+  decimation-modes-documented: true
+  silhouette-preservation-documented: true
+  material-and-texture-simplification-documented: true
+  impostors-and-billboards-documented: true
+  visibility-ranges-and-hysteresis-documented: true
+  renderer-fade-boundaries-documented: true
+  shadows-and-collision-proxies-documented: true
+  benchmark-before-after-documented: true
+  godot-structural-validation-documented: true
+  provenance-documented: true
+  solo-and-studio-documented: true
+  acceptance-gate-documented: true
+  no-retopology-duplication: true
+  no-rigging-duplication: true
+  no-global-integration-duplication: true
+  no-whole-game-optimization-duplication: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: e3a68e7826741d7f09136777108c370e5678bf5c5e4707c337164b1f88092697
+  audit-sha256: 7a1740697d1a8aeefad7ee2c6ca32b73aaa8d601988e223fcc3c43eaf6c935d1
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Chapter 18 Finalizer Runner
+    execution: embedded-command
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+  context-artifact:
+    id: pending
+    name: usage-context-audit
+    digest: pending
+reservations:
+- Pilot asset not approved by a production review.
+- LOD meshes, proxies and impostor not created.
+- Geometry, surfaces, draw calls, memory and screen sizes not measured.
+- Godot automatic LOD and manual LOD not compared.
+- Visibility thresholds, hysteresis and fades not tested.
+- Impostor atlas and auxiliary channels not produced.
+- Shadows, collisions, AABB, culling and MultiMesh not tested.
+- GLB, benchmark scene, captures and raw samples not produced.
+- CPU and GPU benchmark not executed.
+- Sources, rights and provenance not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
