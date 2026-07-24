@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH23
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 6b1ec37d35ea8fc64e5124779010127b919cbc1c
-validated-head-commit: null
+validated-head-commit: 0557bb13ec1eefe281f12fa6fb1e37665199a671
 chapter:
   id: DOC-L3-CH23
   path: Livre-III/CHAPITRE-23-Effets-visuels-particules-et-simulations.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2236
   chapter-headings: 72
   chapter-code-and-data-blocks: 75
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -57,22 +57,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30113196782
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30113196782
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30113196841
+    conclusion: success
   artifact:
-    id: null
+    id: 8604360663
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 43b1029db6d98c925ef5c57b48d68ff8f8caa1fce80025f9ff16d234444f6c38
 reservations:
 - VFX pilot library not materialized.
 - GPU and CPU particle presets not created or executed.
@@ -90,4 +90,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
