@@ -1,0 +1,11 @@
+l3-ch26-generator-part-01.txt: actual=(6000, 'b869749131e7551754de0f46296601b941741329'); expected=(6000, 'b869749131e7551754de0f46296601b941741329'); match=True
+l3-ch26-generator-part-02.txt: actual=(6000, '1de8698e30dc0ac70c03bf04ace43e050f9d9b80'); expected=(6000, '1de8698e30dc0ac70c03bf04ace43e050f9d9b80'); match=True
+l3-ch26-generator-part-03.txt: actual=(6000, 'e55b2d1fb52f57f43036f743c943bcdfaaacaecb'); expected=(6000, 'e55b2d1fb52f57f43036f743c943bcdfaaacaecb'); match=True
+l3-ch26-generator-part-04.txt: actual=(6000, 'aee54775771fee1502862bda504c6a66b9ede882'); expected=(6000, 'aee54775771fee1502862bda504c6a66b9ede882'); match=True
+l3-ch26-generator-part-05.txt: actual=(6000, '00a2470ec16e4ed8fb50066591aa52d148890ad6'); expected=(6000, 'f129d58eb5bb35ad6bd8ab4ac42accfd0f47ef3f'); match=False
+l3-ch26-generator-part-06.txt: actual=(6000, '35859118f276f1ff3c24b81ff89031d47c4e0bb5'); expected=(6000, '35859118f276f1ff3c24b81ff89031d47c4e0bb5'); match=True
+l3-ch26-generator-part-07.txt: actual=(6000, '066af475c75ed5c6a0e10ddbfc5f88878e61e03e'); expected=(6000, '066af475c75ed5c6a0e10ddbfc5f88878e61e03e'); match=True
+l3-ch26-generator-part-08.txt: actual=(6000, '2edefe06a2e35b9bdda91e10a631057dda12dc49'); expected=(6000, '2edefe06a2e35b9bdda91e10a631057dda12dc49'); match=True
+l3-ch26-generator-part-09.txt: actual=(1516, '41fda277e6ca3cc9b47a988e4744cb378791b7e0'); expected=(1516, '41fda277e6ca3cc9b47a988e4744cb378791b7e0'); match=True
+combined-length=49516
+combined-sha256=928d29da88f5ed05e1a86cb4430c61c384662bf97a526ee7b33624c056e8ff7a
