@@ -3,17 +3,17 @@ evidence-id: DOC-L3-QA-EVIDENCE-CH19
 status: complete
 validation-date: '2026-07-24'
 validated-base-commit: 6aff86b0b1e7042fe3eb217ddbce14c75b9b937f
-validated-head-commit: 6a09773f263d100fc5a96c7fa6409b40651e51cb
+validated-head-commit: 0fce0b1250138560ea3ce50c9843e421582b2bb1
 chapter:
   id: DOC-L3-CH19
   path: Livre-III/CHAPITRE-19-Rigging-et-skinning.md
-  version: 1.0.0
+  version: 1.0.1
   audit-level: static-review
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 2255
-  chapter-headings: 76
+  chapter-lines: 2263
+  chapter-headings: 77
   chapter-code-and-data-blocks: 81
   significant-code-and-data-blocks: 81
   code-explanation-markers: 81
@@ -29,6 +29,7 @@ results:
   reasoning-process-metadata-absent: true
   solo-studio-markdown-only: true
   master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
   deformation-and-control-skeletons-documented: true
   bone-roll-and-hierarchy-documented: true
   constraints-and-joint-limits-documented: true
@@ -53,8 +54,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 57b09954e53bd85507cc283e373ba5b6a66981100dac277db36041851e241e7b
-  audit-sha256: 6b04f3a29668933df08e4a8ccc88c81373545baaa3297b87c92bdd6afd781c67
+  chapter-sha256: dd40c812c57dfa9ea79717fd2aa9a885d2072fa690fa5055935513e069e92fd3
+  audit-sha256: be7ff882da69ae428e416f9cafaec92f6ef07644fbb170c4f1503818ea84d501
 ci:
   validate-chapters-without-pdf:
     workflow-name: Chapter 19 Finalizer Runner
@@ -65,6 +66,10 @@ ci:
     workflow-name: Chapter 19 Finalizer Runner
     execution: embedded-command
     run-id: 30063921909
+    conclusion: success
+  retrofit-validation:
+    workflow-name: Fix Project Asteria summaries
+    execution: dedicated-validator
     conclusion: success
   artifact:
     id: 8585536990
@@ -89,5 +94,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
-  commit: 7aff40b0e018bf81b9562456cc47b4c74f358894
+  commit: 3fbbf5330fb5d42cd81afb9b115a771ca3faea80
   conclusion: success

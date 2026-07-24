@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Livre III"
 id: "DOC-PLAN-L3"
 status: "active"
-version: "1.1.20"
+version: "1.1.21"
 lang: "fr-FR"
 last-updated: "2026-07-24T05:10:00+02:00"
 book: "Livre III"
@@ -1766,3 +1766,9 @@ La première action éditoriale du Livre III est :
 `Livre-III/CHAPITRE-01-Preproduction-et-cahier-des-charges-artistique.md`
 
 Avant sa rédaction, une nouvelle conversation doit vérifier l’état du dépôt, confirmer que le PDF lecteur du Livre II est clos, créer l’index du Livre III s’il n’existe pas encore, puis annoncer le niveau GPT-5.6 Sol recommandé dans la continuité du projet uniquement.
+
+## Règle transversale de clôture — Project Asteria
+
+Tout chapitre du Livre III doit se terminer par une section intitulée **« Synthèse opérationnelle pour Project Asteria »**. Cette section ne répète pas le résumé pédagogique : elle convertit les apprentissages en décisions applicables au projet fil rouge, en nommant les identifiants pilotes, les conventions retenues, les dépendances amont et aval, les livrables attendus, la porte d’acceptation et les réserves de preuve.
+
+Pour les chapitres 17 et suivants, l’absence de cette section, un corps inférieur à deux paragraphes substantiels ou l’absence de référence explicite à Project Asteria constitue une erreur QA bloquante. Les chapitres 17 à 20 ont été corrigés rétroactivement ; les chapitres 21 à 30 doivent intégrer cette section dès leur première version.

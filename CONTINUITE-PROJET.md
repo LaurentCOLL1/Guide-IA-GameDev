@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.50.1"
+version: "3.51.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T05:30:00+02:00"
+last-updated: "2026-07-24T11:13:52+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -66,6 +66,8 @@ Chaque procédure doit expliquer :
 - les frontières avec les chapitres voisins.
 
 Tout bloc de code significatif doit recevoir une explication proportionnée à sa complexité et limitée aux informations réellement utiles : entrées et types, paramètres, valeurs de retour, effets de bord, instructions non évidentes, invariants, résultat attendu et limites pertinentes. `Rôle` est conservé seulement lorsqu’il nomme un contrat, une fonction, une transformation ou une responsabilité concrète. `Emplacement` est omis lorsque le chemin est déjà donné par le contexte adjacent. Les règles générales de syntaxe déjà expliquées ne sont pas répétées.
+
+Chaque chapitre du Livre III doit comporter une section finale intitulée **« Synthèse opérationnelle pour Project Asteria »**. Elle doit traduire le contenu en décisions permanentes du projet fil rouge : identifiants retenus, conventions, dépendances, livrables, porte d’acceptation et réserves. Son absence est désormais une erreur QA bloquante pour les chapitres 17 et suivants.
 
 Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme pour les corrections rétroactives. Les chapitres 15 et 16 ont été corrigés selon cette règle ; le chapitre 17 applique en plus la nomenclature précise des retours, refus et statuts.
 
@@ -150,7 +152,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 18 chapitres sur 30.**
+**En cours : 20 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -170,8 +172,10 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 16. Textures, matériaux et pipeline PBR — terminé au niveau `static-review`.
 17. UV, retopologie et baking — terminé au niveau `static-review`.
 18. LOD, imposteurs et optimisation géométrique — terminé au niveau `static-review`.
+19. Rigging et skinning — terminé au niveau `static-review`.
+20. Animation procédurale et animation par keyframes — terminé au niveau `static-review`.
 
-Les chapitres 19 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 21 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -2888,3 +2892,11 @@ Le chapitre 21 traitera types de capture, provenance, consentement, nettoyage, c
 - plans maîtres détaillés des Livres III à V et du Companion Pack ;
 - création du chapitre 3 ;
 - création du chapitre 4 et architecture feature-first.
+
+### 2026-07-24 — Restauration des synthèses opérationnelles Asteria
+
+- chapitres 17 à 20 complétés par une synthèse opérationnelle propre à Project Asteria ;
+- progression autoritative corrigée de 18/30 à 20/30 ;
+- règle de clôture ajoutée au plan maître et à la continuité ;
+- validateur permanent ajouté pour empêcher une nouvelle régression ;
+- audits et preuves QA actualisés sans modifier le niveau `static-review`.

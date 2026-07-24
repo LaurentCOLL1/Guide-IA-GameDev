@@ -2,13 +2,13 @@
 title: "Livre III — Chapitre 19 : Rigging et skinning"
 id: "DOC-L3-CH19"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre III"
 chapter: 19
-last-verified: "2026-07-24T04:10:00+02:00"
+last-verified: "2026-07-24T11:13:52+02:00"
 audit-status: "complete"
-audit-date: "2026-07-24T04:10:00+02:00"
+audit-date: "2026-07-24T11:13:52+02:00"
 audit-report: "Livre-III/QA/AUDIT-CHAPITRE-19.md"
 audit-level: "static-review"
 reference-engine:
@@ -2253,3 +2253,11 @@ Les procédures s’appuient sur les manuels officiels Blender relatifs aux arma
 ## 65. Conclusion
 
 Un rig publiable n’est pas le plus complexe : c’est celui dont la hiérarchie, les rests, les axes, les poids, les correctifs, les sockets et l’export sont compris et testables. Le chapitre établit cette interface sans revendiquer sa matérialisation. Les animations, courbes, cycles, événements et blend trees seront construits au chapitre 20 sur ce socle versionné.
+
+## 66. Synthèse opérationnelle pour Project Asteria
+
+Project Asteria retient `AST-RIG-PILOT-SCOUT-001` comme squelette témoin pour les personnages humanoïdes. Le squelette de déformation exporté, le rig de contrôle Blender, les profils de skinning, la rest pose, les sockets et le `BoneMap` sont versionnés comme contrats distincts. Les contrôleurs, widgets et mécanismes internes ne sont pas exportés lorsqu’ils n’appartiennent pas à la déformation livrée.
+
+Le bind Asteria exige des axes et rolls documentés, des poids normalisés, un budget d’influences mesuré et une grille de poses couvrant repos, amplitudes usuelles et extrêmes. Les correctifs sont justifiés par une déformation observable ; les sockets sont contrôlés avec des accessoires témoins ; toute modification de hiérarchie, de rest pose ou de noms d’os déclenche une nouvelle qualification du retargeting et des animations dépendantes.
+
+La porte reste bloquée tant que le rig Blender, les poids, la grille de poses, le GLB filtré, l’import `Skeleton3D`, les sockets et le rapport de déformation ne sont pas réellement produits et revus. Le chapitre fixe l’interface du personnage Asteria sans revendiquer un rig opérationnel ni une déformation runtime validée.
