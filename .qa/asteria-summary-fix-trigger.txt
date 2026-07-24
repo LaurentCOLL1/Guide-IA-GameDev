@@ -1,1 +1,1 @@
-Déclencheur temporaire — passe 2 : preuves QA des synthèses Asteria.
+Déclencheur temporaire — passe 3 : fermeture du correctif Asteria.
