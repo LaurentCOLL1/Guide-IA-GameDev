@@ -49,3 +49,5 @@ jobs:
           git diff --cached --check
           git commit -m "docs(livre-iv): créer le chapitre 3 sur les tests fonctionnels"
           git push origin HEAD:docs/livre-iv-chapitre-03-tests-fonctionnels-regression
+
+# Retrigger after PR association.
