@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH01
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-25'
-validated-base-commit: 36cd27ea95a830192a0f66e88cf4c278c752f1dc
-validated-head-commit: pending
+validated-base-commit: f454dbd72d594abe459f7b0c084071ab9aabf56f
+validated-head-commit: f97241fe1e28898577fb3529081b91327f90974a
 chapter:
   id: DOC-L4-CH01
   path: Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2001
   chapter-headings: 62
   chapter-code-and-data-blocks: 55
@@ -50,18 +50,18 @@ integrity:
 ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30166241853
+    conclusion: success
   validate-usage-contexts:
-    workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    workflow-name: Validate Usage Contexts
+    execution: permanent-workflow
+    run-id: 30166241852
+    conclusion: success
   artifact:
-    id: pending
+    id: 8621647536
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:867a9ba0cf34e8588e7a6735c81e21d220ce24aee676d38e5efe262cc696b66c
 reservations:
   - Metric catalog not materialized.
   - Local Godot recorder not executed.
@@ -75,4 +75,4 @@ reservations:
   - PDF accessibility tagging remains open.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
