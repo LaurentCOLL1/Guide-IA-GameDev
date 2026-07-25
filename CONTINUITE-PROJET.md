@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.58.0"
+version: "3.59.0"
 lang: "fr-FR"
-last-updated: "2026-07-24T23:50:00+02:00"
+last-updated: "2026-07-25T06:23:53+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 25 chapitres sur 30.**
+**En cours : 28 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -182,8 +182,10 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 24. Interface utilisateur — terminé au niveau `static-review`.
 25. Expérience utilisateur et accessibilité visuelle — terminé au niveau `static-review`.
 26. Voix, bruitages, ambiances et musique — terminé au niveau `static-review`.
+27. Synchronisation labiale et animation faciale — terminé au niveau `static-review`.
+28. Importation et intégration dans Godot — terminé au niveau `static-review`.
 
-Les chapitres 27 à 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les chapitres 29 et 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -282,7 +284,7 @@ Décision utilisateur du 19 juillet 2026 :
 - l’ordre de compilation destiné au lecteur exclut tous les fichiers `QA/`, protocoles d’audit, audits de chapitres, preuves de validation et rapports de campagne ;
 - les métadonnées et mentions visibles décrivant la phase de conception ou l’audit restent dans le dépôt, mais ne doivent pas apparaître dans le manuel PDF vendu au lecteur ;
 
-Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.8`.
+Le protocole officiel est `Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md`, version `1.7.9`.
 
 Les workflows ont des responsabilités séparées :
 
@@ -1488,6 +1490,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige intelligibilité, acting, compatibilité du rig, droits, stabilité multi-distance et mesures runtime ;
 - aucune forme, annotation, animation, scène, capture ou mesure n’est revendiquée avant matérialisation.
 
+### 11.39 Importation et intégration dans Godot
+
+- `AST-IMPORT-PILOT-SCOUT-RELAY-001` constitue le pilote d’import et d’intégration du chapitre 28 ;
+- GLB constitue la livraison 3D par défaut ; glTF séparé, `.blend`, FBX et OBJ restent des variantes encadrées par une matrice format-usage ;
+- source canonique, livraison, sidecar `.import`, cache `.godot/imported`, scène importée et scène d’intégration restent des états distincts ;
+- les fichiers `<asset>.import` sont versionnés tandis que `.godot/` reste un cache régénérable exclu du dépôt ;
+- `AST-IMPORT-PROFILE-STATIC-001`, `AST-IMPORT-PROFILE-CHARACTER-001` et `AST-IMPORT-PROFILE-ANIM-001` portent les profils initiaux ;
+- les scènes importées sont considérées comme des surfaces générées ; héritage, composition et ressources externes protègent les personnalisations Godot ;
+- `AST-MAT-REMAP-SCOUT-001` et `AST-SOCKET-PROFILE-SCOUT-001` encadrent matériaux, sockets et dépendances ;
+- squelettes, skins, blendshapes, animations, collisions, LOD et métadonnées sont comparés à des manifestes versionnés ;
+- les scripts `EditorScenePostImport` restent idempotents, bornés, sans réimportation récursive et sans exécution dynamique issue des métadonnées ;
+- une réimportation conserve baseline, candidate, changements attendus, diff structurel et contrôle de la scène d’intégration ;
+- l’import, un suffixe, un socket, une animation ou une métadonnée n’acquiert aucune autorité gameplay ;
+- la porte exige import propre, réimportation déterministe, personnalisations préservées, revue artistique, droits et mesures runtime ;
+- aucun asset, preset, sidecar, scène, remap, script exécuté, rapport, capture ou benchmark n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1922,11 +1940,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas employer un profil facial unique pour gros plan, gameplay et foule ;
 - ne pas laisser un outil automatique promouvoir seul une animation faciale en état approuvé ;
 
+- ne pas éditer directement une scène importée comme surface de personnalisation durable ;
+- ne pas imposer l’import `.blend` à une équipe ou une CI sans version de Blender qualifiée ;
+- ne pas utiliser OBJ pour un personnage exigeant squelette, animation ou blendshapes ;
+- ne pas laisser un post-import créer ou modifier une règle gameplay ;
+- ne pas ajouter à chaque réimportation des nœuds ou suffixes sans idempotence ;
+- ne pas modifier un matériau embarqué sans ressource externe ou remap durable ;
+- ne pas générer une collision dynamique complexe depuis le mesh de rendu sans contrat ;
+- ne pas utiliser un nom de socket comme identité d’objet ou autorité d’équipement ;
+- ne pas committer `.godot/` tout en ignorant les sidecars `<asset>.import` ;
+- ne pas réimporter une livraison sans baseline, changements attendus, diff et contrôle des personnalisations ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 27 chapitres sur 30 ;
+- progression du Livre III : 28 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1954,6 +1983,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 25 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 26 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 27 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 28 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -1991,20 +2021,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 27 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-FACE-PILOT-RELAY-DIALOGUE-001` couvre phonèmes, visèmes, blendshapes, profils linguistiques, annotations, alignement, coarticulation, regard, clignements, gestes et LOD facial. Aucun jeu de formes, timing, animation, scène Godot, capture, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 28 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-IMPORT-PILOT-SCOUT-RELAY-001` couvre formats, profils d’import, scènes importées et d’intégration, remaps, animations, collisions, sockets, post-import, métadonnées, diff et protection des personnalisations. Aucun asset, preset, sidecar, scène, script exécuté, capture, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
+Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 28 traitera formats d’échange, presets d’import, scènes importées et d’intégration, remapping de matériaux, animations, collisions, sockets, scripts post-import, métadonnées et réimportation, sans redéfinir les formes, timings ou conventions artistiques du chapitre 27.
+Le chapitre 29 créera la porte qualité universelle combinant provenance, conformité artistique, formats, pivots, matériaux, collisions, rigs, LOD, budgets, scènes de validation, rapports, refus, corrections et acceptation finale, sans refaire les réglages d’import et la réimportation du chapitre 28.
 
 ## 27. Journal
+
+### 2026-07-25T06:23:53+02:00 — version 3.59.0
+
+- chapitre 28 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-IMPORT-PILOT-SCOUT-RELAY-001` défini pour l’éclaireur et le module de relais ;
+- GLB, glTF séparé, `.blend`, FBX, OBJ et DAE comparés par usage, capacité et dépendance ;
+- source, livraison, sidecar `.import`, cache `.godot`, scène importée et scène d’intégration séparés ;
+- profils statique, personnage, animation, texture et audio documentés ;
+- héritage, composition, externalisation et remapping des matériaux encadrés ;
+- squelettes, skins, blendshapes, animations, LOD, collisions, sockets et métadonnées contrôlés ;
+- `EditorScenePostImport`, idempotence, sécurité, limites et refus de la réimportation récursive documentés ;
+- baseline, diff, protection des personnalisations, campagnes propres et profils de plateforme préparés ;
+- progression documentaire portée à 28 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 29 — Validation technique et artistique des assets, niveau Élevée ;
+- aucun asset, preset, sidecar, scène, remap, script exécuté, rapport, capture, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-24T23:50:00+02:00 — version 3.58.0
 

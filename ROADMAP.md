@@ -138,12 +138,13 @@
 - [x] Chapitre 25 — Expérience utilisateur et accessibilité visuelle.
 - [x] Chapitre 26 — Voix, bruitages, ambiances et musique.
 - [x] Chapitre 27 — Synchronisation labiale et animation faciale.
+- [x] Chapitre 28 — Importation et intégration dans Godot.
 - [x] Préproduction et direction artistique — 5 chapitres sur 5.
 - [ ] Êtres vivants, objets et environnements.
 - [ ] Animation, audio, VFX, UI et UX.
 - [ ] Automatisation et validation artistique.
 
-**Statut M4 : en cours — 27 chapitres rédigés, repérés et audités sur 30.**
+**Statut M4 : en cours — 28 chapitres rédigés, repérés et audités sur 30.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 

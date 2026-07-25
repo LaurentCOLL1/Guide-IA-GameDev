@@ -1,0 +1,88 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH28
+validation-authority: permanent-workflows
+status: pending
+validation-date: '2026-07-25'
+validated-base-commit: 597ac23751766cf93201ef5688b6b8b66e70e182
+validated-head-commit: null
+chapter:
+  id: DOC-L3-CH28
+  path: Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: null
+  warnings: null
+  chapter-lines: 2237
+  chapter-headings: 71
+  chapter-code-and-data-blocks: 79
+  significant-code-and-data-blocks: 79
+  code-explanation-markers: 79
+  structured-non-error-code-explanations: 59
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: null
+  duplicate-blocks: null
+  duplicate-paragraphs: null
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  exchange-formats-and-usage-matrix-documented: true
+  import-profiles-by-asset-family-documented: true
+  imported-and-integration-scenes-documented: true
+  material-remapping-and-external-resources-documented: true
+  animations-collisions-sockets-and-metadata-documented: true
+  post-import-and-idempotence-documented: true
+  reimport-diff-and-customization-protection-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: adda039015f5f31d664f15f1c42aaa877818b2f044bd29c3950dd4b299447b9f
+  audit-sha256: 67671d6dd2b1d9738996e1a6e4f0bdf9a70949d3eba1b34c054ed18b9be26c0c
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: null
+    conclusion: pending
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: null
+    conclusion: pending
+  artifact:
+    id: null
+    name: chapter-validation-without-pdf
+    digest: null
+reservations:
+- Import pilot not materialized.
+- Deliveries and manifests not produced.
+- Import profiles and .import sidecars not created.
+- Imported, inherited and integration scenes not created.
+- External materials, remaps, textures and audio not imported.
+- Skeletons, skins, blendshapes, animations, collisions, sockets and LOD not checked.
+- Post-import scripts not executed.
+- Clean import, reimport and dependency diff not executed.
+- Visual captures and artistic review not produced.
+- Import time, cache, memory, loading and runtime costs not measured.
+- Real rights and dependencies not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: null
+  conclusion: pending
