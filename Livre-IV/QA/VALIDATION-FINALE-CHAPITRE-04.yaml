@@ -1,10 +1,10 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH04
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: a9a3017474b83aedcd4c2045a1c153c43a7d2e0c
-validated-head-commit: 4e594c68747e5f1860ccaa5f31336b6ea1a39b32
+validated-head-commit: b027ada1deef468195d7349f115e3b15657c9fd6
 chapter:
   id: DOC-L4-CH04
   path: Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
@@ -55,13 +55,13 @@ ci:
       digest: sha256:40fa98b8b7a0a4413f2d582fdf071b40538b868f981fb8e070c952807091f178
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30178687402
+    conclusion: success
   artifact:
-    id: pending
+    id: 8624931410
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:3dac401341e57ea7a771050f12a607040dd2125c7d770d80d89ac6b5664019da
 reservations:
   - Bug report template not materialized.
   - Diagnostic archive not created.
@@ -73,5 +73,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: b027ada1deef468195d7349f115e3b15657c9fd6
+  conclusion: success
