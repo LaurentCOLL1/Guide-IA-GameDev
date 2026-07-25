@@ -1,0 +1,80 @@
+name: Livre III PDF Closure Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-inspect-structure:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'qa/livre-iii-pdf-closure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install PDF toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc texlive-xetex texlive-fonts-recommended texlive-latex-recommended \
+            fonts-dejavu fonts-liberation poppler-utils qpdf
+
+      - name: Validate chapters before PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          mkdir -p dist
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+          python3 tools/check_code_explanation_structure.py --check
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+
+      - name: Build reader PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Structural PDF preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          PDF=dist/Guide-IA-GameDev.pdf
+          test -s "$PDF"
+          qpdf --check "$PDF" | tee dist/QPDF-CHECK.txt
+          pdfinfo "$PDF" | tee dist/PDF-INFO.txt
+          pdftotext "$PDF" dist/Guide-IA-GameDev.txt
+          grep -q "Automatisation Blender, ComfyUI et production en lots" dist/Guide-IA-GameDev.txt
+          if grep -Eq "Audit post-création|VALIDATION-FINALE-CHAPITRE|Protocole d’audit post-création" dist/Guide-IA-GameDev.txt; then
+            echo "Internal QA content leaked into reader PDF." >&2
+            exit 1
+          fi
+          sha256sum "$PDF" | tee dist/Guide-IA-GameDev.pdf.sha256
+
+      - name: Upload Livre III closure artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iii-reader-pdf
+          path: |
+            dist/Guide-IA-GameDev.pdf
+            dist/Guide-IA-GameDev.pdf.sha256
+            dist/PDF-INFO.txt
+            dist/QPDF-CHECK.txt
+            dist/QA-CHAPTERS.md
+          if-no-files-found: error
+          retention-days: 30
