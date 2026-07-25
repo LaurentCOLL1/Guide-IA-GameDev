@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.60.0"
+version: "3.61.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T07:39:11+02:00"
+last-updated: "2026-07-25T09:40:18+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 29 chapitres sur 30.**
+**Contenu documentaire complet : 30 chapitres sur 30. La clôture PDF du Livre III reste à réaliser.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -185,8 +185,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 27. Synchronisation labiale et animation faciale — terminé au niveau `static-review`.
 28. Importation et intégration dans Godot — terminé au niveau `static-review`.
 29. Validation technique et artistique des assets — terminé au niveau `static-review`.
+30. Automatisation Blender, ComfyUI et production en lots — terminé au niveau `static-review`.
 
-Le chapitre 30 reste défini dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les trente chapitres sont rédigés, repérés et audités. La clôture PDF et son inspection visuelle restent à réaliser avant de déclarer le Livre III terminé.
 
 ### Livres IV à V et Companion Pack
 
@@ -230,7 +231,7 @@ Justification : …
 - **Moyenne** : chapitre descriptif ou linéaire ;
 - **Élevée** : architecture, code imbriqué, données, IA, sécurité, optimisation ou nombreuses dépendances.
 
-Chapitres 3 à 29 : **Élevée**.
+Chapitres 3 à 30 : **Élevée**.
 
 Livre III, chapitres 1 et 2 : **Élevée**.
 
@@ -1987,11 +1988,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas créer un constat vague sans règle, preuve et procédure de reproduction ;
 - ne pas accepter un asset dont la provenance, la licence ou le consentement reste incomplet ;
 
+
+- ne pas exécuter un script Blender directement sur une source canonique modifiable ;
+- ne pas dépendre d’une sélection interactive ou d’un contexte implicite pour un job de lot ;
+- ne pas installer automatiquement un custom node ComfyUI manquant ;
+- ne pas présenter une seed fixe comme preuve d’identité binaire entre environnements ;
+- ne pas retenter sans limite une violation de schéma, de provenance ou d’intégrité ;
+- ne pas réutiliser un checkpoint lorsque le plan ou les empreintes d’entrée ont changé ;
+- ne pas lancer plusieurs jobs GPU concurrents sur une ressource qualifiée comme exclusive ;
+- ne pas promouvoir un lot parce que tous les codes techniques valent zéro ;
+- ne pas échantillonner uniquement les premiers fichiers produits ou triés ;
+- ne pas nettoyer une racine large qui contient des sources, livraisons ou preuves non régénérables ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 29 chapitres sur 30 ;
+- progression du Livre III : 30 chapitres sur 30 ; clôture PDF de fin de Livre à réaliser ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2021,6 +2034,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 27 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 28 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 29 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 30 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -2058,20 +2072,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 29 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-ASSET-GATE-SCOUT-RELAY-001` couvre identité candidate, checklist universelle, extensions par famille, droits, contrôles techniques, scènes Godot, mesures, revue artistique, rapports, corrections, dérogations et acceptation finale. Aucun asset, profil, scène, rapport, capture, mesure, revue, benchmark ou PDF n’est revendiqué comme matérialisé.
+Les trente chapitres du Livre III sont rédigés, repérés et audités au niveau `static-review`. Le pilote `AST-PRODUCTION-BATCH-SCOUT-RELAY-001` prépare l’orchestration Blender, ComfyUI, Godot et la porte qualité sans revendiquer de lot, d’asset, de reprise ou de mesure exécuté.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
+Livre-III/QA/CLOTURE-LIVRE-III.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 30 automatisera les tâches répétitives avec scripts Blender, files ComfyUI, manifestes de lots, reprises, limites de tentatives, échantillonnage, validation humaine, CI et artefacts, sans permettre à l’automatisation de déclarer seule la qualité artistique.
+La clôture doit déclencher le workflow permanent `Validate Documentation PDF`, télécharger son artefact, inspecter visuellement le PDF lecteur du Livre III, enregistrer les éventuelles corrections et seulement ensuite déclarer M4 terminé. Aucun passage vers le Livre IV ne sera enregistré avant cette preuve.
 
 ## 27. Journal
+
+### 2026-07-25T09:40:18+02:00 — version 3.61.0
+
+- chapitre 30 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-PRODUCTION-BATCH-SCOUT-RELAY-001` défini pour l’éclaireur, le module de relais et l’expérience de marquages ;
+- tâches déterministes, génératives et humaines séparées par contrats explicites ;
+- identités de lot, run, tâche, tentative et artefact, manifeste fermé et graphe acyclique documentés ;
+- scripts Blender paramétrés, idempotents, exécutables en arrière-plan et limités aux copies isolées préparés ;
+- workflows ComfyUI API, modèles, custom nodes, seeds, file locale, historique et quarantaine encadrés ;
+- ressources, concurrence, exclusivité GPU, backpressure, délais, annulation et retries bornés documentés ;
+- checkpoints par empreinte, reprise, staging, promotion, provenance, journaux et rapports structurés préparés ;
+- échantillonnage déterministe, planches comparatives et approbation humaine indépendante imposés ;
+- intégration CI, matrices, artefacts, sécurité, quotas, conservation et exemples du Companion Pack préparés ;
+- progression documentaire portée à 30 chapitres sur 30 ; prochaine action déplacée vers la clôture PDF du Livre III ;
+- aucun lot, script exécuté, workflow soumis, asset, checkpoint, reprise, rapport runtime, approbation artistique, benchmark ou PDF du Livre III produit.
 
 ### 2026-07-25T07:39:11+02:00 — version 3.60.0
 

@@ -92,6 +92,7 @@ Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
 Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
 Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
 Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
+Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md

@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.28.0"
+version: "1.29.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -44,8 +44,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 27. [Synchronisation labiale et animation faciale](CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md)
 28. [Importation et intégration dans Godot](CHAPITRE-28-Importation-et-integration-dans-Godot.md)
 29. [Validation technique et artistique des assets](CHAPITRE-29-Validation-technique-et-artistique-des-assets.md)
+30. [Automatisation Blender, ComfyUI et production en lots](CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md)
 
-Le chapitre 30 sera ajouté selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Les trente chapitres sont présents. La clôture documentaire du Livre III reste soumise à la validation PDF et à son inspection visuelle de fin de Livre.
 
 ## Principes du Livre III
 
