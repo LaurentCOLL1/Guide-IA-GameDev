@@ -37,9 +37,25 @@ jobs:
           python -m py_compile "$RUNNER_TEMP/ch03-finalizer.py"
 
       - name: Materialize and validate chapter lot
-        run: python "$RUNNER_TEMP/ch03-finalizer.py"
+        id: materialize
+        shell: bash
+        run: |
+          set +e
+          python "$RUNNER_TEMP/ch03-finalizer.py" > "$RUNNER_TEMP/ch03-finalizer.log" 2>&1
+          status=$?
+          cat "$RUNNER_TEMP/ch03-finalizer.log"
+          exit $status
+
+      - name: Upload failure diagnostic
+        if: failure() && steps.materialize.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch03-finalizer-diagnostic
+          path: ${{ runner.temp }}/ch03-finalizer.log
+          if-no-files-found: error
 
       - name: Upload QA evidence
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: livre-iv-ch03-validation-without-pdf
@@ -47,6 +63,7 @@ jobs:
           if-no-files-found: error
 
       - name: Commit finalized chapter lot
+        if: success()
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
