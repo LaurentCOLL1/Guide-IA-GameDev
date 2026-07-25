@@ -3,7 +3,7 @@ title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
 version: "0.2.1"
-last-updated: "2026-07-25T20:33:18+02:00"
+last-updated: "2026-07-25T20:35:15+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
