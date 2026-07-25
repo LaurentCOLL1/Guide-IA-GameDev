@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH28
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-25'
 validated-base-commit: 597ac23751766cf93201ef5688b6b8b66e70e182
-validated-head-commit: null
+validated-head-commit: 805f543f18621d01d657d1852c2692dad4fc392b
 chapter:
   id: DOC-L3-CH28
   path: Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2237
   chapter-headings: 71
   chapter-code-and-data-blocks: 79
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -52,22 +52,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30145259673
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30145259673
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30145259678
+    conclusion: success
   artifact:
-    id: null
+    id: 8615768200
     name: chapter-validation-without-pdf
-    digest: null
+    digest: 3c8eb7fcc77894137f7a611f55dba635f9e6ccc0622f33cd09b38ae3cb249615
 reservations:
 - Import pilot not materialized.
 - Deliveries and manifests not produced.
