@@ -37,6 +37,28 @@ jobs:
         if: steps.pending.outputs.run == 'true'
         run: python -m pip install --disable-pip-version-check pyyaml
 
+      - name: Patch bounded Solo Studio replacement
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.qa/finalize-livre-iv-ch05.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'chapter = replace_once(chapter, solo_yaml, solo_markdown, "modes Solo/Studio")'
+          new = '''if chapter.count(solo_yaml) == 1:
+              chapter = replace_once(chapter, solo_yaml, solo_markdown, "modes Solo/Studio")
+          else:
+              start = chapter.index("> **[LECTURE] Répartition de référence — Ne pas saisir.**")
+              end = chapter.index("\\n## 56. Checklist de préparation", start)
+              compact_markdown = solo_markdown.replace("\\n\\n", "\\n")
+              chapter = chapter[:start] + compact_markdown + chapter[end:]'''
+          if text.count(old) != 1:
+              raise SystemExit('Point de correction Solo/Studio introuvable ou ambigu')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+          PY
+
       - name: Materialize chapter lot
         if: steps.pending.outputs.run == 'true'
         run: python .qa/finalize-livre-iv-ch05.py
