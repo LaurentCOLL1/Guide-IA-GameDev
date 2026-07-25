@@ -28,11 +28,18 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
     return text.replace(old, new, 1)
 
 
+def replace_line_once(text: str, pattern: str, replacement: str, label: str) -> str:
+    updated, count = re.subn(pattern, replacement, text, count=1, flags=re.MULTILINE)
+    if count != 1:
+        raise RuntimeError(f"{label}: attendu 1 remplacement, trouvé {count}")
+    return updated
+
+
 chapter_path = "Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md"
 chapter = read(chapter_path)
-chapter = replace_once(chapter, 'version: "1.0.0"', 'version: "1.0.1"', "version chapitre")
-chapter = re.sub(r'^last-verified: ".*"$', f'last-verified: "{NOW}"', chapter, count=1, flags=re.MULTILINE)
-chapter = re.sub(r'^audit-date: ".*"$', f'audit-date: "{NOW}"', chapter, count=1, flags=re.MULTILINE)
+chapter = replace_line_once(chapter, r'^version: "1\.0\.0"$', 'version: "1.0.1"', "version chapitre")
+chapter = replace_line_once(chapter, r'^last-verified: ".*"$', f'last-verified: "{NOW}"', "date chapitre")
+chapter = replace_line_once(chapter, r'^audit-date: ".*"$', f'audit-date: "{NOW}"', "date audit chapitre")
 chapter = replace_once(
     chapter,
     '> **[PS] PowerShell 7 — Lancer une campagne locale bornée sans PDF.**',
@@ -52,10 +59,10 @@ write(chapter_path, chapter)
 
 audit_path = "Livre-IV/QA/AUDIT-CHAPITRE-01.md"
 audit = read(audit_path)
-audit = replace_once(audit, 'version: "1.0.0"', 'version: "1.0.1"', "version audit")
-audit = replace_once(audit, 'chapter-version: "1.0.0"', 'chapter-version: "1.0.1"', "version chapitre audit")
-audit = re.sub(r'^audit-date: ".*"$', f'audit-date: "{NOW}"', audit, count=1, flags=re.MULTILINE)
-audit = re.sub(r'^last-verified: ".*"$', f'last-verified: "{NOW}"', audit, count=1, flags=re.MULTILINE)
+audit = replace_line_once(audit, r'^version: "1\.0\.0"$', 'version: "1.0.1"', "version audit")
+audit = replace_line_once(audit, r'^chapter-version: "1\.0\.0"$', 'chapter-version: "1.0.1"', "version chapitre audit")
+audit = replace_line_once(audit, r'^audit-date: ".*"$', f'audit-date: "{NOW}"', "date audit")
+audit = replace_line_once(audit, r'^last-verified: ".*"$', f'last-verified: "{NOW}"', "vérification audit")
 audit = replace_once(
     audit,
     "Aucune session de jeu, donnée personnelle, simulation, commande Python, collecteur Godot, agrégat, baseline, benchmark, décision d’équilibrage ou PDF n’est revendiqué comme produit ou exécuté.\n",
@@ -73,16 +80,16 @@ write(audit_path, audit)
 
 index_path = "Livre-IV/index.md"
 index = read(index_path)
-index = replace_once(index, 'version: "0.2.0"', 'version: "0.2.1"', "version index")
-index = re.sub(r'^last-updated: ".*"$', f'last-updated: "{NOW}"', index, count=1, flags=re.MULTILINE)
+index = replace_line_once(index, r'^version: "0\.2\.0"$', 'version: "0.2.1"', "version index")
+index = replace_line_once(index, r'^last-updated: ".*"$', f'last-updated: "{NOW}"', "date index")
 index = replace_once(index, 'version `1.0.0`, niveau `static-review`', 'version `1.0.1`, niveau `static-review`', "version chapitre index")
 write(index_path, index)
 
 
 continuity_path = "CONTINUITE-PROJET.md"
 continuity = read(continuity_path)
-continuity = replace_once(continuity, 'version: "3.63.0"', 'version: "3.64.0"', "version continuité")
-continuity = re.sub(r'^last-updated: ".*"$', f'last-updated: "{NOW}"', continuity, count=1, flags=re.MULTILINE)
+continuity = replace_line_once(continuity, r'^version: "3\.63\.0"$', 'version: "3.64.0"', "version continuité")
+continuity = replace_line_once(continuity, r'^last-updated: ".*"$', f'last-updated: "{NOW}"', "date continuité")
 continuity = replace_once(
     continuity,
     '- ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;',
