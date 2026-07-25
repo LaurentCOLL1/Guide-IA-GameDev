@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH30
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-25'
 validated-base-commit: 226ceb908de3d5bad2a637a55515d2e31faf63c1
-validated-head-commit: null
+validated-head-commit: 333ee36f2f266693ad0297d66bd2ed3187049ed0
 chapter:
   id: DOC-L3-CH30
   path: Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2426
   chapter-headings: 71
   chapter-code-and-data-blocks: 77
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -54,22 +54,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30151107365
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30151107365
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30151107375
+    conclusion: success
   artifact:
-    id: null
+    id: 8617644650
     name: chapter-validation-without-pdf
-    digest: null
+    digest: c91e6712e0561d07b26685bb0b2146bd7dc47865cc2c3e82eeabd7c902bd1baa
 reservations:
 - Art batch pilot not materialized.
 - No real batch plan, schema, profiles or runner created.
@@ -87,4 +87,4 @@ reservations:
 - Livre III PDF not built before end-of-book closure.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
