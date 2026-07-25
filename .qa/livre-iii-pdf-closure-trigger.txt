@@ -1,1 +1,1 @@
-Livre III PDF closure trigger.
+Livre III PDF closure trigger — retry after GitHub Actions startup failure.
