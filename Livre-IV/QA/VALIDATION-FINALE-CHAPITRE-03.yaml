@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 7f06986e554377fff2fedf9308d0946ef2841bb6
-validated-head-commit: 593ed8d0f1b90f56a601a7423a8a92958ffbb823
+validated-head-commit: 4b70c66da3f419d1f95ab445a00e41256fae9705
 chapter:
   id: DOC-L4-CH03
   path: Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
@@ -37,13 +37,13 @@ ci:
     conclusion: success
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    run-id: pending
-    conclusion: pending
+    run-id: 30177278670
+    conclusion: success
 reservations:
   - Test catalog and fixtures not materialized.
   - No suite executed.
   - No known regression injected.
   - No runtime measurement produced.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: 4b70c66da3f419d1f95ab445a00e41256fae9705
+  conclusion: success
