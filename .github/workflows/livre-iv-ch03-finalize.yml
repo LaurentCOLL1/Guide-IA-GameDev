@@ -1,0 +1,51 @@
+name: Livre IV Chapter 3 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-03-tests-fonctionnels-regression
+    paths:
+      - '.qa/ch03.finalizer.*'
+      - '.github/workflows/livre-iv-ch03-finalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-and-validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-03-tests-fonctionnels-regression
+          fetch-depth: 1
+
+      - name: Install lightweight dependencies
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Assemble finalizer
+        shell: bash
+        run: |
+          cat .qa/ch03.finalizer.* | base64 --decode | xz --decompress > "$RUNNER_TEMP/ch03-finalizer.py"
+          python -m py_compile "$RUNNER_TEMP/ch03-finalizer.py"
+
+      - name: Materialize and validate chapter lot
+        run: python "$RUNNER_TEMP/ch03-finalizer.py"
+
+      - name: Upload QA evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch03-validation-without-pdf
+          path: ${{ runner.temp }}/livre-iv-ch03-validation.json
+          if-no-files-found: error
+
+      - name: Commit finalized chapter lot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(livre-iv): créer le chapitre 3 sur les tests fonctionnels"
+          git push origin HEAD:docs/livre-iv-chapitre-03-tests-fonctionnels-regression
