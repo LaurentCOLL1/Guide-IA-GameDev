@@ -1,10 +1,10 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH05
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 245e24bfae781c4e2bec8913eee71176062982da
-validated-head-commit: 95107a8fa59ce7910bdc7f701f05363497752a5e
+validated-head-commit: 903652fa98fcd0ad7140a63be6cc59d68de7d15b
 chapter:
   id: DOC-L4-CH05
   path: Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
@@ -53,13 +53,13 @@ ci:
       digest: sha256:aa0246548fbc382aef9e3a72a336309b650df1de240f313c36f4883479b937e4
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30180114544
+    conclusion: success
   artifact:
-    id: pending
+    id: 8625302992
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:b184b511221061b36de83e38129476e60dd61fafebc3179c60fe4cc53a23d1fc
 reservations:
   - Logging policy not materialized.
   - Emitter, sinks and collector not executed.
@@ -73,5 +73,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: 903652fa98fcd0ad7140a63be6cc59d68de7d15b
+  conclusion: success
