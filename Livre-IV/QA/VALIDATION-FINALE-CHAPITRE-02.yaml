@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-25'
 validated-base-commit: 6f9b702b5cedc9ffd2ea76ba51a3ddb37e439ea5
-validated-head-commit: 6c4b8eefb05a9540ead584bb0364523056152f07
+validated-head-commit: 4466d39e15dcae0a02fb10bafac177624de98b89
 chapter:
   id: DOC-L4-CH02
   path: Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
@@ -47,7 +47,7 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: 641906502d493d6fc44332759426cc2d39c34b13c341e965a898541489bc63ae
-  audit-sha256: bf189745400d41462bfe60c47081fe098e5f254337b2318944a5fe69e276d314
+  audit-sha256: 5cf930a0157857cba171e13a638c268977306ddda9579193b1050016fb7cd133
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 2 Finalizer
@@ -57,12 +57,12 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: 30171748422
+    run-id: 30171774457
     conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: 30171748422
+    run-id: 30171774457
     conclusion: success
   artifact:
     id: 8623103389
@@ -81,5 +81,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 6c4b8eefb05a9540ead584bb0364523056152f07
+  commit: 4466d39e15dcae0a02fb10bafac177624de98b89
   conclusion: success
