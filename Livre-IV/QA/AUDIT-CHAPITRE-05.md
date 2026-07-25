@@ -112,4 +112,4 @@ Le manifeste SHA-256 vérifie l’intégrité sans être présenté comme signat
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître. Les contrôles documentaires et statiques du lot doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître. Les contrôles documentaires et statiques du lot ont réussi ; le chapitre est accepté au niveau `static-review` avec les réserves listées.
