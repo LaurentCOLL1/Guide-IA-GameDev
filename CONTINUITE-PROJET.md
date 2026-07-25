@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.64.0"
+version: "3.65.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T20:33:18+02:00"
+last-updated: "2026-07-25T21:28:22+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2001,6 +2001,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas nettoyer une racine large qui contient des sources, livraisons ou preuves non régénérables ;
 
 - ne pas introduire dans un chapitre lecteur des instructions ou critères liés à la génération du PDF du guide ; cette chaîne appartient à la publication documentaire de fin de Livre ou de collection ;
+- ne pas considérer un pipeline vert, un score unique ou un taux de couverture comme une autorité de publication ;
+- ne pas enregistrer un risque critique sans propriétaire, couches de contrôle et décision résiduelle ;
+- ne pas accorder une dérogation sans portée, approbateur et expiration ;
+- ne pas modifier un critère après observation des résultats sans créer une nouvelle version applicable aux campagnes futures ;
 - ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;
 - ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
 - ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
@@ -2017,8 +2021,9 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 1 chapitre sur 22 ;
+- progression du Livre IV : 2 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
+- chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2088,20 +2093,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 1 du Livre IV est terminé au niveau documentaire et statique. Le catalogue, les scénarios, les collecteurs, les analyses, les playtests et les décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 et 2 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
+Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 2 du Livre IV définira les niveaux de test, responsabilités, risques, critères d’entrée et de sortie et portes qualité. Il ne recopiera ni le catalogue de métriques et les expériences du chapitre 1, ni les cas fonctionnels et suites de régression réservés au chapitre 3.
+Le chapitre 3 du Livre IV matérialisera les cas fonctionnels et suites de régression, avec fixtures, états contrôlés, tests rapides et campagnes complètes. Il appliquera la stratégie du chapitre 2 sans redéfinir ses risques, portes, rôles ou règles de décision.
 
 ## 27. Journal
+
+### 2026-07-25T21:28:22+02:00 — version 3.65.0
+
+- création du chapitre 2 du Livre IV — Stratégie générale d’assurance qualité ;
+- charte QA, modèle de qualité, niveaux, familles et matrice risques/contrôles documentés ;
+- prévention, détection et correction séparées ;
+- portes `G0` à `G5`, critères d’entrée/sortie et statuts de décision définis ;
+- rôles Solo/Studio, RACI, indépendance et calendrier encadrés ;
+- environnements, baselines, sévérité, priorité, triage, stop-ship et dérogations documentés ;
+- QA documentaire, technique, artistique et produit reliées ;
+- accessibilité, sécurité, données assistées et récupérabilité intégrées ;
+- dix diagnostics conformes à la séquence sémantique erreur/correction ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 3 — Tests fonctionnels et tests de régression, niveau Élevée ;
+- aucune campagne, revue spécialisée, décision de porte, mesure runtime ou publication produit revendiquée.
+
 
 ### 2026-07-25T20:33:18+02:00 — version 3.64.0
 

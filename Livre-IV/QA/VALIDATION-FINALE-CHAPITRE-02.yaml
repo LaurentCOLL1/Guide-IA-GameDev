@@ -1,0 +1,85 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH02
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-25'
+validated-base-commit: 6f9b702b5cedc9ffd2ea76ba51a3ddb37e439ea5
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH02
+  path: Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2204
+  chapter-headings: 61
+  chapter-code-and-data-blocks: 58
+  significant-code-and-data-blocks: 58
+  code-explanation-markers: 58
+  structured-non-error-code-explanations: 38
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  qa-charter-documented: true
+  risk-test-matrix-documented: true
+  entry-exit-criteria-documented: true
+  quality-gates-documented: true
+  prevention-detection-correction-separated: true
+  documentary-technical-artistic-product-linked: true
+  stop-ship-and-waivers-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 641906502d493d6fc44332759426cc2d39c34b13c341e965a898541489bc63ae
+  audit-sha256: bf189745400d41462bfe60c47081fe098e5f254337b2318944a5fe69e276d314
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 2 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Usage Contexts
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: livre-iv-ch02-validation-without-pdf
+    digest: pending
+reservations:
+  - QA charter not materialized.
+  - Risk register and risk/control matrix not materialized.
+  - Gate policy and QA calendar not materialized.
+  - Functional and regression campaigns not executed.
+  - Artistic, accessibility and security reviews not executed.
+  - Recovery drill and rollback not executed.
+  - No release candidate or environment qualified.
+  - No gate or release decision approved.
+  - Runtime measurements not produced.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
