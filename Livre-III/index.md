@@ -1,8 +1,8 @@
 ---
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
-status: "active"
-version: "1.29.0"
+status: "complete"
+version: "1.30.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -46,7 +46,7 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 29. [Validation technique et artistique des assets](CHAPITRE-29-Validation-technique-et-artistique-des-assets.md)
 30. [Automatisation Blender, ComfyUI et production en lots](CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md)
 
-Les trente chapitres sont présents. La clôture documentaire du Livre III reste soumise à la validation PDF et à son inspection visuelle de fin de Livre.
+Les trente chapitres sont présents. Le Livre III a été validé transversalement, compilé avec Pandoc/XeLaTeX et inspecté visuellement. Les réserves globales de licence, de balisage d’accessibilité et d’exécution runtime restent ouvertes.
 
 ## Principes du Livre III
 

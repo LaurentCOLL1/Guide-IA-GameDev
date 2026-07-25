@@ -146,7 +146,7 @@
 - [x] Animation, audio, VFX, UI et UX.
 - [x] Automatisation et validation artistique.
 
-**Statut M4 : contenu documentaire complet — 30 chapitres rédigés, repérés et audités sur 30 ; validation PDF et inspection visuelle de fin de Livre à réaliser.**
+**Statut M4 : terminé — 30 chapitres rédigés, repérés et audités ; PDF compilé, préflight réussi et inspection visuelle achevée.**
 
 ## M5 — Livre IV : Finalisation et exploitation
 
