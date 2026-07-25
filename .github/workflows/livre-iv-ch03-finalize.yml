@@ -33,15 +33,15 @@ jobs:
       - name: Assemble finalizer
         shell: bash
         run: |
-          cat .qa/ch03.finalizer.* | base64 --decode | xz --decompress > "$RUNNER_TEMP/ch03-finalizer.py"
-          python -m py_compile "$RUNNER_TEMP/ch03-finalizer.py"
+          cat .qa/ch03.finalizer.* | base64 --decode | xz --decompress > .qa/ch03.finalizer.py
+          python -m py_compile .qa/ch03.finalizer.py
 
       - name: Materialize and validate chapter lot
         id: materialize
         shell: bash
         run: |
           set +e
-          python "$RUNNER_TEMP/ch03-finalizer.py" > "$RUNNER_TEMP/ch03-finalizer.log" 2>&1
+          python .qa/ch03.finalizer.py > "$RUNNER_TEMP/ch03-finalizer.log" 2>&1
           status=$?
           cat "$RUNNER_TEMP/ch03-finalizer.log"
           exit $status
