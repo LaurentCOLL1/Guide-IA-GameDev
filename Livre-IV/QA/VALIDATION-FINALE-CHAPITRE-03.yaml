@@ -1,0 +1,49 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH03
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: 7f06986e554377fff2fedf9308d0946ef2841bb6
+validated-head-commit: 4b70c66da3f419d1f95ab445a00e41256fae9705
+chapter:
+  id: DOC-L4-CH03
+  path: Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1060
+  chapter-code-and-data-blocks: 50
+  code-explanation-markers: 50
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  runtime-executed: false
+integrity:
+  chapter-sha256: 5806127372f77029ef6439b515b9db9a2477f054c5ea211432d3eca0dc319b2e
+  audit-sha256: f6826f85dcce3480fe47c3f21b68909c151bd2b8dc4e7a9554715701ef191c1b
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 3 Finalizer
+    run-id: 30177250586
+    conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    run-id: 30177278670
+    conclusion: success
+reservations:
+  - Test catalog and fixtures not materialized.
+  - No suite executed.
+  - No known regression injected.
+  - No runtime measurement produced.
+evidence-closure:
+  commit: 4b70c66da3f419d1f95ab445a00e41256fae9705
+  conclusion: success
