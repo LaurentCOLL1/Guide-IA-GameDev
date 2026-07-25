@@ -2,12 +2,12 @@
 title: "Audit post-création — Livre IV, chapitre 1"
 id: "DOC-L4-QA-AUDIT-CH01"
 status: "complete"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 chapter-id: "DOC-L4-CH01"
-chapter-version: "1.0.0"
-audit-date: "2026-07-25T17:12:08+02:00"
-last-verified: "2026-07-25T17:12:08+02:00"
+chapter-version: "1.0.1"
+audit-date: "2026-07-25T20:33:18+02:00"
+last-verified: "2026-07-25T20:33:18+02:00"
 audit-level: "static-review"
 protocol: "Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -19,7 +19,9 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 
 Le chapitre est accepté au niveau `static-review` avec réserves de matérialisation du catalogue de métriques, du collecteur local, des scénarios, des profils, des runs de simulation, de l’analyse Python, des playtests consentis, des rapports de décision et des tests runtime.
 
-Aucune session de jeu, donnée personnelle, simulation, commande Python, collecteur Godot, agrégat, baseline, benchmark, décision d’équilibrage ou PDF n’est revendiqué comme produit ou exécuté.
+Aucune session de jeu, donnée personnelle, simulation, commande Python, collecteur Godot, agrégat, baseline, benchmark ou décision d’équilibrage n’est revendiqué comme produit ou exécuté.
+
+La correction `1.0.1` retire du texte lecteur les deux mentions relatives au PDF du guide. La génération du manuel appartient exclusivement à la chaîne de publication documentaire et ne constitue ni une étape ni un critère d’acceptation de l’équilibrage.
 
 ## 2. Périmètre comparé au plan maître
 
@@ -123,4 +125,4 @@ Les sujets des chapitres voisins restent distincts :
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître et peut entrer dans la validation légère sans PDF. La preuve finale reste en attente de la réussite des workflows sur la branche documentaire.
+Le chapitre satisfait le périmètre du plan maître. La preuve finale est régénérée par les workflows permanents après la correction du texte lecteur.

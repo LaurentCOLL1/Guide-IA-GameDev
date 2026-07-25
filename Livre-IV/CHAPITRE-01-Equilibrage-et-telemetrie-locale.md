@@ -2,13 +2,13 @@
 title: "Livre IV — Chapitre 1 : Équilibrage et télémétrie locale"
 id: "DOC-L4-CH01"
 status: "reviewed"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
 book: "Livre IV"
 chapter: 1
-last-verified: "2026-07-25T17:12:08+02:00"
+last-verified: "2026-07-25T20:33:18+02:00"
 audit-status: "complete"
-audit-date: "2026-07-25T17:12:08+02:00"
+audit-date: "2026-07-25T20:33:18+02:00"
 audit-report: "Livre-IV/QA/AUDIT-CHAPITRE-01.md"
 audit-level: "static-review"
 reference-engine:
@@ -1330,7 +1330,7 @@ Une comparaison entre référence et candidat utilise le même environnement et 
 
 ## 36. Exécuter une matrice de simulations
 
-> **[PS] PowerShell 7 — Lancer une campagne locale bornée sans PDF.**
+> **[PS] PowerShell 7 — Lancer une campagne locale bornée.**
 
 ```powershell
 .\.venv\Scripts\python.exe -m asteria_tools.balancing.run_matrix `
@@ -1913,7 +1913,7 @@ player_generalization: prohibited
 - [ ] référence précédente conservée pour le retour arrière ;
 - [ ] tests de non-régression identifiés ;
 - [ ] aucune mesure runtime revendiquée sans exécution réelle ;
-- [ ] aucun PDF intermédiaire construit.
+- [ ] aucune sortie de campagne n’est publiée hors du workspace déclaré.
 
 ## 49. Critère d’acceptation du pilote
 
