@@ -1,0 +1,78 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH01
+validation-authority: permanent-workflows
+status: pending
+validation-date: '2026-07-25'
+validated-base-commit: 36cd27ea95a830192a0f66e88cf4c278c752f1dc
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH01
+  path: Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2001
+  chapter-headings: 62
+  chapter-code-and-data-blocks: 55
+  significant-code-and-data-blocks: 48
+  code-explanation-markers: 55
+  structured-non-error-code-explanations: 35
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  metric-catalog-documented: true
+  local-telemetry-boundaries-documented: true
+  balancing-curves-documented: true
+  deterministic-simulations-documented: true
+  privacy-minimization-and-consent-documented: true
+  decision-reports-and-rollback-documented: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: cba99587b259346283b14aca75e299f83325ea2ddae0dde50a82a49a97dcede7
+  audit-sha256: ca1a3f3738af5d93bcee431c834845fe16f1c0997fa4d81a0cdf5f5a5c20fe49
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Metric catalog not materialized.
+  - Local Godot recorder not executed.
+  - Simulation scenarios and profiles not executed.
+  - Python aggregation and comparison not executed.
+  - No player or playtest data collected.
+  - Consent and withdrawal flow not implemented.
+  - No balance baseline or decision approved.
+  - Runtime measurements not produced.
+  - Collection-wide licence not defined.
+  - PDF accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
