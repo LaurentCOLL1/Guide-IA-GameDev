@@ -1,0 +1,67 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-PUBLICATION
+status: complete
+validation-date: 2026-07-25
+validated-base-commit: 22a763a7673f13f364ba80630bc644c2079c7fec
+validated-head-commit: 4ed21f950f9c29f16c63d6527c0528a8d86ef184
+book:
+  id: LIV-III-INDEX
+  path: Livre-III/index.md
+  chapters: 30
+  audit-level: static-review+pdf-inspected
+results:
+  blocking-errors: 0
+  global-warnings: 2
+  chapters-present: 30
+  chapter-identifiers-unique: true
+  audit-reports-resolved: true
+  final-proofs-complete: true
+  usage-context-nonconformities: 0
+  semantic-context-inconsistencies: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  reader-internal-qa-excluded-from-pdf: true
+  pandoc-xelatex-build: success
+  visual-inspection: success
+  preclosure-raster-equivalence: success
+  final-head-sample-inspection: success
+pdf:
+  path: dist/Guide-IA-GameDev.pdf
+  pages: 2910
+  format: A4
+  pdf-version: "1.5"
+  size-bytes: 7384815
+  sha256: bc1bd50e9d63be7d65d792043354adaa750d7a5f9f9c86a3d0320c6a64f3f055
+  extracted-text-sha256: 78e4455db1618b1ff402a71c65e309805927f4d334464b851589c719451535f4
+  encrypted: false
+  tagged: false
+  text-extractable: true
+  qpdf-check: success
+  fonts-embedded: true
+visual-evidence:
+  full-campaign-pages: [1715, 1716, 1717, 1733, 1750, 1774, 1798, 1819, 1840, 1855, 1870, 1885, 1900, 1917, 1934, 1953, 1973, 1991, 2010, 2031, 2053, 2071, 2089, 2107, 2125, 2146, 2167, 2187, 2208, 2233, 2258, 2277, 2297, 2311, 2325, 2348, 2372, 2393, 2414, 2432, 2451, 2470, 2490, 2514, 2538, 2557, 2576, 2598, 2621, 2640, 2660, 2680, 2700, 2720, 2740, 2761, 2782, 2802, 2822, 2843, 2865, 2885, 2905, 2906, 2907, 2908, 2909, 2910]
+  final-head-inspected-pages: [1715, 1716, 1717, 1733, 1819, 2187, 2865, 2905, 2906, 2907, 2908, 2909, 2910]
+  reference-run-id: 30151432721
+  reference-artifact-id: 8617767659
+  reference-artifact-digest: sha256:d940cd85dff27c0044d108f89f93ee1dc87019ad8fcb0d6c223f4164f32905d3
+  reference-pdf-sha256: 4a09db4ea37764177d1f48b0e62b7276e6f8aaed912cfde0ab693171dcffa650
+  preclosure-raster-equivalence-pages: [1, 2, 3, 4, 5, 10, 20, 50, 363, 727, 1091, 1455, 1818, 2182, 2546, 2901, 2902, 2903, 2904, 2905, 2906, 2907, 2908, 2909, 2910]
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    run-id: 30158547192
+    conclusion: success
+  publication-workflow:
+    workflow-name: Livre III PDF Closure Runner
+    run-id: 30158547181
+    conclusion: success
+  artifact:
+    id: 8619626083
+    name: livre-iii-reader-pdf
+    digest: sha256:c47950160abcaca333915fbe25de3f96384259f4542dae85e7cedaf740053ce7
+    url: "https://github.com/LaurentCOLL1/Guide-IA-GameDev/actions/runs/30158547181/artifacts/8619626083"
+reservations:
+  - Global collection license is undefined and LICENSE.md is absent.
+  - PDF accessibility tagging is not implemented; pdfinfo reports Tagged: no.
+  - Runtime asset-production procedures and Project Asteria pilots are not executed by this static and PDF campaign.

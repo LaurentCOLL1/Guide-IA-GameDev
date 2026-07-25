@@ -7,7 +7,11 @@ on:
     types: [opened, synchronize, reopened, edited]
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: livre-iii-pdf-closure-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   build-and-inspect-structure:
@@ -15,7 +19,7 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event.pull_request.head.ref == 'qa/livre-iii-pdf-closure'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v4
@@ -30,6 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             pandoc texlive-xetex texlive-fonts-recommended texlive-latex-recommended \
+            texlive-latex-extra texlive-pictures lmodern librsvg2-bin \
             fonts-dejavu fonts-liberation poppler-utils qpdf
 
       - name: Validate chapters before PDF
@@ -46,9 +51,9 @@ jobs:
       - name: Build reader PDF
         shell: bash
         run: |
-          set -euo pipefail
+          set -o pipefail
           chmod +x build.sh
-          ./build.sh
+          ./build.sh 2>&1 | tee dist/PDF-BUILD.log
 
       - name: Structural PDF preflight
         shell: bash
@@ -58,7 +63,8 @@ jobs:
           test -s "$PDF"
           qpdf --check "$PDF" | tee dist/QPDF-CHECK.txt
           pdfinfo "$PDF" | tee dist/PDF-INFO.txt
-          pdftotext "$PDF" dist/Guide-IA-GameDev.txt
+          pdffonts "$PDF" | tee dist/PDF-FONTS.txt
+          pdftotext -layout "$PDF" dist/Guide-IA-GameDev.txt
           grep -q "Automatisation Blender, ComfyUI et production en lots" dist/Guide-IA-GameDev.txt
           if grep -Eq "Audit post-création|VALIDATION-FINALE-CHAPITRE|Protocole d’audit post-création" dist/Guide-IA-GameDev.txt; then
             echo "Internal QA content leaked into reader PDF." >&2
@@ -67,6 +73,7 @@ jobs:
           sha256sum "$PDF" | tee dist/Guide-IA-GameDev.pdf.sha256
 
       - name: Upload Livre III closure artifact
+        id: upload
         uses: actions/upload-artifact@v4
         with:
           name: livre-iii-reader-pdf
@@ -74,7 +81,32 @@ jobs:
             dist/Guide-IA-GameDev.pdf
             dist/Guide-IA-GameDev.pdf.sha256
             dist/PDF-INFO.txt
+            dist/PDF-FONTS.txt
             dist/QPDF-CHECK.txt
+            dist/PDF-BUILD.log
             dist/QA-CHAPTERS.md
           if-no-files-found: error
           retention-days: 30
+
+      - name: Finalize Livre III publication evidence
+        if: ${{ success() && hashFiles('.qa/livre-iii-pdf-finalize.py') != '' }}
+        shell: bash
+        env:
+          CLOSURE_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          CLOSURE_ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+          CLOSURE_ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+        run: |
+          set -euo pipefail
+          python3 .qa/livre-iii-pdf-finalize.py
+          rm -f .qa/livre-iii-pdf-finalize.py
+          rm -f .qa/livre-iii-pdf-closure-trigger.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No closure changes to commit."
+            exit 0
+          fi
+          git commit -m "docs(livre-iii): clore et publier le PDF du Livre III"
+          git push origin HEAD:${{ github.head_ref }}

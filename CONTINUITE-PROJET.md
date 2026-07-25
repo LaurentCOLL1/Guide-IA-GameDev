@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.61.0"
+version: "3.62.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T09:40:18+02:00"
+last-updated: "2026-07-25T14:46:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**Contenu documentaire complet : 30 chapitres sur 30. La clôture PDF du Livre III reste à réaliser.**
+**Terminé, audité transversalement et compilé : 30 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -187,7 +187,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 29. Validation technique et artistique des assets — terminé au niveau `static-review`.
 30. Automatisation Blender, ComfyUI et production en lots — terminé au niveau `static-review`.
 
-Les trente chapitres sont rédigés, repérés et audités. La clôture PDF et son inspection visuelle restent à réaliser avant de déclarer le Livre III terminé.
+Les trente chapitres sont rédigés, repérés et audités. La compilation Pandoc/XeLaTeX, le préflight et l’inspection visuelle du PDF lecteur ont réussi ; le Livre III est clos avec réserves globales de collection.
 
 ### Livres IV à V et Companion Pack
 
@@ -2003,8 +2003,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 ## 25. État courant
 
 - branche principale : `main` ;
-- jalon : M4 — Livre III ;
-- progression du Livre III : 30 chapitres sur 30 ; clôture PDF de fin de Livre à réaliser ;
+- jalon : M5 — Livre IV ;
+- progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2067,25 +2067,38 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - Starter Kit non matérialisé ;
 - licence globale à définir ;
 - publication technique du Livre II acceptée après compilation et inspection PDF ;
+- publication technique du Livre III acceptée après compilation et inspection PDF ;
 - licence globale à décider avant publication officielle de la collection ;
 - accessibilité PDF avancée et balisage à traiter avant publication officielle.
 
 ## 26. Prochaine action
 
-Les trente chapitres du Livre III sont rédigés, repérés et audités au niveau `static-review`. Le pilote `AST-PRODUCTION-BATCH-SCOUT-RELAY-001` prépare l’orchestration Blender, ComfyUI, Godot et la porte qualité sans revendiquer de lot, d’asset, de reprise ou de mesure exécuté.
+Le Livre III est terminé, validé transversalement, compilé avec Pandoc/XeLaTeX et inspecté visuellement. Les réserves propres à sa construction PDF sont closes. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/QA/CLOTURE-LIVRE-III.md
+Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-La clôture doit déclencher le workflow permanent `Validate Documentation PDF`, télécharger son artefact, inspecter visuellement le PDF lecteur du Livre III, enregistrer les éventuelles corrections et seulement ensuite déclarer M4 terminé. Aucun passage vers le Livre IV ne sera enregistré avant cette preuve.
+Le chapitre 1 du Livre IV définira une télémétrie locale proportionnée, un catalogue de métriques, des courbes d’équilibrage, des simulations et des rapports de décision, sans recopier les systèmes de gameplay du Livre II ni collecter des données joueurs sans base, consentement et minimisation.
 
 ## 27. Journal
+
+### 2026-07-25T14:46:00+02:00 — version 3.62.0
+
+- validation transversale des trente chapitres, audits et preuves finales du Livre III réussie ;
+- compilation du manuel lecteur avec Pandoc/XeLaTeX réussie ;
+- préflight `pdfinfo`, `pdffonts`, `qpdf --check` et extraction textuelle réussis ;
+- PDF A4 de 2 910 pages produit, texte extractible et polices incorporées ;
+- trente ouvertures de chapitre du Livre III, trente pages intermédiaires et pages de transition finales inspectées ;
+- vingt-cinq rendus de référence reproduits à l’identique avant la mise à jour de clôture ;
+- audits, preuves YAML et protocoles QA confirmés absents du manuel lecteur ;
+- M4 et Livre III marqués terminés ; prochaine action déplacée vers le Livre IV, chapitre 1 ;
+- licence globale, balisage d’accessibilité et réserves runtime maintenus sans revendication excessive.
 
 ### 2026-07-25T09:40:18+02:00 — version 3.61.0
 
