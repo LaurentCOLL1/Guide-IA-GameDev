@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.65.0"
+version: "3.66.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T21:28:22+02:00"
+last-updated: "2026-07-26T00:16:25+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2021,9 +2021,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 2 chapitres sur 22 ;
+- progression du Livre IV : 3 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2093,20 +2094,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 et 2 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 3 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
+Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 3 du Livre IV matérialisera les cas fonctionnels et suites de régression, avec fixtures, états contrôlés, tests rapides et campagnes complètes. Il appliquera la stratégie du chapitre 2 sans redéfinir ses risques, portes, rôles ou règles de décision.
+Le chapitre 4 du Livre IV détaillera les rapports exploitables, la reproduction, la réduction des anomalies et la gestion des doublons sans redéfinir les campagnes du chapitre 3.
 
 ## 27. Journal
+
+### 2026-07-26T00:16:25+02:00 — version 3.66.0
+
+- création du chapitre 3 du Livre IV — Tests fonctionnels et tests de régression ;
+- catalogue, cas, fixtures synthétiques, seeds, états contrôlés et oracles documentés ;
+- suites smoke, rapide, complète et publication définies ;
+- non-régression, mutation connue isolée, quarantaine et tests instables encadrés ;
+- dix diagnostics conformes ;
+- prochaine action déplacée vers le chapitre 4 — Débogage et reproduction des anomalies ;
+- aucune campagne ou mesure runtime revendiquée.
+
+
 
 ### 2026-07-25T21:28:22+02:00 — version 3.65.0
 

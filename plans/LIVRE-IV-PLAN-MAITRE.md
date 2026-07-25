@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.2"
+version: "1.0.3"
 lang: "fr-FR"
-last-updated: "2026-07-25T21:28:22+02:00"
+last-updated: "2026-07-26T00:16:25+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 2 chapitres sur 22  
+> **Statut :** en cours — 3 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -88,6 +88,8 @@ Les tests détaillés viennent aux chapitres suivants. Validation par couverture
 **Frontière et validation**
 
 Les tests unitaires de code sont introduits au Livre II ; ici ils sont intégrés à la campagne produit. Validation par détection volontaire d’une régression connue.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les cas, fixtures, suites et mutations sont préparés sans revendication d’exécution.
 
 ## Chapitre 4 — Débogage et reproduction des anomalies
 

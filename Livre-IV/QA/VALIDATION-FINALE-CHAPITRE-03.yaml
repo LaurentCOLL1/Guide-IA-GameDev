@@ -1,0 +1,47 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH03
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH03
+  path: Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1060
+  chapter-code-and-data-blocks: 50
+  code-explanation-markers: 50
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  runtime-executed: false
+integrity:
+  chapter-sha256: 5806127372f77029ef6439b515b9db9a2477f054c5ea211432d3eca0dc319b2e
+  audit-sha256: f6826f85dcce3480fe47c3f21b68909c151bd2b8dc4e7a9554715701ef191c1b
+ci:
+  chapter-finalizer:
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    run-id: pending
+    conclusion: pending
+reservations:
+  - Test catalog and fixtures not materialized.
+  - No suite executed.
+  - No known regression injected.
+  - No runtime measurement produced.
+evidence-closure:
+  commit: pending
+  conclusion: pending
