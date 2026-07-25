@@ -6,8 +6,8 @@ version: "1.0.0"
 lang: "fr-FR"
 chapter-id: "DOC-L4-CH02"
 chapter-version: "1.0.0"
-audit-date: "2026-07-25T21:28:22+02:00"
-last-verified: "2026-07-25T21:28:22+02:00"
+audit-date: "2026-07-25T21:32:27+02:00"
+last-verified: "2026-07-25T21:32:27+02:00"
 audit-level: "static-review"
 protocol: "Livre-II/QA/PROTOCOLE-AUDIT-POST-CREATION.md"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
@@ -121,4 +121,4 @@ Les sujets voisins restent distincts :
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître et peut entrer dans la validation documentaire et statique. La preuve finale reste en attente de la réussite des contrôles sur la branche dédiée.
+Le chapitre satisfait le périmètre du plan maître. Les validations documentaires et statiques ont réussi ; il est accepté au niveau `static-review` avec les réserves d’exécution et de matérialisation listées ci-dessus.
