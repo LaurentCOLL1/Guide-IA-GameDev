@@ -6,7 +6,7 @@ import zlib
 from pathlib import Path
 
 TIMESTAMP = "2026-07-26T01:20:53+02:00"
-CHAPTER_SHA256 = "a4842063e12c71c6d351f0e0d10557b644d58404785a966064fb91e463ce3a96"
+CHAPTER_SHA256 = "2dbdc275e62b27bf5f27ce44c38c30617b2621e4ad170e5f3e42494c9fe81bf0"
 
 def decode_parts(paths: list[str]) -> str:
     payload = "".join(Path(path).read_text(encoding="ascii").strip() for path in paths)
@@ -34,13 +34,63 @@ chapter = decode_parts([
     ".qa/ch05-chapter.part04.b64",
     ".qa/ch05-chapter.part05.b64",
 ])
+solo_yaml = """> **[LECTURE] Répartition de référence — Ne pas saisir.**
+
+```yaml
+roles:
+  runtime_owner:
+    accountable_for: [event_contracts, instrumentation]
+  platform_owner:
+    accountable_for: [collector, rotation, purge]
+  security_reviewer:
+    accountable_for: [classification, redaction, export_review]
+  qa_owner:
+    accountable_for: [incident_simulation, evidence_queries]
+  product_owner:
+    accountable_for: [retention_approval, release_decision]
+```
+
+<!-- qa:code-explanation -->
+
+**Explication structurée du bloc :**
+
+- **Runtime :** l’émetteur ne choisit pas seul la rétention.
+- **Plateforme :** le collecteur possède la fiabilité technique sans interpréter les causes.
+- **Sécurité :** l’export exige une revue distincte.
+- **QA :** l’incident simulé valide la capacité de diagnostic.
+- **Produit :** la décision de publication reste séparée du tableau de bord.
+"""
+solo_markdown = """La répartition recommandée est la suivante :
+
+- **Responsable runtime :** possède les contrats d’événements et l’instrumentation ;
+- **Responsable plateforme :** possède le collecteur, la rotation et la purge ;
+- **Relecteur sécurité :** valide classification, expurgation et export ;
+- **Responsable QA :** possède l’incident simulé et les requêtes de preuve ;
+- **Responsable produit :** approuve la rétention et conserve l’autorité de décision.
+
+Même lorsqu’une seule personne cumule ces responsabilités, elle conserve des décisions séparées et versionnées.
+"""
+chapter = replace_once(chapter, solo_yaml, solo_markdown, "modes Solo/Studio")
 actual_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
 if actual_sha != CHAPTER_SHA256:
     raise RuntimeError(f"empreinte chapitre invalide: {actual_sha}")
 
+audit = decode_file(".qa/ch05-audit.zlib.b64")
+audit = replace_once(audit, "- lignes : 1551 ;", "- lignes : 1537 ;", "audit lignes")
+audit = replace_once(audit, "- blocs de code ou données : 69 ;", "- blocs de code ou données : 68 ;", "audit blocs")
+audit = replace_once(audit, "- marqueurs d’explication structurée : 49 ;", "- marqueurs d’explication structurée : 48 ;", "audit explications")
+audit_sha = hashlib.sha256(audit.encode("utf-8")).hexdigest()
+
+proof = decode_file(".qa/ch05-proof.zlib.b64")
+proof = replace_once(proof, "chapter-lines: 1551", "chapter-lines: 1537", "preuve lignes")
+proof = replace_once(proof, "chapter-code-and-data-blocks: 69", "chapter-code-and-data-blocks: 68", "preuve blocs")
+proof = replace_once(proof, "code-explanation-markers: 49", "code-explanation-markers: 48", "preuve explications")
+proof = replace_once(proof, "chapter-sha256: a4842063e12c71c6d351f0e0d10557b644d58404785a966064fb91e463ce3a96", f"chapter-sha256: {CHAPTER_SHA256}", "preuve empreinte chapitre")
+proof = replace_once(proof, "audit-sha256: ac5349f858367ebc6195d875709806b5eee9097c0ffda3d483ebad7b306c4a2f", f"audit-sha256: {audit_sha}", "preuve empreinte audit")
+
 write("Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md", chapter)
-write("Livre-IV/QA/AUDIT-CHAPITRE-05.md", decode_file(".qa/ch05-audit.zlib.b64"))
-write("Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-05.yaml", decode_file(".qa/ch05-proof.zlib.b64"))
+write("Livre-IV/QA/AUDIT-CHAPITRE-05.md", audit)
+write("Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-05.yaml", proof)
 
 # Index du Livre IV
 path = Path("Livre-IV/index.md")
