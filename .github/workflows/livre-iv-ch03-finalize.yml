@@ -1,11 +1,16 @@
 name: Livre IV Chapter 3 Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-iv-chapitre-03-tests-fonctionnels-regression
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
     paths:
       - '.qa/ch03.finalizer.*'
+      - '.qa/ch03.payload.*'
       - '.github/workflows/livre-iv-ch03-finalize.yml'
 
 permissions:
@@ -13,6 +18,7 @@ permissions:
 
 jobs:
   finalize-and-validate:
+    if: github.head_ref == 'docs/livre-iv-chapitre-03-tests-fonctionnels-regression'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout chapter branch
@@ -49,5 +55,3 @@ jobs:
           git diff --cached --check
           git commit -m "docs(livre-iv): créer le chapitre 3 sur les tests fonctionnels"
           git push origin HEAD:docs/livre-iv-chapitre-03-tests-fonctionnels-regression
-
-# Retrigger after PR association.
