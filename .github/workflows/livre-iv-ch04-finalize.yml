@@ -80,7 +80,7 @@ jobs:
 
       - name: Audit usage markers
         if: steps.pending.outputs.run == 'true'
-        run: python tools/check_context_markers.py
+        run: python tools/check_context_markers.py --check
 
       - name: Audit semantic marker consistency
         if: steps.pending.outputs.run == 'true'
