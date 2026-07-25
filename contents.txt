@@ -90,6 +90,7 @@ Livre-III/CHAPITRE-24-Interface-utilisateur.md
 Livre-III/CHAPITRE-25-Experience-utilisateur-et-accessibilite-visuelle.md
 Livre-III/CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md
 Livre-III/CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md
+Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
 Livre-IV/index.md
 Livre-V/index.md
 Companion-Pack/index.md
