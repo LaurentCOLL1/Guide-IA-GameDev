@@ -4,7 +4,7 @@ validation-authority: permanent-workflows
 status: pending
 validation-date: '2026-07-25'
 validated-base-commit: 2e58c8ffc04908975b0f6a80f945ea3867143814
-validated-head-commit: pending
+validated-head-commit: 6ecf882c596f5caad1a8284133a09525cf4dfa3c
 chapter:
   id: DOC-L4-CH01
   path: Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
