@@ -98,5 +98,6 @@ Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
 Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
 Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
 Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
+Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
 Livre-V/index.md
 Companion-Pack/index.md

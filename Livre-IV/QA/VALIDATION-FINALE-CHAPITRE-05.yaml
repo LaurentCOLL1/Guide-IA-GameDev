@@ -1,0 +1,77 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH05
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: 245e24bfae781c4e2bec8913eee71176062982da
+validated-head-commit: 903652fa98fcd0ad7140a63be6cc59d68de7d15b
+chapter:
+  id: DOC-L4-CH05
+  path: Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1537
+  chapter-headings: 69
+  chapter-code-and-data-blocks: 68
+  code-explanation-markers: 48
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  logs-metrics-traces-distinguished: true
+  rotation-retention-purge-documented: true
+  privacy-and-secret-redaction-documented: true
+  simulated-incident-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 2dbdc275e62b27bf5f27ce44c38c30617b2621e4ad170e5f3e42494c9fe81bf0
+  audit-sha256: ffd421351be436fcc1cd6db01863e1b5dae39f9e174a2e75080bc4980321e1c6
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 5 Finalizer
+    execution: correction-runner
+    run-id: 30180052882
+    conclusion: success
+    artifact:
+      id: 8625286788
+      name: livre-iv-ch05-validation-without-pdf
+      digest: sha256:aa0246548fbc382aef9e3a72a336309b650df1de240f313c36f4883479b937e4
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30180114544
+    conclusion: success
+  artifact:
+    id: 8625302992
+    name: chapter-validation-without-pdf
+    digest: sha256:b184b511221061b36de83e38129476e60dd61fafebc3179c60fe4cc53a23d1fc
+reservations:
+  - Logging policy not materialized.
+  - Emitter, sinks and collector not executed.
+  - No JSONL file or SQLite index produced.
+  - Local dashboard not created.
+  - Purge procedure not executed.
+  - Simulated incident not executed.
+  - No correlated evidence chain recovered.
+  - No secret scan executed on an artifact.
+  - Runtime overhead not measured.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: 903652fa98fcd0ad7140a63be6cc59d68de7d15b
+  conclusion: success

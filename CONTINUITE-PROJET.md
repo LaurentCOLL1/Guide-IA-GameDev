@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.67.0"
+version: "3.68.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T00:30:21+02:00"
+last-updated: "2026-07-26T01:20:53+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2010,6 +2010,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas fermer automatiquement un doublon à partir d’un titre ou d’une signature ;
 - ne pas fermer un défaut au seul commit du correctif sans vérification et lien de non-régression ;
 - ne pas partager une sauvegarde joueur, un dump ou des journaux bruts sans minimisation, expurgation et revue ;
+- ne pas journaliser un secret, une donnée personnelle ou un texte libre sans contrat explicite, minimisation et expurgation ;
+- ne pas utiliser un identifiant joueur, une corrélation, un chemin ou un texte libre comme dimension métrique ;
+- ne pas émettre un événement à chaque frame sans agrégation, échantillonnage ou limite de débit déclarée ;
+- ne pas régénérer un identifiant de corrélation dans chaque couche d’une même opération ;
+- ne pas faire tourner des journaux sans politique de rétention et procédure de purge confinée ;
+- ne pas laisser un tableau de bord ou un seuil d’observabilité modifier directement le gameplay ou une décision de publication ;
 - ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;
 - ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
 - ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
@@ -2026,11 +2032,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 4 chapitres sur 22 ;
+- progression du Livre IV : 5 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 5 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2100,20 +2107,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 4 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, archives diagnostiques, reproductions, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 5 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, index locaux, dashboards, incidents simulés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
+Livre-IV/CHAPITRE-06-Profilage-CPU.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 5 du Livre IV définira les niveaux et catégories de journaux, la corrélation, les métriques, les traces, la rotation, la confidentialité et les tableaux de bord locaux. Il ne recopiera ni le protocole de rapport et de réduction du chapitre 4, ni les campagnes fonctionnelles du chapitre 3.
+Le chapitre 6 du Livre IV utilisera le profiler Godot et les outils système pour mesurer scripts, physique, navigation, IA et threads, définir des budgets CPU et comparer avant/après. Il consommera les signaux légers du chapitre 5 sans transformer la journalisation en profiler.
 
 ## 27. Journal
+
+### 2026-07-26T01:20:53+02:00 — version 3.68.0
+
+- création du chapitre 5 du Livre IV — Journalisation et observabilité locale ;
+- niveaux, catégories, taxonomie, schéma structuré, horodatage et corrélation documentés ;
+- distinction entre événements, métriques et traces établie ;
+- émetteur Godot, sinks, JSONL, collecteur Python et index SQLite préparés ;
+- rotation, rétention, purge, backpressure, échantillonnage, débit et déduplication encadrés ;
+- confidentialité, classification, expurgation, détection de secrets et export local documentés ;
+- dashboard local en lecture seule et incident simulé de stockage saturé préparés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 6 — Profilage CPU, niveau Élevée ;
+- aucun journal runtime, collecteur, dashboard, incident simulé, scan de secrets ou mesure de coût revendiqué.
 
 ### 2026-07-26T00:30:21+02:00 — version 3.67.0
 
