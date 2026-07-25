@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: livre-iii-pdf-closure-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build-and-inspect-structure:
     if: >-
