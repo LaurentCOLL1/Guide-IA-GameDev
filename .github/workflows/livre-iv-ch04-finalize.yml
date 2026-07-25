@@ -7,6 +7,7 @@ on:
       - '.qa/finalize-livre-iv-ch04.py'
       - '.github/workflows/livre-iv-ch04-finalize.yml'
       - '.qa/ch04-chapter.zlib.b64'
+      - '.qa/ch04-chapter-*.part'
       - '.qa/ch04-audit.zlib.b64'
       - '.qa/ch04-proof.zlib.b64'
 
@@ -36,6 +37,25 @@ jobs:
       - name: Install lightweight dependencies
         if: steps.pending.outputs.run == 'true'
         run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Reassemble chapter payload
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          cat .qa/ch04-chapter-*.part > .qa/ch04-chapter.zlib.b64
+          python - <<'PY'
+          import base64
+          import hashlib
+          import zlib
+          from pathlib import Path
+          payload = Path('.qa/ch04-chapter.zlib.b64').read_text(encoding='ascii').strip()
+          chapter = zlib.decompress(base64.b64decode(payload)).decode('utf-8')
+          digest = hashlib.sha256(chapter.encode('utf-8')).hexdigest()
+          expected = '31af03bb644d5bc48b5fc7713c702f83679cff7c41bac93be6d616468d361f08'
+          if digest != expected:
+              raise SystemExit(f'Empreinte chapitre inattendue: {digest}')
+          print(f'Empreinte chapitre confirmée: {digest}')
+          PY
 
       - name: Materialize chapter lot
         if: steps.pending.outputs.run == 'true'
@@ -95,6 +115,7 @@ jobs:
         run: |
           rm .qa/finalize-livre-iv-ch04.py
           rm .qa/ch04-chapter.zlib.b64
+          rm .qa/ch04-chapter-*.part
           rm .qa/ch04-audit.zlib.b64
           rm .qa/ch04-proof.zlib.b64
           rm .github/workflows/livre-iv-ch04-finalize.yml
