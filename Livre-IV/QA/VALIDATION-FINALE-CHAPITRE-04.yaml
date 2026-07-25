@@ -1,0 +1,77 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH04
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: a9a3017474b83aedcd4c2045a1c153c43a7d2e0c
+validated-head-commit: b027ada1deef468195d7349f115e3b15657c9fd6
+chapter:
+  id: DOC-L4-CH04
+  path: Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1591
+  chapter-headings: 60
+  chapter-code-and-data-blocks: 61
+  significant-code-and-data-blocks: 61
+  code-explanation-markers: 61
+  structured-non-error-code-explanations: 41
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  independent-reproduction-documented: true
+  diagnostic-archive-documented: true
+  minimal-reproduction-documented: true
+  duplicates-and-reopen-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 31af03bb644d5bc48b5fc7713c702f83679cff7c41bac93be6d616468d361f08
+  audit-sha256: 00d3e8ba987500c261b0e76f960bd68ae62d33304855d003c889836d42d55ec8
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 4 Finalizer
+    execution: correction-runner
+    run-id: 30178599974
+    conclusion: success
+    artifact:
+      id: 8624910568
+      name: livre-iv-ch04-validation-without-pdf
+      digest: sha256:40fa98b8b7a0a4413f2d582fdf071b40538b868f981fb8e070c952807091f178
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30178687402
+    conclusion: success
+  artifact:
+    id: 8624931410
+    name: chapter-validation-without-pdf
+    digest: sha256:3dac401341e57ea7a771050f12a607040dd2125c7d770d80d89ac6b5664019da
+reservations:
+  - Bug report template not materialized.
+  - Diagnostic archive not created.
+  - Independent reproduction not executed.
+  - Minimal reproduction not executed.
+  - No real duplicate decision or reopen event recorded.
+  - No regression verification run executed.
+  - Runtime measurements not produced.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: b027ada1deef468195d7349f115e3b15657c9fd6
+  conclusion: success
