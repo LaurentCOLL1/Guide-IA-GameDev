@@ -1,0 +1,73 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH05
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH05
+  path: Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1537
+  chapter-headings: 69
+  chapter-code-and-data-blocks: 68
+  code-explanation-markers: 48
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  logs-metrics-traces-distinguished: true
+  rotation-retention-purge-documented: true
+  privacy-and-secret-redaction-documented: true
+  simulated-incident-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 2dbdc275e62b27bf5f27ce44c38c30617b2621e4ad170e5f3e42494c9fe81bf0
+  audit-sha256: cd1aa7cd01785f3c06805bacf464a5bade8e9bdb5cafe6e496db81eb259a55b6
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 5 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+- Logging policy not materialized.
+- Emitter, sinks and collector not executed.
+- No JSONL file or SQLite index produced.
+- Local dashboard not created.
+- Purge procedure not executed.
+- Simulated incident not executed.
+- No correlated evidence chain recovered.
+- No secret scan executed on an artifact.
+- Runtime overhead not measured.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
