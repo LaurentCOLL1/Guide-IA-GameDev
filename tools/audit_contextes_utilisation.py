@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply and audit normative usage-context markers through Livre III."""
+"""Apply and audit normative usage-context markers through Livre IV."""
 
 from __future__ import annotations
 
@@ -45,7 +45,7 @@ def relative(path: Path) -> str:
 
 def all_markdown_files() -> list[Path]:
     files: list[Path] = []
-    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II", ROOT / "Livre-III"):
+    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II", ROOT / "Livre-III", ROOT / "Livre-IV"):
         files.extend(sorted(base.rglob("*.md")))
     files.append(ROOT / "STYLE_GUIDE.md")
     return [path for path in files if path.is_file()]

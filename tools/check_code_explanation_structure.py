@@ -284,8 +284,8 @@ def check_error_correction_sections(
 
 def check(path: Path) -> list[str]:
     chapter = number(path)
-    is_livre_iii = path.parent.name == "Livre-III"
-    if chapter is None or (not is_livre_iii and chapter < 17):
+    is_modern_book = path.parent.name in {"Livre-III", "Livre-IV"}
+    if chapter is None or (not is_modern_book and chapter < 17):
         return []
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
@@ -305,7 +305,7 @@ def check(path: Path) -> list[str]:
             continue
         end = end_of_explanation(lines, start)
         labels = [match.group(1) for line in lines[start + 1:end] if (match := LABELED.match(line))]
-        minimum = 4 if is_livre_iii or chapter in {25, 26} else 1
+        minimum = 4 if is_modern_book or chapter in {25, 26} else 1
         if len(labels) < minimum:
             errors.append(f"{path.relative_to(ROOT)}:{marker + 1}: {len(labels)} rubrique(s), minimum {minimum}")
         if len(labels) != len(set(labels)):
@@ -322,7 +322,7 @@ def check(path: Path) -> list[str]:
 def main() -> int:
     argparse.ArgumentParser().add_argument("--check", action="store_true")
     errors: list[str] = []
-    for book in ("Livre-II", "Livre-III"):
+    for book in ("Livre-II", "Livre-III", "Livre-IV"):
         for path in sorted(ROOT.glob(f"{book}/CHAPITRE-*.md")):
             errors.extend(check(path))
     if errors:

@@ -94,5 +94,6 @@ Livre-III/CHAPITRE-28-Importation-et-integration-dans-Godot.md
 Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
 Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
 Livre-IV/index.md
+Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
 Livre-V/index.md
 Companion-Pack/index.md
