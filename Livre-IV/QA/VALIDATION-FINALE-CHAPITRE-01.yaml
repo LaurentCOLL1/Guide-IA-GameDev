@@ -75,5 +75,5 @@ reservations:
   - Collection-wide licence not defined.
   - PDF accessibility tagging remains open.
 evidence-closure:
-  commit: pending
+  commit: 7afba6210fe45a5ad91d00afdaea19e8c56d571f
   conclusion: success
