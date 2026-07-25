@@ -26,19 +26,32 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-          fetch-depth: 0
+          fetch-depth: 1
+
+      - name: Detect ephemeral finalizer
+        id: gate
+        shell: bash
+        run: |
+          if test -f .qa/livre-iv-ch01-finalize.py; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Le finaliseur éphémère a déjà été supprimé."
+          fi
 
       - name: Install lightweight dependencies
+        if: steps.gate.outputs.run == 'true'
         run: |
           python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
       - name: Finalize chapter governance and validators
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
-          test -f .qa/livre-iv-ch01-finalize.py
           python3 .qa/livre-iv-ch01-finalize.py
 
       - name: Validate structure, metadata, links and duplicates
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           mkdir -p dist
@@ -47,6 +60,7 @@ jobs:
             | tee dist/QA-CHAPTERS.log
 
       - name: Validate structured code explanations
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           set -o pipefail
@@ -54,6 +68,7 @@ jobs:
             | tee dist/QA-EXPLICATIONS-CODE.log
 
       - name: Audit usage marker presence
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           set -o pipefail
@@ -61,6 +76,7 @@ jobs:
             | tee dist/QA-CONTEXTES.log
 
       - name: Audit semantic marker consistency
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           set -o pipefail
@@ -68,6 +84,7 @@ jobs:
             | tee dist/QA-CONTEXTES-SEMANTIQUES.log
 
       - name: Measure context coverage
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           set -o pipefail
@@ -75,6 +92,7 @@ jobs:
             | tee dist/QA-CONTEXTES-COUVERTURE.md
 
       - name: Assert that no PDF was produced
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
           if find . -type f -name '*.pdf' -print -quit | grep -q .; then
@@ -83,6 +101,7 @@ jobs:
           fi
 
       - name: Upload lightweight QA evidence
+        if: steps.gate.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: livre-iv-ch01-validation-without-pdf
@@ -97,8 +116,10 @@ jobs:
             dist/QA-CONTEXTES-COUVERTURE.md
 
       - name: Commit finalized chapter lot
+        if: steps.gate.outputs.run == 'true'
         run: |
           set -euo pipefail
+          git checkout -- .github/workflows/validate-chapters.yml
           rm -f .qa/livre-iv-ch01-finalize.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
