@@ -113,4 +113,4 @@ Les exemples conservent numérateurs et dénominateurs, nullabilité, versions, 
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître. Il peut être déclaré rédigé, repéré et audité au niveau `static-review` après réussite des contrôles documentaires et statiques du lot.
+Le chapitre satisfait le périmètre du plan maître. Les contrôles documentaires et statiques du lot ont réussi ; il est déclaré rédigé, repéré et audité au niveau `static-review`.
