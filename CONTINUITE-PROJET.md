@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.63.0"
+version: "3.64.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T17:49:48+02:00"
+last-updated: "2026-07-25T20:33:18+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2000,6 +2000,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas échantillonner uniquement les premiers fichiers produits ou triés ;
 - ne pas nettoyer une racine large qui contient des sources, livraisons ou preuves non régénérables ;
 
+- ne pas introduire dans un chapitre lecteur des instructions ou critères liés à la génération du PDF du guide ; cette chaîne appartient à la publication documentaire de fin de Livre ou de collection ;
 - ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;
 - ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
 - ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
@@ -2017,7 +2018,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
 - progression du Livre IV : 1 chapitre sur 22 ;
-- chapitre 1 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2101,6 +2102,17 @@ Niveau GPT-5.6 Sol recommandé : Élevée
 Le chapitre 2 du Livre IV définira les niveaux de test, responsabilités, risques, critères d’entrée et de sortie et portes qualité. Il ne recopiera ni le catalogue de métriques et les expériences du chapitre 1, ni les cas fonctionnels et suites de régression réservés au chapitre 3.
 
 ## 27. Journal
+
+### 2026-07-25T20:33:18+02:00 — version 3.64.0
+
+- correction du chapitre 1 du Livre IV en version `1.0.1` ;
+- retrait des deux mentions de PDF présentes dans le texte lecteur ;
+- la commande de campagne décrit désormais uniquement l’exécution de la matrice d’équilibrage ;
+- la checklist d’acceptation porte désormais sur le confinement des sorties dans le workspace déclaré ;
+- décision permanente enregistrée : la génération du PDF du guide appartient à la chaîne de publication documentaire et ne doit pas apparaître comme procédure ou critère métier d’un chapitre ;
+- audit, preuve QA, index actif et continuité mis à jour ;
+- prochaine action officielle inchangée : Livre IV, chapitre 2.
+
 
 ### 2026-07-25T17:49:48+02:00 — version 3.63.0
 

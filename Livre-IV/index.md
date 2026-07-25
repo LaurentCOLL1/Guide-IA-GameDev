@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.2.0"
-last-updated: "2026-07-25T17:49:48+02:00"
+version: "0.2.1"
+last-updated: "2026-07-25T20:33:18+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -12,7 +12,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Contenu principal
 
-1. [Équilibrage et télémétrie locale](CHAPITRE-01-Equilibrage-et-telemetrie-locale.md) — version `1.0.0`, niveau `static-review` ;
+1. [Équilibrage et télémétrie locale](CHAPITRE-01-Equilibrage-et-telemetrie-locale.md) — version `1.0.1`, niveau `static-review` ;
 2. Stratégie générale d’assurance qualité ;
 3. Tests fonctionnels et tests de régression ;
 4. Débogage et reproduction des anomalies ;
