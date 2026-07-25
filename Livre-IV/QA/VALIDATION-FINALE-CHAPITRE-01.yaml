@@ -4,7 +4,7 @@ validation-authority: permanent-workflows
 status: complete
 validation-date: '2026-07-25'
 validated-base-commit: f454dbd72d594abe459f7b0c084071ab9aabf56f
-validated-head-commit: f97241fe1e28898577fb3529081b91327f90974a
+validated-head-commit: e63d1c09e7c58850bb627530ef5b0fa1306d5ee0
 chapter:
   id: DOC-L4-CH01
   path: Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
@@ -51,17 +51,17 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: 30166241853
+    run-id: 30166278402
     conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Usage Contexts
     execution: permanent-workflow
-    run-id: 30166241852
+    run-id: 30166278405
     conclusion: success
   artifact:
-    id: 8621647536
+    id: 8621656750
     name: chapter-validation-without-pdf
-    digest: sha256:867a9ba0cf34e8588e7a6735c81e21d220ce24aee676d38e5efe262cc696b66c
+    digest: sha256:2e784ab5d10ab5c3940b93773a9d603adf215f3fce2f271d149a28fa21db52bb
 reservations:
   - Metric catalog not materialized.
   - Local Godot recorder not executed.
@@ -74,5 +74,5 @@ reservations:
   - Collection-wide licence not defined.
   - PDF accessibility tagging remains open.
 evidence-closure:
-  commit: pending
+  commit: e63d1c09e7c58850bb627530ef5b0fa1306d5ee0
   conclusion: success
