@@ -21,6 +21,8 @@ def group_for(path: Path) -> str:
         return "Livre II"
     if rel.startswith("Livre-III/"):
         return "Livre III"
+    if rel.startswith("Livre-IV/"):
+        return "Livre IV"
     return "Racine"
 
 
@@ -71,7 +73,7 @@ def main() -> int:
     print()
     print("## Couverture par ensemble")
     print()
-    for group in ("Volume 0", "Livre I", "Livre II", "Livre III", "Racine"):
+    for group in ("Volume 0", "Livre I", "Livre II", "Livre III", "Livre IV", "Racine"):
         if group_files[group]:
             print(
                 f"- {group} : **{group_files[group]} fichiers**, "
@@ -83,10 +85,10 @@ def main() -> int:
     for code in ("PS", "CMD", "WSL", "DCT", "DCK", "VSC", "WEB", "APP", "SORTIE", "LECTURE"):
         print(f"- [{code}] : **{marker_counts[code]}**")
     print()
-    print("## Chapitres des Livres II et III")
+    print("## Chapitres des Livres II à IV")
     print()
     for path in sorted(chapter_counts):
-        if not path.startswith(("Livre-II/", "Livre-III/")):
+        if not path.startswith(("Livre-II/", "Livre-III/", "Livre-IV/")):
             continue
         values = chapter_counts[path]
         rendered = ", ".join(

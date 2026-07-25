@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.62.0"
+version: "3.63.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T14:46:00+02:00"
+last-updated: "2026-07-25T17:49:48+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2000,10 +2000,24 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas échantillonner uniquement les premiers fichiers produits ou triés ;
 - ne pas nettoyer une racine large qui contient des sources, livraisons ou preuves non régénérables ;
 
+- ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;
+- ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
+- ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
+- ne pas conclure depuis une moyenne seule lorsqu’une distribution ou une queue peut modifier la décision ;
+- ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
+- ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
+- ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
+- ne pas laisser une métrique, un dashboard ou un rapport modifier directement un état gameplay ;
+- ne pas confondre corrélation observée et causalité démontrée ;
+- ne pas présenter une simulation comme un résultat obtenu auprès de joueurs ;
+- ne pas collecter à distance ou auprès de personnes sans gouvernance, minimisation, information, base retenue, rétention et retrait adaptés ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
+- progression du Livre IV : 1 chapitre sur 22 ;
+- chapitre 1 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2073,20 +2087,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre III est terminé, validé transversalement, compilé avec Pandoc/XeLaTeX et inspecté visuellement. Les réserves propres à sa construction PDF sont closes. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Le chapitre 1 du Livre IV est terminé au niveau documentaire et statique. Le catalogue, les scénarios, les collecteurs, les analyses, les playtests et les décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
+Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 1 du Livre IV définira une télémétrie locale proportionnée, un catalogue de métriques, des courbes d’équilibrage, des simulations et des rapports de décision, sans recopier les systèmes de gameplay du Livre II ni collecter des données joueurs sans base, consentement et minimisation.
+Le chapitre 2 du Livre IV définira les niveaux de test, responsabilités, risques, critères d’entrée et de sortie et portes qualité. Il ne recopiera ni le catalogue de métriques et les expériences du chapitre 1, ni les cas fonctionnels et suites de régression réservés au chapitre 3.
 
 ## 27. Journal
+
+### 2026-07-25T17:49:48+02:00 — version 3.63.0
+
+- ouverture du Livre IV et création du chapitre 1 — Équilibrage et télémétrie locale ;
+- pilote `AST-BALANCE-PILOT-RELAY-EXPEDITION-001` défini sans matérialisation ;
+- questions, métriques, unités, dimensions, cardinalité et rétention documentées ;
+- compteurs, jauges, distributions, ratios, moyenne, médiane, percentiles et dispersion encadrés ;
+- références, candidats, baselines, courbes, rapports de décision et retour arrière préparés ;
+- frontières avec combat, économie, écologie, tests, observabilité et automatisation maintenues ;
+- scénarios déterministes, graines locales, matrices et comparaisons appariées documentés ;
+- collecte locale hors ligne par défaut, minimisation, consentement, retrait et anonymisation encadrés ;
+- dix diagnostics conformes à la séquence sémantique erreur/correction ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 2 — Stratégie générale d’assurance qualité, niveau Élevée ;
+- aucune collecte joueur, simulation, analyse Python, décision d’équilibrage, mesure runtime ou PDF du Livre IV produite.
+
 
 ### 2026-07-25T14:46:00+02:00 — version 3.62.0
 

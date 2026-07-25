@@ -150,9 +150,12 @@
 
 ## M5 — Livre IV : Finalisation et exploitation
 
-- [ ] Équilibrage, QA et diagnostic.
+- [x] Chapitre 1 — Équilibrage et télémétrie locale — rédigé, repéré et audité au niveau `static-review`.
+- [ ] Équilibrage, QA et diagnostic — 1 chapitre sur 5.
 - [ ] Optimisation et multijoueur.
 - [ ] DevOps, publication et maintenance.
+
+**Statut M5 : en cours — 1 chapitre rédigé, repéré et audité sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 
