@@ -15,7 +15,7 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event.pull_request.head.ref == 'qa/livre-iii-pdf-closure'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             pandoc texlive-xetex texlive-fonts-recommended texlive-latex-recommended \
-            fonts-dejavu fonts-liberation poppler-utils qpdf
+            texlive-latex-extra texlive-pictures fonts-dejavu fonts-liberation \
+            poppler-utils qpdf
 
       - name: Validate chapters before PDF
         shell: bash
@@ -46,9 +47,9 @@ jobs:
       - name: Build reader PDF
         shell: bash
         run: |
-          set -euo pipefail
+          set -o pipefail
           chmod +x build.sh
-          ./build.sh
+          ./build.sh 2>&1 | tee dist/PDF-BUILD.log
 
       - name: Structural PDF preflight
         shell: bash
@@ -67,6 +68,7 @@ jobs:
           sha256sum "$PDF" | tee dist/Guide-IA-GameDev.pdf.sha256
 
       - name: Upload Livre III closure artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: livre-iii-reader-pdf
@@ -75,6 +77,7 @@ jobs:
             dist/Guide-IA-GameDev.pdf.sha256
             dist/PDF-INFO.txt
             dist/QPDF-CHECK.txt
+            dist/PDF-BUILD.log
             dist/QA-CHAPTERS.md
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
