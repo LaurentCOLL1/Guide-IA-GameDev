@@ -13,7 +13,7 @@ jobs:
   finalize:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.head.ref == 'docs/livre-iii-chapitre-28-import-godot'
+      github.event.pull_request.head.ref == 'docs/livre-iii-chapitre-28-import-integration-godot'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
