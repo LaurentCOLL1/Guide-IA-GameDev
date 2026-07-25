@@ -2,7 +2,7 @@
 title: "Livre III — Production des contenus et des assets"
 id: "LIV-III-INDEX"
 status: "active"
-version: "1.27.0"
+version: "1.28.0"
 lang: "fr-FR"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -43,8 +43,9 @@ Ce livre transforme la direction artistique en assets traçables, budgétés, op
 26. [Voix, bruitages, ambiances et musique](CHAPITRE-26-Voix-bruitages-ambiances-et-musique.md)
 27. [Synchronisation labiale et animation faciale](CHAPITRE-27-Synchronisation-labiale-et-animation-faciale.md)
 28. [Importation et intégration dans Godot](CHAPITRE-28-Importation-et-integration-dans-Godot.md)
+29. [Validation technique et artistique des assets](CHAPITRE-29-Validation-technique-et-artistique-des-assets.md)
 
-Les chapitres 29 et 30 seront ajoutés progressivement selon `plans/LIVRE-III-PLAN-MAITRE.md`.
+Le chapitre 30 sera ajouté selon `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ## Principes du Livre III
 

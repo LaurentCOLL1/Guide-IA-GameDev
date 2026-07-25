@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.59.0"
+version: "3.60.0"
 lang: "fr-FR"
-last-updated: "2026-07-25T06:23:53+02:00"
+last-updated: "2026-07-25T07:39:11+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -154,7 +154,7 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 
 ### Livre III
 
-**En cours : 28 chapitres sur 30.**
+**En cours : 29 chapitres sur 30.**
 
 1. Préproduction et cahier des charges artistique — terminé au niveau `static-review`.
 2. Direction artistique et bible visuelle — terminé au niveau `static-review`.
@@ -184,8 +184,9 @@ Cette règle est une porte d’audit bloquante pour les nouveaux chapitres comme
 26. Voix, bruitages, ambiances et musique — terminé au niveau `static-review`.
 27. Synchronisation labiale et animation faciale — terminé au niveau `static-review`.
 28. Importation et intégration dans Godot — terminé au niveau `static-review`.
+29. Validation technique et artistique des assets — terminé au niveau `static-review`.
 
-Les chapitres 29 et 30 restent définis dans `plans/LIVRE-III-PLAN-MAITRE.md`.
+Le chapitre 30 reste défini dans `plans/LIVRE-III-PLAN-MAITRE.md`.
 
 ### Livres IV à V et Companion Pack
 
@@ -1506,6 +1507,29 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - la porte exige import propre, réimportation déterministe, personnalisations préservées, revue artistique, droits et mesures runtime ;
 - aucun asset, preset, sidecar, scène, remap, script exécuté, rapport, capture ou benchmark n’est revendiqué avant matérialisation.
 
+
+### 11.40 Validation technique et artistique des assets
+
+- `AST-ASSET-GATE-SCOUT-RELAY-001` constitue le pilote de porte qualité du chapitre 29 ;
+- chaque décision vise un `asset_id`, une version candidate, une empreinte, un profil et un contexte d’usage ;
+- `AST-ASSET-QA-CHECKLIST-001` compose un socle universel avec des extensions par famille ;
+- les états distinguent brouillon, revue, blocages techniques ou juridiques, corrections, dérogations, acceptation et retrait ;
+- propriétaire, revue technique, revue artistique, droits et publication restent des rôles séparés même en Mode Solo ;
+- provenance, licence, redistribution et consentement constituent une précondition indépendante de la qualité visuelle ;
+- géométrie, UV, matériaux, textures, rigs, skinning, blendshapes, animations, collisions, sockets et LOD utilisent des règles versionnées ;
+- VFX, UI et audio restent validés selon les contrats de leurs chapitres propriétaires ;
+- `AST-ASSET-QA-SCENE-001` regroupe des fixtures neutres d’échelle, matériaux, animation, collision, sockets et LOD ;
+- les moniteurs Godot décrivent la scène complète et restent séparés des statistiques du contenu source ;
+- chauffe, répétitions, baseline, tolérances, renderer, résolution et caméra sont enregistrés avec les mesures ;
+- la revue artistique cite la bible, les références approuvées, le contexte et les preuves visuelles ;
+- constats, sévérités, dérogations, corrections et décisions utilisent des identifiants stables et un historique append-only ;
+- une correction produit toujours une nouvelle révision candidate et relance les contrôles affectés plus la non-régression ;
+- une dérogation possède portée, propriétaire, justification, expiration et plan de correction ;
+- un contrôle automatique sans blocker conduit à `ART_REVIEW_REQUIRED`, jamais à une acceptation artistique ;
+- l’acceptation finale exige droits approuvés, blockers techniques nuls, preuves Godot complètes, revue artistique et dérogations valides ;
+- le chapitre 30 recevra les contrats d’entrée, de sortie et de codes sans reprendre la décision artistique ;
+- aucun asset, profil, scène, rapport, capture, mesure, revue ou benchmark n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -1951,11 +1975,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas committer `.godot/` tout en ignorant les sidecars `<asset>.import` ;
 - ne pas réimporter une livraison sans baseline, changements attendus, diff et contrôle des personnalisations ;
 
+
+- ne pas accepter un asset sur la seule formule « paraît bon » sans candidat, preuve et critères ;
+- ne pas laisser un script promouvoir directement un résultat technique en acceptation artistique ;
+- ne pas valider uniquement dans Blender sans import propre et scène d’intégration Godot ;
+- ne pas appliquer un budget unique à toutes les familles, distances et plateformes ;
+- ne pas conclure depuis une seule frame froide sans chauffe, répétitions ni baseline ;
+- ne pas créer une dérogation sans portée, propriétaire, expiration et plan de correction ;
+- ne pas modifier le candidat pendant la revue tout en conservant l’ancien rapport ;
+- ne pas réduire technique, art, droits et exécution à un booléen unique ;
+- ne pas créer un constat vague sans règle, preuve et procédure de reproduction ;
+- ne pas accepter un asset dont la provenance, la licence ou le consentement reste incomplet ;
+
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M4 — Livre III ;
-- progression du Livre III : 28 chapitres sur 30 ;
+- progression du Livre III : 29 chapitres sur 30 ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -1984,6 +2020,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 26 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 27 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 28 du Livre III : version `1.0.0`, niveau `static-review` ;
+- chapitre 29 du Livre III : version `1.0.0`, niveau `static-review` ;
 - Livre II : 30 chapitres sur 30, publication technique terminée ;
 - industrialisation du Livre II : 5 chapitres sur 5 ;
 - chapitre 1 : version `1.3.0` ;
@@ -2021,20 +2058,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le chapitre 28 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-IMPORT-PILOT-SCOUT-RELAY-001` couvre formats, profils d’import, scènes importées et d’intégration, remaps, animations, collisions, sockets, post-import, métadonnées, diff et protection des personnalisations. Aucun asset, preset, sidecar, scène, script exécuté, capture, mesure runtime, benchmark ou PDF n’est revendiqué comme matérialisé.
+Le chapitre 29 du Livre III est rédigé, repéré et audité au niveau `static-review`. Le pilote `AST-ASSET-GATE-SCOUT-RELAY-001` couvre identité candidate, checklist universelle, extensions par famille, droits, contrôles techniques, scènes Godot, mesures, revue artistique, rapports, corrections, dérogations et acceptation finale. Aucun asset, profil, scène, rapport, capture, mesure, revue, benchmark ou PDF n’est revendiqué comme matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
+Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 29 créera la porte qualité universelle combinant provenance, conformité artistique, formats, pivots, matériaux, collisions, rigs, LOD, budgets, scènes de validation, rapports, refus, corrections et acceptation finale, sans refaire les réglages d’import et la réimportation du chapitre 28.
+Le chapitre 30 automatisera les tâches répétitives avec scripts Blender, files ComfyUI, manifestes de lots, reprises, limites de tentatives, échantillonnage, validation humaine, CI et artefacts, sans permettre à l’automatisation de déclarer seule la qualité artistique.
 
 ## 27. Journal
+
+### 2026-07-25T07:39:11+02:00 — version 3.60.0
+
+- chapitre 29 du Livre III créé, relu et audité au niveau `static-review` ;
+- pilote `AST-ASSET-GATE-SCOUT-RELAY-001` défini pour l’éclaireur et le module de relais ;
+- identité, version, empreinte, manifeste, profil et contexte d’usage séparés ;
+- états, transitions, rôles, checklist universelle et extensions par famille documentés ;
+- provenance, droits, dépendances, géométrie, UV, matériaux, textures, rigs, animations, collisions, sockets et LOD encadrés ;
+- VFX, UI et audio reliés à leurs contrats propriétaires sans duplication ;
+- scène Godot de validation, fixtures, captures, moniteurs, protocole de mesure, baseline et tolérances préparés ;
+- grille artistique, références, constats, sévérités, dérogations, corrections et signatures documentés ;
+- automatisation limitée au blocage technique et à la collecte, sans acceptation artistique autonome ;
+- progression documentaire portée à 29 chapitres sur 30 ;
+- prochaine action déplacée vers le chapitre 30 — Automatisation Blender, ComfyUI et production en lots, niveau Élevée ;
+- aucun asset, profil, scène, rapport, capture, mesure runtime, revue, benchmark ou PDF du Livre III produit.
+
 
 ### 2026-07-25T06:23:53+02:00 — version 3.59.0
 

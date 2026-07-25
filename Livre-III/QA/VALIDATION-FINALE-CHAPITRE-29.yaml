@@ -1,0 +1,89 @@
+schema-version: 1
+evidence-id: DOC-L3-QA-EVIDENCE-CH29
+validation-authority: permanent-workflows
+status: complete
+validation-date: '2026-07-25'
+validated-base-commit: 6b7a7ac325b61e9b5746f183cfcea66a8a98194d
+validated-head-commit: 12e0e77e2b436dda88c7e64a9862529970d62a7a
+chapter:
+  id: DOC-L3-CH29
+  path: Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2387
+  chapter-headings: 71
+  chapter-code-and-data-blocks: 79
+  significant-code-and-data-blocks: 79
+  code-explanation-markers: 79
+  structured-non-error-code-explanations: 59
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  asset-states-and-responsibilities-documented: true
+  universal-and-family-checklists-documented: true
+  provenance-rights-and-integrity-gates-documented: true
+  technical-checks-and-family-extensions-documented: true
+  godot-validation-scenes-and-fixtures-documented: true
+  runtime-measurement-protocol-documented: true
+  artistic-review-and-reference-comparison-documented: true
+  findings-waivers-rework-and-acceptance-documented: true
+  automation-cannot-approve-artistic-quality: true
+  no-gameplay-authority: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 64ddaf456a5dbf431a7eec4a69b457310fd146f0f807e8c358ee8bfb7221d26d
+  audit-sha256: 2e2b670b27152d8e0d571b2b19fc36a819281cc0693c4dbbbcf5ce018cea970c
+ci:
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30147147566
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: embedded-command
+    run-id: 30147147566
+    conclusion: success
+  project-asteria-summary:
+    workflow-name: Validate Project Asteria summaries
+    execution: permanent-workflow
+    run-id: 30147147568
+    conclusion: success
+  artifact:
+    id: 8616396394
+    name: chapter-validation-without-pdf
+    digest: f0308ccd1c292095ed3f472537282ff2ed9dbc9bed4dd75df80a3ffaa06874d4
+reservations:
+- Asset quality gate pilot not materialized.
+- No real candidate frozen with manifest and hashes.
+- Universal and family QA profiles not created.
+- Godot validation scene and fixtures not created.
+- Clean import and dependency checks not executed.
+- Technical checks and GDScript collectors not executed.
+- Visual captures, baselines and runtime measurements not produced.
+- Artistic, rights and final release reviews not performed.
+- No real finding, waiver or acceptance decision issued.
+- Real rights and dependencies not qualified.
+- Starter Kit not materialized.
+- Collection-wide licence not defined.
+- Livre III PDF not built by end-of-book policy.
+evidence-closure:
+  commit: 6ff0ad88d9bef2265c2e087552e24ae2a8e24f7a
+  conclusion: success
