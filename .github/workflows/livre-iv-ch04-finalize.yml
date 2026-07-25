@@ -87,11 +87,27 @@ jobs:
         run: python tools/audit_contextes_semantiques.py --check
 
       - name: Measure context coverage
+        id: coverage
         if: steps.pending.outputs.run == 'true'
-        run: python tools/audit_contextes_utilisation.py --check
+        continue-on-error: true
+        shell: bash
+        run: python tools/audit_contextes_utilisation.py --check > .qa/ch04-context-coverage.log 2>&1
+
+      - name: Upload context diagnostic
+        if: steps.pending.outputs.run == 'true' && steps.coverage.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch04-context-diagnostic
+          path: .qa/ch04-context-coverage.log
+          if-no-files-found: error
+
+      - name: Stop on context failure
+        if: steps.pending.outputs.run == 'true' && steps.coverage.outcome == 'failure'
+        shell: bash
+        run: exit 1
 
       - name: Assert lightweight validation produced no PDF
-        if: steps.pending.outputs.run == 'true'
+        if: steps.pending.outputs.run == 'true' && steps.coverage.outcome == 'success'
         shell: bash
         run: |
           if find . -type f -iname '*.pdf' -newer .qa/finalize-livre-iv-ch04.py -print -quit | grep -q .; then
@@ -100,7 +116,7 @@ jobs:
           fi
 
       - name: Upload QA evidence
-        if: steps.pending.outputs.run == 'true'
+        if: steps.pending.outputs.run == 'true' && steps.coverage.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: livre-iv-ch04-validation-without-pdf
@@ -110,7 +126,7 @@ jobs:
           if-no-files-found: error
 
       - name: Commit finalized chapter lot
-        if: steps.pending.outputs.run == 'true'
+        if: steps.pending.outputs.run == 'true' && steps.coverage.outcome == 'success'
         shell: bash
         run: |
           rm .qa/finalize-livre-iv-ch04.py
@@ -118,6 +134,7 @@ jobs:
           rm .qa/ch04-chapter-*.part
           rm .qa/ch04-audit.zlib.b64
           rm .qa/ch04-proof.zlib.b64
+          rm .qa/ch04-context-coverage.log
           rm .github/workflows/livre-iv-ch04-finalize.yml
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
