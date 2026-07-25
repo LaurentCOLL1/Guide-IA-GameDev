@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L3-QA-EVIDENCE-CH29
 validation-authority: permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-25'
 validated-base-commit: 6b7a7ac325b61e9b5746f183cfcea66a8a98194d
-validated-head-commit: null
+validated-head-commit: 12e0e77e2b436dda88c7e64a9862529970d62a7a
 chapter:
   id: DOC-L3-CH29
   path: Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: null
-  warnings: null
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2387
   chapter-headings: 71
   chapter-code-and-data-blocks: 79
@@ -22,9 +22,9 @@ results:
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: null
-  duplicate-blocks: null
-  duplicate-paragraphs: null
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   reader-qa-procedure-absent: true
   next-step-absent-from-reader-chapter: true
   reasoning-process-metadata-absent: true
@@ -54,22 +54,22 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30147147566
+    conclusion: success
   validate-usage-contexts:
     workflow-name: Validate Chapters Without PDF
     execution: embedded-command
-    run-id: null
-    conclusion: pending
+    run-id: 30147147566
+    conclusion: success
   project-asteria-summary:
     workflow-name: Validate Project Asteria summaries
     execution: permanent-workflow
-    run-id: null
-    conclusion: pending
+    run-id: 30147147568
+    conclusion: success
   artifact:
-    id: null
+    id: 8616396394
     name: chapter-validation-without-pdf
-    digest: null
+    digest: f0308ccd1c292095ed3f472537282ff2ed9dbc9bed4dd75df80a3ffaa06874d4
 reservations:
 - Asset quality gate pilot not materialized.
 - No real candidate frozen with manifest and hashes.
@@ -86,4 +86,4 @@ reservations:
 - Livre III PDF not built by end-of-book policy.
 evidence-closure:
   commit: null
-  conclusion: pending
+  conclusion: success
