@@ -84,11 +84,11 @@ jobs:
 
       - name: Audit semantic marker consistency
         if: steps.pending.outputs.run == 'true'
-        run: python tools/audit_contextes_semantiques.py
+        run: python tools/audit_contextes_semantiques.py --check
 
       - name: Measure context coverage
         if: steps.pending.outputs.run == 'true'
-        run: python tools/audit_contextes_utilisation.py
+        run: python tools/audit_contextes_utilisation.py --check
 
       - name: Assert lightweight validation produced no PDF
         if: steps.pending.outputs.run == 'true'
