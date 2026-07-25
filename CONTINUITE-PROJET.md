@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.66.0"
+version: "3.67.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T00:16:25+02:00"
+last-updated: "2026-07-26T00:30:21+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2005,6 +2005,11 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas enregistrer un risque critique sans propriétaire, couches de contrôle et décision résiduelle ;
 - ne pas accorder une dérogation sans portée, approbateur et expiration ;
 - ne pas modifier un critère après observation des résultats sans créer une nouvelle version applicable aux campagnes futures ;
+- ne pas présenter une hypothèse de cause comme un fait observé dans un rapport d’anomalie ;
+- ne pas interpréter `NOT_REPRODUCED` comme une preuve d’inexistence du défaut ;
+- ne pas fermer automatiquement un doublon à partir d’un titre ou d’une signature ;
+- ne pas fermer un défaut au seul commit du correctif sans vérification et lien de non-régression ;
+- ne pas partager une sauvegarde joueur, un dump ou des journaux bruts sans minimisation, expurgation et revue ;
 - ne pas collecter une métrique sans question, finalité et politique de conservation explicites ;
 - ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
 - ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
@@ -2021,10 +2026,11 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 3 chapitres sur 22 ;
+- progression du Livre IV : 4 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 4 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2094,20 +2100,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 3 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 4 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, archives diagnostiques, reproductions, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
+Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 4 du Livre IV détaillera les rapports exploitables, la reproduction, la réduction des anomalies et la gestion des doublons sans redéfinir les campagnes du chapitre 3.
+Le chapitre 5 du Livre IV définira les niveaux et catégories de journaux, la corrélation, les métriques, les traces, la rotation, la confidentialité et les tableaux de bord locaux. Il ne recopiera ni le protocole de rapport et de réduction du chapitre 4, ni les campagnes fonctionnelles du chapitre 3.
 
 ## 27. Journal
+
+### 2026-07-26T00:30:21+02:00 — version 3.67.0
+
+- création du chapitre 4 du Livre IV — Débogage et reproduction des anomalies ;
+- rapports exploitables, environnements, builds, configurations, états initiaux, étapes, attendus et observés documentés ;
+- archives diagnostiques, manifestes d’intégrité, expurgation, fenêtres de journaux et fixtures synthétiques encadrés ;
+- reproduction indépendante humaine ou scriptée préparée ;
+- réduction des étapes, états et entrées documentée sans effacer le rapport original ;
+- doublons, défaut canonique, fermeture, réouverture et lien de non-régression encadrés ;
+- rôles Solo/Studio et triage documentés ;
+- dix diagnostics conformes à la séquence sémantique erreur/correction ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 5 — Journalisation et observabilité locale, niveau Élevée ;
+- aucun défaut réel, archive, reproduction, dump, mesure runtime ou donnée joueur revendiqué.
 
 ### 2026-07-26T00:16:25+02:00 — version 3.66.0
 

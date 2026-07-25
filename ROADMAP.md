@@ -153,11 +153,12 @@
 - [x] Chapitre 1 — Équilibrage et télémétrie locale — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 2 — Stratégie générale d’assurance qualité — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 3 — Tests fonctionnels et tests de régression — rédigé, repéré et audité au niveau `static-review`.
-- [ ] Équilibrage, QA et diagnostic — 3 chapitres sur 5.
+- [x] Chapitre 4 — Débogage et reproduction des anomalies — rédigé, repéré et audité au niveau `static-review`.
+- [ ] Équilibrage, QA et diagnostic — 4 chapitres sur 5.
 - [ ] Optimisation et multijoueur.
 - [ ] DevOps, publication et maintenance.
 
-**Statut M5 : en cours — 3 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 4 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 

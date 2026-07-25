@@ -1,0 +1,73 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH04
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH04
+  path: Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1591
+  chapter-headings: 60
+  chapter-code-and-data-blocks: 61
+  significant-code-and-data-blocks: 61
+  code-explanation-markers: 61
+  structured-non-error-code-explanations: 41
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  independent-reproduction-documented: true
+  diagnostic-archive-documented: true
+  minimal-reproduction-documented: true
+  duplicates-and-reopen-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 31af03bb644d5bc48b5fc7713c702f83679cff7c41bac93be6d616468d361f08
+  audit-sha256: 6ff5c7a358221d6e12eaf2fa2e0452bbb0dc5c51a1cb7d29cd75a44954785fd9
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 4 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+- Bug report template not materialized.
+- Diagnostic archive not created.
+- Independent reproduction not executed.
+- Minimal reproduction not executed.
+- No real duplicate decision or reopen event recorded.
+- No regression verification run executed.
+- Runtime measurements not produced.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
