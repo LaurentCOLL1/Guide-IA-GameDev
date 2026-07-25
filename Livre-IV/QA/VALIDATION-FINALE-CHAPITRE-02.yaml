@@ -1,0 +1,85 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH02
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-25'
+validated-base-commit: 6f9b702b5cedc9ffd2ea76ba51a3ddb37e439ea5
+validated-head-commit: 4466d39e15dcae0a02fb10bafac177624de98b89
+chapter:
+  id: DOC-L4-CH02
+  path: Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2204
+  chapter-headings: 61
+  chapter-code-and-data-blocks: 58
+  significant-code-and-data-blocks: 58
+  code-explanation-markers: 58
+  structured-non-error-code-explanations: 38
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-qa-procedure-absent: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  clickable-technical-references: true
+  qa-charter-documented: true
+  risk-test-matrix-documented: true
+  entry-exit-criteria-documented: true
+  quality-gates-documented: true
+  prevention-detection-correction-separated: true
+  documentary-technical-artistic-product-linked: true
+  stop-ship-and-waivers-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 641906502d493d6fc44332759426cc2d39c34b13c341e965a898541489bc63ae
+  audit-sha256: 5cf930a0157857cba171e13a638c268977306ddda9579193b1050016fb7cd133
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 2 Finalizer
+    execution: correction-runner
+    run-id: 30171658319
+    conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30171774457
+    conclusion: success
+  validate-usage-contexts:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30171774457
+    conclusion: success
+  artifact:
+    id: 8623103389
+    name: chapter-validation-without-pdf
+    digest: sha256:1391e3cdfeee5c6857b580ebbb7ebbccfcba9fa908d56e545f6207cf06f61fc1
+reservations:
+  - QA charter not materialized.
+  - Risk register and risk/control matrix not materialized.
+  - Gate policy and QA calendar not materialized.
+  - Functional and regression campaigns not executed.
+  - Artistic, accessibility and security reviews not executed.
+  - Recovery drill and rollback not executed.
+  - No release candidate or environment qualified.
+  - No gate or release decision approved.
+  - Runtime measurements not produced.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: 4466d39e15dcae0a02fb10bafac177624de98b89
+  conclusion: success

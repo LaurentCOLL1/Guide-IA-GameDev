@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.2.1"
-last-updated: "2026-07-25T20:35:15+02:00"
+version: "0.3.0"
+last-updated: "2026-07-25T21:28:22+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -13,7 +13,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 ## Contenu principal
 
 1. [Équilibrage et télémétrie locale](CHAPITRE-01-Equilibrage-et-telemetrie-locale.md) — version `1.0.1`, niveau `static-review` ;
-2. Stratégie générale d’assurance qualité ;
+2. [Stratégie générale d’assurance qualité](CHAPITRE-02-Strategie-generale-d-assurance-qualite.md) — version `1.0.0`, niveau `static-review` ;
 3. Tests fonctionnels et tests de régression ;
 4. Débogage et reproduction des anomalies ;
 5. Journalisation et observabilité locale ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **1 sur 22** ;
-- chapitre courant terminé : **chapitre 1 — Équilibrage et télémétrie locale** ;
-- prochaine entrée du plan maître : **chapitre 2 — Stratégie générale d’assurance qualité** ;
+- chapitres rédigés, repérés et audités : **2 sur 22** ;
+- chapitre courant terminé : **chapitre 2 — Stratégie générale d’assurance qualité** ;
+- prochaine entrée du plan maître : **chapitre 3 — Tests fonctionnels et tests de régression** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; le chapitre 1 est terminé au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 et 2 sont terminés au niveau documentaire et statique, sans revendication runtime.

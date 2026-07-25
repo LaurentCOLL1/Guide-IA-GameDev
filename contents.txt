@@ -95,5 +95,6 @@ Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md
 Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md
 Livre-IV/index.md
 Livre-IV/CHAPITRE-01-Equilibrage-et-telemetrie-locale.md
+Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
 Livre-V/index.md
 Companion-Pack/index.md
