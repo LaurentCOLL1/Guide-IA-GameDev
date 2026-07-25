@@ -96,7 +96,7 @@ jobs:
                   inside = False
           if inside:
               raise SystemExit("Bloc Markdown non fermé")
-          if openings != 69:
+          if openings != 68:
               raise SystemExit(f"Nombre de blocs inattendu: {openings}")
           if errors:
               raise SystemExit(f"Blocs sans repère: {errors}")
