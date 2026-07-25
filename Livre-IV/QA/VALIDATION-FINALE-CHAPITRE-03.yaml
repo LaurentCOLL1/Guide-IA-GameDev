@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH03
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: 7f06986e554377fff2fedf9308d0946ef2841bb6
+validated-head-commit: 593ed8d0f1b90f56a601a7423a8a92958ffbb823
 chapter:
   id: DOC-L4-CH03
   path: Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1060
   chapter-code-and-data-blocks: 50
   code-explanation-markers: 50
@@ -32,9 +32,11 @@ integrity:
   audit-sha256: f6826f85dcce3480fe47c3f21b68909c151bd2b8dc4e7a9554715701ef191c1b
 ci:
   chapter-finalizer:
-    run-id: pending
-    conclusion: pending
+    workflow-name: Livre IV Chapter 3 Finalizer
+    run-id: 30177250586
+    conclusion: success
   validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
     run-id: pending
     conclusion: pending
 reservations:
