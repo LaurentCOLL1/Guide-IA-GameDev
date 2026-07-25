@@ -30,8 +30,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             pandoc texlive-xetex texlive-fonts-recommended texlive-latex-recommended \
-            texlive-latex-extra texlive-pictures fonts-dejavu fonts-liberation \
-            poppler-utils qpdf
+            texlive-latex-extra texlive-pictures lmodern librsvg2-bin \
+            fonts-dejavu fonts-liberation poppler-utils qpdf
 
       - name: Validate chapters before PDF
         shell: bash
