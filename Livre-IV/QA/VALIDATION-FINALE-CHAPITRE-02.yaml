@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH02
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-25'
 validated-base-commit: 6f9b702b5cedc9ffd2ea76ba51a3ddb37e439ea5
-validated-head-commit: pending
+validated-head-commit: 9275192ff36d6e49510f8dccff9f5a77d8238256
 chapter:
   id: DOC-L4-CH02
   path: Livre-IV/CHAPITRE-02-Strategie-generale-d-assurance-qualite.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2204
   chapter-headings: 61
   chapter-code-and-data-blocks: 58
@@ -51,23 +51,23 @@ integrity:
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 2 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: correction-runner
+    run-id: 30171658319
+    conclusion: success
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
+    execution: pending-human-trigger
     run-id: pending
     conclusion: pending
   validate-usage-contexts:
-    workflow-name: Validate Usage Contexts
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    workflow-name: Livre IV Chapter 2 Finalizer
+    execution: correction-runner
+    run-id: 30171658319
+    conclusion: success
   artifact:
-    id: pending
+    id: 8623079524
     name: livre-iv-ch02-validation-without-pdf
-    digest: pending
+    digest: sha256:6184ab2a5a986c81b85b29545db153f33957f6edb60b0c9639b521cfa399bb11
 reservations:
   - QA charter not materialized.
   - Risk register and risk/control matrix not materialized.
@@ -82,4 +82,4 @@ reservations:
   - Final export accessibility tagging remains open.
 evidence-closure:
   commit: pending
-  conclusion: pending
+  conclusion: success
