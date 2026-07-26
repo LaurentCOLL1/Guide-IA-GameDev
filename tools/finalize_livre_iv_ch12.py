@@ -27,6 +27,22 @@ def write_verified(name: str, pieces: list[bytes], expected: str) -> None:
     (payload_root / name).write_bytes(join_verified(name, pieces, expected))
 
 
+def rebuild_b64_from_zlib(number: int, sha_a: str, sha_b: str, raw_sha: str, file_sha: str) -> None:
+    raw = join_verified(
+        f"ch12.{number:02d}.zlib",
+        [
+            read_verified(f"ch12.{number:02d}a.zlib", sha_a),
+            read_verified(f"ch12.{number:02d}b.zlib", sha_b),
+        ],
+        raw_sha,
+    )
+    encoded = base64.b64encode(raw) + b"\n"
+    actual = hashlib.sha256(encoded).hexdigest()
+    if actual != file_sha:
+        raise SystemExit(f"Invalid rebuilt ch12.{number:02d}.b64 SHA: {actual}")
+    (payload_root / f"ch12.{number:02d}.b64").write_bytes(encoded)
+
+
 write_verified(
     "ch12.02.b64",
     [
@@ -58,6 +74,13 @@ write_verified(
         part_05b,
     ],
     "6feb990c0a886287e5e950773274a7fc913c2a5712865b31be062723304d2e7a",
+)
+rebuild_b64_from_zlib(
+    6,
+    "fa89c32e743665770ecdeba07ffee4299469fb30c6853d74e1a2cb418830b2b3",
+    "31848a931ee9e32801bf917948bdffcc7d73cdcfbc271d61802af4fe8b8e27ee",
+    "b4e923ce1f70f25f9bf644934e68806ea1656800101ad3ec46cb6ceedc324e2d",
+    "b553cb14d497219d9ac5d061a536be9b84bdda9f8fed304e907e86b424a791ea",
 )
 
 parts: list[bytes] = []
