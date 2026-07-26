@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH07
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 7f1782c3f2bfd2b620acb1fc9cdf5aba9f966c31
-validated-head-commit: pending
+validated-head-commit: ae695c8510d17d3a7ec701e59ae9958f6051d4ce
 chapter:
   id: DOC-L4-CH07
   path: Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1563
   chapter-headings: 63
   chapter-code-and-data-blocks: 54
@@ -57,13 +57,13 @@ ci:
       digest: sha256:606451d623c384a651f446437e520e9c78605805d658360adeb03ca567d962c1
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30183586269
+    conclusion: success
   artifact:
-    id: pending
+    id: 8626343997
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:cf46a3269c4ccc679bc5ee4cc422e2bf6fd489561535830ade09131dd4ca42da
 reservations:
   - Stress scene and fixtures not materialized.
   - Environment manifest not completed.
@@ -79,5 +79,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: ae695c8510d17d3a7ec701e59ae9958f6051d4ce
+  conclusion: success
