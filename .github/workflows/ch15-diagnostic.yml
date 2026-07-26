@@ -6,7 +6,7 @@ on:
     types: [synchronize]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   diagnose:
@@ -56,11 +56,11 @@ jobs:
               )
           except BaseException:
               report = 'diagnostic-wrapper-exception\n\n' + traceback.format_exc()
-          Path('.github/workflows/ch15-diagnostic.txt').write_text(report, encoding='utf-8')
-      - name: Commit diagnostic
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/ch15-diagnostic.txt
-          git commit -m "ci(ch15): publier le diagnostic du finaliseur"
-          git push origin HEAD:docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+          Path('ch15-diagnostic.txt').write_text(report, encoding='utf-8')
+      - name: Upload diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: ch15-finalizer-diagnostic
+          path: ch15-diagnostic.txt
+          if-no-files-found: error
+          retention-days: 7
