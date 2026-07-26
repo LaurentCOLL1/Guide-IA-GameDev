@@ -1958,7 +1958,7 @@ try {
 ## 40.2. Inspecter un run depuis l’interface GitHub
 
 
-> **[WEB] Inspecter un run depuis l’interface GitHub — Adapter les chemins et valeurs au projet.**
+> **[APP] GitHub — Inspecter un run depuis l’interface GitHub — Adapter les chemins et valeurs au projet.**
 
 ```text
 Dépôt GitHub
@@ -2005,7 +2005,7 @@ Docker Desktop
 ## 40.4. Lire les versions depuis un conteneur isolé
 
 
-> **[DCT] Lire les versions depuis un conteneur isolé — Adapter les chemins et valeurs au projet.**
+> **[WSL] Terminal Linux ou WSL — Lire les versions depuis un conteneur isolé — Adapter les chemins et valeurs au projet.**
 
 ```bash
 python --version
@@ -2569,7 +2569,7 @@ printf 'runner_os=%s\n' "${RUNNER_OS:-unknown}"
 
 **Exemple fautif :**
 
-> **[LECTURE] Exemple fautif — Ne pas appliquer.**
+> **[WSL] Exemple fautif — Ne pas appliquer dans un terminal Linux ou WSL.**
 
 ```bash
 git tag -f v1.0.0 NEW_COMMIT
@@ -2584,7 +2584,7 @@ git push --force origin v1.0.0
 
 **Exemple corrigé :**
 
-> **[LECTURE] Exemple corrigé — Adapter au contrat du projet.**
+> **[WSL] Exemple corrigé — Adapter au contrat du projet dans un terminal Linux ou WSL.**
 
 ```bash
 git tag -a v1.0.1 NEW_COMMIT -m "Correctif 1.0.1"
