@@ -25,7 +25,8 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: docs/livre-iv-chapitre-14-devops-ci
-          fetch-depth: 0
+          fetch-depth: 1
+          show-progress: false
 
       - name: Restore and verify finalizer
         shell: bash
@@ -52,17 +53,43 @@ jobs:
           gzip --decompress --stdout /tmp/finalize_ch14.py.gz > /tmp/finalize_ch14.py
           python - <<'PY'
           from pathlib import Path
+
           path = Path('/tmp/finalize_ch14.py')
           text = path.read_text(encoding='utf-8')
+
+          old_payload = '''payload = "".join(
+              path.read_text(encoding="ascii")
+              for path in sorted((ROOT / ".tmp/ch14").glob("payload*.txt"))
+          )'''
+          new_payload = '''payload_paths = [
+              ROOT / f".tmp/ch14/payload0{index}.txt"
+              for index in range(1, 6)
+          ] + [
+              ROOT / f".tmp/ch14/chapter06{suffix}.txt"
+              for suffix in "abcdefgh"
+          ]
+          payload = "".join(path.read_text(encoding="ascii") for path in payload_paths)'''
+          if text.count(old_payload) != 1:
+              raise SystemExit('bloc de reconstruction du chapitre introuvable')
+          text = text.replace(old_payload, new_payload)
+
           needle = '    ".tmp/ch14/finalizer08.txt",\n}'
           additions = ''.join(
               f'    ".tmp/ch14/finalizer{group}{suffix}.txt",\n'
               for group in ('04', '05')
               for suffix in ('a', 'b', 'c', 'd')
           )
+          additions += ''.join(
+              f'    ".tmp/ch14/chapter06{suffix}.txt",\n'
+              for suffix in 'abcdefgh'
+          )
           if text.count(needle) != 1:
               raise SystemExit('point de patch du lot finaliseur introuvable')
-          path.write_text(text.replace(needle, '    ".tmp/ch14/finalizer08.txt",\n' + additions + '}'), encoding='utf-8')
+          text = text.replace(
+              needle,
+              '    ".tmp/ch14/finalizer08.txt",\n' + additions + '}',
+          )
+          path.write_text(text, encoding='utf-8')
           PY
           python -m py_compile /tmp/finalize_ch14.py
 
@@ -74,4 +101,9 @@ jobs:
         shell: bash
         env:
           FINALIZER_BRANCH: docs/livre-iv-chapitre-14-devops-ci
-        run: python /tmp/finalize_ch14.py
+        run: |
+          set +e
+          python /tmp/finalize_ch14.py > /tmp/ch14-finalizer.log 2>&1
+          status=$?
+          tail -n 160 /tmp/ch14-finalizer.log
+          exit "$status"
