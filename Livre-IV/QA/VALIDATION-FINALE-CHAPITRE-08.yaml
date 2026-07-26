@@ -1,22 +1,22 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH08
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: 44b006baa83a9a4d6f45b6a53578ab72023f7888
+validated-head-commit: c43ec3b1c96e8cdc4f5e29df29c0951852dec1fd
 chapter:
   id: DOC-L4-CH08
   path: Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
-  chapter-lines: 1750
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1751
   chapter-headings: 63
   chapter-code-and-data-blocks: 54
-  significant-code-and-data-blocks: 54
+  significant-code-and-data-blocks: 48
   code-explanation-markers: 54
   structured-non-error-code-explanations: 34
   detailed-error-cases: 10
@@ -44,23 +44,27 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: ece7a115c66d3c18efeb79e6f8c4ba0b337858265559b2bff172d8b6e2e7d4ed
-  audit-sha256: 850845fe29781f1affc1be0b0a68da766e4dc3f69726bf480ec8b2d7fef3e618
+  chapter-sha256: 0662f5fa87f56fc818d995f518df8be397a011c0aed53b5f69354c289fdedd4c
+  audit-sha256: ae32baf106fc621c1556421ac05c219dc17b23d549cf5ba64a2b61129400581c
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 8 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: 30190986222
+    conclusion: success
+    artifact:
+      id: 8628547830
+      name: livre-iv-ch08-validation-without-pdf
+      digest: sha256:e3f45be6d9d9197c2f9e66ebe8642f79ebcd11eeed7ce73a58ee3b378fedd5ee
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30191040725
+    conclusion: success
   artifact:
-    id: pending
+    id: 8628565629
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:87ef949ec5222d7f93a01e70e7ab94e5126cc732e954b59223f0bba8ae2fea2c
 reservations:
   - RAM and VRAM budgets not qualified.
   - Cyclic scenario and fixtures not materialized.
@@ -77,5 +81,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: c43ec3b1c96e8cdc4f5e29df29c0951852dec1fd
+  conclusion: success
