@@ -56,8 +56,8 @@ ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 15 Finalizer
     execution: chapter-finalizer
-    run-id: pending
-    conclusion: pending
+    run-id: 30226172674
+    conclusion: success
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
