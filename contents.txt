@@ -103,5 +103,6 @@ Livre-IV/CHAPITRE-06-Profilage-CPU.md
 Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md
 Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md
 Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
+Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
 Livre-V/index.md
 Companion-Pack/index.md

@@ -1,0 +1,87 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH10
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: f7ac8abe98038482e3ae52f9202205b087c8ed6c
+validated-head-commit: 87ab35b11b1c6743407c9e2c60c027728fab6317
+chapter:
+  id: DOC-L4-CH10
+  path: Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1951
+  chapter-headings: 62
+  chapter-code-and-data-blocks: 54
+  significant-code-and-data-blocks: 51
+  code-explanation-markers: 54
+  structured-non-error-code-explanations: 34
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  profiler-guided-optimization-documented: true
+  update-frequency-and-time-slicing-documented: true
+  visibility-distance-and-logical-lod-documented: true
+  groups-searches-signals-documented: true
+  pooling-and-reset-documented: true
+  scene-decomposition-and-server-gate-documented: true
+  functional-and-readability-gates-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 406cc3c814354e92bc12825a35be9f9e65bf6e3030a96290a79f0bc2e36b1759
+  audit-sha256: 4e16ed45b05526e029aedc903645013e4bfafdef1e4c6f5a14ec9531f68b0889
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 10 Finalizer
+    execution: chapter-finalizer
+    run-id: 30195251299
+    conclusion: success
+    artifact:
+      id: 8629886714
+      name: livre-iv-ch10-validation-without-pdf
+      digest: sha256:208606ad253f46e9e5cf78b9d21d4cebabbaf093134405883f80542ae74fef61
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30195317282
+    conclusion: success
+  artifact:
+    id: 8629907771
+    name: chapter-validation-without-pdf
+    digest: sha256:da3380d2ca97473c4bab8aa09ecbb363c6fcad5c8d92f394f1bf2bb2884bd400
+reservations:
+  - Benchmark scene not materialized.
+  - Environment manifest not completed.
+  - No profiler capture produced.
+  - No baseline or candidate series produced.
+  - Frequencies quotas and thresholds not qualified.
+  - Logical LOD not executed.
+  - Gameplay pool not integrated or tested.
+  - Server API migration not executed.
+  - Background preparation not executed.
+  - Before-after campaign not executed.
+  - Functional regression suite not executed.
+  - Latency and determinism validation not executed.
+  - Readability and testability review not executed.
+  - Instrumentation overhead not measured.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: 87ab35b11b1c6743407c9e2c60c027728fab6317
+  conclusion: success
