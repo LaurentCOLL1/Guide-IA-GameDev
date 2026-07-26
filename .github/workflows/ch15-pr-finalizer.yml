@@ -41,6 +41,43 @@ jobs:
 
           import yaml
 
+          chapter = Path('Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md')
+          chapter_text = chapter.read_text(encoding='utf-8')
+          direct_replacements = {
+              '''def verify_generation(root: Path, manifest_path: Path) -> None:
+              root = root.resolve()
+              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
+              '''def verify_generation(root: Path, manifest_path: Path) -> None:
+              root = root.resolve()
+              manifest_path = manifest_path.resolve(strict=True)
+              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
+              '''    if actual != expected:
+                  raise ValueError("ensemble de fichiers différent")
+              ```'''.replace('              ', ''),
+              '''    if actual != expected:
+                  raise ValueError("ensemble de fichiers différent")
+
+
+              if __name__ == "__main__":
+                  import argparse
+
+                  parser = argparse.ArgumentParser()
+                  parser.add_argument("root", type=Path)
+                  parser.add_argument("manifest", type=Path)
+                  args = parser.parse_args()
+                  verify_generation(args.root, args.manifest)
+              ```'''.replace('              ', ''),
+              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.':
+              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.\n- **CLI :** les deux arguments positionnels sont convertis en `Path`, puis transmis à la même fonction que l’appel automatisé.',
+          }
+          items = list(direct_replacements.items())
+          for old, new in items:
+              count = chapter_text.count(old)
+              if count != 1:
+                  raise SystemExit(f'correction CLI directe: attendu 1, trouvé {count}')
+              chapter_text = chapter_text.replace(old, new)
+          chapter.write_text(chapter_text, encoding='utf-8', newline='\n')
+
           source = Path('.github/workflows/ch15-finalizer.yml')
           workflow = yaml.safe_load(source.read_text(encoding='utf-8'))
           steps = workflow['jobs']['finalize']['steps']
@@ -49,6 +86,9 @@ jobs:
               for step in steps
               if step.get('name') == 'Patch chapter, governance, audit and evidence'
           )
+          section_start = script.index('# Corriger la CLI de vérification enseignée dans le chapitre.')
+          section_end = script.index('# Index du Livre IV.')
+          script = script[:section_start] + '# CLI déjà corrigée par le wrapper de PR.\n\n' + script[section_end:]
           target = Path('/tmp/ch15-finalize.py')
           target.write_text(script, encoding='utf-8')
           subprocess.run([sys.executable, str(target)], check=True, env=os.environ.copy())
