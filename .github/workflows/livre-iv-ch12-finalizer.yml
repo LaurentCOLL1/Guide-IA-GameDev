@@ -8,6 +8,13 @@ on:
       - ".chapter12/**"
       - "tools/finalize_livre_iv_ch12.py"
       - ".github/workflows/livre-iv-ch12-finalizer.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".chapter12/**"
+      - "tools/finalize_livre_iv_ch12.py"
+      - ".github/workflows/livre-iv-ch12-finalizer.yml"
 
 permissions:
   contents: write
@@ -16,10 +23,11 @@ jobs:
   finalize:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout repository
+      - name: Checkout source branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: docs/livre-iv-chapitre-12-synchronisation-autorite-prediction
 
       - name: Install lightweight dependencies
         run: python -m pip install --disable-pip-version-check pyyaml
@@ -41,4 +49,4 @@ jobs:
           git add -A
           git diff --cached --quiet && exit 1
           git commit -m "docs(livre-iv): créer le chapitre 12 sur la synchronisation"
-          git push origin HEAD
+          git push origin HEAD:docs/livre-iv-chapitre-12-synchronisation-autorite-prediction
