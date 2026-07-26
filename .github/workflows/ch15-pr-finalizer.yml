@@ -1,0 +1,117 @@
+name: Livre IV Chapter 15 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+          fetch-depth: 0
+
+      - name: Install lightweight dependencies
+        run: python -m pip install pyyaml
+
+      - name: Reuse the audited finalizer script
+        env:
+          FINALIZER_RUN_ID: ${{ github.run_id }}
+        shell: python
+        run: |
+          from __future__ import annotations
+
+          import os
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          import yaml
+
+          source = Path('.github/workflows/ch15-finalizer.yml')
+          workflow = yaml.safe_load(source.read_text(encoding='utf-8'))
+          steps = workflow['jobs']['finalize']['steps']
+          script = next(
+              step['run']
+              for step in steps
+              if step.get('name') == 'Patch chapter, governance, audit and evidence'
+          )
+          target = Path('/tmp/ch15-finalize.py')
+          target.write_text(script, encoding='utf-8')
+          subprocess.run([sys.executable, str(target)], check=True, env=os.environ.copy())
+
+      - name: Run lightweight validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_chapters.py --report dist/QA-CHAPTER-15.md
+          python tools/check_context_markers.py --check
+          if git diff --name-only origin/main -- '*.pdf' | grep -q .; then
+            echo 'Un PDF a été ajouté ou modifié dans le lot.' >&2
+            exit 1
+          fi
+
+      - name: Remove every temporary transport file and commit permanent lot
+        id: permanent
+        shell: bash
+        run: |
+          set -euo pipefail
+          find .github/workflows -maxdepth 1 -type f -name 'ch15-*' -delete
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md \
+            Livre-IV/QA/AUDIT-CHAPITRE-15.md \
+            Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
+            Livre-IV/index.md \
+            ROADMAP.md \
+            contents.txt \
+            plans/LIVRE-IV-PLAN-MAITRE.md
+          git add -A .github/workflows
+          git commit -m "docs(livre-iv): finaliser le chapitre 15"
+          FIRST_SHA="$(git rev-parse HEAD)"
+          git push origin HEAD:docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+          echo "first_sha=$FIRST_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Close evidence against permanent content commit
+        env:
+          FIRST_SHA: ${{ steps.permanent.outputs.first_sha }}
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+
+          path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              'validated-head-commit: pending-after-finalizer': f'validated-head-commit: {os.environ["FIRST_SHA"]}',
+              'evidence-closure:\n  commit: pending-after-finalizer\n  conclusion: pending': f'evidence-closure:\n  commit: {os.environ["FIRST_SHA"]}\n  conclusion: success',
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'fermeture preuve: attendu 1, trouvé {count}: {old}')
+              text = text.replace(old, new)
+          path.write_text(text, encoding='utf-8', newline='\n')
+
+      - name: Commit evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml
+          git commit -m "docs(qa): fermer la preuve du chapitre 15"
+          git push origin HEAD:docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
