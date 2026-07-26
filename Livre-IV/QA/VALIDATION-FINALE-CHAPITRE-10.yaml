@@ -1,22 +1,22 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH10
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: f7ac8abe98038482e3ae52f9202205b087c8ed6c
+validated-head-commit: 87ab35b11b1c6743407c9e2c60c027728fab6317
 chapter:
   id: DOC-L4-CH10
   path: Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1951
   chapter-headings: 62
   chapter-code-and-data-blocks: 54
-  significant-code-and-data-blocks: pending
+  significant-code-and-data-blocks: 51
   code-explanation-markers: 54
   structured-non-error-code-explanations: 34
   detailed-error-cases: 10
@@ -45,22 +45,26 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: 406cc3c814354e92bc12825a35be9f9e65bf6e3030a96290a79f0bc2e36b1759
-  audit-sha256: eb6b4d5a278b4da105746e4a8d90d8dd4a3943c01f06253fcfc720dad4f4319c
+  audit-sha256: 4e16ed45b05526e029aedc903645013e4bfafdef1e4c6f5a14ec9531f68b0889
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 10 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: 30195251299
+    conclusion: success
+    artifact:
+      id: 8629886714
+      name: livre-iv-ch10-validation-without-pdf
+      digest: sha256:208606ad253f46e9e5cf78b9d21d4cebabbaf093134405883f80542ae74fef61
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30195317282
+    conclusion: success
   artifact:
-    id: pending
+    id: 8629907771
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:da3380d2ca97473c4bab8aa09ecbb363c6fcad5c8d92f394f1bf2bb2884bd400
 reservations:
   - Benchmark scene not materialized.
   - Environment manifest not completed.
@@ -79,5 +83,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: 87ab35b11b1c6743407c9e2c60c027728fab6317
+  conclusion: success
