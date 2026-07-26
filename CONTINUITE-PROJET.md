@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.76.0"
+version: "3.77.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T17:45:00+02:00"
+last-updated: "2026-07-26T21:42:29+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1547,6 +1547,23 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - tout scan futur exige une cible isolée, une autorisation écrite et un périmètre déclaré ;
 - aucun build, hôte, pare-feu, service, conteneur, campagne d’abus, scan, restauration ou exercice d’incident n’est revendiqué avant matérialisation.
 
+### 11.42 DevOps et intégration continue
+
+- `main` reste la branche intégrée ; les changements passent par branches courtes, pull requests et contrôles requis ;
+- les scripts canoniques versionnés portent la logique, tandis que les workflows orchestrent événements, permissions, matrices et artefacts ;
+- un événement non fiable ne reçoit ni secret, ni permission d’écriture, ni environnement protégé ;
+- version produit, commit, run, tentative, identifiant de build et empreinte d’artefact restent des identités distinctes ;
+- les actions externes sont inventoriées, qualifiées et épinglées avant adoption ;
+- les matrices déclarent plateforme, rôle, caractère requis, délai et politique d’échec ;
+- un cache reste reconstructible et ne remplace ni source canonique, ni artefact, ni preuve ;
+- chaque build travaille dans un staging propre et confiné, puis produit manifeste fermé et empreintes ;
+- construction et promotion sont séparées : la promotion réutilise les mêmes octets vérifiés au lieu de reconstruire ;
+- secrets, environnements protégés et OIDC ne sont disponibles que dans des jobs explicitement autorisés ;
+- délais, concurrence, annulation et retries transitoires sont bornés, et l’échec initial reste visible ;
+- reproductibilité procédurale et identité binaire sont distinguées ;
+- une reconstruction depuis un clone neuf est requise avant toute revendication runtime ;
+- aucun workflow, build, test runtime, package, attestation, secret, runner ou déploiement n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -2100,6 +2117,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas redémarrer avant fermeture de l’admission, drainage borné et sauvegarde contrôlée ;
 - ne pas revenir à un ancien binaire sans vérifier sa compatibilité avec l’état courant ;
 - ne pas présenter zéro alerte d’un scanner comme audit professionnel ou certification ;
+- ne pas fournir de secret, de permission d’écriture ou d’environnement protégé à une pull request non fiable ;
+- ne pas masquer un code de sortie non nul avec une continuation systématique ;
+- ne pas utiliser une référence d’action mobile non qualifiée dans un workflow sensible ;
+- ne pas traiter un cache comme un artefact de preuve ou une sauvegarde ;
+- ne pas reconstruire un candidat pendant sa promotion ;
+- ne pas publier le workspace entier lorsqu’une liste fermée d’artefacts suffit ;
+- ne pas relancer un test déterministe jusqu’à obtenir artificiellement du vert ;
+- ne pas afficher l’environnement complet pour diagnostiquer un secret manquant ;
+- ne pas déplacer un tag de release déjà publié ;
+- ne pas revendiquer une reconstruction reproductible sans clone neuf, outils qualifiés et manifestes comparables ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2112,7 +2139,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 13 chapitres sur 22 ;
+- progression du Livre IV : 14 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2126,6 +2153,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 11 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 12 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 13 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2195,20 +2223,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 13 du Livre IV sont terminés au niveau documentaire et statique. Les builds dédiés, hôtes isolés, comptes de service, credentials runtime, règles pare-feu, services systemd, images conteneur, campagnes d’admission et d’abus, scans autorisés, sauvegardes, restaurations, mises à jour, rollbacks et exercices d’incident restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 14 du Livre IV sont terminés au niveau documentaire et statique. Les workflows, scripts CI, matrices de plateformes, runners spécialisés, permissions, secrets, échanges OIDC, artefacts, attestations, promotions et reconstructions depuis un clone neuf restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md
+Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 14 du Livre IV automatisera builds, tests et packaging, organisera branches, tags, versions et artefacts, protégera les secrets de CI, construira les matrices de plateformes et conservera journaux, preuves et procédures de reprise.
+Le chapitre 15 du Livre IV inventoriera les données critiques, définira RPO, RTO et rétention, organisera les sauvegardes des sources, builds, bases et services, puis préparera restaurations, migrations et scénarios de reprise après catastrophe.
 
 ## 27. Journal
+
+### 2026-07-26T21:42:29+02:00 — version 3.77.0
+
+- création du chapitre 14 du Livre IV — DevOps et intégration continue ;
+- intégration continue, livraison, déploiement et publication distingués ;
+- branches, pull requests, tags, versions, runs, tentatives, builds et empreintes séparés ;
+- scripts canoniques, workflows, permissions minimales et entrées non fiables encadrés ;
+- matrices, environnements propres, caches, artefacts, manifestes et rétention structurés ;
+- secrets, environnements protégés, OIDC, attestations et dépendances d’actions préparés ;
+- délais, concurrence, annulation, retries bornés et reprise après échec documentés ;
+- reconstruction depuis clone neuf et distinction procédurale/binaire préparées ;
+- dix diagnostics conformes et frontières avec les chapitres 3, 13, 15, 16 et 17 maintenues ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 15 — Sauvegardes, migrations et reprise après incident, niveau Élevée ;
+- aucun workflow de `Project Asteria`, build, test runtime, package, cache, attestation, secret, runner, déploiement ou PDF du Livre IV revendiqué.
 
 ### 2026-07-26T17:45:00+02:00 — version 3.76.0
 

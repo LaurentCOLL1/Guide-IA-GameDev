@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.13"
+version: "1.0.14"
 lang: "fr-FR"
-last-updated: "2026-07-26T17:45:00+02:00"
+last-updated: "2026-07-26T21:42:29+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 13 chapitres sur 22  
+> **Statut :** en cours — 14 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -352,6 +352,8 @@ Ne constitue pas un audit de sécurité professionnel. Validation par environnem
 **Frontière et validation**
 
 Le chapitre ne remplace pas la stratégie QA. Validation par reconstruction propre depuis un clone neuf.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les workflows, scripts, matrices, secrets, runners, artefacts, attestations et reconstructions depuis un clone neuf sont préparés sans revendication d’exécution, de build, de package ou de déploiement runtime.
 
 ## Chapitre 15 — Sauvegardes, migrations et reprise après incident
 
