@@ -116,4 +116,4 @@ Les budgets à 60 images par seconde sont des plafonds théoriques ; aucun résu
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles documentaires et statiques du lot ont réussi ; les réserves runtime restent ouvertes.
