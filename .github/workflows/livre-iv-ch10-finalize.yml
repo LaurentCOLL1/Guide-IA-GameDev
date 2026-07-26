@@ -41,6 +41,30 @@ jobs:
         if: steps.pending.outputs.run == 'true'
         run: python .qa/finalize-livre-iv-ch10.py
 
+      - name: Apply semantic marker correction
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          chapter_path = Path("Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md")
+          chapter = chapter_path.read_text(encoding="utf-8")
+          old = '> **[PS] PowerShell 7 — Exécuter `python tools/performance/analyze_system_samples.py samples.jsonl`.**'
+          new = '> **[VSC] Visual Studio Code — Créer `tools/performance/analyze_system_samples.py`.**'
+          if chapter.count(old) != 1:
+              raise SystemExit("Repère Python attendu exactement une fois")
+          chapter_path.write_text(chapter.replace(old, new), encoding="utf-8", newline="\n")
+
+          proof_path = Path("Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-10.yaml")
+          proof = proof_path.read_text(encoding="utf-8")
+          old_hash = "340d10d8b03495c43272c6242ce85d8c3fad9c28cd9f35c815e9c50d03f59528"
+          new_hash = "406cc3c814354e92bc12825a35be9f9e65bf6e3030a96290a79f0bc2e36b1759"
+          if proof.count(old_hash) != 1:
+              raise SystemExit("Empreinte provisoire attendue exactement une fois")
+          proof_path.write_text(proof.replace(old_hash, new_hash), encoding="utf-8", newline="\n")
+          PY
+
       - name: Assert reader boundaries
         if: steps.pending.outputs.run == 'true'
         shell: bash
