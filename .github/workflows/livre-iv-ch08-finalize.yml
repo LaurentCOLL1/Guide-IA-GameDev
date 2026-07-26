@@ -51,8 +51,25 @@ jobs:
           ! grep -qi 'PDF' "$chapter"
 
       - name: Validate structure metadata links and duplicates
+        id: structural
         if: steps.pending.outputs.run == 'true'
-        run: python tools/validate_chapters.py
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          python tools/validate_chapters.py 2>&1 | tee .qa/ch08-validate.log
+
+      - name: Upload structural diagnostic
+        if: steps.pending.outputs.run == 'true' && steps.structural.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch08-structural-diagnostic
+          path: .qa/ch08-validate.log
+          if-no-files-found: error
+
+      - name: Stop after structural failure
+        if: steps.pending.outputs.run == 'true' && steps.structural.outcome == 'failure'
+        run: exit 1
 
       - name: Validate structured explanations
         if: steps.pending.outputs.run == 'true'
