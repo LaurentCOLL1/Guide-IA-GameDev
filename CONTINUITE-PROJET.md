@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.69.0"
+version: "3.70.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T02:53:24+02:00"
+last-updated: "2026-07-26T03:23:02+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2026,6 +2026,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas réduire la cadence physique ou IA sans tests fonctionnels, latence et déterminisme adaptés ;
 - ne pas introduire des threads sans mesurer préparation, travail, attente, fusion et correction du résultat ;
 - ne pas accepter un gain de performance lorsque la suite fonctionnelle requise échoue ;
+- ne pas conclure à une optimisation GPU depuis le FPS, les draw calls ou les primitives seuls ;
+- ne pas comparer des campagnes GPU dont résolution, renderer, pilote, profil ou V-Sync ne sont pas qualifiés ;
+- ne pas utiliser le replay d’une capture de frame comme unique baseline temporelle native ;
+- ne pas réduire la qualité visuelle sans images comparables, revue humaine et profil de repli ;
+- ne pas fusionner une géométrie globale sans mesurer la perte de granularité du culling ;
+- ne pas attribuer un pic au coût GPU continu sans vérifier compilations de pipeline, soumission CPU et synchronisation ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2038,13 +2044,14 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 6 chapitres sur 22 ;
+- progression du Livre IV : 7 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 5 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 6 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 7 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2114,20 +2121,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 6 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU, captures de profiler, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 7 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, captures de frame, profils graphiques, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md
+Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 7 du Livre IV couvrira passes de rendu, draw calls, overdraw, shaders, lumières, ombres, transparence, post-traitement, VRAM et bande passante. Il utilisera le GPU AMD de référence sans recopier les campagnes CPU du chapitre 6.
+Le chapitre 8 du Livre IV mesurera consommation et pics RAM/VRAM, identifiera fuites, duplications, caches excessifs et allocations temporaires, puis définira des limites par plateforme. Il reprendra les signaux mémoire du chapitre 7 sans recopier son profilage des passes de rendu.
 
 ## 27. Journal
+
+### 2026-07-26T03:23:02+02:00 — version 3.70.0
+
+- création du chapitre 7 du Livre IV — Profilage GPU et optimisation du rendu ;
+- budget GPU, contrat de benchmark, manifeste AMD et scène de stress documentés ;
+- Visual Profiler, moniteurs `Performance`, `RenderingServer` et temps GPU de viewport expliqués ;
+- draw calls, primitives, passes visibles, ombres et compilations de pipeline distingués ;
+- fill rate, overdraw, transparence, LOD, culling, shaders, lumières, ombres et post-traitement encadrés ;
+- profils graphiques, captures AMD, inspection RenderDoc et rapport de coût par effet préparés ;
+- comparaison visuelle, campagne avant/après, porte de décision et rollback documentés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 8 — Optimisation RAM, VRAM et allocations, niveau Élevée ;
+- aucune scène de stress, capture, série GPU, profil qualifié ou amélioration runtime revendiquée.
 
 ### 2026-07-26T02:53:24+02:00 — version 3.69.0
 
