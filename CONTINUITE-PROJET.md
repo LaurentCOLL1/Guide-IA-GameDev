@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.70.0"
+version: "3.71.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T03:23:02+02:00"
+last-updated: "2026-07-26T08:02:49+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2032,6 +2032,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas réduire la qualité visuelle sans images comparables, revue humaine et profil de repli ;
 - ne pas fusionner une géométrie globale sans mesurer la perte de granularité du culling ;
 - ne pas attribuer un pic au coût GPU continu sans vérifier compilations de pipeline, soumission CPU et synchronisation ;
+- ne pas conclure à une fuite depuis une seule capture ou un maximum isolé ;
+- ne pas comparer working set, mémoire privée, mémoire statique et VRAM comme s’ils mesuraient la même chose ;
+- ne pas conserver un cache, un pool ou un registre sans capacité, poids, expiration ou échéance explicite ;
+- ne pas retirer un nœud de l’arbre en supposant qu’il est libéré ;
+- ne pas dupliquer profondément une ressource sans besoin de mutabilité et provenance déclarés ;
+- ne pas accepter une baisse de pic si le plateau, les orphelins, la qualité ou les tests se dégradent ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2044,7 +2050,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 7 chapitres sur 22 ;
+- progression du Livre IV : 8 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2052,6 +2058,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 5 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 6 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 7 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 8 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2121,20 +2128,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 7 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, captures de frame, profils graphiques, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 8 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, captures, profils, budgets qualifiés, tests de longue durée, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md
+Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 8 du Livre IV mesurera consommation et pics RAM/VRAM, identifiera fuites, duplications, caches excessifs et allocations temporaires, puis définira des limites par plateforme. Il reprendra les signaux mémoire du chapitre 7 sans recopier son profilage des passes de rendu.
+Le chapitre 9 du Livre IV couvrira chargement en arrière-plan, transitions, préchargement, éviction, zones, chunks, priorités, progression fiable, erreurs et annulation. Il consommera les budgets et échéances mémoire du chapitre 8 sans recopier son diagnostic de fuite.
 
 ## 27. Journal
+
+### 2026-07-26T08:02:49+02:00 — version 3.71.0
+
+- création du chapitre 8 du Livre IV — Optimisation RAM, VRAM et allocations ;
+- budgets souples et durs, unités, campagne cyclique et manifeste d’environnement documentés ;
+- moniteurs `Performance`, appels `OS`, `RenderingServer` et vue processus Windows distingués ;
+- phases, plateaux, pente, percentiles et suspicion de fuite encadrés ;
+- durée de vie des nœuds, références faibles, `RefCounted`, signaux et duplications documentée ;
+- caches LRU et pondérés, expiration, pools et allocations temporaires bornés ;
+- textures, images CPU, ressources vidéo et sous-ressources distinguées ;
+- test de longue durée, rapport avant/après, rollback et portes de qualité préparés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 9 — Chargements, streaming et gestion des ressources, niveau Élevée ;
+- aucune campagne mémoire, série, fuite attribuée, cache qualifié ou amélioration runtime revendiquée.
 
 ### 2026-07-26T03:23:02+02:00 — version 3.70.0
 

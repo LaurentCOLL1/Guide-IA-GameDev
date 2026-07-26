@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.7"
+version: "1.0.8"
 lang: "fr-FR"
-last-updated: "2026-07-26T03:23:02+02:00"
+last-updated: "2026-07-26T08:02:49+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 7 chapitres sur 22  
+> **Statut :** en cours — 8 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -208,6 +208,8 @@ La production des assets optimisés est au Livre III. Validation par stabilité 
 **Frontière et validation**
 
 Le chapitre 9 traite le streaming. Validation par réduction mesurée des pics et absence de régression.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les budgets mémoire, rapports d’allocations, stratégies de cache, tests de longue durée et procédures de diagnostic sont préparés sans revendication de mesure ou d’amélioration runtime.
 
 ## Chapitre 9 — Chargements, streaming et gestion des ressources
 

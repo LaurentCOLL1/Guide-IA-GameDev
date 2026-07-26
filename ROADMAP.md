@@ -157,11 +157,12 @@
 - [x] Chapitre 5 — Journalisation et observabilité locale — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 6 — Profilage CPU — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 7 — Profilage GPU et optimisation du rendu — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 8 — Optimisation RAM, VRAM et allocations — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
-- [ ] Optimisation et multijoueur — 2 chapitres sur 8.
+- [ ] Optimisation et multijoueur — 3 chapitres sur 8.
 - [ ] DevOps, publication et maintenance.
 
-**Statut M5 : en cours — 7 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 8 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 
