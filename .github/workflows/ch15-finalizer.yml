@@ -1,0 +1,383 @@
+name: Livre IV Chapter 15 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+          fetch-depth: 0
+
+      - name: Install lightweight dependencies
+        run: python -m pip install pyyaml
+
+      - name: Patch chapter, governance, audit and evidence
+        env:
+          FINALIZER_RUN_ID: ${{ github.run_id }}
+        shell: python
+        run: |
+          from __future__ import annotations
+
+          import hashlib
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          ROOT = Path('.')
+          CHAPTER = ROOT / 'Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md'
+          AUDIT = ROOT / 'Livre-IV/QA/AUDIT-CHAPITRE-15.md'
+          PROOF = ROOT / 'Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml'
+          TIMESTAMP = '2026-07-27T01:20:18+02:00'
+
+          def replace_once(path: Path, old: str, new: str, label: str) -> None:
+              text = path.read_text(encoding='utf-8')
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: remplacement attendu une fois, trouvé {count}')
+              path.write_text(text.replace(old, new), encoding='utf-8', newline='\n')
+
+          # Corriger la CLI de vérification enseignée dans le chapitre.
+          replace_once(
+              CHAPTER,
+              '''def verify_generation(root: Path, manifest_path: Path) -> None:
+              root = root.resolve()
+              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
+              '''def verify_generation(root: Path, manifest_path: Path) -> None:
+              root = root.resolve()
+              manifest_path = manifest_path.resolve(strict=True)
+              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
+              'résolution du manifeste',
+          )
+          replace_once(
+              CHAPTER,
+              '''    if actual != expected:
+                  raise ValueError("ensemble de fichiers différent")
+              ```'''.replace('              ', ''),
+              '''    if actual != expected:
+                  raise ValueError("ensemble de fichiers différent")
+
+
+              if __name__ == "__main__":
+                  import argparse
+
+                  parser = argparse.ArgumentParser()
+                  parser.add_argument("root", type=Path)
+                  parser.add_argument("manifest", type=Path)
+                  args = parser.parse_args()
+                  verify_generation(args.root, args.manifest)
+              ```'''.replace('              ', ''),
+              'CLI du vérificateur',
+          )
+          replace_once(
+              CHAPTER,
+              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.',
+              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.\n- **CLI :** les deux arguments positionnels sont convertis en `Path`, puis transmis à la même fonction que l’appel automatisé.',
+              'explication CLI',
+          )
+
+          # Index du Livre IV.
+          index = ROOT / 'Livre-IV/index.md'
+          replace_once(index, 'version: "0.15.0"', 'version: "0.16.0"', 'version index')
+          replace_once(index, 'last-updated: "2026-07-26T21:42:29+02:00"', f'last-updated: "{TIMESTAMP}"', 'date index')
+          replace_once(
+              index,
+              '15. Sauvegardes, migrations et reprise après incident ;',
+              '15. [Sauvegardes, migrations et reprise après incident](CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md) — version `1.0.0`, niveau `static-review` ;',
+              'entrée index chapitre 15',
+          )
+          replace_once(index, '- chapitres rédigés, repérés et audités : **14 sur 22** ;', '- chapitres rédigés, repérés et audités : **15 sur 22** ;', 'progression index')
+          replace_once(index, '- chapitre courant terminé : **chapitre 14 — DevOps et intégration continue** ;', '- chapitre courant terminé : **chapitre 15 — Sauvegardes, migrations et reprise après incident** ;', 'chapitre courant index')
+          replace_once(index, '- prochaine entrée du plan maître : **chapitre 15 — Sauvegardes, migrations et reprise après incident** ;', '- prochaine entrée du plan maître : **chapitre 16 — Exports Godot et packaging** ;', 'prochaine entrée index')
+          replace_once(index, 'les chapitres 1 à 14 sont terminés', 'les chapitres 1 à 15 sont terminés', 'statut index')
+
+          # Roadmap.
+          roadmap = ROOT / 'ROADMAP.md'
+          replace_once(
+              roadmap,
+              '- [x] Chapitre 14 — DevOps et intégration continue — rédigé, repéré et audité au niveau `static-review`.\n- [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.',
+              '- [x] Chapitre 14 — DevOps et intégration continue — rédigé, repéré et audité au niveau `static-review`.\n- [x] Chapitre 15 — Sauvegardes, migrations et reprise après incident — rédigé, repéré et audité au niveau `static-review`.\n- [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.',
+              'roadmap chapitre 15',
+          )
+          replace_once(roadmap, '- [ ] DevOps, publication et maintenance — 1 chapitre sur 9.', '- [ ] DevOps, publication et maintenance — 2 chapitres sur 9.', 'roadmap groupe')
+          replace_once(roadmap, '**Statut M5 : en cours — 14 chapitres rédigés, repérés et audités sur 22.**', '**Statut M5 : en cours — 15 chapitres rédigés, repérés et audités sur 22.**', 'roadmap statut')
+
+          # Ordre lecteur.
+          contents = ROOT / 'contents.txt'
+          replace_once(
+              contents,
+              'Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md\nLivre-V/index.md',
+              'Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md\nLivre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md\nLivre-V/index.md',
+              'contents chapitre 15',
+          )
+
+          # Plan maître.
+          plan = ROOT / 'plans/LIVRE-IV-PLAN-MAITRE.md'
+          replace_once(plan, 'version: "1.0.14"', 'version: "1.0.15"', 'version plan')
+          replace_once(plan, 'last-updated: "2026-07-26T21:42:29+02:00"', f'last-updated: "{TIMESTAMP}"', 'date plan')
+          replace_once(plan, '> **Statut :** en cours — 14 chapitres sur 22', '> **Statut :** en cours — 15 chapitres sur 22', 'statut plan')
+          replace_once(
+              plan,
+              'Les sauvegardes joueurs sont introduites au Livre II. Ici la portée couvre tout le produit et l’infrastructure. Validation par restauration réelle d’un environnement isolé.\n\n## Chapitre 16 — Exports Godot et packaging',
+              'Les sauvegardes joueurs sont introduites au Livre II. Ici la portée couvre tout le produit et l’infrastructure. Validation par restauration réelle d’un environnement isolé.\n\n**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. L’inventaire, les objectifs RPO/RTO, les politiques de rétention, les scripts, manifestes, migrations, restaurations isolées et scénarios catastrophe sont préparés sans revendication de sauvegarde, restauration, mesure ou reprise runtime.\n\n## Chapitre 16 — Exports Godot et packaging',
+              'état documentaire plan chapitre 15',
+          )
+
+          # Continuité du projet.
+          continuity = ROOT / 'CONTINUITE-PROJET.md'
+          replace_once(continuity, 'version: "3.77.0"', 'version: "3.78.0"', 'version continuité')
+          replace_once(continuity, 'last-updated: "2026-07-26T21:42:29+02:00"', f'last-updated: "{TIMESTAMP}"', 'date continuité')
+
+          decisions = '''### 11.43 Sauvegardes, migrations et reprise après incident
+
+- les actifs critiques possèdent identité stable, autorité, propriétaire, sensibilité, dépendances et ordre de restauration ;
+- sauvegarde, réplication, snapshot, synchronisation, export logique et archive restent des mécanismes distincts ;
+- les caches, index et données dérivées restent reconstructibles et ne deviennent pas autoritaires ;
+- RPO et RTO sont des objectifs associés à un service minimal observable, jamais des garanties sans exercice ;
+- chaque génération utilise un staging propre, une identité immuable, un manifeste fermé, des tailles et des empreintes ;
+- une tentative échouée ou quarantinée ne remplace jamais la dernière génération vérifiée ;
+- copies locales, hors site et immuables utilisent des supports, identités et domaines de panne distincts ;
+- le dépôt source, les objets externes, les builds retenus, les bases, services, secrets et données joueurs sont inventoriés séparément ;
+- SQLite exige une fermeture qualifiée ou un mécanisme de backup cohérent ; PostgreSQL est restauré dans une base neuve ;
+- les volumes de conteneur ne sont pas assimilés aux images et suivent la cohérence de leur moteur de données ;
+- la récupération de secrets, leur révocation et leur rotation restent séparées des archives de données ;
+- toute restauration commence dans un environnement isolé, suit un graphe de dépendances et exécute des contrôles structurels et métier ;
+- les migrations sont immuables, versionnées, préparées sur des candidats et validées avant remplacement ;
+- rollback applicatif et restauration de données sont gouvernés par une matrice de compatibilité ;
+- exercices, mesures RPO/RTO, écarts, actions correctives et retests conservent une preuve append-only ;
+- aucun job, stockage, clé, bundle, dump, sauvegarde, restauration, migration, mesure ou exercice runtime n’est revendiqué avant matérialisation.
+
+'''
+          replace_once(continuity, '## 24. Erreurs à ne pas reproduire', decisions + '## 24. Erreurs à ne pas reproduire', 'décisions chapitre 15')
+
+          backup_errors = '''- ne pas confondre synchronisation, réplication ou snapshot avec une sauvegarde indépendante ;
+- ne pas sauvegarder uniquement des caches ou index dérivés ;
+- ne pas écraser la dernière génération valide avec une tentative incomplète ;
+- ne pas présenter un objectif RPO/RTO comme un résultat mesuré ;
+- ne pas copier une base SQLite active sans mécanisme cohérent ;
+- ne pas restaurer un dump ou une archive directement en production ;
+- ne pas modifier une migration déjà appliquée ;
+- ne pas revenir à un ancien binaire sans matrice de compatibilité des données ;
+- ne pas conserver l’unique clé de déchiffrement avec l’unique archive ;
+- ne pas déclarer une restauration réussie après un simple test de connexion ;
+- ne pas laisser le compte de production supprimer toutes les générations ;
+- ne pas supprimer une génération avant expiration, contrôle juridique et remplacement vérifié ;
+'''
+          replace_once(continuity, '- ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;', backup_errors + '- ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;', 'erreurs chapitre 15')
+
+          replace_once(continuity, '- progression du Livre IV : 14 chapitres sur 22 ;', '- progression du Livre IV : 15 chapitres sur 22 ;', 'progression continuité')
+          replace_once(
+              continuity,
+              '- chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;\n- progression du Livre III',
+              '- chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;\n- chapitre 15 du Livre IV : version `1.0.0`, niveau `static-review` ;\n- progression du Livre III',
+              'version chapitre 15 continuité',
+          )
+
+          old_next = '''Les chapitres 1 à 14 du Livre IV sont terminés au niveau documentaire et statique. Les workflows, scripts CI, matrices de plateformes, runners spécialisés, permissions, secrets, échanges OIDC, artefacts, attestations, promotions et reconstructions depuis un clone neuf restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+
+Action suivante :
+
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+
+```text
+Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
+Niveau GPT-5.6 Sol recommandé : Élevée
+```
+
+Le chapitre 15 du Livre IV inventoriera les données critiques, définira RPO, RTO et rétention, organisera les sauvegardes des sources, builds, bases et services, puis préparera restaurations, migrations et scénarios de reprise après catastrophe.'''
+          new_next = '''Les chapitres 1 à 15 du Livre IV sont terminés au niveau documentaire et statique. Les inventaires réels, objectifs mesurés, jobs de sauvegarde, stockages séparés ou immuables, bundles, dumps, clés, migrations, restaurations isolées et exercices catastrophe restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+
+Action suivante :
+
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+
+```text
+Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md
+Niveau GPT-5.6 Sol recommandé : Élevée
+```
+
+Le chapitre 16 du Livre IV configurera les presets d’export Godot par plateforme, organisera dépendances, ressources, icônes et signatures, produira les contrats de builds debug, test et release, puis préparera packages, manifestes, checksums et validation sur machine propre.'''
+          replace_once(continuity, old_next, new_next, 'prochaine action continuité')
+
+          journal = '''### 2026-07-27T01:20:18+02:00 — version 3.78.0
+
+- création du chapitre 15 du Livre IV — Sauvegardes, migrations et reprise après incident ;
+- sauvegarde, réplication, snapshot, synchronisation, export logique et archive distingués ;
+- inventaire des actifs, autorités, propriétaires, sensibilités et dépendances préparé ;
+- objectifs RPO/RTO, services minimaux, générations, rétention et budget candidat structurés ;
+- supports, identités, copies hors site ou immuables, manifestes et empreintes encadrés ;
+- dépôt Git, builds retenus, données joueurs, SQLite, PostgreSQL, services et volumes couverts ;
+- secrets, chiffrement, récupération de clés, jobs, métriques et runbooks préparés ;
+- restauration isolée, contrôles structurels et métier, mesures et approbation humaine documentés ;
+- migrations immuables, expand/contract et compatibilité application/données encadrés ;
+- scénarios catastrophe, compromission, rançongiciel, rôles, exercices et écarts préparés ;
+- dix diagnostics conformes et frontières avec les chapitres 8 et 9 du Livre II, puis 13, 14, 16, 20 et 22 maintenues ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 16 — Exports Godot et packaging, niveau Élevée ;
+- aucune génération, sauvegarde, restauration, migration, mesure RPO/RTO, reprise runtime ou PDF du Livre IV revendiqué.
+
+'''
+          replace_once(continuity, '### 2026-07-26T21:42:29+02:00 — version 3.77.0', journal + '### 2026-07-26T21:42:29+02:00 — version 3.77.0', 'journal chapitre 15')
+
+          # Calculer les métriques avec la même logique que le validateur permanent.
+          sys.path.insert(0, str((ROOT / 'tools').resolve()))
+          from validate_chapters import inspect_duplicates
+
+          chapter_text = CHAPTER.read_text(encoding='utf-8')
+          stats = inspect_duplicates(chapter_text, CHAPTER.as_posix())
+
+          fence_re = re.compile(r'^(?P<fence>`{3,}|~{3,})(?P<lang>.*)$')
+          inside = False
+          fence_char = ''
+          fence_len = 0
+          all_blocks = 0
+          for line in chapter_text.splitlines():
+              match = fence_re.match(line.strip())
+              if not match:
+                  continue
+              fence = match.group('fence')
+              lang = match.group('lang').strip()
+              if inside:
+                  if fence[0] == fence_char and len(fence) >= fence_len and not lang:
+                      inside = False
+                  continue
+              inside = True
+              fence_char = fence[0]
+              fence_len = len(fence)
+              all_blocks += 1
+
+          markers = chapter_text.count('<!-- qa:code-explanation -->')
+          structured = chapter_text.count('**Explication structurée du bloc :**')
+          diagnostics = len(re.findall(r'^### 39\.\d+\s', chapter_text, re.MULTILINE))
+          faulty = chapter_text.count('**Pourquoi cet exemple est fautif :**')
+          corrected = chapter_text.count('**Pourquoi la correction fonctionne :**')
+          required_markers = ('PS', 'CMD', 'WSL', 'DCT', 'DCK', 'VSC', 'WEB', 'APP', 'SORTIE', 'LECTURE')
+
+          if diagnostics != 10 or faulty != 10 or corrected != 10:
+              raise SystemExit(f'diagnostics incomplets: {diagnostics=}, {faulty=}, {corrected=}')
+          if markers != all_blocks:
+              raise SystemExit(f'blocs sans explication: {all_blocks=} {markers=}')
+          if structured + 20 != markers:
+              raise SystemExit(f'compte explications incohérent: {structured=} {markers=}')
+          for marker in required_markers:
+              if f'[{marker}]' not in chapter_text:
+                  raise SystemExit(f'repère absent: {marker}')
+          if stats.duplicate_headings or stats.duplicate_blocks or stats.duplicate_paragraphs:
+              raise SystemExit(
+                  f'doublons: headings={stats.duplicate_headings}, blocks={stats.duplicate_blocks}, paragraphs={stats.duplicate_paragraphs}'
+              )
+          if 'Niveau GPT-5.6' in chapter_text or 'Livre-IV/CHAPITRE-16-' in chapter_text:
+              raise SystemExit('pilotage éditorial présent dans le chapitre lecteur')
+
+          replacements = {
+              '__CHAPTER_LINES__': str(stats.lines),
+              '__CHAPTER_HEADINGS__': str(stats.headings),
+              '__CHAPTER_BLOCKS__': str(all_blocks),
+              '__SIGNIFICANT_BLOCKS__': str(stats.code_blocks),
+              '__EXPLANATION_MARKERS__': str(markers),
+              '__STRUCTURED_EXPLANATIONS__': str(structured),
+              '__DUPLICATE_HEADINGS__': '0',
+              '__DUPLICATE_BLOCKS__': '0',
+              '__DUPLICATE_PARAGRAPHS__': '0',
+          }
+          audit_text = AUDIT.read_text(encoding='utf-8')
+          proof_text = PROOF.read_text(encoding='utf-8')
+          for old, new in replacements.items():
+              if old not in audit_text or old not in proof_text:
+                  raise SystemExit(f'placeholder absent: {old}')
+              audit_text = audit_text.replace(old, new)
+              proof_text = proof_text.replace(old, new)
+          AUDIT.write_text(audit_text, encoding='utf-8', newline='\n')
+
+          chapter_hash = hashlib.sha256(CHAPTER.read_bytes()).hexdigest()
+          audit_hash = hashlib.sha256(AUDIT.read_bytes()).hexdigest()
+          proof_text = proof_text.replace('chapter-sha256: pending-after-finalizer', f'chapter-sha256: {chapter_hash}')
+          proof_text = proof_text.replace('audit-sha256: pending-after-finalizer', f'audit-sha256: {audit_hash}')
+          proof_text = proof_text.replace(
+              '''  chapter-finalizer:
+                  workflow-name: Livre IV Chapter 15 Finalizer
+                  execution: chapter-finalizer
+                  run-id: pending
+                  conclusion: pending'''.replace('                  ', ''),
+              f'''  chapter-finalizer:
+                  workflow-name: Livre IV Chapter 15 Finalizer
+                  execution: chapter-finalizer
+                  run-id: {os.environ["FINALIZER_RUN_ID"]}
+                  conclusion: success'''.replace('                  ', ''),
+          )
+          PROOF.write_text(proof_text, encoding='utf-8', newline='\n')
+
+          # Refuser tout placeholder de métrique restant.
+          for path in (AUDIT, PROOF):
+              if '__' in path.read_text(encoding='utf-8'):
+                  raise SystemExit(f'placeholder restant dans {path}')
+
+      - name: Run lightweight validations
+        run: |
+          set -euo pipefail
+          python tools/validate_chapters.py --report dist/QA-CHAPTER-15.md
+          python tools/check_context_markers.py --check
+          test ! -name '*.pdf' -print -quit | grep -q '^$'
+
+      - name: Remove temporary workflow and commit permanent lot
+        id: permanent
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/ch15-finalizer.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md \
+            Livre-IV/QA/AUDIT-CHAPITRE-15.md \
+            Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml \
+            Livre-IV/index.md \
+            ROADMAP.md \
+            contents.txt \
+            plans/LIVRE-IV-PLAN-MAITRE.md \
+            .github/workflows/ch15-finalizer.yml
+          git commit -m "docs(livre-iv): finaliser le chapitre 15"
+          FIRST_SHA="$(git rev-parse HEAD)"
+          git push origin HEAD:docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
+          echo "first_sha=$FIRST_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Close evidence against permanent content commit
+        env:
+          FIRST_SHA: ${{ steps.permanent.outputs.first_sha }}
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+
+          path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              'validated-head-commit: pending-after-finalizer': f'validated-head-commit: {os.environ["FIRST_SHA"]}',
+              'evidence-closure:\n  commit: pending-after-finalizer\n  conclusion: pending': f'evidence-closure:\n  commit: {os.environ["FIRST_SHA"]}\n  conclusion: success',
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'fermeture preuve: attendu 1, trouvé {count}: {old}')
+              text = text.replace(old, new)
+          path.write_text(text, encoding='utf-8', newline='\n')
+
+      - name: Commit evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-15.yaml
+          git commit -m "docs(qa): fermer la preuve du chapitre 15"
+          git push origin HEAD:docs/livre-iv-chapitre-15-sauvegardes-migrations-reprise
