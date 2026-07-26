@@ -100,5 +100,6 @@ Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md
 Livre-IV/CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md
 Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md
 Livre-IV/CHAPITRE-06-Profilage-CPU.md
+Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md
 Livre-V/index.md
 Companion-Pack/index.md
