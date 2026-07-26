@@ -58,14 +58,25 @@ jobs:
           path = Path('/tmp/finalize_ch14.py')
           text = path.read_text(encoding='utf-8')
 
-          old_timestamp = 'chapter = replace_once(read(chapter_path), "__FINAL_TIMESTAMP__", timestamp, "timestamp chapitre 1")'
+          old_timestamp = '''chapter = replace_once(read(chapter_path), "__FINAL_TIMESTAMP__", timestamp, "timestamp chapitre 1")
+          chapter = replace_once(chapter, "__FINAL_TIMESTAMP__", timestamp, "timestamp chapitre 2")'''
           new_timestamp = '''chapter = read(chapter_path)
           if chapter.count("__FINAL_TIMESTAMP__") != 2:
-              raise SystemExit(f"timestamp chapitre 1: deux occurrences attendues, trouvé {chapter.count('__FINAL_TIMESTAMP__')}")
+              raise SystemExit(f"timestamp chapitre: deux occurrences attendues, trouvé {chapter.count('__FINAL_TIMESTAMP__')}")
           chapter = chapter.replace("__FINAL_TIMESTAMP__", timestamp)'''
           if text.count(old_timestamp) != 1:
               raise SystemExit('contrôle des horodatages du chapitre introuvable')
           text = text.replace(old_timestamp, new_timestamp)
+
+          old_audit_timestamp = '''audit = replace_once(read(audit_path), "__FINAL_TIMESTAMP__", timestamp, "timestamp audit 1")
+          audit = replace_once(audit, "__FINAL_TIMESTAMP__", timestamp, "timestamp audit 2")'''
+          new_audit_timestamp = '''audit = read(audit_path)
+          if audit.count("__FINAL_TIMESTAMP__") != 2:
+              raise SystemExit(f"timestamp audit: deux occurrences attendues, trouvé {audit.count('__FINAL_TIMESTAMP__')}")
+          audit = audit.replace("__FINAL_TIMESTAMP__", timestamp)'''
+          if text.count(old_audit_timestamp) != 1:
+              raise SystemExit('contrôle des horodatages de l’audit introuvable')
+          text = text.replace(old_audit_timestamp, new_audit_timestamp)
 
           old_payload = '''payload = "".join(
               path.read_text(encoding="ascii")
