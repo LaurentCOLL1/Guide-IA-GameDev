@@ -35,6 +35,7 @@ jobs:
           from __future__ import annotations
 
           import os
+          import re
           import subprocess
           import sys
           from pathlib import Path
@@ -43,39 +44,45 @@ jobs:
 
           chapter = Path('Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md')
           chapter_text = chapter.read_text(encoding='utf-8')
-          direct_replacements = {
-              '''def verify_generation(root: Path, manifest_path: Path) -> None:
-              root = root.resolve()
-              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
-              '''def verify_generation(root: Path, manifest_path: Path) -> None:
-              root = root.resolve()
-              manifest_path = manifest_path.resolve(strict=True)
-              data = json.loads(manifest_path.read_text(encoding="utf-8"))'''.replace('              ', ''),
-              '''    if actual != expected:
-                  raise ValueError("ensemble de fichiers différent")
-              ```'''.replace('              ', ''),
-              '''    if actual != expected:
-                  raise ValueError("ensemble de fichiers différent")
+
+          chapter_text, count = re.subn(
+              r'def verify_generation\(root: Path, manifest_path: Path\) -> None:\n[ ]+root = root\.resolve\(\)\n[ ]+data = json\.loads\(manifest_path\.read_text\(encoding="utf-8"\)\)',
+              'def verify_generation(root: Path, manifest_path: Path) -> None:\n'
+              '    root = root.resolve()\n'
+              '    manifest_path = manifest_path.resolve(strict=True)\n'
+              '    data = json.loads(manifest_path.read_text(encoding="utf-8"))',
+              chapter_text,
+          )
+          if count != 1:
+              raise SystemExit(f'résolution manifeste: attendu 1, trouvé {count}')
+
+          cli = '''    if actual != expected:
+              raise ValueError("ensemble de fichiers différent")
 
 
-              if __name__ == "__main__":
-                  import argparse
+          if __name__ == "__main__":
+              import argparse
 
-                  parser = argparse.ArgumentParser()
-                  parser.add_argument("root", type=Path)
-                  parser.add_argument("manifest", type=Path)
-                  args = parser.parse_args()
-                  verify_generation(args.root, args.manifest)
-              ```'''.replace('              ', ''),
-              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.':
-              '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.\n- **CLI :** les deux arguments positionnels sont convertis en `Path`, puis transmis à la même fonction que l’appel automatisé.',
-          }
-          items = list(direct_replacements.items())
-          for old, new in items:
-              count = chapter_text.count(old)
-              if count != 1:
-                  raise SystemExit(f'correction CLI directe: attendu 1, trouvé {count}')
-              chapter_text = chapter_text.replace(old, new)
+              parser = argparse.ArgumentParser()
+              parser.add_argument("root", type=Path)
+              parser.add_argument("manifest", type=Path)
+              args = parser.parse_args()
+              verify_generation(args.root, args.manifest)
+          ```'''.replace('          ', '')
+          chapter_text, count = re.subn(
+              r'[ ]+if actual != expected:\n[ ]+raise ValueError\("ensemble de fichiers différent"\)\n```',
+              cli,
+              chapter_text,
+          )
+          if count != 1:
+              raise SystemExit(f'CLI du vérificateur: attendu 1, trouvé {count}')
+
+          old_explanation = '- **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.'
+          new_explanation = old_explanation + '\n- **CLI :** les deux arguments positionnels sont convertis en `Path`, puis transmis à la même fonction que l’appel automatisé.'
+          count = chapter_text.count(old_explanation)
+          if count != 1:
+              raise SystemExit(f'explication CLI: attendu 1, trouvé {count}')
+          chapter_text = chapter_text.replace(old_explanation, new_explanation)
           chapter.write_text(chapter_text, encoding='utf-8', newline='\n')
 
           source = Path('.github/workflows/ch15-finalizer.yml')
