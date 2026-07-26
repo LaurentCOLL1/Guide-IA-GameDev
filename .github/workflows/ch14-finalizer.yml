@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           base64 --decode .tmp/ch14/finalizer.py.gz.b64 > /tmp/finalize_ch14.py.gz
-          echo '4e0ca40c3ccbaa49908211b3d3e1e6dae97b72bd149f8e26028511e5432e9826  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
+          echo '3226e52e7ea6896e24d1fdcbd7de690888eb26cfa714ec50414767b92a8e31c5  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
           gzip --decompress --stdout /tmp/finalize_ch14.py.gz > /tmp/finalize_ch14.py
           python -m py_compile /tmp/finalize_ch14.py
 
