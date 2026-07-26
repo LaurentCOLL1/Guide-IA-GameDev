@@ -63,7 +63,7 @@ Les livrables sont préparés comme contrats : budgets mémoire, rapport d’all
 
 ## 5. Contrôles documentaires
 
-- lignes : 1750 ;
+- lignes : 1751 ;
 - titres : 63 ;
 - blocs de code ou données : 54 ;
 - marqueurs d’explication : 54 ;
@@ -116,4 +116,4 @@ Les références faibles, caches bornés, pools et duplications sont présentés
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot ont réussi et la preuve QA peut être fermée avec les réserves de matérialisation déclarées.
