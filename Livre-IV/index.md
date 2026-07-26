@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.13.0"
-last-updated: "2026-07-26T17:30:00+02:00"
+version: "0.14.0"
+last-updated: "2026-07-26T17:45:00+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -24,7 +24,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 10. [Optimisation des scènes, scripts et systèmes de jeu](CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md) — version `1.0.0`, niveau `static-review` ;
 11. [Architecture multijoueur](CHAPITRE-11-Architecture-multijoueur.md) — version `1.0.0`, niveau `static-review` ;
 12. [Synchronisation, autorité et prédiction](CHAPITRE-12-Synchronisation-autorite-et-prediction.md) — version `1.0.0`, niveau `static-review` ;
-13. Serveurs dédiés et sécurité réseau ;
+13. [Serveurs dédiés et sécurité réseau](CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md) — version `1.0.0`, niveau `static-review` ;
 14. DevOps et intégration continue ;
 15. Sauvegardes, migrations et reprise après incident ;
 16. Exports Godot et packaging ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **12 sur 22** ;
-- chapitre courant terminé : **chapitre 12 — Synchronisation, autorité et prédiction** ;
-- prochaine entrée du plan maître : **chapitre 13 — Serveurs dédiés et sécurité réseau** ;
+- chapitres rédigés, repérés et audités : **13 sur 22** ;
+- chapitre courant terminé : **chapitre 13 — Serveurs dédiés et sécurité réseau** ;
+- prochaine entrée du plan maître : **chapitre 14 — DevOps et intégration continue** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 12 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 13 sont terminés au niveau documentaire et statique, sans revendication runtime.

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.75.0"
+version: "3.76.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T17:30:00+02:00"
+last-updated: "2026-07-26T17:45:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1531,6 +1531,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - le chapitre 30 recevra les contrats d’entrée, de sortie et de codes sans reprendre la décision artistique ;
 - aucun asset, profil, scène, rapport, capture, mesure, revue ou benchmark n’est revendiqué avant matérialisation.
 
+### 11.41 Serveurs dédiés et sécurité réseau
+
+- l’export dédié Godot reste distinct du client et ne crée aucun joueur local ;
+- `dedicated_server`, `--headless` et l’argument utilisateur `--server` possèdent des rôles distincts ;
+- code installé, configuration, credentials, état durable, journaux et releases occupent des zones séparées ;
+- l’identité système est dédiée, non privilégiée et limitée aux chemins, familles réseau et ports nécessaires ;
+- le plan de données expose uniquement le port UDP ENet déclaré ; administration, sauvegardes et métriques restent séparées ;
+- `SceneMultiplayer` authentifie avant admission et conserve `allow_object_decoding` désactivé pour les sources non fiables ;
+- tickets, tailles, rejeux, cadences, concurrence, coût et amplification possèdent des bornes explicites ;
+- liveness, readiness, admission et drainage restent quatre états distincts ;
+- les journaux sont structurés et expurgés, les métriques ont une cardinalité bornée et aucun des deux n’acquiert d’autorité métier ;
+- une mise à jour utilise releases immuables, compatibilité d’état, drainage, sauvegarde fermée et rollback vérifié ;
+- alertes, empreintes et scans ouvrent un diagnostic sans constituer une preuve automatique de compromission ou une certification ;
+- tout scan futur exige une cible isolée, une autorisation écrite et un périmètre déclaré ;
+- aucun build, hôte, pare-feu, service, conteneur, campagne d’abus, scan, restauration ou exercice d’incident n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -2074,6 +2090,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas synchroniser `Resource`, `RID` ou identifiants d’instance comme données portables ;
 - ne pas ajouter manuellement à l’arbre le nœud retourné par `MultiplayerSpawner.spawn_function` ;
 - ne pas conclure à une triche depuis une empreinte divergente sans diagnostic et resynchronisation ;
+- ne pas exécuter le serveur dédié comme joueur local implicite ;
+- ne pas embarquer un secret dans le dépôt, le PCK, l’image ou une ligne de commande visible ;
+- ne pas exposer publiquement ports d’administration, de métriques, de base ou de debug ;
+- ne pas lancer le conteneur avec `--privileged` pour contourner une permission manquante ;
+- ne pas activer le décodage d’objets pour une source réseau non fiable ;
+- ne pas accepter un ticket sans audience, expiration, nonce et validation de session ;
+- ne pas journaliser tickets, credentials, en-têtes d’authentification ou payloads complets ;
+- ne pas redémarrer avant fermeture de l’admission, drainage borné et sauvegarde contrôlée ;
+- ne pas revenir à un ancien binaire sans vérifier sa compatibilité avec l’état courant ;
+- ne pas présenter zéro alerte d’un scanner comme audit professionnel ou certification ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2086,7 +2112,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 12 chapitres sur 22 ;
+- progression du Livre IV : 13 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2099,6 +2125,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 10 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 11 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 12 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 13 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2168,20 +2195,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 12 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, prototypes multijoueurs, synchronisation, prédiction, rollback, campagnes réseau, coûts qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 13 du Livre IV sont terminés au niveau documentaire et statique. Les builds dédiés, hôtes isolés, comptes de service, credentials runtime, règles pare-feu, services systemd, images conteneur, campagnes d’admission et d’abus, scans autorisés, sauvegardes, restaurations, mises à jour, rollbacks et exercices d’incident restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
+Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 13 du Livre IV produira l’architecture de serveur dédié, les profils de configuration, le déploiement isolé, la supervision, la protection des secrets, ports et permissions, les limites anti-abus et les procédures d’incident. Il ne constituera pas un audit de sécurité professionnel.
+Le chapitre 14 du Livre IV automatisera builds, tests et packaging, organisera branches, tags, versions et artefacts, protégera les secrets de CI, construira les matrices de plateformes et conservera journaux, preuves et procédures de reprise.
 
 ## 27. Journal
+
+### 2026-07-26T17:45:00+02:00 — version 3.76.0
+
+- création du chapitre 13 du Livre IV — Serveurs dédiés et sécurité réseau ;
+- export dédié, mode headless, tag de fonctionnalité et rôle serveur sans joueur local distingués ;
+- configuration, credentials, état durable, journaux, releases et manifeste d’artefact séparés ;
+- exposition ENet UDP, pare-feu Windows/Linux, identité systemd et conteneur non privilégié préparés ;
+- liveness, readiness, admission, authentification et drainage structurés ;
+- tailles, rejeux, quotas, concurrence, amplification, journaux et métriques bornés ;
+- sauvegarde, restauration, promotion, mise à jour, rollback et rotation de secrets documentés ;
+- matrice de durcissement, sévérités, runbook d’incident et responsabilités Solo/Studio préparés ;
+- dix diagnostics conformes et frontières avec les chapitres 11, 12 et 14 maintenues ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- groupe Optimisation et multijoueur terminé à 8 chapitres sur 8 ;
+- prochaine action déplacée vers le chapitre 14 — DevOps et intégration continue, niveau Élevée ;
+- aucun build, hôte, service, pare-feu, conteneur, scan, attaque simulée, restauration ou résultat de durcissement revendiqué.
 
 ### 2026-07-26T17:30:00+02:00 — version 3.75.0
 

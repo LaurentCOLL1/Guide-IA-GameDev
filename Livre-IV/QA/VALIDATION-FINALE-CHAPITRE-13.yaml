@@ -1,0 +1,89 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH13
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: e4d76a5441c6bcf080917b5a2066e6533c194f10
+validated-head-commit: bfe86c6f85a854327e57bf34a1d6790c104f70e5
+chapter:
+  id: DOC-L4-CH13
+  path: Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1839
+  chapter-headings: 67
+  chapter-code-and-data-blocks: 66
+  significant-code-and-data-blocks: 50
+  code-explanation-markers: 66
+  structured-non-error-code-explanations: 46
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  dedicated-export-documented: true
+  configuration-and-credentials-documented: true
+  firewall-and-service-hardening-documented: true
+  authentication-and-object-decoding-documented: true
+  rate-limits-and-replay-controls-documented: true
+  drain-update-rollback-documented: true
+  incident-and-rotation-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: df1ac03d7526bbba1b3ad80c0cc86482a249739f5ebaf5a8122974f188ac6616
+  audit-sha256: d8315deb7e1cbceb28d9a369440a49f6bb145c909c5a68fec508982b10b403a2
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 13 Finalizer
+    execution: chapter-finalizer
+    run-id: 30208265829
+    conclusion: success
+    artifact:
+      id: 8633696127
+      name: livre-iv-ch13-validation-without-pdf
+      digest: sha256:4a574f2807d6df225c01204eb1ba1db92889abd0e89f0f107db60a371398858c
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30208461703
+    conclusion: success
+    artifact:
+      id: 8633752044
+      name: chapter-validation-without-pdf
+      digest: sha256:2703d2dfa1b0f98408cc45bc045c3075979cc8aacdf0d8157bd70beae90478f9
+reservations:
+- Dedicated export and manifest not produced.
+- Isolated host not provisioned.
+- Service account and permissions not created.
+- Runtime credentials not installed or rotated.
+- Windows and Linux firewall rules not applied.
+- systemd unit not installed or started.
+- Container image not built or executed.
+- Liveness and readiness not qualified.
+- Authentication and admission not executed.
+- Tickets and nonces not materialized.
+- Rate limits replay windows and concurrency caps not qualified.
+- Logs and metrics not collected.
+- State backup restore drain update and rollback not exercised.
+- Hardening tests and authorized scan not executed.
+- Incident drill and credential rotation not executed.
+- Professional security assessment not performed.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: bfe86c6f85a854327e57bf34a1d6790c104f70e5
+  conclusion: success
