@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.6.0"
-last-updated: "2026-07-26T01:20:53+02:00"
+version: "0.7.0"
+last-updated: "2026-07-26T02:53:24+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -17,7 +17,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 3. [Tests fonctionnels et tests de régression](CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md) — version `1.0.0`, niveau `static-review` ;
 4. [Débogage et reproduction des anomalies](CHAPITRE-04-Debogage-et-reproduction-des-anomalies.md) — version `1.0.0`, niveau `static-review` ;
 5. [Journalisation et observabilité locale](CHAPITRE-05-Journalisation-et-observabilite-locale.md) — version `1.0.0`, niveau `static-review` ;
-6. Profilage CPU ;
+6. [Profilage CPU](CHAPITRE-06-Profilage-CPU.md) — version `1.0.0`, niveau `static-review` ;
 7. Profilage GPU et optimisation du rendu ;
 8. Optimisation RAM, VRAM et allocations ;
 9. Chargements, streaming et gestion des ressources ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **5 sur 22** ;
-- chapitre courant terminé : **chapitre 5 — Journalisation et observabilité locale** ;
-- prochaine entrée du plan maître : **chapitre 6 — Profilage CPU** ;
+- chapitres rédigés, repérés et audités : **6 sur 22** ;
+- chapitre courant terminé : **chapitre 6 — Profilage CPU** ;
+- prochaine entrée du plan maître : **chapitre 7 — Profilage GPU et optimisation du rendu** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 5 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 6 sont terminés au niveau documentaire et statique, sans revendication runtime.

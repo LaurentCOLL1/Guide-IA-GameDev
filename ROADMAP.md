@@ -155,11 +155,12 @@
 - [x] Chapitre 3 — Tests fonctionnels et tests de régression — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 4 — Débogage et reproduction des anomalies — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 5 — Journalisation et observabilité locale — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 6 — Profilage CPU — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
-- [ ] Optimisation et multijoueur.
+- [ ] Optimisation et multijoueur — 1 chapitre sur 8.
 - [ ] DevOps, publication et maintenance.
 
-**Statut M5 : en cours — 5 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 6 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 

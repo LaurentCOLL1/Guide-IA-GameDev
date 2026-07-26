@@ -1,0 +1,74 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH06
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH06
+  path: Livre-IV/CHAPITRE-06-Profilage-CPU.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1396
+  chapter-headings: 67
+  chapter-code-and-data-blocks: 46
+  significant-code-and-data-blocks: 46
+  code-explanation-markers: 46
+  structured-non-error-code-explanations: 26
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  scripts-physics-navigation-ai-threads-documented: true
+  inclusive-and-self-time-distinguished: true
+  before-after-comparison-documented: true
+  functional-regression-gate-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: dc745431b86024af23332bfb05cbf79985201cdcc58182640936df5ba7d796c8
+  audit-sha256: 15b035ed1c5cd516c3b2c585b3016c41efcbb075cd75d3c1e9023dd8afdc3839
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 6 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Benchmark scenes and fixtures not materialized.
+  - Environment manifest not completed.
+  - Profiler capture not created.
+  - No CPU samples or statistical summaries produced.
+  - CPU budget not qualified.
+  - Before-after campaign not executed.
+  - Functional regression suite not executed.
+  - Instrumentation overhead not measured.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
