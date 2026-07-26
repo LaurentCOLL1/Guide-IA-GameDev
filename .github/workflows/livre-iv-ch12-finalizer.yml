@@ -33,7 +33,21 @@ jobs:
         run: python -m pip install --disable-pip-version-check pyyaml
 
       - name: Reconstruct, validate and clean
-        run: python tools/finalize_livre_iv_ch12.py
+        id: finalize
+        continue-on-error: true
+        run: python tools/finalize_livre_iv_ch12.py > /tmp/livre-iv-ch12-finalizer.log 2>&1
+
+      - name: Upload finalizer diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch12-finalizer-diagnostic
+          path: /tmp/livre-iv-ch12-finalizer.log
+          if-no-files-found: error
+
+      - name: Stop after finalizer failure
+        if: steps.finalize.outcome == 'failure'
+        run: exit 1
 
       - name: Upload finalizer evidence
         uses: actions/upload-artifact@v4
