@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.5"
+version: "1.0.6"
 lang: "fr-FR"
-last-updated: "2026-07-26T01:20:53+02:00"
+last-updated: "2026-07-26T02:53:24+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 5 chapitres sur 22  
+> **Statut :** en cours — 6 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -160,6 +160,8 @@ La journalisation ne doit pas exposer secrets ou données personnelles. Validati
 **Frontière et validation**
 
 Le chapitre 7 couvre le GPU. Validation par amélioration mesurée sans modification fonctionnelle indésirable.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les scènes de benchmark, captures, budgets CPU et rapports avant/après sont préparés sans revendication de mesure ou d’amélioration runtime.
 
 ## Chapitre 7 — Profilage GPU et optimisation du rendu
 

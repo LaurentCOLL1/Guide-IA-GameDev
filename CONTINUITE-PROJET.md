@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.68.0"
+version: "3.69.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T01:20:53+02:00"
+last-updated: "2026-07-26T02:53:24+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2020,6 +2020,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas utiliser un identifiant de joueur, un texte libre ou un identifiant d’instance runtime comme dimension d’équilibrage ;
 - ne pas publier un ratio sans conserver son numérateur et son dénominateur ;
 - ne pas conclure depuis une moyenne seule lorsqu’une distribution ou une queue peut modifier la décision ;
+- ne pas déclarer une amélioration CPU sans benchmark, environnement et contrat d’échantillonnage comparables ;
+- ne pas supprimer un run de profilage valide parce que son résultat est défavorable ;
+- ne pas attribuer un temps de frame élevé au CPU sans distinguer temps propre, temps inclusif, rendu et attente ;
+- ne pas réduire la cadence physique ou IA sans tests fonctionnels, latence et déterminisme adaptés ;
+- ne pas introduire des threads sans mesurer préparation, travail, attente, fusion et correction du résultat ;
+- ne pas accepter un gain de performance lorsque la suite fonctionnelle requise échoue ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2032,12 +2038,13 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 5 chapitres sur 22 ;
+- progression du Livre IV : 6 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 4 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 5 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 6 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2107,20 +2114,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 5 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, index locaux, dashboards, incidents simulés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 6 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU, captures de profiler, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-06-Profilage-CPU.md
+Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 6 du Livre IV utilisera le profiler Godot et les outils système pour mesurer scripts, physique, navigation, IA et threads, définir des budgets CPU et comparer avant/après. Il consommera les signaux légers du chapitre 5 sans transformer la journalisation en profiler.
+Le chapitre 7 du Livre IV couvrira passes de rendu, draw calls, overdraw, shaders, lumières, ombres, transparence, post-traitement, VRAM et bande passante. Il utilisera le GPU AMD de référence sans recopier les campagnes CPU du chapitre 6.
 
 ## 27. Journal
+
+### 2026-07-26T02:53:24+02:00 — version 3.69.0
+
+- création du chapitre 6 du Livre IV — Profilage CPU ;
+- budgets de frame, distributions, warm-up, répétitions et contrats de benchmark documentés ;
+- Profiler Godot, Monitors, singleton `Performance`, moniteurs personnalisés et chronométrage borné expliqués ;
+- analyse des scripts, de la physique, de la navigation, de l’IA et des tâches parallèles structurée ;
+- scènes de benchmark, manifestes d’environnement, hypothèses et rapports avant/après préparés ;
+- médiane, p95, p99, maximum et dépassements de budget conservés ;
+- portes de régression fonctionnelle, retour arrière et approbation humaine encadrés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 7 — Profilage GPU et optimisation du rendu, niveau Élevée ;
+- aucune scène de benchmark, capture, série de mesures, budget qualifié ou amélioration runtime revendiquée.
 
 ### 2026-07-26T01:20:53+02:00 — version 3.68.0
 
