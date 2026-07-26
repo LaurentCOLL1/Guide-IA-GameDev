@@ -121,4 +121,4 @@ La visibilité caméra n’est jamais utilisée comme autorité gameplay. L’ar
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt ont réussi ; la preuve QA peut être fermée avec les réserves déclarées.
