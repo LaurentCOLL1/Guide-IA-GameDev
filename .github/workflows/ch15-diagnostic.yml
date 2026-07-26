@@ -31,8 +31,8 @@ jobs:
 
           report = ''
           try:
-              source = Path('.github/workflows/ch15-finalizer.yml').read_text(encoding='utf-8')
-              marker = '      - name: Patch chapter, governance, audit and evidence\n'
+              source = Path('.github/workflows/ch15-pr-finalizer.yml').read_text(encoding='utf-8')
+              marker = '      - name: Reuse the audited finalizer script\n'
               start = source.index(marker) + len(marker)
               run_marker = '        run: |\n'
               run_start = source.index(run_marker, start) + len(run_marker)
@@ -41,7 +41,7 @@ jobs:
               raw = source[run_start:run_end]
               lines = raw.splitlines()
               script = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
-              target = Path('/tmp/ch15-finalize.py')
+              target = Path('/tmp/ch15-wrapper.py')
               target.write_text(script, encoding='utf-8')
               result = subprocess.run(
                   [sys.executable, str(target)],
