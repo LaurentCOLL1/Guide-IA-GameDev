@@ -26,28 +26,36 @@ jobs:
           import os
           import subprocess
           import sys
+          import traceback
           from pathlib import Path
-          import yaml
 
-          workflow = yaml.safe_load(Path('.github/workflows/ch15-finalizer.yml').read_text(encoding='utf-8'))
-          script = next(
-              step['run']
-              for step in workflow['jobs']['finalize']['steps']
-              if step.get('name') == 'Patch chapter, governance, audit and evidence'
-          )
-          target = Path('/tmp/ch15-finalize.py')
-          target.write_text(script, encoding='utf-8')
-          result = subprocess.run(
-              [sys.executable, str(target)],
-              text=True,
-              capture_output=True,
-              env=os.environ.copy(),
-          )
-          report = (
-              f'returncode={result.returncode}\n\n'
-              f'--- stdout ---\n{result.stdout}\n'
-              f'--- stderr ---\n{result.stderr}\n'
-          )
+          report = ''
+          try:
+              source = Path('.github/workflows/ch15-finalizer.yml').read_text(encoding='utf-8')
+              marker = '      - name: Patch chapter, governance, audit and evidence\n'
+              start = source.index(marker) + len(marker)
+              run_marker = '        run: |\n'
+              run_start = source.index(run_marker, start) + len(run_marker)
+              end_marker = '\n      - name: Run lightweight validations'
+              run_end = source.index(end_marker, run_start)
+              raw = source[run_start:run_end]
+              lines = raw.splitlines()
+              script = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
+              target = Path('/tmp/ch15-finalize.py')
+              target.write_text(script, encoding='utf-8')
+              result = subprocess.run(
+                  [sys.executable, str(target)],
+                  text=True,
+                  capture_output=True,
+                  env=os.environ.copy(),
+              )
+              report = (
+                  f'returncode={result.returncode}\n\n'
+                  f'--- stdout ---\n{result.stdout}\n'
+                  f'--- stderr ---\n{result.stderr}\n'
+              )
+          except BaseException:
+              report = 'diagnostic-wrapper-exception\n\n' + traceback.format_exc()
           Path('.github/workflows/ch15-diagnostic.txt').write_text(report, encoding='utf-8')
       - name: Commit diagnostic
         run: |
