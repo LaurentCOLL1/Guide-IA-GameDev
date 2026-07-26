@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import base64
 import hashlib
-import zlib
 from pathlib import Path
 
 TIMESTAMP = "2026-07-26T08:02:49+02:00"
-CHAPTER_SHA256 = "ece7a115c66d3c18efeb79e6f8c4ba0b337858265559b2bff172d8b6e2e7d4ed"
+SOURCE_CHAPTER_SHA256 = "ece7a115c66d3c18efeb79e6f8c4ba0b337858265559b2bff172d8b6e2e7d4ed"
+FINAL_CHAPTER_SHA256 = "0662f5fa87f56fc818d995f518df8be397a011c0aed53b5f69354c289fdedd4c"
 
 def read_parts(paths: list[str]) -> str:
     return "".join(Path(path).read_text(encoding="utf-8") for path in paths)
@@ -29,9 +28,18 @@ chapter = read_parts([
     ".qa/ch08-chapter.part03.md",
     ".qa/ch08-chapter.part04.md",
 ])
-actual_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
-if actual_sha != CHAPTER_SHA256:
-    raise RuntimeError(f"empreinte chapitre invalide: {actual_sha}")
+source_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
+if source_sha != SOURCE_CHAPTER_SHA256:
+    raise RuntimeError(f"empreinte source invalide: {source_sha}")
+chapter = replace_once(
+    chapter,
+    "## 40. Diagnostics et anti-patterns\n\n### 40.1 Conclure depuis une seule capture",
+    "## 40. Diagnostics et anti-patterns\n<!-- qa:error-correction-section -->\n\n### 40.1 Conclure depuis une seule capture",
+    "qualification diagnostics",
+)
+final_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
+if final_sha != FINAL_CHAPTER_SHA256:
+    raise RuntimeError(f"empreinte finale invalide: {final_sha}")
 
 write("Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md", chapter)
 write("Livre-IV/QA/AUDIT-CHAPITRE-08.md", Path(".qa/ch08-audit.md").read_text(encoding="utf-8"))
