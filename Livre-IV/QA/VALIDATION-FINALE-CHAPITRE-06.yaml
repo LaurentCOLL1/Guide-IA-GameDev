@@ -3,16 +3,16 @@ evidence-id: DOC-L4-QA-EVIDENCE-CH06
 validation-authority: chapter-finalizer-and-permanent-workflows
 status: pending
 validation-date: '2026-07-26'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: e839ac519a0b17bbf5b18f8ea4fe0be2cc372327
+validated-head-commit: 0f130d316d00ae0da1aafcf632dd6a53cb7b3e90
 chapter:
   id: DOC-L4-CH06
   path: Livre-IV/CHAPITRE-06-Profilage-CPU.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1396
   chapter-headings: 67
   chapter-code-and-data-blocks: 46
@@ -42,13 +42,17 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: dc745431b86024af23332bfb05cbf79985201cdcc58182640936df5ba7d796c8
-  audit-sha256: 15b035ed1c5cd516c3b2c585b3016c41efcbb075cd75d3c1e9023dd8afdc3839
+  audit-sha256: 314530a02c4b976294215483eaec66343fd2fee9b676e029c12104d5f6a8e483
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 6 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: correction-runner
+    run-id: 30182578864
+    conclusion: success
+    artifact:
+      id: 8626009442
+      name: livre-iv-ch06-validation-without-pdf
+      digest: sha256:0937ef1848759c992e5a49a3fd3635f2ed79bcfd423b2e656364803c7dd4cb88
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: pending
