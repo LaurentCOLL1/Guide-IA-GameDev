@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 764dc77c67daece4f9b6290f7fd0e2227e6992d6
-validated-head-commit: cd8cdad1dc655c367c132d5e1b6f7e035d588c26
+validated-head-commit: 3637e7ae27d916a0ec5fcaa8d607676c7286423a
 chapter:
   id: DOC-L4-CH14
   path: Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md
@@ -45,7 +45,7 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: pending-after-semantic-fix
+  chapter-sha256: abb1bf348828d6e2d466155e3953648137eb078336cd7c2d4ab06784fc4a93a7
   audit-sha256: 6d0247164be4ad054ed728b055f09e8cbe1747390489ef6fa8d4fc744a45107a
 ci:
   chapter-finalizer:
@@ -56,8 +56,12 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-after-semantic-fix
-    conclusion: pending
+    run-id: 30221518059
+    conclusion: success
+    artifact:
+      id: 8637338833
+      name: chapter-validation-without-pdf
+      digest: sha256:d4e288f7d8ef2a1bbdbad66b418f53ab372dc9cbfddb4f281c5625ae760eea4e
 reservations:
 - Project Asteria CI scripts were not materialized.
 - Project Asteria workflows were not materialized.
@@ -78,5 +82,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-after-semantic-fix
-  conclusion: pending
+  commit: 3637e7ae27d916a0ec5fcaa8d607676c7286423a
+  conclusion: success
