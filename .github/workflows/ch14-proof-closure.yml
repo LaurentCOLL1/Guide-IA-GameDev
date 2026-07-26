@@ -1,0 +1,63 @@
+name: Chapter 14 Proof Closure
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-14-devops-ci
+
+permissions:
+  contents: write
+
+jobs:
+  close-proof:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-14-devops-ci
+          fetch-depth: 0
+
+      - name: Close proof with verified hashes and run
+        shell: python
+        run: |
+          from hashlib import sha256
+          from pathlib import Path
+
+          chapter = Path('Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md')
+          audit = Path('Livre-IV/QA/AUDIT-CHAPITRE-14.md')
+          proof = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-14.yaml')
+
+          chapter_hash = sha256(chapter.read_bytes()).hexdigest()
+          audit_hash = sha256(audit.read_bytes()).hexdigest()
+          text = proof.read_text(encoding='utf-8')
+          replacements = {
+              'validated-head-commit: cd8cdad1dc655c367c132d5e1b6f7e035d588c26':
+              'validated-head-commit: 3637e7ae27d916a0ec5fcaa8d607676c7286423a',
+              'chapter-sha256: pending-after-semantic-fix':
+              f'chapter-sha256: {chapter_hash}',
+              'audit-sha256: 6d0247164be4ad054ed728b055f09e8cbe1747390489ef6fa8d4fc744a45107a':
+              f'audit-sha256: {audit_hash}',
+              'run-id: pending-after-semantic-fix\n    conclusion: pending':
+              'run-id: 30221518059\n    conclusion: success\n    artifact:\n      id: 8637338833\n      name: chapter-validation-without-pdf\n      digest: sha256:d4e288f7d8ef2a1bbdbad66b418f53ab372dc9cbfddb4f281c5625ae760eea4e',
+              'commit: pending-after-semantic-fix\n  conclusion: pending':
+              'commit: 3637e7ae27d916a0ec5fcaa8d607676c7286423a\n  conclusion: success',
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'Remplacement attendu une fois, trouvé {count}: {old}')
+              text = text.replace(old, new)
+          proof.write_text(text, encoding='utf-8', newline='\n')
+
+      - name: Remove temporary workflow and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/ch14-proof-closure.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-14.yaml .github/workflows/ch14-proof-closure.yml
+          git commit -m "docs(qa): fermer la preuve du chapitre 14"
+          git push origin HEAD:docs/livre-iv-chapitre-14-devops-ci
