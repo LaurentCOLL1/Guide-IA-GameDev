@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.12"
+version: "1.0.13"
 lang: "fr-FR"
-last-updated: "2026-07-26T17:30:00+02:00"
+last-updated: "2026-07-26T17:45:00+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 12 chapitres sur 22  
+> **Statut :** en cours — 13 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -328,6 +328,8 @@ La sécurité serveur est au chapitre 13. Validation sous latence, jitter et per
 **Frontière et validation**
 
 Ne constitue pas un audit de sécurité professionnel. Validation par environnement isolé, scans autorisés et scénarios d’échec.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. La configuration serveur, les scripts de déploiement, les règles pare-feu, les procédures d’incident et la matrice de tests de durcissement sont préparés sans revendication de build, hôte, service, pare-feu, scan ou résistance runtime.
 
 ## Chapitre 14 — DevOps et intégration continue
 

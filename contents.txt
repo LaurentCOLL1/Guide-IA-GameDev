@@ -106,5 +106,6 @@ Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
 Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
 Livre-IV/CHAPITRE-11-Architecture-multijoueur.md
 Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
+Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
 Livre-V/index.md
 Companion-Pack/index.md
