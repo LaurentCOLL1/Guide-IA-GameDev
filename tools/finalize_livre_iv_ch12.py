@@ -15,12 +15,16 @@ def read_verified(path: str, expected: str) -> bytes:
     return data
 
 
-def write_verified(name: str, pieces: list[bytes], expected: str) -> None:
+def join_verified(name: str, pieces: list[bytes], expected: str) -> bytes:
     rebuilt = b"".join(pieces)
     actual = hashlib.sha256(rebuilt).hexdigest()
     if actual != expected:
         raise SystemExit(f"Invalid rebuilt {name} SHA: {actual}")
-    (payload_root / name).write_bytes(rebuilt)
+    return rebuilt
+
+
+def write_verified(name: str, pieces: list[bytes], expected: str) -> None:
+    (payload_root / name).write_bytes(join_verified(name, pieces, expected))
 
 
 write_verified(
@@ -31,14 +35,22 @@ write_verified(
     ],
     "b862e7677f3473db558d55a5d1525743908d7cfd5f31dadb745f634168d0724f",
 )
-part_05b = b"".join(
+part_05b2 = join_verified(
+    "ch12.05b2.part",
+    [
+        read_verified("ch12.05b2a.part", "e93e18d710edd28f39837552894661d1b39f6d019926bde58727a2ca38d9c7bc"),
+        read_verified("ch12.05b2b.part", "1d3e12a4b7cb2865792bf7741d59275aa96ab763e93d9361a3b0b12e5aaed633"),
+    ],
+    "8e91300553112c785b4164bb863caba7485e08306159ef3622142d90ee0d8350",
+)
+part_05b = join_verified(
+    "ch12.05b.part",
     [
         read_verified("ch12.05b1.part", "3a6f2af217f681cfcc8e3093cae37278280c501b6e3cebe05e96dd687952cc70"),
-        read_verified("ch12.05b2.part", "8e91300553112c785b4164bb863caba7485e08306159ef3622142d90ee0d8350"),
-    ]
+        part_05b2,
+    ],
+    "b6cd26f972c695151c3e6f9cb4534bf8219eb9b8f05e6c2d503020ab7816c7fe",
 )
-if hashlib.sha256(part_05b).hexdigest() != "b6cd26f972c695151c3e6f9cb4534bf8219eb9b8f05e6c2d503020ab7816c7fe":
-    raise SystemExit("Invalid rebuilt ch12.05b.part SHA")
 write_verified(
     "ch12.05.b64",
     [
