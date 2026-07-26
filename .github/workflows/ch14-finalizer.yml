@@ -1,12 +1,19 @@
 name: Livre IV Chapter 14 Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-iv-chapitre-14-devops-ci
+      - main
+    paths:
+      - '.tmp/ch14/**'
+      - '.github/workflows/ch14-finalizer.yml'
 
 permissions:
   contents: write
+
+concurrency:
+  group: ch14-finalizer
+  cancel-in-progress: true
 
 jobs:
   finalize:
@@ -17,7 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ${{ github.ref_name }}
+          ref: docs/livre-iv-chapitre-14-devops-ci
           fetch-depth: 0
 
       - name: Restore and verify finalizer
@@ -25,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           base64 --decode .tmp/ch14/finalizer.py.gz.b64 > /tmp/finalize_ch14.py.gz
-          echo '5227a349a77332cf4278c5252fe4c530c3db9496ef00110ebc09b4de76e5f623  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
+          echo '4e0ca40c3ccbaa49908211b3d3e1e6dae97b72bd149f8e26028511e5432e9826  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
           gzip --decompress --stdout /tmp/finalize_ch14.py.gz > /tmp/finalize_ch14.py
           python -m py_compile /tmp/finalize_ch14.py
 
@@ -35,4 +42,6 @@ jobs:
 
       - name: Finalize, validate and commit permanent lot
         shell: bash
+        env:
+          FINALIZER_BRANCH: docs/livre-iv-chapitre-14-devops-ci
         run: python /tmp/finalize_ch14.py
