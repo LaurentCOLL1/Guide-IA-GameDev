@@ -1,0 +1,98 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH12
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-26'
+validated-base-commit: 254e0854e3cdf742305f112fe2a077d6bb001083
+validated-head-commit: b46c1aa44cb5daf97544acd12702d5a3b1a929f9
+chapter:
+  id: DOC-L4-CH12
+  path: Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2180
+  chapter-headings: 67
+  chapter-code-and-data-blocks: 65
+  significant-code-and-data-blocks: 57
+  code-explanation-markers: 65
+  structured-non-error-code-explanations: 45
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  commands-events-and-snapshots-documented: true
+  authority-and-rpc-validation-documented: true
+  scene-replication-config-documented: true
+  multiplayer-synchronizer-and-spawner-documented: true
+  relevance-and-channels-documented: true
+  interpolation-and-extrapolation-documented: true
+  prediction-reconciliation-and-rollback-documented: true
+  bandwidth-quantization-and-adaptation-documented: true
+  state-fingerprints-and-comparison-documented: true
+  latency-jitter-loss-profiles-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 7322f2be7a26045b715e6c7397f579be141ecba4b9aae714bc8033a0f8a7aec4
+  audit-sha256: d1d2f837dd67dd0d2325014dd8ec139a955096f4be6d871bd4299fd01228c1ab
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 12 Finalizer
+    execution: chapter-finalizer
+    run-id: 30204715061
+    conclusion: success-with-post-validation-commit-step-failure
+    workflow-run-conclusion: failure
+    validated-payload-and-repository-controls: success
+    post-validation-commit-step: failure
+    permanent-commit-published: true
+    permanent-commit: 74df1784f9015fe90f1def9f7f8c01f29b8ef26f
+    artifact:
+      id: 8632706265
+      name: livre-iv-ch12-validation-without-pdf
+      digest: sha256:9dd27392e23d4e51af773fe52e7258c650ab48ff64a01c531a78c390955d4e42
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30204899313
+    conclusion: success
+    artifact:
+      id: 8632759212
+      name: chapter-validation-without-pdf
+      digest: sha256:480413804eb008355310ef75baa578946d94c49d93759871c690f35764a5642e
+reservations:
+  - Replication model not integrated.
+  - Command event and snapshot protocols not executed.
+  - MultiplayerSynchronizer and MultiplayerSpawner not configured in project.
+  - Relevance profiles not qualified.
+  - Transfer channels and modes not measured.
+  - Interpolation and extrapolation not executed.
+  - Prediction and reconciliation not integrated.
+  - Rollback not implemented or measured.
+  - Lag compensation not executed.
+  - Bandwidth budget not populated.
+  - Quantization not qualified.
+  - State comparison tool not executed.
+  - Network captures not produced.
+  - Latency jitter loss duplication and reordering campaign not executed.
+  - Network functional tests not executed.
+  - Anti-abuse and security review not executed.
+  - Dedicated server and hardening remain reserved for chapter 13.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: b46c1aa44cb5daf97544acd12702d5a3b1a929f9
+  conclusion: success
