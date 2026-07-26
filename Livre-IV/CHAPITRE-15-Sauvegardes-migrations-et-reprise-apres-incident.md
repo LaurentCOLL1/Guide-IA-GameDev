@@ -890,7 +890,7 @@ Docker Desktop
 
 ## 20.2. Lire le montage d’un conteneur
 
-> **[DCT] Terminal dans un conteneur de diagnostic non privilégié — Adapter le chemin attendu.**
+> **[WSL] Terminal Bash ouvert dans le conteneur de diagnostic non privilégié — Adapter le chemin attendu.**
 
 ```bash
 set -euo pipefail
@@ -1145,7 +1145,7 @@ Dépôt GitHub
 
 ## 25.3. Consulter la documentation officielle
 
-> **[WEB] Navigateur — Vérifier les procédures des moteurs avant matérialisation.**
+> **[APP] Navigateur web — Vérifier les procédures des moteurs avant matérialisation.**
 
 ```text
 1. Ouvrir la documentation officielle du moteur et de sa version.
@@ -1836,7 +1836,7 @@ player_service:
 
 **Exemple fautif :**
 
-> **[DCT] Exemple fautif — Ne pas appliquer.**
+> **[WSL] Exemple fautif — Ne pas appliquer dans un terminal Bash.**
 
 ```bash
 pg_restore --clean --dbname=asteria_production latest.dump
@@ -1850,7 +1850,7 @@ pg_restore --clean --dbname=asteria_production latest.dump
 
 **Exemple corrigé :**
 
-> **[DCT] Exemple corrigé — Adapter le nom isolé.**
+> **[WSL] Exemple corrigé — Adapter le nom isolé dans un terminal Bash.**
 
 ```bash
 createdb --template=template0 asteria_restore_test
@@ -1947,7 +1947,7 @@ key_recovery:
 
 **Exemple fautif :**
 
-> **[DCT] Exemple fautif — Ne pas appliquer.**
+> **[WSL] Exemple fautif — Ne pas appliquer dans un terminal Bash.**
 
 ```bash
 psql --dbname=asteria_restore --command="SELECT 1;"
@@ -1962,7 +1962,7 @@ echo "restauration réussie"
 
 **Exemple corrigé :**
 
-> **[DCT] Exemple corrigé — Adapter les oracles métier.**
+> **[WSL] Exemple corrigé — Adapter les oracles métier dans un terminal Bash.**
 
 ```bash
 psql --dbname=asteria_restore --file=checks/structural.sql
