@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.9"
+version: "1.0.10"
 lang: "fr-FR"
-last-updated: "2026-07-26T08:52:20+02:00"
+last-updated: "2026-07-26T10:13:20+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 9 chapitres sur 22  
+> **Statut :** en cours — 10 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -256,6 +256,8 @@ Le chapitre ne redéfinit pas le monde ouvert du Livre III. Validation par parco
 **Frontière et validation**
 
 Toute optimisation doit rester justifiée par le profiler. Validation par tests fonctionnels et mesures répétées.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le catalogue de techniques, les benchmarks, les exemples avant/après, les seuils d’activation et la checklist de revue sont préparés sans revendication de mesure ou d’amélioration runtime.
 
 ## Chapitre 11 — Architecture multijoueur
 

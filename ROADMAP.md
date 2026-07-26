@@ -159,11 +159,12 @@
 - [x] Chapitre 7 — Profilage GPU et optimisation du rendu — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 8 — Optimisation RAM, VRAM et allocations — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 9 — Chargements, streaming et gestion des ressources — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
-- [ ] Optimisation et multijoueur — 4 chapitres sur 8.
+- [ ] Optimisation et multijoueur — 5 chapitres sur 8.
 - [ ] DevOps, publication et maintenance.
 
-**Statut M5 : en cours — 9 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 10 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 

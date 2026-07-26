@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.72.0"
+version: "3.73.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T08:52:20+02:00"
+last-updated: "2026-07-26T10:13:20+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2046,6 +2046,15 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas manipuler l’arbre de scène actif depuis un thread arbitraire ;
 - ne pas évincer une zone depuis la distance seule sans propriétaires, échéances et coût de rechargement ;
 - ne pas comparer des chargements dont build, stockage, état de cache ou profil diffèrent sans qualification ;
+- ne pas optimiser une scène ou un système sans profil, hypothèse et mesures répétées comparables ;
+- ne pas supposer que `set_process(false)` désactive la physique, les entrées ou tout le sous-arbre ;
+- ne pas utiliser visibilité caméra, distance ou LOD logique comme autorité gameplay implicite ;
+- ne pas laisser une file par frame, un quota ou une fréquence sans borne, équité et latence maximale ;
+- ne pas rechercher les mêmes nœuds ou groupes à chaque frame lorsqu’un registre stable est possible ;
+- ne pas créer un pool gameplay sans capacité, remise à zéro et test de réemploi ;
+- ne pas manipuler l’arbre de scène actif depuis un thread arbitraire ;
+- ne pas migrer vers une API serveur avant d’avoir mesuré et épuisé les solutions de plus haut niveau ;
+- ne pas accepter un gain CPU si fonctionnel, latence, déterminisme, mémoire, lisibilité ou testabilité se dégradent ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2058,7 +2067,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 9 chapitres sur 22 ;
+- progression du Livre IV : 10 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2068,6 +2077,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 7 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 8 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 9 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 10 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2137,20 +2147,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 9 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, tests de stockage et parcours prolongés, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 10 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, seuils qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
+Livre-IV/CHAPITRE-11-Architecture-multijoueur.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 10 du Livre IV réduira les fréquences de mise à jour, appliquera pooling, activation par distance et LOD logique, découpera scènes et systèmes, puis optimisera signaux, recherches et allocations. Il restera guidé par le profiler et préservera lisibilité, testabilité et contrats fonctionnels.
+Le chapitre 11 du Livre IV comparera client-serveur, pair-à-pair et modèles hybrides, puis structurera sessions, lobby, découverte, reconnexion, autorité réseau, protocoles, versions, coûts et risques. Le chapitre 12 conservera la synchronisation, l’autorité détaillée et la prédiction.
 
 ## 27. Journal
+
+### 2026-07-26T10:13:20+02:00 — version 3.73.0
+
+- création du chapitre 10 du Livre IV — Optimisation des scènes, scripts et systèmes de jeu ;
+- contrat de benchmark, manifeste d’environnement, budgets et échantillonnage documentés ;
+- fréquences, accumulateurs, time slicing, quotas adaptatifs et priorités encadrés ;
+- activation par visibilité, distance, hystérésis et LOD logique distinguée de l’autorité gameplay ;
+- groupes, appels différés uniques, références mises en cache et index spatial structurés ;
+- cycle de vie des signaux, coalescence, pooling borné, remise à zéro et tampons réutilisés documentés ;
+- découpage de scènes, préparation en thread et porte de migration vers les API serveur encadrés ;
+- exemples avant/après, seuils, porte de promotion, checklist et rollback préparés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 11 — Architecture multijoueur, niveau Élevée ;
+- aucun benchmark, seuil qualifié, pool runtime, LOD logique, migration serveur ou gain revendiqué.
 
 ### 2026-07-26T08:52:20+02:00 — version 3.72.0
 
