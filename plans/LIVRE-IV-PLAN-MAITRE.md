@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.11"
+version: "1.0.12"
 lang: "fr-FR"
-last-updated: "2026-07-26T16:42:00+02:00"
+last-updated: "2026-07-26T17:30:00+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 11 chapitres sur 22  
+> **Statut :** en cours — 12 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -304,6 +304,8 @@ Le chapitre 12 détaille synchronisation et prédiction. Validation par connexio
 **Frontière et validation**
 
 La sécurité serveur est au chapitre 13. Validation sous latence, jitter et perte simulés.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le modèle de réplication, les protocoles de messages, les profils de latence/perte, les outils de comparaison d’état et le rapport de compromis sont préparés sans revendication de synchronisation, prédiction, rollback ou mesure runtime.
 
 ## Chapitre 13 — Serveurs dédiés et sécurité réseau
 

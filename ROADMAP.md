@@ -161,11 +161,12 @@
 - [x] Chapitre 9 — Chargements, streaming et gestion des ressources — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 11 — Architecture multijoueur — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 12 — Synchronisation, autorité et prédiction — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
-- [ ] Optimisation et multijoueur — 6 chapitres sur 8.
+- [ ] Optimisation et multijoueur — 7 chapitres sur 8.
 - [ ] DevOps, publication et maintenance.
 
-**Statut M5 : en cours — 11 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 12 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 

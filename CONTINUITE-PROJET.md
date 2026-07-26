@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.74.0"
+version: "3.75.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T16:42:00+02:00"
+last-updated: "2026-07-26T17:30:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2064,6 +2064,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas confondre découverte, invitation, admission et transport de jeu ;
 - ne pas promettre une migration d’hôte sans transfert d’état, époque et prévention du double hôte ;
 - ne pas rendre le chemin Solo dépendant d’un annuaire, relais ou service distant ;
+- ne pas accepter comme résultat final une position, un inventaire ou un combat calculé par le client ;
+- ne pas confondre autorité réseau d’un nœud et permission métier ;
+- ne pas envoyer chaque snapshot en fiable sur le même canal que les événements critiques ;
+- ne pas appliquer un delta sans posséder sa base exacte ;
+- ne pas utiliser une pose interpolée comme état de collision ou d’autorité ;
+- ne pas extrapoler sans durée, vitesse et politique de retour bornées ;
+- ne pas purger les entrées non acquittées lors d’une réconciliation ;
+- ne pas synchroniser `Resource`, `RID` ou identifiants d’instance comme données portables ;
+- ne pas ajouter manuellement à l’arbre le nœud retourné par `MultiplayerSpawner.spawn_function` ;
+- ne pas conclure à une triche depuis une empreinte divergente sans diagnostic et resynchronisation ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2076,7 +2086,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 11 chapitres sur 22 ;
+- progression du Livre IV : 12 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2088,6 +2098,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 9 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 10 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 11 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 12 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2157,20 +2168,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 11 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, prototypes multijoueurs, tests de reprise, coûts qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 12 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, prototypes multijoueurs, synchronisation, prédiction, rollback, campagnes réseau, coûts qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
+Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 12 du Livre IV définira la réplication des états et événements, l’autorité détaillée, l’interpolation, l’extrapolation, la prédiction client, le rollback, les budgets de bande passante et les diagnostics de désynchronisation. Le chapitre 13 conservera les serveurs dédiés et la sécurité réseau.
+Le chapitre 13 du Livre IV produira l’architecture de serveur dédié, les profils de configuration, le déploiement isolé, la supervision, la protection des secrets, ports et permissions, les limites anti-abus et les procédures d’incident. Il ne constituera pas un audit de sécurité professionnel.
 
 ## 27. Journal
+
+### 2026-07-26T17:30:00+02:00 — version 3.75.0
+
+- création du chapitre 12 du Livre IV — Synchronisation, autorité et prédiction ;
+- commandes, événements, snapshots, deltas, acquittements et séquences distingués ;
+- autorité réseau séparée de l’autorité métier et validation des RPC encadrée ;
+- `SceneReplicationConfig`, `MultiplayerSynchronizer` et `MultiplayerSpawner` documentés ;
+- pertinence par pair, canaux, modes de transfert et idempotence structurés ;
+- interpolation, extrapolation, prédiction et réconciliation préparées ;
+- rollback borné, anneau d’états, RNG local et compensation historique encadrés ;
+- budgets de bande passante, quantification, adaptation et portes de promotion documentés ;
+- empreintes d’état, comparateur Python, captures expurgées et profils d’altération préparés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 13 — Serveurs dédiés et sécurité réseau, niveau Élevée ;
+- aucun synchroniseur, spawner, snapshot, prédicteur, rollback, campagne réseau ou gain de bande passante revendiqué.
 
 ### 2026-07-26T16:42:00+02:00 — version 3.74.0
 
