@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH13
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: e4d76a5441c6bcf080917b5a2066e6533c194f10
-validated-head-commit: pending
+validated-head-commit: bfe86c6f85a854327e57bf34a1d6790c104f70e5
 chapter:
   id: DOC-L4-CH13
   path: Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 1839
   chapter-headings: 67
   chapter-code-and-data-blocks: 66
@@ -45,26 +45,26 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: df1ac03d7526bbba1b3ad80c0cc86482a249739f5ebaf5a8122974f188ac6616
-  audit-sha256: 12d112ce7f5b9e4057ccf2059bb1558adb207ade8ecbfd9f145f25dcf9a6eeff
+  audit-sha256: d8315deb7e1cbceb28d9a369440a49f6bb145c909c5a68fec508982b10b403a2
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 13 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: 30208265829
+    conclusion: success
     artifact:
-      id: pending
+      id: 8633696127
       name: livre-iv-ch13-validation-without-pdf
-      digest: pending
+      digest: sha256:4a574f2807d6df225c01204eb1ba1db92889abd0e89f0f107db60a371398858c
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30208461703
+    conclusion: success
     artifact:
-      id: pending
+      id: 8633752044
       name: chapter-validation-without-pdf
-      digest: pending
+      digest: sha256:2703d2dfa1b0f98408cc45bc045c3075979cc8aacdf0d8157bd70beae90478f9
 reservations:
 - Dedicated export and manifest not produced.
 - Isolated host not provisioned.
@@ -85,5 +85,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: bfe86c6f85a854327e57bf34a1d6790c104f70e5
+  conclusion: success
