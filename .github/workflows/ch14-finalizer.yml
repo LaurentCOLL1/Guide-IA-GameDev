@@ -31,9 +31,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base64 --decode .tmp/ch14/finalizer.py.gz.b64 > /tmp/finalize_ch14.py.gz
-          echo '3226e52e7ea6896e24d1fdcbd7de690888eb26cfa714ec50414767b92a8e31c5  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
+          cat \
+            .tmp/ch14/finalizer01.txt \
+            .tmp/ch14/finalizer02.txt \
+            .tmp/ch14/finalizer03.txt \
+            .tmp/ch14/finalizer04a.txt \
+            .tmp/ch14/finalizer04b.txt \
+            .tmp/ch14/finalizer04c.txt \
+            .tmp/ch14/finalizer04d.txt \
+            .tmp/ch14/finalizer05a.txt \
+            .tmp/ch14/finalizer05b.txt \
+            .tmp/ch14/finalizer05c.txt \
+            .tmp/ch14/finalizer05d.txt \
+            .tmp/ch14/finalizer06.txt \
+            .tmp/ch14/finalizer07.txt \
+            .tmp/ch14/finalizer08.txt \
+            > /tmp/finalize_ch14.py.gz.b64
+          base64 --decode /tmp/finalize_ch14.py.gz.b64 > /tmp/finalize_ch14.py.gz
+          echo 'f378146fc163457c2ee960ed1b239707f7733ff8ed654c3e0cb6ebaaa27a1601  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
           gzip --decompress --stdout /tmp/finalize_ch14.py.gz > /tmp/finalize_ch14.py
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('/tmp/finalize_ch14.py')
+          text = path.read_text(encoding='utf-8')
+          needle = '    ".tmp/ch14/finalizer08.txt",\n}'
+          additions = ''.join(
+              f'    ".tmp/ch14/finalizer{group}{suffix}.txt",\n'
+              for group in ('04', '05')
+              for suffix in ('a', 'b', 'c', 'd')
+          )
+          if text.count(needle) != 1:
+              raise SystemExit('point de patch du lot finaliseur introuvable')
+          path.write_text(text.replace(needle, '    ".tmp/ch14/finalizer08.txt",\n' + additions + '}'), encoding='utf-8')
+          PY
           python -m py_compile /tmp/finalize_ch14.py
 
       - name: Install lightweight dependency
