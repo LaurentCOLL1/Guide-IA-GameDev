@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.8"
+version: "1.0.9"
 lang: "fr-FR"
-last-updated: "2026-07-26T08:02:49+02:00"
+last-updated: "2026-07-26T08:52:20+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 8 chapitres sur 22  
+> **Statut :** en cours — 9 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -232,6 +232,8 @@ Le chapitre 9 traite le streaming. Validation par réduction mesurée des pics e
 **Frontière et validation**
 
 Le chapitre ne redéfinit pas le monde ouvert du Livre III. Validation par parcours prolongé sans fuite ni blocage excessif.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le gestionnaire de chargement, les profils de streaming, les scènes de transition, les tests de stockage lent et le rapport de temps sont préparés sans revendication de mesure ou d’amélioration runtime.
 
 ## Chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu
 

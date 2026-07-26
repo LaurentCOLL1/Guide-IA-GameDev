@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.9.0"
-last-updated: "2026-07-26T08:02:49+02:00"
+version: "0.10.0"
+last-updated: "2026-07-26T08:52:20+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -20,7 +20,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 6. [Profilage CPU](CHAPITRE-06-Profilage-CPU.md) — version `1.0.0`, niveau `static-review` ;
 7. [Profilage GPU et optimisation du rendu](CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md) — version `1.0.0`, niveau `static-review` ;
 8. [Optimisation RAM, VRAM et allocations](CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md) — version `1.0.0`, niveau `static-review` ;
-9. Chargements, streaming et gestion des ressources ;
+9. [Chargements, streaming et gestion des ressources](CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md) — version `1.0.0`, niveau `static-review` ;
 10. Optimisation des scènes, scripts et systèmes de jeu ;
 11. Architecture multijoueur ;
 12. Synchronisation, autorité et prédiction ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **8 sur 22** ;
-- chapitre courant terminé : **chapitre 8 — Optimisation RAM, VRAM et allocations** ;
-- prochaine entrée du plan maître : **chapitre 9 — Chargements, streaming et gestion des ressources** ;
+- chapitres rédigés, repérés et audités : **9 sur 22** ;
+- chapitre courant terminé : **chapitre 9 — Chargements, streaming et gestion des ressources** ;
+- prochaine entrée du plan maître : **chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 8 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 9 sont terminés au niveau documentaire et statique, sans revendication runtime.
