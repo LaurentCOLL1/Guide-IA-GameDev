@@ -40,8 +40,6 @@ jobs:
           import sys
           from pathlib import Path
 
-          import yaml
-
           chapter = Path('Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md')
           chapter_text = chapter.read_text(encoding='utf-8')
 
@@ -85,14 +83,16 @@ jobs:
           chapter_text = chapter_text.replace(old_explanation, new_explanation)
           chapter.write_text(chapter_text, encoding='utf-8', newline='\n')
 
-          source = Path('.github/workflows/ch15-finalizer.yml')
-          workflow = yaml.safe_load(source.read_text(encoding='utf-8'))
-          steps = workflow['jobs']['finalize']['steps']
-          script = next(
-              step['run']
-              for step in steps
-              if step.get('name') == 'Patch chapter, governance, audit and evidence'
-          )
+          source_text = Path('.github/workflows/ch15-finalizer.yml').read_text(encoding='utf-8')
+          marker = '      - name: Patch chapter, governance, audit and evidence\n'
+          start = source_text.index(marker) + len(marker)
+          run_marker = '        run: |\n'
+          run_start = source_text.index(run_marker, start) + len(run_marker)
+          end_marker = '\n      - name: Run lightweight validations'
+          run_end = source_text.index(end_marker, run_start)
+          raw = source_text[run_start:run_end]
+          lines = raw.splitlines()
+          script = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
           section_start = script.index('# Corriger la CLI de vérification enseignée dans le chapitre.')
           section_end = script.index('# Index du Livre IV.')
           script = script[:section_start] + '# CLI déjà corrigée par le wrapper de PR.\n\n' + script[section_end:]
