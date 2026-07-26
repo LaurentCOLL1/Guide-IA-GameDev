@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH12
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 254e0854e3cdf742305f112fe2a077d6bb001083
-validated-head-commit: pending
+validated-head-commit: b46c1aa44cb5daf97544acd12702d5a3b1a929f9
 chapter:
   id: DOC-L4-CH12
   path: Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2180
   chapter-headings: 67
   chapter-code-and-data-blocks: 65
@@ -48,26 +48,31 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: 7322f2be7a26045b715e6c7397f579be141ecba4b9aae714bc8033a0f8a7aec4
-  audit-sha256: 96a12c8ba04ff1a8404f2254673f164e4490419837775615ab04073bf7285b8f
+  audit-sha256: d1d2f837dd67dd0d2325014dd8ec139a955096f4be6d871bd4299fd01228c1ab
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 12 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: 30204715061
+    conclusion: success-with-post-validation-commit-step-failure
+    workflow-run-conclusion: failure
+    validated-payload-and-repository-controls: success
+    post-validation-commit-step: failure
+    permanent-commit-published: true
+    permanent-commit: 74df1784f9015fe90f1def9f7f8c01f29b8ef26f
     artifact:
-      id: pending
+      id: 8632706265
       name: livre-iv-ch12-validation-without-pdf
-      digest: pending
+      digest: sha256:9dd27392e23d4e51af773fe52e7258c650ab48ff64a01c531a78c390955d4e42
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30204899313
+    conclusion: success
     artifact:
-      id: pending
+      id: 8632759212
       name: chapter-validation-without-pdf
-      digest: pending
+      digest: sha256:480413804eb008355310ef75baa578946d94c49d93759871c690f35764a5642e
 reservations:
   - Replication model not integrated.
   - Command event and snapshot protocols not executed.
@@ -89,5 +94,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: b46c1aa44cb5daf97544acd12702d5a3b1a929f9
+  conclusion: success
