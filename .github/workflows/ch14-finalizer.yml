@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: ch14-finalizer
@@ -83,7 +84,6 @@ jobs:
               f'    ".tmp/ch14/chapter06{suffix}.txt",\n'
               for suffix in 'abcdefgh'
           )
-          additions += '    ".tmp/ch14/last-error.txt",\n'
           if text.count(needle) != 1:
               raise SystemExit('point de patch du lot finaliseur introuvable')
           text = text.replace(
@@ -102,19 +102,20 @@ jobs:
         shell: bash
         env:
           FINALIZER_BRANCH: docs/livre-iv-chapitre-14-devops-ci
+          GH_TOKEN: ${{ github.token }}
         run: |
           set +e
           python /tmp/finalize_ch14.py > /tmp/ch14-finalizer.log 2>&1
           status=$?
           if [ "$status" -ne 0 ]; then
-            mkdir -p .tmp/ch14
-            tail -n 120 /tmp/ch14-finalizer.log > .tmp/ch14/last-error.txt
-            git reset --mixed
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add .tmp/ch14/last-error.txt
-            git commit -m "chore(ch14): enregistrer le diagnostic du finaliseur"
-            git push origin HEAD:docs/livre-iv-chapitre-14-devops-ci
+            {
+              echo '### Diagnostic automatique du finaliseur'
+              echo
+              echo '```text'
+              tail -n 120 /tmp/ch14-finalizer.log
+              echo '```'
+            } > /tmp/ch14-finalizer-comment.md
+            gh pr comment 301 --body-file /tmp/ch14-finalizer-comment.md
           fi
           tail -n 160 /tmp/ch14-finalizer.log
           exit "$status"
