@@ -1,0 +1,142 @@
+name: Livre IV Chapter 7 Finalizer
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.qa/finalize-livre-iv-ch07.py'
+      - '.qa/ch07-chapter.part*.b64'
+      - '.qa/ch07-audit.zlib.b64'
+      - '.qa/ch07-proof.yaml'
+      - '.github/workflows/livre-iv-ch07-finalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-and-validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-07-profilage-gpu
+          fetch-depth: 1
+
+      - name: Detect pending finalizer
+        id: pending
+        shell: bash
+        run: |
+          if test -f .qa/finalize-livre-iv-ch07.py; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install lightweight dependencies
+        if: steps.pending.outputs.run == 'true'
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Materialize chapter lot
+        if: steps.pending.outputs.run == 'true'
+        run: python .qa/finalize-livre-iv-ch07.py
+
+      - name: Assert reader boundaries
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          chapter="Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md"
+          ! grep -qi 'GPT-5.6 Sol' "$chapter"
+          ! grep -qi 'Prochaine action' "$chapter"
+          ! grep -qi 'PDF' "$chapter"
+
+      - name: Validate structure metadata links and duplicates
+        if: steps.pending.outputs.run == 'true'
+        run: python tools/validate_chapters.py
+
+      - name: Validate structured explanations
+        if: steps.pending.outputs.run == 'true'
+        run: python tools/check_code_explanation_structure.py
+
+      - name: Audit usage markers
+        if: steps.pending.outputs.run == 'true'
+        run: python tools/check_context_markers.py --check
+
+      - name: Audit semantic marker consistency
+        if: steps.pending.outputs.run == 'true'
+        run: python tools/audit_contextes_semantiques.py --check
+
+      - name: Measure chapter context coverage
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          path = Path("Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md")
+          lines = path.read_text(encoding="utf-8").splitlines()
+          marker = re.compile(r"^> \*\*\[(PS|CMD|WSL|DCT|DCK|VSC|WEB|APP|SORTIE|LECTURE)\]")
+          inside = False
+          openings = 0
+          errors = []
+          for index, line in enumerate(lines):
+              match = re.match(r"^```([^`]*)$", line.strip())
+              if not match:
+                  continue
+              if not inside:
+                  openings += 1
+                  cursor = index - 1
+                  while cursor >= 0 and not lines[cursor].strip():
+                      cursor -= 1
+                  if cursor < 0 or not marker.match(lines[cursor].strip()):
+                      errors.append(index + 1)
+                  inside = True
+              else:
+                  inside = False
+          if inside:
+              raise SystemExit("Bloc Markdown non fermé")
+          if openings != 54:
+              raise SystemExit(f"Nombre de blocs inattendu: {openings}")
+          if errors:
+              raise SystemExit(f"Blocs sans repère: {errors}")
+          print({"chapter": path.as_posix(), "controlled_blocks": openings, "errors": 0})
+          PY
+
+      - name: Assert lightweight validation produced no PDF
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          if find . -type f -iname '*.pdf' -newer .qa/finalize-livre-iv-ch07.py -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant la validation légère."
+            exit 1
+          fi
+
+      - name: Upload QA evidence
+        if: steps.pending.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch07-validation-without-pdf
+          path: |
+            Livre-IV/QA/AUDIT-CHAPITRE-07.md
+            Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-07.yaml
+          if-no-files-found: error
+
+      - name: Commit finalized chapter lot
+        if: steps.pending.outputs.run == 'true'
+        shell: bash
+        run: |
+          rm .qa/finalize-livre-iv-ch07.py
+          rm .qa/ch07-chapter.part01.b64
+          rm .qa/ch07-chapter.part02.b64
+          rm .qa/ch07-chapter.part03.b64
+          rm .qa/ch07-chapter.part04.b64
+          rm .qa/ch07-chapter.part05.b64
+          rm .qa/ch07-audit.zlib.b64
+          rm .qa/ch07-proof.yaml
+          rm .github/workflows/livre-iv-ch07-finalize.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m "docs(livre-iv): créer le chapitre 7 sur le profilage GPU"
+          git push origin HEAD:docs/livre-iv-chapitre-07-profilage-gpu
