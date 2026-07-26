@@ -1,22 +1,22 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH09
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
-validated-base-commit: pending
-validated-head-commit: pending
+validated-base-commit: 3712a7ee3239e92d55faed6b7a1caf3df53e2e04
+validated-head-commit: ece451989124ad192438a87bcf84bf1174cf0fe1
 chapter:
   id: DOC-L4-CH09
   path: Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2006
   chapter-headings: 65
   chapter-code-and-data-blocks: 54
-  significant-code-and-data-blocks: pending
+  significant-code-and-data-blocks: 50
   code-explanation-markers: 54
   structured-non-error-code-explanations: 34
   detailed-error-cases: 10
@@ -45,22 +45,26 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: d08db60dc4e39297a86f91b29fa4cdddd8033b005295ad46144a2230deb50c5b
-  audit-sha256: a044c3fdc0b08c83a866b27dbbac7a25fd84d96412aa29df9d2d4aa57a192c70
+  audit-sha256: d60463804e7230fa467076e9a25969c84b09296bc6e238c4340444a17a7528d1
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 9 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: 30192566574
+    conclusion: success
+    artifact:
+      id: 8629063256
+      name: livre-iv-ch09-validation-without-pdf
+      digest: sha256:68347779d0530e6ecf479cde5c559d9ad1c88d506148662189521489ad91287f
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30192740071
+    conclusion: success
   artifact:
-    id: pending
+    id: 8629114450
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:f749f19f8f681fd3eda28d233a7408ec3d47dd4ef59d4648f4817c8fc5bdcc3e
 reservations:
   - Loading manager not materialized.
   - Resource catalog and streaming profiles not qualified.
@@ -77,5 +81,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: ece451989124ad192438a87bcf84bf1174cf0fe1
+  conclusion: success
