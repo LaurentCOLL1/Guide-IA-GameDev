@@ -116,4 +116,4 @@ Les modes de cache, les APIs thread-safe et les tâches personnalisées sont pr�
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot ont réussi et la preuve QA peut être fermée avec les réserves de matérialisation déclarées.
