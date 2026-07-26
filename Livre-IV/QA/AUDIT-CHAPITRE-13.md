@@ -71,7 +71,7 @@ Les livrables sont préparés comme contrats : configuration serveur, scripts de
 - lignes : 1839 ;
 - titres : 67 ;
 - blocs de code ou données : 66 ;
-- blocs significatifs provisoires : 50 ;
+- blocs significatifs : 50 ;
 - marqueurs d’explication : 66 ;
 - explications structurées hors diagnostics : 46 ;
 - diagnostics détaillés : 10 ;
@@ -136,4 +136,4 @@ La supervision Linux active le flush stdout adapté à journald, utilise une ide
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt doivent confirmer structure, repères, explications, frontières et absence de sortie documentaire intermédiaire avant fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt ont confirmé la structure, les repères, les explications, les frontières et l’absence de sortie documentaire intermédiaire ; la preuve QA peut être fermée avec les réserves déclarées.
