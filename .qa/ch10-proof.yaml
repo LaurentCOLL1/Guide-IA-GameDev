@@ -1,0 +1,83 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH10
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH10
+  path: Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 1951
+  chapter-headings: 62
+  chapter-code-and-data-blocks: 54
+  significant-code-and-data-blocks: pending
+  code-explanation-markers: 54
+  structured-non-error-code-explanations: 34
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  profiler-guided-optimization-documented: true
+  update-frequency-and-time-slicing-documented: true
+  visibility-distance-and-logical-lod-documented: true
+  groups-searches-signals-documented: true
+  pooling-and-reset-documented: true
+  scene-decomposition-and-server-gate-documented: true
+  functional-and-readability-gates-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 340d10d8b03495c43272c6242ce85d8c3fad9c28cd9f35c815e9c50d03f59528
+  audit-sha256: eb6b4d5a278b4da105746e4a8d90d8dd4a3943c01f06253fcfc720dad4f4319c
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 10 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Benchmark scene not materialized.
+  - Environment manifest not completed.
+  - No profiler capture produced.
+  - No baseline or candidate series produced.
+  - Frequencies quotas and thresholds not qualified.
+  - Logical LOD not executed.
+  - Gameplay pool not integrated or tested.
+  - Server API migration not executed.
+  - Background preparation not executed.
+  - Before-after campaign not executed.
+  - Functional regression suite not executed.
+  - Latency and determinism validation not executed.
+  - Readability and testability review not executed.
+  - Instrumentation overhead not measured.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending
