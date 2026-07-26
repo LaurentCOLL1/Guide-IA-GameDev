@@ -1,0 +1,81 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH09
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: pending
+validation-date: '2026-07-26'
+validated-base-commit: pending
+validated-head-commit: pending
+chapter:
+  id: DOC-L4-CH09
+  path: Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: pending
+  warnings: pending
+  chapter-lines: 2006
+  chapter-headings: 65
+  chapter-code-and-data-blocks: 54
+  significant-code-and-data-blocks: pending
+  code-explanation-markers: 54
+  structured-non-error-code-explanations: 34
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  background-loading-documented: true
+  loading-staging-activation-distinguished: true
+  priorities-cancellation-retries-documented: true
+  zones-chunks-hysteresis-documented: true
+  memory-admission-and-eviction-documented: true
+  slow-storage-and-traversal-tests-documented: true
+  functional-and-accessibility-gates-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: d08db60dc4e39297a86f91b29fa4cdddd8033b005295ad46144a2230deb50c5b
+  audit-sha256: a044c3fdc0b08c83a866b27dbbac7a25fd84d96412aa29df9d2d4aa57a192c70
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 9 Finalizer
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: pending
+    run-id: pending
+    conclusion: pending
+  artifact:
+    id: pending
+    name: chapter-validation-without-pdf
+    digest: pending
+reservations:
+  - Loading manager not materialized.
+  - Resource catalog and streaming profiles not qualified.
+  - Transition scenes not integrated.
+  - Storage manifest not completed.
+  - No cold or warm loading series produced.
+  - Slow-storage test not executed.
+  - Traversal test not executed.
+  - Eviction policy not executed.
+  - Before-after campaign not executed.
+  - Functional regression suite not executed.
+  - Accessibility review not executed.
+  - Instrumentation overhead not measured.
+  - Collection-wide licence not defined.
+  - Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending
+  conclusion: pending

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.71.0"
+version: "3.72.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T08:02:49+02:00"
+last-updated: "2026-07-26T08:52:20+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2038,6 +2038,14 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas retirer un nœud de l’arbre en supposant qu’il est libéré ;
 - ne pas dupliquer profondément une ressource sans besoin de mutabilité et provenance déclarés ;
 - ne pas accepter une baisse de pic si le plateau, les orphelins, la qualité ou les tests se dégradent ;
+- ne pas appeler `load_threaded_get()` sur le chemin critique avant que le statut soit `THREAD_LOAD_LOADED` ;
+- ne pas interroger un chargement fileté dans une boucle bloquante sans rendre la main entre les frames ;
+- ne pas soumettre une file concurrente sans limite, admission, priorité ni vieillissement ;
+- ne pas afficher une progression ou une estimation restante qui n’est pas soutenue par des phases et poids mesurables ;
+- ne pas présenter une annulation logique comme preuve d’arrêt du travail interne déjà lancé ;
+- ne pas manipuler l’arbre de scène actif depuis un thread arbitraire ;
+- ne pas évincer une zone depuis la distance seule sans propriétaires, échéances et coût de rechargement ;
+- ne pas comparer des chargements dont build, stockage, état de cache ou profil diffèrent sans qualification ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2050,7 +2058,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 8 chapitres sur 22 ;
+- progression du Livre IV : 9 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2059,6 +2067,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 6 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 7 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 8 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 9 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2128,20 +2137,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 8 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, captures, profils, budgets qualifiés, tests de longue durée, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 9 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, tests de stockage et parcours prolongés, budgets qualifiés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md
+Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 9 du Livre IV couvrira chargement en arrière-plan, transitions, préchargement, éviction, zones, chunks, priorités, progression fiable, erreurs et annulation. Il consommera les budgets et échéances mémoire du chapitre 8 sans recopier son diagnostic de fuite.
+Le chapitre 10 du Livre IV réduira les fréquences de mise à jour, appliquera pooling, activation par distance et LOD logique, découpera scènes et systèmes, puis optimisera signaux, recherches et allocations. Il restera guidé par le profiler et préservera lisibilité, testabilité et contrats fonctionnels.
 
 ## 27. Journal
+
+### 2026-07-26T08:52:20+02:00 — version 3.72.0
+
+- création du chapitre 9 du Livre IV — Chargements, streaming et gestion des ressources ;
+- contrats de transition, budgets, manifeste de stockage et états du gestionnaire documentés ;
+- chargement fileté, polling non bloquant, progression pondérée et activation différée encadrés ;
+- priorités, vieillissement, admission, coalescence, annulation logique, reprises et replis documentés ;
+- dépendances, modes de cache, scènes de transition et racine persistante distingués ;
+- zones, chunks, hystérésis, prédiction, mémoire d’admission et éviction bornée structurés ;
+- tests de stockage lent, parcours prolongé, rapport avant/après et rollback préparés ;
+- progression accessible, erreurs honnêtes, sauvegarde et transfert d’état encadrés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu, niveau Élevée ;
+- aucun gestionnaire runtime, profil qualifié, test de stockage, parcours prolongé ou gain revendiqué.
 
 ### 2026-07-26T08:02:49+02:00 — version 3.71.0
 
