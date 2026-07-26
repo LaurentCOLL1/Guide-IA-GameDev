@@ -1,0 +1,47 @@
+name: Livre IV Chapter 14 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.tmp/ch14/**'
+      - '.github/workflows/ch14-finalizer.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ch14-finalizer
+  cancel-in-progress: true
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: docs/livre-iv-chapitre-14-devops-ci
+          fetch-depth: 0
+
+      - name: Restore and verify finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode .tmp/ch14/finalizer.py.gz.b64 > /tmp/finalize_ch14.py.gz
+          echo '3226e52e7ea6896e24d1fdcbd7de690888eb26cfa714ec50414767b92a8e31c5  /tmp/finalize_ch14.py.gz' | sha256sum --check --strict
+          gzip --decompress --stdout /tmp/finalize_ch14.py.gz > /tmp/finalize_ch14.py
+          python -m py_compile /tmp/finalize_ch14.py
+
+      - name: Install lightweight dependency
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --quiet pyyaml
+
+      - name: Finalize, validate and commit permanent lot
+        shell: bash
+        env:
+          FINALIZER_BRANCH: docs/livre-iv-chapitre-14-devops-ci
+        run: python /tmp/finalize_ch14.py
