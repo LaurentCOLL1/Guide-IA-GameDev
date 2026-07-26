@@ -1,10 +1,10 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH06
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: e839ac519a0b17bbf5b18f8ea4fe0be2cc372327
-validated-head-commit: 0f130d316d00ae0da1aafcf632dd6a53cb7b3e90
+validated-head-commit: 0ee3c63efbbbe04bdc34773b12553fbe7ddfef5e
 chapter:
   id: DOC-L4-CH06
   path: Livre-IV/CHAPITRE-06-Profilage-CPU.md
@@ -55,13 +55,13 @@ ci:
       digest: sha256:0937ef1848759c992e5a49a3fd3635f2ed79bcfd423b2e656364803c7dd4cb88
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30182646284
+    conclusion: success
   artifact:
-    id: pending
+    id: 8626032612
     name: chapter-validation-without-pdf
-    digest: pending
+    digest: sha256:cd4a6ce96d877968df5391dbb4b3ffb21dedd7ec091cec8bb0eeb7aeb70c416e
 reservations:
   - Benchmark scenes and fixtures not materialized.
   - Environment manifest not completed.
@@ -74,5 +74,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: 0ee3c63efbbbe04bdc34773b12553fbe7ddfef5e
+  conclusion: success
