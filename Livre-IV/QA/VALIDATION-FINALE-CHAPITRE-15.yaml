@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 2b2f7be24b8cd0571629c36ed4bda363bfdc5216
-validated-head-commit: pending-after-finalizer
+validated-head-commit: 164342da306ccf7842465ebcd1c1151e9e78694c
 chapter:
   id: DOC-L4-CH15
   path: Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
@@ -90,5 +90,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-after-finalizer
-  conclusion: pending
+  commit: 164342da306ccf7842465ebcd1c1151e9e78694c
+  conclusion: success
