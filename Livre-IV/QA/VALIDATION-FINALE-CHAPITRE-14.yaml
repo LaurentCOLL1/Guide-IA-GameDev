@@ -45,7 +45,7 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: def7cc3949a014ebe25a61ee42f4586115eb3e11bbfc04436841ad2b1ce4002a
+  chapter-sha256: pending-after-semantic-fix
   audit-sha256: 6d0247164be4ad054ed728b055f09e8cbe1747390489ef6fa8d4fc744a45107a
 ci:
   chapter-finalizer:
@@ -56,7 +56,7 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-after-pr
+    run-id: pending-after-semantic-fix
     conclusion: pending
 reservations:
 - Project Asteria CI scripts were not materialized.
@@ -78,5 +78,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: cd8cdad1dc655c367c132d5e1b6f7e035d588c26
-  conclusion: success
+  commit: pending-after-semantic-fix
+  conclusion: pending
