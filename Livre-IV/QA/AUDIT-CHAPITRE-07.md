@@ -115,4 +115,4 @@ La RX 6750 XT 12 Go, RDNA 2, Windows 11 et Forward+ constituent le profil de ré
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot doivent réussir avant la fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du lot ont réussi et la preuve QA peut être fermée avec les réserves de matérialisation déclarées.
