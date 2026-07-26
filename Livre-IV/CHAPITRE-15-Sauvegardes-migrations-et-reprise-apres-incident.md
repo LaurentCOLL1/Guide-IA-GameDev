@@ -535,6 +535,7 @@ from build_backup_manifest import sha256_file
 
 def verify_generation(root: Path, manifest_path: Path) -> None:
     root = root.resolve()
+    manifest_path = manifest_path.resolve(strict=True)
     data = json.loads(manifest_path.read_text(encoding="utf-8"))
     if data.get("schema") != "asteria-backup-manifest":
         raise ValueError("schéma de manifeste inconnu")
@@ -563,7 +564,17 @@ def verify_generation(root: Path, manifest_path: Path) -> None:
         if path.is_file() and path != manifest_path
     }
     if actual != expected:
-        raise ValueError("ensemble de fichiers différent")
+    raise ValueError("ensemble de fichiers différent")
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("root", type=Path)
+    parser.add_argument("manifest", type=Path)
+    args = parser.parse_args()
+    verify_generation(args.root, args.manifest)
 ```
 
 <!-- qa:code-explanation -->
@@ -575,6 +586,7 @@ def verify_generation(root: Path, manifest_path: Path) -> None:
 - **Conversions :** `int(entry["size"])` normalise la taille déclarée avant comparaison.
 - **Ensembles :** l’égalité finale détecte aussi un fichier supplémentaire non déclaré.
 - **Valeur de retour :** la fonction retourne implicitement `None` sur succès et lève `ValueError` au premier invariant violé.
+- **CLI :** les deux arguments positionnels sont convertis en `Path`, puis transmis à la même fonction que l’appel automatisé.
 
 ## 15. Sauvegarder le dépôt source
 

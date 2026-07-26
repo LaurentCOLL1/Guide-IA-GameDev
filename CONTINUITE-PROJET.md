@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.77.0"
+version: "3.78.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T21:42:29+02:00"
+last-updated: "2026-07-27T01:20:18+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1564,6 +1564,25 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - une reconstruction depuis un clone neuf est requise avant toute revendication runtime ;
 - aucun workflow, build, test runtime, package, attestation, secret, runner ou déploiement n’est revendiqué avant matérialisation.
 
+### 11.43 Sauvegardes, migrations et reprise après incident
+
+- les actifs critiques possèdent identité stable, autorité, propriétaire, sensibilité, dépendances et ordre de restauration ;
+- sauvegarde, réplication, snapshot, synchronisation, export logique et archive restent des mécanismes distincts ;
+- les caches, index et données dérivées restent reconstructibles et ne deviennent pas autoritaires ;
+- RPO et RTO sont des objectifs associés à un service minimal observable, jamais des garanties sans exercice ;
+- chaque génération utilise un staging propre, une identité immuable, un manifeste fermé, des tailles et des empreintes ;
+- une tentative échouée ou quarantinée ne remplace jamais la dernière génération vérifiée ;
+- copies locales, hors site et immuables utilisent des supports, identités et domaines de panne distincts ;
+- le dépôt source, les objets externes, les builds retenus, les bases, services, secrets et données joueurs sont inventoriés séparément ;
+- SQLite exige une fermeture qualifiée ou un mécanisme de backup cohérent ; PostgreSQL est restauré dans une base neuve ;
+- les volumes de conteneur ne sont pas assimilés aux images et suivent la cohérence de leur moteur de données ;
+- la récupération de secrets, leur révocation et leur rotation restent séparées des archives de données ;
+- toute restauration commence dans un environnement isolé, suit un graphe de dépendances et exécute des contrôles structurels et métier ;
+- les migrations sont immuables, versionnées, préparées sur des candidats et validées avant remplacement ;
+- rollback applicatif et restauration de données sont gouvernés par une matrice de compatibilité ;
+- exercices, mesures RPO/RTO, écarts, actions correctives et retests conservent une preuve append-only ;
+- aucun job, stockage, clé, bundle, dump, sauvegarde, restauration, migration, mesure ou exercice runtime n’est revendiqué avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -2127,6 +2146,18 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas afficher l’environnement complet pour diagnostiquer un secret manquant ;
 - ne pas déplacer un tag de release déjà publié ;
 - ne pas revendiquer une reconstruction reproductible sans clone neuf, outils qualifiés et manifestes comparables ;
+- ne pas confondre synchronisation, réplication ou snapshot avec une sauvegarde indépendante ;
+- ne pas sauvegarder uniquement des caches ou index dérivés ;
+- ne pas écraser la dernière génération valide avec une tentative incomplète ;
+- ne pas présenter un objectif RPO/RTO comme un résultat mesuré ;
+- ne pas copier une base SQLite active sans mécanisme cohérent ;
+- ne pas restaurer un dump ou une archive directement en production ;
+- ne pas modifier une migration déjà appliquée ;
+- ne pas revenir à un ancien binaire sans matrice de compatibilité des données ;
+- ne pas conserver l’unique clé de déchiffrement avec l’unique archive ;
+- ne pas déclarer une restauration réussie après un simple test de connexion ;
+- ne pas laisser le compte de production supprimer toutes les générations ;
+- ne pas supprimer une génération avant expiration, contrôle juridique et remplacement vérifié ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2139,7 +2170,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 14 chapitres sur 22 ;
+- progression du Livre IV : 15 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2154,6 +2185,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 13 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 15 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2223,20 +2255,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 14 du Livre IV sont terminés au niveau documentaire et statique. Les workflows, scripts CI, matrices de plateformes, runners spécialisés, permissions, secrets, échanges OIDC, artefacts, attestations, promotions et reconstructions depuis un clone neuf restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 15 du Livre IV sont terminés au niveau documentaire et statique. Les inventaires réels, objectifs mesurés, jobs de sauvegarde, stockages séparés ou immuables, bundles, dumps, clés, migrations, restaurations isolées et exercices catastrophe restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
+Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 15 du Livre IV inventoriera les données critiques, définira RPO, RTO et rétention, organisera les sauvegardes des sources, builds, bases et services, puis préparera restaurations, migrations et scénarios de reprise après catastrophe.
+Le chapitre 16 du Livre IV configurera les presets d’export Godot par plateforme, organisera dépendances, ressources, icônes et signatures, produira les contrats de builds debug, test et release, puis préparera packages, manifestes, checksums et validation sur machine propre.
 
 ## 27. Journal
+
+### 2026-07-27T01:20:18+02:00 — version 3.78.0
+
+- création du chapitre 15 du Livre IV — Sauvegardes, migrations et reprise après incident ;
+- sauvegarde, réplication, snapshot, synchronisation, export logique et archive distingués ;
+- inventaire des actifs, autorités, propriétaires, sensibilités et dépendances préparé ;
+- objectifs RPO/RTO, services minimaux, générations, rétention et budget candidat structurés ;
+- supports, identités, copies hors site ou immuables, manifestes et empreintes encadrés ;
+- dépôt Git, builds retenus, données joueurs, SQLite, PostgreSQL, services et volumes couverts ;
+- secrets, chiffrement, récupération de clés, jobs, métriques et runbooks préparés ;
+- restauration isolée, contrôles structurels et métier, mesures et approbation humaine documentés ;
+- migrations immuables, expand/contract et compatibilité application/données encadrés ;
+- scénarios catastrophe, compromission, rançongiciel, rôles, exercices et écarts préparés ;
+- dix diagnostics conformes et frontières avec les chapitres 8 et 9 du Livre II, puis 13, 14, 16, 20 et 22 maintenues ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 16 — Exports Godot et packaging, niveau Élevée ;
+- aucune génération, sauvegarde, restauration, migration, mesure RPO/RTO, reprise runtime ou PDF du Livre IV revendiqué.
 
 ### 2026-07-26T21:42:29+02:00 — version 3.77.0
 

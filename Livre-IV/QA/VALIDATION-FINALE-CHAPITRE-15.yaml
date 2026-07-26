@@ -13,18 +13,18 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: __CHAPTER_LINES__
-  chapter-headings: __CHAPTER_HEADINGS__
-  chapter-code-and-data-blocks: __CHAPTER_BLOCKS__
-  significant-code-and-data-blocks: __SIGNIFICANT_BLOCKS__
-  code-explanation-markers: __EXPLANATION_MARKERS__
-  structured-non-error-code-explanations: __STRUCTURED_EXPLANATIONS__
+  chapter-lines: 2045
+  chapter-headings: 77
+  chapter-code-and-data-blocks: 61
+  significant-code-and-data-blocks: 53
+  code-explanation-markers: 61
+  structured-non-error-code-explanations: 41
   detailed-error-cases: 10
   faulty-examples-explained: 10
   corrected-examples-explained: 10
-  duplicate-headings: __DUPLICATE_HEADINGS__
-  duplicate-blocks: __DUPLICATE_BLOCKS__
-  duplicate-paragraphs: __DUPLICATE_PARAGRAPHS__
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
   all-usage-markers-present: true
   reader-export-pipeline-mentions-absent: true
   next-step-absent-from-reader-chapter: true
@@ -50,8 +50,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: pending-after-finalizer
-  audit-sha256: pending-after-finalizer
+  chapter-sha256: 767df4f673629852781321e885efb6fdc0c7a249273bd9fa416e3e572a6da215
+  audit-sha256: 02e18ac4d442aff3ed801e7afb82035f596e9a6efe420cb244495db396d5d2e4
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 15 Finalizer

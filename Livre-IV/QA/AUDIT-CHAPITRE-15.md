@@ -80,18 +80,18 @@ Les livrables sont préparés sous forme de politique, inventaire, scripts de r�
 
 ## 5. Contrôles documentaires
 
-- lignes : __CHAPTER_LINES__ ;
-- titres : __CHAPTER_HEADINGS__ ;
-- blocs de code ou données : __CHAPTER_BLOCKS__ ;
-- blocs significatifs : __SIGNIFICANT_BLOCKS__ ;
-- marqueurs d’explication : __EXPLANATION_MARKERS__ ;
-- explications structurées hors diagnostics : __STRUCTURED_EXPLANATIONS__ ;
+- lignes : 2045 ;
+- titres : 77 ;
+- blocs de code ou données : 61 ;
+- blocs significatifs : 53 ;
+- marqueurs d’explication : 61 ;
+- explications structurées hors diagnostics : 41 ;
 - diagnostics détaillés : 10 ;
 - exemples fautifs expliqués : 10 ;
 - exemples corrigés expliqués : 10 ;
-- titres dupliqués : __DUPLICATE_HEADINGS__ ;
-- blocs significatifs dupliqués : __DUPLICATE_BLOCKS__ ;
-- paragraphes longs dupliqués : __DUPLICATE_PARAGRAPHS__ ;
+- titres dupliqués : 0 ;
+- blocs significatifs dupliqués : 0 ;
+- paragraphes longs dupliqués : 0 ;
 - section Solo/Studio en Markdown ordinaire ;
 - absence de recommandation GPT, de prochaine action et de chaîne d’export du guide dans le texte lecteur.
 
