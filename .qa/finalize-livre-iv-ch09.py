@@ -15,6 +15,11 @@ def decode_file(path: str) -> str:
     return zlib.decompress(base64.b64decode(payload.encode("ascii"))).decode("utf-8")
 
 
+def decode_joined(paths: list[str]) -> str:
+    payload = "".join(Path(path).read_text(encoding="ascii").strip() for path in paths)
+    return zlib.decompress(base64.b64decode(payload.encode("ascii"))).decode("utf-8")
+
+
 def replace_once(text: str, old: str, new: str, label: str) -> str:
     count = text.count(old)
     if count != 1:
@@ -28,16 +33,16 @@ def write(path: str, content: str) -> None:
     target.write_text(content, encoding="utf-8", newline="\n")
 
 
-chapter = "".join(
-    decode_file(path)
-    for path in [
-        ".qa/ch09-chapter.part01.zlib.b64",
-        ".qa/ch09-chapter.part02.zlib.b64",
-        ".qa/ch09-chapter.part03.zlib.b64",
-        ".qa/ch09-chapter.part04.zlib.b64",
-        ".qa/ch09-chapter.part05.zlib.b64",
-    ]
-)
+chapter = "".join([
+    decode_file(".qa/ch09-chapter.part01.zlib.b64"),
+    decode_joined([
+        ".qa/ch09-chapter.part02a.b64",
+        ".qa/ch09-chapter.part02b.b64",
+    ]),
+    decode_file(".qa/ch09-chapter.part03.zlib.b64"),
+    decode_file(".qa/ch09-chapter.part04.zlib.b64"),
+    decode_file(".qa/ch09-chapter.part05.zlib.b64"),
+])
 actual_sha = hashlib.sha256(chapter.encode("utf-8")).hexdigest()
 if actual_sha != CHAPTER_SHA256:
     raise RuntimeError(f"empreinte chapitre invalide: {actual_sha}")
