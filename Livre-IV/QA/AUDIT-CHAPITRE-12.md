@@ -72,7 +72,7 @@ Les livrables sont préparés comme contrats : modèle de réplication, protocol
 - lignes : 2180 ;
 - titres : 67 ;
 - blocs de code ou données : 65 ;
-- blocs significatifs provisoires : 57 ;
+- blocs significatifs : 57 ;
 - marqueurs d’explication : 65 ;
 - explications structurées hors diagnostics : 45 ;
 - diagnostics détaillés : 10 ;
@@ -131,4 +131,4 @@ Il respecte le contrat de `MultiplayerSpawner.spawn_function` : le nœud retourn
 
 ## 9. Conclusion
 
-Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt doivent confirmer structure, repères, explications, frontières et absence de sortie documentaire intermédiaire avant fermeture de la preuve QA.
+Le chapitre satisfait le périmètre du plan maître au niveau documentaire et statique. Les contrôles du dépôt ont confirmé la structure, les repères, les explications, les frontières et l’absence de sortie documentaire intermédiaire ; la preuve QA peut être fermée avec les réserves déclarées.
