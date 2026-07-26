@@ -1,0 +1,94 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH15
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-27'
+validated-base-commit: 2b2f7be24b8cd0571629c36ed4bda363bfdc5216
+validated-head-commit: pending-after-finalizer
+chapter:
+  id: DOC-L4-CH15
+  path: Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: __CHAPTER_LINES__
+  chapter-headings: __CHAPTER_HEADINGS__
+  chapter-code-and-data-blocks: __CHAPTER_BLOCKS__
+  significant-code-and-data-blocks: __SIGNIFICANT_BLOCKS__
+  code-explanation-markers: __EXPLANATION_MARKERS__
+  structured-non-error-code-explanations: __STRUCTURED_EXPLANATIONS__
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: __DUPLICATE_HEADINGS__
+  duplicate-blocks: __DUPLICATE_BLOCKS__
+  duplicate-paragraphs: __DUPLICATE_PARAGRAPHS__
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  backup-replication-snapshot-archive-separated: true
+  critical-data-inventory-documented: true
+  rpo-rto-and-minimum-service-documented: true
+  retention-and-independent-copies-documented: true
+  closed-manifest-and-hashes-documented: true
+  git-build-player-data-coverage-documented: true
+  sqlite-and-postgresql-recovery-documented: true
+  secrets-encryption-and-key-recovery-documented: true
+  isolated-restore-gate-documented: true
+  immutable-migrations-documented: true
+  application-data-compatibility-documented: true
+  disaster-scenarios-and-drills-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: pending-after-finalizer
+  audit-sha256: pending-after-finalizer
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 15 Finalizer
+    execution: chapter-finalizer
+    run-id: pending
+    conclusion: pending
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: pending-after-pr
+    conclusion: pending
+reservations:
+- Critical data inventory was not materialized.
+- Owners criticalities dependencies and minimum services were not approved.
+- RPO and RTO objectives were not measured.
+- Retention schedules were not configured.
+- Independent accounts media locations and failure domains were not qualified.
+- Offsite and immutable storage were not configured.
+- Real generation manifests and hashes were not produced.
+- Git bundles LFS objects submodules and forge settings were not backed up.
+- Retained builds symbols and publication evidence were not archived.
+- Player saves were not copied migrated or restored.
+- SQLite backup and restore were not executed.
+- PostgreSQL dump and restore were not executed.
+- Container volumes and services were not backed up.
+- Secret recovery revocation and rotation were not exercised.
+- Encryption tooling keys and emergency identity were not qualified.
+- Backup jobs destinations metrics and dashboards were not materialized.
+- An isolated restore runbook was not executed.
+- Structural and business restore checks were not executed.
+- Migration registry scripts expand contract and backfill were not materialized.
+- Application and data compatibility was not qualified across versions.
+- Loss compromise and ransomware scenarios were not exercised.
+- Full isolated environment recovery was not executed.
+- Recovery gaps corrective actions and retests were not measured.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending-after-finalizer
+  conclusion: pending
