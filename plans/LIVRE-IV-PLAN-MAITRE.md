@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.10"
+version: "1.0.11"
 lang: "fr-FR"
-last-updated: "2026-07-26T10:13:20+02:00"
+last-updated: "2026-07-26T16:42:00+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 10 chapitres sur 22  
+> **Statut :** en cours — 11 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -280,6 +280,8 @@ Toute optimisation doit rester justifiée par le profiler. Validation par tests 
 **Frontière et validation**
 
 Le chapitre 12 détaille synchronisation et prédiction. Validation par connexion, déconnexion et reprise contrôlées.
+
+**État documentaire au 2026-07-26 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le diagramme réseau, le contrat de session, le prototype de connexion, la matrice de risques et la stratégie Solo/Studio sont préparés sans revendication de serveur, session, reconnexion ou coût runtime.
 
 ## Chapitre 12 — Synchronisation, autorité et prédiction
 
