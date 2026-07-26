@@ -11,4 +11,5 @@ expected = "d42a4b126d44bb60821fa9eb9d4ec30d0f33319ff37a6bc70b149b46a8d7944b"
 actual = hashlib.sha256(source).hexdigest()
 if actual != expected:
     raise SystemExit(f"Finalizer SHA mismatch: {actual}")
+# Le workflow existe déjà sur la branche ; ce push déclenche la finalisation.
 exec(compile(source, str(Path(__file__)), "exec"), {"__name__": "__main__", "__file__": str(Path(__file__))})
