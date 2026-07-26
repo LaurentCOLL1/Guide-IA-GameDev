@@ -1,18 +1,18 @@
 schema-version: 1
 evidence-id: DOC-L4-QA-EVIDENCE-CH11
 validation-authority: chapter-finalizer-and-permanent-workflows
-status: pending
+status: complete
 validation-date: '2026-07-26'
 validated-base-commit: 0e6098bdc4bc31234269747b38e3885194773c25
-validated-head-commit: pending
+validated-head-commit: b695d881efcbb7b33fb4afdd58d0cdbbbc644714
 chapter:
   id: DOC-L4-CH11
   path: Livre-IV/CHAPITRE-11-Architecture-multijoueur.md
   version: 1.0.0
   audit-level: static-review
 results:
-  blocking-errors: pending
-  warnings: pending
+  blocking-errors: 0
+  warnings: 1
   chapter-lines: 2065
   chapter-headings: 64
   chapter-code-and-data-blocks: 59
@@ -53,22 +53,22 @@ integrity:
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 11 Finalizer
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: chapter-finalizer
+    run-id: not-recorded
+    conclusion: success
     artifact:
-      id: pending
+      id: not-recorded
       name: livre-iv-ch11-validation-without-pdf
-      digest: pending
+      digest: not-recorded
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
-    execution: pending
-    run-id: pending
-    conclusion: pending
+    execution: permanent-workflow
+    run-id: 30201228647
+    conclusion: success
     artifact:
-      id: pending
+      id: 8631699732
       name: chapter-validation-without-pdf
-      digest: pending
+      digest: sha256:90a39f9b5b9299dd51ab945edbaa3c524b63e64ebfb2f138fa53e25c6e9abc0f
 reservations:
   - Network diagram not materialized as a project artifact.
   - ENet connection prototype not executed.
@@ -91,5 +91,5 @@ reservations:
   - Collection-wide licence not defined.
   - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending
-  conclusion: pending
+  commit: b695d881efcbb7b33fb4afdd58d0cdbbbc644714
+  conclusion: success
