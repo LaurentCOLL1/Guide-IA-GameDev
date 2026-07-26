@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.73.0"
+version: "3.74.0"
 lang: "fr-FR"
-last-updated: "2026-07-26T10:13:20+02:00"
+last-updated: "2026-07-26T16:42:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2055,6 +2055,15 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas manipuler l’arbre de scène actif depuis un thread arbitraire ;
 - ne pas migrer vers une API serveur avant d’avoir mesuré et épuisé les solutions de plus haut niveau ;
 - ne pas accepter un gain CPU si fonctionnel, latence, déterminisme, mémoire, lisibilité ou testabilité se dégradent ;
+- ne pas utiliser un identifiant de pair comme identité durable, compte ou droit ;
+- ne pas interpréter le retour immédiat de `create_client()` comme une connexion effective ;
+- ne pas accepter comme vérité finale un état calculé par le client ;
+- ne pas retenter sans borne un refus permanent de version, capacité ou admission ;
+- ne pas appliquer une complétion de reconnexion dont la génération est obsolète ;
+- ne pas diffuser un ticket de jonction ou de reprise dans une annonce LAN ;
+- ne pas confondre découverte, invitation, admission et transport de jeu ;
+- ne pas promettre une migration d’hôte sans transfert d’état, époque et prévention du double hôte ;
+- ne pas rendre le chemin Solo dépendant d’un annuaire, relais ou service distant ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2067,7 +2076,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 10 chapitres sur 22 ;
+- progression du Livre IV : 11 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2078,6 +2087,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 8 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 9 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 10 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 11 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2147,20 +2157,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 10 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, seuils qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 11 du Livre IV sont terminés au niveau documentaire et statique. Les métriques, campagnes, registres de risques, portes, anomalies, journaux runtime, benchmarks CPU/GPU, séries mémoire, profils de streaming, optimisations de systèmes, prototypes multijoueurs, tests de reprise, coûts qualifiés, tests de stockage, parcours prolongés, revues spécialisées, playtests et décisions réelles restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-11-Architecture-multijoueur.md
+Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 11 du Livre IV comparera client-serveur, pair-à-pair et modèles hybrides, puis structurera sessions, lobby, découverte, reconnexion, autorité réseau, protocoles, versions, coûts et risques. Le chapitre 12 conservera la synchronisation, l’autorité détaillée et la prédiction.
+Le chapitre 12 du Livre IV définira la réplication des états et événements, l’autorité détaillée, l’interpolation, l’extrapolation, la prédiction client, le rollback, les budgets de bande passante et les diagnostics de désynchronisation. Le chapitre 13 conservera les serveurs dédiés et la sécurité réseau.
 
 ## 27. Journal
+
+### 2026-07-26T16:42:00+02:00 — version 3.74.0
+
+- création du chapitre 11 du Livre IV — Architecture multijoueur ;
+- client-serveur, pair-à-pair, hybride, serveur d’écoute, serveur dédié et relais comparés ;
+- client-serveur autoritaire retenu comme défaut documenté de `Project Asteria` ;
+- identité durable, membre de session, pair, génération et ticket distingués ;
+- contrats de session, lobby, protocole, capacités et compatibilité structurés ;
+- initialisation ENet, signaux de cycle de vie, fermeture et chemin hors ligne documentés ;
+- découverte, invitation, admission et transport de jeu séparés ;
+- reconnexion par nouveau pair, ticket opaque, rotation, génération et backoff encadrée ;
+- migration d’hôte maintenue fermée jusqu’à preuve contre le double hôte ;
+- prototype, journaux, catalogue de tests, matrice de risques, coûts, ADR et rollback préparés ;
+- modes Solo/Studio et dix diagnostics conformes documentés ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 12 — Synchronisation, autorité et prédiction, niveau Élevée ;
+- aucune session, reconnexion, migration d’hôte, qualification NAT, mesure de coût ou disponibilité runtime revendiquée.
 
 ### 2026-07-26T10:13:20+02:00 — version 3.73.0
 

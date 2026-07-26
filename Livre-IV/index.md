@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.11.0"
-last-updated: "2026-07-26T10:13:20+02:00"
+version: "0.12.0"
+last-updated: "2026-07-26T16:42:00+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -22,7 +22,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 8. [Optimisation RAM, VRAM et allocations](CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md) — version `1.0.0`, niveau `static-review` ;
 9. [Chargements, streaming et gestion des ressources](CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md) — version `1.0.0`, niveau `static-review` ;
 10. [Optimisation des scènes, scripts et systèmes de jeu](CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md) — version `1.0.0`, niveau `static-review` ;
-11. Architecture multijoueur ;
+11. [Architecture multijoueur](CHAPITRE-11-Architecture-multijoueur.md) — version `1.0.0`, niveau `static-review` ;
 12. Synchronisation, autorité et prédiction ;
 13. Serveurs dédiés et sécurité réseau ;
 14. DevOps et intégration continue ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **10 sur 22** ;
-- chapitre courant terminé : **chapitre 10 — Optimisation des scènes, scripts et systèmes de jeu** ;
-- prochaine entrée du plan maître : **chapitre 11 — Architecture multijoueur** ;
+- chapitres rédigés, repérés et audités : **11 sur 22** ;
+- chapitre courant terminé : **chapitre 11 — Architecture multijoueur** ;
+- prochaine entrée du plan maître : **chapitre 12 — Synchronisation, autorité et prédiction** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 10 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 11 sont terminés au niveau documentaire et statique, sans revendication runtime.
