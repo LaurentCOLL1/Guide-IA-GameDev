@@ -82,5 +82,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 3637e7ae27d916a0ec5fcaa8d607676c7286423a
+  commit: 6f55b1d0d08cbaeef7ba4aec2660c1f2fc1899d2
   conclusion: success
