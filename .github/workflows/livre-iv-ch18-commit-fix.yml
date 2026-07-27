@@ -1,0 +1,61 @@
+name: Livre IV Chapter 18 Commit Fix
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch18.start
+      - .github/workflows/livre-iv-ch18-commit-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-and-commit:
+    if: github.head_ref == 'docs/livre-iv-chapitre-18-accessibilite'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-18-accessibilite
+          fetch-depth: 0
+
+      - name: Reconstruct finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+          import gzip
+
+          root = Path('tools/temporary')
+          encoded = ''.join(
+              path.read_text(encoding='utf-8').strip()
+              for path in sorted(root.glob('ch18.finalizer.*.b64'))
+          )
+          encoded += '=' * (-len(encoded) % 4)
+          source = gzip.decompress(base64.b64decode(encoded))
+          (root / 'finalize_l4_ch18.py').write_bytes(source)
+          PY
+
+      - name: Finalize chapter lot
+        run: python tools/temporary/finalize_l4_ch18.py
+
+      - name: Commit clean permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          expected='.github/workflows/livre-iv-ch18-commit-fix.yml .github/workflows/livre-iv-ch18-finalizer.yml CONTINUITE-PROJET.md Livre-IV/CHAPITRE-18-Accessibilite.md Livre-IV/QA/AUDIT-CHAPITRE-18.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-18.yaml Livre-IV/index.md ROADMAP.md contents.txt plans/LIVRE-IV-PLAN-MAITRE.md tools/temporary/ch18.audit.001.b64 tools/temporary/ch18.chapter.001.b64 tools/temporary/ch18.chapter.002.b64 tools/temporary/ch18.chapter.003.b64 tools/temporary/ch18.chapter.004.b64 tools/temporary/ch18.chapter.005.b64 tools/temporary/ch18.chapter.006.b64 tools/temporary/ch18.chapter.007.b64 tools/temporary/ch18.finalizer.001.b64 tools/temporary/ch18.finalizer.002.b64 tools/temporary/ch18.proof.001.b64 tools/temporary/ch18.start '
+          actual="$(git diff --cached --name-only | sort | tr '\n' ' ')"
+          printf 'expected=%s\nactual=%s\n' "$expected" "$actual"
+          test "$actual" = "$expected"
+          git commit -m "docs(livre-iv): finaliser le chapitre 18 sur l’accessibilité"
+          git push origin HEAD:docs/livre-iv-chapitre-18-accessibilite
