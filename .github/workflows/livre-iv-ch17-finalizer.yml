@@ -59,18 +59,28 @@ jobs:
           path.write_text(encoded, encoding='utf-8')
           PY
 
-      - name: Repair temporary Base64 padding
+      - name: Repair temporary finalizer
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           path = Path('tools/temporary/finalize_l4_ch17.py')
           text = path.read_text(encoding='utf-8')
-          old = 'return gzip.decompress(base64.b64decode(path.read_text(encoding="utf-8"))).decode("utf-8")'
-          new = 'value = path.read_text(encoding="utf-8").strip()\n    value += "=" * (-len(value) % 4)\n    return gzip.decompress(base64.b64decode(value)).decode("utf-8")'
-          if text.count(old) != 1:
+
+          old_decode = 'return gzip.decompress(base64.b64decode(path.read_text(encoding="utf-8"))).decode("utf-8")'
+          new_decode = 'value = path.read_text(encoding="utf-8").strip()\n    value += "=" * (-len(value) % 4)\n    return gzip.decompress(base64.b64decode(value)).decode("utf-8")'
+          if text.count(old_decode) != 1:
               raise SystemExit('decode helper pattern not found exactly once')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          text = text.replace(old_decode, new_decode, 1)
+
+          old_current = 'text = replace_once(text, "**chapitre 16 — Exports Godot et packaging**", "**chapitre 17 — Publication et distribution**", "index current")'
+          new_current = 'text = replace_once(text, "- chapitre courant terminé : **chapitre 16 — Exports Godot et packaging** ;", "- chapitre courant terminé : **chapitre 17 — Publication et distribution** ;", "index current")'
+          old_next = 'text = replace_once(text, "**chapitre 17 — Publication et distribution** ;", "**chapitre 18 — Accessibilité** ;", "index next")'
+          new_next = 'text = replace_once(text, "- prochaine entrée du plan maître : **chapitre 17 — Publication et distribution** ;", "- prochaine entrée du plan maître : **chapitre 18 — Accessibilité** ;", "index next")'
+          if text.count(old_current) != 1 or text.count(old_next) != 1:
+              raise SystemExit('index replacement patterns not found exactly once')
+          text = text.replace(old_current, new_current, 1).replace(old_next, new_next, 1)
+          path.write_text(text, encoding='utf-8')
           PY
 
       - name: Finalize chapter lot
