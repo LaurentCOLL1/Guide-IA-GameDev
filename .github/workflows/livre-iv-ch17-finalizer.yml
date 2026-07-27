@@ -1,0 +1,33 @@
+name: Livre IV Chapter 17 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-17-publication-distribution
+    paths:
+      - tools/temporary/ch17.start
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-17-publication-distribution
+          fetch-depth: 0
+
+      - name: Finalize chapter lot
+        run: python tools/temporary/finalize_l4_ch17.py
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(livre-iv): finaliser le chapitre 17 sur la publication"
+          git push origin HEAD:docs/livre-iv-chapitre-17-publication-distribution
