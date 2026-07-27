@@ -1,0 +1,93 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH16
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-27'
+validated-base-commit: 4649385c3c0a213158b192d00275e0a6a636aee9
+validated-head-commit: pending-final-control
+chapter:
+  id: DOC-L4-CH16
+  path: Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2004
+  chapter-headings: 73
+  chapter-code-and-data-blocks: 60
+  significant-code-and-data-blocks: 56
+  code-explanation-markers: 60
+  structured-non-error-code-explanations: 40
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  export-package-publication-separated: true
+  templates-and-presets-documented: true
+  credentials-separated-from-versioned-config: true
+  debug-test-release-contracts-documented: true
+  resource-inclusion-exclusion-documented: true
+  native-dependencies-documented: true
+  platform-specific-requirements-documented: true
+  signing-and-notarization-separated: true
+  staging-manifest-and-checksums-documented: true
+  clean-machine-gate-documented: true
+  same-bytes-promotion-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: __CHAPTER_SHA256__
+  audit-sha256: __AUDIT_SHA256__
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 16 Finalizer
+    execution: chapter-finalizer
+    run-id: __RUN_ID__
+    conclusion: pending-runtime-confirmation
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: pending-final-control
+    conclusion: pending
+reservations:
+- Export presets for Project Asteria were not materialized.
+- Official Godot export templates were not installed or qualified.
+- Godot editor and export template hashes were not produced.
+- The real target and architecture matrix was not approved.
+- Product identifiers bundle IDs package names and version codes were not reserved.
+- Export credentials and protected injection mechanisms were not configured.
+- Real resource include and exclude policies were not applied.
+- Secret and private-file scanning was not executed.
+- GDExtension libraries and native dependencies were not qualified.
+- Platform icons splash assets and catalogs were not produced.
+- Windows export and code signing were not executed.
+- Linux export and distribution compatibility were not executed.
+- macOS export signing notarization and Gatekeeper checks were not executed.
+- Android JDK SDK Gradle keystore APK and AAB were not qualified or produced.
+- iOS host Xcode team provisioning export archive and device install were not qualified.
+- Web export browser matrix secure context and threaded headers were not executed.
+- Canonical export and packaging scripts were not materialized.
+- Build container image digest and mounts were not qualified.
+- Real staging package manifests checksums and archives were not produced.
+- Signing certificates keystores and recovery identities were not configured.
+- No final signed or notarized package was produced.
+- No clean-machine install launch save reload or removal campaign was executed.
+- Binary identity and package reproducibility were not measured.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending-final-control
+  conclusion: pending
