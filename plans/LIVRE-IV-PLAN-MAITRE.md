@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.17"
+version: "1.0.18"
 lang: "fr-FR"
-last-updated: "2026-07-27T09:40:10+02:00"
+last-updated: "2026-07-27T13:24:17+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 17 chapitres sur 22  
+> **Statut :** en cours — 18 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -448,6 +448,8 @@ Le marketing approfondi reste hors périmètre principal. Validation par dry-run
 **Frontière et validation**
 
 L’accessibilité visuelle des assets est introduite au Livre III. Ici la portée est produit complet. Validation par parcours représentatifs.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. La matrice d’accessibilité, les options, profils, parcours représentatifs, scénarios, rapports, limites connues et déclaration publique sont préparés sans revendiquer d’implémentation, de session utilisateur, de revue spécialisée, de certification, de conformité globale ou de publication réelle.
 
 ## Chapitre 19 — Localisation et internationalisation
 
