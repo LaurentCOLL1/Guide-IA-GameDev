@@ -25,9 +25,29 @@ jobs:
           fetch-depth: 0
 
       - name: Finalize chapter lot
-        run: python tools/temporary/finalize_l4_ch17.py
+        id: finalize
+        shell: bash
+        run: |
+          set +e
+          python tools/temporary/finalize_l4_ch17.py > tools/temporary/ch17-finalizer.log 2>&1
+          code=$?
+          cat tools/temporary/ch17-finalizer.log
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload finalizer log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-17-finalizer-log
+          path: tools/temporary/ch17-finalizer.log
+
+      - name: Assert finalizer success
+        if: steps.finalize.outputs.exit_code != '0'
+        run: exit 1
 
       - name: Commit permanent chapter lot
+        if: steps.finalize.outputs.exit_code == '0'
         shell: bash
         run: |
           set -euo pipefail
