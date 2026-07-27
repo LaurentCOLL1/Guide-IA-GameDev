@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 1e4fdc0519e79a17c5bcc2e8004b5f5e42430d23
-validated-head-commit: pending-final-control
+validated-head-commit: 233b3b0b5817d758d839e114b913374c150266b7
 chapter:
   id: DOC-L4-CH18
   path: Livre-IV/CHAPITRE-18-Accessibilite.md
@@ -79,5 +79,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-final-control
-  conclusion: pending
+  commit: 233b3b0b5817d758d839e114b913374c150266b7
+  conclusion: success
