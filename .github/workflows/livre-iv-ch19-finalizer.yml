@@ -24,13 +24,36 @@ jobs:
           fetch-depth: 0
 
       - name: Materialize and audit permanent lot
+        id: materialize
         shell: bash
         run: |
-          set -euo pipefail
+          set +e
           cat tools/temporary/ch19.finalizer.*.b64 | tr -d '\n' | base64 --decode | gzip --decompress > /tmp/finalize_l4_ch19.py
-          python /tmp/finalize_l4_ch19.py
+          decode_code=$?
+          if [ "$decode_code" -eq 0 ]; then
+            python /tmp/finalize_l4_ch19.py > /tmp/ch19-finalizer.log 2>&1
+            code=$?
+          else
+            code=$decode_code
+            echo "échec de décodage du finaliseur: $decode_code" > /tmp/ch19-finalizer.log
+          fi
+          cat /tmp/ch19-finalizer.log
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload finalizer diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-19-finalizer-diagnostic
+          path: /tmp/ch19-finalizer.log
+
+      - name: Assert materialization
+        if: steps.materialize.outputs.exit_code != '0'
+        run: exit 1
 
       - name: Commit permanent chapter lot
+        if: steps.materialize.outputs.exit_code == '0'
         shell: bash
         run: |
           set -euo pipefail
