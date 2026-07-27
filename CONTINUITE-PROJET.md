@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.79.0"
+version: "3.80.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T08:32:16+02:00"
+last-updated: "2026-07-27T09:40:10+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2158,6 +2158,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas déclarer une restauration réussie après un simple test de connexion ;
 - ne pas laisser le compte de production supprimer toutes les générations ;
 - ne pas supprimer une génération avant expiration, contrôle juridique et remplacement vérifié ;
+- ne pas reconstruire un package pendant sa soumission ou sa promotion vers une boutique ;
+- ne pas confondre présence d’un build, envoi en revue, approbation et publication publique ;
+- ne pas publier une affirmation de fiche produit sans preuve reliée à un build ou une fonctionnalité réelle ;
+- ne pas réutiliser une classification d’âge ou une déclaration de confidentialité d’une autre version sans revue ;
+- ne pas verser un secret, une clé d’accès ou un credential de boutique dans le dépôt ou un journal ;
+- ne pas traiter un canal interne, fermé ou preview comme une sortie publique ;
+- ne pas générer des clés d’accès sans lot, propriétaire, finalité, quantité, expiration et révocation ;
+- ne pas figer dans la procédure des dimensions, délais ou champs de portail susceptibles d’évoluer sans registre de vérification ;
+- ne pas annoncer une date de lancement sans portes techniques, juridiques, support et décision de retour arrière ;
+- ne pas présenter une soumission illustrative ou un dry-run documentaire comme une revue réellement exécutée ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2170,7 +2180,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 16 chapitres sur 22 ;
+- progression du Livre IV : 17 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2187,6 +2197,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 15 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 16 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 17 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2256,20 +2267,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 16 du Livre IV sont terminés au niveau documentaire et statique. Les presets, templates, SDK, dépendances natives, identités produit, credentials, signatures, notarisation, packages et campagnes sur machines propres de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 17 du Livre IV sont terminés au niveau documentaire et statique. Les comptes de publication, fiches produit, médias, prix, classifications, déclarations de confidentialité, clés d’accès, téléversements, soumissions, revues, approbations, ventes, lancements et opérations de support de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-17-Publication-et-distribution.md
+Livre-IV/CHAPITRE-18-Accessibilite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 17 du Livre IV préparera pages, médias, descriptions et exigences de publication, organisera boutiques, canaux et clés, vérifiera licences et conformité, planifiera lancement et support, puis préparera builds candidats, notes de version et dry-run de soumission.
+Le chapitre 18 du Livre IV couvrira commandes, visuel, audio, cognition et motricité, préparera remapping, sous-titres, contrastes et options de rythme, organisera scénarios avec profils et utilisateurs, documentera les limites connues et préparera une déclaration publique d’accessibilité du produit complet.
 
 ## 27. Journal
+
+### 2026-07-27T09:40:10+02:00 — version 3.80.0
+
+- création du chapitre 17 du Livre IV — Publication et distribution ;
+- export, package, artefact, build boutique, soumission, approbation, publication et lancement distingués ;
+- dossier de publication, identités produit, matrice des boutiques et registre des exigences volatiles documentés ;
+- même candidat binaire, manifestes et empreintes du chapitre 16 réutilisés sans reconstruction ;
+- fiches produit, affirmations, exigences système, médias, droits, textes alternatifs, tags et catégories encadrés ;
+- prix candidats en euros, territoires, contrats, licences, attributions, classifications d’âge et déclarations de confidentialité préparés ;
+- rôles, MFA, secrets, canaux, clés d’accès, Steam, itch.io, Google Play, App Store Connect et boutiques supplémentaires qualifiés ;
+- calendrier, dry-run, reçus, go/no-go, lancement, support, métriques et procédures Solo/Studio préparés ;
+- métriques statiques : 2435 lignes, 95 titres, 67 blocs significatifs, 51 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 18 — Accessibilité, niveau Élevée ;
+- aucun compte, page boutique, média final, prix réel, classification, formulaire, clé, téléversement, soumission, revue, vente, lancement runtime ou PDF du Livre IV produit.
 
 ### 2026-07-27T08:32:16+02:00 — version 3.79.0
 

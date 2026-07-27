@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.16"
+version: "1.0.17"
 lang: "fr-FR"
-last-updated: "2026-07-27T08:32:16+02:00"
+last-updated: "2026-07-27T09:40:10+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 16 chapitres sur 22  
+> **Statut :** en cours — 17 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -424,6 +424,8 @@ La publication commerciale est au chapitre 17. Validation par installation et la
 **Frontière et validation**
 
 Le marketing approfondi reste hors périmètre principal. Validation par dry-run de soumission et conformité documentaire.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le dossier de publication, les fiches produit, médias, canaux, clés, classifications, déclarations, soumissions, calendrier, lancement et support sont préparés sans revendiquer de compte, page, téléversement, revue, approbation, vente ou lancement public.
 
 ## Chapitre 18 — Accessibilité
 
