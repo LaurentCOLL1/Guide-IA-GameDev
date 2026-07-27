@@ -13,7 +13,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 1712
+  chapter-lines: 1855
   chapter-headings: 73
   chapter-code-and-data-blocks: 64
   significant-code-and-data-blocks: 64
@@ -56,14 +56,14 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 5ae100806dab3a3b95930c832de8f638653583900b8b21d603f24c785c481331
-  audit-sha256: 4b7a8b681e2fb927c5460dd919836d97864bd73d335b2d26aef682b47cec48d8
+  chapter-sha256: 0be606e57769da842172773c037913f3ec9994179c0638bd2c5a3ab0fefb42c3
+  audit-sha256: d9b7593514bc3af26529d4102e14f63152d0177c10cb3cdb600c06052d261591
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 20 Finalizer
     execution: chapter-finalizer
-    run-id: pending-finalizer
-    conclusion: pending
+    run-id: 30290306966
+    conclusion: success
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow

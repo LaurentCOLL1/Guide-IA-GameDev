@@ -82,7 +82,7 @@ La validation future depuis plusieurs versions antérieures et par retour arriè
 
 | Mesure | Valeur |
 |---|---:|
-| Lignes | 1712 |
+| Lignes | 1855 |
 | Titres | 73 |
 | Blocs de code ou données | 64 |
 | Blocs significatifs | 64 |
@@ -138,7 +138,7 @@ Aucun titre dupliqué, aucun bloc significatif dupliqué et aucun paragraphe lon
 
 ## 11. Preuves d’intégrité
 
-- empreinte SHA-256 du chapitre : `5ae100806dab3a3b95930c832de8f638653583900b8b21d603f24c785c481331` ;
+- empreinte SHA-256 du chapitre : `0be606e57769da842172773c037913f3ec9994179c0638bd2c5a3ab0fefb42c3` ;
 - empreinte SHA-256 de l’audit : calculée après fermeture de ce rapport et enregistrée dans la preuve YAML ;
 - validation permanente légère : en attente du commit final de la branche ;
 - niveau d’audit : `static-review`.

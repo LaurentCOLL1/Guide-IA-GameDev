@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.19"
+version: "1.0.20"
 lang: "fr-FR"
-last-updated: "2026-07-27T18:41:51+02:00"
+last-updated: "2026-07-27T19:11:44+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 19 chapitres sur 22  
+> **Statut :** en cours — 20 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -496,6 +496,8 @@ La création des voix est au Livre III. Validation par pseudo-langue, langues lo
 **Frontière et validation**
 
 La distribution initiale est au chapitre 17. Validation par mise à jour depuis plusieurs versions antérieures et retour arrière contrôlé.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les canaux, versions, packages, migrations, contrôles d’intégrité, reprises, déploiements progressifs, interruptions, rollbacks, hotfixes et communications sont préparés sans revendiquer d’exécution runtime ou de plateforme.
 
 ## Chapitre 21 — Modding et contenu communautaire
 
