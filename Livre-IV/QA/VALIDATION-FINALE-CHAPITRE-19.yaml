@@ -1,0 +1,81 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH19
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-27'
+validated-base-commit: 4c8a7731ec3ae3578eeaf871da051b02e119700e
+validated-head-commit: pending-final-control
+chapter:
+  id: DOC-L4-CH19
+  path: Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1325
+  chapter-headings: 60
+  chapter-code-and-data-blocks: 43
+  significant-code-and-data-blocks: 42
+  code-explanation-markers: 43
+  structured-non-error-code-explanations: 23
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  stable-localization-keys-documented: true
+  locale-and-fallback-policy-documented: true
+  plurals-gender-and-variables-documented: true
+  dates-numbers-currency-and-units-documented: true
+  bidi-shaping-segmentation-and-input-documented: true
+  font-glyph-and-fallback-governance-documented: true
+  pseudolocalization-documented: true
+  catalog-extraction-and-status-workflow-documented: true
+  subtitles-voices-and-media-variants-documented: true
+  automated-catalog-and-overflow-checks-documented: true
+  linguistic-and-in-context-review-documented: true
+  privacy-security-and-vendor-governance-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 6fa44239ff9d9992b36608627ebf3f4fe1c374debd35991346d07a4ccb562c68
+  audit-sha256: e4b59f4e48267b7d55a6560c06135f4b2dec881131706ff405f6783af2d3ddef
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 19 Finalizer
+    execution: chapter-finalizer
+    run-id: 30285862844
+    conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: pending-final-control
+    conclusion: pending
+reservations:
+- No target locale was qualified or declared supported.
+- No final Godot catalog PO CSV translation memory or glossary was materialized.
+- No translation transcreation cultural adaptation or native review was approved.
+- Plural gender date number currency unit and calendar rules were not executed by locale.
+- No font stack glyph coverage shaping segmentation BiDi or input method was qualified.
+- Pseudolocalization overflow screenshots and non-Latin script campaigns were not run.
+- Subtitles captions localized voices media variants and lip-sync were not produced.
+- No linguistic in-context accessibility specialist or user validation was executed.
+- No remote localization service vendor credential corpus transfer or retention policy was qualified.
+- No multilingual build storefront localization or public language-support statement was published.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending-final-control
+  conclusion: pending
