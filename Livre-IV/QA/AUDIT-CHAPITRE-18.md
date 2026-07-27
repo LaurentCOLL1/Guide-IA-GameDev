@@ -83,7 +83,7 @@ validation future repose sur des parcours représentatifs et non sur la seule pr
 | Mesure | Valeur |
 |---|---:|
 | Lignes | 2090 |
-| Titres | 66 |
+| Titres | 61 |
 | Blocs de code ou données | 64 |
 | Blocs significatifs | 59 |
 | Marqueurs d’explication | 64 |
@@ -138,7 +138,7 @@ production visuelle des assets. Les références croisées sont formulées comme
 
 ## 11. Preuves d’intégrité
 
-- empreinte SHA-256 du chapitre : `335eca3b828c1f6d5a8e8e3835cb6ae04e3675747cb2dd0414f8320d2055a70e` ;
+- empreinte SHA-256 du chapitre : `e5451442ca0f82a7211523c0116867d56270eda0a3ef3fc8fa9d25bc6106b352` ;
 - empreinte SHA-256 de l’audit : calculée après fermeture de ce rapport et enregistrée dans la preuve YAML ;
 - validation permanente légère : en attente du commit final de la branche ;
 - niveau d’audit : `static-review`.
