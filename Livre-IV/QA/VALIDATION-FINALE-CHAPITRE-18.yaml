@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 1e4fdc0519e79a17c5bcc2e8004b5f5e42430d23
-validated-head-commit: 233b3b0b5817d758d839e114b913374c150266b7
+validated-head-commit: 7c520efc65f07d3d82b9ba374f0e9c04c072baf7
 chapter:
   id: DOC-L4-CH18
   path: Livre-IV/CHAPITRE-18-Accessibilite.md
@@ -60,8 +60,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30265493159
+    conclusion: success
+    artifact-id: 8652596658
+    artifact-digest: sha256:15e37980288f2fd7508770caa9e29d85372ff923a2778b8786a61a48efc97d08
 reservations:
 - Accessibility settings and profiles were not implemented or integrated.
 - Input remapping was not executed with real keyboards mice controllers or adaptive devices.
@@ -79,5 +81,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 233b3b0b5817d758d839e114b913374c150266b7
+  commit: 7c520efc65f07d3d82b9ba374f0e9c04c072baf7
   conclusion: success
