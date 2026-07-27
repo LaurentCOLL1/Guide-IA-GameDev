@@ -1,0 +1,119 @@
+name: Livre IV Chapter 21 Diagnostic Rubrics Corrector
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch21.rubrics.fix
+
+permissions:
+  contents: write
+
+jobs:
+  correct:
+    if: github.head_ref == 'docs/livre-iv-chapitre-21-modding-contenu-communautaire'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-21-modding-contenu-communautaire
+          fetch-depth: 0
+
+      - name: Complete diagnostic rubrics and align metrics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import re
+
+          chapter_path = Path('Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md')
+          audit_path = Path('Livre-IV/QA/AUDIT-CHAPITRE-21.md')
+          proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-21.yaml')
+          continuity_path = Path('CONTINUITE-PROJET.md')
+
+          additions = [
+            ('**Cause :** L’identité technique est confondue avec une présentation localisable.', '**Refus attendu :** Le validateur rejette l’identifiant avant l’enregistrement dans le catalogue.'),
+            ('**Limite :** La clé de présentation doit exister dans chaque catalogue qualifié.', '**Résultat attendu :** Dépendances et sauvegardes conservent la même identité dans toutes les langues.'),
+            ('**Cause :** Le remplacement global accorde au pack une autorité hors de son namespace.', '**Refus attendu :** Le chargeur refuse tout pack qui exige l’écrasement d’un chemin officiel.'),
+            ('**Limite :** `false` ne dispense pas de valider les chemins et le manifeste du pack.', '**Résultat attendu :** Les ressources officielles restent autoritaires après le montage.'),
+            ('**Cause :** `load()`, `new()` et `run()` franchissent la frontière entre donnée et code.', '**Refus attendu :** Le niveau public rejette tout point d’entrée exécutable non isolé.'),
+            ('**Limite :** La grammaire déclarative doit rester versionnée, bornée et validée.', '**Résultat attendu :** Le service officiel conserve la décision d’autorisation et l’effet métier.'),
+            ('**Cause :** `extractall()` écrit avant la canonicalisation et la validation des membres.', '**Refus attendu :** Toute entrée sortant du staging fait échouer le package entier.'),
+            ('**Limite :** L’inspection doit aussi borner tailles, nombre de fichiers, liens et types.', '**Résultat attendu :** Seuls les membres approuvés sont écrits dans le staging isolé.'),
+            ('**Cause :** Une énumération implicite remplace à tort le résolveur de dépendances.', '**Refus attendu :** Un graphe non résolu ou cyclique empêche l’activation.'),
+            ('**Limite :** La règle de départage stable fait partie du contrat versionné.', '**Résultat attendu :** Le même ensemble de mods produit le même ordre sur chaque machine.'),
+            ('**Cause :** L’état autoritaire est détaché des extensions qui l’ont produit.', '**Refus attendu :** Un mod requis absent est détecté avant toute mutation de la sauvegarde.'),
+            ('**Limite :** La sauvegarde conserve identifiants, versions et schémas, jamais les textes affichés.', '**Résultat attendu :** Les mods absents ou incompatibles sont diagnostiqués avant restauration.'),
+            ('**Cause :** Le joker masque l’absence de contrat de compatibilité vérifiable.', '**Refus attendu :** Une plage non bornée n’est pas considérée compatible.'),
+            ('**Limite :** Une migration reste nécessaire lorsque le schéma d’état du mod évolue.', '**Résultat attendu :** Une version majeure incompatible est refusée avant chargement.'),
+            ('**Cause :** `continue` traite une demande inconnue comme si elle était sans effet.', '**Refus attendu :** Toute capacité inconnue produit une décision de refus explicite.'),
+            ('**Limite :** La version de politique doit être corrélée à l’API de mod et au build.', '**Résultat attendu :** Aucune capacité n’est accordée avant l’évaluation complète de la demande.'),
+            ('**Cause :** Un libellé commercial remplace indûment licence, titulaire et provenance.', '**Refus attendu :** La publication est bloquée tant que les droits restent incomplets.'),
+            ('**Limite :** Les expressions SPDX doivent renvoyer aux notices et registres de sources.', '**Résultat attendu :** Le réviseur peut retracer droits, dépendances et attributions.'),
+            ('**Cause :** La désactivation est confondue avec une suppression destructive.', '**Refus attendu :** Une action réversible ne peut effacer ni état ni fichiers.'),
+            ('**Limite :** La réactivation doit revérifier compatibilité, dépendances et intégrité.', '**Résultat attendu :** Le joueur peut réactiver ou exporter l’état sans perte silencieuse.'),
+          ]
+
+          chapter = chapter_path.read_text(encoding='utf-8')
+          start = chapter.index('## 48. Dix diagnostics détaillés')
+          prefix, diagnostics = chapter[:start], chapter[start:]
+          pattern = re.compile(r'(\*\*Explication structurée du bloc :\*\*\n\n(?:- \*\*.+\n){2})')
+          assert len(pattern.findall(diagnostics)) == 20
+          index = 0
+          def complete(match):
+              nonlocal_state = None
+              global index
+              first, second = additions[index]
+              index += 1
+              return match.group(1) + f'- {first}\n- {second}\n'
+          diagnostics = pattern.sub(complete, diagnostics)
+          assert index == 20
+          chapter = prefix + diagnostics
+          assert len(chapter.splitlines()) == 1771
+          chapter_sha = hashlib.sha256(chapter.encode()).hexdigest()
+          assert chapter_sha == 'c99b4a57bb0d048a6f4f81ecefc77040fc44596f694da811e95ce656df3f620c'
+          chapter_path.write_text(chapter, encoding='utf-8')
+
+          audit = audit_path.read_text(encoding='utf-8')
+          audit = audit.replace('| Lignes | 1731 |', '| Lignes | 1771 |')
+          audit = audit.replace('| Blocs significatifs | 42 |', '| Blocs significatifs | 37 |')
+          audit = audit.replace('964faaa7b0bb73f57febe16c5737bddf638f2f8aa71c7a9f73fae6fd143e8f6d', chapter_sha)
+          audit_sha = hashlib.sha256(audit.encode()).hexdigest()
+          assert audit_sha == '0f5c05f0a0289d69170f4aa97b115777a80110f590a103abc4191ae5bffb10e4'
+          audit_path.write_text(audit, encoding='utf-8')
+
+          proof = proof_path.read_text(encoding='utf-8')
+          proof = proof.replace('  chapter-lines: 1731', '  chapter-lines: 1771')
+          proof = proof.replace('  significant-code-and-data-blocks: 42', '  significant-code-and-data-blocks: 37')
+          proof = proof.replace('964faaa7b0bb73f57febe16c5737bddf638f2f8aa71c7a9f73fae6fd143e8f6d', chapter_sha)
+          proof = proof.replace('b63ea91746eb50240f0c3fb359f095e8a2dbb763a46dc995d5fa996cf507ce66', audit_sha)
+          proof_path.write_text(proof, encoding='utf-8')
+
+          continuity = continuity_path.read_text(encoding='utf-8')
+          old = '- métriques statiques : 1731 lignes, 66 titres, 42 blocs significatifs, 23 explications structurées et dix diagnostics ;'
+          new = '- métriques statiques : 1771 lignes, 66 titres, 37 blocs significatifs, 23 explications structurées et dix diagnostics ;'
+          assert continuity.count(old) == 1
+          continuity_path.write_text(continuity.replace(old, new), encoding='utf-8')
+
+          Path('.github/workflows/livre-iv-ch21-diagnostic-rubrics-corrector.yml').unlink()
+          Path('tools/temporary/ch21.rubrics.fix').unlink()
+          print(f'chapter_sha256={chapter_sha}')
+          print(f'audit_sha256={audit_sha}')
+          PY
+
+      - name: Commit corrected permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(ch21): compléter les rubriques des diagnostics"
+          git push origin HEAD:docs/livre-iv-chapitre-21-modding-contenu-communautaire
