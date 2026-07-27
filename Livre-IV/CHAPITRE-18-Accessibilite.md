@@ -1537,7 +1537,7 @@ identifiant de build relie rapport, matrice, captures, résultats de parcours et
 Une modification de dernière minute après validation invalide la corrélation. La publication utilise les mêmes octets
 qualifiés et conserve le reçu de la déclaration affichée.
 
-> **[DCT] Terminal dans un conteneur documentaire — Vérifier la corrélation des identifiants.**
+> **[WSL] Terminal Linux ou WSL — Vérifier la corrélation des identifiants.**
 
 ```bash
 set -eu
