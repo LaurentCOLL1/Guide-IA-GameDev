@@ -24,12 +24,44 @@ jobs:
           fetch-depth: 0
 
       - name: Materialize and audit permanent lot
+        id: materialize
         shell: bash
         run: |
-          set -euo pipefail
-          cat tools/temporary/ch21.finalizer.*.b64 | tr -d '\n' | base64 --decode | gzip --decompress > /tmp/finalize_l4_ch21.py
-          echo "5c0b844e4187cf9398f1fb5f273d27a2d641edd83e8c7098d94dc1a6be1522bc  /tmp/finalize_l4_ch21.py" | sha256sum --check -
-          python /tmp/finalize_l4_ch21.py | tee /tmp/ch21-finalizer.log
+          set +e
+          log=/tmp/ch21-finalizer.log
+          : > "$log"
+          echo "Fragments:" >> "$log"
+          wc -c tools/temporary/ch21.finalizer.*.b64 >> "$log" 2>&1
+          cat tools/temporary/ch21.finalizer.*.b64 | tr -d '\n' | base64 --decode > /tmp/finalize_l4_ch21.py.gz 2>> "$log"
+          code=$?
+          if [ "$code" -eq 0 ]; then
+            sha256sum /tmp/finalize_l4_ch21.py.gz >> "$log"
+            gzip --test /tmp/finalize_l4_ch21.py.gz >> "$log" 2>&1
+            code=$?
+          fi
+          if [ "$code" -eq 0 ]; then
+            gzip --decompress --stdout /tmp/finalize_l4_ch21.py.gz > /tmp/finalize_l4_ch21.py 2>> "$log"
+            code=$?
+          fi
+          if [ "$code" -eq 0 ]; then
+            actual="$(sha256sum /tmp/finalize_l4_ch21.py | cut -d' ' -f1)"
+            echo "Script SHA-256: $actual" >> "$log"
+            if [ "$actual" != "5c0b844e4187cf9398f1fb5f273d27a2d641edd83e8c7098d94dc1a6be1522bc" ]; then
+              echo "Empreinte finale inattendue" >> "$log"
+              code=91
+            fi
+          fi
+          if [ "$code" -eq 0 ]; then
+            python -m py_compile /tmp/finalize_l4_ch21.py >> "$log" 2>&1
+            code=$?
+          fi
+          if [ "$code" -eq 0 ]; then
+            python /tmp/finalize_l4_ch21.py >> "$log" 2>&1
+            code=$?
+          fi
+          cat "$log"
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Upload finalizer diagnostic
         if: always()
@@ -38,7 +70,12 @@ jobs:
           name: chapter-21-finalizer-diagnostic
           path: /tmp/ch21-finalizer.log
 
+      - name: Assert materialization
+        if: steps.materialize.outputs.exit_code != '0'
+        run: exit 1
+
       - name: Commit permanent chapter lot
+        if: steps.materialize.outputs.exit_code == '0'
         shell: bash
         run: |
           set -euo pipefail
