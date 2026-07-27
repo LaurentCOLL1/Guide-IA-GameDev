@@ -149,7 +149,7 @@ Le chapitre ne recrée ni la chaîne CI/CD, ni les packages officiels, ni la pub
 
 ## 11. Preuves d’intégrité
 
-- empreinte SHA-256 du chapitre : `c99b4a57bb0d048a6f4f81ecefc77040fc44596f694da811e95ce656df3f620c` ;
+- empreinte SHA-256 du chapitre : `e05aa60ef3e963afeb9a63f0f8f69c5ed51d817cda6c64ea34dc3295a82261ed` ;
 - empreinte SHA-256 de l’audit : calculée après fermeture du présent rapport et enregistrée dans la preuve YAML ;
 - validation permanente légère : en attente du commit final de la branche ;
 - niveau d’audit : `static-review`.

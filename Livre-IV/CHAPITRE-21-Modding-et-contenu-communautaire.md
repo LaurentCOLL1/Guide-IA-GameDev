@@ -914,7 +914,7 @@ printf '%s\n' 'validation-candidate-ok'
 - **Sortie :** Le résultat final est lisible par une CI légère.
 - **Réserve :** Aucun package réel n’est validé par ce chapitre.
 
-> **[DCK] Profil Docker Desktop candidat — À matérialiser séparément.**
+> **[VSC] Fichier Docker Compose candidat — À matérialiser séparément.**
 
 ```yaml
 services:
@@ -1038,7 +1038,7 @@ Une plateforme comme Steam Workshop fournit stockage, pages, abonnements et API 
 
 Un canal manuel, GitHub Releases ou un dépôt communautaire produit le même objet interne : source, identifiant externe, version, chemin local, manifeste et empreinte. Le chapitre 17 conserve les opérations de publication et les exigences volatiles des portails.
 
-> **[WEB] Registre de sources communautaires — Exemple à vérifier sur les portails officiels.**
+> **[VSC] Registre de sources communautaires candidat — À adapter après vérification des portails officiels.**
 
 ```yaml
 sources:
