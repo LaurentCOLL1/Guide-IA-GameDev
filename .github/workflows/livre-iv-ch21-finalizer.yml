@@ -1,0 +1,52 @@
+name: Livre IV Chapter 21 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch21.start
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'docs/livre-iv-chapitre-21-modding-contenu-communautaire'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-21-modding-contenu-communautaire
+          fetch-depth: 0
+
+      - name: Materialize and audit permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat tools/temporary/ch21.finalizer.*.b64 | tr -d '\n' | base64 --decode | gzip --decompress > /tmp/finalize_l4_ch21.py
+          echo "5c0b844e4187cf9398f1fb5f273d27a2d641edd83e8c7098d94dc1a6be1522bc  /tmp/finalize_l4_ch21.py" | sha256sum --check -
+          python /tmp/finalize_l4_ch21.py | tee /tmp/ch21-finalizer.log
+
+      - name: Upload finalizer diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-21-finalizer-diagnostic
+          path: /tmp/ch21-finalizer.log
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          permanent='CONTINUITE-PROJET.md Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md Livre-IV/QA/AUDIT-CHAPITRE-21.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-21.yaml Livre-IV/index.md ROADMAP.md contents.txt plans/LIVRE-IV-PLAN-MAITRE.md '
+          final_diff="$(git diff --cached --name-only --diff-filter=ACMRT | sort | tr '\n' ' ')"
+          test "$final_diff" = "$permanent"
+          git commit -m "docs(livre-iv): créer le chapitre 21 sur le modding"
+          git push origin HEAD:docs/livre-iv-chapitre-21-modding-contenu-communautaire
