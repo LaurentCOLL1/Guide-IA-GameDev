@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.14"
+version: "1.0.15"
 lang: "fr-FR"
-last-updated: "2026-07-26T21:42:29+02:00"
+last-updated: "2026-07-27T01:20:18+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 14 chapitres sur 22  
+> **Statut :** en cours — 15 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -376,6 +376,8 @@ Le chapitre ne remplace pas la stratégie QA. Validation par reconstruction prop
 **Frontière et validation**
 
 Les sauvegardes joueurs sont introduites au Livre II. Ici la portée couvre tout le produit et l’infrastructure. Validation par restauration réelle d’un environnement isolé.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. L’inventaire, les objectifs RPO/RTO, les politiques de rétention, les scripts, manifestes, migrations, restaurations isolées et scénarios catastrophe sont préparés sans revendication de sauvegarde, restauration, mesure ou reprise runtime.
 
 ## Chapitre 16 — Exports Godot et packaging
 

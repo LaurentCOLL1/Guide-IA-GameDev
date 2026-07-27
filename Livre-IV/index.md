@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.15.0"
-last-updated: "2026-07-26T21:42:29+02:00"
+version: "0.16.0"
+last-updated: "2026-07-27T01:20:18+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -26,7 +26,7 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 12. [Synchronisation, autorité et prédiction](CHAPITRE-12-Synchronisation-autorite-et-prediction.md) — version `1.0.0`, niveau `static-review` ;
 13. [Serveurs dédiés et sécurité réseau](CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md) — version `1.0.0`, niveau `static-review` ;
 14. [DevOps et intégration continue](CHAPITRE-14-DevOps-et-integration-continue.md) — version `1.0.0`, niveau `static-review` ;
-15. Sauvegardes, migrations et reprise après incident ;
+15. [Sauvegardes, migrations et reprise après incident](CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md) — version `1.0.0`, niveau `static-review` ;
 16. Exports Godot et packaging ;
 17. Publication et distribution ;
 18. Accessibilité ;
@@ -37,11 +37,11 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **14 sur 22** ;
-- chapitre courant terminé : **chapitre 14 — DevOps et intégration continue** ;
-- prochaine entrée du plan maître : **chapitre 15 — Sauvegardes, migrations et reprise après incident** ;
+- chapitres rédigés, repérés et audités : **15 sur 22** ;
+- chapitre courant terminé : **chapitre 15 — Sauvegardes, migrations et reprise après incident** ;
+- prochaine entrée du plan maître : **chapitre 16 — Exports Godot et packaging** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 14 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 15 sont terminés au niveau documentaire et statique, sans revendication runtime.

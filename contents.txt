@@ -108,5 +108,6 @@ Livre-IV/CHAPITRE-11-Architecture-multijoueur.md
 Livre-IV/CHAPITRE-12-Synchronisation-autorite-et-prediction.md
 Livre-IV/CHAPITRE-13-Serveurs-dedies-et-securite-reseau.md
 Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md
+Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
 Livre-V/index.md
 Companion-Pack/index.md
