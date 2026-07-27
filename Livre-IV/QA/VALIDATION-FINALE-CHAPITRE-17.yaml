@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 0b83253f910a017c05b564f30a3bca726c2105c8
-validated-head-commit: 7aca0c67fb8b8eaa9063c00b5ed98740370cdca2
+validated-head-commit: 5690ed64b9e05452a0de4d93f1907d530dd27d39
 chapter:
   id: DOC-L4-CH17
   path: Livre-IV/CHAPITRE-17-Publication-et-distribution.md
@@ -89,5 +89,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 7aca0c67fb8b8eaa9063c00b5ed98740370cdca2
+  commit: 5690ed64b9e05452a0de4d93f1907d530dd27d39
   conclusion: success
