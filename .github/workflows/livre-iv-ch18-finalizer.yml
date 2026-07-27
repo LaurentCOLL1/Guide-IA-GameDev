@@ -44,6 +44,24 @@ jobs:
           (root / 'finalize_l4_ch18.py').write_bytes(source)
           PY
 
+      - name: Repair index replacement order
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tools/temporary/finalize_l4_ch18.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''    text = replace_once(text, "**chapitre 17 — Publication et distribution**", "**chapitre 18 — Accessibilité**", "index courant")
+    text = replace_once(text, "**chapitre 18 — Accessibilité** ;", "**chapitre 19 — Localisation et internationalisation** ;", "index suivant")'''
+          new = '''    text = replace_once(text, "**chapitre 18 — Accessibilité** ;", "**chapitre 19 — Localisation et internationalisation** ;", "index suivant")
+    text = replace_once(text, "**chapitre 17 — Publication et distribution**", "**chapitre 18 — Accessibilité**", "index courant")'''
+          if text.count(old) != 1:
+              raise SystemExit('index replacement block not found exactly once')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
       - name: Finalize chapter lot
         id: finalize
         shell: bash
