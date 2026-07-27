@@ -8,6 +8,8 @@ on:
       - synchronize
     paths:
       - tools/temporary/ch17.start
+      - tools/temporary/ch17.chapter.*.b64
+      - tools/temporary/ch17.audit.*.b64
       - .github/workflows/livre-iv-ch17-finalizer.yml
 
 permissions:
@@ -23,6 +25,17 @@ jobs:
         with:
           ref: docs/livre-iv-chapitre-17-publication-distribution
           fetch-depth: 0
+
+      - name: Recompose temporary payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat tools/temporary/ch17.chapter.001.b64 tools/temporary/ch17.chapter.002.b64 tools/temporary/ch17.chapter.003.b64 tools/temporary/ch17.chapter.004.b64 > tools/temporary/ch17.chapter.combined
+          mv tools/temporary/ch17.chapter.combined tools/temporary/ch17.chapter.001.b64
+          rm tools/temporary/ch17.chapter.002.b64 tools/temporary/ch17.chapter.003.b64 tools/temporary/ch17.chapter.004.b64
+          cat tools/temporary/ch17.audit.001.b64 tools/temporary/ch17.audit.002.b64 > tools/temporary/ch17.audit.combined
+          mv tools/temporary/ch17.audit.combined tools/temporary/ch17.audit.001.b64
+          rm tools/temporary/ch17.audit.002.b64
 
       - name: Repair temporary Base64 padding
         shell: bash
