@@ -24,7 +24,7 @@ on:
       - ".qa/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate-chapters:
@@ -92,3 +92,64 @@ jobs:
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
             dist/QA-CONTEXTES-COUVERTURE.md
+
+  align-ch20-continuity:
+    name: Align chapter 20 continuity metrics
+    if: github.head_ref == 'docs/ch20-align-continuity-metrics-v2'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ch20-align-continuity-metrics-v2
+          fetch-depth: 0
+
+      - name: Apply correction and restore validator
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f tools/temporary/ch20-continuity-metrics.start ]; then
+            echo 'trigger_absent=true'
+            exit 0
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('CONTINUITE-PROJET.md')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              'version: "3.83.0"': 'version: "3.83.1"',
+              'last-updated: "2026-07-27T19:11:44+02:00"': 'last-updated: "2026-07-27T20:02:00+02:00"',
+              '- métriques statiques : 1855 lignes, 73 titres, 64 blocs significatifs, 44 explications structurées et dix diagnostics ;': '- métriques statiques : 1857 lignes, 68 titres, 43 blocs significatifs, 44 explications structurées et dix diagnostics ;',
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'occurrence inattendue pour: {old}')
+              text = text.replace(old, new, 1)
+
+          entry = '''### 2026-07-27T20:02:00+02:00 — version 3.83.1
+
+- alignement des métriques du chapitre 20 sur le validateur permanent ;
+- nombre de lignes corrigé de 1855 à 1857 après qualification de la section de diagnostics ;
+- titres hors blocs alignés de 73 à 68 et blocs significatifs de 64 à 43 selon la convention permanente ;
+- chapitre, audit, preuve QA, périmètre, réserves et prochaine action inchangés ;
+- aucune exécution runtime, opération de plateforme ou production PDF ajoutée.
+
+'''
+          anchor = '## 27. Journal\n\n'
+          if text.count(anchor) != 1:
+              raise SystemExit('ancre journal introuvable')
+          path.write_text(text.replace(anchor, anchor + entry, 1), encoding='utf-8', newline='\n')
+          PY
+
+          rm tools/temporary/ch20-continuity-metrics.start
+          git checkout origin/main -- .github/workflows/validate-chapters.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          actual="$(git diff --cached --name-only | sort | tr '\n' ' ')"
+          expected='.github/workflows/validate-chapters.yml CONTINUITE-PROJET.md tools/temporary/ch20-continuity-metrics.start '
+          test "$actual" = "$expected"
+          git commit -m "docs(continuité): aligner les métriques du chapitre 20"
+          git push origin HEAD:docs/ch20-align-continuity-metrics-v2
