@@ -1,0 +1,80 @@
+name: Livre IV Chapter 20 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch20.finalize.start
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'docs/ch20-align-continuity-metrics'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ch20-align-continuity-metrics
+          fetch-depth: 0
+
+      - name: Align continuity metrics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('CONTINUITE-PROJET.md')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              'version: "3.83.0"': 'version: "3.83.1"',
+              'last-updated: "2026-07-27T19:11:44+02:00"': 'last-updated: "2026-07-27T19:48:59+02:00"',
+              '- métriques statiques : 1855 lignes, 73 titres, 64 blocs significatifs, 44 explications structurées et dix diagnostics ;': '- métriques statiques : 1857 lignes, 68 titres, 43 blocs significatifs, 44 explications structurées et dix diagnostics ;',
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'occurrence inattendue pour: {old}')
+              text = text.replace(old, new, 1)
+
+          entry = '''### 2026-07-27T19:48:59+02:00 — version 3.83.1
+
+- alignement des métriques du chapitre 20 sur le validateur permanent ;
+- nombre de lignes corrigé de 1855 à 1857 après qualification de la section de diagnostics ;
+- titres hors blocs alignés de 73 à 68 et blocs significatifs de 64 à 43 selon la convention permanente ;
+- chapitre, audit, preuve QA, périmètre, réserves et prochaine action inchangés ;
+- aucune exécution runtime, opération de plateforme ou production PDF ajoutée.
+
+'''
+          anchor = '## 27. Journal\n\n'
+          if text.count(anchor) != 1:
+              raise SystemExit('ancre journal introuvable')
+          text = text.replace(anchor, anchor + entry, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+
+      - name: Remove temporary files
+        shell: bash
+        run: |
+          rm -f .github/workflows/ch20-continuity-metrics-fix.yml
+          rm -f .github/workflows/ch20-metrics-finalizer.yml
+          rm -f .github/workflows/livre-iv-ch20-finalizer.yml
+          rm -f tools/temporary/ch20-continuity-metrics.start
+          rm -f tools/temporary/ch20.finalize.start
+
+      - name: Commit continuity correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          actual="$(git diff --cached --name-only --diff-filter=ACMRT | grep -v '^\.github/workflows/' | grep -v '^tools/temporary/' | tr '\n' ' ')"
+          test "$actual" = 'CONTINUITE-PROJET.md '
+          git commit -m "docs(continuité): aligner les métriques du chapitre 20"
+          git push origin HEAD:docs/ch20-align-continuity-metrics
