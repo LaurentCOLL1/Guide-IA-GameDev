@@ -1,0 +1,30 @@
+name: Livre IV Chapter 16 Marker Fix
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-16-exports-godot-packaging
+    paths:
+      - tools/temporary/fix_l4_ch16_markers.py
+      - .github/workflows/livre-iv-ch16-marker-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix-markers:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-16-exports-godot-packaging
+          fetch-depth: 0
+      - name: Correct semantic markers
+        run: python tools/temporary/fix_l4_ch16_markers.py
+      - name: Commit corrected permanent lot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(ch16): corriger les repères sémantiques"
+          git push origin HEAD:docs/livre-iv-chapitre-16-exports-godot-packaging
