@@ -1,0 +1,83 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH18
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-27'
+validated-base-commit: 1e4fdc0519e79a17c5bcc2e8004b5f5e42430d23
+validated-head-commit: pending-final-control
+chapter:
+  id: DOC-L4-CH18
+  path: Livre-IV/CHAPITRE-18-Accessibilite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 2090
+  chapter-headings: 66
+  chapter-code-and-data-blocks: 64
+  significant-code-and-data-blocks: 59
+  code-explanation-markers: 64
+  structured-non-error-code-explanations: 44
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  whole-product-accessibility-documented: true
+  task-barrier-matrix-documented: true
+  input-remapping-and-alternatives-documented: true
+  visual-audio-cognitive-motor-coverage: true
+  captions-and-audio-access-documented: true
+  motion-and-photosensitivity-gates-documented: true
+  profiles-and-settings-persistence-documented: true
+  representative-journeys-documented: true
+  user-testing-governance-documented: true
+  known-limitations-register-documented: true
+  public-accessibility-statement-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 335eca3b828c1f6d5a8e8e3835cb6ae04e3675747cb2dd0414f8320d2055a70e
+  audit-sha256: 5f8e5b50ac3fe885e650830858980ffa2cf9cb508934f53c664b0cc1a76afa0c
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 18 Finalizer
+    execution: chapter-finalizer
+    run-id: 30265143226
+    conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: pending-final-control
+    conclusion: pending
+reservations:
+- Accessibility settings and profiles were not implemented or integrated.
+- Input remapping was not executed with real keyboards mice controllers or adaptive devices.
+- Text scaling focus navigation target sizes and reflow were not tested on rendered interfaces.
+- Subtitles captions audio descriptions and accessible mixes were not produced or reviewed.
+- Text-to-speech and DisplayServer accessibility capabilities were not qualified by platform.
+- Screen reader interoperability was not tested.
+- Motion reduction camera settings flashing content and photosensitivity were not evaluated on a build.
+- Motor assists timing options difficulty variables saves checkpoints and retry flows were not executed.
+- Representative accessibility journeys were not run.
+- No user participant was recruited scheduled observed recorded compensated or asked for personal data.
+- No specialist accessibility review or platform certification was performed.
+- No WCAG XAG legal or universal accessibility compliance is claimed.
+- No public accessibility statement was published.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: pending-final-control
+  conclusion: pending

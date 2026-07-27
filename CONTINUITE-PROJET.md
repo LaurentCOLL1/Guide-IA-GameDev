@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.80.0"
+version: "3.81.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T09:40:10+02:00"
+last-updated: "2026-07-27T13:24:17+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -1583,6 +1583,22 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - exercices, mesures RPO/RTO, écarts, actions correctives et retests conservent une preuve append-only ;
 - aucun job, stockage, clé, bundle, dump, sauvegarde, restauration, migration, mesure ou exercice runtime n’est revendiqué avant matérialisation.
 
+### 11.44 Accessibilité du produit complet
+
+- la matrice d’accessibilité part de tâches observables et de barrières, jamais de diagnostics supposés ;
+- commandes, visuel, audio, cognition, motricité et contraintes temporelles possèdent des contrôles séparés mais composables ;
+- les réglages sont disponibles dès le premier démarrage, enregistrés dans des profils réversibles et séparés de l’état gameplay ;
+- le remapping agit sur des actions nommées, détecte les conflits et fournit des alternatives aux maintiens, répétitions et combinaisons ;
+- couleur, son, vibration, texte, icône et mouvement sont des canaux redondants ; aucun canal unique ne porte une information critique ;
+- texte, contraste, focus, tailles de cible, reflow, mouvement, caméra et photosensibilité sont vérifiés sur des parcours représentatifs ;
+- sous-titres, captions, mixage, indices visuels, description audio, TTS et lecteurs d’écran restent des capacités distinctes ;
+- difficulté, rythme, limites temporelles, aides motrices, sauvegardes, checkpoints et récupération sont réglables sans déplacer l’autorité métier ;
+- les contrôles automatiques, revues spécialisées, technologies d’assistance et sessions utilisateurs fournissent des preuves complémentaires ;
+- consentement, minimisation, confidentialité, retrait et compensation encadrent toute session avec des personnes ;
+- une déclaration publique cite le build, la plateforme, les fonctions vérifiées, les limites connues et les preuves datées ;
+- WCAG 2.2 et les Xbox Accessibility Guidelines servent de références et d’objectifs mesurables, sans certification automatique du jeu ;
+- aucune fonction, session, compatibilité périphérique, intégration de technologie d’assistance ou conformité n’est revendiquée avant matérialisation.
+
 ## 24. Erreurs à ne pas reproduire
 
 - ne pas donner une commande sans terminal ;
@@ -2168,6 +2184,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas figer dans la procédure des dimensions, délais ou champs de portail susceptibles d’évoluer sans registre de vérification ;
 - ne pas annoncer une date de lancement sans portes techniques, juridiques, support et décision de retour arrière ;
 - ne pas présenter une soumission illustrative ou un dry-run documentaire comme une revue réellement exécutée ;
+- ne pas traiter un préréglage d’accessibilité comme un diagnostic ou un profil figé pour une catégorie de personnes ;
+- ne pas rendre une information critique dépendante de la couleur, du son, de la vibration ou du mouvement seuls ;
+- ne pas cacher les réglages essentiels derrière le premier obstacle ou uniquement dans une partie déjà commencée ;
+- ne pas publier une fonction d’accessibilité sans preuve liée au même build et à la même plateforme ;
+- ne pas utiliser un avertissement comme remplacement de la réduction des flashs, du mouvement ou de leur revue ;
+- ne pas présenter un contrôle automatique comme preuve suffisante d’accessibilité ;
+- ne pas demander de diagnostic médical pour autoriser un réglage ou participer à un test ;
+- ne pas persister un réglage visuel ou de navigation risqué avant prévisualisation, confirmation et restauration possible ;
+- ne pas généraliser une observation ou un petit échantillon à tous les joueurs, périphériques et plateformes ;
+- ne pas revendiquer une conformité WCAG, XAG, légale ou universelle à partir d’une revue statique ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2180,7 +2206,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 17 chapitres sur 22 ;
+- progression du Livre IV : 18 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2198,6 +2224,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 15 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 16 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 17 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 18 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2267,20 +2294,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 17 du Livre IV sont terminés au niveau documentaire et statique. Les comptes de publication, fiches produit, médias, prix, classifications, déclarations de confidentialité, clés d’accès, téléversements, soumissions, revues, approbations, ventes, lancements et opérations de support de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 18 du Livre IV sont terminés au niveau documentaire et statique. Les options, profils, remappings, sous-titres, captions, mixages, descriptions audio, aides motrices, parcours représentatifs, sessions utilisateurs, revues spécialisées, compatibilités de technologies d’assistance et déclaration publique de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-18-Accessibilite.md
+Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 18 du Livre IV couvrira commandes, visuel, audio, cognition et motricité, préparera remapping, sous-titres, contrastes et options de rythme, organisera scénarios avec profils et utilisateurs, documentera les limites connues et préparera une déclaration publique d’accessibilité du produit complet.
+Le chapitre 19 du Livre IV externalisera les chaînes et données culturelles, traitera pluriels, dates, nombres et sens d’écriture, préparera polices, interfaces, voix et sous-titres, organisera traduction et relecture, puis automatisera les contrôles de chaînes, de débordement et de pseudo-localisation.
 
 ## 27. Journal
+
+### 2026-07-27T13:24:17+02:00 — version 3.81.0
+
+- création du chapitre 18 du Livre IV — Accessibilité ;
+- commandes, visuel, audio, cognition, motricité et temps organisés par barrières et tâches observables ;
+- matrice d’accessibilité, profils composables, premier démarrage, application, restauration et migration des réglages documentés ;
+- remapping, conflits, prompts, maintiens, répétitions, combinaisons, deadzones, sensibilité, inversion et alternatives numériques encadrés ;
+- texte, contraste, focus, tailles de cible, reflow, mouvement, caméra, flashs et photosensibilité préparés ;
+- sous-titres, captions, mixage, mono, plage dynamique, indices visuels, description audio, TTS et lecteurs d’écran distingués ;
+- cognition, erreurs, récupération, aides motrices, haptique, sauvegardes, checkpoints et options de rythme documentés ;
+- parcours représentatifs, profils, consentement, minimisation, revues automatiques, manuelles et spécialisées préparés ;
+- registre des limites connues, déclaration publique corrélée au build, support, modes Solo/Studio et dix diagnostics ajoutés ;
+- métriques statiques : 2090 lignes, 66 titres, 59 blocs significatifs, 44 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 19 — Localisation et internationalisation, niveau Élevée ;
+- aucune option, intégration, session utilisateur, revue spécialisée, certification, conformité globale, déclaration publiée, exécution runtime ou PDF du Livre IV produit.
 
 ### 2026-07-27T09:40:10+02:00 — version 3.80.0
 
