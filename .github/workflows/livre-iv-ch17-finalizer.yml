@@ -1,9 +1,11 @@
 name: Livre IV Chapter 17 Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-iv-chapitre-17-publication-distribution
+      - main
+    types:
+      - synchronize
     paths:
       - tools/temporary/ch17.start
       - .github/workflows/livre-iv-ch17-finalizer.yml
@@ -13,6 +15,7 @@ permissions:
 
 jobs:
   finalize:
+    if: github.head_ref == 'docs/livre-iv-chapitre-17-publication-distribution'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout branch
