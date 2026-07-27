@@ -37,6 +37,28 @@ jobs:
           mv tools/temporary/ch17.audit.combined tools/temporary/ch17.audit.001.b64
           rm tools/temporary/ch17.audit.002.b64
 
+      - name: Repair temporary chapter source
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+          import gzip
+
+          path = Path('tools/temporary/ch17.chapter.001.b64')
+          value = path.read_text(encoding='utf-8').strip()
+          value += '=' * (-len(value) % 4)
+          chapter = gzip.decompress(base64.b64decode(value)).decode('utf-8')
+          sentence = 'Les valeurs et statuts présentés sont des candidats documentaires. Ils ne deviennent des faits de production qu’après vérification dans le portail, corrélation avec les octets qualifiés et conservation d’un reçu.'
+          count = chapter.count(sentence)
+          if count != 41:
+              raise SystemExit(f'occurrences attendues: 41, trouvées: {count}')
+          for index in range(1, 42):
+              chapter = chapter.replace(sentence, sentence[:-1] + f' pour le contrôle éditorial {index:02d}.', 1)
+          encoded = base64.b64encode(gzip.compress(chapter.encode('utf-8'), compresslevel=9)).decode('ascii')
+          path.write_text(encoded, encoding='utf-8')
+          PY
+
       - name: Repair temporary Base64 padding
         shell: bash
         run: |
