@@ -87,7 +87,7 @@ evidence_required: true
 
 ### 2.1 Contrat contrôlé
 
-> **[PS] Contrôle 03 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 03 — Adapter aux données réellement approuvées.**
 
 ```markdown
 schema: asteria-publication-03
@@ -107,7 +107,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[CMD] Contrôle 04 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 04 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-04
@@ -136,7 +136,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 3.1 Contrat contrôlé
 
-> **[WSL] Contrôle 05 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 05 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-05
@@ -156,7 +156,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[DCT] Contrôle 06 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 06 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-06
@@ -205,7 +205,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[WEB] Contrôle 08 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 08 — Adapter aux données réellement approuvées.**
 
 ```yaml
 schema: asteria-publication-08
@@ -234,7 +234,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 5.1 Contrat contrôlé
 
-> **[APP] Contrôle 09 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 09 — Adapter aux données réellement approuvées.**
 
 ```json
 schema: asteria-publication-09
@@ -283,7 +283,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 6.1 Contrat contrôlé
 
-> **[LECTURE] Contrôle 11 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 11 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-11
@@ -303,7 +303,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[VSC] Contrôle 12 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 12 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-12
@@ -332,7 +332,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 7.1 Contrat contrôlé
 
-> **[PS] Contrôle 13 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 13 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-13
@@ -352,7 +352,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[CMD] Contrôle 14 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 14 — Adapter aux données réellement approuvées.**
 
 ```text
 schema: asteria-publication-14
@@ -381,7 +381,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 8.1 Contrat contrôlé
 
-> **[WSL] Contrôle 15 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 15 — Adapter aux données réellement approuvées.**
 
 ```yaml
 schema: asteria-publication-15
@@ -401,7 +401,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[DCT] Contrôle 16 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 16 — Adapter aux données réellement approuvées.**
 
 ```json
 schema: asteria-publication-16
@@ -430,7 +430,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 9.1 Contrat contrôlé
 
-> **[DCK] Contrôle 17 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 17 — Adapter aux données réellement approuvées.**
 
 ```markdown
 schema: asteria-publication-17
@@ -450,7 +450,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[WEB] Contrôle 18 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 18 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-18
@@ -479,7 +479,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 10.1 Contrat contrôlé
 
-> **[APP] Contrôle 19 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 19 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-19
@@ -499,7 +499,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[SORTIE] Contrôle 20 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 20 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-20
@@ -577,7 +577,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 12.1 Contrat contrôlé
 
-> **[PS] Contrôle 23 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 23 — Adapter aux données réellement approuvées.**
 
 ```json
 schema: asteria-publication-23
@@ -597,7 +597,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[CMD] Contrôle 24 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 24 — Adapter aux données réellement approuvées.**
 
 ```markdown
 schema: asteria-publication-24
@@ -626,7 +626,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 13.1 Contrat contrôlé
 
-> **[WSL] Contrôle 25 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 25 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-25
@@ -646,7 +646,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[DCT] Contrôle 26 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 26 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-26
@@ -675,7 +675,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 14.1 Contrat contrôlé
 
-> **[DCK] Contrôle 27 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 27 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-27
@@ -695,7 +695,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[WEB] Contrôle 28 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 28 — Adapter aux données réellement approuvées.**
 
 ```text
 schema: asteria-publication-28
@@ -724,7 +724,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 15.1 Contrat contrôlé
 
-> **[APP] Contrôle 29 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 29 — Adapter aux données réellement approuvées.**
 
 ```yaml
 schema: asteria-publication-29
@@ -793,7 +793,7 @@ evidence_required: true
 - **Preuve :** `evidence_required` relie la déclaration à un document, un média ou un build vérifiable.
 - **Résultat attendu :** le contrôle produit une décision traçable sans publier automatiquement.
 
-> **[VSC] Contrôle 32 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 32 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-32
@@ -822,7 +822,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 17.1 Contrat contrôlé
 
-> **[PS] Contrôle 33 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 33 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-33
@@ -851,7 +851,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 18.1 Contrat contrôlé
 
-> **[CMD] Contrôle 34 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 34 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-34
@@ -880,7 +880,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 19.1 Contrat contrôlé
 
-> **[WSL] Contrôle 35 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 35 — Adapter aux données réellement approuvées.**
 
 ```text
 schema: asteria-publication-35
@@ -909,7 +909,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 20.1 Contrat contrôlé
 
-> **[DCT] Contrôle 36 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 36 — Adapter aux données réellement approuvées.**
 
 ```yaml
 schema: asteria-publication-36
@@ -938,7 +938,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 21.1 Contrat contrôlé
 
-> **[DCK] Contrôle 37 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 37 — Adapter aux données réellement approuvées.**
 
 ```json
 schema: asteria-publication-37
@@ -967,7 +967,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 22.1 Contrat contrôlé
 
-> **[WEB] Contrôle 38 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 38 — Adapter aux données réellement approuvées.**
 
 ```markdown
 schema: asteria-publication-38
@@ -996,7 +996,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 23.1 Contrat contrôlé
 
-> **[APP] Contrôle 39 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 39 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-39
@@ -1025,7 +1025,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 24.1 Contrat contrôlé
 
-> **[SORTIE] Contrôle 40 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 40 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-40
@@ -1054,7 +1054,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 25.1 Contrat contrôlé
 
-> **[LECTURE] Contrôle 41 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 41 — Adapter aux données réellement approuvées.**
 
 ```bash
 schema: asteria-publication-41
@@ -1112,7 +1112,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 27.1 Contrat contrôlé
 
-> **[PS] Contrôle 43 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 43 — Adapter aux données réellement approuvées.**
 
 ```yaml
 schema: asteria-publication-43
@@ -1141,7 +1141,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 28.1 Contrat contrôlé
 
-> **[CMD] Contrôle 44 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 44 — Adapter aux données réellement approuvées.**
 
 ```json
 schema: asteria-publication-44
@@ -1170,7 +1170,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 29.1 Contrat contrôlé
 
-> **[WSL] Contrôle 45 — Adapter aux données réellement approuvées.**
+> **[LECTURE] Contrôle 45 — Adapter aux données réellement approuvées.**
 
 ```markdown
 schema: asteria-publication-45
@@ -1199,7 +1199,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 30.1 Contrat contrôlé
 
-> **[DCT] Contrôle 46 — Adapter aux données réellement approuvées.**
+> **[PS] Contrôle 46 — Adapter aux données réellement approuvées.**
 
 ```powershell
 schema: asteria-publication-46
@@ -1228,7 +1228,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 31.1 Contrat contrôlé
 
-> **[DCK] Contrôle 47 — Adapter aux données réellement approuvées.**
+> **[CMD] Contrôle 47 — Adapter aux données réellement approuvées.**
 
 ```bat
 schema: asteria-publication-47
@@ -1257,7 +1257,7 @@ Les valeurs et statuts présentés sont des candidats documentaires. Ils ne devi
 
 ### 32.1 Contrat contrôlé
 
-> **[WEB] Contrôle 48 — Adapter aux données réellement approuvées.**
+> **[WSL] Contrôle 48 — Adapter aux données réellement approuvées.**
 
 ```bash
 control=48

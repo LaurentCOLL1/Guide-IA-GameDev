@@ -53,7 +53,7 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 68d36dc1800a4f32a446bcea1e4b884cbc64addc5772c2abc579b47a4755c823
+  chapter-sha256: cc816e83d39d9a28492664ec121ae4f8298a3120df474f9e4c30a56668e7f8f5
   audit-sha256: a02e2a07386cdb41648afc044348acb98fbc167d3095b5faa7ca31bf13dde075
 ci:
   chapter-finalizer:
