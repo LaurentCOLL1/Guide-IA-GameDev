@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 1e4fdc0519e79a17c5bcc2e8004b5f5e42430d23
-validated-head-commit: 7c520efc65f07d3d82b9ba374f0e9c04c072baf7
+validated-head-commit: 4c31179dc39095eb78062a1d28ef3ab8de5335f3
 chapter:
   id: DOC-L4-CH18
   path: Livre-IV/CHAPITRE-18-Accessibilite.md
@@ -14,7 +14,7 @@ results:
   blocking-errors: 0
   warnings: 1
   chapter-lines: 2090
-  chapter-headings: 66
+  chapter-headings: 61
   chapter-code-and-data-blocks: 64
   significant-code-and-data-blocks: 59
   code-explanation-markers: 64
@@ -50,7 +50,7 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: e5451442ca0f82a7211523c0116867d56270eda0a3ef3fc8fa9d25bc6106b352
-  audit-sha256: 5f8e5b50ac3fe885e650830858980ffa2cf9cb508934f53c664b0cc1a76afa0c
+  audit-sha256: 76e21f8166fc290bc71e7900cbeb816ee842de7feaa52796e06d02d05f4e44a6
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 18 Finalizer
@@ -81,5 +81,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 7c520efc65f07d3d82b9ba374f0e9c04c072baf7
+  commit: 4c31179dc39095eb78062a1d28ef3ab8de5335f3
   conclusion: success
