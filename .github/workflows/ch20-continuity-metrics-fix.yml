@@ -8,6 +8,7 @@ on:
       - synchronize
     paths:
       - tools/temporary/ch20-continuity-metrics.start
+      - .github/workflows/ch20-continuity-metrics-fix.yml
 
 permissions:
   contents: write
