@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: e883e19cd28a3d62b346632f022c28c44082433b
-validated-head-commit: fe43f253eb82628005b2f299c56115ebd395e7ee
+validated-head-commit: d6c384cff6addecf0f22d7ab4df3dd968ff47d22
 chapter:
   id: DOC-L4-CH21
   path: Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
