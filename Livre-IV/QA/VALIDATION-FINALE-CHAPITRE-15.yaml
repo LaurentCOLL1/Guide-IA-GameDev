@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 2b2f7be24b8cd0571629c36ed4bda363bfdc5216
-validated-head-commit: 45d9a2b8d627c04ea68b9ef5c9ff84c47f48b38f
+validated-head-commit: 0763f68c53424c82830f47dc6d3df8f9d1442546
 chapter:
   id: DOC-L4-CH15
   path: Livre-IV/CHAPITRE-15-Sauvegardes-migrations-et-reprise-apres-incident.md
@@ -61,8 +61,12 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30226503153
+    conclusion: success
+    artifact:
+      id: 8638702347
+      name: chapter-validation-without-pdf
+      digest: sha256:9d3f0b9c4dcfe922bf066bfaff68381353d13e01a5490b04f2169cb714863a7c
 reservations:
 - Critical data inventory was not materialized.
 - Owners criticalities dependencies and minimum services were not approved.
@@ -90,5 +94,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 45d9a2b8d627c04ea68b9ef5c9ff84c47f48b38f
+  commit: 0763f68c53424c82830f47dc6d3df8f9d1442546
   conclusion: success
