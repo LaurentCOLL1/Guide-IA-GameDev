@@ -166,11 +166,12 @@
 - [x] Chapitre 14 — DevOps et intégration continue — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 15 — Sauvegardes, migrations et reprise après incident — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 16 — Exports Godot et packaging — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 17 — Publication et distribution — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
 - [x] Optimisation et multijoueur — 8 chapitres sur 8.
-- [ ] DevOps, publication et maintenance — 3 chapitres sur 9.
+- [ ] DevOps, publication et maintenance — 4 chapitres sur 9.
 
-**Statut M5 : en cours — 16 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 17 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 
