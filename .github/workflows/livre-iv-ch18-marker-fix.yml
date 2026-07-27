@@ -1,0 +1,76 @@
+name: Livre IV Chapter 18 Marker Fix
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch18-marker-fix.start
+      - .github/workflows/livre-iv-ch18-marker-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.head_ref == 'docs/livre-iv-chapitre-18-accessibilite'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-18-accessibilite
+          fetch-depth: 0
+
+      - name: Correct exact semantic marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import re
+
+          chapter_path = Path('Livre-IV/CHAPITRE-18-Accessibilite.md')
+          proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-18.yaml')
+          text = chapter_path.read_text(encoding='utf-8')
+          old = '> **[DCT] Terminal dans un conteneur documentaire — Vérifier la corrélation des identifiants.**\n\n```bash\n'
+          new = '> **[WSL] Terminal Linux ou WSL — Vérifier la corrélation des identifiants.**\n\n```bash\n'
+          if text.count(old) != 1:
+              raise SystemExit(f'motif sémantique attendu exactement une fois, trouvé {text.count(old)}')
+          corrected = text.replace(old, new, 1)
+          chapter_path.write_text(corrected, encoding='utf-8', newline='\n')
+          digest = hashlib.sha256(corrected.encode('utf-8')).hexdigest()
+
+          proof = proof_path.read_text(encoding='utf-8')
+          proof, count = re.subn(
+              r'(?m)^  chapter-sha256: [0-9a-f]{64}$',
+              f'  chapter-sha256: {digest}',
+              proof,
+          )
+          if count != 1:
+              raise SystemExit('empreinte chapitre introuvable dans la preuve')
+          proof_path.write_text(proof, encoding='utf-8', newline='\n')
+          print(f'chapter_sha256={digest}')
+          PY
+
+      - name: Remove temporary corrector
+        shell: bash
+        run: |
+          rm .github/workflows/livre-iv-ch18-marker-fix.yml
+          rm tools/temporary/ch18-marker-fix.start
+
+      - name: Commit semantic correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          expected='.github/workflows/livre-iv-ch18-marker-fix.yml Livre-IV/CHAPITRE-18-Accessibilite.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-18.yaml tools/temporary/ch18-marker-fix.start '
+          actual="$(git diff --cached --name-only | sort | tr '\n' ' ')"
+          test "$actual" = "$expected"
+          git commit -m "docs(ch18): corriger le repère sémantique Bash"
+          git push origin HEAD:docs/livre-iv-chapitre-18-accessibilite
