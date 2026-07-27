@@ -24,6 +24,20 @@ jobs:
           ref: docs/livre-iv-chapitre-17-publication-distribution
           fetch-depth: 0
 
+      - name: Repair temporary Base64 padding
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/temporary/finalize_l4_ch17.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'return gzip.decompress(base64.b64decode(path.read_text(encoding="utf-8"))).decode("utf-8")'
+          new = 'value = path.read_text(encoding="utf-8").strip()\n    value += "=" * (-len(value) % 4)\n    return gzip.decompress(base64.b64decode(value)).decode("utf-8")'
+          if text.count(old) != 1:
+              raise SystemExit('decode helper pattern not found exactly once')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
       - name: Finalize chapter lot
         id: finalize
         shell: bash
