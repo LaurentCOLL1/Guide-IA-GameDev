@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.18"
+version: "1.0.19"
 lang: "fr-FR"
-last-updated: "2026-07-27T13:24:17+02:00"
+last-updated: "2026-07-27T18:41:51+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 18 chapitres sur 22  
+> **Statut :** en cours — 19 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -472,6 +472,8 @@ L’accessibilité visuelle des assets est introduite au Livre III. Ici la port�
 **Frontière et validation**
 
 La création des voix est au Livre III. Validation par pseudo-langue, langues longues et scripts non latins.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les catalogues, conventions, pseudo-locales, tests de débordement, écritures, polices, traductions, relectures et rapports sont préparés sans revendiquer de locale qualifiée, de traduction approuvée, de campagne runtime ou de publication multilingue.
 
 ## Chapitre 20 — Correctifs, mises à jour et retour arrière
 

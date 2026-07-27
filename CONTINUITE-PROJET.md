@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.81.0"
+version: "3.82.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T13:24:17+02:00"
+last-updated: "2026-07-27T18:41:51+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -692,6 +692,23 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - sortie IA limitée au statut de brouillon jusqu’à validation et approbation ;
 - exécution headless disponible pour la validation de contenu ;
 - chapitres 14 à 25 maintenus comme autorités exclusives du runtime.
+
+### 11.45 Localisation et internationalisation
+
+- `fr-FR` constitue la locale source documentaire ; aucune locale cible n’est annoncée avant qualification complète ;
+- les balises éditoriales BCP 47 sont normalisées à la frontière Godot sans perdre la valeur d’origine ;
+- les textes visibles utilisent des clés stables indépendantes de la formulation source ;
+- les sauvegardes et le domaine conservent identifiants et valeurs, jamais les traductions résolues ;
+- langue de texte, langue audio, région de format, écriture et direction restent des axes distincts ;
+- nombres, dates, montants en `EUR` et unités restent structurés jusqu’au rendu ;
+- variables, balises et contenus de joueur sont protégés pendant formatage et pseudo-localisation ;
+- les pluriels et genres relèvent des règles de locale, jamais d’une condition française codée en dur ;
+- les piles de polices, glyphes, shaping, segmentation, BiDi et saisie sont qualifiés par écriture et plateforme ;
+- pseudo-localisation longue, RTL, captures et contrôles de débordement précèdent toute déclaration de support ;
+- catalogue, glossaire, mémoire, statuts, rapports et captures sont versionnés et corrélés au build ;
+- traduction, relecture linguistique, validation en contexte, accessibilité et publication restent des portes séparées ;
+- les fournisseurs et services distants reçoivent uniquement des lots minimisés, approuvés et gouvernés ;
+- les corrections distribuées et rollbacks restent au chapitre 20.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -2194,6 +2211,15 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas persister un réglage visuel ou de navigation risqué avant prévisualisation, confirmation et restauration possible ;
 - ne pas généraliser une observation ou un petit échantillon à tous les joueurs, périphériques et plateformes ;
 - ne pas revendiquer une conformité WCAG, XAG, légale ou universelle à partir d’une revue statique ;
+- ne pas utiliser le texte source comme identité de traduction ;
+- ne pas concaténer des fragments de phrase traduisibles ;
+- ne pas choisir les pluriels, genres, dates, montants ou unités avec une règle française codée en dur ;
+- ne pas stocker une date, un montant ou une unité uniquement sous sa forme affichée ;
+- ne pas appliquer un miroir géométrique global pour traiter une interface RTL ;
+- ne pas dépendre d’une police système implicite pour masquer des glyphes absents ;
+- ne pas pseudo-localiser les variables, balises ou identifiants ;
+- ne pas déclarer une locale supportée après la seule traduction du catalogue ;
+- ne pas envoyer un corpus, un secret ou un contenu non publié à un fournisseur sans minimisation et approbation ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2206,7 +2232,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 18 chapitres sur 22 ;
+- progression du Livre IV : 19 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2225,6 +2251,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 17 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 19 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2294,20 +2321,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 18 du Livre IV sont terminés au niveau documentaire et statique. Les options, profils, remappings, sous-titres, captions, mixages, descriptions audio, aides motrices, parcours représentatifs, sessions utilisateurs, revues spécialisées, compatibilités de technologies d’assistance et déclaration publique de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 19 du Livre IV sont terminés au niveau documentaire et statique. Les catalogues, traductions, polices, écritures, pseudo-locales, captures, voix localisées, relectures linguistiques, validations en contexte, builds multilingues et déclarations de support linguistique de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
+Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 19 du Livre IV externalisera les chaînes et données culturelles, traitera pluriels, dates, nombres et sens d’écriture, préparera polices, interfaces, voix et sous-titres, organisera traduction et relecture, puis automatisera les contrôles de chaînes, de débordement et de pseudo-localisation.
+Le chapitre 20 du Livre IV définira canaux stable, bêta et interne, compatibilité des patches, migrations de données, vérification d’intégrité, reprise, rollback contrôlé et communication de mise à jour.
 
 ## 27. Journal
+
+### 2026-07-27T18:41:51+02:00 — version 3.82.0
+
+- création du chapitre 19 du Livre IV — Localisation et internationalisation ;
+- internationalisation, localisation, traduction, transcréation et adaptation culturelle distinguées ;
+- locales, langue source, langue cible, région, écriture, direction, normalisation et politiques de repli documentées ;
+- clés stables, chaînes externalisées, variables nommées, balises protégées et contenus dynamiques encadrés ;
+- pluriels, genres grammaticaux, dates, heures, calendriers, nombres, montants en euros et unités préparés ;
+- écritures LTR/RTL, BiDi, shaping, segmentation, saisie, glyphes, polices et fallbacks gouvernés ;
+- mise en page flexible, pseudo-localisation longue et bidirectionnelle, catalogues, extraction et statuts documentés ;
+- traduction, relecture linguistique, validation en contexte, glossaire, mémoire, voix, sous-titres et médias localisés préparés ;
+- automatisation, captures, écritures non latines, changement de langue, persistance, sécurité et procédures Solo/Studio encadrés ;
+- métriques statiques : 1325 lignes, 60 titres, 42 blocs significatifs, 23 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 20 — Correctifs, mises à jour et retour arrière, niveau Élevée ;
+- aucune locale qualifiée, traduction approuvée, police, catalogue final, pseudo-localisation exécutée, relecture native, build multilingue, publication réelle, exécution runtime ou PDF du Livre IV produit.
 
 ### 2026-07-27T13:24:17+02:00 — version 3.81.0
 
