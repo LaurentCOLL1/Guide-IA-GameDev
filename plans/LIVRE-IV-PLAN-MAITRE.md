@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
 status: "active"
-version: "1.0.15"
+version: "1.0.16"
 lang: "fr-FR"
-last-updated: "2026-07-27T01:20:18+02:00"
+last-updated: "2026-07-27T08:32:16+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** en cours — 15 chapitres sur 22  
+> **Statut :** en cours — 16 chapitres sur 22  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -400,6 +400,8 @@ Les sauvegardes joueurs sont introduites au Livre II. Ici la portée couvre tout
 **Frontière et validation**
 
 La publication commerciale est au chapitre 17. Validation par installation et lancement sur machine propre.
+
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. Presets, filtres, dépendances, icônes, signatures, packages, manifestes, checksums et campagne sur machine propre sont préparés sans revendiquer d’export, de signature, d’installation ou de lancement.
 
 ## Chapitre 17 — Publication et distribution
 

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.78.0"
+version: "3.79.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T01:20:18+02:00"
+last-updated: "2026-07-27T08:32:16+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2170,7 +2170,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 15 chapitres sur 22 ;
+- progression du Livre IV : 16 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2186,6 +2186,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 13 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 14 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 15 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 16 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2255,20 +2256,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 15 du Livre IV sont terminés au niveau documentaire et statique. Les inventaires réels, objectifs mesurés, jobs de sauvegarde, stockages séparés ou immuables, bundles, dumps, clés, migrations, restaurations isolées et exercices catastrophe restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 16 du Livre IV sont terminés au niveau documentaire et statique. Les presets, templates, SDK, dépendances natives, identités produit, credentials, signatures, notarisation, packages et campagnes sur machines propres de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md
+Livre-IV/CHAPITRE-17-Publication-et-distribution.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 16 du Livre IV configurera les presets d’export Godot par plateforme, organisera dépendances, ressources, icônes et signatures, produira les contrats de builds debug, test et release, puis préparera packages, manifestes, checksums et validation sur machine propre.
+Le chapitre 17 du Livre IV préparera pages, médias, descriptions et exigences de publication, organisera boutiques, canaux et clés, vérifiera licences et conformité, planifiera lancement et support, puis préparera builds candidats, notes de version et dry-run de soumission.
 
 ## 27. Journal
+
+### 2026-07-27T08:32:16+02:00 — version 3.79.0
+
+- création du chapitre 16 du Livre IV — Exports Godot et packaging ;
+- export, build, package, artefact, release et publication distingués ;
+- matrice de cibles, templates, presets, credentials, identités et profils debug/test/release encadrés ;
+- filtres de ressources, fichiers privés, dépendances natives, GDExtension, icônes et métadonnées documentés ;
+- Windows, Linux, macOS, Android, iOS, Web et référence au serveur dédié préparés avec leurs préconditions ;
+- scripts canoniques, staging neuf, manifestes fermés, checksums, archives et reçus de promotion préparés ;
+- signature, notarisation, empreinte finale et promotion des mêmes octets ordonnées ;
+- campagne d’installation et lancement sur machine propre préparée sans exécution revendiquée ;
+- métriques statiques : 2004 lignes, 73 titres, 56 blocs significatifs, 40 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 17 — Publication et distribution, niveau Élevée ;
+- aucun preset, template, SDK, certificat, export, signature, package, installation, lancement runtime ou PDF du Livre IV produit.
 
 ### 2026-07-27T01:20:18+02:00 — version 3.78.0
 
