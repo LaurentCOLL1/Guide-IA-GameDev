@@ -1,0 +1,33 @@
+name: Livre IV Chapter 16 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-iv-chapitre-16-exports-godot-packaging
+    paths:
+      - tools/temporary/ch16.chapter.*.b64
+      - tools/temporary/ch16.audit.*.b64
+      - tools/temporary/ch16.proof.template
+      - tools/temporary/finalize_l4_ch16.py
+      - .github/workflows/livre-iv-ch16-finalizer.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-16-exports-godot-packaging
+          fetch-depth: 0
+      - name: Finalize chapter lot
+        run: python tools/temporary/finalize_l4_ch16.py
+      - name: Commit permanent chapter lot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(livre-iv): finaliser le chapitre 16 sur les exports Godot"
+          git push origin HEAD:docs/livre-iv-chapitre-16-exports-godot-packaging
