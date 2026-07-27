@@ -170,11 +170,12 @@
 - [x] Chapitre 18 — Accessibilité — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 19 — Localisation et internationalisation — rédigé, repéré et audité au niveau `static-review`.
 - [x] Chapitre 20 — Correctifs, mises à jour et retour arrière — rédigé, repéré et audité au niveau `static-review`.
+- [x] Chapitre 21 — Modding et contenu communautaire — rédigé, repéré et audité au niveau `static-review`.
 - [x] Équilibrage, QA et diagnostic — 5 chapitres sur 5.
 - [x] Optimisation et multijoueur — 8 chapitres sur 8.
-- [ ] DevOps, publication et maintenance — 7 chapitres sur 9.
+- [ ] DevOps, publication et maintenance — 8 chapitres sur 9.
 
-**Statut M5 : en cours — 20 chapitres rédigés, repérés et audités sur 22.**
+**Statut M5 : en cours — 21 chapitres rédigés, repérés et audités sur 22.**
 
 ## M6 — Livre V : Encyclopédie technique
 

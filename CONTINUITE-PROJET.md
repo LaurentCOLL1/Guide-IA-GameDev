@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.83.0"
+version: "3.84.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T19:11:44+02:00"
+last-updated: "2026-07-27T21:47:17+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -726,6 +726,22 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - notes de version, support, métriques et communication restent corrélés au build ;
 - les tests couvrent plusieurs versions sources, interruptions et reprises sur copies ;
 - l’archivage des builds, outils et preuves reste au chapitre 22.
+
+### 11.47 Modding et contenu communautaire
+
+- le support public commence par des formats déclaratifs et des assets runtime bornés ;
+- chaque mod porte un identifiant namespacé, une version, une API cible, des dépendances, des capacités, des licences et des empreintes ;
+- manifeste, archive, chemins, quotas et intégrité sont validés avant toute activation ;
+- installation, activation, désactivation et désinstallation restent quatre opérations distinctes ;
+- les PCK communautaires utilisent `replace_files = false` et une racine `res://mods/<id>/` ;
+- GDScript et extensions natives sont traités comme du code exécutable, jamais comme une sandbox implicite ;
+- les capacités inconnues sont refusées et réseau, processus, secrets et sauvegardes globales restent interdits par défaut ;
+- dépendances, cycles, contraintes, ordre et conflits sont résolus de manière déterministe ;
+- les sauvegardes enregistrent ensemble, versions, empreintes et état namespacé sans céder l’autorité globale ;
+- le serveur possède le contrat de mods en multijoueur ;
+- SDK, schémas, templates, validateur, mod d’exemple et politique de dépréciation évoluent ensemble ;
+- plateformes UGC, licences, provenance, modération, confidentialité et support forment des portes séparées ;
+- les mises à jour officielles restent au chapitre 20 et l’archivage au chapitre 22.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -2247,6 +2263,19 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas retenter indéfiniment une erreur de schéma ou d’intégrité ;
 - ne pas collecter automatiquement sauvegardes brutes, secrets ou environnement complet ;
 - ne pas interpréter un tableau vide comme zéro incident ;
+- ne pas utiliser un nom affiché comme identité de mod ;
+- ne pas monter un PCK communautaire avec remplacement global des ressources officielles ;
+- ne pas charger un script ou une extension native non fiable comme une simple donnée ;
+- ne pas extraire une archive avant validation de tous ses chemins, types et quotas ;
+- ne pas utiliser l’ordre du système de fichiers comme ordre de chargement ;
+- ne pas ignorer une capacité, dépendance, contrainte ou version inconnue ;
+- ne pas résoudre silencieusement un conflit par le dernier mod chargé ;
+- ne pas supprimer état ou fichiers lors d’une simple désactivation ;
+- ne pas charger une sauvegarde moddée sans vérifier l’ensemble requis ;
+- ne pas laisser un client imposer un mod autoritaire au serveur ;
+- ne pas présenter un abonnement Workshop ou une release comme validation de sécurité ;
+- ne pas présumer qu’un contenu sans licence explicite est redistribuable ;
+- ne pas traiter un contrôle automatique comme décision juridique ou de modération ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2259,7 +2288,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 20 chapitres sur 22 ;
+- progression du Livre IV : 21 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2280,6 +2309,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 18 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 19 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 20 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 21 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2349,20 +2379,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 20 du Livre IV sont terminés au niveau documentaire et statique. Les packages de patch, migrations, copies pré-migration, chemins depuis versions antérieures, déploiements progressifs, interruptions, rollbacks, hotfixes, métriques, communications et opérations de plateforme de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 21 du Livre IV sont terminés au niveau documentaire et statique. Les chargeurs, SDK, templates, mods, quotas, plateformes UGC, campagnes d’installation, conflits, sauvegardes moddées, sessions multijoueur, licences, modération et support communautaire de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
+Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 21 du Livre IV définira surfaces d’extension, formats, API, documentation, sandbox, compatibilité, dépendances, licences, modération, support et validation de conflits de mods.
+Le chapitre 22 du Livre IV organisera surveillance des dépendances et vulnérabilités, archives de sources, outils, builds et documentation, reconstruction reproductible, succession, fin de support, ouverture éventuelle, formats lisibles et checksums.
 
 ## 27. Journal
+
+### 2026-07-27T21:47:17+02:00 — version 3.84.0
+
+- création du chapitre 21 du Livre IV — Modding et contenu communautaire ;
+- mods, UGC, plugins, DLC, patches, surfaces d’extension, capacités et ensembles de mods distingués ;
+- niveaux de support déclaratif, packs Godot et code exécutable encadrés ;
+- manifestes, identités namespacées, versions, dépendances, capacités, licences et empreintes documentés ;
+- staging, inspection d’archives, quotas, chargement runtime et PCK sans remplacement préparés ;
+- scripts communautaires et extensions natives exclus du support public sans isolation démontrée ;
+- dépendances, cycles, contraintes, ordre stable, conflits, fusion, mode sûr et désactivation gouvernés ;
+- sauvegardes moddées, migrations, dépréciation, localisation, accessibilité et multijoueur préparés ;
+- SDK, templates, mod d’exemple, validateurs, plateformes UGC, provenance, modération et support documentés ;
+- métriques statiques : 1731 lignes, 66 titres, 42 blocs significatifs, 23 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 22 — Maintenance, archivage et pérennité, niveau Élevée ;
+- aucun chargeur, SDK, mod, sandbox, plateforme UGC, campagne runtime, modération réelle ou PDF du Livre IV produit.
 
 ### 2026-07-27T19:11:44+02:00 — version 3.83.0
 

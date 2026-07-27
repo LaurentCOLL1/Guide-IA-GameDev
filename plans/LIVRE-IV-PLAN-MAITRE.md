@@ -521,6 +521,8 @@ La distribution initiale est au chapitre 17. Validation par mise à jour depuis 
 
 Le modding ne doit pas exposer secrets ou compromettre les sauvegardes. Validation par installation, désactivation et conflit de mods.
 
+**État documentaire au 2026-07-27 :** chapitre rédigé, repéré et audité au niveau `static-review`. Les surfaces d’extension, manifestes, API, sandbox conceptuelle, dépendances, conflits, sauvegardes moddées, SDK, licences, modération et support sont préparés sans revendiquer de chargeur, mod, plateforme UGC ou campagne runtime.
+
 ## Chapitre 22 — Maintenance, archivage et pérennité
 
 **Objectifs**
