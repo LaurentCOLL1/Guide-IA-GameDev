@@ -890,7 +890,7 @@ Docker Desktop
 
 ## 20.2. Lire le montage d’un conteneur
 
-> **[WSL] Terminal Bash ouvert dans le conteneur de diagnostic non privilégié — Adapter le chemin attendu.**
+> **[DCT] Terminal dans le conteneur de diagnostic non privilégié — Adapter le chemin attendu.**
 
 ```bash
 set -euo pipefail
