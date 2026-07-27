@@ -2320,7 +2320,7 @@ Le chapitre 19 du Livre IV externalisera les chaînes et données culturelles, t
 - cognition, erreurs, récupération, aides motrices, haptique, sauvegardes, checkpoints et options de rythme documentés ;
 - parcours représentatifs, profils, consentement, minimisation, revues automatiques, manuelles et spécialisées préparés ;
 - registre des limites connues, déclaration publique corrélée au build, support, modes Solo/Studio et dix diagnostics ajoutés ;
-- métriques statiques : 2090 lignes, 66 titres, 59 blocs significatifs, 44 explications structurées et dix diagnostics ;
+- métriques statiques : 2090 lignes, 61 titres hors blocs, 59 blocs significatifs, 44 explications structurées et dix diagnostics ;
 - index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
 - prochaine action déplacée vers le chapitre 19 — Localisation et internationalisation, niveau Élevée ;
 - aucune option, intégration, session utilisateur, revue spécialisée, certification, conformité globale, déclaration publiée, exécution runtime ou PDF du Livre IV produit.
