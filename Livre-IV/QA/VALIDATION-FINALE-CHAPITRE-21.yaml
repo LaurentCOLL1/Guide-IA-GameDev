@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: e883e19cd28a3d62b346632f022c28c44082433b
-validated-head-commit: 798ad35ab2c5d5e1c6b82c89f30da802eebfd7b6
+validated-head-commit: c8f2c126e460328fd160b827c2c09bd3523430e5
 chapter:
   id: DOC-L4-CH21
   path: Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
@@ -63,8 +63,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30302837518
+    conclusion: success
+    artifact-id: 8667236452
+    artifact-digest: sha256:ea6a30e7fdbf9b87d86c4b7be1b50de495cff4beb273db65ba7349e5b5a0f6e0
 reservations:
 - No mod loader manager SDK template schema or example mod was materialized.
 - No PCK ZIP runtime asset GDScript or native extension was loaded.
@@ -80,5 +82,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-final-control
-  conclusion: pending
+  commit: c8f2c126e460328fd160b827c2c09bd3523430e5
+  conclusion: success
