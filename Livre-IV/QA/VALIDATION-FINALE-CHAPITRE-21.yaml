@@ -52,8 +52,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: a50948db57384c7e4c0361d93a8ac5af36e0e9b0af517d391b1f39d3b9b7634d
-  audit-sha256: 013a068d468a261be430604ce31dd774f5cc7545af6bf33824ed2dcf6df699ab
+  chapter-sha256: 964faaa7b0bb73f57febe16c5737bddf638f2f8aa71c7a9f73fae6fd143e8f6d
+  audit-sha256: b63ea91746eb50240f0c3fb359f095e8a2dbb763a46dc995d5fa996cf507ce66
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 21 Finalizer

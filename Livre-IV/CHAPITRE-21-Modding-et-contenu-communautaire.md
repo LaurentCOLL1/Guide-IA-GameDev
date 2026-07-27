@@ -1272,7 +1272,7 @@ Chaque version de l’API possède un propriétaire, une matrice de compatibilit
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** L’identité contient espaces, accents et texte éditorial.
 - **Conséquence :** Le même contenu peut recevoir plusieurs identités selon la langue.
@@ -1291,7 +1291,7 @@ Chaque version de l’API possède un propriétaire, une matrice de compatibilit
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** L’identifiant technique reste stable.
 - **Présentation :** Le nom affiché est localisable sans modifier les références.
@@ -1311,7 +1311,7 @@ var scene := load("res://main.tscn")
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** `true` autorise le pack à remplacer les fichiers déjà montés.
 - **Conséquence :** Le chemin officiel peut résoudre vers une ressource communautaire.
@@ -1327,7 +1327,7 @@ var scene := load("res://mods/org.example.relay-expansion/main.tscn")
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le pack ne remplace pas les ressources existantes.
 - **Namespace :** Le point d’entrée reste sous la racine réservée au mod.
@@ -1348,7 +1348,7 @@ instance.run()
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** Un chemin non fiable devient du code exécutable.
 - **Conséquence :** Le script peut utiliser les capacités accessibles au processus.
@@ -1367,7 +1367,7 @@ instance.run()
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le mod demande une opération appartenant à une allowlist.
 - **Autorité :** Le service officiel valide et applique la commande.
@@ -1387,7 +1387,7 @@ with ZipFile(package, "r") as archive:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** L’extraction précède la validation des membres.
 - **Conséquence :** Des chemins malveillants peuvent viser des fichiers voisins.
@@ -1404,7 +1404,7 @@ extract_validated_members(package, members, staging)
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Tous les chemins sont inspectés avant écriture.
 - **Staging :** L’installation active reste inchangée tant que le lot n’est pas validé.
@@ -1424,7 +1424,7 @@ for directory in mods_root.iterdir():
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** `iterdir()` ne constitue pas un contrat d’ordre portable.
 - **Conséquence :** Les priorités et conflits deviennent non reproductibles.
@@ -1442,7 +1442,7 @@ for mod in stable_load_order(resolved):
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Dépendances et départage stable déterminent l’ordre.
 - **Diagnostic :** Les cycles et conflits sont refusés avant chargement.
@@ -1464,7 +1464,7 @@ for mod in stable_load_order(resolved):
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** La sauvegarde ne dit pas quelles extensions ont produit l’état.
 - **Conséquence :** L’absence d’un mod est découverte trop tard.
@@ -1488,7 +1488,7 @@ for mod in stable_load_order(resolved):
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le chargeur connaît l’API, les versions et namespaces requis.
 - **Dégradation :** Le contrat peut décider de bloquer ou de charger en mode limité.
@@ -1510,7 +1510,7 @@ for mod in stable_load_order(resolved):
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** Aucun contrat n’encadre les versions acceptées.
 - **Conséquence :** Une incompatibilité devient une erreur runtime tardive.
@@ -1531,7 +1531,7 @@ for mod in stable_load_order(resolved):
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** La plage du jeu et la version d’API sont explicites.
 - **Refus précoce :** Le chargeur peut bloquer avant l’accès aux contenus.
@@ -1553,7 +1553,7 @@ for capability in requested:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** L’inconnu est ignoré au lieu d’être refusé.
 - **Conséquence :** Le manifeste peut sembler accepté sans respecter son intention.
@@ -1572,7 +1572,7 @@ if not denied.is_empty():
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Toute capacité inconnue bloque la décision.
 - **Diagnostic :** La liste refusée permet une correction précise.
@@ -1594,7 +1594,7 @@ mod:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** `free` n’est pas une licence et les titulaires sont inconnus.
 - **Conséquence :** La plateforme et les utilisateurs ne connaissent pas les droits accordés.
@@ -1614,7 +1614,7 @@ mod:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Code, contenus et dépendances sont distingués.
 - **Réserve :** Les identifiants structurent la déclaration mais ne prouvent pas la titularité.
@@ -1636,7 +1636,7 @@ func disable_mod(mod_id: StringName) -> void:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi cet exemple est fautif :**
+**Explication structurée du bloc :**
 
 - **Invariant violé :** Désactivation, suppression d’état et désinstallation sont fusionnées.
 - **Conséquence :** Une opération réversible devient destructive.
@@ -1657,7 +1657,7 @@ func disable_mod(mod_id: StringName) -> Dictionary:
 
 <!-- qa:code-explanation -->
 
-**Pourquoi la correction fonctionne :**
+**Explication structurée du bloc :**
 
 - **Invariant restauré :** Seule la sélection active change.
 - **Réversibilité :** État et fichiers restent disponibles pour réactivation ou export.
