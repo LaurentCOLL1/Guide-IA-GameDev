@@ -1481,6 +1481,8 @@ Aucun package de patch, canal, migration, sauvegarde pré-migration, test depuis
 
 ## 52. Diagnostics : dix erreurs fréquentes
 
+<!-- qa:error-correction-section -->
+
 Chaque diagnostic suit la même séquence : symptôme, contre-exemple, explication, correction et justification. Les extraits sont conceptuels et doivent être adaptés aux outils réellement qualifiés.
 
 ### 52.1 Remplacer l’installation active pendant le téléchargement
