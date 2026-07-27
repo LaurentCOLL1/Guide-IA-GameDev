@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          cat tools/temporary/ch19.finalizer.*.b64 | tr -d '\n' | base64 --decode | gzip --decompress > /tmp/finalize_l4_ch19.py
+          { cat tools/temporary/ch19.first.*.b64; cat tools/temporary/ch19.finalizer.002.b64 tools/temporary/ch19.finalizer.003.b64; } | tr -d '\n' | base64 --decode | gzip --decompress > /tmp/finalize_l4_ch19.py
           decode_code=$?
           if [ "$decode_code" -eq 0 ]; then
             python /tmp/finalize_l4_ch19.py > /tmp/ch19-finalizer.log 2>&1
