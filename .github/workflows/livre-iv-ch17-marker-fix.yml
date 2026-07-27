@@ -24,7 +24,7 @@ jobs:
           ref: docs/livre-iv-chapitre-17-publication-distribution
           fetch-depth: 0
 
-      - name: Correct semantic markers
+      - name: Correct exact semantic markers
         shell: bash
         run: |
           set -euo pipefail
@@ -37,57 +37,76 @@ jobs:
           proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-17.yaml')
           text = chapter_path.read_text(encoding='utf-8')
           lines = text.splitlines()
-          allowed = {
-              'powershell': {'PS'},
-              'bat': {'CMD'},
-              'bash': {'WSL', 'DCT'},
-              'markdown': {'LECTURE', 'SORTIE', 'VSC'},
-              'yaml': {'LECTURE', 'SORTIE', 'VSC'},
-              'json': {'LECTURE', 'SORTIE', 'VSC'},
-              'text': {'APP', 'DCK', 'LECTURE', 'SORTIE', 'VSC'},
-          }
-          preferred = {
-              'powershell': 'PS',
-              'bat': 'CMD',
-              'bash': 'WSL',
-              'markdown': 'LECTURE',
-              'yaml': 'LECTURE',
-              'json': 'LECTURE',
-              'text': 'LECTURE',
-          }
+
+          corrections = [
+              (92, 'PS', 'LECTURE'),
+              (112, 'CMD', 'PS'),
+              (141, 'WSL', 'CMD'),
+              (161, 'DCT', 'WSL'),
+              (210, 'WEB', 'LECTURE'),
+              (239, 'APP', 'LECTURE'),
+              (288, 'LECTURE', 'PS'),
+              (308, 'VSC', 'CMD'),
+              (337, 'PS', 'WSL'),
+              (357, 'CMD', 'LECTURE'),
+              (386, 'WSL', 'LECTURE'),
+              (406, 'DCT', 'LECTURE'),
+              (435, 'DCK', 'LECTURE'),
+              (455, 'WEB', 'PS'),
+              (484, 'APP', 'CMD'),
+              (504, 'SORTIE', 'WSL'),
+              (582, 'PS', 'LECTURE'),
+              (602, 'CMD', 'LECTURE'),
+              (631, 'WSL', 'PS'),
+              (651, 'DCT', 'CMD'),
+              (680, 'DCK', 'WSL'),
+              (700, 'WEB', 'LECTURE'),
+              (729, 'APP', 'LECTURE'),
+              (798, 'VSC', 'PS'),
+              (827, 'PS', 'CMD'),
+              (856, 'CMD', 'WSL'),
+              (885, 'WSL', 'LECTURE'),
+              (914, 'DCT', 'LECTURE'),
+              (943, 'DCK', 'LECTURE'),
+              (972, 'WEB', 'LECTURE'),
+              (1001, 'APP', 'PS'),
+              (1030, 'SORTIE', 'CMD'),
+              (1059, 'LECTURE', 'WSL'),
+              (1117, 'PS', 'LECTURE'),
+              (1146, 'CMD', 'LECTURE'),
+              (1175, 'WSL', 'LECTURE'),
+              (1204, 'DCT', 'PS'),
+              (1233, 'DCK', 'CMD'),
+              (1262, 'WEB', 'WSL'),
+          ]
+
           marker_re = re.compile(r'^(> \*\*\[)(PS|CMD|WSL|DCT|DCK|VSC|WEB|APP|SORTIE|LECTURE)(\].*)$')
-          changed = []
-          for i, line in enumerate(lines):
-              match = marker_re.match(line)
+          for line_number, expected, replacement in corrections:
+              index = line_number - 1
+              match = marker_re.match(lines[index])
               if not match:
-                  continue
-              language = None
-              for j in range(i + 1, min(i + 6, len(lines))):
-                  fence = re.match(r'^```([^\s`]*)', lines[j])
-                  if fence:
-                      language = fence.group(1).casefold()
-                      break
-              if language not in allowed:
-                  continue
+                  raise SystemExit(f'ligne {line_number}: repère introuvable: {lines[index]!r}')
               current = match.group(2)
-              if current not in allowed[language]:
-                  replacement = preferred[language]
-                  lines[i] = match.group(1) + replacement + match.group(3)
-                  changed.append((i + 1, current, replacement, language))
-          if len(changed) != 39:
-              raise SystemExit(f'39 corrections attendues, {len(changed)} obtenues: {changed}')
+              if current != expected:
+                  raise SystemExit(f'ligne {line_number}: attendu [{expected}], trouvé [{current}]')
+              lines[index] = match.group(1) + replacement + match.group(3)
+
           corrected = '\n'.join(lines) + ('\n' if text.endswith('\n') else '')
           chapter_path.write_text(corrected, encoding='utf-8', newline='\n')
           digest = hashlib.sha256(corrected.encode('utf-8')).hexdigest()
+
           proof = proof_path.read_text(encoding='utf-8')
-          proof, count = re.subn(r'(?m)^  chapter-sha256: [0-9a-f]{64}$', f'  chapter-sha256: {digest}', proof)
+          proof, count = re.subn(
+              r'(?m)^  chapter-sha256: [0-9a-f]{64}$',
+              f'  chapter-sha256: {digest}',
+              proof,
+          )
           if count != 1:
               raise SystemExit('empreinte chapitre introuvable dans la preuve')
           proof_path.write_text(proof, encoding='utf-8', newline='\n')
-          print(f'corrected_markers={len(changed)}')
+
+          print(f'corrected_markers={len(corrections)}')
           print(f'chapter_sha256={digest}')
-          for item in changed:
-              print(item)
           PY
 
       - name: Validate semantic marker consistency
@@ -106,6 +125,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          test "$(git diff --cached --name-only | sort | tr '\n' ' ')" = "Livre-IV/CHAPITRE-17-Publication-et-distribution.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-17.yaml "
+          expected='.github/workflows/livre-iv-ch17-marker-fix.yml Livre-IV/CHAPITRE-17-Publication-et-distribution.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-17.yaml tools/temporary/ch17-marker-fix.start '
+          actual="$(git diff --cached --name-only | sort | tr '\n' ' ')"
+          test "$actual" = "$expected"
           git commit -m "docs(ch17): corriger les repères sémantiques"
           git push origin HEAD:docs/livre-iv-chapitre-17-publication-distribution
