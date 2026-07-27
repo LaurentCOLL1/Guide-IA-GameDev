@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 4c8a7731ec3ae3578eeaf871da051b02e119700e
-validated-head-commit: pending-final-control
+validated-head-commit: f4b7ed9754fadf46a4700632fe2e53ece0c1c560
 chapter:
   id: DOC-L4-CH19
   path: Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
@@ -77,5 +77,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-final-control
-  conclusion: pending
+  commit: f4b7ed9754fadf46a4700632fe2e53ece0c1c560
+  conclusion: success
