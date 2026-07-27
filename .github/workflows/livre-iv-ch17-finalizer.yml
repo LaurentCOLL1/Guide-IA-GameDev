@@ -6,6 +6,7 @@ on:
       - docs/livre-iv-chapitre-17-publication-distribution
     paths:
       - tools/temporary/ch17.start
+      - .github/workflows/livre-iv-ch17-finalizer.yml
 
 permissions:
   contents: write
