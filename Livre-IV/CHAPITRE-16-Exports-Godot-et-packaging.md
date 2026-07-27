@@ -812,7 +812,7 @@ macos_export:
 
 ### 18.1. Vérifier le bundle sur macOS
 
-> **[LECTURE] Contrôler signature et bundle sur un Mac de qualification.**
+> **[WSL] Contrôler signature et bundle dans un terminal macOS de qualification.**
 
 ```bash
 set -euo pipefail
@@ -1863,7 +1863,7 @@ steps:
 
 **Exemple fautif :**
 
-> **[WEB] Exemple fautif — Ne pas appliquer.**
+> **[LECTURE] Exemple fautif — Ne pas appliquer.**
 
 ```text
 file:///C:/build/web/index.html
@@ -1878,7 +1878,7 @@ result=looks-ok
 
 **Exemple corrigé :**
 
-> **[WEB] Exemple corrigé — Adapter au projet réel.**
+> **[LECTURE] Exemple corrigé — Adapter au projet réel.**
 
 ```text
 https://localhost.example.test/asteria/
