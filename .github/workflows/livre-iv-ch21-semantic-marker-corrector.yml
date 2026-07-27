@@ -1,0 +1,85 @@
+name: Livre IV Chapter 21 Semantic Marker Corrector
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch21.semantic.fix
+
+permissions:
+  contents: write
+
+jobs:
+  correct:
+    if: github.head_ref == 'docs/livre-iv-chapitre-21-modding-contenu-communautaire'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-21-modding-contenu-communautaire
+          fetch-depth: 0
+
+      - name: Correct semantic usage markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          chapter_path = Path('Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md')
+          audit_path = Path('Livre-IV/QA/AUDIT-CHAPITRE-21.md')
+          proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-21.yaml')
+
+          old_chapter_sha = 'c99b4a57bb0d048a6f4f81ecefc77040fc44596f694da811e95ce656df3f620c'
+          old_audit_sha = '0f5c05f0a0289d69170f4aa97b115777a80110f590a103abc4191ae5bffb10e4'
+
+          chapter = chapter_path.read_text(encoding='utf-8')
+          assert hashlib.sha256(chapter.encode()).hexdigest() == old_chapter_sha
+          replacements = {
+              '> **[DCK] Profil Docker Desktop candidat — À matérialiser séparément.**':
+              '> **[VSC] Fichier Docker Compose candidat — À matérialiser séparément.**',
+              '> **[WEB] Registre de sources communautaires — Exemple à vérifier sur les portails officiels.**':
+              '> **[VSC] Registre de sources communautaires candidat — À adapter après vérification des portails officiels.**',
+          }
+          for old, new in replacements.items():
+              assert chapter.count(old) == 1, old
+              chapter = chapter.replace(old, new)
+          assert len(chapter.splitlines()) == 1771
+          chapter_sha = hashlib.sha256(chapter.encode()).hexdigest()
+          chapter_path.write_text(chapter, encoding='utf-8')
+
+          audit = audit_path.read_text(encoding='utf-8')
+          assert hashlib.sha256(audit.encode()).hexdigest() == old_audit_sha
+          assert audit.count(old_chapter_sha) == 1
+          audit = audit.replace(old_chapter_sha, chapter_sha)
+          audit_sha = hashlib.sha256(audit.encode()).hexdigest()
+          audit_path.write_text(audit, encoding='utf-8')
+
+          proof = proof_path.read_text(encoding='utf-8')
+          assert proof.count(old_chapter_sha) == 1
+          assert proof.count(old_audit_sha) == 1
+          proof = proof.replace(old_chapter_sha, chapter_sha)
+          proof = proof.replace(old_audit_sha, audit_sha)
+          proof_path.write_text(proof, encoding='utf-8')
+
+          Path('.github/workflows/livre-iv-ch21-semantic-marker-corrector.yml').unlink()
+          Path('tools/temporary/ch21.semantic.fix').unlink()
+          print(f'chapter_sha256={chapter_sha}')
+          print(f'audit_sha256={audit_sha}')
+          PY
+
+      - name: Commit corrected permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(ch21): corriger les repères sémantiques YAML"
+          git push origin HEAD:docs/livre-iv-chapitre-21-modding-contenu-communautaire
