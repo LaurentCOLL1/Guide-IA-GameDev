@@ -49,13 +49,13 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: __CHAPTER_SHA256__
-  audit-sha256: __AUDIT_SHA256__
+  chapter-sha256: 432ff27f555b35c474a91f3a5d2a951973eda34f36a86127735be85568c36ff8
+  audit-sha256: ca7c4511b265302463d9a0b93a8cbb4317d802bc02b98c628c647bf589f7c368
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 16 Finalizer
     execution: chapter-finalizer
-    run-id: __RUN_ID__
+    run-id: 30244810590
     conclusion: pending-runtime-confirmation
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
