@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: cce8c63ca996701a983b7cbe6ec8e167d5aec99e
-validated-head-commit: c63c200f58ce3a76aadb2353b76b678739a1a2f5
+validated-head-commit: dbc2bd6972752cf2f878b93095b2c63b27bd2137
 chapter:
   id: DOC-L4-CH20
   path: Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md
@@ -67,8 +67,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30290679917
+    conclusion: success
+    artifact-id: 8662635458
+    artifact-digest: sha256:bc68710424d5b082a112fa196b44577d5d6ed1be5e3aaa94d5d2acbd64503721
 reservations:
 - No real update channel was configured.
 - No full package differential patch or installer was produced.
@@ -86,5 +88,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: c63c200f58ce3a76aadb2353b76b678739a1a2f5
+  commit: dbc2bd6972752cf2f878b93095b2c63b27bd2137
   conclusion: success
