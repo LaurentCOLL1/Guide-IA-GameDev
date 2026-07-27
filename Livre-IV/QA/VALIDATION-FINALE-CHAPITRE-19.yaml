@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 4c8a7731ec3ae3578eeaf871da051b02e119700e
-validated-head-commit: f4b7ed9754fadf46a4700632fe2e53ece0c1c560
+validated-head-commit: a8a151de202ad740a8ccbdd85d21842cf5125d56
 chapter:
   id: DOC-L4-CH19
   path: Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
@@ -61,8 +61,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30286056341
+    conclusion: success
+    artifact-id: 8660830520
+    artifact-digest: sha256:73adbc261642e2451fe185aa6bc70c2aa5f0853d08931fec2aaf00a9b83a7a92
 reservations:
 - No target locale was qualified or declared supported.
 - No final Godot catalog PO CSV translation memory or glossary was materialized.
@@ -77,5 +79,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: f4b7ed9754fadf46a4700632fe2e53ece0c1c560
+  commit: a8a151de202ad740a8ccbdd85d21842cf5125d56
   conclusion: success
