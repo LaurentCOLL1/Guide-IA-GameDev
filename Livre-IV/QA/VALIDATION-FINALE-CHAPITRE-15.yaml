@@ -61,7 +61,7 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-after-dct-fix
+    run-id: pending-final-control
     conclusion: pending
 reservations:
 - Critical data inventory was not materialized.
