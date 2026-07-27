@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.82.0"
+version: "3.83.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T18:41:51+02:00"
+last-updated: "2026-07-27T19:11:44+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -709,6 +709,23 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - traduction, relecture linguistique, validation en contexte, accessibilité et publication restent des portes séparées ;
 - les fournisseurs et services distants reçoivent uniquement des lots minimisés, approuvés et gouvernés ;
 - les corrections distribuées et rollbacks restent au chapitre 20.
+
+### 11.46 Correctifs, mises à jour et retour arrière
+
+- les versions produit, build, contenu, sauvegarde et protocole restent distinctes ;
+- les canaux interne, bêta et stable sont des politiques d’accès et de promotion ;
+- le même candidat qualifié est promu sans reconstruction silencieuse ;
+- chaque patch différentiel exige une base identifiée et une empreinte cible ;
+- téléchargement, staging, vérification, activation, migration et observation forment des phases distinctes ;
+- l’installation active n’est jamais modifiée pendant l’acquisition du package ;
+- chaque sauvegarde porte un schéma explicite et reçoit une copie vérifiée avant migration ;
+- les migrations publiées restent immuables et leurs chemins source-cible sont fermés ;
+- interruption de diffusion, rollback binaire et restauration de données sont trois décisions différentes ;
+- une migration irréversible peut interdire le retour binaire et imposer un roll-forward ;
+- les plateformes sont des mécanismes de diffusion à revérifier, pas une garantie de rétrogradation ;
+- notes de version, support, métriques et communication restent corrélés au build ;
+- les tests couvrent plusieurs versions sources, interruptions et reprises sur copies ;
+- l’archivage des builds, outils et preuves reste au chapitre 22.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -2220,6 +2237,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas pseudo-localiser les variables, balises ou identifiants ;
 - ne pas déclarer une locale supportée après la seule traduction du catalogue ;
 - ne pas envoyer un corpus, un secret ou un contenu non publié à un fournisseur sans minimisation et approbation ;
+- ne pas modifier l’installation active pendant le téléchargement ou l’application d’un patch ;
+- ne pas appliquer un différentiel sans vérifier l’identité exacte de la base ;
+- ne pas confondre arrêt de diffusion, rollback binaire et restauration de données ;
+- ne pas revenir à un binaire incapable de lire le schéma courant ;
+- ne pas modifier en place une migration déjà publiée ;
+- ne pas écraser la copie pré-migration lors d’un retry ;
+- ne pas reconstruire un candidat pendant sa promotion entre canaux ;
+- ne pas retenter indéfiniment une erreur de schéma ou d’intégrité ;
+- ne pas collecter automatiquement sauvegardes brutes, secrets ou environnement complet ;
+- ne pas interpréter un tableau vide comme zéro incident ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2232,7 +2259,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 19 chapitres sur 22 ;
+- progression du Livre IV : 20 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2252,6 +2279,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 17 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 18 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 19 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 20 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2321,20 +2349,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 19 du Livre IV sont terminés au niveau documentaire et statique. Les catalogues, traductions, polices, écritures, pseudo-locales, captures, voix localisées, relectures linguistiques, validations en contexte, builds multilingues et déclarations de support linguistique de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les chapitres 1 à 20 du Livre IV sont terminés au niveau documentaire et statique. Les packages de patch, migrations, copies pré-migration, chemins depuis versions antérieures, déploiements progressifs, interruptions, rollbacks, hotfixes, métriques, communications et opérations de plateforme de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md
+Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 20 du Livre IV définira canaux stable, bêta et interne, compatibilité des patches, migrations de données, vérification d’intégrité, reprise, rollback contrôlé et communication de mise à jour.
+Le chapitre 21 du Livre IV définira surfaces d’extension, formats, API, documentation, sandbox, compatibilité, dépendances, licences, modération, support et validation de conflits de mods.
 
 ## 27. Journal
+
+### 2026-07-27T19:11:44+02:00 — version 3.83.0
+
+- création du chapitre 20 du Livre IV — Correctifs, mises à jour et retour arrière ;
+- correctif, hotfix, mise à jour, patch différentiel, interruption, rollback et roll-forward distingués ;
+- versions produit, build, contenu, sauvegarde et protocole séparées ;
+- canaux interne, bêta et stable, promotion du même candidat et versions sources supportées documentés ;
+- packages complets, patches différentiels, manifestes, préflight, staging, intégrité, activation et reprise préparés ;
+- sauvegardes versionnées, copies pré-migration, registres immuables, réversibilité et compatibilité encadrés ;
+- déploiements progressifs, observation, portes d’arrêt, interruption et population déjà exposée distingués ;
+- rollback binaire, restauration de données, désactivation, hotfix et roll-forward gouvernés ;
+- Steam, itch.io, Google Play, Apple, launcher, hors-ligne, sécurité, confidentialité et support documentés ;
+- tests depuis plusieurs versions, injection de fautes, exercice de rollback, procédures Solo/Studio et dix diagnostics ajoutés ;
+- métriques statiques : 1855 lignes, 73 titres, 64 blocs significatifs, 44 explications structurées et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- prochaine action déplacée vers le chapitre 21 — Modding et contenu communautaire, niveau Élevée ;
+- aucun package, patch, migration, canal, déploiement, interruption, rollback, hotfix, support runtime, opération de plateforme ou PDF du Livre IV produit.
 
 ### 2026-07-27T18:41:51+02:00 — version 3.82.0
 

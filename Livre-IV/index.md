@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.20.0"
-last-updated: "2026-07-27T18:41:51+02:00"
+version: "0.21.0"
+last-updated: "2026-07-27T19:11:44+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -31,17 +31,17 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 17. [Publication et distribution](CHAPITRE-17-Publication-et-distribution.md) — version `1.0.0`, niveau `static-review` ;
 18. [Accessibilité](CHAPITRE-18-Accessibilite.md) — version `1.0.0`, niveau `static-review` ;
 19. [Localisation et internationalisation](CHAPITRE-19-Localisation-et-internationalisation.md) — version `1.0.0`, niveau `static-review` ;
-20. Correctifs, mises à jour et retour arrière ;
+20. [Correctifs, mises à jour et retour arrière](CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md) — version `1.0.0`, niveau `static-review` ;
 21. Modding et contenu communautaire ;
 22. Maintenance, archivage et pérennité.
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **19 sur 22** ;
-- chapitre courant terminé : **chapitre 19 — Localisation et internationalisation** ;
-- prochaine entrée du plan maître : **chapitre 20 — Correctifs, mises à jour et retour arrière** ;
+- chapitres rédigés, repérés et audités : **20 sur 22** ;
+- chapitre courant terminé : **chapitre 20 — Correctifs, mises à jour et retour arrière** ;
+- prochaine entrée du plan maître : **chapitre 21 — Modding et contenu communautaire** ;
 - construction PDF : différée jusqu’à la fin du Livre IV.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 19 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 20 sont terminés au niveau documentaire et statique, sans revendication runtime.
