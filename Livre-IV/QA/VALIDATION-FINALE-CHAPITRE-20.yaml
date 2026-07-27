@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: cce8c63ca996701a983b7cbe6ec8e167d5aec99e
-validated-head-commit: pending-final-control
+validated-head-commit: c63c200f58ce3a76aadb2353b76b678739a1a2f5
 chapter:
   id: DOC-L4-CH20
   path: Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md
@@ -86,5 +86,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-final-control
-  conclusion: pending
+  commit: c63c200f58ce3a76aadb2353b76b678739a1a2f5
+  conclusion: success
