@@ -1,0 +1,53 @@
+name: Livre IV Chapter 20 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch20.finalize.start
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'docs/livre-iv-chapitre-20-correctifs-mises-a-jour-retour-arriere'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-20-correctifs-mises-a-jour-retour-arriere
+          fetch-depth: 0
+
+      - name: Reconstruct verified finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat tools/temporary/ch20.finalizer.*.b64 | tr -d '\n' | base64 --decode > /tmp/finalize_l4_ch20.py.gz
+          echo '4d37b530962f317362cb32efdc7f98cc4253267b53c072ad9f66e4856e349ddd  /tmp/finalize_l4_ch20.py.gz' | sha256sum --check --strict
+          gzip --decompress --stdout /tmp/finalize_l4_ch20.py.gz > /tmp/finalize_l4_ch20.py
+          echo '284ee32db3493310dc6fd19dc69ac98fda42ed869221bff77b28b84f10582076  /tmp/finalize_l4_ch20.py' | sha256sum --check --strict
+          python -m py_compile /tmp/finalize_l4_ch20.py
+
+      - name: Finalize permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python /tmp/finalize_l4_ch20.py
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          permanent='CONTINUITE-PROJET.md Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md Livre-IV/QA/AUDIT-CHAPITRE-20.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-20.yaml Livre-IV/index.md ROADMAP.md contents.txt plans/LIVRE-IV-PLAN-MAITRE.md '
+          final_diff="$(git diff --cached --name-only --diff-filter=ACMRT | grep -v '^\.github/workflows/livre-iv-ch20-finalizer.yml$' | grep -v '^tools/temporary/' | sort | tr '\n' ' ')"
+          test "$final_diff" = "$permanent"
+          git commit -m "docs(livre-iv): créer le chapitre 20 sur les mises à jour"
+          git push origin HEAD:docs/livre-iv-chapitre-20-correctifs-mises-a-jour-retour-arriere
