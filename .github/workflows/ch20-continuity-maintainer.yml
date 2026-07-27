@@ -1,0 +1,76 @@
+name: Chapter 20 Continuity Maintainer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+    paths:
+      - CONTINUITE-PROJET.md
+      - tools/temporary/ch20-continuity-metrics.start
+      - .github/workflows/ch20-continuity-maintainer.yml
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    if: github.head_ref == 'docs/ch20-align-continuity-metrics-v2'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ch20-align-continuity-metrics-v2
+          fetch-depth: 0
+
+      - name: Apply correction when triggered
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f tools/temporary/ch20-continuity-metrics.start ]; then
+            echo 'trigger_absent=true'
+            exit 0
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('CONTINUITE-PROJET.md')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              'version: "3.83.0"': 'version: "3.83.1"',
+              'last-updated: "2026-07-27T19:11:44+02:00"': 'last-updated: "2026-07-27T20:02:00+02:00"',
+              '- métriques statiques : 1855 lignes, 73 titres, 64 blocs significatifs, 44 explications structurées et dix diagnostics ;': '- métriques statiques : 1857 lignes, 68 titres, 43 blocs significatifs, 44 explications structurées et dix diagnostics ;',
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'occurrence inattendue pour: {old}')
+              text = text.replace(old, new, 1)
+
+          entry = '''### 2026-07-27T20:02:00+02:00 — version 3.83.1
+
+- alignement des métriques du chapitre 20 sur le validateur permanent ;
+- nombre de lignes corrigé de 1855 à 1857 après qualification de la section de diagnostics ;
+- titres hors blocs alignés de 73 à 68 et blocs significatifs de 64 à 43 selon la convention permanente ;
+- chapitre, audit, preuve QA, périmètre, réserves et prochaine action inchangés ;
+- aucune exécution runtime, opération de plateforme ou production PDF ajoutée.
+
+'''
+          anchor = '## 27. Journal\n\n'
+          if text.count(anchor) != 1:
+              raise SystemExit('ancre journal introuvable')
+          text = text.replace(anchor, anchor + entry, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+
+          rm tools/temporary/ch20-continuity-metrics.start
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CONTINUITE-PROJET.md tools/temporary/ch20-continuity-metrics.start
+          actual="$(git diff --cached --name-only | sort | tr '\n' ' ')"
+          test "$actual" = 'CONTINUITE-PROJET.md tools/temporary/ch20-continuity-metrics.start '
+          git commit -m "docs(continuité): aligner les métriques du chapitre 20"
+          git push origin HEAD:docs/ch20-align-continuity-metrics-v2
