@@ -1,0 +1,86 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH21
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-27'
+validated-base-commit: e883e19cd28a3d62b346632f022c28c44082433b
+validated-head-commit: c8f2c126e460328fd160b827c2c09bd3523430e5
+chapter:
+  id: DOC-L4-CH21
+  path: Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1771
+  chapter-headings: 66
+  chapter-code-and-data-blocks: 43
+  significant-code-and-data-blocks: 37
+  code-explanation-markers: 43
+  structured-non-error-code-explanations: 23
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  support-tiers-and-extension-surfaces-documented: true
+  stable-manifest-identities-and-versioning-documented: true
+  staging-archive-safety-and-quotas-documented: true
+  pck-namespace-and-no-replacement-documented: true
+  untrusted-code-not-presented-as-sandboxed: true
+  capabilities-and-deny-by-default-documented: true
+  deterministic-dependencies-order-and-conflicts-documented: true
+  install-enable-disable-uninstall-separated: true
+  safe-mode-documented: true
+  modded-save-state-and-migrations-documented: true
+  localization-accessibility-and-multiplayer-documented: true
+  sdk-template-example-mod-documented: true
+  platform-adapters-documented: true
+  licenses-provenance-moderation-and-support-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: e05aa60ef3e963afeb9a63f0f8f69c5ed51d817cda6c64ea34dc3295a82261ed
+  audit-sha256: a3bcc24eac922a916b07639baaa94077e4495ef741165058ff4ee77d32f6ebde
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 21 Finalizer
+    execution: chapter-finalizer
+    run-id: 30301894594
+    conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30302837518
+    conclusion: success
+    artifact-id: 8667236452
+    artifact-digest: sha256:ea6a30e7fdbf9b87d86c4b7be1b50de495cff4beb273db65ba7349e5b5a0f6e0
+reservations:
+- No mod loader manager SDK template schema or example mod was materialized.
+- No PCK ZIP runtime asset GDScript or native extension was loaded.
+- No code sandbox or isolation boundary was qualified.
+- No archive file count memory VRAM complexity or validation-time quota was measured.
+- No Steam Workshop UGC GitHub release itch.io or community repository adapter was configured.
+- No install activation deactivation uninstall safe-mode or conflict scenario was executed.
+- No modded save migration missing-mod or rollback scenario was run.
+- No multiplayer mod-set negotiation or mismatch refusal was executed.
+- No license provenance redistribution attribution or legal review was completed.
+- No moderation report removal sanction appeal or user-support workflow was operated.
+- No public modding policy SDK documentation or support statement was published.
+- Collection-wide licence not defined.
+- Final export accessibility tagging remains open.
+evidence-closure:
+  commit: c8f2c126e460328fd160b827c2c09bd3523430e5
+  conclusion: success
