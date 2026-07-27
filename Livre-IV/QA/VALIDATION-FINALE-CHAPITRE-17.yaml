@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 0b83253f910a017c05b564f30a3bca726c2105c8
-validated-head-commit: 5690ed64b9e05452a0de4d93f1907d530dd27d39
+validated-head-commit: ffcb83e67efc2756d42f12419c4c9106bc16ab8d
 chapter:
   id: DOC-L4-CH17
   path: Livre-IV/CHAPITRE-17-Publication-et-distribution.md
@@ -64,8 +64,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-final-control
-    conclusion: pending
+    run-id: 30260584042
+    conclusion: success
+    artifact-id: 8650697633
+    artifact-digest: sha256:ffb5fc6297e9b77e38b108906540eac6be985587e40ad3717622bc044cfd5566
 reservations:
 - Publication accounts and organization identities were not created or qualified.
 - Product records and storefront pages were not created.
@@ -89,5 +91,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: 5690ed64b9e05452a0de4d93f1907d530dd27d39
+  commit: ffcb83e67efc2756d42f12419c4c9106bc16ab8d
   conclusion: success
