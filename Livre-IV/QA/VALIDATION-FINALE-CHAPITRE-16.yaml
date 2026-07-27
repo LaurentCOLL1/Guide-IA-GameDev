@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 4649385c3c0a213158b192d00275e0a6a636aee9
-validated-head-commit: d62bc433ded90c88f78143c677becd284fa9421b
+validated-head-commit: 3330cea63cd5994d22c0f24625c04af6c261422b
 chapter:
   id: DOC-L4-CH16
   path: Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md
@@ -89,5 +89,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: d62bc433ded90c88f78143c677becd284fa9421b
+  commit: 3330cea63cd5994d22c0f24625c04af6c261422b
   conclusion: success
