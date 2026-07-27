@@ -4,13 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    types:
-      - opened
-      - synchronize
-    paths:
-      - CONTINUITE-PROJET.md
-      - tools/temporary/ch20-continuity-metrics.start
-      - .github/workflows/ch20-continuity-maintainer.yml
 
 permissions:
   contents: write
