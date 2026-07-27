@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-27'
 validated-base-commit: 0b83253f910a017c05b564f30a3bca726c2105c8
-validated-head-commit: pending-final-control
+validated-head-commit: 7aca0c67fb8b8eaa9063c00b5ed98740370cdca2
 chapter:
   id: DOC-L4-CH17
   path: Livre-IV/CHAPITRE-17-Publication-et-distribution.md
@@ -60,7 +60,7 @@ ci:
     workflow-name: Livre IV Chapter 17 Finalizer
     execution: chapter-finalizer
     run-id: 30257012575
-    conclusion: pending-runtime-confirmation
+    conclusion: success
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
@@ -89,5 +89,5 @@ reservations:
 - Collection-wide licence not defined.
 - Final export accessibility tagging remains open.
 evidence-closure:
-  commit: pending-final-control
-  conclusion: pending
+  commit: 7aca0c67fb8b8eaa9063c00b5ed98740370cdca2
+  conclusion: success
