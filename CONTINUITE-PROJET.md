@@ -2405,7 +2405,7 @@ Le chapitre 22 du Livre IV organisera surveillance des dépendances et vulnérab
 - dépendances, cycles, contraintes, ordre stable, conflits, fusion, mode sûr et désactivation gouvernés ;
 - sauvegardes moddées, migrations, dépréciation, localisation, accessibilité et multijoueur préparés ;
 - SDK, templates, mod d’exemple, validateurs, plateformes UGC, provenance, modération et support documentés ;
-- métriques statiques : 1731 lignes, 66 titres, 42 blocs significatifs, 23 explications structurées et dix diagnostics ;
+- métriques statiques : 1771 lignes, 66 titres, 37 blocs significatifs, 23 explications structurées et dix diagnostics ;
 - index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
 - prochaine action déplacée vers le chapitre 22 — Maintenance, archivage et pérennité, niveau Élevée ;
 - aucun chargeur, SDK, mod, sandbox, plateforme UGC, campagne runtime, modération réelle ou PDF du Livre IV produit.

@@ -13,10 +13,10 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 1731
+  chapter-lines: 1771
   chapter-headings: 66
   chapter-code-and-data-blocks: 43
-  significant-code-and-data-blocks: 42
+  significant-code-and-data-blocks: 37
   code-explanation-markers: 43
   structured-non-error-code-explanations: 23
   detailed-error-cases: 10
@@ -52,8 +52,8 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 964faaa7b0bb73f57febe16c5737bddf638f2f8aa71c7a9f73fae6fd143e8f6d
-  audit-sha256: b63ea91746eb50240f0c3fb359f095e8a2dbb763a46dc995d5fa996cf507ce66
+  chapter-sha256: c99b4a57bb0d048a6f4f81ecefc77040fc44596f694da811e95ce656df3f620c
+  audit-sha256: 0f5c05f0a0289d69170f4aa97b115777a80110f590a103abc4191ae5bffb10e4
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 21 Finalizer

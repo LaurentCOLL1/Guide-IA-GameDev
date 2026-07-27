@@ -85,10 +85,10 @@ Les cinq livrables sont représentés : SDK ou templates, documentation, sandbox
 
 | Mesure | Valeur |
 |---|---:|
-| Lignes | 1731 |
+| Lignes | 1771 |
 | Titres | 66 |
 | Blocs de code ou données | 43 |
-| Blocs significatifs | 42 |
+| Blocs significatifs | 37 |
 | Marqueurs d’explication | 43 |
 | Explications structurées hors diagnostics | 23 |
 | Cas fautifs expliqués | 10 |
@@ -149,7 +149,7 @@ Le chapitre ne recrée ni la chaîne CI/CD, ni les packages officiels, ni la pub
 
 ## 11. Preuves d’intégrité
 
-- empreinte SHA-256 du chapitre : `964faaa7b0bb73f57febe16c5737bddf638f2f8aa71c7a9f73fae6fd143e8f6d` ;
+- empreinte SHA-256 du chapitre : `c99b4a57bb0d048a6f4f81ecefc77040fc44596f694da811e95ce656df3f620c` ;
 - empreinte SHA-256 de l’audit : calculée après fermeture du présent rapport et enregistrée dans la preuve YAML ;
 - validation permanente légère : en attente du commit final de la branche ;
 - niveau d’audit : `static-review`.

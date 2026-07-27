@@ -1276,6 +1276,8 @@ Chaque version de l’API possède un propriétaire, une matrice de compatibilit
 
 - **Invariant violé :** L’identité contient espaces, accents et texte éditorial.
 - **Conséquence :** Le même contenu peut recevoir plusieurs identités selon la langue.
+- **Cause :** L’identité technique est confondue avec une présentation localisable.
+- **Refus attendu :** Le validateur rejette l’identifiant avant l’enregistrement dans le catalogue.
 
 **Exemple corrigé :**
 
@@ -1295,6 +1297,8 @@ Chaque version de l’API possède un propriétaire, une matrice de compatibilit
 
 - **Invariant restauré :** L’identifiant technique reste stable.
 - **Présentation :** Le nom affiché est localisable sans modifier les références.
+- **Limite :** La clé de présentation doit exister dans chaque catalogue qualifié.
+- **Résultat attendu :** Dépendances et sauvegardes conservent la même identité dans toutes les langues.
 
 ### 48.2 Monter un PCK avec remplacement global
 
@@ -1315,6 +1319,8 @@ var scene := load("res://main.tscn")
 
 - **Invariant violé :** `true` autorise le pack à remplacer les fichiers déjà montés.
 - **Conséquence :** Le chemin officiel peut résoudre vers une ressource communautaire.
+- **Cause :** Le remplacement global accorde au pack une autorité hors de son namespace.
+- **Refus attendu :** Le chargeur refuse tout pack qui exige l’écrasement d’un chemin officiel.
 
 **Exemple corrigé :**
 
@@ -1331,6 +1337,8 @@ var scene := load("res://mods/org.example.relay-expansion/main.tscn")
 
 - **Invariant restauré :** Le pack ne remplace pas les ressources existantes.
 - **Namespace :** Le point d’entrée reste sous la racine réservée au mod.
+- **Limite :** `false` ne dispense pas de valider les chemins et le manifeste du pack.
+- **Résultat attendu :** Les ressources officielles restent autoritaires après le montage.
 
 ### 48.3 Charger un script communautaire comme une donnée
 
@@ -1352,6 +1360,8 @@ instance.run()
 
 - **Invariant violé :** Un chemin non fiable devient du code exécutable.
 - **Conséquence :** Le script peut utiliser les capacités accessibles au processus.
+- **Cause :** `load()`, `new()` et `run()` franchissent la frontière entre donnée et code.
+- **Refus attendu :** Le niveau public rejette tout point d’entrée exécutable non isolé.
 
 **Exemple corrigé :**
 
@@ -1371,6 +1381,8 @@ instance.run()
 
 - **Invariant restauré :** Le mod demande une opération appartenant à une allowlist.
 - **Autorité :** Le service officiel valide et applique la commande.
+- **Limite :** La grammaire déclarative doit rester versionnée, bornée et validée.
+- **Résultat attendu :** Le service officiel conserve la décision d’autorisation et l’effet métier.
 
 ### 48.4 Extraire une archive sans inspecter ses chemins
 
@@ -1391,6 +1403,8 @@ with ZipFile(package, "r") as archive:
 
 - **Invariant violé :** L’extraction précède la validation des membres.
 - **Conséquence :** Des chemins malveillants peuvent viser des fichiers voisins.
+- **Cause :** `extractall()` écrit avant la canonicalisation et la validation des membres.
+- **Refus attendu :** Toute entrée sortant du staging fait échouer le package entier.
 
 **Exemple corrigé :**
 
@@ -1408,6 +1422,8 @@ extract_validated_members(package, members, staging)
 
 - **Invariant restauré :** Tous les chemins sont inspectés avant écriture.
 - **Staging :** L’installation active reste inchangée tant que le lot n’est pas validé.
+- **Limite :** L’inspection doit aussi borner tailles, nombre de fichiers, liens et types.
+- **Résultat attendu :** Seuls les membres approuvés sont écrits dans le staging isolé.
 
 ### 48.5 Utiliser l’ordre du système de fichiers
 
@@ -1428,6 +1444,8 @@ for directory in mods_root.iterdir():
 
 - **Invariant violé :** `iterdir()` ne constitue pas un contrat d’ordre portable.
 - **Conséquence :** Les priorités et conflits deviennent non reproductibles.
+- **Cause :** Une énumération implicite remplace à tort le résolveur de dépendances.
+- **Refus attendu :** Un graphe non résolu ou cyclique empêche l’activation.
 
 **Exemple corrigé :**
 
@@ -1446,6 +1464,8 @@ for mod in stable_load_order(resolved):
 
 - **Invariant restauré :** Dépendances et départage stable déterminent l’ordre.
 - **Diagnostic :** Les cycles et conflits sont refusés avant chargement.
+- **Limite :** La règle de départage stable fait partie du contrat versionné.
+- **Résultat attendu :** Le même ensemble de mods produit le même ordre sur chaque machine.
 
 ### 48.6 Oublier l’ensemble de mods dans la sauvegarde
 
@@ -1468,6 +1488,8 @@ for mod in stable_load_order(resolved):
 
 - **Invariant violé :** La sauvegarde ne dit pas quelles extensions ont produit l’état.
 - **Conséquence :** L’absence d’un mod est découverte trop tard.
+- **Cause :** L’état autoritaire est détaché des extensions qui l’ont produit.
+- **Refus attendu :** Un mod requis absent est détecté avant toute mutation de la sauvegarde.
 
 **Exemple corrigé :**
 
@@ -1492,6 +1514,8 @@ for mod in stable_load_order(resolved):
 
 - **Invariant restauré :** Le chargeur connaît l’API, les versions et namespaces requis.
 - **Dégradation :** Le contrat peut décider de bloquer ou de charger en mode limité.
+- **Limite :** La sauvegarde conserve identifiants, versions et schémas, jamais les textes affichés.
+- **Résultat attendu :** Les mods absents ou incompatibles sont diagnostiqués avant restauration.
 
 ### 48.7 Déclarer une compatibilité illimitée
 
@@ -1514,6 +1538,8 @@ for mod in stable_load_order(resolved):
 
 - **Invariant violé :** Aucun contrat n’encadre les versions acceptées.
 - **Conséquence :** Une incompatibilité devient une erreur runtime tardive.
+- **Cause :** Le joker masque l’absence de contrat de compatibilité vérifiable.
+- **Refus attendu :** Une plage non bornée n’est pas considérée compatible.
 
 **Exemple corrigé :**
 
@@ -1535,6 +1561,8 @@ for mod in stable_load_order(resolved):
 
 - **Invariant restauré :** La plage du jeu et la version d’API sont explicites.
 - **Refus précoce :** Le chargeur peut bloquer avant l’accès aux contenus.
+- **Limite :** Une migration reste nécessaire lorsque le schéma d’état du mod évolue.
+- **Résultat attendu :** Une version majeure incompatible est refusée avant chargement.
 
 ### 48.8 Accorder des capacités inconnues par défaut
 
@@ -1557,6 +1585,8 @@ for capability in requested:
 
 - **Invariant violé :** L’inconnu est ignoré au lieu d’être refusé.
 - **Conséquence :** Le manifeste peut sembler accepté sans respecter son intention.
+- **Cause :** `continue` traite une demande inconnue comme si elle était sans effet.
+- **Refus attendu :** Toute capacité inconnue produit une décision de refus explicite.
 
 **Exemple corrigé :**
 
@@ -1576,6 +1606,8 @@ if not denied.is_empty():
 
 - **Invariant restauré :** Toute capacité inconnue bloque la décision.
 - **Diagnostic :** La liste refusée permet une correction précise.
+- **Limite :** La version de politique doit être corrélée à l’API de mod et au build.
+- **Résultat attendu :** Aucune capacité n’est accordée avant l’évaluation complète de la demande.
 
 ### 48.9 Redistribuer des assets sans preuve de droits
 
@@ -1598,6 +1630,8 @@ mod:
 
 - **Invariant violé :** `free` n’est pas une licence et les titulaires sont inconnus.
 - **Conséquence :** La plateforme et les utilisateurs ne connaissent pas les droits accordés.
+- **Cause :** Un libellé commercial remplace indûment licence, titulaire et provenance.
+- **Refus attendu :** La publication est bloquée tant que les droits restent incomplets.
 
 **Exemple corrigé :**
 
@@ -1618,6 +1652,8 @@ mod:
 
 - **Invariant restauré :** Code, contenus et dépendances sont distingués.
 - **Réserve :** Les identifiants structurent la déclaration mais ne prouvent pas la titularité.
+- **Limite :** Les expressions SPDX doivent renvoyer aux notices et registres de sources.
+- **Résultat attendu :** Le réviseur peut retracer droits, dépendances et attributions.
 
 ### 48.10 Supprimer l’état lors d’une désactivation
 
@@ -1640,6 +1676,8 @@ func disable_mod(mod_id: StringName) -> void:
 
 - **Invariant violé :** Désactivation, suppression d’état et désinstallation sont fusionnées.
 - **Conséquence :** Une opération réversible devient destructive.
+- **Cause :** La désactivation est confondue avec une suppression destructive.
+- **Refus attendu :** Une action réversible ne peut effacer ni état ni fichiers.
 
 **Exemple corrigé :**
 
@@ -1661,6 +1699,8 @@ func disable_mod(mod_id: StringName) -> Dictionary:
 
 - **Invariant restauré :** Seule la sélection active change.
 - **Réversibilité :** État et fichiers restent disponibles pour réactivation ou export.
+- **Limite :** La réactivation doit revérifier compatibilité, dépendances et intégrité.
+- **Résultat attendu :** Le joueur peut réactiver ou exporter l’état sans perte silencieuse.
 
 ## 49. Checklist d’acceptation documentaire
 
