@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.95.0"
+version: "3.96.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T18:20:01+02:00"
+last-updated: "2026-07-28T19:12:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 8 chapitres sur 26 ;
+- progression du Livre V : 9 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2324,6 +2324,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 6 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 7 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 8 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 9 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2418,19 +2419,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient huit fiches sur 26 au niveau `static-review`. La fiche 08 catalogue les workflows Godot, Blender, ComfyUI, audio et documentation, puis sépare contrat, exécution, artefact, cache, preuve, reprise, profils Solo/Studio et acceptation. Les templates exécutables, campagnes runtime, benchmarks, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient neuf fiches sur 26 au niveau `static-review`. La fiche 09 catalogue les prompts textuels, structurés, RAG, code, visuels, audio et narratifs, puis sépare template, instance, run, modèle cible, paramètres, sécurité et évaluation. Les appels de modèles, datasets de test, sorties réelles, mesures, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-09-Bibliotheque-de-prompts.md
+Livre-V/CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 9 cataloguera les prompts par tâche et modèle avec variables, contraintes, formats attendus, limites, biais, sécurité et critères d’évaluation. Il devra distinguer template, instance et résultat, dater le modèle cible, et ne présenter aucun prompt comme universel ou validé sans campagne enregistrée.
+Le chapitre 10 cataloguera des recettes courtes GDScript, Python, PowerShell et Bash avec contexte, paramètres, sorties, codes d’échec, sécurité, licences et statut d’exécution. Il devra distinguer recette pédagogique, squelette statique et composant réellement testé, sans absorber les références complètes des chapitres 11 et 12 ni matérialiser prématurément le Companion Pack.
 ## 27. Journal
+
+### 2026-07-28T19:12:00+02:00 — version 3.96.0
+
+- création de la fiche 09 — Bibliothèque de prompts ;
+- ajout de treize cartes et de trois matrices compactes ;
+- prompts textuels, structurés, RAG, code, visuels, audio et narratifs catalogués ;
+- template, variante, instance, requête, réponse brute, résultat interprété et décision séparés ;
+- variables, modèles cibles, paramètres, injections, outils et douze tests de qualification documentés sans résultat inventé ;
+- sources officielles d’OpenAI, Google, Anthropic, Ollama et OWASP revues le 28 juillet 2026 ;
+- métriques statiques : 402 lignes, 18 titres, 13 fiches, 3 matrices, 51 liens, 27 renvois propriétaires et 27 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 10 — Bibliothèque de scripts et recettes de code, niveau Élevée ;
+- aucun modèle, API, outil, prompt du Companion Pack, réponse, parse, génération, mesure, secret, approbation juridique ou PDF produit.
+
 
 ### 2026-07-28T18:20:01+02:00 — version 3.95.0
 

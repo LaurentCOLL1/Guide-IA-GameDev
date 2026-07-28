@@ -125,4 +125,5 @@ Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
 Livre-V/CHAPITRE-06-Fiches-des-modeles-visuels.md
 Livre-V/CHAPITRE-07-Fiches-des-modeles-audio.md
 Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md
+Livre-V/CHAPITRE-09-Bibliotheque-de-prompts.md
 Companion-Pack/index.md

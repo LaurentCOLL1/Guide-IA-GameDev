@@ -1,0 +1,62 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH09
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 8a3097b99718fe0cf4a3876236b2c923680726e4
+source-branch: docs/livre-v-ch09-bibliotheque-prompts
+chapter:
+  id: DOC-L5-CH09
+  path: Livre-V/CHAPITRE-09-Bibliotheque-de-prompts.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 12
+  chapter-lines: 402
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 51
+  source-book-links: 27
+  fragment-links: 27
+  official-links: 7
+  fenced-blocks: 0
+  prompt-domains-covered: 7
+  structured-output-covered: true
+  rag-and-citations-covered: true
+  code-prompts-covered: true
+  visual-prompts-covered: true
+  audio-prompts-covered: true
+  narrative-prompts-covered: true
+  injection-and-security-covered: true
+  template-instance-run-separated: true
+  evaluation-matrix-present: true
+  model-version-required: true
+  illustrative-outputs-only: true
+  runtime-results-invented: false
+  companion-pack-boundary-preserved: true
+  tutorial-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 97045946fa11249a55385db9716b478c570e9cc1bc34bfea6411d181b2418fb9
+  audit-sha256: f5e9c8bd3d00e705905ff2224f199403f3fb7d27b10da1ab2d2d9a110c770760
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No language, visual or audio model was called.
+- No reusable prompt template or Companion Pack dataset was created.
+- No prompt instance was resolved and no request was sent.
+- No raw response, structured output or tool call was produced.
+- No parse, code test, RAG answer, image or audio generation was executed.
+- No variance, migration or regression campaign was performed.
+- No prompt-injection or runtime security test was performed.
+- No secret, personal data, external file or network service was handled.
+- No token, latency, cost, memory or quality measurement was produced.
+- No human score, legal approval or production decision was recorded.
+- No permanent Companion Pack artifact was materialized.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.

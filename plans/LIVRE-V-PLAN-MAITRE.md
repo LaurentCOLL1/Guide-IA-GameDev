@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.8.0"
+version: "1.9.0"
 lang: "fr-FR"
 last-updated: "2026-07-28"
 book: "Livre V"
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
-> **Statut :** 8 chapitres sur 26 rédigés et audités au niveau `static-review`
+> **Statut :** 9 chapitres sur 26 rédigés et audités au niveau `static-review`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles spécifiques du Livre V
@@ -208,6 +208,8 @@ Aucun clonage vocal sans consentement explicite. Validation par licence et traç
 Les tutoriels restent dans leurs Livres. Validation par exécution du workflow minimal.
 
 ## Chapitre 9 — Bibliothèque de prompts
+
+**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.
 
 **Objectifs**
 
