@@ -6,6 +6,7 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre V"
 chapter: 3
+last-verified: "2026-07-28T13:42:52+02:00"
 audit-date: "2026-07-28T13:42:52+02:00"
 audit-level: "static-review"
 audited-document: "Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md"
