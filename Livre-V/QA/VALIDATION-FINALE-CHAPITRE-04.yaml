@@ -41,8 +41,19 @@ integrity:
   chapter-sha256: 8b3456593905c277c269888e3000470e52835869393a27d35d3149ec07494036
   audit-sha256: ce249db94b76015b175666b99afadd52a3bb75f07a97a7c0a806e8296eba1d39
 ci:
+  specialized-builder:
+    workflow: Temporary Livre V Chapter 4 Builder
+    run-id: 30358712736
+    conclusion: success
+    artifact-id: 8687867220
+    artifact-digest: sha256:18fbccc7d2f80ab62c8a6d3f41a2aac56558bea155e9d5c96b7bee87734d8980
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow: Validate Chapters Without PDF
+    head-commit: c93d59e327c1350f3d47478a002e2c9d8d025af8
+    run-id: 30358839792
+    conclusion: success
+    artifact-id: 8687914123
+    artifact-digest: sha256:f12046cf45352be8fc4f93f5c49bf99dac1e6277deeb6e8cd0bea4568303d269
 reservations:
 - No engine, model, workflow, container, server or audio file was executed.
 - No minimal verification command was executed.
