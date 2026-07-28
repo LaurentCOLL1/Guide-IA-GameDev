@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "0.3.0"
+version: "0.4.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -25,7 +25,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 ## Chapitres
 
 - [x] [Fiche 01 — Carte générale de la collection](CHAPITRE-01-Carte-generale-de-la-collection.md) — version `1.1.0`, niveau `static-review`.
-- [ ] Chapitre 2 — Arbres de décision.
+- [x] [Fiche 02 — Arbres de décision](CHAPITRE-02-Arbres-de-decision.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 3 — Fiches des logiciels et outils.
 - [ ] Chapitre 4 — Fiches des moteurs et backends IA.
 - [ ] Chapitre 5 — Fiches des modèles de langage.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **1 chapitre sur 26** rédigé et audité. La fiche 01 utilise désormais le profil de référence spécialisé du Livre V. Les campagnes runtime, les artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **2 chapitres sur 26** rédigés et audités. Les fiches 01 et 02 utilisent le profil de référence spécialisé du Livre V ; la fiche 02 fournit les arbres, critères pondérés et scénarios AMD/CPU/Solo/Studio. Les campagnes runtime, les artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
