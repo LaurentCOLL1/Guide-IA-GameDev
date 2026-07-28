@@ -1,0 +1,131 @@
+| Champ | Référence datée |
+|---|---|
+| famille | Qwen-Image, modèle MMDiT 20B orienté génération, rendu de texte et édition |
+| état courant | ComfyUI documente Qwen-Image-2512 comme mise à jour de décembre et des variantes d’édition séparées |
+| composants | modèle de diffusion, encodeur Qwen 2.5 VL, VAE et éventuelle LoRA d’accélération |
+| licence | Apache 2.0 annoncé pour la base ouverte ; vérifier chaque mise à jour, contrôle et LoRA séparément |
+| texte | capacités annoncées en plusieurs langues ; le français, les accents et les petites tailles doivent être testés |
+| résolution | suivre les ratios et dimensions du template exact ; ne pas forcer une taille arbitraire comme baseline |
+| contrôle | ControlNets, patches ou LoRA de contrôle existent, avec compatibilités et préprocesseurs propres |
+| mémoire | 20B et plusieurs composants ; ne pas présumer un chargement local complet sur 12 Go de VRAM |
+| sources officielles | [annonce Qwen-Image](https://qwenlm.github.io/blog/qwen-image/), [workflow ComfyUI Qwen-Image](https://docs.comfy.org/tutorials/image/qwen/qwen-image), [workflow Qwen-Image-2512](https://docs.comfy.org/tutorials/image/qwen/qwen-image-2512) |
+| sources internes | [prompt structuré et contrôle humain](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#18-écrire-un-contrat-de-prompt), [fiche des modèles de langage](CHAPITRE-05-Fiches-des-modeles-de-langage.md#modèle-00--contrat-dune-fiche) |
+| preuve | pages officielles revues le `2026-07-28` ; aucun test typographique exécuté |
+
+**Décision de consultation :** réserver une planche dédiée au texte français, aux signes diacritiques, aux alignements et aux petits corps. Une démonstration anglaise ou chinoise ne valide pas cette tâche.
+
+---
+
+<!-- l5:card -->
+## VISUEL-04 — HunyuanImage-3.0
+
+| Champ | Référence datée |
+|---|---|
+| famille | HunyuanImage-3.0, modèle multimodal autorégressif de génération et d’édition |
+| architecture annoncée | mélange de 64 experts, 80B paramètres totaux et 13B actifs |
+| variantes | base texte-vers-image, Instruct pour édition et raisonnement, Instruct-Distil à moins d’étapes |
+| composants | checkpoint, tokenizer, code distant et dépendances d’inférence ; plusieurs licences peuvent intervenir |
+| mémoire | modèle de recherche lourd, non présumé compatible avec le poste local de référence |
+| runtime | exemples officiels CUDA et vLLM ; aucun support AMD Windows ou ComfyUI Core n’est inféré |
+| licence | lire le fichier de licence du dépôt et les conditions du checkpoint exact avant tout téléchargement |
+| usage | comparaison hors ligne, édition complexe ou service spécialisé après qualification |
+| source officielle | [dépôt HunyuanImage-3.0](https://github.com/Tencent-Hunyuan/HunyuanImage-3.0) |
+| sources internes | [séparer moteur et modèle](CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md#moteur-00--contrat-et-vocabulaire), [niveau de preuve du pipeline visuel](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#2-portée-niveau-de-preuve-et-réserves) |
+| preuve | dépôt officiel revu le `2026-07-28` ; aucune installation ni exécution |
+
+**Décision de consultation :** conserver HunyuanImage-3.0 comme référence de modèle lourd. Il ne doit pas déplacer les baselines locales avant disponibilité d’un environnement matériel et juridique approprié.
+
+---
+
+<!-- l5:card -->
+## VISUEL-05 — HiDream-I1
+
+| Champ | Référence datée |
+|---|---|
+| famille | HiDream-I1, modèle de génération d’images 17B |
+| variantes | Full, Dev et Fast avec nombres d’étapes de référence distincts |
+| licence | dépôt et modèles annoncés sous MIT ; l’encodeur Llama 3.1 8B possède ses propres conditions |
+| composants | modèle HiDream, tokenizers, plusieurs encodeurs dont Llama, VAE et pipeline |
+| runtime | implémentation officielle centrée CUDA et Flash Attention |
+| mémoire | aucune adaptation AMD Windows ou exécution 12 Go n’est présumée |
+| avantage documentaire | illustre pourquoi une licence permissive du modèle principal ne couvre pas toute la chaîne |
+| alternative | FLUX.2 Klein pour un paquet plus compact ; SDXL pour un écosystème plus ancien et large |
+| source officielle | [dépôt HiDream-I1](https://github.com/HiDream-ai/HiDream-I1) |
+| sources internes | [licences de chaque dépendance](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#4-vocabulaire-opérationnel), [manifester les composants](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#15-manifester-les-modèles-et-leurs-droits) |
+| preuve | dépôt officiel revu le `2026-07-28` ; aucun modèle téléchargé |
+
+**Décision de consultation :** ne pas étiqueter le paquet entier « MIT » sans enregistrer séparément l’encodeur Llama, ses fichiers et ses conditions.
+
+---
+
+<!-- l5:matrix -->
+## Matrice B — Compatibilité du paquet
+
+| Composant | Doit correspondre à | Symptôme d’incompatibilité | Preuve minimale |
+|---|---|---|---|
+| diffusion ou transformer | architecture, précision et chargeur | nœud absent, forme de tenseur invalide, sortie incohérente | modèle exact chargé par un workflow officiel ou qualifié |
+| encodeur de texte | tokenizer et architecture attendus | prompt ignoré, erreur de dimensions, langue dégradée | fichier, révision, tokenizer et test de prompt témoin |
+| VAE ou autoencodeur | espace latent et échelle du modèle | couleurs, contraste, détails ou décodage incorrects | VAE recommandé ou comparaison documentée |
+| ControlNet | famille de base et type de condition | contrôle inactif, erreur de forme ou composition instable | base, contrôle, préprocesseur et entrée témoin identifiés |
+| LoRA | architecture, modules ciblés et convention de poids | aucun effet, artefacts ou sur-contrainte | base exacte, poids, déclencheurs et intensité enregistrés |
+| upscaler | domaine d’image et facteur | textures plastifiées, halos, lignes inventées | modèle, facteur, tuilage et comparaison à 100 % |
+| sampler et scheduler | famille et variante distillée ou non | bruit résiduel, surcuisson ou résultat non comparable | paramètres issus du template ou de la carte du modèle |
+| nœuds ComfyUI | version Core ou commit de l’extension | workflow incomplet ou comportement modifié | version de ComfyUI, nœuds et dépendances épinglés |
+| backend | opérations réellement prises en charge | fallback CPU, erreur mémoire ou résultat différent | journal, mémoire et génération témoin sur le matériel |
+| licence | chaque fichier et dérivé | usage ou redistribution bloqués | texte de licence archivé et décision humaine |
+
+La [documentation ComfyUI sur les modèles](https://docs.comfy.org/development/core-concepts/models) confirme que checkpoints, VAE, LoRA, ControlNet et upscalers sont des poids distincts. Le [workflow JSON canonique](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#14-enregistrer-le-workflow-json-comme-source-canonique) doit citer chacun d’eux.
+
+---
+
+<!-- l5:card -->
+## VISUEL-06 — VAE et autoencodeur
+
+| Champ | Référence |
+|---|---|
+| besoin | encoder une image vers l’espace latent et décoder le latent vers l’image |
+| réponse rapide | employer le VAE ou autoencodeur explicitement recommandé par la famille ou le checkpoint |
+| identité | fichier, architecture, révision, empreinte, précision et licence |
+| compatibilité | l’espace latent, l’échelle et les canaux doivent correspondre au modèle |
+| comparaison | même latent ou même workflow, sans modifier sampler, prompt ou seed |
+| contrôles | couleurs, noirs, hautes lumières, gradients, détails fins, bandes et saturation |
+| mémoire | peut être chargé, déchargé ou tuilé selon le runtime ; mesurer au lieu de supposer |
+| risque | un VAE « plus net » peut modifier la matière ou masquer des défauts plutôt qu’améliorer la fidélité |
+| alternative | VAE intégré au checkpoint seulement si son identité est connue et acceptée |
+| source officielle | [modèles et répertoires ComfyUI](https://docs.comfy.org/development/core-concepts/models) |
+| source interne | [composants secondaires du manifeste](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#15-manifester-les-modèles-et-leurs-droits) |
+| preuve | revue statique ; aucun décodage comparatif exécuté |
+
+---
+
+<!-- l5:card -->
+## VISUEL-07 — Encodeurs de texte
+
+| Champ | Référence |
+|---|---|
+| besoin | transformer le texte en conditionnement consommé par le modèle visuel |
+| réponse rapide | enregistrer tokenizer, encodeur, précision et révision comme dépendances du paquet |
+| familles | CLIP, T5, Qwen VL, Llama ou autres selon l’architecture |
+| compatibilité | une version voisine ou quantifiée peut changer mémoire, longueur et sémantique |
+| langues | tester le français, les accents, la négation, les noms propres et le vocabulaire du projet |
+| mémoire | certains grands modèles visuels déplacent une part importante de la mémoire vers l’encodeur |
+| sécurité | `trust_remote_code` ou code de tokenizer impose une revue séparée |
+| licence | l’encodeur peut avoir des conditions différentes du générateur principal |
+| validation | comparer un jeu de prompts identique et conserver les tokenizers exacts |
+| source officielle | [paquet Qwen-Image-2512 dans ComfyUI](https://docs.comfy.org/tutorials/image/qwen/qwen-image-2512) |
+| sources internes | [contrat de prompt](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#18-écrire-un-contrat-de-prompt), [tests multilingues](CHAPITRE-05-Fiches-des-modeles-de-langage.md#modèle-11--français-et-multilingue) |
+| preuve | revue statique ; aucun tokenizer ni encodeur chargé |
+
+---
+
+<!-- l5:card -->
+## VISUEL-08 — ControlNet et adaptateurs de contrôle
+
+| Champ | Référence |
+|---|---|
+| besoin | imposer contours, profondeur, pose, masque, flou ou autre structure à une génération |
+| réponse rapide | choisir un contrôle explicitement entraîné ou adapté pour la base exacte |
+| paquet | modèle de contrôle, préprocesseur, image condition, VAE éventuel et nœuds d’application |
+| paramètres | force, début et fin d’application, résolution du préprocesseur et éventuel mode de devinette |
+| compatibilité | SD 1.x, SDXL, SD3.5, FLUX et Qwen-Image ne partagent pas automatiquement les contrôles |
+
