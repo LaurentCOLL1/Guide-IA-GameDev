@@ -130,4 +130,5 @@ Livre-V/CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md
 Livre-V/CHAPITRE-11-Reference-GDScript.md
 Livre-V/CHAPITRE-12-Reference-Python.md
 Livre-V/CHAPITRE-13-Structures-JSON-et-formats-d-echange.md
+Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md
 Companion-Pack/index.md

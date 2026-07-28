@@ -24,7 +24,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 
 > **Type de document :** cartes de schéma, matrices de décision, patrons DDL, migrations et requêtes de diagnostic.
 > **Référence documentaire :** SQLite `3.53.4`, publié le 24 juillet 2026 ; intégration Godot conservée au chapitre propriétaire.
-> **Repère :** **[LECTURE]** désigne un extrait minimal à étudier, pas une commande à lancer sur une base réelle sans adaptation et sauvegarde.
+> **Repères d’utilisation :** **[LECTURE]** désigne un extrait minimal à étudier, pas une commande à lancer sur une base réelle sans adaptation et sauvegarde.
 > **Principe :** une base ouvrable n’est ni un schéma compatible, ni une migration sûre, ni une sauvegarde restaurable, ni une preuve d’intégrité métier.
 
 ## Index express
@@ -213,7 +213,7 @@ Les contraintes simples doivent vivre au plus près des données, puis être dou
 | contrôle | `PRAGMA foreign_key_check` | aucune ligne attendue |
 | migration | relation préservée pendant reconstruction | check avant commit |
 
-SQLite ne garantit pas que les clés étrangères sont actives par défaut ; l’application doit les activer explicitement hors transaction et ne jamais dépendre d’un réglage de compilation. La documentation officielle des [clés étrangères](https://sqlite.org/foreignkeys.html) distingue contraintes immédiates et différées. Le chapitre propriétaire applique cette politique [par connexion](../Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md#141-foreign_keys-avant-louverture).
+SQLite ne garantit pas que les clés étrangères sont actives par défaut ; l’application doit les activer explicitement hors transaction et ne jamais dépendre d’un réglage de compilation. La documentation officielle des [clés étrangères](https://sqlite.org/foreignkeys.html) distingue contraintes immédiates et différées. Le chapitre propriétaire applique cette politique [par connexion](../Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md#141-foreignkeys-avant-louverture).
 
 **Piège :** `integrity_check` ne remplace pas `foreign_key_check`. Les deux portes répondent à des catégories d’erreurs différentes.
 
