@@ -7,6 +7,13 @@ on:
     paths:
       - .github/workflows/tmp_l5_ch01_builder.yml
       - tools/tmp_l5_ch01_builder.py
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
@@ -17,6 +24,7 @@ concurrency:
 
 jobs:
   build-and-validate:
+    if: github.head_ref == 'docs/livre-v-ch01-carte-collection' || github.ref_name == 'docs/livre-v-ch01-carte-collection'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
