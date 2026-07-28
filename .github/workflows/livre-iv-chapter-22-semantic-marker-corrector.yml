@@ -1,0 +1,69 @@
+name: Livre IV Chapter 22 Semantic Marker Corrector
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch22.semantic-marker-fix
+
+permissions:
+  contents: write
+
+jobs:
+  correct:
+    if: github.head_ref == 'docs/livre-iv-chapitre-22-maintenance-archivage-perennite'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-22-maintenance-archivage-perennite
+          fetch-depth: 0
+
+      - name: Correct the GitHub interface marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          chapter_path = Path('Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md')
+          proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-22.yaml')
+          chapter = chapter_path.read_text(encoding='utf-8')
+          old = '> **[WEB] GitHub — Ouvrir `Security` puis examiner les alertes Dependabot du dépôt candidat.**'
+          new = '> **[APP] GitHub — Ouvrir `Security` puis examiner les alertes Dependabot du dépôt candidat.**'
+          if chapter.count(old) != 1:
+              raise SystemExit(f'unexpected marker occurrence count: {chapter.count(old)}')
+          chapter = chapter.replace(old, new, 1)
+          digest = hashlib.sha256(chapter.rstrip('\n').encode('utf-8')).hexdigest()
+          if digest != '5277feb70e53af4ee927f8a81e9270900a7bf071f9b15c18fd5326c0089f7e54':
+              raise SystemExit(f'unexpected chapter digest: {digest}')
+          chapter_path.write_text(chapter.rstrip() + '\n', encoding='utf-8')
+
+          proof = proof_path.read_text(encoding='utf-8')
+          proof = proof.replace(
+              'chapter-sha256: 707d55e49ba12bf73521000c14377f01f1cdb29501778b75f7d7d06ea18f71ef',
+              f'chapter-sha256: {digest}',
+          )
+          proof_path.write_text(proof.rstrip() + '\n', encoding='utf-8')
+
+          Path('tools/temporary/ch22.semantic-marker-fix').unlink()
+          Path('.github/workflows/livre-iv-chapter-22-semantic-marker-corrector.yml').unlink()
+          PY
+          git add -A
+          permanent='CONTINUITE-PROJET.md Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md Livre-IV/QA/AUDIT-CHAPITRE-22.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-22.yaml Livre-IV/index.md ROADMAP.md contents.txt plans/LIVRE-IV-PLAN-MAITRE.md '
+          final_diff="$(git diff --cached --name-only 2cbe75d9c922c70a21c6e342383ab8331e20565c | sort | tr '\n' ' ')"
+          test "$final_diff" = "$permanent"
+
+      - name: Commit corrected permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(ch22): corriger le repère sémantique GitHub"
+          git push origin HEAD:docs/livre-iv-chapitre-22-maintenance-archivage-perennite
