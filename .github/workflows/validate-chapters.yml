@@ -19,20 +19,17 @@ on:
       - "CONTINUITE-PROJET.md"
       - "REPRISE-NOUVELLE-CONVERSATION.md"
       - "tools/validate_chapters.py"
+      - "tools/validate_livre_v_references.py"
       - "tools/check_code_explanation_structure.py"
       - "tools/check_context_markers.py"
       - "tools/audit_contextes_utilisation.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
-      - "tools/tmp_l5_reference_precondition.py"
-      - "tools/tmp_l5_reference_rebuild.py"
-      - "tools/tmp_l5_reference_additional_patch.py"
-      - "tools/tmp_l5_reference_normalize.py"
       - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate-chapters:
@@ -43,31 +40,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: fix/livre-v-profil-fiches
-          fetch-depth: 0
-
-      - name: Detect completed Livre V correction
-        id: correction
-        shell: bash
-        run: |
-          if grep -q 'version: "1.1.0"' Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md; then
-            echo "prepare=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "prepare=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Materialize Livre V reference profile
-        if: steps.correction.outputs.prepare == 'true'
-        shell: bash
-        run: |
-          mkdir -p dist
-          set -o pipefail
-          {
-            python3 tools/tmp_l5_reference_precondition.py
-            python3 tools/tmp_l5_reference_rebuild.py prepare
-            python3 tools/tmp_l5_reference_additional_patch.py
-          } 2>&1 | tee dist/GENERATOR.log
 
       - name: Install lightweight dependencies
         run: |
@@ -79,6 +51,12 @@ jobs:
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
+
+      - name: Validate Livre V cards and deep links
+        run: |
+          set -o pipefail
+          python3 tools/validate_livre_v_references.py --check \
+            | tee dist/QA-LIVRE-V-REFERENCES.log
 
       - name: Validate structured code explanations
         run: |
@@ -111,49 +89,17 @@ jobs:
             exit 1
           fi
 
-      - name: Finalize and normalize correction proof
-        if: steps.correction.outputs.prepare == 'true'
-        run: |
-          python3 tools/tmp_l5_reference_rebuild.py finalize --run-id "$GITHUB_RUN_ID"
-          python3 tools/tmp_l5_reference_normalize.py
-
-      - name: Commit permanent correction lot
-        if: steps.correction.outputs.prepare == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            CONTINUITE-PROJET.md \
-            ROADMAP.md \
-            plans/LIVRE-V-PLAN-MAITRE.md \
-            Livre-V/index.md \
-            Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md \
-            Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md \
-            Livre-V/QA/AUDIT-CHAPITRE-01.md \
-            Livre-V/QA/VALIDATION-FINALE-CHAPITRE-01.yaml \
-            tools/validate_chapters.py \
-            tools/check_code_explanation_structure.py \
-            tools/check_context_markers.py \
-            tools/audit_contextes_utilisation.py \
-            tools/audit_contextes_semantiques.py \
-            tools/report_contextes_utilisation.py
-          git diff --cached --check
-          git commit -m "fix(livre-v): adopter le profil de fiches de référence"
-          git push origin HEAD:fix/livre-v-profil-fiches
-
       - name: Upload lightweight QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: chapter-validation-without-pdf
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
           path: |
-            dist/GENERATOR.log
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
+            dist/QA-LIVRE-V-REFERENCES.log
             dist/QA-EXPLICATIONS-CODE.log
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
