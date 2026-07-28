@@ -1,0 +1,66 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH05
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 714cd33bc4f6857ba0a8ddbd84cd96d7567b93a7
+source-branch: docs/livre-v-ch05-modeles-langage
+chapter:
+  id: DOC-L5-CH05
+  path: Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 8
+  chapter-lines: 379
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  internal-links: 56
+  source-book-links: 19
+  fragment-links: 19
+  official-links: 13
+  fenced-blocks: 0
+  model-families-covered: 7
+  dense-and-moe-separated: true
+  total-and-active-parameters-separated: true
+  quantization-matrix-present: true
+  theoretical-memory-qualified: true
+  context-limits-qualified: true
+  language-tests-present: true
+  licence-and-provenance-present: true
+  reproducible-test-matrix-present: true
+  benchmark-results-invented: false
+  chapter-4-boundary-preserved: true
+  chapters-6-and-7-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: d4d1594298d400f886e0c2e0c634a2dec9967050bc5c0e7449c95a84e5e4dcde
+  audit-sha256: 9cdfa20194772b1bbbe1b2e285c237781833f49083fdd0f424ae8a84e7cee315
+ci:
+  specialized-builder:
+    workflow: Temporary Livre V Chapter 5 Builder
+    run-id: 30363892859
+    conclusion: success
+    artifact-id: 8689933697
+    artifact-digest: sha256:a26714250145236030de5b90777d04481deb065217f6f464597da8f03ef2ab59
+  permanent-validations:
+    workflow: Validate Chapters Without PDF
+    head-commit: f4f40b0fc2c4607ceb1268d17e6c5f3dbe26c02f
+    run-id: 30364054293
+    conclusion: success
+    artifact-id: 8689995976
+    artifact-digest: sha256:2893749bf71072ff82724f4e45eca5a65fdd70c9257a9b52193ba302dbda2ea0
+reservations:
+- No model, checkpoint or quantization was downloaded.
+- No inference or runtime command was executed.
+- No quality, throughput, latency, RAM, VRAM or KV-cache result was produced.
+- No maximum context window was tested.
+- No organisational or legal licence approval was performed.
+- No community quantization was audited.
+- No Companion Pack artifact was created or executed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.

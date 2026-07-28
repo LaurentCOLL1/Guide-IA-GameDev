@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.4.0"
+version: "1.5.0"
 lang: "fr-FR"
 last-updated: "2026-07-28"
 book: "Livre V"
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
-> **Statut :** 4 chapitres sur 26 rédigés et audités au niveau `static-review`
+> **Statut :** 5 chapitres sur 26 rédigés et audités au niveau `static-review`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles spécifiques du Livre V
@@ -120,6 +120,8 @@ Les installations détaillées restent dans les Livres I à IV. Validation par e
 Les déploiements complets restent dans le Livre I et l’intégration dans le Livre II.
 
 ## Chapitre 5 — Fiches des modèles de langage
+
+**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.
 
 **Objectifs**
 
