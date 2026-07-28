@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.99.0"
+version: "4.00.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T22:48:26+02:00"
+last-updated: "2026-07-28T23:25:14+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 12 chapitres sur 26 ;
+- progression du Livre V : 13 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2328,6 +2328,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 10 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 11 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 12 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 13 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2422,19 +2423,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient douze fiches sur 26 au niveau `static-review`. La fiche 12 fournit une référence non linéaire de Python pour l’automatisation du guide, avec environnements, types, fonctions, modules, fichiers, CLI, tests, dépendances, packaging, sécurité et correspondances GDScript. Les compilations, imports, tests, builds, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient treize fiches sur 26 au niveau `static-review`. La fiche 13 fournit des contrats non linéaires pour JSON, JSONL, JSON Text Sequences, CSV, YAML et les formats Godot, avec encodage, schémas, versions, conversions, canonicalisation, sécurité et validation. Les convertisseurs permanents, matrices inter-parseurs, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-13-Structures-JSON-et-formats-d-echange.md
+Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 13 fournira des fiches de formats pour JSON, JSONL, CSV, YAML et les formats Godot : encodage, schémas, version, limites, sécurité et structures canoniques. Il devra distinguer format, schéma, sérialisation, transport et stockage, puis renvoyer aux usages propriétaires sans dupliquer leurs tutoriels.
+Le chapitre 14 cataloguera types SQLite, affinités, clés, contraintes, index, transactions et migrations. Il devra distinguer schéma logique, DDL, migration, transaction, sauvegarde et restauration, fournir des modèles compacts et renvoyer au chapitre 8 du Livre II sans reprendre son tutoriel d’intégration.
 ## 27. Journal
+
+### 2026-07-28T23:25:14+02:00 — version 4.00.0
+
+- création de la fiche 13 — Structures JSON et formats d’échange ;
+- ajout de treize cartes et de trois matrices compactes ;
+- JSON, JSONL, JSON Text Sequences, CSV, YAML, Resources, scènes et configurations Godot distingués ;
+- format, schéma, sérialisation, transport, stockage, conversion, round-trip, canonicalisation et intégrité séparés ;
+- profils stricts, encodages, types média, versions, limites et risques documentés ;
+- documentations officielles RFC, YAML, JSON Schema, Python, PyYAML, OWASP et Godot `4.7.1-stable` revues le 28 juillet 2026 ;
+- campagne temporaire de 24 fixtures locales en mémoire prévue comme porte avant commit ;
+- métriques statiques : 419 lignes, 18 titres, 13 fiches, 3 matrices, 53 liens, 18 renvois vers les Livres I à IV et 18 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 14 — Schémas SQLite et migrations, niveau Élevée ;
+- aucun moteur Godot, fichier utilisateur, réseau, secret, archive, convertisseur permanent, artefact du Companion Pack, approbation juridique ou PDF produit.
+
 
 ### 2026-07-28T22:48:26+02:00 — version 3.99.0
 

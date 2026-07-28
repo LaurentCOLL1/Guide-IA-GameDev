@@ -1,0 +1,67 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH13
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: cf6416e565aa13ba76a495ca2f08f119e03b4f3a
+source-branch: docs/livre-v-ch13-formats-echange
+chapter:
+  id: DOC-L5-CH13
+  path: Livre-V/CHAPITRE-13-Structures-JSON-et-formats-d-echange.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 13
+  chapter-lines: 419
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 53
+  source-book-links: 18
+  fragment-links: 18
+  official-links: 19
+  fenced-blocks: 0
+  formats-covered: 7
+  json-strict-profile-covered: true
+  json-schema-2020-12-covered: true
+  jsonl-covered: true
+  json-text-sequences-distinguished: true
+  csv-dialect-covered: true
+  yaml-safe-profile-covered: true
+  godot-formats-covered: true
+  config-and-runtime-files-covered: true
+  conversion-loss-matrix-present: true
+  canonicalisation-and-integrity-covered: true
+  round-trip-contract-covered: true
+  security-and-limits-covered: true
+  fixture-tests: 24
+  fixture-runtime-executed: true
+  production-runtime-executed: false
+  godot-runtime-executed: false
+  runtime-results-invented: false
+  tutorial-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+integrity:
+  chapter-sha256: 08b2cc22f0160bcb20fd6a860745984fd1db0a96adc6fe81b11a307e8565c93e
+  audit-sha256: 6012912b9cdd8349cb7c76d756acfaf0f4affe3b75a2a9e434bbd45a3e3de14e
+ci:
+  specialized-finalizer:
+    status: pending-recording-after-pr-run
+  permanent-validations:
+    status: pending-recording-after-clean-head-run
+reservations:
+- The runtime evidence is limited to 24 temporary in-memory Python, PyYAML and jsonschema cases.
+- No Godot binary or project was loaded.
+- No Resource, scene, ConfigFile or Godot import cache was parsed or written.
+- No user file, network request, secret, personal data or archive was processed.
+- No permanent converter, schema package or Companion Pack fixture was materialized.
+- No cross-parser, cross-platform or native-architecture compatibility matrix was executed.
+- No benchmark, fuzzing campaign or adversarial security test was executed.
+- No production data migration or round-trip was performed.
+- No external JSON Schema reference was resolved during the fixtures.
+- No organisational legal approval was performed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.

@@ -390,7 +390,7 @@ Le [JSON canonique du chapitre 29](../Livre-II/CHAPITRE-29-Automatisation-Python
 | avec pertes | information abandonnée ou précision réduite |
 | aller simple | retour non défini ou source non reconstructible |
 
-Pipeline minimal : **lire en zone bornée → parser strictement → valider schéma et sémantique → convertir vers un modèle intermédiaire → écrire en staging → repars­er la cible → comparer selon la classe annoncée → promouvoir**. Les écritures utilisent le [remplacement contrôlé](../Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md#18-écrire-un-fichier-par-remplacement-contrôlé). Les convertisseurs permanents, leurs fixtures et rapports appartiennent au Companion Pack.
+Pipeline minimal : **lire en zone bornée → parser strictement → valider schéma et sémantique → convertir vers un modèle intermédiaire → écrire en staging → reparser la cible → comparer selon la classe annoncée → promouvoir**. Les écritures utilisent le [remplacement contrôlé](../Livre-II/CHAPITRE-29-Automatisation-Python-et-generation-de-donnees.md#18-écrire-un-fichier-par-remplacement-contrôlé). Les convertisseurs permanents, leurs fixtures et rapports appartiennent au Companion Pack.
 
 ---
 
