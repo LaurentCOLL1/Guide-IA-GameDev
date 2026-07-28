@@ -1,0 +1,58 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH06
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 2f7a2d321347a240ffa6664697445cd6e29a96cd
+source-branch: docs/livre-v-ch06-modeles-visuels
+chapter:
+  id: DOC-L5-CH06
+  path: Livre-V/CHAPITRE-06-Fiches-des-modeles-visuels.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 10
+  chapter-lines: 380
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 65
+  source-book-links: 20
+  fragment-links: 19
+  official-links: 23
+  fenced-blocks: 0
+  checkpoint-families-covered: 5
+  vae-and-encoders-separated: true
+  controlnet-covered: true
+  lora-covered: true
+  upscalers-covered: true
+  comfyui-compatibility-matrix-present: true
+  reproducible-test-matrix-present: true
+  licence-and-provenance-present: true
+  restricted-uses-visible: true
+  amd-vram-results-invented: false
+  test-images-produced: false
+  chapter-4-boundary-preserved: true
+  livre-iii-creation-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: e630b7b2f09a98affc45b9590b78d76e53ad894a35b9bb5932513bd204d95014
+  audit-sha256: a0b17f9afd1264ea6065fd27ddd17ff14568fe7bae2eb4d3e090440a68a43a7a
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No checkpoint, VAE, text encoder, ControlNet, LoRA or upscaler was downloaded.
+- No ComfyUI workflow was loaded or executed.
+- No test image or generated output was produced.
+- No generation time, RAM, VRAM, stability or quality result was produced.
+- No CPU, DirectML, ZLUDA, Vulkan or ROCm path was qualified with these models.
+- No organisational or legal licence approval was performed.
+- No community checkpoint or restricted-content case was audited.
+- No browser-based link integrity campaign was performed beyond source review.
+- No Companion Pack artifact was created or executed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.
