@@ -45,8 +45,17 @@ integrity:
   chapter-sha256: 12a7a4b1bc9595a809d69f9fb76010b353c9e7a9b2e26cf9c9ac8c8433e5b358
   audit-sha256: 5e9c18444a17eed541fa7e08a451dfcac2866278d38242fb07c22982e05672e8
 ci:
+  specialized-finalizer:
+    workflow: Temporary Livre V Chapter 8 Finalizer
+    permanent-commit: affb43b3bd0a34b33c71f5d977428e33b1d02c68
+    evidence: permanent-commit-and-cleaned-head-validation
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 1e34c6f951b6c90596c5bd3d77978d5407cbed9b
+    run-id: 30379342089
+    conclusion: success
+    artifact-id: 8696296848
+    artifact-digest: sha256:3bdbdbc51ccc84e5f3cbd026bd244cd1994c81e39997fbdfe0af602a3599d759
 reservations:
 - No reusable workflow template or Companion Pack file was created.
 - No Godot project was imported, tested or exported.
