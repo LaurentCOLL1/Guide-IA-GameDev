@@ -176,7 +176,7 @@
 - [x] Optimisation et multijoueur — 8 chapitres sur 8.
 - [x] DevOps, publication et maintenance — 9 chapitres sur 9.
 
-**Statut M5 : rédaction documentaire terminée — 22 chapitres rédigés, repérés et audités sur 22.** La construction, le préflight et l’inspection du PDF complet, ainsi que les réserves runtime, de licence et d’accessibilité, restent à traiter avant publication technique.
+**Statut M5 : terminé — 22 chapitres rédigés, repérés et audités sur 22.** La validation documentaire transversale, la compilation Pandoc/XeLaTeX, le préflight structurel et l’inspection visuelle du PDF cumulatif sont réussis. Les réserves runtime, de licence globale et de balisage avancé d’accessibilité PDF restent des chantiers distincts de collection.
 
 ## M6 — Livre V : Encyclopédie technique
 
@@ -200,6 +200,8 @@
 ## M8 — Publications
 
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.
+- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre III.
+- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre IV.
 
 - [ ] Définir la licence globale du projet.
 - [ ] Produire les versions PDF, HTML et EPUB.

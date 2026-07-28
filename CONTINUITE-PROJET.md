@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.85.0"
+version: "3.86.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T05:41:07+02:00"
+last-updated: "2026-07-28T07:28:40+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2314,7 +2314,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 ## 25. État courant
 
 - branche principale : `main` ;
-- jalon : M5 — Livre IV ;
+- jalon : M6 — Livre V ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2338,6 +2338,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 20 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 21 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 22 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- publication technique du Livre IV : validation transversale, compilation Pandoc/XeLaTeX, préflight et inspection visuelle terminés ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2407,20 +2408,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les 22 chapitres du Livre IV sont terminés au niveau documentaire et statique. Les archives, SBOM, copies indépendantes, restaurations, reconstructions, transferts de comptes, exercices de succession, décisions de fin de support et validations runtime de `Project Asteria` restent non matérialisés. La licence globale de la collection et l’accessibilité avancée des PDF restent ouvertes.
+Le Livre IV est terminé au niveau de publication technique documentaire : 22 chapitres sur 22, validation transversale, compilation Pandoc/XeLaTeX, préflight et inspection visuelle réussis. Les exécutions runtime, la licence globale de la collection et le balisage avancé des PDF restent ouverts.
 
 Action suivante :
 
-> **[LECTURE] Lot de fin de Livre et niveau prévisionnel — Ne pas saisir.**
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre IV — construire, préflighter et inspecter le PDF complet
+Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Cette action doit compiler l’ordre lecteur de `contents.txt`, exclure les fichiers QA, contrôler structure et liens, inspecter le PDF complet et enregistrer les réserves d’accessibilité et de licence sans inventer de conformité.
+Le chapitre 1 du Livre V construira la carte générale de la collection, les dépendances entre Volume 0, Livres I à V et Companion Pack, les parcours Solo/Studio, les entrées par besoin et l’index des prérequis, sans résumer ni dupliquer tous les tutoriels.
 
 ## 27. Journal
+
+### 2026-07-28T07:28:40+02:00 — version 3.86.0
+
+- clôture technique et PDF du Livre IV — Finalisation, optimisation, publication et maintenance ;
+- validation transversale des 22 chapitres, audits, preuves, identifiants, liens, doublons et repères réussie ;
+- trois caractères de contrôle invisibles supprimés des exemples de chemins des chapitres 16 et 18 ;
+- filtre PDF corrigé pour préserver le chapitre 2 — Stratégie générale d’assurance qualité ;
+- garde-fou ajouté : les 22 titres du Livre IV doivent apparaître dans le texte extrait ;
+- compilation finale Pandoc/XeLaTeX réussie sur la tête `f6b2118daf23edf7595ce9d5e2b4d300c00b1d40` ;
+- PDF cumulatif final : 3 672 pages A4, 9 428 292 octets, version 1.5, non chiffré et texte extractible ;
+- empreinte PDF `013f8d9bf800d74b408c806f5b5ea6e291e85568b152799feb2b75152de7f9fe` ;
+- `qpdf --check`, contrôle des polices incorporées et exclusion des contenus QA internes réussis ;
+- 49 pages inspectées avec Poppler, 12 pages comparées avec PDFium et neuf pages de tête finale réinspectées ;
+- run final `30331869053`, artefact `8677727006`, digest `sha256:0109aa765694cee0c6cc2663e83a3310485e5915517e3c0c35fcb95b43ac59ce` ;
+- Livre IV accepté au niveau `static-review+pdf-inspected` avec réserves runtime, licence globale et balisage d’accessibilité ;
+- jalon actif déplacé vers M6 — Livre V ;
+- prochaine action : `Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md`, niveau Élevée.
 
 ### 2026-07-28T05:41:07+02:00 — version 3.85.0
 
