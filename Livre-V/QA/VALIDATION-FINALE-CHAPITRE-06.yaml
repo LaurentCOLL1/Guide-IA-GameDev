@@ -43,8 +43,19 @@ integrity:
   chapter-sha256: e630b7b2f09a98affc45b9590b78d76e53ad894a35b9bb5932513bd204d95014
   audit-sha256: a0b17f9afd1264ea6065fd27ddd17ff14568fe7bae2eb4d3e090440a68a43a7a
 ci:
+  specialized-builder:
+    workflow: Temporary Livre V Chapter 6 Builder
+    run-id: 30369426948
+    conclusion: success
+    artifact-id: 8692202192
+    artifact-digest: sha256:70afdedb37ca7905a6d594c4570cd1067d9878db7a72d655e828d64e62bd8238
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 771d7fdc1756d0de8648f858ffcba843fd17034f
+    run-id: 30369558129
+    conclusion: success
+    artifact-id: 8692262926
+    artifact-digest: sha256:db68ae62f3f8dfcfb54e2db70af0c5cc1130e87bb5b67650c78f240c1d6b57c8
 reservations:
 - No checkpoint, VAE, text encoder, ControlNet, LoRA or upscaler was downloaded.
 - No ComfyUI workflow was loaded or executed.
