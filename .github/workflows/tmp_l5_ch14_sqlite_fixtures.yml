@@ -1,0 +1,45 @@
+name: Temporary Livre V Chapter 14 SQLite Fixtures
+
+on:
+  push:
+    branches:
+      - docs/livre-v-ch14-schemas-sqlite-migrations
+    paths:
+      - "tools/tmp_l5_ch14_trigger.txt"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: livre-v-ch14-sqlite-fixtures
+  cancel-in-progress: false
+
+jobs:
+  validate-sqlite-fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-v-ch14-schemas-sqlite-migrations
+          fetch-depth: 0
+
+      - name: Execute synthetic SQLite fixtures
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/tmp_l5_ch14_validate_sqlite.py \
+            | tee dist/QA-LIVRE-V-CH14-SQLITE.log
+
+      - name: Upload SQLite fixture evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-v-ch14-sqlite-fixtures
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/QA-LIVRE-V-CH14-SQLITE.json
+            dist/QA-LIVRE-V-CH14-SQLITE.log
