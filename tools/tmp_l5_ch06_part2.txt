@@ -128,4 +128,3 @@ La [documentation ComfyUI sur les modèles](https://docs.comfy.org/development/c
 | paquet | modèle de contrôle, préprocesseur, image condition, VAE éventuel et nœuds d’application |
 | paramètres | force, début et fin d’application, résolution du préprocesseur et éventuel mode de devinette |
 | compatibilité | SD 1.x, SDXL, SD3.5, FLUX et Qwen-Image ne partagent pas automatiquement les contrôles |
-
