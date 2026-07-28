@@ -115,5 +115,6 @@ Livre-IV/CHAPITRE-18-Accessibilite.md
 Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md
 Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md
 Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md
+Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
 Livre-V/index.md
 Companion-Pack/index.md

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.84.0"
+version: "3.85.0"
 lang: "fr-FR"
-last-updated: "2026-07-27T21:47:17+02:00"
+last-updated: "2026-07-28T05:41:07+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -742,6 +742,23 @@ Les chapitres 14 à 25 se terminent par une synthèse opérationnelle des décis
 - SDK, schémas, templates, validateur, mod d’exemple et politique de dépréciation évoluent ensemble ;
 - plateformes UGC, licences, provenance, modération, confidentialité et support forment des portes séparées ;
 - les mises à jour officielles restent au chapitre 20 et l’archivage au chapitre 22.
+
+
+### 11.48 Maintenance, archivage et pérennité
+
+- le dossier historique d’une version relie sources, dépendances, outils, builds, SBOM, licences, documentation et rapports ;
+- un miroir reste une copie de disponibilité et ne remplace ni rétention indépendante ni support hors ligne ;
+- chaque objet d’archive possède identité, classe de conservation, propriétaire, emplacement, checksum et test prévu ;
+- les alertes de vulnérabilité sont triées par contexte avant toute mise à niveau ou acceptation ;
+- les lockfiles améliorent la répétabilité sans supprimer le besoin de veille et de qualification ;
+- Git bundle, objets LFS, sous-modules, releases et dépendances externes sont inventoriés séparément ;
+- environnement de build, templates, SDK, images et paramètres sont capturés avec leurs droits de redistribution ;
+- fixité, signature, authenticité, restauration et reconstruction restent des preuves distinctes ;
+- les migrations de format préservent l’original et enregistrent outil, dérivé, validation et nouvelles empreintes ;
+- comptes, domaines, certificats, clés et secrets possèdent propriété organisationnelle, récupération et succession ;
+- la fin de support distingue annonce, maintenance réduite, retrait de services, données, communauté et archive finale ;
+- une ouverture éventuelle du code ou des contenus exige une revue juridique, de secrets, de marques et de licences ;
+- les critères runtime, de publication et de PDF du Livre IV restent ouverts après la fin de la rédaction documentaire.
 
 ## 12. Chapitre 5 — état résumé
 
@@ -2276,6 +2293,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas présenter un abonnement Workshop ou une release comme validation de sécurité ;
 - ne pas présumer qu’un contenu sans licence explicite est redistribuable ;
 - ne pas traiter un contrôle automatique comme décision juridique ou de modération ;
+- ne pas confondre miroir synchronisé et archive indépendante ;
+- ne pas archiver uniquement le code en oubliant outils, dépendances, builds, licences et documentation ;
+- ne pas confondre checksum, signature, authenticité, restauration et reconstruction ;
+- ne pas placer de secret, clé privée ou valeur de récupération dans Git ou une archive documentaire ;
+- ne pas fermer une alerte de vulnérabilité sans contexte, preuve, propriétaire et échéance ;
+- ne pas écraser un original pendant une migration de format ;
+- ne pas annoncer une reconstruction après le seul clone d’un dépôt ;
+- ne pas laisser un compte critique dépendre d’une personne ou d’une voie de récupération unique ;
+- ne pas retirer un service sans plan de données, communication et support ;
+- ne pas déclarer une archive saine sans test de restauration et, pour une release, exercice de reconstruction ;
 - ne pas modifier plusieurs variables dans une même expérience sans les déclarer et justifier leur couplage ;
 - ne pas utiliser le générateur pseudo-aléatoire global pour une simulation comparative ;
 - ne pas présenter une graine comme preuve d’identité binaire universelle entre environnements ;
@@ -2288,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M5 — Livre IV ;
-- progression du Livre IV : 21 chapitres sur 22 ;
+- progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 3 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2310,6 +2337,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 19 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 20 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - chapitre 21 du Livre IV : version `1.0.0`, niveau `static-review` ;
+- chapitre 22 du Livre IV : version `1.0.0`, niveau `static-review` ;
 - progression du Livre III : 30 chapitres sur 30 ; publication technique terminée ;
 - chapitre 1 du Livre III : version `1.0.0`, niveau `static-review` ;
 - chapitre 2 du Livre III : version `1.0.0`, niveau `static-review` ;
@@ -2379,20 +2407,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Les chapitres 1 à 21 du Livre IV sont terminés au niveau documentaire et statique. Les chargeurs, SDK, templates, mods, quotas, plateformes UGC, campagnes d’installation, conflits, sauvegardes moddées, sessions multijoueur, licences, modération et support communautaire de `Project Asteria` restent non matérialisés. Les réserves globales de licence de collection, de balisage d’accessibilité PDF et d’exécution runtime restent ouvertes.
+Les 22 chapitres du Livre IV sont terminés au niveau documentaire et statique. Les archives, SBOM, copies indépendantes, restaurations, reconstructions, transferts de comptes, exercices de succession, décisions de fin de support et validations runtime de `Project Asteria` restent non matérialisés. La licence globale de la collection et l’accessibilité avancée des PDF restent ouvertes.
 
 Action suivante :
 
-> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+> **[LECTURE] Lot de fin de Livre et niveau prévisionnel — Ne pas saisir.**
 
 ```text
-Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
+Livre IV — construire, préflighter et inspecter le PDF complet
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 22 du Livre IV organisera surveillance des dépendances et vulnérabilités, archives de sources, outils, builds et documentation, reconstruction reproductible, succession, fin de support, ouverture éventuelle, formats lisibles et checksums.
+Cette action doit compiler l’ordre lecteur de `contents.txt`, exclure les fichiers QA, contrôler structure et liens, inspecter le PDF complet et enregistrer les réserves d’accessibilité et de licence sans inventer de conformité.
 
 ## 27. Journal
+
+### 2026-07-28T05:41:07+02:00 — version 3.85.0
+
+- création du chapitre 22 du Livre IV — Maintenance, archivage et pérennité ;
+- maintenance, archivage, sauvegarde, miroir, fixité, signature, restauration et reconstruction distingués ;
+- calendrier, responsabilités, inventaire, dépendances, vulnérabilités, SBOM et décisions de mise à niveau documentés ;
+- topologie de copies, Git bundle, LFS, sous-modules, releases, environnements et artefacts encadrés ;
+- checksums, signatures, contrôles de fixité, restaurations isolées et reconstructions historiques préparés ;
+- reproductibilité, écarts, formats durables, migrations sans écrasement et données historiques gouvernés ;
+- succession, comptes, certificats, clés, fournisseurs, fin de support, ouverture éventuelle et communauté documentés ;
+- procédures Solo/Studio, préflight, synthèse `Project Asteria` et dix diagnostics complets ajoutés ;
+- métriques statiques provisoires : 1939 lignes, 60 titres, 48 blocs de code ou de données, 28 explications hors diagnostics et dix diagnostics ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
+- progression documentaire du Livre IV portée à 22 chapitres sur 22 ;
+- prochaine action déplacée vers la construction, le préflight et l’inspection du PDF complet du Livre IV, niveau Élevée ;
+- aucune archive, restauration, reconstruction, succession, fin de support publique, exécution runtime ou production PDF revendiquée.
+
 
 ### 2026-07-27T21:47:17+02:00 — version 3.84.0
 

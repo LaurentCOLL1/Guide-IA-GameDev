@@ -1,9 +1,0 @@
-chapter: 22
-title: Maintenance, archivage et pérennité
-status: finalize-clean-split-fragment-004
-base: 2cbe75d9c922c70a21c6e342383ab8331e20565c
-payload-sha256: 8762f8454985c3d6e39ecbb849e095d5b6c1be0a4d9cc7460ab4da92462e60be
-finalizer-sha256: 9ffe216226234acfbe73f97c09ec880b8cf426ac3510f6f7a3b58a5983564da9
-proof-level: static-review
-pdf-produced: false
-runtime-executed: false

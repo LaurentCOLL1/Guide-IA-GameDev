@@ -2,8 +2,8 @@
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
 status: "active"
-version: "0.22.0"
-last-updated: "2026-07-27T21:47:17+02:00"
+version: "0.23.0"
+last-updated: "2026-07-28T05:41:07+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -33,15 +33,15 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 19. [Localisation et internationalisation](CHAPITRE-19-Localisation-et-internationalisation.md) — version `1.0.0`, niveau `static-review` ;
 20. [Correctifs, mises à jour et retour arrière](CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md) — version `1.0.0`, niveau `static-review` ;
 21. [Modding et contenu communautaire](CHAPITRE-21-Modding-et-contenu-communautaire.md) — version `1.0.0`, niveau `static-review` ;
-22. Maintenance, archivage et pérennité.
+22. [Maintenance, archivage et pérennité](CHAPITRE-22-Maintenance-archivage-et-perennite.md) — version `1.0.0`, niveau `static-review` ;
 
 ## Progression
 
-- chapitres rédigés, repérés et audités : **21 sur 22** ;
-- chapitre courant terminé : **chapitre 21 — Modding et contenu communautaire** ;
-- prochaine entrée du plan maître : **chapitre 22 — Maintenance, archivage et pérennité** ;
-- construction PDF : différée jusqu’à la fin du Livre IV.
+- chapitres rédigés, repérés et audités : **22 sur 22** ;
+- chapitre courant terminé : **chapitre 22 — Maintenance, archivage et pérennité** ;
+- prochaine action de fin de Livre : **construction, préflight et inspection du PDF complet** ;
+- construction PDF : devient la prochaine action ; aucun PDF n’est produit dans le lot du chapitre 22.
 
 ## Statut
 
-Livre IV en cours. Le plan maître reste inchangé ; les chapitres 1 à 21 sont terminés au niveau documentaire et statique, sans revendication runtime.
+Rédaction documentaire du Livre IV terminée : les 22 chapitres sont au niveau `static-review`. Les critères runtime, la licence globale, la construction et l’inspection du PDF complet restent ouverts.
