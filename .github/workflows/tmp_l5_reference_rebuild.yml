@@ -8,6 +8,13 @@ on:
     paths:
       - .github/workflows/tmp_l5_reference_rebuild.yml
       - tools/tmp_l5_reference_rebuild.py
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
@@ -18,6 +25,7 @@ concurrency:
 
 jobs:
   rebuild-and-validate:
+    if: github.head_ref == 'fix/livre-v-profil-fiches' || github.ref_name == 'fix/livre-v-profil-fiches'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
