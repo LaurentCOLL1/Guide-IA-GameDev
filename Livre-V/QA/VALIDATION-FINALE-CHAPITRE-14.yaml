@@ -55,9 +55,23 @@ integrity:
   audit-sha256: fd711db861d469d296d95e8c495fa759baaca7da9c766bbb834625be8d240352
 ci:
   specialized-sqlite-fixtures:
-    status: pending-recording-after-finalizer-run
+    workflow: Temporary Livre V Chapter 14 Finalizer
+    run-id: 30408271524
+    source-head-commit: 09d3a23dfea5177d68fd79e6e273f2f5dd7d2502
+    permanent-commit: 6cf548e89e1f44e04f4b449293cd4f6e8447255c
+    conclusion: success
+    fixture-total: 36
+    fixture-passed: 36
+    fixture-failed: 0
+    artifact-id: 8707398902
+    artifact-digest: sha256:658ced17c0e841f9f8bf38a8aeb0deaff1db71b3c6c5bc9eba85a71eb75a4984
   permanent-validations:
-    status: pending-recording-after-clean-head-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 78a491513ed0ff12c08871f9a5f339b030d133c7
+    run-id: 30408425292
+    conclusion: success
+    artifact-id: 8707450802
+    artifact-digest: sha256:4361df80ce9a774fc888d1c6a818045ac344326a1300942168de54f209093f24
 reservations:
   - Documentary reference SQLite 3.53.4 differs from the executed fixture runtime SQLite 3.45.1.
   - Runtime evidence is limited to 36 synthetic temporary SQLite cases through Python sqlite3.
