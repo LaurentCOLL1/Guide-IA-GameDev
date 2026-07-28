@@ -13,12 +13,15 @@ end
 local process_headings = {
   "audit post",
   "audit transversal des contextes d'utilisation",
-  "assurance qualité",
   "checklist d'audit",
   "limites de l'audit statique",
   "niveau de raisonnement",
   "politique pdf",
   "tests à préparer",
+}
+
+local exact_process_headings = {
+  ["assurance qualité"] = true,
 }
 
 local process_block_phrases = {
@@ -60,6 +63,9 @@ end
 
 local function is_process_heading(header)
   local heading = plain_text(header)
+  if exact_process_headings[heading] then
+    return true
+  end
   for _, phrase in ipairs(process_headings) do
     if heading:find(phrase, 1, true) then
       return true
