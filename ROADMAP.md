@@ -180,9 +180,12 @@
 
 ## M6 — Livre V : Encyclopédie technique
 
-- [ ] Fiches universelles.
+- [x] Chapitre 1 — Carte générale de la collection — rédigé, repéré et audité au niveau `static-review`.
+- [ ] Fiches universelles — 1 chapitre sur 26.
 - [ ] Arbres de décision et matrices.
 - [ ] Bibliothèques techniques et index croisés.
+
+**Statut M6 : en cours — 1 chapitre rédigé, repéré et audité sur 26.**
 
 ## M7 — Companion Pack
 

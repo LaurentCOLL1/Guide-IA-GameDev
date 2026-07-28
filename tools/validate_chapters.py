@@ -13,7 +13,7 @@ from urllib.parse import unquote
 
 import yaml
 
-CHAPTER_RE = re.compile(r"Livre-(I|II|III|IV)/CHAPITRE-(\d{2})-.+\.md$")
+CHAPTER_RE = re.compile(r"Livre-(I|II|III|IV|V)/CHAPITRE-(\d{2})-.+\.md$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
 INLINE_CODE_RE = re.compile(r"(`+)([^\n]*?)\1")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
@@ -407,7 +407,7 @@ def main() -> int:
         if not source.is_file():
             errors.append(f"Source absente dans contents.txt : {entry}")
 
-    chapter_entries: dict[str, list[tuple[str, int]]] = {"I": [], "II": [], "III": [], "IV": []}
+    chapter_entries: dict[str, list[tuple[str, int]]] = {"I": [], "II": [], "III": [], "IV": [], "V": []}
     for entry in entries:
         match = CHAPTER_RE.fullmatch(entry)
         if match:
@@ -428,6 +428,10 @@ def main() -> int:
     actual_iv = [number for _, number in chapter_entries["IV"]]
     if actual_iv != list(range(1, len(actual_iv) + 1)):
         errors.append(f"Les chapitres présents du Livre IV doivent être continus depuis 01 ; détectés : {actual_iv}.")
+
+    actual_v = [number for _, number in chapter_entries["V"]]
+    if actual_v != list(range(1, len(actual_v) + 1)):
+        errors.append(f"Les chapitres présents du Livre V doivent être continus depuis 01 ; détectés : {actual_v}.")
 
     ids: dict[str, str] = {}
     stats: list[ChapterStats] = []
@@ -472,7 +476,7 @@ def main() -> int:
         if chapter_match:
             book_code, number_text = chapter_match.groups()
             number = int(number_text)
-            expected_book = {"I": "Livre I", "II": "Livre II", "III": "Livre III", "IV": "Livre IV"}[book_code]
+            expected_book = {"I": "Livre I", "II": "Livre II", "III": "Livre III", "IV": "Livre IV", "V": "Livre V"}[book_code]
             if metadata.get("book") != expected_book:
                 errors.append(f"Métadonnée book incorrecte pour {rel}.")
             if metadata.get("chapter") != number:
@@ -483,12 +487,12 @@ def main() -> int:
             if book_code == "I":
                 expected_id = expected_livre_i_ids[number]
             else:
-                expected_book_number = {"II": 2, "III": 3, "IV": 4}[book_code]
+                expected_book_number = {"II": 2, "III": 3, "IV": 4, "V": 5}[book_code]
                 expected_id = f"DOC-L{expected_book_number}-CH{number:02d}"
             if actual_id != expected_id:
                 errors.append(f"Identifiant stable incorrect pour {rel} : attendu {expected_id}, reçu {actual_id}.")
 
-            if book_code in {"II", "III", "IV"}:
+            if book_code in {"II", "III", "IV", "V"}:
                 if "recommended-reasoning:" in text or "Niveau de raisonnement conseillé" in text:
                     errors.append(
                         f"Le niveau GPT-5.6 Sol appartient au processus de production, pas au chapitre publié : {rel}"
@@ -497,7 +501,7 @@ def main() -> int:
                     errors.append(f"Audit post-création incomplet : {rel}")
                 if not metadata.get("audit-date"):
                     errors.append(f"Métadonnée audit-date absente : {rel}")
-                if book_code in {"III", "IV"} or number >= 17:
+                if book_code in {"III", "IV", "V"} or number >= 17:
                     validate_timestamp(metadata.get("last-verified"), "last-verified", rel, errors)
                     validate_timestamp(metadata.get("audit-date"), "audit-date", rel, errors)
                 if metadata.get("audit-level") not in VALID_AUDIT_LEVELS:
@@ -509,7 +513,7 @@ def main() -> int:
                     errors.append(f"Métadonnée audit-report absente : {rel}")
                 elif not (root / str(audit_report)).is_file():
                     errors.append(f"Rapport d’audit absent pour {rel} : {audit_report}")
-                elif book_code in {"III", "IV"} or number >= 17:
+                elif book_code in {"III", "IV", "V"} or number >= 17:
                     audit_path = root / str(audit_report)
                     audit_text = audit_path.read_text(encoding="utf-8")
                     audit_metadata = parse_front_matter(audit_text, str(audit_report), errors)

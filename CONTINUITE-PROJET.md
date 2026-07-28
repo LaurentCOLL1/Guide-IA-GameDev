@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.86.0"
+version: "3.87.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T07:28:40+02:00"
+last-updated: "2026-07-28T09:26:30+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,6 +2315,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
+- progression du Livre V : 1 chapitre sur 26 ;
+- chapitre 1 du Livre V : version `1.0.0`, niveau `static-review` ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2408,20 +2410,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre IV est terminé au niveau de publication technique documentaire : 22 chapitres sur 22, validation transversale, compilation Pandoc/XeLaTeX, préflight et inspection visuelle réussis. Les exécutions runtime, la licence globale de la collection et le balisage avancé des PDF restent ouverts.
+Le Livre V est ouvert avec un chapitre sur 26 au niveau `static-review`. La carte générale de la collection, les parcours Solo/Studio, les entrées par besoin, outil ou système et l’index initial des prérequis sont documentés. Les tests de recherche avec lecteurs, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
+Livre-V/CHAPITRE-02-Arbres-de-decision.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 1 du Livre V construira la carte générale de la collection, les dépendances entre Volume 0, Livres I à V et Companion Pack, les parcours Solo/Studio, les entrées par besoin et l’index des prérequis, sans résumer ni dupliquer tous les tutoriels.
+Le chapitre 2 possédera les arbres de choix, critères, contraintes, conséquences, variantes AMD/CPU et parcours Solo/Studio. Il réutilisera la carte du chapitre 1 sans modifier l’ordre officiel ni recopier les tutoriels.
 
 ## 27. Journal
+
+
+### 2026-07-28T09:26:30+02:00 — version 3.87.0
+
+- ouverture du Livre V — Encyclopédie technique et bibliothèque de référence ;
+- création du chapitre 1 — Carte générale de la collection ;
+- structure Volume 0, Livres I à V et Companion Pack cartographiée ;
+- dépendances, parcours débutant, production, dépannage, Solo et Studio documentés ;
+- entrées par besoin, outil et système et index initial des prérequis ajoutés ;
+- fonctions, paramètres, types, retours, opérateurs, commandes et sorties expliqués ;
+- dix diagnostics conformes à la séquence sémantique erreur/correction ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- validateurs légers étendus explicitement au Livre V ;
+- métriques statiques : 1095 lignes, 51 titres, 33 blocs clôturés et 10 diagnostics ;
+- prochaine action déplacée vers le chapitre 2 — Arbres de décision, niveau Élevée ;
+- aucun test runtime, étude lecteur, index interactif, artefact du Companion Pack ou PDF produit.
 
 ### 2026-07-28T07:28:40+02:00 — version 3.86.0
 
