@@ -1451,6 +1451,8 @@ retention: none
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** Le secondaire reproduit l’état courant sans rétention indépendante.
@@ -1475,6 +1477,8 @@ restore_test: required
 
 <!-- qa:code-explanation -->
 
+**Pourquoi la correction fonctionne :**
+
 **Explication structurée du bloc :**
 
 - **Invariant restauré :** Une copie historique et une copie hors ligne sont indépendantes du miroir.
@@ -1496,6 +1500,8 @@ archive-1.4.0/
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi cet exemple est fautif :**
 
 **Explication structurée du bloc :**
 
@@ -1521,6 +1527,8 @@ archive-1.4.0/
 
 <!-- qa:code-explanation -->
 
+**Pourquoi la correction fonctionne :**
+
 **Explication structurée du bloc :**
 
 - **Invariant restauré :** Les entrées nécessaires sont reliées au même dossier de version.
@@ -1542,6 +1550,8 @@ archive-1.4.0/
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** La valeur de référence n’est pas protégée indépendamment.
@@ -1558,6 +1568,8 @@ archive-1.4.0/
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1583,6 +1595,8 @@ succession:
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** La documentation contient une valeur secrète durable dans l’historique.
@@ -1603,6 +1617,8 @@ succession:
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1627,6 +1643,8 @@ reason: false-positive
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** Le libellé ne contient ni contexte, ni preuve, ni échéance.
@@ -1650,6 +1668,8 @@ next_review: 2026-08-05
 
 <!-- qa:code-explanation -->
 
+**Pourquoi la correction fonctionne :**
+
 **Explication structurée du bloc :**
 
 - **Invariant restauré :** Contexte, preuve, propriétaire et revue sont explicites.
@@ -1672,6 +1692,8 @@ source.write_bytes(converted)
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** La sortie remplace l’original avant validation.
@@ -1692,6 +1714,8 @@ record_relationship(source, target)
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1714,6 +1738,8 @@ record_relationship(source, target)
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** La présence des sources est assimilée à un build reconstruit.
@@ -1730,6 +1756,8 @@ record_relationship(source, target)
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1754,6 +1782,8 @@ critical_account:
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** Propriété et récupération reposent sur la même personne.
@@ -1776,6 +1806,8 @@ critical_account:
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1801,6 +1833,8 @@ service_retirement:
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** Retrait, export, conservation et suppression ne sont pas gouvernés.
@@ -1822,6 +1856,8 @@ service_retirement:
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 
@@ -1847,6 +1883,8 @@ archive:
 
 <!-- qa:code-explanation -->
 
+**Pourquoi cet exemple est fautif :**
+
 **Explication structurée du bloc :**
 
 - **Invariant violé :** La fixité est assimilée à l’utilisabilité.
@@ -1868,6 +1906,8 @@ archive:
 ```
 
 <!-- qa:code-explanation -->
+
+**Pourquoi la correction fonctionne :**
 
 **Explication structurée du bloc :**
 

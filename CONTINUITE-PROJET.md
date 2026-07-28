@@ -2432,7 +2432,7 @@ Cette action doit compiler l’ordre lecteur de `contents.txt`, exclure les fich
 - reproductibilité, écarts, formats durables, migrations sans écrasement et données historiques gouvernés ;
 - succession, comptes, certificats, clés, fournisseurs, fin de support, ouverture éventuelle et communauté documentés ;
 - procédures Solo/Studio, préflight, synthèse `Project Asteria` et dix diagnostics complets ajoutés ;
-- métriques statiques provisoires : 1939 lignes, 60 titres, 48 blocs de code ou de données, 28 explications hors diagnostics et dix diagnostics ;
+- métriques statiques provisoires : 1979 lignes, 60 titres, 48 blocs de code ou de données, 28 explications hors diagnostics et dix diagnostics ;
 - index, roadmap, ordre lecteur, plan maître, audit, preuve QA provisoire et continuité mis à jour ;
 - progression documentaire du Livre IV portée à 22 chapitres sur 22 ;
 - prochaine action déplacée vers la construction, le préflight et l’inspection du PDF complet du Livre IV, niveau Élevée ;
