@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p dist
           set -o pipefail
-          python3 tools/tmp_l5_ch14_validate_sqlite.py \
+          python3 tools/tmp_l5_ch14_validate_sqlite_run.py \
             | tee dist/QA-LIVRE-V-CH14-SQLITE.log
 
       - name: Upload SQLite fixture evidence
