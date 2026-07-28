@@ -27,6 +27,7 @@ on:
       - "tools/tmp_l5_reference_precondition.py"
       - "tools/tmp_l5_reference_rebuild.py"
       - "tools/tmp_l5_reference_additional_patch.py"
+      - "tools/tmp_l5_reference_normalize.py"
       - ".github/workflows/validate-chapters.yml"
       - ".qa/**"
 
@@ -110,9 +111,11 @@ jobs:
             exit 1
           fi
 
-      - name: Finalize correction proof
+      - name: Finalize and normalize correction proof
         if: steps.correction.outputs.prepare == 'true'
-        run: python3 tools/tmp_l5_reference_rebuild.py finalize --run-id "$GITHUB_RUN_ID"
+        run: |
+          python3 tools/tmp_l5_reference_rebuild.py finalize --run-id "$GITHUB_RUN_ID"
+          python3 tools/tmp_l5_reference_normalize.py
 
       - name: Commit permanent correction lot
         if: steps.correction.outputs.prepare == 'true'
