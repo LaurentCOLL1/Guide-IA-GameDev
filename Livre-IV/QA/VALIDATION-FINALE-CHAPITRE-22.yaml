@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-28'
 validated-base-commit: 2cbe75d9c922c70a21c6e342383ab8331e20565c
-validated-head-commit: 3ac4b46e99407fa80218597aa37950d5001eb94d
+validated-head-commit: 67f5cf1e16d1273804c7ada64e22d36a6c54b61c
 chapter:
   id: DOC-L4-CH22
   path: Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
