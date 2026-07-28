@@ -187,10 +187,11 @@
 - [x] Modèles de langage — fiche 05 rédigée et auditée au niveau `static-review`.
 - [x] Modèles visuels — fiche 06 rédigée et auditée au niveau `static-review`.
 - [x] Modèles audio — fiche 07 rédigée et auditée au niveau `static-review`.
+- [x] Bibliothèque de workflows — fiche 08 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 7 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 8 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 

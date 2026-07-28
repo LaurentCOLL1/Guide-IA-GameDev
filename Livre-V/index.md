@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "0.9.0"
+version: "1.0.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -31,7 +31,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 05 — Fiches des modèles de langage](CHAPITRE-05-Fiches-des-modeles-de-langage.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 06 — Fiches des modèles visuels](CHAPITRE-06-Fiches-des-modeles-visuels.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 07 — Fiches des modèles audio](CHAPITRE-07-Fiches-des-modeles-audio.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 8 — Bibliothèque de workflows.
+- [x] [Fiche 08 — Bibliothèque de workflows](CHAPITRE-08-Bibliotheque-de-workflows.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 9 — Bibliothèque de prompts.
 - [ ] Chapitre 10 — Bibliothèque de scripts et recettes de code.
 - [ ] Chapitre 11 — Référence GDScript.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **7 chapitres sur 26** rédigés et audités. Les fiches 01 à 07 utilisent le profil de référence spécialisé du Livre V ; la fiche 07 qualifie six familles audio, leurs voix, composants, langues, licences, consentements et protocoles de test. Les générations, transcriptions, benchmarks runtime, artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **8 chapitres sur 26** rédigés et audités. Les fiches 01 à 08 utilisent le profil de référence spécialisé du Livre V ; la fiche 08 catalogue les contrats Godot, Blender, ComfyUI, audio et documentation, leurs profils Solo/Studio, preuves, reprises et manifestes. Les exécutions runtime, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.

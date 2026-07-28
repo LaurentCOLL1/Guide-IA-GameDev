@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.94.0"
+version: "3.95.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T17:27:15+02:00"
+last-updated: "2026-07-28T18:20:01+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 7 chapitres sur 26 ;
+- progression du Livre V : 8 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2323,6 +2323,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 5 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 6 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 7 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 8 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2417,20 +2418,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient sept fiches sur 26 au niveau `static-review`. La fiche 07 qualifie Kokoro-82M, Piper, Chatterbox, Whisper, MusicGen et AudioGen, puis sépare modèles, moteurs, voix, phonémiseurs, vocodeurs, codecs, VAD, langues, licences et consentements. Les sources officielles ont été revues le 28 juillet 2026 ; les téléchargements, synthèses, transcriptions, échantillons, mesures matérielles, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient huit fiches sur 26 au niveau `static-review`. La fiche 08 catalogue les workflows Godot, Blender, ComfyUI, audio et documentation, puis sépare contrat, exécution, artefact, cache, preuve, reprise, profils Solo/Studio et acceptation. Les templates exécutables, campagnes runtime, benchmarks, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md
+Livre-V/CHAPITRE-09-Bibliotheque-de-prompts.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 8 cataloguera les workflows Godot, Blender, ComfyUI, audio et documentation avec leurs entrées, sorties, dépendances, variantes et niveaux de preuve. Il devra renvoyer vers les tutoriels propriétaires, distinguer définition et exécution, et ne déclarer aucun workflow reproductible sans test enregistré.
-
+Le chapitre 9 cataloguera les prompts par tâche et modèle avec variables, contraintes, formats attendus, limites, biais, sécurité et critères d’évaluation. Il devra distinguer template, instance et résultat, dater le modèle cible, et ne présenter aucun prompt comme universel ou validé sans campagne enregistrée.
 ## 27. Journal
+
+### 2026-07-28T18:20:01+02:00 — version 3.95.0
+
+- création de la fiche 08 — Bibliothèque de workflows ;
+- ajout de treize cartes et de trois matrices compactes ;
+- workflows Godot, Blender, ComfyUI, audio et documentation catalogués ;
+- définition, exécution, cache, artefact, preuve, reprise, profils Solo/Studio et acceptation séparés ;
+- sécurité, idempotence, retry, checkpoints, manifestes et douze tests de qualification documentés sans résultat inventé ;
+- sources officielles de Godot, Blender, ComfyUI, GitHub Actions, FFmpeg et Pandoc revues le 28 juillet 2026 ;
+- métriques statiques : 409 lignes, 18 titres, 13 fiches, 3 matrices, 70 liens, 36 renvois vers les Livres I à IV et 36 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 09 — Bibliothèque de prompts, niveau Élevée ;
+- aucun template du Companion Pack, workflow runtime, import, export, média, build, mesure, secret, approbation juridique ou PDF produit.
 
 
 ### 2026-07-28T17:27:15+02:00 — version 3.94.0
