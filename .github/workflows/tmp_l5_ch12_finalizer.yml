@@ -40,6 +40,42 @@ jobs:
       - name: Finalize audit, proof and governance
         run: python3 tools/tmp_l5_ch12_finalize.py
 
+      - name: Correct audit timestamp and proof hash
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          import re
+
+          audit = Path("Livre-V/QA/AUDIT-CHAPITRE-12.md")
+          proof = Path("Livre-V/QA/VALIDATION-FINALE-CHAPITRE-12.yaml")
+          stamp = "2026-07-28T22:48:26+02:00"
+
+          audit_text = audit.read_text(encoding="utf-8")
+          needle = f'last-verified: "{stamp}"\naudit-level: "static-review"'
+          replacement = (
+              f'last-verified: "{stamp}"\n'
+              f'audit-date: "{stamp}"\n'
+              'audit-level: "static-review"'
+          )
+          if audit_text.count(needle) != 1:
+              raise RuntimeError("Insertion audit-date non déterministe")
+          audit.write_text(audit_text.replace(needle, replacement, 1), encoding="utf-8")
+
+          proof_text = proof.read_text(encoding="utf-8")
+          new_hash = sha256(audit.read_bytes()).hexdigest()
+          proof_text, count = re.subn(
+              r"audit-sha256: [0-9a-f]{64}",
+              f"audit-sha256: {new_hash}",
+              proof_text,
+              count=1,
+          )
+          if count != 1:
+              raise RuntimeError("Mise à jour de l'empreinte d'audit impossible")
+          proof.write_text(proof_text, encoding="utf-8")
+          PY
+
       - name: Install lightweight dependencies
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
