@@ -42,6 +42,18 @@ ci:
     workflow-name: Livre V Chapter 1 Builder
     run-id: 30338409328
     conclusion: success
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    run-id: 30338468293
+    conclusion: success
+    artifact-id: 8680072913
+    artifact-digest: sha256:e5846c599ee7efe2e7fa542e43264022f6d3b889862199a2726b12a382560a5b
+  validate-usage-contexts:
+    workflow-name: Validate Usage Contexts
+    run-id: 30338468208
+    conclusion: success
+    artifact-id: 8680068762
+    artifact-digest: sha256:71b2e1a58f50b05f33a805899eb2f17b190627de00154e73a6d5176ab07b2b2e
 reservations:
   - No reader navigation study or time-to-find measurement was executed.
   - No interactive publication index was materialized.
