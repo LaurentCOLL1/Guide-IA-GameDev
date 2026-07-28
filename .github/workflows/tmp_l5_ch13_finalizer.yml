@@ -40,7 +40,16 @@ jobs:
           fetch-depth: 0
 
       - name: Finalize chapter, audit, proof and governance
-        run: python3 tools/tmp_l5_ch13_finalize.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -q 'version: "1.5.0"' Livre-V/index.md \
+            && test -f Livre-V/QA/AUDIT-CHAPITRE-13.md \
+            && test -f Livre-V/QA/VALIDATION-FINALE-CHAPITRE-13.yaml; then
+            echo "Lot permanent déjà finalisé ; conservation des empreintes existantes."
+          else
+            python3 tools/tmp_l5_ch13_finalize.py
+          fi
 
       - name: Install lightweight format validators
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML jsonschema
@@ -95,12 +104,10 @@ jobs:
             exit 1
           fi
 
-      - name: Commit permanent chapter lot
+      - name: Confirm permanent chapter lot
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
             CONTINUITE-PROJET.md \
             ROADMAP.md \
@@ -112,8 +119,10 @@ jobs:
             Livre-V/QA/VALIDATION-FINALE-CHAPITRE-13.yaml
           git diff --cached --check
           if git diff --cached --quiet; then
-            echo "Lot permanent déjà enregistré."
+            echo "Lot permanent déjà enregistré au commit courant."
           else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "docs(livre-v): ajouter les formats d’échange"
             git push origin HEAD:docs/livre-v-ch13-formats-echange
           fi
