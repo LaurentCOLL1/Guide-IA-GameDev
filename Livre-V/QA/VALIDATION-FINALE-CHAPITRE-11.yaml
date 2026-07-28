@@ -1,0 +1,64 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH11
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 6dd1f4df63b34220386ea5052471a8ecec5ccca0
+source-branch: docs/livre-v-ch11-reference-gdscript
+chapter:
+  id: DOC-L5-CH11
+  path: Livre-V/CHAPITRE-11-Reference-GDScript.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 12
+  chapter-lines: 387
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 68
+  source-book-links: 39
+  fragment-links: 36
+  official-links: 12
+  fenced-blocks: 0
+  reference-engine: Godot-4.7.1-stable
+  syntax-covered: true
+  typing-covered: true
+  built-in-types-covered: true
+  operators-covered: true
+  control-flow-covered: true
+  functions-and-callables-covered: true
+  classes-and-properties-covered: true
+  annotations-covered: true
+  collections-covered: true
+  signals-and-lifecycle-covered: true
+  resources-and-paths-covered: true
+  diagnostics-covered: true
+  alphabetical-index-present: true
+  runtime-results-invented: false
+  tutorial-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 2a075b52577d650500995d0ae2448460928444e325e33428e4a3b6eddc3eeb05
+  audit-sha256: d52d2ac0c1007404fd8d6decf5feeb614ba9867be1ed5eec1dc610b3992c4a96
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No Godot binary was downloaded or launched.
+- No GDScript file was parsed, imported or executed.
+- No scene, node, Resource or Inspector was manipulated.
+- No signal, Callable, await or lifecycle behavior was observed.
+- No warning was configured, raised or converted to an error.
+- No type, collection, operator or property test was executed.
+- No static-typing performance measurement was produced.
+- No migration from an earlier Godot version was tested.
+- No C#, GDExtension or exported-platform compatibility was qualified.
+- No permanent Companion Pack file or test was materialized.
+- No organisational legal approval was performed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.

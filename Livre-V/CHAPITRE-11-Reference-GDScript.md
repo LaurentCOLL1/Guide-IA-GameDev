@@ -87,7 +87,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | Élément | Forme rapide | Règle du guide | Source |
 |---|---|---|---|
 | fichier | `nom_de_classe.gd` | UTF-8 sans BOM, LF, tabulations | [indentation et format](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#4-indentation-et-format-des-fichiers) |
-| type global | `class_name HealthPool` | `PascalCase`, nom global unique | [classes et `class_name`](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#19-classes-héritage-et-class_name) |
+| type global | `class_name HealthPool` | `PascalCase`, nom global unique | [classes et `class_name`](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#19-classes-héritage-et-classname) |
 | base | `extends RefCounted` | relation stable et explicite | [héritage](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#192-héritage) |
 | fonction | `func apply_damage(...)` | `snake_case` | [identifiants et nommage](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#7-identifiants-et-conventions-de-nommage) |
 | membre privé conventionnel | `_state` ou `_recalculate()` | préfixe `_`, sans protection d’accès réelle | [fonction privée conventionnelle](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#183-fonction-privée-conventionnelle) |
@@ -219,7 +219,7 @@ La distinction entre fonction, méthode, paramètre, argument et retour est déf
 | dépendance | composition par membre typé | préférée à un héritage opportuniste |
 | construction | `.new()` | crée une instance de script ou de classe compatible |
 
-L’héritage exprime une relation « est un » stable ; la composition exprime une collaboration. Les accesseurs protègent un invariant court et ne doivent pas déclencher réseau, chargement lourd ou mutation transversale. Voir [classes et héritage](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#19-classes-héritage-et-class_name) et [propriétés et accesseurs](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#20-propriétés-et-accesseurs).
+L’héritage exprime une relation « est un » stable ; la composition exprime une collaboration. Les accesseurs protègent un invariant court et ne doivent pas déclencher réseau, chargement lourd ou mutation transversale. Voir [classes et héritage](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#19-classes-héritage-et-classname) et [propriétés et accesseurs](../Livre-II/CHAPITRE-02-Fondamentaux-de-GDScript.md#20-propriétés-et-accesseurs).
 
 ---
 
