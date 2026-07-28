@@ -1,0 +1,61 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH07
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: b5eb0e39c466c0b630642fb89bf484443425440c
+source-branch: docs/livre-v-ch07-modeles-audio
+chapter:
+  id: DOC-L5-CH07
+  path: Livre-V/CHAPITRE-07-Fiches-des-modeles-audio.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 11
+  chapter-lines: 394
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 61
+  source-book-links: 27
+  fragment-links: 27
+  official-links: 14
+  fenced-blocks: 0
+  tts-families-covered: 3
+  stt-families-covered: 1
+  music-families-covered: 1
+  sfx-families-covered: 1
+  model-engine-voice-separated: true
+  voice-consent-separated: true
+  phonemizer-vocoder-codec-covered: true
+  vad-diarization-covered: true
+  reproducible-test-matrix-present: true
+  licence-and-provenance-present: true
+  restricted-uses-visible: true
+  amd-performance-results-invented: false
+  audio-samples-produced: false
+  chapter-4-boundary-preserved: true
+  livre-iii-production-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 84d0c56cf793038c5456cd4fa13cd512646a7aa71bd1b4b059ebc433b5a6665d
+  audit-sha256: 430db11dfcbdfa852f9422853e7a8dc07bbe6822ba52238d679fdc4a627ff6d4
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No model, checkpoint, voice, vocoder, codec or derivative was downloaded.
+- No voice reference, consent form or personal recording was received.
+- No audio engine was loaded or executed.
+- No synthesis, transcription, music, effect or sample was produced.
+- No time, real-time factor, RAM, VRAM, stability or quality result was produced.
+- No CPU, DirectML, Vulkan, ZLUDA or ROCm path was qualified with these models.
+- No organisational or legal approval was performed.
+- No community voice or voice-cloning case was audited.
+- No browser-based link integrity campaign was performed beyond official-source review.
+- No Companion Pack artifact was created or executed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.
