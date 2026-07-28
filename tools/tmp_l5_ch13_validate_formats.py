@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 import platform
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any, Callable
 
@@ -21,6 +22,13 @@ SAFE_INTEGER_MAX = 9_007_199_254_740_991
 
 class ExpectedFailureNotRaised(AssertionError):
     pass
+
+
+def package_version(name: str) -> str:
+    try:
+        return version(name)
+    except PackageNotFoundError:
+        return "unknown"
 
 
 def reject_duplicate_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -206,7 +214,9 @@ def _() -> None:
 
 @case("jsonl.record_separator.rejected")
 def _() -> None:
-    expect_raises(json.JSONDecodeError, lambda: parse_jsonl('\x1e{"id":"a"}\n'))
+    # str.splitlines() recognizes U+001E as a boundary. The project profile still
+    # rejects the record before JSON parsing because it creates an empty record.
+    expect_raises(ValueError, lambda: parse_jsonl('\x1e{"id":"a"}\n'))
 
 
 @case("csv.quoted_comma")
@@ -294,8 +304,8 @@ def main() -> int:
         "schema_version": 1,
         "scope": "temporary-local-format-fixtures",
         "python": platform.python_version(),
-        "pyyaml": getattr(yaml, "__version__", "unknown"),
-        "jsonschema": getattr(jsonschema, "__version__", "unknown"),
+        "pyyaml": package_version("PyYAML"),
+        "jsonschema": package_version("jsonschema"),
         "total": len(results),
         "passed": len(results) - failed,
         "failed": failed,
