@@ -37,6 +37,10 @@ jobs:
       - name: Prepare permanent chapter lot
         run: python tools/tmp_l5_ch01_builder.py prepare
 
+      - name: Normalize generated Python whitespace
+        shell: bash
+        run: sed -i 's/[[:space:]]\+$//' tools/check_context_markers.py
+
       - name: Validate chapters without PDF
         run: python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
 
