@@ -1,0 +1,75 @@
+name: Livre IV Chapter 22 Audit Metadata Corrector
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch22.audit-metadata-fix
+
+permissions:
+  contents: write
+
+jobs:
+  correct:
+    if: github.head_ref == 'docs/livre-iv-chapitre-22-maintenance-archivage-perennite'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-22-maintenance-archivage-perennite
+          fetch-depth: 0
+
+      - name: Correct audit metadata and proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+
+          audit_path = Path('Livre-IV/QA/AUDIT-CHAPITRE-22.md')
+          proof_path = Path('Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-22.yaml')
+          audit = audit_path.read_text(encoding='utf-8')
+          stamp = '2026-07-28T05:41:07+02:00'
+          needle = f'audit-date: "{stamp}"\n'
+          insertion = needle + f'last-verified: "{stamp}"\n'
+          if 'last-verified:' not in audit:
+              if audit.count(needle) != 1:
+                  raise SystemExit('audit-date insertion point is not unique')
+              audit = audit.replace(needle, insertion, 1)
+          audit_path.write_text(audit.rstrip() + '\n', encoding='utf-8')
+          digest = sha256(audit.rstrip('\n').encode('utf-8')).hexdigest()
+          if digest != '7a3c436040ce7bdb0d21df2ac68e8a36cbf12c6da079d1843e79a8d5594aaee7':
+              raise SystemExit(f'unexpected audit digest: {digest}')
+
+          proof = proof_path.read_text(encoding='utf-8')
+          proof = proof.replace(
+              'audit-sha256: 4ff406f047b5ebe774dc6af272d344405b056f09f8875734e95554edcdc338b9',
+              f'audit-sha256: {digest}',
+          )
+          proof = proof.replace(
+              'significant-code-and-data-blocks: 43',
+              'significant-code-and-data-blocks: 40',
+          )
+          proof_path.write_text(proof.rstrip() + '\n', encoding='utf-8')
+
+          Path('tools/temporary/ch22.audit-metadata-fix').unlink()
+          Path('.github/workflows/livre-iv-chapter-22-audit-metadata-corrector.yml').unlink()
+          PY
+          git add -A
+          permanent='CONTINUITE-PROJET.md Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md Livre-IV/QA/AUDIT-CHAPITRE-22.md Livre-IV/QA/VALIDATION-FINALE-CHAPITRE-22.yaml Livre-IV/index.md ROADMAP.md contents.txt plans/LIVRE-IV-PLAN-MAITRE.md '
+          final_diff="$(git diff --cached --name-only 2cbe75d9c922c70a21c6e342383ab8331e20565c | sort | tr '\n' ' ')"
+          test "$final_diff" = "$permanent"
+
+      - name: Commit corrected permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(ch22): corriger les métadonnées de l’audit"
+          git push origin HEAD:docs/livre-iv-chapitre-22-maintenance-archivage-perennite
