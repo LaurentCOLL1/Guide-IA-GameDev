@@ -4,6 +4,7 @@ status: complete
 validation-date: '2026-07-28'
 validated-base-commit: 666e3004682f7ca1d7d1964bfa071a47df21cf81
 validated-reader-source-commit: f6b2118daf23edf7595ce9d5e2b4d300c00b1d40
+closure-documentation-commit: 9b83a26f3593df579c8e369e1d85ed710a0da5f5
 book:
   id: LIV-IV-INDEX
   path: Livre-IV/index.md
@@ -64,6 +65,10 @@ ci:
     conclusion: success
     artifact-id: 8677727006
     artifact-digest: sha256:0109aa765694cee0c6cc2663e83a3310485e5915517e3c0c35fcb95b43ac59ce
+  closure-finalizer:
+    workflow-name: Livre IV PDF Closure Finalizer
+    run-id: 30333154659
+    conclusion: success
 reservations:
   - Global collection license is undefined and LICENSE.md is absent.
   - PDF accessibility tagging is not implemented; pdfinfo reports Tagged: no.
