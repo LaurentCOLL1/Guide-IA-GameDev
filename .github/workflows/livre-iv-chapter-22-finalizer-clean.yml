@@ -27,6 +27,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          exec > >(tee /tmp/ch22-finalizer.log) 2>&1
+          set -x
           cat tools/temporary/ch22.clean.finalizer.*.b64 \
             | tr -d '\n' \
             | base64 --decode \
@@ -34,7 +36,7 @@ jobs:
             > /tmp/finalize_l4_ch22.py
           echo "9ffe216226234acfbe73f97c09ec880b8cf426ac3510f6f7a3b58a5983564da9  /tmp/finalize_l4_ch22.py" | sha256sum --check -
           python -m py_compile /tmp/finalize_l4_ch22.py
-          python /tmp/finalize_l4_ch22.py | tee /tmp/ch22-finalizer.log
+          python /tmp/finalize_l4_ch22.py
 
       - name: Upload finalizer evidence
         if: always()
