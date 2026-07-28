@@ -17,9 +17,37 @@ def replace_once(path: Path, old: str, new: str) -> None:
     path.write_text(text.replace(old, new, 1), encoding="utf-8")
 
 
+def validate_materialized(chapter_path: Path, audit_path: Path) -> None:
+    chapter = chapter_path.read_text(encoding="utf-8")
+    audit = audit_path.read_text(encoding="utf-8")
+    assert len(chapter.splitlines()) == 344
+    assert chapter.count("<!-- l5:card -->") == 14
+    assert chapter.count("<!-- l5:matrix -->") == 3
+    assert hashlib.sha256(chapter.encode("utf-8")).hexdigest() == "4d5f74e19435cc657e80d9853926eaf67f9827490b88be36c3611e51f7e652fd"
+    assert hashlib.sha256(audit.encode("utf-8")).hexdigest() == "96cab2c0c23bce9812a4229833527e5a4e19db16c63e0f3b803633a5b957ef53"
+    assert len(re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", chapter)) == 80
+
+    required = {
+        ROOT / "contents.txt": "Livre-V/CHAPITRE-02-Arbres-de-decision.md",
+        ROOT / "Livre-V/index.md": "Progression : **2 chapitres sur 26**",
+        ROOT / "ROADMAP.md": "**Statut M6 : en cours — 2 chapitres rédigés, repérés et audités sur 26.**",
+        ROOT / "plans/LIVRE-V-PLAN-MAITRE.md": 'version: "1.2.0"',
+        ROOT / "CONTINUITE-PROJET.md": 'version: "3.89.0"',
+    }
+    for path, marker in required.items():
+        if marker not in path.read_text(encoding="utf-8"):
+            raise RuntimeError(f"{path}: état final absent : {marker}")
+
+
 def main() -> None:
     chapter_path = ROOT / "Livre-V/CHAPITRE-02-Arbres-de-decision.md"
     audit_path = ROOT / "Livre-V/QA/AUDIT-CHAPITRE-02.md"
+    continuity = ROOT / "CONTINUITE-PROJET.md"
+
+    if 'version: "3.89.0"' in continuity.read_text(encoding="utf-8")[:500]:
+        validate_materialized(chapter_path, audit_path)
+        print("Gouvernance de la fiche 02 déjà matérialisée et vérifiée.")
+        return
 
     replace_once(
         ROOT / "contents.txt",
@@ -66,7 +94,6 @@ def main() -> None:
         "**Objectifs**",
     )
 
-    continuity = ROOT / "CONTINUITE-PROJET.md"
     replace_once(continuity, 'version: "3.88.0"', 'version: "3.89.0"')
     replace_once(
         continuity,
@@ -120,15 +147,7 @@ def main() -> None:
         "## 27. Journal\n\n\n" + journal + "### 2026-07-28T11:28:35+02:00 — version 3.88.0",
     )
 
-    chapter = chapter_path.read_text(encoding="utf-8")
-    audit = audit_path.read_text(encoding="utf-8")
-    assert len(chapter.splitlines()) == 344
-    assert chapter.count("<!-- l5:card -->") == 14
-    assert chapter.count("<!-- l5:matrix -->") == 3
-    assert hashlib.sha256(chapter.encode("utf-8")).hexdigest() == "4d5f74e19435cc657e80d9853926eaf67f9827490b88be36c3611e51f7e652fd"
-    assert hashlib.sha256(audit.encode("utf-8")).hexdigest() == "96cab2c0c23bce9812a4229833527e5a4e19db16c63e0f3b803633a5b957ef53"
-    assert len(re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", chapter)) == 80
-
+    validate_materialized(chapter_path, audit_path)
     print("Gouvernance de la fiche 02 mise à jour.")
 
 
