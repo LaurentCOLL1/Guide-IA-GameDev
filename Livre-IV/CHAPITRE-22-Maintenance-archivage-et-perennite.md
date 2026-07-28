@@ -279,7 +279,7 @@ Le triage enregistre :
 
 Les alertes GitHub Dependabot peuvent compléter la veille, mais elles dépendent des écosystèmes reconnus et des manifestes soumis au graphe de dépendances. Les avis du fournisseur, les bases de vulnérabilités et les bulletins des plateformes restent nécessaires.
 
-> **[WEB] GitHub — Ouvrir `Security` puis examiner les alertes Dependabot du dépôt candidat.**
+> **[APP] GitHub — Ouvrir `Security` puis examiner les alertes Dependabot du dépôt candidat.**
 
 ```text
 1. Ouvrir le dépôt autorisé.
