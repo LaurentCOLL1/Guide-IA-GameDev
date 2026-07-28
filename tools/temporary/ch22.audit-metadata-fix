@@ -1,0 +1,4 @@
+chapter: 22
+fix: audit-last-verified-and-authoritative-significant-blocks
+expected-audit-sha256: 7a3c436040ce7bdb0d21df2ac68e8a36cbf12c6da079d1843e79a8d5594aaee7
+expected-significant-blocks: 40
