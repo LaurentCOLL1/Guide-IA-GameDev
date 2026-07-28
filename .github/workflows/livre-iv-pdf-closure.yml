@@ -1,5 +1,6 @@
 name: Livre IV PDF Closure Runner
 
+# Anchored after source control-character correction.
 on:
   pull_request:
     branches:
