@@ -27,6 +27,7 @@ results:
   detailed-error-cases-required: false
   all-usage-markers-required: false
   master-plan-scope-covered: true
+  deep-link-targets-validated: true
   runtime-values-not-invented: true
   pdf-produced: false
   runtime-executed: false
@@ -34,15 +35,27 @@ integrity:
   chapter-sha256: 1bd8c3a043c90ddc928907043b1089476324d0b3c1b8d05fa50064e9e1b4fe19
   audit-sha256: ffe53b71cf536ca16e738a10e7d53b437502325f5984e8b40bfadccfb79318ac
 ci:
-  specialized-builder:
-    workflow-name: Livre V Reference Profile Rebuild
+  materialization:
+    workflow-name: Validate Chapters Without PDF
+    mode: temporary-materialization
     run-id: 30348887486
     conclusion: success
-  permanent-validations:
-    status: pending-recording-after-final-head
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    run-id: 30349169931
+    conclusion: success
+    deep-link-step: success
+    artifact-id: 8684144679
+    artifact-digest: sha256:aceb8c47575f8a88cd7f569b1066962c4c8a44afdf64650d430b170136a5d1b8
+  validate-usage-contexts:
+    workflow-name: Validate Usage Contexts
+    run-id: 30349170282
+    conclusion: success
+    artifact-id: 8684142387
+    artifact-digest: sha256:9a15b82560f0d3d21d3e1bc40d7a9aa92647dafddc7a800fe69121308d61a419
 reservations:
 - No timed reader navigation study was executed.
-- Link fragments were statically reviewed but not rendered in every publication engine.
+- Link fragments were statically validated but not rendered in every publication engine.
 - No interactive HTML or EPUB index was materialized.
 - No Companion Pack artifact was created or executed.
 - No runtime product, platform or hardware validation was executed.
