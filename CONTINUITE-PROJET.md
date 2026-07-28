@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.91.0"
+version: "3.92.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T14:25:00+02:00"
+last-updated: "2026-07-28T15:09:18+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,11 +2315,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 4 chapitres sur 26 ;
+- progression du Livre V : 5 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 4 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 5 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2414,21 +2415,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient quatre fiches sur 26 au niveau `static-review`. La fiche 04 distingue moteurs, backends, modèles, interfaces et orchestration ; elle couvre Ollama, llama.cpp, LocalAI, ComfyUI et les voies CPU, Vulkan, DirectML, ZLUDA, ROCm/HIP et audio. Les exécutions runtime, les benchmarks, les tests de liens web depuis un navigateur, les matrices historiques de compatibilité, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient cinq fiches sur 26 au niveau `static-review`. La fiche 05 qualifie Qwen3, Gemma 4, Phi-4, Granite 4, Mistral Small 4, Llama et DeepSeek-R1, distingue modèles denses et MoE, paramètres totaux et actifs, contextes annoncés et testés, licences, quantifications et poids théoriques. Les sources officielles ont été revues le 28 juillet 2026 ; les téléchargements, inférences, benchmarks, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
+Livre-V/CHAPITRE-06-Fiches-des-modeles-visuels.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 5 possédera les fiches des familles de modèles de langage, tailles, quantifications, contextes, langues, licences et exigences mémoire. Il devra renvoyer aux moteurs de la fiche 04 sans confondre le modèle avec son runtime et ne présenter aucun résultat matériel sans benchmark exécuté.
+Le chapitre 6 possédera les fiches des checkpoints, VAE, ControlNet, LoRA et upscalers visuels. Il devra qualifier provenance, licence, formats, résolution, sampler, besoins VRAM et workflow de test sans recopier les installations ComfyUI ni produire d’images prétendument validées.
 
 ## 27. Journal
 
+
+### 2026-07-28T15:09:18+02:00 — version 3.92.0
+
+- création de la fiche 05 — Fiches des modèles de langage ;
+- ajout de treize cartes et de trois matrices compactes ;
+- Qwen3, Gemma 4, Phi-4, Granite 4, Mistral Small 4, Llama et DeepSeek-R1 qualifiés ;
+- familles, checkpoints, modèles denses, MoE, paramètres totaux et actifs séparés ;
+- quantifications, contextes, langues, licences, provenance, poids théoriques et protocole de huit tests documentés ;
+- sources officielles des éditeurs revues en ligne le 28 juillet 2026 sans reprendre leurs performances promotionnelles ;
+- métriques statiques : 379 lignes, 20 titres, 13 fiches, 3 matrices, 56 liens, 19 renvois vers les Livres I à IV et 19 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 06 — Fiches des modèles visuels, niveau Élevée ;
+- aucun modèle téléchargé, aucune inférence, mesure, approbation juridique, création d’artefact du Companion Pack ou production PDF.
 
 ### 2026-07-28T14:25:00+02:00 — version 3.91.0
 

@@ -184,10 +184,11 @@
 - [x] Corriger la fiche 01 pour adopter une consultation non linéaire et des renvois fréquents vers les Livres I à IV.
 - [x] Fiches universelles — fiche 03 des logiciels et outils rédigée et auditée au niveau `static-review`.
 - [x] Moteurs et backends IA — fiche 04 rédigée et auditée au niveau `static-review`.
+- [x] Modèles de langage — fiche 05 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 4 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 5 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 
