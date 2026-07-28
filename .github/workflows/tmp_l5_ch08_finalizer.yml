@@ -1,0 +1,129 @@
+name: Temporary Livre V Chapter 8 Finalizer
+
+on:
+  push:
+    branches:
+      - docs/livre-v-ch08-bibliotheque-workflows
+    paths:
+      - ".github/workflows/tmp_l5_ch08_finalizer.yml"
+      - "tools/tmp_l5_ch08_finalize.py"
+      - "Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md"
+      - "Livre-V/QA/AUDIT-CHAPITRE-08.md"
+      - "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-08.yaml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/tmp_l5_ch08_finalizer.yml"
+      - "tools/tmp_l5_ch08_finalize.py"
+      - "Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md"
+      - "Livre-V/QA/AUDIT-CHAPITRE-08.md"
+      - "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-08.yaml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: livre-v-ch08-finalizer
+  cancel-in-progress: false
+
+jobs:
+  finalize-validate-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-v-ch08-bibliotheque-workflows
+          fetch-depth: 0
+
+      - name: Finalize audit, proof and governance
+        run: python3 tools/tmp_l5_ch08_finalize.py
+
+      - name: Install lightweight dependencies
+        run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Validate structure, metadata, links and duplicates
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
+            | tee dist/QA-CHAPTERS.log
+
+      - name: Validate Livre V cards and deep links
+        run: |
+          set -o pipefail
+          python3 tools/validate_livre_v_references.py --check \
+            | tee dist/QA-LIVRE-V-REFERENCES.log
+
+      - name: Validate structured code explanations
+        run: |
+          set -o pipefail
+          python3 tools/check_code_explanation_structure.py --check \
+            | tee dist/QA-EXPLICATIONS-CODE.log
+
+      - name: Audit usage marker presence
+        run: |
+          set -o pipefail
+          python3 tools/check_context_markers.py --check \
+            | tee dist/QA-CONTEXTES.log
+
+      - name: Audit semantic marker consistency
+        run: |
+          set -o pipefail
+          python3 tools/audit_contextes_semantiques.py --check \
+            | tee dist/QA-CONTEXTES-SEMANTIQUES.log
+
+      - name: Measure context coverage
+        run: |
+          set -o pipefail
+          python3 tools/report_contextes_utilisation.py \
+            | tee dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            ROADMAP.md \
+            contents.txt \
+            plans/LIVRE-V-PLAN-MAITRE.md \
+            Livre-V/index.md \
+            Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md \
+            Livre-V/QA/AUDIT-CHAPITRE-08.md \
+            Livre-V/QA/VALIDATION-FINALE-CHAPITRE-08.yaml
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Lot permanent déjà enregistré."
+          else
+            git commit -m "docs(livre-v): ajouter la bibliothèque de workflows"
+            git push origin HEAD:docs/livre-v-ch08-bibliotheque-workflows
+          fi
+
+      - name: Upload lightweight QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-v-ch08-validation
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            dist/QA-CHAPTERS.md
+            dist/QA-CHAPTERS.log
+            dist/QA-LIVRE-V-REFERENCES.log
+            dist/QA-EXPLICATIONS-CODE.log
+            dist/QA-CONTEXTES.log
+            dist/QA-CONTEXTES-SEMANTIQUES.log
+            dist/QA-CONTEXTES-COUVERTURE.md
