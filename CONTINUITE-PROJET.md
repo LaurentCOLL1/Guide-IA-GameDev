@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.87.0"
+version: "3.88.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T09:26:30+02:00"
+last-updated: "2026-07-28T11:28:35+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -37,7 +37,7 @@ Une nouvelle conversation doit :
 - **Livre II :** `Livre-II/index.md` et le présent fichier ;
 - **Livre III :** `plans/LIVRE-III-PLAN-MAITRE.md` ;
 - **Livre IV :** `plans/LIVRE-IV-PLAN-MAITRE.md` ;
-- **Livre V :** `plans/LIVRE-V-PLAN-MAITRE.md` ;
+- **Livre V :** `plans/LIVRE-V-PLAN-MAITRE.md` et `Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md` ;
 - **Companion Pack :** `plans/COMPANION-PACK-PLAN-MAITRE.md`.
 
 Aucun titre, ordre ou périmètre ne doit être modifié silencieusement.
@@ -2316,7 +2316,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
 - progression du Livre V : 1 chapitre sur 26 ;
-- chapitre 1 du Livre V : version `1.0.0`, niveau `static-review` ;
+- chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
+- profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2410,7 +2411,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V est ouvert avec un chapitre sur 26 au niveau `static-review`. La carte générale de la collection, les parcours Solo/Studio, les entrées par besoin, outil ou système et l’index initial des prérequis sont documentés. Les tests de recherche avec lecteurs, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V est ouvert avec une fiche sur 26 au niveau `static-review`. La fiche 01 a été corrigée pour adopter le profil propre au Livre V : consultation non linéaire, cartes, matrices, liens fréquents vers les Livres I à IV et absence de structure tutoriel héritée. Les tests de recherche avec lecteurs, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
@@ -2421,10 +2422,22 @@ Livre-V/CHAPITRE-02-Arbres-de-decision.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 2 possédera les arbres de choix, critères, contraintes, conséquences, variantes AMD/CPU et parcours Solo/Studio. Il réutilisera la carte du chapitre 1 sans modifier l’ordre officiel ni recopier les tutoriels.
+Le chapitre 2 possédera les arbres de choix, critères, contraintes, conséquences, variantes AMD/CPU et parcours Solo/Studio. Il suivra le protocole des fiches du Livre V, utilisera des matrices compactes et renverra fréquemment vers les sous-sections propriétaires sans recopier les tutoriels.
 
 ## 27. Journal
 
+
+### 2026-07-28T11:28:35+02:00 — version 3.88.0
+
+- correction de la conception éditoriale du Livre V après revue utilisateur ;
+- création de `Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md` comme profil spécialisé ;
+- clarification des règles générales conservées et des obligations tutoriel non applicables ;
+- refonte de la fiche 01 en 263 lignes, 12 fiches et 2 matrices ;
+- suppression des résultats d’apprentissage, commandes sans valeur de référence, dix diagnostics imposés et synthèse `Project Asteria` ;
+- ajout de 167 liens vers les Livres I à IV, dont 29 liens profonds vers des sous-sections ;
+- adaptation des validateurs au format `reference-cards` ;
+- maintien de la prochaine action sur `Livre-V/CHAPITRE-02-Arbres-de-decision.md` ;
+- aucune exécution runtime, étude lecteur, création d’artefact du Companion Pack ou production PDF.
 
 ### 2026-07-28T09:26:30+02:00 — version 3.87.0
 

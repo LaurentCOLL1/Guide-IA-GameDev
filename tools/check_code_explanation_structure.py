@@ -283,6 +283,8 @@ def check_error_correction_sections(
 
 
 def check(path: Path) -> list[str]:
+    if path.parent.name == "Livre-V":
+        return []
     chapter = number(path)
     is_modern_book = path.parent.name in {"Livre-III", "Livre-IV"}
     if chapter is None or (not is_modern_book and chapter < 17):
