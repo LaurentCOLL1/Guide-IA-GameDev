@@ -51,6 +51,17 @@ jobs:
           chmod +x build.sh
           ./build.sh 2>&1 | tee dist/BUILD-LOG.txt
 
+      - name: Upload build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-pdf-build-diagnostics
+          path: |
+            dist/BUILD-LOG.txt
+            dist/QA-CHAPTERS.md
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Structural and reader preflight
         shell: bash
         run: |
