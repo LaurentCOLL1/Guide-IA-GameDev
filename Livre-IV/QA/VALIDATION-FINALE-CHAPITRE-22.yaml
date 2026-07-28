@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-28'
 validated-base-commit: 2cbe75d9c922c70a21c6e342383ab8331e20565c
-validated-head-commit: pending-permanent-validation
+validated-head-commit: 7b34b7b2e5442826f1ee85d5732701bc3c412c3a
 chapter:
   id: DOC-L4-CH22
   path: Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
@@ -14,7 +14,7 @@ results:
   blocking-errors: 0
   warnings: 1
   chapter-lines: 1939
-  chapter-headings: 0
+  chapter-headings: 60
   chapter-code-and-data-blocks: 48
   significant-code-and-data-blocks: 43
   code-explanation-markers: 48
@@ -53,10 +53,12 @@ integrity:
   audit-sha256: 4ff406f047b5ebe774dc6af272d344405b056f09f8875734e95554edcdc338b9
 ci:
   chapter-finalizer:
-    workflow-name: Livre IV Chapter 22 Finalizer
+    workflow-name: Livre IV Chapter 22 Finalizer Clean
     execution: chapter-finalizer
-    run-id: pending-finalizer-run
-    conclusion: pending
+    run-id: 30328413945
+    conclusion: success
+    artifact-id: 8676497204
+    artifact-digest: sha256:a5dc5b9ced3b726e43bc0c2b53face804995baec770a4c0d5cfea71acf25ea0f
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
