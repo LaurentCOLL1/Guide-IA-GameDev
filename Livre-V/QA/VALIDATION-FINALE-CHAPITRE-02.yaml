@@ -38,8 +38,19 @@ integrity:
   chapter-sha256: 4d5f74e19435cc657e80d9853926eaf67f9827490b88be36c3611e51f7e652fd
   audit-sha256: 96cab2c0c23bce9812a4229833527e5a4e19db16c63e0f3b803633a5b957ef53
 ci:
+  specialized-builder:
+    workflow-name: Temporary Livre V Chapter 2 Builder
+    run-id: 30354329407
+    conclusion: success
+    artifact-id: 8686169210
+    artifact-digest: sha256:12f890a09ca65595fae433acba013de77da18227c33428a6086d9647c846a10e
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow-name: Validate Chapters Without PDF
+    run-id: 30354398525
+    conclusion: success
+    validated-head: f6a754c447eae099ef2a227745108e12d23e6e77
+    artifact-id: 8686189204
+    artifact-digest: sha256:83bcda31778c51da5d7b41ce0ade34708c133708d4b366db291fab26819f78f2
 reservations:
 - No reader or team decision study was executed.
 - No weighting was calibrated through user research.
