@@ -1,0 +1,60 @@
+name: Livre V Reference Profile Rebuild
+
+on:
+  push:
+    branches:
+      - fix/livre-v-profil-fiches
+    paths:
+      - .github/workflows/tmp_l5_reference_rebuild.yml
+      - tools/tmp_l5_reference_rebuild.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: livre-v-reference-profile-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout correction branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: fix/livre-v-profil-fiches
+          fetch-depth: 0
+
+      - name: Rebuild Livre V reference profile
+        run: python tools/tmp_l5_reference_rebuild.py prepare
+
+      - name: Validate chapters without PDF
+        run: python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+
+      - name: Validate usage contexts
+        run: python tools/check_context_markers.py --check
+
+      - name: Finalize QA proof
+        run: python tools/tmp_l5_reference_rebuild.py finalize --run-id "$GITHUB_RUN_ID"
+
+      - name: Commit permanent correction lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            CONTINUITE-PROJET.md \
+            ROADMAP.md \
+            plans/LIVRE-V-PLAN-MAITRE.md \
+            Livre-V/index.md \
+            Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md \
+            Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md \
+            Livre-V/QA/AUDIT-CHAPITRE-01.md \
+            Livre-V/QA/VALIDATION-FINALE-CHAPITRE-01.yaml \
+            tools/validate_chapters.py \
+            tools/check_context_markers.py
+          git diff --cached --check
+          git commit -m "fix(livre-v): adopter le profil de fiches de référence"
+          git push origin HEAD:fix/livre-v-profil-fiches
