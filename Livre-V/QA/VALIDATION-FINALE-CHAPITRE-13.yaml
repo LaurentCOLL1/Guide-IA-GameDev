@@ -37,6 +37,11 @@ results:
   round-trip-contract-covered: true
   security-and-limits-covered: true
   fixture-tests: 24
+  fixture-tests-passed: 24
+  fixture-tests-failed: 0
+  fixture-python-version: 3.12.3
+  fixture-pyyaml-version: 6.0.1
+  fixture-jsonschema-version: 4.10.3
   fixture-runtime-executed: true
   production-runtime-executed: false
   godot-runtime-executed: false
@@ -50,9 +55,23 @@ integrity:
   audit-sha256: 6012912b9cdd8349cb7c76d756acfaf0f4affe3b75a2a9e434bbd45a3e3de14e
 ci:
   specialized-finalizer:
-    status: pending-recording-after-pr-run
+    workflow: Temporary Livre V Chapter 13 Finalizer
+    run-id: 30402020739
+    source-head-commit: ff4f191b1dbfd0649f27f3475a24ccb03a855d66
+    permanent-commit: d0f061cac2791922da04a4b67f2ad696e9a42348
+    conclusion: success
+    fixture-total: 24
+    fixture-passed: 24
+    fixture-failed: 0
+    artifact-id: 8705076536
+    artifact-digest: sha256:fb7c8505f459deaa6916325e2b482bae9bf8180cae330950d6f372beaf6c289d
   permanent-validations:
-    status: pending-recording-after-clean-head-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 6abadeaf7357aa0d698f4ac8f4bf0e5e574a393f
+    run-id: 30402195986
+    conclusion: success
+    artifact-id: 8705133825
+    artifact-digest: sha256:a8905f586b717af45f012b2e76291c04a9a6cdad23f293df13b10003cac608db
 reservations:
 - The runtime evidence is limited to 24 temporary in-memory Python, PyYAML and jsonschema cases.
 - No Godot binary or project was loaded.
