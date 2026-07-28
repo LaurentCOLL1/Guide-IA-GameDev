@@ -134,8 +134,9 @@ jobs:
               echo "push_status=$push_status"
               if [[ $push_status -ne 0 ]]; then status=$push_status; fi
             fi
-          } 2>&1 | tee "$diagnostic"
+          } > "$diagnostic" 2>&1
 
+          cat "$diagnostic"
           if [[ $status -ne 0 ]]; then
             gh pr comment 325 --body-file "$diagnostic" || true
           fi
