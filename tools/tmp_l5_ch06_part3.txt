@@ -1,0 +1,120 @@
+| limites | le contrôle influence une condition ; il ne garantit ni anatomie, ni matériaux, ni droits |
+| sécurité | un préprocesseur ou custom node reste du code tiers à qualifier |
+| alternatives | masque et image-vers-image, LoRA de contrôle, modèle natif d’édition |
+| sources officielles | [implémentation ControlNet](https://github.com/lllyasviel/ControlNet), [exemple ControlNet ComfyUI](https://docs.comfy.org/tutorials/controlnet/controlnet), [ControlNets SD3.5](https://stability.ai/news-updates/sd3-5-large-controlnets) |
+| sources internes | [nœuds Core avant extensions](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#13-commencer-par-les-nœuds-core), [workflow de contrôle FLUX](https://docs.comfy.org/tutorials/flux/flux-1-controlnet) |
+| preuve | revue documentaire ; aucun contrôle appliqué |
+
+---
+
+<!-- l5:card -->
+## VISUEL-09 — LoRA et adaptations
+
+| Champ | Référence |
+|---|---|
+| besoin | adapter une base à un sujet, une apparence, un mouvement ou une fonction sans remplacer tous ses poids |
+| réponse rapide | enregistrer base exacte, modules ciblés, rang, fichier, déclencheurs et poids d’application |
+| compatibilité | une LoRA SDXL, SD3, FLUX ou Qwen ne se transfère pas par extension de fichier |
+| combinaison | plusieurs LoRA peuvent interagir ; ajouter une seule adaptation par expérience initiale |
+| licence | conditions du fichier, de la base, des données d’entraînement et des sorties restent séparées |
+| provenance | auteur, dépôt, révision, dataset déclaré, images d’exemple et empreinte |
+| validation | prompts positifs, négatifs et hors domaine ; comparaison avec base seule |
+| risque | reproduire une identité, une marque ou une apparence protégée peut être indésirable même si le fichier est techniquement compatible |
+| alternative | checkpoint spécialisé, contrôle structurel ou édition par référence |
+| sources officielles | [guide LoRA Diffusers](https://github.com/huggingface/diffusers/blob/main/docs/source/en/training/lora.md), [chargeurs LoRA Diffusers](https://github.com/huggingface/diffusers/blob/main/docs/source/en/api/loaders/lora.md) |
+| sources internes | [matrice d’expériences](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#20-construire-une-matrice-dexpériences), [provenance des transformations](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#4-vocabulaire-opérationnel) |
+| preuve | revue statique ; aucune LoRA entraînée ou chargée |
+
+---
+
+<!-- l5:card -->
+## VISUEL-10 — Upscalers et restauration
+
+| Champ | Référence |
+|---|---|
+| besoin | augmenter les dimensions ou restaurer certains défauts d’une image dérivée |
+| réponse rapide | traiter l’upscaler comme un modèle de transformation, pas comme une récupération fidèle de détails absents |
+| familles | Real-ESRGAN, ESRGAN, SwinIR ou modèle spécialisé explicitement identifié |
+| paramètres | facteur, tuilage, recouvrement, réduction de bruit, espace colorimétrique et traitement alpha |
+| domaine | photographie, illustration, anime, textures ou vidéo ; un modèle général n’est pas universel |
+| contrôle | comparer à 100 %, vérifier halos, répétitions, coutures, texte, lignes, grain et micro-détails inventés |
+| source | conserver l’image originale ; l’upscale est un dérivé remplaçable |
+| licence | code et poids peuvent avoir des licences ou provenances différentes |
+| alternative | génération haute résolution, latent upscale, tiled diffusion ou réexport depuis une source vectorielle |
+| source officielle | [dépôt Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) |
+| sources internes | [architecture des modèles ComfyUI](../Livre-I/CHAPITRE-07-ComfyUI-et-workflows-graphiques.md#4-architecture-des-dossiers), [validation des assets](../Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md) |
+| preuve | revue documentaire ; aucune image restaurée ou agrandie |
+
+---
+
+<!-- l5:card -->
+## VISUEL-11 — Checkpoints communautaires et dérivés
+
+| Champ | Référence |
+|---|---|
+| besoin | qualifier un fine-tune, un merge, une conversion ou une quantification publié par un tiers |
+| réponse rapide | partir de l’artefact exact et reconstruire sa chaîne vers les bases et composants |
+| identité | auteur, plateforme, page, version, date, fichier, taille, SHA-256 et format |
+| dérivation | base, recette de merge, entraînement, dataset déclaré, VAE, encodeurs et adaptations intégrées |
+| licence | licence propre, licences héritées et restrictions de la base ; absence ou ambiguïté bloque |
+| sécurité | préférer un format de poids sans exécution Python, sans confondre ce choix avec une garantie juridique ou fonctionnelle |
+| exemples | images de démonstration et prompts ne prouvent ni fichier utilisé, ni seed, ni absence de retouche |
+| compatibilité | vérifier chargeur, architecture, résolution, prediction type et composants inclus |
+| statut | `intake`, `quarantined`, `under_review`, `accepted_limited`, `accepted` ou `blocked` |
+| alternative | modèle éditeur ou paquet déjà qualifié |
+| sources internes | [cycle de vie des assets](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#6-cycle-de-vie-et-statuts), [identifiant stable](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#7-identifiant-stable-et-versions) |
+| preuve | règle de gouvernance ; aucun dépôt communautaire audité dans cette fiche |
+
+---
+
+<!-- l5:matrix -->
+## Matrice C — Workflow de test reproductible
+
+| Test | Variables fixes | Variable observée | Mesures ou revue | Sortie attendue |
+|---|---|---|---|---|
+| T1 — chargement | paquet, workflow et backend | capacité à charger chaque composant | journal, RAM, VRAM, fallback et durée de chargement | statut fonctionnel ou blocage précis |
+| T2 — baseline | prompt, seed, dimensions et sampler | modèle ou variante | durée, pic mémoire, erreur, image et empreinte | témoin conservé sans jugement global |
+| T3 — résolution | prompt, seed et modèle | dimensions ou ratio | stabilité, composition, artefacts et mémoire | plage retenue, pas maximum théorique |
+| T4 — sampler | modèle, prompt, seed et taille | sampler, scheduler ou étapes | cohérence, défauts et coût | réglage retenu pour ce workflow |
+| T5 — français | paquet et paramètres | prompts français et texte rendu | accents, casse, petits corps, sens et mise en page | rapport typographique |
+| T6 — contrôle | base, prompt et seed | type, force, début et fin du contrôle | fidélité structurelle et artefacts | contrôle accepté ou rejeté |
+| T7 — adaptation | base et workflow | LoRA et poids | effet utile, sur-apprentissage, collisions et hors domaine | plage de poids et restrictions |
+| T8 — restauration | image source | upscaler et paramètres | halos, coutures, détails inventés, couleur et alpha | dérivé comparé à l’original |
+| T9 — reproductibilité | paquet et workflow inchangés | répétition sur même puis autre backend | octets, famille visuelle, erreurs et versions | allégation exacte ou de famille |
+| T10 — revue humaine | sorties anonymisées et critères | candidat | anatomie, matière, fonction, culture, droits et bible | sélection, rejet ou nouvelle expérience |
+
+Le [contrat des seeds](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#17-gérer-les-seeds-et-la-reproductibilité-réelle) interdit de promettre une identité universelle. Les résultats chiffrés appartiendront au chapitre 21 du Livre V ; cette matrice définit seulement le protocole.
+
+---
+
+<!-- l5:card -->
+## VISUEL-12 — Manifeste et acceptation
+
+| Champ | Valeur à enregistrer |
+|---|---|
+| paquet | identifiant, but, propriétaire, statut et date de décision |
+| composants | rôle, fournisseur, dépôt, révision, fichier, taille, empreinte et format |
+| compatibilité | architecture, ComfyUI, nœuds, backend, OS et matériel réellement testés |
+| workflow | fichier JSON, empreinte, template d’origine et modifications |
+| paramètres | dimensions, sampler, scheduler, étapes, guidance, seed et entrées |
+| droits | licence de chaque composant, preuves, restrictions, attribution et périmètre accepté |
+| résultats | identifiants de runs, images témoins, empreintes et rapport de revue |
+| performance | durée, mémoire, backend et niveau de preuve, sans valeur préremplie |
+| reproductibilité | non testée, famille reproduite ou octets reproduits dans un environnement défini |
+| décision | `accepted`, `accepted_limited`, `blocked`, `withdrawn` ou `superseded` avec approbateur |
+| retrait | dépendances et workflows affectés, remplacement, date et conservation des preuves |
+
+**Porte minimale :** aucun paquet n’est `accepted` sans identité complète, licence relue, workflow versionné, génération témoin, revue humaine et repli documenté. Une image persuasive reste une proposition tant qu’elle n’a pas franchi les portes décrites dans [les statuts de concept](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md#3-distinguer-inspiration-référence-concept-source-et-asset-final).
+
+**Frontières :**
+
+- la fiche 03 possède l’application ComfyUI et les outils ;
+- la fiche 04 possède le moteur, les API et les backends ;
+- la fiche 06 possède les familles visuelles et leurs composants ;
+- la fiche 08 possédera les workflows réutilisables ;
+- le chapitre 21 possédera les mesures exécutées ;
+- le chapitre 22 possédera les compatibilités historiques ;
+- le chapitre 25 possédera l’inventaire transversal des licences ;
+- la création et la sélection artistiques restent dans le Livre III.
+
+**Niveau de preuve :** `static-review`. Aucun checkpoint, VAE, encodeur, ControlNet, LoRA ou upscaler n’a été téléchargé ; aucun workflow n’a été chargé ; aucune image, mesure RAM/VRAM, comparaison ou approbation juridique n’a été produite.
