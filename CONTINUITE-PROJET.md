@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.89.0"
+version: "3.90.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T13:00:32+02:00"
+last-updated: "2026-07-28T13:42:52+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,9 +2315,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 2 chapitres sur 26 ;
+- progression du Livre V : 3 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2412,21 +2413,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient deux fiches sur 26 au niveau `static-review`. La fiche 02 transforme les routes générales de la fiche 01 en décisions conditionnelles : portes éliminatoires, critères pondérés, chemins AMD/CPU, variantes Solo/Studio, replis et niveaux de preuve. Les études de décision avec lecteurs ou équipes, les benchmarks runtime, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient trois fiches sur 26 au niveau `static-review`. La fiche 03 normalise douze logiciels ou familles d’outils, distingue leurs rôles, versions datées, formats, intégrations, alternatives, limites et preuves, et fournit trois matrices de consultation. Les vérifications runtime, les tests de liens web depuis un navigateur, les matrices historiques de compatibilité, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md
+Livre-V/CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 3 possédera les fiches normalisées de Godot, Blender, VS Code, Git, Docker, ComfyUI et outils associés. Il devra conserver versions, dates, compatibilités, alternatives, limites et liens officiels sans recopier leurs installations détaillées.
+Le chapitre 4 possédera les fiches des moteurs et backends IA, notamment Ollama, llama.cpp, LocalAI et les voies visuelles ou audio. Il devra distinguer moteur, modèle, interface et orchestration, conserver les chemins CPU/AMD et ne pas recopier les déploiements complets du Livre I ni l’intégration du Livre II.
 
 ## 27. Journal
 
+
+### 2026-07-28T13:42:52+02:00 — version 3.90.0
+
+- création de la fiche 03 — Fiches des logiciels et outils ;
+- ajout de douze cartes d’outils, d’un contrat commun et de trois matrices compactes ;
+- Windows Terminal, PowerShell, WinGet, Git, GitHub, VS Code, Python, Docker, Godot, Blender, ComfyUI, Open WebUI et Open Terminal référencés ;
+- versions datées, formats, intégrations, alternatives, limites, commandes minimales et liens officiels enregistrés ;
+- frontière préservée avec les décisions de la fiche 02 et les moteurs ou backends du chapitre 4 ;
+- métriques statiques : 355 lignes, 19 titres, 13 fiches, 3 matrices, 64 liens, 28 renvois vers les Livres I à IV et 24 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 04 — Fiches des moteurs et backends IA, niveau Élevée ;
+- aucune installation, commande, vérification web, exécution runtime, création d’artefact du Companion Pack ou production PDF.
 
 ### 2026-07-28T13:00:32+02:00 — version 3.89.0
 

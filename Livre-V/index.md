@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "0.4.0"
+version: "0.5.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -26,7 +26,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 - [x] [Fiche 01 — Carte générale de la collection](CHAPITRE-01-Carte-generale-de-la-collection.md) — version `1.1.0`, niveau `static-review`.
 - [x] [Fiche 02 — Arbres de décision](CHAPITRE-02-Arbres-de-decision.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 3 — Fiches des logiciels et outils.
+- [x] [Fiche 03 — Fiches des logiciels et outils](CHAPITRE-03-Fiches-des-logiciels-et-outils.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 4 — Fiches des moteurs et backends IA.
 - [ ] Chapitre 5 — Fiches des modèles de langage.
 - [ ] Chapitre 6 — Fiches des modèles visuels.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **2 chapitres sur 26** rédigés et audités. Les fiches 01 et 02 utilisent le profil de référence spécialisé du Livre V ; la fiche 02 fournit les arbres, critères pondérés et scénarios AMD/CPU/Solo/Studio. Les campagnes runtime, les artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **3 chapitres sur 26** rédigés et audités. Les fiches 01 à 03 utilisent le profil de référence spécialisé du Livre V ; la fiche 03 normalise les logiciels et outils, leurs versions datées, formats, intégrations, alternatives, limites et sources officielles. Les campagnes runtime, les artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
