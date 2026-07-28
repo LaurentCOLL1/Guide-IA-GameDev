@@ -13,7 +13,7 @@ chapter:
 results:
   blocking-errors: 0
   warnings: 1
-  chapter-lines: 1979
+  chapter-lines: 1939
   chapter-headings: 60
   chapter-code-and-data-blocks: 48
   significant-code-and-data-blocks: 40
@@ -49,7 +49,7 @@ results:
   pdf-produced: false
   runtime-executed: false
 integrity:
-  chapter-sha256: 765857c5c98c810a82828efaead63ab6e65911ec5888300080c68a99038b4598
+  chapter-sha256: 707d55e49ba12bf73521000c14377f01f1cdb29501778b75f7d7d06ea18f71ef
   audit-sha256: 7a3c436040ce7bdb0d21df2ac68e8a36cbf12c6da079d1843e79a8d5594aaee7
 ci:
   chapter-finalizer:

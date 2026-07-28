@@ -1,4 +1,0 @@
-chapter: 22
-fix: remove-forbidden-generic-diagnostic-subtitles
-expected-lines: 1939
-expected-chapter-sha256: 707d55e49ba12bf73521000c14377f01f1cdb29501778b75f7d7d06ea18f71ef

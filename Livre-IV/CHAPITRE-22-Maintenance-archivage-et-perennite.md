@@ -1453,8 +1453,6 @@ retention: none
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** Le secondaire reproduit l’état courant sans rétention indépendante.
 - **Conséquence :** Une suppression logique peut devenir définitive sur les deux emplacements.
 - **Cause :** La réplication est prise à tort pour une conservation historique.
@@ -1479,8 +1477,6 @@ restore_test: required
 
 **Pourquoi la correction fonctionne :**
 
-**Explication structurée du bloc :**
-
 - **Invariant restauré :** Une copie historique et une copie hors ligne sont indépendantes du miroir.
 - **Contrôle :** Des identifiants séparés limitent la compromission commune.
 - **Limite :** Le chiffrement exige une récupération de clé réellement testée.
@@ -1502,8 +1498,6 @@ archive-1.4.0/
 <!-- qa:code-explanation -->
 
 **Pourquoi cet exemple est fautif :**
-
-**Explication structurée du bloc :**
 
 - **Invariant violé :** Le code est séparé de ses outils, dépendances et preuves.
 - **Conséquence :** La reconstruction dépend de téléchargements ou souvenirs non garantis.
@@ -1529,8 +1523,6 @@ archive-1.4.0/
 
 **Pourquoi la correction fonctionne :**
 
-**Explication structurée du bloc :**
-
 - **Invariant restauré :** Les entrées nécessaires sont reliées au même dossier de version.
 - **Traçabilité :** Le manifeste corrèle sources, outils, artefacts et droits.
 - **Limite :** Les éléments non redistribuables restent référencés avec une procédure légitime.
@@ -1552,8 +1544,6 @@ archive-1.4.0/
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** La valeur de référence n’est pas protégée indépendamment.
 - **Conséquence :** Une modification coordonnée peut rester cohérente avec le faux manifeste.
 - **Cause :** Fixité et authenticité sont fusionnées.
@@ -1570,8 +1560,6 @@ archive-1.4.0/
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le checksum prouve seulement la comparaison d’octets.
 - **Indépendance :** Une copie de référence distincte réduit le risque de remplacement coordonné.
@@ -1597,8 +1585,6 @@ succession:
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** La documentation contient une valeur secrète durable dans l’historique.
 - **Conséquence :** La révocation n’efface pas les copies déjà clonées.
 - **Cause :** Le besoin de succession est confondu avec la duplication du secret.
@@ -1619,8 +1605,6 @@ succession:
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le document décrit la récupération sans contenir la clé.
 - **Autorité :** Le transfert exige des rôles et approbations.
@@ -1645,8 +1629,6 @@ reason: false-positive
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** Le libellé ne contient ni contexte, ni preuve, ni échéance.
 - **Conséquence :** La décision ne peut pas être réévaluée lors d’un changement d’usage.
 - **Cause :** L’état de l’outil remplace le dossier de triage.
@@ -1670,8 +1652,6 @@ next_review: 2026-08-05
 
 **Pourquoi la correction fonctionne :**
 
-**Explication structurée du bloc :**
-
 - **Invariant restauré :** Contexte, preuve, propriétaire et revue sont explicites.
 - **Révision :** La décision peut changer si le composant entre dans le runtime.
 - **Limite :** La date est un exemple documentaire, pas un engagement réel.
@@ -1694,8 +1674,6 @@ source.write_bytes(converted)
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** La sortie remplace l’original avant validation.
 - **Conséquence :** Les données perdues ne peuvent plus être récupérées.
 - **Cause :** Migration et remplacement sont exécutés comme une seule opération.
@@ -1716,8 +1694,6 @@ record_relationship(source, target)
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Le dérivé est écrit dans un espace distinct.
 - **Validation :** La fidélité est vérifiée avant toute promotion.
@@ -1740,8 +1716,6 @@ record_relationship(source, target)
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** La présence des sources est assimilée à un build reconstruit.
 - **Conséquence :** Les dépendances et différences d’artefacts restent inconnues.
 - **Cause :** Restauration du dépôt et reconstruction du produit sont fusionnées.
@@ -1758,8 +1732,6 @@ record_relationship(source, target)
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Chaque étape possède son propre statut.
 - **Honnêteté :** Les actions non exécutées restent explicites.
@@ -1784,8 +1756,6 @@ critical_account:
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** Propriété et récupération reposent sur la même personne.
 - **Conséquence :** Une indisponibilité individuelle devient une perte d’autorité.
 - **Cause :** La commodité initiale est restée une architecture permanente.
@@ -1808,8 +1778,6 @@ critical_account:
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Propriété, administration et récupération sont séparées.
 - **Succession :** Les rôles peuvent changer sans modifier l’identité du compte.
@@ -1835,8 +1803,6 @@ service_retirement:
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** Retrait, export, conservation et suppression ne sont pas gouvernés.
 - **Conséquence :** Les droits et attentes des utilisateurs ne peuvent pas être respectés.
 - **Cause :** La coupure technique est prise pour une fin de support complète.
@@ -1858,8 +1824,6 @@ service_retirement:
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Chaque décision reste séparée et en attente d’une politique.
 - **Communication :** Le support public précède la coupure effective.
@@ -1885,8 +1849,6 @@ archive:
 
 **Pourquoi cet exemple est fautif :**
 
-**Explication structurée du bloc :**
-
 - **Invariant violé :** La fixité est assimilée à l’utilisabilité.
 - **Conséquence :** L’échec n’apparaît qu’au moment de l’incident.
 - **Cause :** Le contrôle d’octets remplace l’exercice de restauration.
@@ -1908,8 +1870,6 @@ archive:
 <!-- qa:code-explanation -->
 
 **Pourquoi la correction fonctionne :**
-
-**Explication structurée du bloc :**
 
 - **Invariant restauré :** Fixité et restauration possèdent des statuts distincts.
 - **Préparation :** L’environnement requis est documenté avant l’exercice.
