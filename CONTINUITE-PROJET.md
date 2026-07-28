@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.88.0"
+version: "3.89.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T11:28:35+02:00"
+last-updated: "2026-07-28T13:00:32+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,8 +2315,9 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 1 chapitre sur 26 ;
+- progression du Livre V : 2 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2411,21 +2412,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V est ouvert avec une fiche sur 26 au niveau `static-review`. La fiche 01 a été corrigée pour adopter le profil propre au Livre V : consultation non linéaire, cartes, matrices, liens fréquents vers les Livres I à IV et absence de structure tutoriel héritée. Les tests de recherche avec lecteurs, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient deux fiches sur 26 au niveau `static-review`. La fiche 02 transforme les routes générales de la fiche 01 en décisions conditionnelles : portes éliminatoires, critères pondérés, chemins AMD/CPU, variantes Solo/Studio, replis et niveaux de preuve. Les études de décision avec lecteurs ou équipes, les benchmarks runtime, les index interactifs, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-02-Arbres-de-decision.md
+Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 2 possédera les arbres de choix, critères, contraintes, conséquences, variantes AMD/CPU et parcours Solo/Studio. Il suivra le protocole des fiches du Livre V, utilisera des matrices compactes et renverra fréquemment vers les sous-sections propriétaires sans recopier les tutoriels.
+Le chapitre 3 possédera les fiches normalisées de Godot, Blender, VS Code, Git, Docker, ComfyUI et outils associés. Il devra conserver versions, dates, compatibilités, alternatives, limites et liens officiels sans recopier leurs installations détaillées.
 
 ## 27. Journal
 
+
+### 2026-07-28T13:00:32+02:00 — version 3.89.0
+
+- création de la fiche 02 — Arbres de décision ;
+- ajout de douze arbres ou cartes décisionnelles et de trois matrices compactes ;
+- chemins AMD, CPU, DirectML, ZLUDA, Windows natif, WSL, Docker et ComfyUI distingués ;
+- décisions pour moteurs LLM, supports de données, transports IA, assets, diagnostic, Solo/Studio et publication ajoutées ;
+- critères pondérés séparés des portes éliminatoires et situations sans solution unique documentées ;
+- quatre scénarios conditionnels ajoutés sans les présenter comme benchmarks ;
+- métriques statiques : 344 lignes, 19 titres, 14 fiches, 3 matrices, 63 renvois vers les Livres I à IV et 32 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 03 — Fiches des logiciels et outils, niveau Élevée ;
+- aucune exécution runtime, étude lecteur, calibration des poids, création d’artefact du Companion Pack ou production PDF.
 
 ### 2026-07-28T11:28:35+02:00 — version 3.88.0
 

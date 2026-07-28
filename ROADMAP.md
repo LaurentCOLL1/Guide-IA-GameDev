@@ -183,10 +183,10 @@
 - [x] Définir le protocole spécialisé des fiches du Livre V.
 - [x] Corriger la fiche 01 pour adopter une consultation non linéaire et des renvois fréquents vers les Livres I à IV.
 - [ ] Fiches universelles.
-- [ ] Arbres de décision et matrices.
+- [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 1 chapitre rédigé, repéré et audité sur 26.**
+**Statut M6 : en cours — 2 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 
