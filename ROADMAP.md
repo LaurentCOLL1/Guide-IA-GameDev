@@ -192,10 +192,11 @@
 - [x] Bibliothèque de scripts et recettes de code — fiche 10 rédigée et auditée au niveau `static-review`.
 - [x] Référence GDScript — fiche 11 rédigée et auditée au niveau `static-review`.
 - [x] Référence Python — fiche 12 rédigée et auditée au niveau `static-review`.
+- [x] Structures JSON et formats d’échange — fiche 13 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 12 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 13 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 

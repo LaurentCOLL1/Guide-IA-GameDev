@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.4.0"
+version: "1.5.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -36,7 +36,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 10 — Bibliothèque de scripts et recettes de code](CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 11 — Référence GDScript](CHAPITRE-11-Reference-GDScript.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 12 — Référence Python](CHAPITRE-12-Reference-Python.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 13 — Structures JSON et formats d’échange.
+- [x] [Fiche 13 — Structures JSON et formats d’échange](CHAPITRE-13-Structures-JSON-et-formats-d-echange.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 14 — Schémas SQLite et migrations.
 - [ ] Chapitre 15 — Bases vectorielles et recherche sémantique.
 - [ ] Chapitre 16 — Patrons d’architecture.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **12 chapitres sur 26** rédigés et audités. Les fiches 01 à 12 utilisent le profil de référence spécialisé du Livre V ; la fiche 12 fournit une référence Python non linéaire pour l’automatisation, avec environnements, types, fonctions, fichiers, CLI, tests, dépendances, packaging et correspondances GDScript. Les exécutions runtime, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
+Progression : **13 chapitres sur 26** rédigés et audités. Les fiches 01 à 13 utilisent le profil de référence spécialisé du Livre V ; la fiche 13 distingue JSON, JSONL, JSON Text Sequences, CSV, YAML et formats Godot, avec encodage, schémas, versions, conversions, canonicalisation, sécurité et validation. Les convertisseurs permanents, campagnes inter-parseurs, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
