@@ -26,6 +26,9 @@ jobs:
           ref: docs/livre-v-ch14-schemas-sqlite-migrations
           fetch-depth: 0
 
+      - name: Correct the proprietary fragment
+        run: python3 tools/tmp_l5_ch14_fix_fragment.py
+
       - name: Execute synthetic SQLite fixtures
         run: |
           mkdir -p dist
