@@ -1,0 +1,66 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH12
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 0b1dde0756fbaa4f2f21f2939c11d8658db191d5
+source-branch: docs/livre-v-ch12-reference-python
+chapter:
+  id: DOC-L5-CH12
+  path: Livre-V/CHAPITRE-12-Reference-Python.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 13
+  chapter-lines: 403
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 60
+  source-book-links: 21
+  fragment-links: 21
+  official-links: 19
+  fenced-blocks: 0
+  reference-python-primary: CPython-3.14.6
+  reference-python-fallback: CPython-3.13.14
+  environments-covered: true
+  values-and-typing-covered: true
+  collections-covered: true
+  control-flow-covered: true
+  functions-and-iteration-covered: true
+  modules-and-imports-covered: true
+  files-and-serialization-covered: true
+  cli-and-processes-covered: true
+  tests-and-determinism-covered: true
+  dependencies-and-locking-covered: true
+  packaging-covered: true
+  python-gdscript-matrix-present: true
+  security-and-acceptance-covered: true
+  runtime-results-invented: false
+  tutorial-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: a5dad71547592fb128273c996e12202f17f9faed18176f6d6db046b2f24a1f06
+  audit-sha256: b89394d7f56be6807fc28f389f91b34cf5ffbb220faafac4604299459f3c9a5f
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No Python interpreter was downloaded or launched.
+- No Python module was compiled, imported or executed.
+- No virtual environment was created, activated or synchronized.
+- No dependency was installed, resolved, locked or scanned.
+- No test runner, type checker, linter or coverage tool was executed.
+- No CLI, native process, timeout or cancellation path was exercised.
+- No file, archive, JSON payload or untrusted input was processed.
+- No source distribution, wheel or installed entry point was built.
+- No Windows, WSL/Linux, Solo or Studio compatibility matrix was executed.
+- No AI backend, GPU library or native wheel compatibility was qualified.
+- No permanent Companion Pack module, test or distribution was materialized.
+- No organisational legal approval was performed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.

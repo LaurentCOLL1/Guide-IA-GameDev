@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.98.0"
+version: "3.99.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T22:02:17+02:00"
+last-updated: "2026-07-28T22:48:26+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 11 chapitres sur 26 ;
+- progression du Livre V : 12 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2327,6 +2327,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 9 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 10 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 11 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 12 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2421,19 +2422,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient onze fiches sur 26 au niveau `static-review`. La fiche 11 fournit une référence non linéaire de GDScript pour Godot `4.7.1-stable`, avec syntaxe, types, opérateurs, fonctions, classes, annotations, collections, signaux, ressources et diagnostics. Les parses et exécutions réels, migrations, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient douze fiches sur 26 au niveau `static-review`. La fiche 12 fournit une référence non linéaire de Python pour l’automatisation du guide, avec environnements, types, fonctions, modules, fichiers, CLI, tests, dépendances, packaging, sécurité et correspondances GDScript. Les compilations, imports, tests, builds, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-12-Reference-Python.md
+Livre-V/CHAPITRE-13-Structures-JSON-et-formats-d-echange.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 12 fournira une référence non linéaire de Python pour l’automatisation du guide : environnements, types, fonctions, fichiers, CLI, tests, dépendances et packaging. Il devra renvoyer aux tutoriels propriétaires, comparer seulement les notions utiles avec GDScript et ne présenter aucun script comme exécuté sans preuve.
+Le chapitre 13 fournira des fiches de formats pour JSON, JSONL, CSV, YAML et les formats Godot : encodage, schémas, version, limites, sécurité et structures canoniques. Il devra distinguer format, schéma, sérialisation, transport et stockage, puis renvoyer aux usages propriétaires sans dupliquer leurs tutoriels.
 ## 27. Journal
+
+### 2026-07-28T22:48:26+02:00 — version 3.99.0
+
+- création de la fiche 12 — Référence Python ;
+- ajout de treize cartes et de trois matrices compactes ;
+- environnements, types, collections, flux, fonctions, modules, fichiers, CLI, tests, dépendances, packaging et sécurité indexés ;
+- matrice Python/GDScript ajoutée sans traduction mécanique ni déplacement d’autorité ;
+- documentations officielles CPython `3.14.6`, Python 3.14 et PyPA revues le 28 juillet 2026 ;
+- métriques statiques : 403 lignes, 18 titres, 13 fiches, 3 matrices, 60 liens, 21 renvois vers les Livres I à IV et 21 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 13 — Structures JSON et formats d’échange, niveau Élevée ;
+- aucun interpréteur, environnement, module, test, dépendance, processus, build, artefact du Companion Pack, approbation juridique ou PDF produit.
+
 
 ### 2026-07-28T22:02:17+02:00 — version 3.98.0
 

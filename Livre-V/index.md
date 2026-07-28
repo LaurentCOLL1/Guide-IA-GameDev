@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.3.0"
+version: "1.4.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -35,7 +35,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 09 — Bibliothèque de prompts](CHAPITRE-09-Bibliotheque-de-prompts.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 10 — Bibliothèque de scripts et recettes de code](CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 11 — Référence GDScript](CHAPITRE-11-Reference-GDScript.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 12 — Référence Python.
+- [x] [Fiche 12 — Référence Python](CHAPITRE-12-Reference-Python.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 13 — Structures JSON et formats d’échange.
 - [ ] Chapitre 14 — Schémas SQLite et migrations.
 - [ ] Chapitre 15 — Bases vectorielles et recherche sémantique.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **11 chapitres sur 26** rédigés et audités. Les fiches 01 à 11 utilisent le profil de référence spécialisé du Livre V ; la fiche 11 fournit une référence GDScript non linéaire pour Godot 4.7.1, avec syntaxe, types, opérateurs, fonctions, classes, annotations, collections et diagnostics. Les parses et exécutions runtime, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
+Progression : **12 chapitres sur 26** rédigés et audités. Les fiches 01 à 12 utilisent le profil de référence spécialisé du Livre V ; la fiche 12 fournit une référence Python non linéaire pour l’automatisation, avec environnements, types, fonctions, fichiers, CLI, tests, dépendances, packaging et correspondances GDScript. Les exécutions runtime, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
