@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: livre-v-ch01-builder
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-and-validate:
@@ -50,10 +50,12 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: python tools/tmp_l5_ch01_builder.py prepare
 
-      - name: Normalize generated Python whitespace
+      - name: Normalize generated whitespace
         if: steps.guard.outputs.skip != 'true'
         shell: bash
-        run: sed -i 's/[[:space:]]\+$//' tools/check_context_markers.py
+        run: |
+          sed -i 's/[[:space:]]\+$//' tools/check_context_markers.py
+          sed -i '/^> \*\*Statut :\*\*/ s/[[:space:]]\+$//' plans/LIVRE-V-PLAN-MAITRE.md
 
       - name: Validate chapters without PDF
         if: steps.guard.outputs.skip != 'true'
