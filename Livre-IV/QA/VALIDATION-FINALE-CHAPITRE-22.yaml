@@ -16,7 +16,7 @@ results:
   chapter-lines: 1939
   chapter-headings: 60
   chapter-code-and-data-blocks: 48
-  significant-code-and-data-blocks: 43
+  significant-code-and-data-blocks: 40
   code-explanation-markers: 48
   structured-non-error-code-explanations: 28
   detailed-error-cases: 10
@@ -50,7 +50,7 @@ results:
   runtime-executed: false
 integrity:
   chapter-sha256: 74e08640ce14d05adcdec78cd2eaaf722047b69a1e5766be516cc4cc26a91c85
-  audit-sha256: 4ff406f047b5ebe774dc6af272d344405b056f09f8875734e95554edcdc338b9
+  audit-sha256: 7a3c436040ce7bdb0d21df2ac68e8a36cbf12c6da079d1843e79a8d5594aaee7
 ci:
   chapter-finalizer:
     workflow-name: Livre IV Chapter 22 Finalizer Clean

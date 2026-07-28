@@ -7,6 +7,7 @@ lang: "fr-FR"
 book: "Livre IV"
 chapter: 22
 audit-date: "2026-07-28T05:41:07+02:00"
+last-verified: "2026-07-28T05:41:07+02:00"
 audit-level: "static-review"
 target-document: "Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md"
 ---
