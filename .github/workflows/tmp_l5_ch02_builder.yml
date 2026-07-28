@@ -37,7 +37,11 @@ jobs:
           fetch-depth: 0
 
       - name: Apply governance updates
-        run: python3 tools/tmp_l5_ch02_patch.py
+        shell: bash
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/tmp_l5_ch02_patch.py 2>&1 | tee dist/PATCH.log
 
       - name: Install lightweight dependencies
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
@@ -113,6 +117,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
           path: |
+            dist/PATCH.log
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
             dist/QA-LIVRE-V-REFERENCES.log
