@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.1.0"
+version: "1.2.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -33,7 +33,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 07 — Fiches des modèles audio](CHAPITRE-07-Fiches-des-modeles-audio.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 08 — Bibliothèque de workflows](CHAPITRE-08-Bibliotheque-de-workflows.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 09 — Bibliothèque de prompts](CHAPITRE-09-Bibliotheque-de-prompts.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 10 — Bibliothèque de scripts et recettes de code.
+- [x] [Fiche 10 — Bibliothèque de scripts et recettes de code](CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 11 — Référence GDScript.
 - [ ] Chapitre 12 — Référence Python.
 - [ ] Chapitre 13 — Structures JSON et formats d’échange.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **9 chapitres sur 26** rédigés et audités. Les fiches 01 à 09 utilisent le profil de référence spécialisé du Livre V ; la fiche 09 catalogue templates, variables, instances, modèles cibles, sécurité et critères d’évaluation pour sept familles de tâches. Les appels de modèles, datasets du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
+Progression : **10 chapitres sur 26** rédigés et audités. Les fiches 01 à 10 utilisent le profil de référence spécialisé du Livre V ; la fiche 10 catalogue recettes GDScript, Python, PowerShell et Bash, statuts de preuve, codes de sortie, tests, sécurité et licences. Les exécutions runtime, fichiers du Companion Pack, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.

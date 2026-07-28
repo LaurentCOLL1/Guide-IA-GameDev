@@ -1,0 +1,73 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH10
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: edb7992232b19f2aa2ec492422ac3830ca9f30ca
+source-branch: docs/livre-v-ch10-scripts-recettes-code
+chapter:
+  id: DOC-L5-CH10
+  path: Livre-V/CHAPITRE-10-Bibliotheque-de-scripts-et-recettes-de-code.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 12
+  chapter-lines: 528
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 46
+  source-book-links: 18
+  fragment-links: 18
+  official-links: 7
+  fenced-blocks: 8
+  languages-covered: 4
+  gdscript-covered: true
+  python-covered: true
+  powershell-covered: true
+  bash-covered: true
+  status-taxonomy-present: true
+  exit-codes-covered: true
+  tests-and-fixtures-covered: true
+  security-and-licenses-covered: true
+  static-skeletons-only: true
+  runtime-results-invented: false
+  companion-pack-boundary-preserved: true
+  tutorial-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 12540edbd4012edb097e930b75597b3aeb3a355b958635f2324a1d9af84074c7
+  audit-sha256: 935bdedf3e69e298ddcc37e6627e9c61bbd288499c54ed2ee7d19ed804d61b95
+ci:
+  specialized-finalizer:
+    workflow: Temporary Livre V Chapter 10 Finalizer
+    run-id: 30392443805
+    source-head-commit: 01ef5708734bd13cb6e8bc784f8e95ed9c8f068e
+    permanent-commit: 9b57f3788705ac9c4f3fd57bec169291a1225256
+    conclusion: success
+    artifact-id: 8701450823
+    artifact-digest: sha256:28f70d88355ebfc73e0a2488a605125984e235225003bd785d9504b11c557ce1
+  permanent-validations:
+    workflow: Validate Chapters Without PDF
+    head-commit: 186f7d03d15da51b2a245d706cf355ad94ec08b5
+    run-id: 30392611750
+    conclusion: success
+    artifact-id: 8701511620
+    artifact-digest: sha256:97eccf67e2a03de729fa87088374d783491758cf3451a77a2ba5edccbddba69c
+reservations:
+- No GDScript file was parsed and no Godot engine was launched.
+- No Python module was compiled, imported or executed.
+- No PowerShell script was parsed or executed.
+- No Bash script was syntax-checked and no WSL session was used.
+- No fixture, temporary workspace or staging output was created.
+- No native command, child process or timeout was exercised.
+- No path escape, symbolic link, secret or injection test was performed.
+- No dependency was installed, locked or rebuilt.
+- No idempotence, interruption, fallback or withdrawal campaign was performed.
+- No duration, memory, portability or performance measurement was produced.
+- No legal approval or permanent Companion Pack artifact was materialized.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.
