@@ -4,7 +4,7 @@ validation-authority: chapter-finalizer-and-permanent-workflows
 status: complete
 validation-date: '2026-07-28'
 validated-base-commit: 2cbe75d9c922c70a21c6e342383ab8331e20565c
-validated-head-commit: 67f5cf1e16d1273804c7ada64e22d36a6c54b61c
+validated-head-commit: a43415c22aabb5776b9de869e4d8ccfa45f903ae
 chapter:
   id: DOC-L4-CH22
   path: Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
@@ -62,8 +62,10 @@ ci:
   validate-chapters-without-pdf:
     workflow-name: Validate Chapters Without PDF
     execution: permanent-workflow
-    run-id: pending-permanent-validation
-    conclusion: pending
+    run-id: 30329208594
+    conclusion: success
+    artifact-id: 8676748123
+    artifact-digest: sha256:5598fd1e9fb4753688a4745b4d9087803d0ce6671a51ef952c6874248dfd31cb
 reservations:
 - No maintenance calendar inventory SBOM provenance archive or mirror was materialized.
 - No Git bundle LFS object submodule release artifact container image or build environment was archived.
@@ -76,5 +78,5 @@ reservations:
 - Collection-wide licence not defined.
 - Livre IV PDF compilation inspection and accessibility tagging remain open.
 evidence-closure:
-  commit: pending-permanent-validation
-  conclusion: pending
+  commit: a43415c22aabb5776b9de869e4d8ccfa45f903ae
+  conclusion: success
