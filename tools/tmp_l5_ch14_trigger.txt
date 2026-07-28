@@ -1,0 +1,1 @@
+Déclencheur unique des fixtures SQLite temporaires de la fiche 14.
