@@ -47,8 +47,21 @@ integrity:
   chapter-sha256: 2a075b52577d650500995d0ae2448460928444e325e33428e4a3b6eddc3eeb05
   audit-sha256: d52d2ac0c1007404fd8d6decf5feeb614ba9867be1ed5eec1dc610b3992c4a96
 ci:
+  specialized-finalizer:
+    workflow: Temporary Livre V Chapter 11 Finalizer
+    run-id: 30395796121
+    source-head-commit: b96b498726d6b2036d388fea7535b08c26a4a9d9
+    permanent-commit: 343b7c496bb57673ea4d4b0613ef88cb95312ac1
+    conclusion: success
+    artifact-id: 8702735227
+    artifact-digest: sha256:86abf09403d7b444cf81ab344549cb172373d6ec76d4df370b03be8794b40a1d
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow: Validate Chapters Without PDF
+    head-commit: f04ea69c9009ff3211e274a80600d7a8a1dd487c
+    run-id: 30395994291
+    conclusion: success
+    artifact-id: 8702801922
+    artifact-digest: sha256:ac64de2b8455cebbcbc020aa2afec152534aad1af859b4f1a950dfed428a85e1
 reservations:
 - No Godot binary was downloaded or launched.
 - No GDScript file was parsed, imported or executed.
