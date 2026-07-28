@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "0.8.0"
+version: "0.9.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -30,7 +30,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 04 — Fiches des moteurs et backends IA](CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 05 — Fiches des modèles de langage](CHAPITRE-05-Fiches-des-modeles-de-langage.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 06 — Fiches des modèles visuels](CHAPITRE-06-Fiches-des-modeles-visuels.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 7 — Fiches des modèles audio.
+- [x] [Fiche 07 — Fiches des modèles audio](CHAPITRE-07-Fiches-des-modeles-audio.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 8 — Bibliothèque de workflows.
 - [ ] Chapitre 9 — Bibliothèque de prompts.
 - [ ] Chapitre 10 — Bibliothèque de scripts et recettes de code.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **6 chapitres sur 26** rédigés et audités. Les fiches 01 à 06 utilisent le profil de référence spécialisé du Livre V ; la fiche 06 qualifie cinq familles visuelles, leurs composants, licences, formats, compatibilités et protocoles de test. Les générations, benchmarks runtime, artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **7 chapitres sur 26** rédigés et audités. Les fiches 01 à 07 utilisent le profil de référence spécialisé du Livre V ; la fiche 07 qualifie six familles audio, leurs voix, composants, langues, licences, consentements et protocoles de test. Les générations, transcriptions, benchmarks runtime, artefacts du Companion Pack, la licence globale et les formats de publication avancés restent des chantiers distincts.
