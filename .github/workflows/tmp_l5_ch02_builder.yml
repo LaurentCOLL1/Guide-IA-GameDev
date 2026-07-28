@@ -106,8 +106,12 @@ jobs:
             Livre-V/QA/AUDIT-CHAPITRE-02.md \
             Livre-V/QA/VALIDATION-FINALE-CHAPITRE-02.yaml
           git diff --cached --check
-          git commit -m "docs(livre-v): ajouter les arbres de décision"
-          git push origin HEAD:docs/livre-v-ch02-arbres-decision
+          if git diff --cached --quiet; then
+            echo "Le lot permanent est déjà enregistré sur la branche."
+          else
+            git commit -m "docs(livre-v): ajouter les arbres de décision"
+            git push origin HEAD:docs/livre-v-ch02-arbres-decision
+          fi
 
       - name: Upload lightweight QA evidence
         if: always()
