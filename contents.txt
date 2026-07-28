@@ -119,4 +119,5 @@ Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
 Livre-V/index.md
 Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
 Livre-V/CHAPITRE-02-Arbres-de-decision.md
+Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md
 Companion-Pack/index.md
