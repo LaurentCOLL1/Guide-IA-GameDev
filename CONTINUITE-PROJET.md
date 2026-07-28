@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.97.0"
+version: "3.98.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T21:24:52+02:00"
+last-updated: "2026-07-28T22:02:17+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 10 chapitres sur 26 ;
+- progression du Livre V : 11 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2326,6 +2326,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 8 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 9 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 10 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 11 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2420,19 +2421,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient dix fiches sur 26 au niveau `static-review`. La fiche 10 catalogue les recettes courtes GDScript, Python, PowerShell et Bash, puis sépare squelette statique, syntaxe, tests, qualification, effets de bord, codes, sécurité et licences. Les parses et exécutions réels, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient onze fiches sur 26 au niveau `static-review`. La fiche 11 fournit une référence non linéaire de GDScript pour Godot `4.7.1-stable`, avec syntaxe, types, opérateurs, fonctions, classes, annotations, collections, signaux, ressources et diagnostics. Les parses et exécutions réels, migrations, fichiers du Companion Pack, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-11-Reference-GDScript.md
+Livre-V/CHAPITRE-12-Reference-Python.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 11 fournira une référence non linéaire de GDScript pour Godot 4.7.1 : syntaxe, types, fonctions, classes, annotations, collections, opérateurs et pièges versionnés. Il devra renvoyer au chapitre pédagogique du Livre II, éviter de devenir un second cours complet et ne présenter aucun exemple comme exécuté sans preuve.
+Le chapitre 12 fournira une référence non linéaire de Python pour l’automatisation du guide : environnements, types, fonctions, fichiers, CLI, tests, dépendances et packaging. Il devra renvoyer aux tutoriels propriétaires, comparer seulement les notions utiles avec GDScript et ne présenter aucun script comme exécuté sans preuve.
 ## 27. Journal
+
+### 2026-07-28T22:02:17+02:00 — version 3.98.0
+
+- création de la fiche 11 — Référence GDScript ;
+- ajout de treize cartes et de trois matrices compactes ;
+- syntaxe, types, opérateurs, contrôle de flux, fonctions, classes, annotations, collections, signaux, ressources et diagnostics indexés ;
+- aide-mémoire relié au chapitre pédagogique du Livre II sans duplication du cours ;
+- documentation officielle de Godot `4.7.1-stable`, du typage, du guide de style, des exports et des avertissements revue le 28 juillet 2026 ;
+- métriques statiques : 387 lignes, 18 titres, 13 fiches, 3 matrices, 68 liens, 39 renvois vers les Livres I à IV et 36 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 12 — Référence Python, niveau Élevée ;
+- aucun binaire Godot, parseur, import, scène, test, migration, artefact du Companion Pack, approbation juridique ou PDF produit.
+
 
 ### 2026-07-28T21:24:52+02:00 — version 3.97.0
 
