@@ -1,0 +1,53 @@
+name: Livre IV Chapter 22 Finalizer Clean
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - tools/temporary/ch22.clean.start
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'docs/livre-iv-chapitre-22-maintenance-archivage-perennite'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-22-maintenance-archivage-perennite
+          fetch-depth: 0
+
+      - name: Decode and run finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat tools/temporary/ch22.clean.finalizer.*.b64 \
+            | tr -d '\n' \
+            | base64 --decode \
+            | gzip --decompress \
+            > /tmp/finalize_l4_ch22.py
+          echo "9ffe216226234acfbe73f97c09ec880b8cf426ac3510f6f7a3b58a5983564da9  /tmp/finalize_l4_ch22.py" | sha256sum --check -
+          python -m py_compile /tmp/finalize_l4_ch22.py
+          python /tmp/finalize_l4_ch22.py | tee /tmp/ch22-finalizer.log
+
+      - name: Upload finalizer evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter-22-finalizer-clean
+          path: /tmp/ch22-finalizer.log
+
+      - name: Commit permanent chapter lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(livre-iv): créer le chapitre 22 sur la pérennité"
+          git push origin HEAD:docs/livre-iv-chapitre-22-maintenance-archivage-perennite
