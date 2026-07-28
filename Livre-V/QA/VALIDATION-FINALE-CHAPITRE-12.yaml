@@ -48,8 +48,21 @@ integrity:
   chapter-sha256: a5dad71547592fb128273c996e12202f17f9faed18176f6d6db046b2f24a1f06
   audit-sha256: b89394d7f56be6807fc28f389f91b34cf5ffbb220faafac4604299459f3c9a5f
 ci:
+  specialized-finalizer:
+    workflow: Temporary Livre V Chapter 12 Finalizer
+    run-id: 30398918253
+    source-head-commit: 2839b4f86d57c780017ddaf2871b5dec30289302
+    permanent-commit: 3a1b7edc1293798b45ca297804587e58914cdc78
+    conclusion: success
+    artifact-id: 8703912242
+    artifact-digest: sha256:fa462fffbd9b5febe796128a5f8bc9d38c7380feb95a2c97aad4516bb3fd290d
   permanent-validations:
-    status: pending-recording-after-pr-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 9b1e5847e04949c7b88fef53102e2bce384ea9e6
+    run-id: 30399034754
+    conclusion: success
+    artifact-id: 8703953984
+    artifact-digest: sha256:12a1be3d3a15f72e90cd3b97b5df1f335550e19ef73638a2a8e931168614c43e
 reservations:
 - No Python interpreter was downloaded or launched.
 - No Python module was compiled, imported or executed.
