@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.92.0"
+version: "3.93.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T15:09:18+02:00"
+last-updated: "2026-07-28T16:17:52+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,12 +2315,13 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 5 chapitres sur 26 ;
+- progression du Livre V : 6 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 4 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 5 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 6 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2415,21 +2416,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient cinq fiches sur 26 au niveau `static-review`. La fiche 05 qualifie Qwen3, Gemma 4, Phi-4, Granite 4, Mistral Small 4, Llama et DeepSeek-R1, distingue modèles denses et MoE, paramètres totaux et actifs, contextes annoncés et testés, licences, quantifications et poids théoriques. Les sources officielles ont été revues le 28 juillet 2026 ; les téléchargements, inférences, benchmarks, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient six fiches sur 26 au niveau `static-review`. La fiche 06 qualifie Stable Diffusion XL/3.5, FLUX.2/FLUX.1, Qwen-Image, HunyuanImage-3.0 et HiDream-I1, puis sépare VAE, encodeurs, ControlNet, LoRA, upscalers et dérivés communautaires. Les sources officielles ont été revues le 28 juillet 2026 ; les téléchargements, workflows, images, mesures matérielles, approbations juridiques, artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-06-Fiches-des-modeles-visuels.md
+Livre-V/CHAPITRE-07-Fiches-des-modeles-audio.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 6 possédera les fiches des checkpoints, VAE, ControlNet, LoRA et upscalers visuels. Il devra qualifier provenance, licence, formats, résolution, sampler, besoins VRAM et workflow de test sans recopier les installations ComfyUI ni produire d’images prétendument validées.
+Le chapitre 7 possédera les fiches des modèles audio pour TTS, STT, musique et effets. Il devra distinguer modèle, voix, moteur et consentement, préciser langues, licences, vitesse, mémoire et qualité, et ne présenter aucun clonage ou résultat audio sans exécution et droits vérifiés.
 
 ## 27. Journal
 
+
+### 2026-07-28T16:17:52+02:00 — version 3.93.0
+
+- création de la fiche 06 — Fiches des modèles visuels ;
+- ajout de treize cartes et de trois matrices compactes ;
+- Stable Diffusion XL/3.5, FLUX.2/FLUX.1, Qwen-Image, HunyuanImage-3.0 et HiDream-I1 qualifiés ;
+- checkpoints, VAE, encodeurs, ControlNet, LoRA, upscalers et dérivés communautaires séparés ;
+- licences, provenance, formats, résolutions, samplers, variables VRAM et protocole de dix tests documentés ;
+- sources officielles des éditeurs, de ComfyUI et des composants revues en ligne le 28 juillet 2026 sans reprendre leurs images ou performances promotionnelles ;
+- métriques statiques : 380 lignes, 18 titres, 13 fiches, 3 matrices, 65 liens, 20 renvois vers les Livres I à IV et 19 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 07 — Fiches des modèles audio, niveau Élevée ;
+- aucun modèle téléchargé, workflow chargé, image générée, mesure, approbation juridique, artefact du Companion Pack ou PDF produit.
 
 ### 2026-07-28T15:09:18+02:00 — version 3.92.0
 
