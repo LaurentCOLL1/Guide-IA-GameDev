@@ -335,7 +335,7 @@ $ErrorActionPreference = "Stop"
 $nativeCode = $LASTEXITCODE
 
 if ($nativeCode -ne 0) {
-    Write-Error "native_command_failed:$nativeCode"
+    [Console]::Error.WriteLine("native_command_failed:$nativeCode")
     exit $nativeCode
 }
 
@@ -376,7 +376,8 @@ if [[ ! -f "$input" ]]; then
     exit 3
 fi
 
-readonly bytes=$(wc -c < "$input")
+bytes=$(wc -c < "$input")
+readonly bytes
 printf '%s\t%s\n' "$input" "$bytes"
 ```
 
