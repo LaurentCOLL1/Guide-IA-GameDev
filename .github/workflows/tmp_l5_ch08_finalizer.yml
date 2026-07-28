@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/tmp_l5_ch08_finalizer.yml"
       - "tools/tmp_l5_ch08_finalize.py"
+      - "tools/tmp_l5_ch08_patch_audit.py"
       - "Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md"
       - "Livre-V/QA/AUDIT-CHAPITRE-08.md"
       - "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-08.yaml"
@@ -16,6 +17,7 @@ on:
     paths:
       - ".github/workflows/tmp_l5_ch08_finalizer.yml"
       - "tools/tmp_l5_ch08_finalize.py"
+      - "tools/tmp_l5_ch08_patch_audit.py"
       - "Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md"
       - "Livre-V/QA/AUDIT-CHAPITRE-08.md"
       - "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-08.yaml"
@@ -41,6 +43,9 @@ jobs:
 
       - name: Finalize audit, proof and governance
         run: python3 tools/tmp_l5_ch08_finalize.py
+
+      - name: Complete audit metadata and proof integrity
+        run: python3 tools/tmp_l5_ch08_patch_audit.py
 
       - name: Install lightweight dependencies
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
