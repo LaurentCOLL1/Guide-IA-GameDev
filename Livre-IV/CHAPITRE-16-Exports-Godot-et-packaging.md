@@ -881,7 +881,7 @@ $ErrorActionPreference = "Stop"
 java -version
 if ($LASTEXITCODE -ne 0) { throw "Java indisponible" }
 
-& "$env:ANDROID_HOME\platform-toolsdb.exe" version
+& "$env:ANDROID_HOME\platform-tools\adb.exe" version
 if ($LASTEXITCODE -ne 0) { throw "ADB indisponible" }
 
 if (-not $env:GODOT_ANDROID_KEYSTORE_RELEASE_PATH) {
