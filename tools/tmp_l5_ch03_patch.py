@@ -133,7 +133,7 @@ def main() -> None:
     assert chapter.count("<!-- l5:card -->") == 13
     assert chapter.count("<!-- l5:matrix -->") == 3
     assert hashlib.sha256(chapter.encode("utf-8")).hexdigest() == "7bed4a7f95ccd68fb29a3c85aec957eea9483f3bdc23ceae51e5ee06a27de896"
-    assert hashlib.sha256(audit.encode("utf-8")).hexdigest() == "4abbaf6a189e6d6f084f88353bd0a849c95fd1e93616fda1ac8bd2f111e7c87c"
+    assert hashlib.sha256(audit.encode("utf-8")).hexdigest() == "bd1a64b5ef122ef960a3d1d062d75c99f136e64eabf1e7020f06d5d40b9bb549"
     assert len(re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", chapter)) == 64
     assert len(re.findall(r"\]\(\.\./Livre-(?:I|II|III|IV)/", chapter)) == 28
     assert len(re.findall(r"\]\(\.\./Livre-(?:I|II|III|IV)/[^)#]+#[^)]+\)", chapter)) == 24
