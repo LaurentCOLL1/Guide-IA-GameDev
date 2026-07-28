@@ -1,0 +1,49 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH02
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: c414459bb3a30f35cb036715b5cd0614b944ca0b
+source-branch: docs/livre-v-ch02-arbres-decision
+chapter:
+  id: DOC-L5-CH02
+  path: Livre-V/CHAPITRE-02-Arbres-de-decision.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 6
+  chapter-lines: 344
+  chapter-headings: 19
+  reference-cards: 14
+  matrices: 3
+  internal-links: 80
+  source-book-links: 63
+  fragment-links: 32
+  fenced-blocks: 0
+  tutorial-learning-outcomes-absent: true
+  project-asteria-summary-absent: true
+  detailed-error-cases-required: false
+  all-usage-markers-required: false
+  weighted-criteria-present: true
+  amd-cpu-paths-present: true
+  solo-studio-paths-present: true
+  ambiguous-choice-path-present: true
+  master-plan-scope-covered: true
+  runtime-values-not-invented: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 4d5f74e19435cc657e80d9853926eaf67f9827490b88be36c3611e51f7e652fd
+  audit-sha256: 96cab2c0c23bce9812a4229833527e5a4e19db16c63e0f3b803633a5b957ef53
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No reader or team decision study was executed.
+- No weighting was calibrated through user research.
+- No AMD, CPU, DirectML, ZLUDA, Docker or LLM path was executed.
+- No runtime or hardware benchmark was produced.
+- No Companion Pack artifact was created or executed.
+- Collection-wide licence and advanced accessibility tagging remain open.
