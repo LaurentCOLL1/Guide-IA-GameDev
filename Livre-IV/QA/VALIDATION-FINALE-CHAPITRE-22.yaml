@@ -1,0 +1,82 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-EVIDENCE-CH22
+validation-authority: chapter-finalizer-and-permanent-workflows
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 2cbe75d9c922c70a21c6e342383ab8331e20565c
+validated-head-commit: a43415c22aabb5776b9de869e4d8ccfa45f903ae
+chapter:
+  id: DOC-L4-CH22
+  path: Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 1
+  chapter-lines: 1939
+  chapter-headings: 60
+  chapter-code-and-data-blocks: 48
+  significant-code-and-data-blocks: 40
+  code-explanation-markers: 48
+  structured-non-error-code-explanations: 28
+  detailed-error-cases: 10
+  faulty-examples-explained: 10
+  corrected-examples-explained: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  solo-studio-documented: true
+  master-plan-scope-covered: true
+  project-asteria-operational-summary-present: true
+  maintenance-calendar-and-roles-documented: true
+  dependency-vulnerability-and-sbom-documented: true
+  archive-topology-and-independent-copies-documented: true
+  git-bundle-lfs-submodules-and-releases-documented: true
+  build-environment-and-artifact-manifest-documented: true
+  checksums-signatures-and-fixity-separated: true
+  restore-and-historical-reconstruction-separated: true
+  reproducibility-and-difference-qualification-documented: true
+  durable-formats-and-migrations-documented: true
+  succession-accounts-and-secrets-documented: true
+  end-of-support-and-opening-review-documented: true
+  runtime-values-not-invented: true
+  semantic-error-correction-sequence: true
+  error-explanations-directly-after-markers: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 5277feb70e53af4ee927f8a81e9270900a7bf071f9b15c18fd5326c0089f7e54
+  audit-sha256: 7a3c436040ce7bdb0d21df2ac68e8a36cbf12c6da079d1843e79a8d5594aaee7
+ci:
+  chapter-finalizer:
+    workflow-name: Livre IV Chapter 22 Finalizer Clean
+    execution: chapter-finalizer
+    run-id: 30328413945
+    conclusion: success
+    artifact-id: 8676497204
+    artifact-digest: sha256:a5dc5b9ced3b726e43bc0c2b53face804995baec770a4c0d5cfea71acf25ea0f
+  validate-chapters-without-pdf:
+    workflow-name: Validate Chapters Without PDF
+    execution: permanent-workflow
+    run-id: 30329208594
+    conclusion: success
+    artifact-id: 8676748123
+    artifact-digest: sha256:5598fd1e9fb4753688a4745b4d9087803d0ce6671a51ef952c6874248dfd31cb
+reservations:
+- No maintenance calendar inventory SBOM provenance archive or mirror was materialized.
+- No Git bundle LFS object submodule release artifact container image or build environment was archived.
+- No checksum signature certificate fixity campaign restoration or reconstruction was executed.
+- No reproducible build or artifact comparison was performed.
+- No format migration database export or preservation validation was executed.
+- No account recovery secret rotation signing-key transfer or succession drill was performed.
+- No vendor exit service retirement end-of-support announcement or public opening decision was made.
+- No legal licence privacy retention or redistribution review was completed.
+- Collection-wide licence not defined.
+- Livre IV PDF compilation inspection and accessibility tagging remain open.
+evidence-closure:
+  commit: a43415c22aabb5776b9de869e4d8ccfa45f903ae
+  conclusion: success
