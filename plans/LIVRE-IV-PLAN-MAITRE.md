@@ -1,10 +1,10 @@
 ---
 title: "Plan maître détaillé — Livre IV"
 id: "DOC-PLAN-L4"
-status: "active"
-version: "1.0.22"
+status: "complete"
+version: "1.0.23"
 lang: "fr-FR"
-last-updated: "2026-07-28T05:41:07+02:00"
+last-updated: "2026-07-28T07:28:40+02:00"
 book: "Livre IV"
 chapter-count: 22
 ---
@@ -12,7 +12,7 @@ chapter-count: 22
 # Plan maître détaillé — Livre IV
 
 > **Titre du Livre :** Finalisation, optimisation, publication et maintenance  
-> **Statut :** rédaction documentaire terminée — 22 chapitres sur 22  
+> **Statut :** terminé — 22 chapitres validés et PDF inspecté  
 > **Rôle :** transformer un projet fonctionnel en produit testable, performant, publiable, maintenable et récupérable après incident.
 
 ## Règles transversales du Livre IV
@@ -546,6 +546,12 @@ Le modding ne doit pas exposer secrets ou compromettre les sauvegardes. Validati
 Ce chapitre clôt le cycle de vie. Validation par reconstruction d’une version historique à partir des archives.
 
 **État documentaire au 2026-07-28 :** chapitre rédigé, repéré et audité au niveau `static-review`. Le calendrier, l’inventaire, la veille, les SBOM, archives, checksums, restaurations, reconstructions, formats, successions et plans de fin de support sont préparés sans revendiquer d’archive matérialisée, d’exercice runtime, de revue juridique, de communication publique ou de PDF produit.
+
+## Clôture documentaire et PDF
+
+**État au 2026-07-28 :** les 22 chapitres sont rédigés, repérés et audités ; la validation documentaire transversale, la compilation Pandoc/XeLaTeX, le préflight structurel et l’inspection visuelle représentative du PDF cumulatif sont réussis. La preuve permanente est `Livre-IV/QA/VALIDATION-PUBLICATION-LIVRE-IV.yaml` et le rapport est `Livre-IV/QA/CLOTURE-LIVRE-IV.md`.
+
+Les critères qui exigent un build de jeu exporté, des campagnes runtime, des mesures de performance, des installations, des restaurations, des mises à jour ou des rollbacks exécutés restent des réserves produit. Ils ne sont pas présentés comme satisfaits par la clôture documentaire et PDF.
 
 ## Critères de clôture du Livre IV
 

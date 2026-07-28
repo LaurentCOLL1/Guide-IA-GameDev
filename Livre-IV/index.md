@@ -1,9 +1,9 @@
 ---
 title: "Livre IV — Finalisation, optimisation, publication et maintenance"
 id: "LIV-IV-INDEX"
-status: "active"
-version: "0.23.0"
-last-updated: "2026-07-28T05:41:07+02:00"
+status: "complete"
+version: "1.0.0"
+last-updated: "2026-07-28T07:28:40+02:00"
 ---
 
 # Livre IV — Finalisation, optimisation, publication et maintenance
@@ -38,10 +38,10 @@ Ce livre transforme le projet jouable en produit testé, optimisé, publiable et
 ## Progression
 
 - chapitres rédigés, repérés et audités : **22 sur 22** ;
-- chapitre courant terminé : **chapitre 22 — Maintenance, archivage et pérennité** ;
-- prochaine action de fin de Livre : **construction, préflight et inspection du PDF complet** ;
-- construction PDF : devient la prochaine action ; aucun PDF n’est produit dans le lot du chapitre 22.
+- validation transversale documentaire : **réussie** ;
+- compilation Pandoc/XeLaTeX : **réussie** ;
+- préflight structurel et inspection visuelle du PDF complet : **réussis**.
 
 ## Statut
 
-Rédaction documentaire du Livre IV terminée : les 22 chapitres sont au niveau `static-review`. Les critères runtime, la licence globale, la construction et l’inspection du PDF complet restent ouverts.
+Le Livre IV est terminé au niveau de publication technique documentaire. Les 22 chapitres sont validés au niveau `static-review` et le PDF cumulatif de fin de Livre a été compilé, préflighté et inspecté. Les exécutions runtime, la licence globale de la collection et le balisage avancé d’accessibilité PDF restent des réserves distinctes.

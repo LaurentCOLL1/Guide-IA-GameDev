@@ -1427,8 +1427,8 @@ captions, mouvement réduit et indicateurs de danger, TTS et ducking, maintien-v
 ```bat
 @echo off
 setlocal
-set "MATRIX=docsccessibility	ask-barriers.yaml"
-set "STATEMENT=docsccessibility\public-statement.md"
+set "MATRIX=docs\accessibility\task-barriers.yaml"
+set "STATEMENT=docs\accessibility\public-statement.md"
 if not exist "%MATRIX%" exit /b 2
 if not exist "%STATEMENT%" exit /b 3
 echo accessibility_sources_present=true

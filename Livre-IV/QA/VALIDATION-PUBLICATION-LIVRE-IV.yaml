@@ -1,0 +1,75 @@
+schema-version: 1
+evidence-id: DOC-L4-QA-PUBLICATION
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 666e3004682f7ca1d7d1964bfa071a47df21cf81
+validated-reader-source-commit: f6b2118daf23edf7595ce9d5e2b4d300c00b1d40
+closure-documentation-commit: 9b83a26f3593df579c8e369e1d85ed710a0da5f5
+book:
+  id: LIV-IV-INDEX
+  path: Livre-IV/index.md
+  chapters: 22
+  audit-level: static-review+pdf-inspected
+results:
+  blocking-errors: 0
+  global-warnings: 3
+  chapters-present: 22
+  chapter-identifiers-unique: true
+  audit-reports-resolved: true
+  final-proofs-complete: true
+  all-chapter-titles-present-in-pdf: true
+  usage-context-nonconformities: 0
+  semantic-context-inconsistencies: 0
+  duplicate-headings: 0
+  duplicate-significant-blocks: 0
+  duplicate-long-paragraphs: 0
+  reader-internal-qa-excluded-from-pdf: true
+  forbidden-control-characters: 0
+  pandoc-xelatex-build: success
+  qpdf-check: success
+  fonts-embedded: true
+  visual-inspection: success
+  renderer-parity: success
+pdf:
+  path: dist/Guide-IA-GameDev.pdf
+  pages: 3672
+  format: A4
+  page-size-points: '595.28 x 841.89'
+  pdf-version: '1.5'
+  size-bytes: 9428292
+  sha256: 013f8d9bf800d74b408c806f5b5ea6e291e85568b152799feb2b75152de7f9fe
+  extracted-text-sha256: 4a11854f4ba541ca82948dec4acbec7046e0cf7e39ee3df9d0b69451604dc13d
+  encrypted: false
+  tagged: false
+  text-extractable: true
+  forms: 0
+  javascript: false
+visual-evidence:
+  full-campaign-pages: [2934, 2935, 2936, 2954, 2974, 2993, 3013, 3019, 3027, 3039, 3053, 3067, 3082, 3094, 3107, 3120, 3134, 3148, 3164, 3181, 3199, 3216, 3234, 3252, 3272, 3291, 3311, 3326, 3343, 3368, 3394, 3413, 3433, 3451, 3470, 3487, 3505, 3523, 3543, 3554, 3566, 3583, 3601, 3617, 3635, 3652, 3670, 3671, 3672]
+  renderer-parity-pages: [2934, 2974, 3013, 3082, 3199, 3343, 3433, 3505, 3601, 3635, 3671, 3672]
+  final-head-inspected-pages: [2934, 2935, 2974, 3433, 3505, 3635, 3670, 3671, 3672]
+corrections:
+  invisible-control-characters-removed: 3
+  chapter-2-reader-filter-regression-fixed: true
+  all-22-title-guard-added: true
+ci:
+  preclosure-publication-workflow:
+    workflow-name: Livre IV PDF Closure Runner
+    run-id: 30331157848
+    conclusion: success
+    artifact-id: 8677476229
+    artifact-digest: sha256:bc271ec2a2c6d4c4e8eda563139d19fc9c08d13208cc8ae97a59599e3722469c
+  final-publication-workflow:
+    workflow-name: Livre IV PDF Closure Runner
+    run-id: 30331869053
+    conclusion: success
+    artifact-id: 8677727006
+    artifact-digest: sha256:0109aa765694cee0c6cc2663e83a3310485e5915517e3c0c35fcb95b43ac59ce
+  closure-finalizer:
+    workflow-name: Livre IV PDF Closure Finalizer
+    run-id: 30333154659
+    conclusion: success
+reservations:
+  - Global collection license is undefined and LICENSE.md is absent.
+  - PDF accessibility tagging is not implemented; pdfinfo reports Tagged: no.
+  - Runtime product, platform, performance, network, recovery and maintenance procedures were not executed by this documentation and PDF campaign.
