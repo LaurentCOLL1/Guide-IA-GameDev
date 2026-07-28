@@ -123,4 +123,5 @@ Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md
 Livre-V/CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md
 Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
 Livre-V/CHAPITRE-06-Fiches-des-modeles-visuels.md
+Livre-V/CHAPITRE-07-Fiches-des-modeles-audio.md
 Companion-Pack/index.md
