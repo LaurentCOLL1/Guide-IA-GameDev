@@ -17,6 +17,8 @@ on:
 
 permissions:
   contents: write
+  issues: write
+  pull-requests: write
 
 concurrency:
   group: livre-v-ch01-builder
@@ -86,14 +88,55 @@ jobs:
       - name: Commit permanent lot
         if: steps.guard.outputs.skip != 'true'
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CONTINUITE-PROJET.md ROADMAP.md contents.txt plans/LIVRE-V-PLAN-MAITRE.md \
-            Livre-V/index.md Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md \
-            Livre-V/QA/AUDIT-CHAPITRE-01.md Livre-V/QA/VALIDATION-FINALE-CHAPITRE-01.yaml \
-            tools/validate_chapters.py tools/check_context_markers.py
-          git diff --cached --check
-          git commit -m "docs(livre-v): créer la carte générale de la collection"
-          git push origin HEAD:docs/livre-v-ch01-carte-collection
+          set +e
+          diagnostic=/tmp/l5-ch01-commit-diagnostic.txt
+          : > "$diagnostic"
+          status=0
+
+          {
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            echo "## status before add"
+            git status --short
+            echo "## add"
+            git add CONTINUITE-PROJET.md ROADMAP.md contents.txt plans/LIVRE-V-PLAN-MAITRE.md \
+              Livre-V/index.md Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md \
+              Livre-V/QA/AUDIT-CHAPITRE-01.md Livre-V/QA/VALIDATION-FINALE-CHAPITRE-01.yaml \
+              tools/validate_chapters.py tools/check_context_markers.py
+            add_status=$?
+            echo "add_status=$add_status"
+            if [[ $add_status -ne 0 ]]; then status=$add_status; fi
+
+            echo "## cached diff check"
+            git diff --cached --check
+            check_status=$?
+            echo "check_status=$check_status"
+            if [[ $check_status -ne 0 ]]; then status=$check_status; fi
+
+            echo "## cached diff stat"
+            git diff --cached --stat
+
+            if [[ $status -eq 0 ]]; then
+              echo "## commit"
+              git commit -m "docs(livre-v): créer la carte générale de la collection"
+              commit_status=$?
+              echo "commit_status=$commit_status"
+              if [[ $commit_status -ne 0 ]]; then status=$commit_status; fi
+            fi
+
+            if [[ $status -eq 0 ]]; then
+              echo "## push"
+              git push origin HEAD:docs/livre-v-ch01-carte-collection
+              push_status=$?
+              echo "push_status=$push_status"
+              if [[ $push_status -ne 0 ]]; then status=$push_status; fi
+            fi
+          } 2>&1 | tee "$diagnostic"
+
+          if [[ $status -ne 0 ]]; then
+            gh pr comment 325 --body-file "$diagnostic" || true
+          fi
+          exit "$status"
