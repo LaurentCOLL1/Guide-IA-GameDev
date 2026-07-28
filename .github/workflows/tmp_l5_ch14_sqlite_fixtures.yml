@@ -1,9 +1,9 @@
 name: Temporary Livre V Chapter 14 SQLite Fixtures
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-v-ch14-schemas-sqlite-migrations
+      - main
     paths:
       - "tools/tmp_l5_ch14_trigger.txt"
 
