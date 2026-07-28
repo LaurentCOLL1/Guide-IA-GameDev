@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/tmp_l5_ch11_finalizer.yml"
       - "tools/tmp_l5_ch11_finalize.py"
+      - "tools/tmp_l5_ch11_patch.py"
       - "tools/tmp_l5_ch11_trigger.txt"
       - "Livre-V/CHAPITRE-11-Reference-GDScript.md"
   pull_request:
@@ -15,6 +16,7 @@ on:
     paths:
       - ".github/workflows/tmp_l5_ch11_finalizer.yml"
       - "tools/tmp_l5_ch11_finalize.py"
+      - "tools/tmp_l5_ch11_patch.py"
       - "tools/tmp_l5_ch11_trigger.txt"
       - "Livre-V/CHAPITRE-11-Reference-GDScript.md"
 
@@ -36,6 +38,9 @@ jobs:
         with:
           ref: docs/livre-v-ch11-reference-gdscript
           fetch-depth: 0
+
+      - name: Correct canonical deep links
+        run: python3 tools/tmp_l5_ch11_patch.py
 
       - name: Finalize audit, proof and governance
         run: python3 tools/tmp_l5_ch11_finalize.py
