@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.0.0"
+version: "1.0.1"
 lang: "fr-FR"
-last-updated: "2026-07-18"
+last-updated: "2026-07-28"
 book: "Livre V"
 chapter-count: 26
 ---
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence  
-> **Statut :** non commencé  
+> **Statut :** 1 chapitre sur 26 rédigé, repéré et audité au niveau `static-review`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles transversales du Livre V
@@ -20,6 +20,8 @@ chapter-count: 26
 Chaque fiche doit inclure : identifiant, objectif, public, prérequis, version vérifiée, date, licence, compatibilité matérielle, procédure minimale, erreurs fréquentes, alternatives, sources et liens vers les tutoriels complets. Les fiches doivent privilégier tableaux, décisions et exemples minimaux plutôt que longues procédures répétées.
 
 ## Chapitre 1 — Carte générale de la collection
+
+**État documentaire :** terminé en version `1.0.0`, niveau `static-review`.
 
 **Objectifs**
 

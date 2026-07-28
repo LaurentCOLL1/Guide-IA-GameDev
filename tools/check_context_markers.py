@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MARKER_RE = re.compile(r"^> \*\*\[(PS|CMD|WSL|DCT|DCK|VSC|WEB|APP|SORTIE|LECTURE)\]")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})(?P<lang>[^`]*)$")
-AUDITED_CHAPTER_RE = re.compile(r"Livre-(II|III|IV)/CHAPITRE-(\d{2})-.+\.md$")
+AUDITED_CHAPTER_RE = re.compile(r"Livre-(II|III|IV|V)/CHAPITRE-(\d{2})-.+\.md$")
 LEGACY_DATE_RE = re.compile(r'^\w[\w-]*:\s*["\']?\d{4}-\d{2}-\d{2}["\']?\s*$')
 TIMESTAMP_RE = re.compile(
     r'^\w[\w-]*:\s*["\']?\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
@@ -20,7 +20,7 @@ TIMESTAMP_RE = re.compile(
 
 def files() -> list[Path]:
     result: list[Path] = []
-    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II", ROOT / "Livre-III", ROOT / "Livre-IV"):
+    for base in (ROOT / "Volume-0", ROOT / "Livre-I", ROOT / "Livre-II", ROOT / "Livre-III", ROOT / "Livre-IV", ROOT / "Livre-V"):
         result.extend(sorted(base.rglob("*.md")))
     result.append(ROOT / "STYLE_GUIDE.md")
     return [path for path in result if path.is_file()]
@@ -82,7 +82,7 @@ def check_file(path: Path) -> tuple[list[str], int]:
             if expected not in front:
                 errors.append(f"{rel}: métadonnée absente ou incorrecte : {expected}")
 
-        if book_code in {"III", "IV"} or chapter_number >= 17:
+        if book_code in {"III", "IV", "V"} or chapter_number >= 17:
             if not has_metadata_line(front, "audit-date", TIMESTAMP_RE):
                 errors.append(f"{rel}: métadonnée audit-date non horodatée ou invalide")
             if not has_metadata_line(front, "last-verified", TIMESTAMP_RE):

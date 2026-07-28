@@ -1,0 +1,51 @@
+schema-version: 1
+evidence-id: DOC-L5-QA-EVIDENCE-CH01
+validation-authority: temporary-builder-and-permanent-workflows
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: a7cac17514c2e2c4bec6680d79afd17e4a4e3356
+source-branch: docs/livre-v-ch01-carte-collection
+chapter:
+  id: DOC-L5-CH01
+  path: Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
+  version: 1.0.0
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 3
+  chapter-lines: 1095
+  chapter-headings: 51
+  chapter-fenced-blocks: 33
+  code-explanation-markers: 33
+  detailed-error-cases: 10
+  duplicate-headings: 0
+  duplicate-blocks: 0
+  duplicate-paragraphs: 0
+  all-usage-markers-present: true
+  master-plan-scope-covered: true
+  collection-map-documented: true
+  solo-studio-routes-documented: true
+  need-tool-system-entry-documented: true
+  prerequisites-index-documented: true
+  reader-export-pipeline-mentions-absent: true
+  next-step-absent-from-reader-chapter: true
+  reasoning-process-metadata-absent: true
+  semantic-error-correction-sequence: true
+  runtime-values-not-invented: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: ef5fa5ad7df4b87fb16d634acf37679885ee3ffdc6b8c45e54e00ce3d515d48f
+  audit-sha256: 87fddda68450ecd8f66d31844064db7391c024c2c7da37f5499c9f3bf467ee5b
+ci:
+  builder:
+    workflow-name: Livre V Chapter 1 Builder
+    run-id: 30338409328
+    conclusion: success
+reservations:
+  - No reader navigation study or time-to-find measurement was executed.
+  - No interactive publication index was materialized.
+  - No Companion Pack artifact was created or executed.
+  - No runtime product, platform or hardware validation was executed.
+  - Collection-wide licence remains undefined.
+  - Advanced accessibility tagging remains open.
