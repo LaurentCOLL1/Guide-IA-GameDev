@@ -1,0 +1,54 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH04
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 475e61886f985d3907a4d4cc3373c8d938522f4e
+source-branch: docs/livre-v-ch04-moteurs-backends
+chapter:
+  id: DOC-L5-CH04
+  path: Livre-V/CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 9
+  chapter-lines: 363
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  internal-links: 83
+  source-book-links: 57
+  fragment-links: 52
+  official-links: 9
+  fenced-blocks: 0
+  engine-backend-model-interface-separated: true
+  ollama-llamacpp-localai-covered: true
+  visual-backends-covered: true
+  audio-backends-covered: true
+  api-acceleration-matrix-present: true
+  diagnostics-matrix-present: true
+  cpu-amd-paths-present: true
+  security-and-memory-qualified: true
+  chapter-5-boundary-preserved: true
+  tutorial-deployments-not-copied: true
+  master-plan-scope-covered: true
+  runtime-values-not-invented: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 8b3456593905c277c269888e3000470e52835869393a27d35d3149ec07494036
+  audit-sha256: ce249db94b76015b175666b99afadd52a3bb75f07a97a7c0a806e8296eba1d39
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No engine, model, workflow, container, server or audio file was executed.
+- No minimal verification command was executed.
+- No official web link was opened in a browser during this lot.
+- No CPU, Vulkan, DirectML, ZLUDA, ROCm or HIP path was measured.
+- No throughput, load time, real-time factor, RAM or VRAM result was produced.
+- No model, voice or organisational deployment licence was approved.
+- No Companion Pack artifact was created or executed.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.
