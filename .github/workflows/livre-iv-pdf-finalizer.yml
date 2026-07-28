@@ -1,0 +1,422 @@
+name: Livre IV PDF Closure Finalizer
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+    paths:
+      - .qa/livre-iv-pdf-finalize.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'qa/livre-iv-pdf-closure'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa/livre-iv-pdf-closure
+          fetch-depth: 0
+
+      - name: Materialize permanent closure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import subprocess
+
+          TS = "2026-07-28T07:28:40+02:00"
+          DATE = "2026-07-28"
+          BASE = "666e3004682f7ca1d7d1964bfa071a47df21cf81"
+          READER_HEAD = "f6b2118daf23edf7595ce9d5e2b4d300c00b1d40"
+          PRE_RUN = 30331157848
+          PRE_ARTIFACT = 8677476229
+          PRE_DIGEST = "sha256:bc271ec2a2c6d4c4e8eda563139d19fc9c08d13208cc8ae97a59599e3722469c"
+          FINAL_RUN = 30331869053
+          FINAL_ARTIFACT = 8677727006
+          FINAL_DIGEST = "sha256:0109aa765694cee0c6cc2663e83a3310485e5915517e3c0c35fcb95b43ac59ce"
+          PDF_SHA = "013f8d9bf800d74b408c806f5b5ea6e291e85568b152799feb2b75152de7f9fe"
+          TEXT_SHA = "4a11854f4ba541ca82948dec4acbec7046e0cf7e39ee3df9d0b69451604dc13d"
+          VISUAL_PAGES = [2934,2935,2936,2954,2974,2993,3013,3019,3027,3039,3053,3067,3082,3094,3107,3120,3134,3148,3164,3181,3199,3216,3234,3252,3272,3291,3311,3326,3343,3368,3394,3413,3433,3451,3470,3487,3505,3523,3543,3554,3566,3583,3601,3617,3635,3652,3670,3671,3672]
+          PARITY_PAGES = [2934,2974,3013,3082,3199,3343,3433,3505,3601,3635,3671,3672]
+          FINAL_SAMPLE = [2934,2935,2974,3433,3505,3635,3670,3671,3672]
+
+          def read(path):
+              return Path(path).read_text(encoding="utf-8")
+
+          def write(path, text):
+              p = Path(path)
+              p.parent.mkdir(parents=True, exist_ok=True)
+              p.write_text(text, encoding="utf-8")
+
+          def replace_once(text, old, new, label):
+              count = text.count(old)
+              if count != 1:
+                  raise RuntimeError(f"{label}: expected one occurrence, found {count}")
+              return text.replace(old, new, 1)
+
+          report = f'''---
+          title: "Clôture technique et PDF — Livre IV"
+          id: "DOC-L4-QA-CLOSURE"
+          status: "complete"
+          version: "1.0.0"
+          lang: "fr-FR"
+          last-verified: "{TS}"
+          audit-level: "static-review+pdf-inspected"
+          target-book: "Livre IV"
+          ---
+
+          # Clôture technique et PDF — Livre IV
+
+          ## 1. Décision
+
+          Le Livre IV — **Finalisation, optimisation, publication et maintenance** est accepté au niveau de publication technique documentaire `static-review+pdf-inspected`.
+
+          La décision couvre la présence et la cohérence des 22 chapitres, les métadonnées et audits, l’ordre lecteur, la compilation Pandoc/XeLaTeX, le préflight structurel, l’extraction textuelle, les polices incorporées et une inspection visuelle représentative. Elle ne qualifie aucune campagne runtime, plateforme, archive, restauration, build de jeu, service, procédure de support ou conformité juridique réelle.
+
+          ## 2. Périmètre contrôlé
+
+          - `Livre-IV/index.md` et les 22 chapitres inscrits dans `contents.txt` ;
+          - les audits et preuves QA de chapitre, exclus du PDF lecteur ;
+          - les contrôles de structure, métadonnées, liens, doublons et repères d’utilisation ;
+          - `build.sh`, les métadonnées Pandoc, le modèle XeLaTeX et `filters/pdf-normalize.lua` ;
+          - le PDF cumulatif de la collection à l’état de fin du Livre IV ;
+          - la transition vers le Livre V et le Companion Pack.
+
+          ## 3. Corrections découvertes pendant la campagne
+
+          Trois caractères de contrôle `BEL` invisibles empêchaient XeLaTeX de compiler des exemples de chemins Windows. Ils ont été remplacés par les séparateurs attendus dans les chapitres 16 et 18 :
+
+          - `platform-tools\\adb.exe` ;
+          - `docs\\accessibility\\task-barriers.yaml` ;
+          - `docs\\accessibility\\public-statement.md`.
+
+          Le filtre PDF supprimait également le chapitre 2 entier parce que la chaîne générale `assurance qualité` était traitée comme un titre de fabrication. La règle est désormais exacte : une rubrique interne intitulée uniquement `Assurance qualité` peut être exclue, mais **Stratégie générale d’assurance qualité** reste un chapitre lecteur. Un garde-fou vérifie maintenant la présence des 22 titres du Livre IV dans le texte extrait.
+
+          ## 4. Validation documentaire transversale
+
+          - 22 chapitres présents et inscrits dans l’ordre lecteur ;
+          - identifiants de documents uniques ;
+          - audits et preuves de chapitre résolus ;
+          - zéro erreur bloquante de structure, métadonnées, liens ou doublons ;
+          - zéro non-conformité de présence ou de cohérence sémantique des repères ;
+          - aucune preuve QA, audit de chapitre ou protocole interne dans le PDF lecteur ;
+          - les 22 titres de chapitre sont présents dans le texte extrait du PDF.
+
+          ## 5. Compilation et préflight finaux
+
+          La tête lecteur `{READER_HEAD}` a été compilée par le workflow `Livre IV PDF Closure Runner`, run `{FINAL_RUN}`.
+
+          | Contrôle | Résultat |
+          |---|---|
+          | Pandoc/XeLaTeX | succès |
+          | `qpdf --check` | succès, aucune erreur de syntaxe ou de flux |
+          | Pages | 3 672 |
+          | Format | A4, 595,28 × 841,89 points |
+          | Version PDF | 1.5 |
+          | Taille | 9 428 292 octets |
+          | Chiffrement | non |
+          | Formulaires | aucun |
+          | JavaScript | absent |
+          | Texte extractible | oui |
+          | Polices | incorporées et sous-ensembles ; aucun Type 3 ou type inconnu |
+          | Balisage d’accessibilité | non |
+
+          Empreintes :
+
+          - PDF : `{PDF_SHA}` ;
+          - texte extrait avec mise en page : `{TEXT_SHA}`.
+
+          ## 6. Inspection visuelle
+
+          Le candidat complet a été rendu avec Poppler sur 49 pages réparties entre l’index du Livre IV, les 22 ouvertures de chapitre, un point intermédiaire de chaque chapitre, la fin du chapitre 22 et les transitions suivantes.
+
+          Pages inspectées : {', '.join(map(str, VISUAL_PAGES))}.
+
+          Un contrôle de parité Poppler/PDFium a porté sur les pages {', '.join(map(str, PARITY_PAGES))}. Les différences observées se limitent à l’anticrénelage des contours de glyphes ; aucun déplacement, rognage, carré noir, glyphe absent ou changement de contenu n’a été observé.
+
+          Après passage de l’index à l’état `complete`, la tête finale a été réinspectée sur les pages {', '.join(map(str, FINAL_SAMPLE))}. La pagination est restée à 3 672 pages et la différence textuelle avec le candidat se limite aux mentions de progression et de statut de l’index.
+
+          ## 7. Artefacts de preuve
+
+          - candidat pré-clôture inspecté : run `{PRE_RUN}`, artefact `{PRE_ARTIFACT}`, digest `{PRE_DIGEST}` ;
+          - tête lecteur définitive : run `{FINAL_RUN}`, artefact `{FINAL_ARTIFACT}`, digest `{FINAL_DIGEST}`.
+
+          Les artefacts contiennent le PDF, son texte extrait, les empreintes, les rapports `pdfinfo`, `pdffonts`, `qpdf`, le journal de build et le rapport transversal des chapitres.
+
+          ## 8. Portes de qualité
+
+          | Porte | Résultat |
+          |---|---|
+          | 22 chapitres rédigés, repérés et audités | acceptée |
+          | ordre lecteur complet et QA interne exclue | acceptée |
+          | compilation PDF reproductible dans le runner documenté | acceptée |
+          | préflight structurel et polices | accepté |
+          | inspection visuelle représentative avec deux moteurs | acceptée |
+          | campagnes runtime, performance et plateformes | réservées |
+          | licence globale de collection | réservée |
+          | PDF balisé pour lecteurs d’écran | réservé |
+
+          ## 9. Réserves
+
+          - la licence globale de la collection n’est pas définie et `LICENSE.md` reste absent ;
+          - `pdfinfo` indique `Tagged: no` : le PDF n’est pas présenté comme accessible aux lecteurs d’écran ;
+          - les exports, installations, plateformes, campagnes QA produit, performances, réseau, sauvegardes, restaurations, mises à jour et procédures de maintenance décrites par le Livre IV ne sont pas exécutés par cette campagne documentaire ;
+          - le PDF est un artefact de validation technique, pas une publication commerciale.
+
+          ## 10. Conclusion
+
+          La rédaction, la validation documentaire, la compilation et l’inspection PDF du Livre IV sont closes. Le prochain jalon est le Livre V — **Encyclopédie technique et bibliothèque de référence**.
+          '''
+          report = "\n".join(line[10:] if line.startswith("          ") else line for line in report.splitlines()) + "\n"
+          report_path = Path("Livre-IV/QA/CLOTURE-LIVRE-IV.md")
+          write(report_path, report)
+          report_sha = hashlib.sha256(report.encode("utf-8")).hexdigest()
+
+          source_hashes = {}
+          for path in [
+              "Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md",
+              "Livre-IV/CHAPITRE-18-Accessibilite.md",
+              "filters/pdf-normalize.lua",
+          ]:
+              source_hashes[path] = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+          proof = f'''schema-version: 1
+          evidence-id: DOC-L4-QA-PUBLICATION
+          status: complete
+          validation-date: {DATE}
+          validated-base-commit: {BASE}
+          validated-reader-source-commit: {READER_HEAD}
+          book:
+            id: LIV-IV-INDEX
+            path: Livre-IV/index.md
+            chapters: 22
+            audit-level: static-review+pdf-inspected
+          results:
+            blocking-errors: 0
+            global-warnings: 3
+            chapters-present: 22
+            chapter-identifiers-unique: true
+            audit-reports-resolved: true
+            final-proofs-complete: true
+            all-chapter-titles-present-in-pdf: true
+            usage-context-nonconformities: 0
+            semantic-context-inconsistencies: 0
+            duplicate-headings: 0
+            duplicate-significant-blocks: 0
+            duplicate-long-paragraphs: 0
+            reader-internal-qa-excluded-from-pdf: true
+            forbidden-control-characters: 0
+            pandoc-xelatex-build: success
+            qpdf-check: success
+            fonts-embedded: true
+            visual-inspection: success
+            renderer-parity: success
+          pdf:
+            path: dist/Guide-IA-GameDev.pdf
+            pages: 3672
+            format: A4
+            page-size-points: "595.28 x 841.89"
+            pdf-version: "1.5"
+            size-bytes: 9428292
+            sha256: {PDF_SHA}
+            extracted-text-sha256: {TEXT_SHA}
+            encrypted: false
+            tagged: false
+            text-extractable: true
+            forms: 0
+            javascript: false
+          visual-evidence:
+            full-campaign-pages: [{', '.join(map(str, VISUAL_PAGES))}]
+            renderer-parity-pages: [{', '.join(map(str, PARITY_PAGES))}]
+            final-head-inspected-pages: [{', '.join(map(str, FINAL_SAMPLE))}]
+          corrections:
+            invisible-control-characters-removed: 3
+            chapter-2-reader-filter-regression-fixed: true
+            all-22-title-guard-added: true
+          integrity:
+            closure-report-sha256: {report_sha}
+            chapter-16-sha256: {source_hashes['Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md']}
+            chapter-18-sha256: {source_hashes['Livre-IV/CHAPITRE-18-Accessibilite.md']}
+            pdf-filter-sha256: {source_hashes['filters/pdf-normalize.lua']}
+          ci:
+            preclosure-publication-workflow:
+              workflow-name: Livre IV PDF Closure Runner
+              run-id: {PRE_RUN}
+              conclusion: success
+              artifact-id: {PRE_ARTIFACT}
+              artifact-digest: {PRE_DIGEST}
+            final-publication-workflow:
+              workflow-name: Livre IV PDF Closure Runner
+              run-id: {FINAL_RUN}
+              conclusion: success
+              artifact-id: {FINAL_ARTIFACT}
+              artifact-digest: {FINAL_DIGEST}
+          reservations:
+            - Global collection license is undefined and LICENSE.md is absent.
+            - PDF accessibility tagging is not implemented; pdfinfo reports Tagged: no.
+            - Runtime product, platform, performance, network, recovery and maintenance procedures were not executed by this documentation and PDF campaign.
+          '''
+          proof = "\n".join(line[10:] if line.startswith("          ") else line for line in proof.splitlines()) + "\n"
+          write("Livre-IV/QA/VALIDATION-PUBLICATION-LIVRE-IV.yaml", proof)
+
+          roadmap_path = Path("ROADMAP.md")
+          roadmap = read(roadmap_path)
+          roadmap = replace_once(
+              roadmap,
+              "**Statut M5 : rédaction documentaire terminée — 22 chapitres rédigés, repérés et audités sur 22.** La construction, le préflight et l’inspection du PDF complet, ainsi que les réserves runtime, de licence et d’accessibilité, restent à traiter avant publication technique.",
+              "**Statut M5 : terminé — 22 chapitres rédigés, repérés et audités sur 22.** La validation documentaire transversale, la compilation Pandoc/XeLaTeX, le préflight structurel et l’inspection visuelle du PDF cumulatif sont réussis. Les réserves runtime, de licence globale et de balisage avancé d’accessibilité PDF restent des chantiers distincts de collection.",
+              "ROADMAP M5 status",
+          )
+          roadmap = replace_once(
+              roadmap,
+              "- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.\n",
+              "- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.\n- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre III.\n- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre IV.\n",
+              "ROADMAP M8 publications",
+          )
+          write(roadmap_path, roadmap)
+
+          plan_path = Path("plans/LIVRE-IV-PLAN-MAITRE.md")
+          plan = read(plan_path)
+          plan = replace_once(plan, 'status: "active"', 'status: "complete"', "plan status")
+          plan = replace_once(plan, 'version: "1.0.22"', 'version: "1.0.23"', "plan version")
+          plan = replace_once(plan, 'last-updated: "2026-07-28T05:41:07+02:00"', f'last-updated: "{TS}"', "plan timestamp")
+          plan = replace_once(
+              plan,
+              "> **Statut :** rédaction documentaire terminée — 22 chapitres sur 22  ",
+              "> **Statut :** terminé — 22 chapitres validés et PDF inspecté  ",
+              "plan display status",
+          )
+          closure_note = f'''## Clôture documentaire et PDF
+
+          **État au {DATE} :** les 22 chapitres sont rédigés, repérés et audités ; la validation documentaire transversale, la compilation Pandoc/XeLaTeX, le préflight structurel et l’inspection visuelle représentative du PDF cumulatif sont réussis. La preuve permanente est `Livre-IV/QA/VALIDATION-PUBLICATION-LIVRE-IV.yaml` et le rapport est `Livre-IV/QA/CLOTURE-LIVRE-IV.md`.
+
+          Les critères qui exigent un build de jeu exporté, des campagnes runtime, des mesures de performance, des installations, des restaurations, des mises à jour ou des rollbacks exécutés restent des réserves produit. Ils ne sont pas présentés comme satisfaits par la clôture documentaire et PDF.
+
+          '''
+          closure_note = "\n".join(line[10:] if line.startswith("          ") else line for line in closure_note.splitlines())
+          plan = replace_once(plan, "## Critères de clôture du Livre IV", closure_note + "## Critères de clôture du Livre IV", "plan closure insertion")
+          write(plan_path, plan)
+
+          continuity_path = Path("CONTINUITE-PROJET.md")
+          continuity = read(continuity_path)
+          continuity = replace_once(continuity, 'version: "3.85.0"', 'version: "3.86.0"', "continuity version")
+          continuity = replace_once(continuity, 'last-updated: "2026-07-28T05:41:07+02:00"', f'last-updated: "{TS}"', "continuity timestamp")
+          continuity = replace_once(continuity, "- jalon : M5 — Livre IV ;", "- jalon : M6 — Livre V ;", "continuity milestone")
+          continuity = replace_once(
+              continuity,
+              "- chapitre 22 du Livre IV : version `1.0.0`, niveau `static-review` ;\n",
+              "- chapitre 22 du Livre IV : version `1.0.0`, niveau `static-review` ;\n- publication technique du Livre IV : validation transversale, compilation Pandoc/XeLaTeX, préflight et inspection visuelle terminés ;\n",
+              "continuity Livre IV publication",
+          )
+          old_next = '''Les 22 chapitres du Livre IV sont terminés au niveau documentaire et statique. Les archives, SBOM, copies indépendantes, restaurations, reconstructions, transferts de comptes, exercices de succession, décisions de fin de support et validations runtime de `Project Asteria` restent non matérialisés. La licence globale de la collection et l’accessibilité avancée des PDF restent ouvertes.
+
+          Action suivante :
+
+          > **[LECTURE] Lot de fin de Livre et niveau prévisionnel — Ne pas saisir.**
+
+          ```text
+          Livre IV — construire, préflighter et inspecter le PDF complet
+          Niveau GPT-5.6 Sol recommandé : Élevée
+          ```
+
+          Cette action doit compiler l’ordre lecteur de `contents.txt`, exclure les fichiers QA, contrôler structure et liens, inspecter le PDF complet et enregistrer les réserves d’accessibilité et de licence sans inventer de conformité.'''
+          old_next = "\n".join(line[10:] if line.startswith("          ") else line for line in old_next.splitlines())
+          new_next = '''Le Livre IV est terminé au niveau de publication technique documentaire : 22 chapitres sur 22, validation transversale, compilation Pandoc/XeLaTeX, préflight et inspection visuelle réussis. Les exécutions runtime, la licence globale de la collection et le balisage avancé des PDF restent ouverts.
+
+          Action suivante :
+
+          > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+
+          ```text
+          Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
+          Niveau GPT-5.6 Sol recommandé : Élevée
+          ```
+
+          Le chapitre 1 du Livre V construira la carte générale de la collection, les dépendances entre Volume 0, Livres I à V et Companion Pack, les parcours Solo/Studio, les entrées par besoin et l’index des prérequis, sans résumer ni dupliquer tous les tutoriels.'''
+          new_next = "\n".join(line[10:] if line.startswith("          ") else line for line in new_next.splitlines())
+          continuity = replace_once(continuity, old_next, new_next, "continuity next action")
+
+          journal = f'''### {TS} — version 3.86.0
+
+          - clôture technique et PDF du Livre IV — Finalisation, optimisation, publication et maintenance ;
+          - validation transversale des 22 chapitres, audits, preuves, identifiants, liens, doublons et repères réussie ;
+          - trois caractères de contrôle invisibles supprimés des exemples de chemins des chapitres 16 et 18 ;
+          - filtre PDF corrigé pour préserver le chapitre 2 — Stratégie générale d’assurance qualité ;
+          - garde-fou ajouté : les 22 titres du Livre IV doivent apparaître dans le texte extrait ;
+          - compilation finale Pandoc/XeLaTeX réussie sur la tête `{READER_HEAD}` ;
+          - PDF cumulatif final : 3 672 pages A4, 9 428 292 octets, version 1.5, non chiffré et texte extractible ;
+          - empreinte PDF `{PDF_SHA}` ;
+          - `qpdf --check`, contrôle des polices incorporées et exclusion des contenus QA internes réussis ;
+          - 49 pages inspectées avec Poppler, 12 pages comparées avec PDFium et neuf pages de tête finale réinspectées ;
+          - run final `{FINAL_RUN}`, artefact `{FINAL_ARTIFACT}`, digest `{FINAL_DIGEST}` ;
+          - Livre IV accepté au niveau `static-review+pdf-inspected` avec réserves runtime, licence globale et balisage d’accessibilité ;
+          - jalon actif déplacé vers M6 — Livre V ;
+          - prochaine action : `Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md`, niveau Élevée.
+
+          '''
+          journal = "\n".join(line[10:] if line.startswith("          ") else line for line in journal.splitlines())
+          continuity = replace_once(continuity, "### 2026-07-28T05:41:07+02:00 — version 3.85.0", journal + "### 2026-07-28T05:41:07+02:00 — version 3.85.0", "continuity journal")
+          write(continuity_path, continuity)
+
+          for temporary in [
+              Path(".github/workflows/livre-iv-pdf-finalizer.yml"),
+              Path(".github/workflows/livre-iv-pdf-closure.yml"),
+              Path(".qa/livre-iv-pdf-finalize.trigger"),
+          ]:
+              temporary.unlink(missing_ok=True)
+
+          # Repository-wide control-character gate.
+          bad = []
+          for raw in subprocess.check_output(["git", "ls-files", "-z"]).split(b"\0"):
+              if not raw:
+                  continue
+              path = Path(raw.decode("utf-8", "surrogateescape"))
+              if not path.exists():
+                  continue
+              data = path.read_bytes()
+              if b"\0" in data:
+                  continue
+              for byte in data:
+                  if byte in (*range(0, 9), 11, 12, *range(14, 32), 127):
+                      bad.append(str(path))
+                      break
+          if bad:
+              raise RuntimeError("Forbidden control characters remain: " + ", ".join(sorted(bad)))
+
+          expected = {
+              "CONTINUITE-PROJET.md",
+              "Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md",
+              "Livre-IV/CHAPITRE-18-Accessibilite.md",
+              "Livre-IV/QA/CLOTURE-LIVRE-IV.md",
+              "Livre-IV/QA/VALIDATION-PUBLICATION-LIVRE-IV.yaml",
+              "Livre-IV/index.md",
+              "ROADMAP.md",
+              "filters/pdf-normalize.lua",
+              "plans/LIVRE-IV-PLAN-MAITRE.md",
+          }
+          actual = set(subprocess.check_output(["git", "diff", "--name-only", "origin/main"]).decode().splitlines())
+          if actual != expected:
+              raise RuntimeError(f"Unexpected final diff. expected={sorted(expected)} actual={sorted(actual)}")
+          print("Permanent closure lot materialized with exactly nine files.")
+          PY
+
+          python3 tools/validate_chapters.py --report /tmp/l4-closure-chapters.md
+          python3 tools/check_code_explanation_structure.py --check
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+
+      - name: Commit permanent closure lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "qa(livre-iv): clore la publication technique et PDF"
+          git push origin HEAD:qa/livre-iv-pdf-closure
