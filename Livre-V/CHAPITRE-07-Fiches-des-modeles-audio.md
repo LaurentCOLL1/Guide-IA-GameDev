@@ -143,7 +143,7 @@ Le [CPU reste la référence du Livre I](../Livre-I/CHAPITRE-09-Audio-IA-local-v
 | limites | ressemblance, stabilité, prononciation, émotions, dérives et contenu sensible nécessitent une écoute humaine |
 | alternative | Kokoro ou Piper lorsqu’aucune référence vocale ni forte expressivité n’est requise |
 | sources officielles | [dépôt Chatterbox](https://github.com/resemble-ai/chatterbox), [carte Multilingual V3](https://huggingface.co/ResembleAI/chatterbox), [carte Turbo](https://huggingface.co/ResembleAI/chatterbox-turbo) |
-| sources internes | [clonage contrôlé](../Livre-I/CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md#8-chatterbox--voix-expressive-et-clonage-contrôlé), [consentement vocal](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#26-voix-et-artistes-interprètes) |
+| sources internes | [clonage contrôlé](../Livre-I/CHAPITRE-09-Audio-IA-local-voix-transcription-musique-et-effets.md#8-chatterbox-voix-expressive-et-clonage-contrôlé), [consentement vocal](../Livre-III/CHAPITRE-05-Provenance-licences-et-validation-des-assets.md#26-voix-et-artistes-interprètes) |
 | preuve | sources Resemble AI revues le `2026-07-28` ; aucune référence vocale fournie ni sortie produite |
 
 **Décision de consultation :** le clonage n’est jamais le mode par défaut. Sans consentement explicite et périmètre d’usage, le statut reste `blocked`.
