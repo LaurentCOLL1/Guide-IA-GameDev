@@ -1,0 +1,62 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH08
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-28'
+validated-base-commit: 5e8bd75b88256ece95c274767b75319ae12cff9c
+source-branch: docs/livre-v-ch08-bibliotheque-workflows
+chapter:
+  id: DOC-L5-CH08
+  path: Livre-V/CHAPITRE-08-Bibliotheque-de-workflows.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+results:
+  blocking-errors: 0
+  warnings: 12
+  chapter-lines: 409
+  chapter-headings: 18
+  reference-cards: 13
+  matrices: 3
+  internal-links: 70
+  source-book-links: 36
+  fragment-links: 36
+  official-links: 13
+  fenced-blocks: 0
+  workflow-domains-covered: 5
+  godot-workflows-covered: true
+  blender-workflows-covered: true
+  comfyui-workflows-covered: true
+  audio-workflows-covered: true
+  documentation-workflows-covered: true
+  solo-and-studio-covered: true
+  lifecycle-matrix-present: true
+  qualification-matrix-present: true
+  security-and-resume-covered: true
+  manifests-and-artifacts-covered: true
+  reusable-files-materialized: false
+  runtime-results-invented: false
+  companion-pack-boundary-preserved: true
+  tutorial-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+  runtime-executed: false
+integrity:
+  chapter-sha256: 12a7a4b1bc9595a809d69f9fb76010b353c9e7a9b2e26cf9c9ac8c8433e5b358
+  audit-sha256: 5e9c18444a17eed541fa7e08a451dfcac2866278d38242fb07c22982e05672e8
+ci:
+  permanent-validations:
+    status: pending-recording-after-pr-run
+reservations:
+- No reusable workflow template or Companion Pack file was created.
+- No Godot project was imported, tested or exported.
+- No Blender script was executed and no GLB was produced.
+- No ComfyUI graph was submitted and no media was generated.
+- No audio engine was loaded and no audio file was processed.
+- No product CI, documentation publication or deployment workflow was executed.
+- No idempotence, retry, interruption or resume test was performed.
+- No reproducibility, duration, RAM, VRAM, throughput or quality result was produced.
+- No secret, external file, personal data or network service was handled.
+- No organisational or legal approval was performed.
+- No permanent Companion Pack artifact was materialized.
+- No PDF was produced; collection licence and advanced accessibility tagging remain open.
