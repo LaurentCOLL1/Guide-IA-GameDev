@@ -1,0 +1,60 @@
+name: Livre IV PDF Finalizer Diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+    paths:
+      - .qa/livre-iv-pdf-finalize-diagnostic.trigger
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'qa/livre-iv-pdf-closure'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa/livre-iv-pdf-closure
+          fetch-depth: 0
+      - name: Extract and execute embedded finalizer
+        shell: bash
+        run: |
+          set +e
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          rm -f .github/workflows/livre-iv-pdf-finalizer-diagnostic.yml
+          rm -f .qa/livre-iv-pdf-finalize-diagnostic.trigger
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import textwrap
+
+          workflow = Path('.github/workflows/livre-iv-pdf-finalizer.yml').read_text(encoding='utf-8')
+          marker = "python3 - <<'PY'\n"
+          script = workflow.split(marker, 1)[1].split("\n          PY", 1)[0]
+          script = textwrap.dedent(script)
+          Path('/tmp/l4-finalizer-embedded.py').write_text(script, encoding='utf-8')
+          result = subprocess.run(
+              ['python3', '/tmp/l4-finalizer-embedded.py'],
+              text=True,
+              stdout=subprocess.PIPE,
+              stderr=subprocess.STDOUT,
+          )
+          Path('/tmp/l4-finalizer-diagnostic.log').write_text(
+              result.stdout + f'\nexit_code={result.returncode}\n', encoding='utf-8'
+          )
+          print(result.stdout)
+          raise SystemExit(result.returncode)
+          PY
+      - name: Upload complete diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-pdf-finalizer-diagnostic
+          path: |
+            /tmp/l4-finalizer-diagnostic.log
+            /tmp/l4-finalizer-embedded.py
+          if-no-files-found: error
+          retention-days: 7
