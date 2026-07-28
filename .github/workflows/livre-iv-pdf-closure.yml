@@ -1,0 +1,96 @@
+name: Livre IV PDF Closure Runner
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-preflight:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'qa/livre-iv-pdf-closure'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout closure branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install PDF toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc texlive-xetex texlive-fonts-recommended texlive-latex-recommended \
+            fonts-dejavu fonts-liberation librsvg2-bin poppler-utils qpdf
+
+      - name: Validate documentation before PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --quiet PyYAML
+          mkdir -p dist
+          python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md
+          python3 tools/check_code_explanation_structure.py --check
+          python3 tools/check_context_markers.py --check
+          python3 tools/audit_contextes_semantiques.py --check
+
+      - name: Build cumulative reader PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x build.sh
+          ./build.sh 2>&1 | tee dist/BUILD-LOG.txt
+
+      - name: Structural and reader preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          PDF=dist/Guide-IA-GameDev.pdf
+          TEXT=dist/Guide-IA-GameDev.txt
+          test -s "$PDF"
+          qpdf --check "$PDF" | tee dist/QPDF-CHECK.txt
+          pdfinfo "$PDF" | tee dist/PDF-INFO.txt
+          pdffonts "$PDF" | tee dist/PDF-FONTS.txt
+          pdftotext -layout "$PDF" "$TEXT"
+          grep -q "Maintenance, archivage et pérennité" "$TEXT"
+          grep -q "Livre IV" "$TEXT"
+          if grep -Eq "Audit post-création|VALIDATION-FINALE-CHAPITRE|VALIDATION-PUBLICATION-LIVRE|Protocole d.audit post-création" "$TEXT"; then
+            echo "Internal QA content leaked into reader PDF." >&2
+            exit 1
+          fi
+          if grep -Eq "Type 3|unknown" dist/PDF-FONTS.txt; then
+            echo "Unexpected PDF font type detected." >&2
+            exit 1
+          fi
+          sha256sum "$PDF" | tee dist/Guide-IA-GameDev.pdf.sha256
+          sha256sum "$TEXT" | tee dist/Guide-IA-GameDev.txt.sha256
+          stat --printf='size_bytes=%s\n' "$PDF" | tee dist/PDF-METRICS.txt
+          pdfinfo "$PDF" | awk -F: '/^Pages|^Page size|^Encrypted|^Tagged|^PDF version/ {gsub(/^[ \t]+/, "", $2); print $1 "=" $2}' | tee -a dist/PDF-METRICS.txt
+
+      - name: Upload Livre IV closure candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-reader-pdf-candidate
+          path: |
+            dist/Guide-IA-GameDev.pdf
+            dist/Guide-IA-GameDev.pdf.sha256
+            dist/Guide-IA-GameDev.txt
+            dist/Guide-IA-GameDev.txt.sha256
+            dist/PDF-INFO.txt
+            dist/PDF-FONTS.txt
+            dist/PDF-METRICS.txt
+            dist/QPDF-CHECK.txt
+            dist/BUILD-LOG.txt
+            dist/QA-CHAPTERS.md
+          if-no-files-found: error
+          retention-days: 30
