@@ -24,6 +24,7 @@ on:
       - "tools/audit_contextes_utilisation.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
+      - "tools/tmp_l5_reference_precondition.py"
       - "tools/tmp_l5_reference_rebuild.py"
       - "tools/tmp_l5_reference_additional_patch.py"
       - ".github/workflows/validate-chapters.yml"
@@ -62,6 +63,7 @@ jobs:
           mkdir -p dist
           set -o pipefail
           {
+            python3 tools/tmp_l5_reference_precondition.py
             python3 tools/tmp_l5_reference_rebuild.py prepare
             python3 tools/tmp_l5_reference_additional_patch.py
           } 2>&1 | tee dist/GENERATOR.log
