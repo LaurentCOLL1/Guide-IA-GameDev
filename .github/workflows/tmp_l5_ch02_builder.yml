@@ -7,6 +7,15 @@ on:
     paths:
       - ".github/workflows/tmp_l5_ch02_builder.yml"
       - "tools/tmp_l5_ch02_patch.py"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/tmp_l5_ch02_builder.yml"
+      - "tools/tmp_l5_ch02_patch.py"
+      - "Livre-V/CHAPITRE-02-Arbres-de-decision.md"
+      - "Livre-V/QA/AUDIT-CHAPITRE-02.md"
+      - "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-02.yaml"
 
 permissions:
   contents: write
