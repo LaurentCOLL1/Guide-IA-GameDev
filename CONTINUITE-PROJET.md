@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "3.90.0"
+version: "3.91.0"
 lang: "fr-FR"
-last-updated: "2026-07-28T13:42:52+02:00"
+last-updated: "2026-07-28T14:25:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,10 +2315,11 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 3 chapitres sur 26 ;
+- progression du Livre V : 4 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 4 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2413,21 +2414,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient trois fiches sur 26 au niveau `static-review`. La fiche 03 normalise douze logiciels ou familles d’outils, distingue leurs rôles, versions datées, formats, intégrations, alternatives, limites et preuves, et fournit trois matrices de consultation. Les vérifications runtime, les tests de liens web depuis un navigateur, les matrices historiques de compatibilité, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient quatre fiches sur 26 au niveau `static-review`. La fiche 04 distingue moteurs, backends, modèles, interfaces et orchestration ; elle couvre Ollama, llama.cpp, LocalAI, ComfyUI et les voies CPU, Vulkan, DirectML, ZLUDA, ROCm/HIP et audio. Les exécutions runtime, les benchmarks, les tests de liens web depuis un navigateur, les matrices historiques de compatibilité, les artefacts du Companion Pack, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md
+Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 4 possédera les fiches des moteurs et backends IA, notamment Ollama, llama.cpp, LocalAI et les voies visuelles ou audio. Il devra distinguer moteur, modèle, interface et orchestration, conserver les chemins CPU/AMD et ne pas recopier les déploiements complets du Livre I ni l’intégration du Livre II.
+Le chapitre 5 possédera les fiches des familles de modèles de langage, tailles, quantifications, contextes, langues, licences et exigences mémoire. Il devra renvoyer aux moteurs de la fiche 04 sans confondre le modèle avec son runtime et ne présenter aucun résultat matériel sans benchmark exécuté.
 
 ## 27. Journal
 
+
+### 2026-07-28T14:25:00+02:00 — version 3.91.0
+
+- création de la fiche 04 — Fiches des moteurs et backends IA ;
+- ajout de treize cartes et de trois matrices compactes ;
+- Ollama, llama.cpp, LocalAI, ComfyUI, CPU, Vulkan, DirectML, ZLUDA, ROCm/HIP, faster-whisper, whisper.cpp et Piper distingués ;
+- séparation moteur, backend, modèle, interface, API et orchestration explicitée ;
+- voies CPU et AMD, mémoire, sécurité, formats, API et diagnostics par couches documentés ;
+- métriques statiques : 363 lignes, 20 titres, 13 fiches, 3 matrices, 83 liens, 57 renvois vers les Livres I à IV et 52 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 05 — Fiches des modèles de langage, niveau Élevée ;
+- aucune commande, inférence, accélération, mesure, vérification web, création d’artefact du Companion Pack ou production PDF.
 
 ### 2026-07-28T13:42:52+02:00 — version 3.90.0
 

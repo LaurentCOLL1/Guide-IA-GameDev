@@ -120,4 +120,5 @@ Livre-V/index.md
 Livre-V/CHAPITRE-01-Carte-generale-de-la-collection.md
 Livre-V/CHAPITRE-02-Arbres-de-decision.md
 Livre-V/CHAPITRE-03-Fiches-des-logiciels-et-outils.md
+Livre-V/CHAPITRE-04-Fiches-des-moteurs-et-backends-IA.md
 Companion-Pack/index.md
