@@ -74,7 +74,34 @@ jobs:
           pdfinfo "$PDF" | tee dist/PDF-INFO.txt
           pdffonts "$PDF" | tee dist/PDF-FONTS.txt
           pdftotext -layout "$PDF" "$TEXT"
-          grep -q "Maintenance, archivage et pérennité" "$TEXT"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          extracted = Path("dist/Guide-IA-GameDev.txt").read_text(
+              encoding="utf-8", errors="replace"
+          )
+          normalized_pdf = re.sub(r"\s+", " ", extracted)
+          chapter_paths = sorted(Path("Livre-IV").glob("CHAPITRE-*.md"))
+          if len(chapter_paths) != 22:
+              raise SystemExit(f"Expected 22 Livre IV chapters, found {len(chapter_paths)}")
+          missing = []
+          for path in chapter_paths:
+              source = path.read_text(encoding="utf-8")
+              title = next(
+                  (line[2:].strip() for line in source.splitlines() if line.startswith("# ")),
+                  None,
+              )
+              if not title:
+                  missing.append(f"{path}: missing H1")
+                  continue
+              normalized_title = re.sub(r"\s+", " ", title)
+              if normalized_title not in normalized_pdf:
+                  missing.append(f"{path}: {title}")
+          if missing:
+              raise SystemExit("Livre IV reader content missing:\n" + "\n".join(missing))
+          print("All 22 Livre IV chapter titles are present in extracted PDF text.")
+          PY
           grep -q "Livre IV" "$TEXT"
           if grep -Eq "Audit post-création|VALIDATION-FINALE-CHAPITRE|VALIDATION-PUBLICATION-LIVRE|Protocole d.audit post-création" "$TEXT"; then
             echo "Internal QA content leaked into reader PDF." >&2
