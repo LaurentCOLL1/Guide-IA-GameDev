@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.0.1"
+version: "1.1.0"
 lang: "fr-FR"
 last-updated: "2026-07-28"
 book: "Livre V"
@@ -11,17 +11,29 @@ chapter-count: 26
 
 # Plan maître détaillé — Livre V
 
-> **Titre du Livre :** Encyclopédie technique et bibliothèque de référence  
-> **Statut :** 1 chapitre sur 26 rédigé, repéré et audité au niveau `static-review`
+> **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
+> **Statut :** 1 chapitre sur 26 rédigé et audité au niveau `static-review`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
-## Règles transversales du Livre V
+## Règles spécifiques du Livre V
 
-Chaque fiche doit inclure : identifiant, objectif, public, prérequis, version vérifiée, date, licence, compatibilité matérielle, procédure minimale, erreurs fréquentes, alternatives, sources et liens vers les tutoriels complets. Les fiches doivent privilégier tableaux, décisions et exemples minimaux plutôt que longues procédures répétées.
+Le Livre V suit le [protocole éditorial et QA des fiches](../Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md). Ce profil spécialisé conserve l’intégrité, les preuves, les liens, la sécurité, les licences et la gouvernance, mais remplace les obligations tutoriel incompatibles.
+
+Les documents du Livre V privilégient :
+
+- fiches courtes et directement recherchables ;
+- matrices, tableaux de décision, index et recettes minimales ;
+- liens fréquents vers les chapitres et sous-sections propriétaires des Livres I à IV ;
+- prérequis, validation, limites et alternatives visibles ;
+- paragraphes courts et consultation non linéaire.
+
+Ne sont pas obligatoires par défaut : résultats d’apprentissage, progression débutant complète, explication exhaustive des notions déjà enseignées, dix diagnostics détaillés, présence de tous les repères, synthèse `Project Asteria` et longues checklists de tutoriel.
+
+Chaque chapitre du Livre V porte `document-format: "reference-cards"` et utilise les marqueurs `<!-- l5:card -->` ou `<!-- l5:matrix -->` pour ses unités de consultation.
 
 ## Chapitre 1 — Carte générale de la collection
 
-**État documentaire :** terminé en version `1.0.0`, niveau `static-review`.
+**État documentaire :** corrigé en version `1.1.0`, niveau `static-review`, au format fiches de référence.
 
 **Objectifs**
 
@@ -39,7 +51,7 @@ Chaque fiche doit inclure : identifiant, objectif, public, prérequis, version v
 
 **Frontière et validation**
 
-Ne résume pas tout le contenu. Validation par capacité à retrouver rapidement le bon chapitre à partir d’un besoin concret.
+Ne résume pas tout le contenu. La fiche utilise des cartes, matrices et liens profonds vers les sources propriétaires. Validation par capacité à retrouver rapidement le bon chapitre ou la bonne sous-section à partir d’un besoin concret.
 
 ## Chapitre 2 — Arbres de décision
 

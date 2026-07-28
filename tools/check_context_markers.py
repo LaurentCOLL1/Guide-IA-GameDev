@@ -96,8 +96,11 @@ def check_file(path: Path) -> tuple[list[str], int]:
 
         if not any(line.startswith('audit-level: "') for line in front):
             errors.append(f"{rel}: métadonnée audit-level absente")
-        if not any("Repères d’utilisation" in line for line in lines[:140]):
+        has_legend = any("Repères d’utilisation" in line for line in lines[:140])
+        if book_code != "V" and not has_legend:
             errors.append(f"{rel}: légende des repères absente")
+        if book_code == "V" and controlled_blocks > 0 and not has_legend:
+            errors.append(f"{rel}: bloc procédural présent sans légende des repères")
 
     return errors, controlled_blocks
 

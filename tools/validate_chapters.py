@@ -26,6 +26,13 @@ ISO_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{
 ERROR_SECTION_MARKER = "<!-- qa:error-correction-section -->"
 ERROR_INDEX_MARKER = "<!-- qa:error-correction-index -->"
 ERROR_HEADING_RE = re.compile(r"(?:erreurs? fréquentes|anti[- ]patterns?|symptômes fréquents|pièges(?: fréquents)?|mauvaises pratiques|problèmes fréquents|diagnostics et corrections)", re.IGNORECASE)
+LIVRE_V_CARD_MARKER = "<!-- l5:card -->"
+LIVRE_V_MATRIX_MARKER = "<!-- l5:matrix -->"
+LIVRE_V_SOURCE_LINK_RE = re.compile(r"\.\./Livre-(?:I|II|III|IV)/")
+LIVRE_V_FORBIDDEN_TUTORIAL_STRUCTURES = (
+    "Résultats d’apprentissage",
+    "Synthèse opérationnelle pour `Project Asteria`",
+)
 FORBIDDEN_TERMINOLOGY = {
     "durée murale": "durée réelle (durée de l’horloge système)",
     "temps mural": "durée réelle (durée de l’horloge système)",
@@ -351,6 +358,36 @@ def validate_clickable_reference_sections(
         errors.append(f"Section de références techniques absente : {rel}")
 
 
+def validate_livre_v_reference_format(
+    text: str,
+    rel: str,
+    metadata: dict[str, object],
+    errors: list[str],
+) -> None:
+    """Valide le profil non linéaire des fiches du Livre V."""
+    if metadata.get("document-format") != "reference-cards":
+        errors.append(f"Format spécialisé du Livre V absent ou incorrect : {rel}")
+
+    card_count = text.count(LIVRE_V_CARD_MARKER)
+    matrix_count = text.count(LIVRE_V_MATRIX_MARKER)
+    if card_count < 4:
+        errors.append(f"Chapitre du Livre V insuffisamment découpé en fiches : {rel} — {card_count}")
+    if card_count + matrix_count < 5:
+        errors.append(f"Unités de consultation insuffisantes dans {rel}")
+
+    targets = [target.strip().split()[0].strip("<>") for target in LINK_RE.findall(text)]
+    source_links = [target for target in targets if LIVRE_V_SOURCE_LINK_RE.search(target)]
+    fragment_links = [target for target in source_links if "#" in target]
+    if len(source_links) < 6:
+        errors.append(f"Renvois vers les Livres I à IV insuffisants dans {rel} : {len(source_links)}")
+    if len(fragment_links) < 2:
+        errors.append(f"Liens profonds vers des sous-sections insuffisants dans {rel} : {len(fragment_links)}")
+
+    for forbidden in LIVRE_V_FORBIDDEN_TUTORIAL_STRUCTURES:
+        if forbidden in text:
+            errors.append(f"Structure tutoriel interdite dans une fiche du Livre V : {rel} — {forbidden}")
+
+
 def validate_local_links(
     text: str,
     source: Path,
@@ -520,9 +557,12 @@ def main() -> int:
                     validate_timestamp(audit_metadata.get("last-verified"), "last-verified", str(audit_report), errors)
                     validate_timestamp(audit_metadata.get("audit-date"), "audit-date", str(audit_report), errors)
 
-                if book_code == "IV" or (book_code == "III" and number >= 19):
-                    validate_clickable_reference_sections(text, rel, errors)
-                validate_error_correction_sections(text, rel, errors)
+                if book_code == "V":
+                    validate_livre_v_reference_format(text, rel, metadata, errors)
+                else:
+                    if book_code == "IV" or (book_code == "III" and number >= 19):
+                        validate_clickable_reference_sections(text, rel, errors)
+                    validate_error_correction_sections(text, rel, errors)
                 chapter_stats = inspect_duplicates(text, rel)
                 stats.append(chapter_stats)
                 if chapter_stats.duplicate_headings:
@@ -554,10 +594,11 @@ def main() -> int:
         f"- Chapitres du Livre II : **{len(chapter_entries['II'])}**",
         f"- Chapitres du Livre III : **{len(chapter_entries['III'])}**",
         f"- Chapitres du Livre IV : **{len(chapter_entries['IV'])}**",
+        f"- Chapitres du Livre V : **{len(chapter_entries['V'])}**",
         f"- Identifiants uniques : **{len(ids)}**",
         f"- Erreurs bloquantes : **{len(errors)}**",
         f"- Avertissements : **{len(warnings)}**", "",
-        "## Doublons par chapitre des Livres II à IV", "",
+        "## Doublons par chapitre des Livres II à V", "",
         "| Chapitre | Lignes | Titres | Blocs significatifs | Titres dupliqués | Blocs dupliqués | Paragraphes dupliqués |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]

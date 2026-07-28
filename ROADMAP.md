@@ -180,8 +180,9 @@
 
 ## M6 — Livre V : Encyclopédie technique
 
-- [x] Chapitre 1 — Carte générale de la collection — rédigé, repéré et audité au niveau `static-review`.
-- [ ] Fiches universelles — 1 chapitre sur 26.
+- [x] Définir le protocole spécialisé des fiches du Livre V.
+- [x] Corriger la fiche 01 pour adopter une consultation non linéaire et des renvois fréquents vers les Livres I à IV.
+- [ ] Fiches universelles.
 - [ ] Arbres de décision et matrices.
 - [ ] Bibliothèques techniques et index croisés.
 

@@ -10,14 +10,19 @@ on:
       - "Livre-II/index.md"
       - "Livre-III/**/*.md"
       - "Livre-III/index.md"
+      - "Livre-V/**/*.md"
+      - "Livre-V/index.md"
       - "plans/LIVRE-III-PLAN-MAITRE.md"
+      - "plans/LIVRE-V-PLAN-MAITRE.md"
       - "contents.txt"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
       - "REPRISE-NOUVELLE-CONVERSATION.md"
       - "tools/validate_chapters.py"
+      - "tools/validate_livre_v_references.py"
       - "tools/check_code_explanation_structure.py"
       - "tools/check_context_markers.py"
+      - "tools/audit_contextes_utilisation.py"
       - "tools/audit_contextes_semantiques.py"
       - "tools/report_contextes_utilisation.py"
       - ".github/workflows/validate-chapters.yml"
@@ -46,6 +51,12 @@ jobs:
           set -o pipefail
           python3 tools/validate_chapters.py --report dist/QA-CHAPTERS.md \
             | tee dist/QA-CHAPTERS.log
+
+      - name: Validate Livre V cards and deep links
+        run: |
+          set -o pipefail
+          python3 tools/validate_livre_v_references.py --check \
+            | tee dist/QA-LIVRE-V-REFERENCES.log
 
       - name: Validate structured code explanations
         run: |
@@ -88,6 +99,7 @@ jobs:
           path: |
             dist/QA-CHAPTERS.md
             dist/QA-CHAPTERS.log
+            dist/QA-LIVRE-V-REFERENCES.log
             dist/QA-EXPLICATIONS-CODE.log
             dist/QA-CONTEXTES.log
             dist/QA-CONTEXTES-SEMANTIQUES.log
