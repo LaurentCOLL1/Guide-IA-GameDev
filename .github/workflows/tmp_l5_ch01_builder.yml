@@ -1,0 +1,50 @@
+name: Livre V Chapter 1 Builder
+
+on:
+  push:
+    branches:
+      - docs/livre-v-ch01-carte-collection
+    paths:
+      - .github/workflows/tmp_l5_ch01_builder.yml
+      - tools/tmp_l5_ch01_builder.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: livre-v-ch01-builder
+  cancel-in-progress: false
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: docs/livre-v-ch01-carte-collection
+          fetch-depth: 0
+
+      - name: Prepare permanent chapter lot
+        run: python tools/tmp_l5_ch01_builder.py prepare
+
+      - name: Validate chapters without PDF
+        run: python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+
+      - name: Validate usage contexts
+        run: python tools/check_context_markers.py --check
+
+      - name: Finalize QA proof and remove temporary files
+        run: python tools/tmp_l5_ch01_builder.py finalize
+
+      - name: Commit permanent lot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(livre-v): créer la carte générale de la collection"
+          git push origin HEAD:docs/livre-v-ch01-carte-collection
