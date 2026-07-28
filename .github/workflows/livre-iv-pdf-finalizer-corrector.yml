@@ -1,0 +1,68 @@
+name: Livre IV PDF Finalizer Corrector
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+    paths:
+      - .qa/livre-iv-pdf-finalizer-correct.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  correct:
+    if: github.head_ref == 'qa/livre-iv-pdf-closure'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: qa/livre-iv-pdf-closure
+          fetch-depth: 0
+      - name: Correct final diff assertion and cleanup list
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/livre-iv-pdf-finalizer.yml')
+          text = path.read_text(encoding='utf-8')
+
+          old_cleanup = '''              Path(".github/workflows/livre-iv-pdf-finalizer.yml"),
+              Path(".github/workflows/livre-iv-pdf-closure.yml"),
+              Path(".qa/livre-iv-pdf-finalize.trigger"),
+          ]:'''
+          new_cleanup = '''              Path(".github/workflows/livre-iv-pdf-finalizer.yml"),
+              Path(".github/workflows/livre-iv-pdf-finalizer-diagnostic.yml"),
+              Path(".github/workflows/livre-iv-pdf-closure.yml"),
+              Path(".qa/livre-iv-pdf-finalize.trigger"),
+              Path(".qa/livre-iv-pdf-finalize-diagnostic.trigger"),
+          ]:'''
+          if text.count(old_cleanup) != 1:
+              raise RuntimeError('cleanup block not found exactly once')
+          text = text.replace(old_cleanup, new_cleanup, 1)
+
+          old_diff = '''          actual = set(subprocess.check_output(["git", "diff", "--name-only", "origin/main"]).decode().splitlines())
+          if actual != expected:'''
+          new_diff = '''          tracked = set(subprocess.check_output(["git", "diff", "--name-only", "origin/main"]).decode().splitlines())
+          untracked = set(subprocess.check_output(["git", "ls-files", "--others", "--exclude-standard"]).decode().splitlines())
+          actual = tracked | untracked
+          if actual != expected:'''
+          if text.count(old_diff) != 1:
+              raise RuntimeError('diff assertion block not found exactly once')
+          text = text.replace(old_diff, new_diff, 1)
+          path.write_text(text, encoding='utf-8')
+
+          Path('.github/workflows/livre-iv-pdf-finalizer-corrector.yml').unlink()
+          Path('.qa/livre-iv-pdf-finalizer-correct.trigger').unlink()
+          PY
+      - name: Commit corrected finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "ci(livre-iv): corriger l’assertion du lot de clôture"
+          git push origin HEAD:qa/livre-iv-pdf-closure
