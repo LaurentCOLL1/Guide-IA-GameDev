@@ -64,7 +64,7 @@ results:
   pdf-produced: false
 integrity:
   chapter-sha256: 23d740ea8746baf7aee5480536b0c89448d5e150e56bb0e543d8f74903fe0e38
-  audit-sha256: 9b3b4e57c4d0af0b5ad4b0c98cc2b605c6749f6bae88e1e88629665bd4f9d0ae
+  audit-sha256: 0bb3e06c9e3005f5dae891460807ac57f6e6332b0e9dc2a2a8a9ee909d0720b4
 ci:
   specialized-architecture-fixtures:
     workflow: Temporary Livre V Chapter 16 Architecture Fixtures
