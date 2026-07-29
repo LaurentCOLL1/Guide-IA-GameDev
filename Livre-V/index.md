@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.11.0"
+version: "1.12.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -43,7 +43,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 17 — Patrons de gameplay](CHAPITRE-17-Patrons-de-gameplay.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 18 — Référence graphique et 3D](CHAPITRE-18-Reference-graphique-et-3D.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 19 — Référence audio](CHAPITRE-19-Reference-audio.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 20 — Catalogue des erreurs et diagnostics.
+- [x] [Fiche 20 — Catalogue des erreurs et diagnostics](CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 21 — Benchmarks et méthodes de mesure.
 - [ ] Chapitre 22 — Matrices de compatibilité.
 - [ ] Chapitre 23 — Comparatifs des solutions.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **19 chapitres sur 26** rédigés et audités. Les fiches 01 à 19 utilisent le profil de référence spécialisé du Livre V ; la fiche 19 rassemble signal, niveaux, formats, cycle de vie, boucles, familles audio, spatialisation, bus, voix, TTS/STT, localisation, accessibilité, budgets contextualisés, preuves et diagnostics. Les fichiers de test, presets exécutables et fixtures permanentes du Companion Pack, le catalogue transversal des erreurs, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **20 chapitres sur 26** rédigés et audités. Les fiches 01 à 20 utilisent le profil de référence spécialisé du Livre V ; la fiche 20 rassemble contrat diagnostique, routage, niveaux de certitude, empreintes d’environnement, reproduction, preuves, arbre progressif, messages, hypothèses, causes, contournements, corrections, index transversaux et maintenance versionnée. Les cas reproduits, outils exécutables et fixtures permanentes du Companion Pack, les protocoles de benchmark, les matrices de compatibilité, la licence globale et les formats de publication avancés restent des chantiers distincts.

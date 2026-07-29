@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.19.0"
+version: "1.20.0"
 lang: "fr-FR"
 last-updated: "2026-07-29"
 book: "Livre V"
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
-> **Statut :** 19 chapitres sur 26 rédigés et audités au niveau `static-review`
+> **Statut :** 20 chapitres sur 26 rédigés et audités au niveau `static-review`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles spécifiques du Livre V
@@ -446,6 +446,8 @@ Les méthodes de production restent au Livre III. Validation par comparaison aux
 La production audio reste au Livre III. Validation par fichiers de test et mesures.
 
 ## Chapitre 20 — Catalogue des erreurs et diagnostics
+
+**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.
 
 **Objectifs**
 

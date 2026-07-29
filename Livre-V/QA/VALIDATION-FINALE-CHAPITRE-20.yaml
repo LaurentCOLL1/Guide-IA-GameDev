@@ -1,0 +1,116 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH20
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: b76275616b26547f876e955064e8419c4220ab7b
+source-branch: docs/livre-v-ch20-catalogue-erreurs-diagnostics
+chapter:
+  id: DOC-L5-CH20
+  path: Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: 0
+  chapter-lines: 454
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 89
+  source-book-links: 50
+  fragment-links: 80
+  compact-diagrams: 7
+  fenced-blocks: 0
+  duplicate-headings: 0
+  diagnostic-contract-covered: true
+  routing-and-ownership-covered: true
+  certainty-levels-covered: true
+  environment-and-version-fingerprint-covered: true
+  observation-reproduction-and-reduction-covered: true
+  evidence-collection-and-redaction-covered: true
+  progressive-diagnostic-tree-covered: true
+  messages-codes-and-signatures-covered: true
+  hypotheses-and-controlled-experiments-covered: true
+  cause-workaround-fix-and-verification-covered: true
+  tools-dependencies-and-ci-index-covered: true
+  data-assets-and-runtime-index-covered: true
+  performance-network-and-delivery-index-covered: true
+  proof-gates-covered: true
+  maintenance-duplicates-versioning-and-retirement-covered: true
+  master-plan-scope-covered: true
+  qa-strategy-boundary-preserved: true
+  tests-and-non-regression-boundary-preserved: true
+  anomaly-reproduction-boundary-preserved: true
+  observability-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  compatibility-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  diagnostic-tools-executed: false
+  command-executed: false
+  bug-report-created: false
+  diagnostic-archive-created: false
+  log-or-trace-collected: false
+  dump-or-capture-created: false
+  reproduction-executed: false
+  reduction-executed: false
+  hypothesis-tested: false
+  cause-confirmed: false
+  workaround-verified: false
+  fix-applied: false
+  non-regression-test-executed: false
+  benchmark-or-profile-recorded: false
+  network-or-delivery-tested: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: 3b61b2d716ecd7489e17a93d8a888c062f9d97fa1f7edf51b31e16ef4e79a4ee
+  audit-sha256: 619c1a1dd5f8719742b252585ef15161b911050a691fe0966c68d4efc418a56e
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 20 Script Runner
+    run-id: 30463144984
+    source-head-commit: 0dff75f7b76c6b31c8d7527a79615014e272a48d
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30463342139
+    head-commit: 158bde9e41eb218ceb1457041f2d3bf1dcb63d3a
+    conclusion: success
+    artifact-id: 8728531691
+    artifact-digest: sha256:f99f03793c6c4e153ef8d5df550fb3769a6673d81823e6173a3536e1e79b902e
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+reservations:
+- No real defect, incident, crash, message, log, metric, trace, dump, capture, video or save file was collected.
+- No command, installation, cache deletion, migration, import, export, restore or diagnostic tool was executed.
+- No local, independent, scripted, reduced, A/B or multi-platform reproduction was performed.
+- No hypothesis, cause, correlation, duplicate signature, workaround, fix or non-regression result was produced.
+- No benchmark, profiling, network, delivery, update or closure decision was executed.
+- No player data, personal data, secret, token, contract, voice, memory dump or confidential artifact was used.
+- No Companion Pack diagnostic utility or PDF was produced.
