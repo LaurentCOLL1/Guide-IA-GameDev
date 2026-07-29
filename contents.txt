@@ -131,4 +131,5 @@ Livre-V/CHAPITRE-11-Reference-GDScript.md
 Livre-V/CHAPITRE-12-Reference-Python.md
 Livre-V/CHAPITRE-13-Structures-JSON-et-formats-d-echange.md
 Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md
+Livre-V/CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md
 Companion-Pack/index.md

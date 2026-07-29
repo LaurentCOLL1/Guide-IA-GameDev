@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.6.0"
+version: "1.7.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -38,7 +38,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 12 — Référence Python](CHAPITRE-12-Reference-Python.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 13 — Structures JSON et formats d’échange](CHAPITRE-13-Structures-JSON-et-formats-d-echange.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 14 — Schémas SQLite et migrations](CHAPITRE-14-Schemas-SQLite-et-migrations.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 15 — Bases vectorielles et recherche sémantique.
+- [x] [Fiche 15 — Bases vectorielles et recherche sémantique](CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 16 — Patrons d’architecture.
 - [ ] Chapitre 17 — Patrons de gameplay.
 - [ ] Chapitre 18 — Référence graphique et 3D.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **14 chapitres sur 26** rédigés et audités. Les fiches 01 à 14 utilisent le profil de référence spécialisé du Livre V ; la fiche 14 catalogue schémas SQLite, types, clés, contraintes, index, transactions, migrations, sauvegardes, restaurations et diagnostics. Les bindings Godot, migrations permanentes, bases du Companion Pack, campagnes multiplateformes, benchmarks, licence globale et formats de publication avancés restent des chantiers distincts.
+Progression : **15 chapitres sur 26** rédigés et audités. Les fiches 01 à 15 utilisent le profil de référence spécialisé du Livre V ; la fiche 15 catalogue espaces vectoriels, embeddings, métriques, index exacts et ANN, filtres, collections, cycle de vie, réindexation, corpus et évaluations. Les modèles et backends réellement exécutés, campagnes matérielles, fichiers du Companion Pack, licence globale et formats de publication avancés restent des chantiers distincts.

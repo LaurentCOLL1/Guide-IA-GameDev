@@ -194,10 +194,11 @@
 - [x] Référence Python — fiche 12 rédigée et auditée au niveau `static-review`.
 - [x] Structures JSON et formats d’échange — fiche 13 rédigée et auditée au niveau `static-review`.
 - [x] Schémas SQLite et migrations — fiche 14 rédigée et auditée au niveau `static-review`.
+- [x] Bases vectorielles et recherche sémantique — fiche 15 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 14 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 15 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 
