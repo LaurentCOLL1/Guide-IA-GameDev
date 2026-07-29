@@ -130,9 +130,9 @@ Aucun faux cas pédagogique incomplet n’est introduit. Les lignes de diagnosti
 
 Workflow temporaire : `Temporary Livre V Chapter 17 Finalizer`.
 
-Run final : `__RUN_ID__`.
+Run final : `30438299611`.
 
-Tête source : `__HEAD_SHA__`.
+Tête source : `514052ec945646c9d38345ffe2e8509f0468804b`.
 
 Commandes exécutées sans PDF :
 
@@ -175,7 +175,7 @@ Le niveau reste `static-review`.
 
 Empreinte SHA-256 du chapitre :
 
-`__CHAPTER_SHA__`
+`7b389d684720dd2592d98e9270efb1be6fbe11e0cdba768372bf751973b8145a`
 
 L’empreinte de cet audit est enregistrée dans la preuve finale.
 

@@ -58,13 +58,13 @@ results:
   runtime-results-invented: false
   pdf-produced: false
 integrity:
-  chapter-sha256: __CHAPTER_SHA__
-  audit-sha256: __AUDIT_SHA__
+  chapter-sha256: 7b389d684720dd2592d98e9270efb1be6fbe11e0cdba768372bf751973b8145a
+  audit-sha256: fc51dc2a8f775cf7c257c9ba6ad7f15806e8231ffa0d5ef5f76f8757964f52cd
 ci:
   lightweight-validation:
     workflow: Temporary Livre V Chapter 17 Finalizer
-    run-id: __RUN_ID__
-    source-head-commit: __HEAD_SHA__
+    run-id: 30438299611
+    source-head-commit: 514052ec945646c9d38345ffe2e8509f0468804b
     conclusion: success
     commands:
       - python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md

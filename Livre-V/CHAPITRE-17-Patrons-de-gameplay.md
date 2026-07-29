@@ -84,7 +84,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | Problème dominant | Patron de départ | Variante avancée seulement si nécessaire | Source propriétaire |
 |---|---|---|---|
 | un seul mode actif parmi plusieurs | machine à états finie | hiérarchie ou régions parallèles | [personnages](../Livre-II/CHAPITRE-14-Personnages.md) |
-| plusieurs actions choisies selon un contexte | catalogue + sélecteur déterministe | planificateur borné | [agents](../Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md#ch17-authority-chain) |
+| plusieurs actions choisies selon un contexte | catalogue + sélecteur déterministe | planificateur borné | [agents](../Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md#4-chaîne-dautorité) |
 | action avec coûts, cibles et effets | définition + commande + pipeline d’effets | unité de travail multi-autorités | [compétences](../Livre-II/CHAPITRE-19-Competences-et-pouvoirs.md) |
 | objets possédés et transférables | conteneurs + entrées + commandes de transfert | lots, équipement et provenance | [inventaire](../Livre-II/CHAPITRE-20-Inventaire-et-reputation-des-objets.md) |
 | progression narrative observable | faits + objectifs + conséquences préparées | arcs, visibilité et codex | [narration](../Livre-II/CHAPITRE-25-Narration-quetes-codex-et-connaissances.md) |

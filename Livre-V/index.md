@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.8.0"
+version: "1.9.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -40,7 +40,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 14 — Schémas SQLite et migrations](CHAPITRE-14-Schemas-SQLite-et-migrations.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 15 — Bases vectorielles et recherche sémantique](CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 16 — Patrons d’architecture](CHAPITRE-16-Patrons-d-architecture.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 17 — Patrons de gameplay.
+- [x] [Fiche 17 — Patrons de gameplay](CHAPITRE-17-Patrons-de-gameplay.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 18 — Référence graphique et 3D.
 - [ ] Chapitre 19 — Référence audio.
 - [ ] Chapitre 20 — Catalogue des erreurs et diagnostics.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **16 chapitres sur 26** rédigés et audités. Les fiches 01 à 16 utilisent le profil de référence spécialisé du Livre V ; la fiche 16 catalogue frontières, composition, injection, services d’application, repositories, ports, adaptateurs, événements, propriété d’état, façades, stratégies, coutures de test et anti-patterns. Les scènes, graphes et adaptateurs réellement exécutés, patrons de gameplay, fichiers du Companion Pack, licence globale et formats de publication avancés restent des chantiers distincts.
+Progression : **17 chapitres sur 26** rédigés et audités. Les fiches 01 à 17 utilisent le profil de référence spécialisé du Livre V ; la fiche 17 catalogue machines à états, variantes simples et avancées, capacités, commandes, inventaires, quêtes, simulations, matérialisation, commits multi-autorités, coutures de test et anti-patterns. Les petits prototypes Godot, scènes, scripts et fixtures permanentes du Companion Pack, la référence graphique et 3D, la licence globale et les formats de publication avancés restent des chantiers distincts.
