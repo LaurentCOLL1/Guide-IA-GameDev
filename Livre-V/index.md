@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.16.0"
+version: "1.17.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -48,9 +48,9 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 22 — Matrices de compatibilité](CHAPITRE-22-Matrices-de-compatibilite.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 23 — Comparatifs des solutions](CHAPITRE-23-Comparatifs-des-solutions.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 24 — Checklists de production et de publication](CHAPITRE-24-Checklists-de-production-et-de-publication.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 25 — Licences, provenance et conformité.
+- [x] [Fiche 25 — Licences, provenance et conformité](CHAPITRE-25-Licences-provenance-et-conformite.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 26 — Index croisés.
 
 ## Statut
 
-Progression : **24 chapitres sur 26** rédigés et audités. Les fiches 01 à 24 utilisent le profil de référence spécialisé du Livre V ; la fiche 24 rassemble contrat d’item, obligation et statut, phases, preuves, checklists de préparation à publication, vues Solo/Studio, décisions de porte, dérogations, signatures et réouverture. Les formulaires exécutés et outils automatisés du Companion Pack, les licences et la conformité globale ainsi que les index croisés restent des chantiers distincts.
+Progression : **25 chapitres sur 26** rédigés et audités. Les fiches 01 à 25 utilisent le profil de référence spécialisé du Livre V ; la fiche 25 rassemble objets et couches juridiques, inventaire, SPDX, droits, provenance, personnes, chaînes IA, redistribution, statuts, notices, gouvernance, escalade, incidents et frontières de licence globale. Les registres exécutables et outils automatisés du Companion Pack, la décision de licence globale et les index croisés restent des chantiers distincts.

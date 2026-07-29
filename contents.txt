@@ -141,4 +141,5 @@ Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
 Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
 Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md
 Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
+Livre-V/CHAPITRE-25-Licences-provenance-et-conformite.md
 Companion-Pack/index.md
