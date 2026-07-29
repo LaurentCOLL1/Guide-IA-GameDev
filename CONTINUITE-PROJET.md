@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.05.0"
+version: "4.06.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T13:59:00+02:00"
+last-updated: "2026-07-29T15:46:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 18 chapitres sur 26 ;
+- progression du Livre V : 19 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2334,6 +2334,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 16 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 18 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 19 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2428,19 +2429,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient dix-huit fiches sur 26 au niveau `static-review`. La fiche 18 fournit une référence non linéaire pour unités, axes, transformations, pivots, formats, cycle de vie des assets, PBR, UV, baking, géométrie, LOD, rigs, import, réimportation, budgets contextualisés, presets documentaires, niveaux de preuve et diagnostics visuels. Les assets pilotes, presets exécutables et fixtures permanentes du Companion Pack, la référence audio, les approbations artistiques et juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient dix-neuf fiches sur 26 au niveau `static-review`. La fiche 19 fournit une référence non linéaire pour signal, fréquence, profondeur, canaux, niveaux, loudness, formats, cycle de vie, boucles, variantes, spatialisation, bus, voix, TTS/STT, localisation, accessibilité, budgets contextualisés, niveaux de preuve et diagnostics audio. Les fichiers de test, presets exécutables et fixtures permanentes du Companion Pack, le catalogue transversal des erreurs, les campagnes de mesure, les approbations artistiques et juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-19-Reference-audio.md
+Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 19 rassemblera formats, fréquences, loudness, boucles, spatialisation, TTS/STT, licences, bus Godot et diagnostics audio. Il devra renvoyer à la production propriétaire du Livre III sans recopier ses procédures ni présenter un format, un niveau ou un preset comme universel.
+Le chapitre 20 classera les erreurs par outil, symptôme, message, cause et version, puis fournira des arbres de diagnostic progressifs. Il devra distinguer cause confirmée, hypothèse et contournement, renvoyer aux corrections propriétaires et ne pas promettre qu’un message possède une cause unique.
 ## 27. Journal
+
+### 2026-07-29T15:46:00+02:00 — version 4.06.0
+
+- création de la fiche 19 — Référence audio ;
+- ajout de treize cartes, de trois matrices et de 7 diagrammes compacts ;
+- signal, niveaux, formats, cycle de vie, boucles, familles, spatialisation, bus, voix, TTS/STT, localisation, accessibilité, budgets, preuves et diagnostics audio indexés ;
+- frontières avec la fiche 07, les chapitres 9 du Livre I, 5, 26 à 29 du Livre III et 18 à 19 du Livre IV maintenues sans duplication ;
+- validations documentaires légères sans PDF réussies dans le run `30458855819` ;
+- métriques statiques : 468 lignes, 20 titres, 13 fiches, 3 matrices, 95 liens, 49 renvois vers les Livres I à IV, 49 liens profonds et 7 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 20 — Catalogue des erreurs et diagnostics, niveau Élevée ;
+- aucun outil audio, TTS, STT, fichier, encodage, écoute, import, bus, effet, boucle, mesure, donnée vocale, approbation juridique ou PDF produit.
+
 
 ### 2026-07-29T13:59:00+02:00 — version 4.05.0
 

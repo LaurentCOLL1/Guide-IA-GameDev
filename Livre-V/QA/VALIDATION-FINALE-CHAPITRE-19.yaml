@@ -18,15 +18,15 @@ chapter:
     language: GDScript
 results:
   blocking-errors: 0
-  chapter-lines: __LINES__
-  chapter-headings: __HEADINGS__
-  reference-cards: __CARDS__
-  matrices: __MATRICES__
-  markdown-links: __LINKS__
-  source-book-links: __SOURCE_LINKS__
-  fragment-links: __FRAGMENT_LINKS__
-  compact-diagrams: __DIAGRAMS__
-  fenced-blocks: __FENCED_BLOCKS__
+  chapter-lines: 468
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 95
+  source-book-links: 49
+  fragment-links: 49
+  compact-diagrams: 7
+  fenced-blocks: 0
   duplicate-headings: 0
   reference-contract-covered: true
   signal-specifications-covered: true
@@ -67,13 +67,13 @@ results:
   runtime-results-invented: false
   pdf-produced: false
 integrity:
-  chapter-sha256: __CHAPTER_SHA__
-  audit-sha256: __AUDIT_SHA__
+  chapter-sha256: 721d462541534bc3f701ae5fc7e35f54b710a60a921fc3c7758f5ac195bcd1c9
+  audit-sha256: 89561611f48451ae96edb89f6613dd1c9582d57a13d1635ab25a37e01be11482
 ci:
   lightweight-finalization:
     workflow: Temporary Livre V Chapter 19 Script Runner
-    run-id: __RUN_ID__
-    source-head-commit: __SOURCE_HEAD__
+    run-id: 30458855819
+    source-head-commit: 4268161da585e900479aeea1e2c94fa5d5bd88af
     conclusion: success
     validated-steps:
       - structure, metadata, links and duplicates

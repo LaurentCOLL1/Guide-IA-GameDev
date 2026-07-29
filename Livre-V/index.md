@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.10.0"
+version: "1.11.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -42,7 +42,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 16 — Patrons d’architecture](CHAPITRE-16-Patrons-d-architecture.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 17 — Patrons de gameplay](CHAPITRE-17-Patrons-de-gameplay.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 18 — Référence graphique et 3D](CHAPITRE-18-Reference-graphique-et-3D.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 19 — Référence audio.
+- [x] [Fiche 19 — Référence audio](CHAPITRE-19-Reference-audio.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 20 — Catalogue des erreurs et diagnostics.
 - [ ] Chapitre 21 — Benchmarks et méthodes de mesure.
 - [ ] Chapitre 22 — Matrices de compatibilité.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **18 chapitres sur 26** rédigés et audités. Les fiches 01 à 18 utilisent le profil de référence spécialisé du Livre V ; la fiche 18 rassemble unités, axes, formats, cycle de vie des assets, PBR, UV, baking, géométrie, LOD, rigs, import, budgets contextualisés, preuves et diagnostics visuels. Les assets pilotes, presets exécutables et fixtures permanentes du Companion Pack, la référence audio, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **19 chapitres sur 26** rédigés et audités. Les fiches 01 à 19 utilisent le profil de référence spécialisé du Livre V ; la fiche 19 rassemble signal, niveaux, formats, cycle de vie, boucles, familles audio, spatialisation, bus, voix, TTS/STT, localisation, accessibilité, budgets contextualisés, preuves et diagnostics. Les fichiers de test, presets exécutables et fixtures permanentes du Companion Pack, le catalogue transversal des erreurs, la licence globale et les formats de publication avancés restent des chantiers distincts.

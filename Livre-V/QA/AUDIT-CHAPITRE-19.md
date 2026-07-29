@@ -88,15 +88,15 @@ Mesures calculées sur le contenu final :
 
 | Mesure | Valeur |
 |---|---:|
-| lignes | __LINES__ |
-| titres | __HEADINGS__ |
-| cartes `<!-- l5:card -->` | __CARDS__ |
-| matrices `<!-- l5:matrix -->` | __MATRICES__ |
-| liens Markdown | __LINKS__ |
-| renvois vers les Livres I à IV | __SOURCE_LINKS__ |
-| liens profonds vers les Livres I à IV | __FRAGMENT_LINKS__ |
-| diagrammes compacts | __DIAGRAMS__ |
-| blocs clôturés | __FENCED_BLOCKS__ |
+| lignes | 468 |
+| titres | 20 |
+| cartes `<!-- l5:card -->` | 13 |
+| matrices `<!-- l5:matrix -->` | 3 |
+| liens Markdown | 95 |
+| renvois vers les Livres I à IV | 49 |
+| liens profonds vers les Livres I à IV | 49 |
+| diagrammes compacts | 7 |
+| blocs clôturés | 0 |
 | titres dupliqués | 0 |
 
 L’index express ouvre chaque carte ou matrice. Les identifiants `AUDR-00` à `AUDR-12` restent uniques et distincts des cartes `AUDIO-00` à `AUDIO-12` de la fiche 07.
@@ -152,9 +152,9 @@ Les exemples détaillés restent dans les sections conformes des chapitres propr
 
 Workflow temporaire : `Temporary Livre V Chapter 19 Script Runner`.
 
-Run final : `__RUN_ID__`.
+Run final : `30458855819`.
 
-Tête source : `__SOURCE_HEAD__`.
+Tête source : `4268161da585e900479aeea1e2c94fa5d5bd88af`.
 
 Commandes exécutées sans PDF :
 
@@ -202,7 +202,7 @@ Le niveau reste `static-review`.
 
 Empreinte SHA-256 du chapitre :
 
-`__CHAPTER_SHA__`
+`721d462541534bc3f701ae5fc7e35f54b710a60a921fc3c7758f5ac195bcd1c9`
 
 L’empreinte de cet audit est enregistrée dans la preuve finale.
 
