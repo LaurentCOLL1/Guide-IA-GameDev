@@ -63,6 +63,12 @@ jobs:
                   raise RuntimeError(f'{path}: remplacement attendu une fois, trouvé {count}: {old[:100]!r}')
               write(path, text.replace(old, new, 1))
 
+          replace_once(
+              'Livre-V/CHAPITRE-17-Patrons-de-gameplay.md',
+              '../Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md#ch17-authority-chain',
+              '../Livre-II/CHAPITRE-17-Agents-IA-et-comportements-autonomes.md#4-chaîne-dautorité',
+          )
+
           replace_once('Livre-V/index.md', 'version: "1.8.0"', 'version: "1.9.0"')
           replace_once(
               'Livre-V/index.md',
