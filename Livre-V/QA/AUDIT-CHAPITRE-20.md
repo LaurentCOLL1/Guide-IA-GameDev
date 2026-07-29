@@ -6,6 +6,7 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre V"
 chapter: 20
+last-verified: "2026-07-29T16:26:00+02:00"
 audit-date: "2026-07-29T16:26:00+02:00"
 audit-level: "static-review"
 chapter-path: "Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md"
