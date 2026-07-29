@@ -1,2 +1,2 @@
 Déclencheur unique des 43 fixtures vectorielles synthétiques de la fiche 15.
-Relance après alignement du garde-fou.
+Relance après alignement du garde-fou et enregistrement du module Python 3.12.
