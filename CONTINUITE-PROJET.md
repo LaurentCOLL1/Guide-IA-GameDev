@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.01.0"
+version: "4.02.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T01:06:05+02:00"
+last-updated: "2026-07-29T06:18:10+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 14 chapitres sur 26 ;
+- progression du Livre V : 15 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2330,6 +2330,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 12 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 13 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 14 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 15 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2424,19 +2425,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient quatorze fiches sur 26 au niveau `static-review`. La fiche 14 fournit des contrats non linéaires pour SQLite : identité, types, clés, contraintes, index, transactions, migrations, sauvegardes, restaurations et diagnostics. Les bindings Godot, migrations et bases permanentes du Companion Pack, campagnes multiplateformes, benchmarks, approbations juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient quinze fiches sur 26 au niveau `static-review`. La fiche 15 fournit des contrats non linéaires pour espaces vectoriels, embeddings, métriques, index exacts et approximatifs, filtres, collections, cycle de vie, réindexation, corpus et évaluations. Les modèles et backends réellement exécutés, campagnes ANN et matérielles, fichiers du Companion Pack, approbations juridiques, licence globale et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md
+Livre-V/CHAPITRE-16-Patrons-d-architecture.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 15 référencera concepts, métriques et solutions locales de recherche vectorielle : embeddings, dimensions, distances, index, filtres, collections, suppression, réindexation et diagnostics. Il devra renvoyer au chapitre 10 du Livre II sans recopier le pipeline pédagogique ni présenter un backend comme universel.
+Le chapitre 16 cataloguera composition, services, repositories, événements, états, anti-patterns, contextes d’usage et conséquences. Il devra relier chaque patron aux chapitres propriétaires et fournir des exemples compacts testables sans prescrire une architecture universelle ni recopier les systèmes complets.
 ## 27. Journal
+
+### 2026-07-29T06:18:10+02:00 — version 4.02.0
+
+- création de la fiche 15 — Bases vectorielles et recherche sémantique ;
+- ajout de treize cartes et de trois matrices de référence ;
+- espaces vectoriels, modèles, dimensions, métriques, normalisation, fragments, métadonnées, collections, exact, ANN, filtres, cycle de vie, réindexation et évaluation indexés ;
+- Qdrant `1.18.2`, Faiss `1.14.3`, Chroma `1.5.9` et Sentence Transformers `5.5.1` revus comme références documentaires ;
+- campagne temporaire de 43 contrats synthétiques réussie avec CPython `3.12.3` sans réseau, modèle, backend vectoriel ni donnée utilisateur ;
+- échecs préparatoires du seuil 42/43 et de l’import dynamique Python 3.12 tracés avant le run réussi ;
+- métriques statiques : 424 lignes, 19 titres, 13 fiches, 3 matrices, 67 liens, 28 renvois vers les Livres I à IV et 12 liens profonds ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 16 — Patrons d’architecture, niveau Élevée ;
+- aucun Qdrant, Faiss, Chroma, modèle, Godot, réseau, GPU, corpus réel, benchmark matériel, approbation juridique ou PDF produit.
+
 
 ### 2026-07-29T01:06:05+02:00 — version 4.01.0
 
