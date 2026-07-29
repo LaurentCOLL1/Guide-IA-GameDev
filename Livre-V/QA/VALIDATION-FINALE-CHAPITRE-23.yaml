@@ -1,0 +1,120 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH23
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: d49ab43bceecd4b87294d86c000c4773169a7922
+source-branch: docs/livre-v-ch23-comparatifs-solutions
+chapter:
+  id: DOC-L5-CH23
+  path: Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: 0
+  chapter-lines: 460
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 90
+  source-book-links: 30
+  fragment-links: 55
+  compact-diagrams: 8
+  fenced-blocks: 0
+  duplicate-headings: 0
+  comparison-contract-covered: true
+  evidence-layer-separation-covered: true
+  decision-scope-and-candidates-covered: true
+  eligibility-gates-covered: true
+  criteria-scales-and-directions-covered: true
+  criteria-routing-covered: true
+  weighting-and-score-limits-covered: true
+  missing-data-and-normalization-covered: true
+  scenarios-and-profiles-covered: true
+  facts-sources-and-traceability-covered: true
+  measurements-and-practical-effect-covered: true
+  qualitative-review-and-bias-covered: true
+  conditional-decision-outputs-covered: true
+  total-cost-migration-and-reversibility-covered: true
+  sensitivity-ties-and-indeterminacy-covered: true
+  report-versioning-and-retirement-covered: true
+  master-plan-scope-covered: true
+  decision-tree-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  compatibility-boundary-preserved: true
+  checklist-boundary-preserved: true
+  license-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  candidate-installed-or-launched: false
+  functional-comparison-executed: false
+  benchmark-executed: false
+  scoring-computed: false
+  sensitivity-analysis-executed: false
+  price-or-quote-collected: false
+  total-cost-calculated: false
+  user-study-executed: false
+  migration-pilot-executed: false
+  purchase-decision-approved: false
+  collection-reference-approved: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: a9b01b9150c119ed47934077c50fbc70d171582823b54b7dd040b90a99e5e32e
+  audit-sha256: ee07ba903834953a3d123fa36e294b02cfa2b88d38031033382254382df0486d
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 23 Script Runner
+    run-id: 30490618348
+    source-head-commit: a612e36a74349a27724c0ffe3e353e0c8e4247d3
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30490773603
+    head-commit: 7cd7efe306b16f5fc67e5796feff4bf229c0b6e5
+    conclusion: success
+    artifact-id: 8739582154
+    artifact-digest: sha256:9e0958b2afcaf21b3175521b7def89176547a0d7c1fbc18c620c12586bb20706
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+reservations:
+- No candidate solution was installed, launched or functionally compared.
+- No CPU, GPU, memory, loading, network, CI, asset, audio or AI benchmark was executed.
+- No score, normalization, weighting result, sensitivity analysis or ranking was computed
+  from real data.
+- No current price, quote, subscription, contract, procurement condition or total
+  cost was collected.
+- No user study, questionnaire, interview, ergonomic test or human preference campaign
+  was conducted.
+- No migration pilot, rollback exercise, purchase, retirement or collection-reference
+  decision was approved.
+- No executable spreadsheet, script, dataset, scoring model or automated report was
+  produced.
+- No player data, personal data, secret, contract, voice or confidential artifact
+  was used.
+- No Companion Pack comparison tool or PDF was produced.
