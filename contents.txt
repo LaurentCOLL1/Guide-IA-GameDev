@@ -139,4 +139,5 @@ Livre-V/CHAPITRE-19-Reference-audio.md
 Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md
 Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
 Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md
 Companion-Pack/index.md

@@ -1,7 +1,7 @@
 schema-version: 2
 evidence-id: DOC-L5-QA-EVIDENCE-CH23
 validation-authority: livre-v-reference-profile
-status: prepared
+status: complete
 validation-date: '2026-07-29'
 validated-base-commit: d49ab43bceecd4b87294d86c000c4773169a7922
 source-branch: docs/livre-v-ch23-comparatifs-solutions
@@ -21,17 +21,17 @@ chapter:
     version: 3.14.6
     fallback-version: 3.13.14
 results:
-  blocking-errors: pending_validation
-  chapter-lines: pending_finalization
-  chapter-headings: pending_finalization
-  reference-cards: pending_finalization
-  matrices: pending_finalization
-  markdown-links: pending_finalization
-  source-book-links: pending_finalization
-  fragment-links: pending_finalization
-  compact-diagrams: pending_finalization
-  fenced-blocks: pending_finalization
-  duplicate-headings: pending_finalization
+  blocking-errors: 0
+  chapter-lines: 460
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 90
+  source-book-links: 30
+  fragment-links: 55
+  compact-diagrams: 8
+  fenced-blocks: 0
+  duplicate-headings: 0
   comparison-contract-covered: true
   evidence-layer-separation-covered: true
   decision-scope-and-candidates-covered: true
@@ -71,21 +71,35 @@ results:
   runtime-results-invented: false
   pdf-produced: false
 integrity:
-  chapter-sha256: pending_finalization
-  audit-sha256: pending_finalization
+  chapter-sha256: a9b01b9150c119ed47934077c50fbc70d171582823b54b7dd040b90a99e5e32e
+  audit-sha256: ee07ba903834953a3d123fa36e294b02cfa2b88d38031033382254382df0486d
 ci:
   lightweight-finalization:
-    workflow: pending
-    run-id: pending
-    source-head-commit: pending
-    conclusion: pending
+    workflow: Temporary Livre V Chapter 23 Script Runner
+    run-id: 30490618348
+    source-head-commit: a612e36a74349a27724c0ffe3e353e0c8e4247d3
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
 reservations:
 - No candidate solution was installed, launched or functionally compared.
 - No CPU, GPU, memory, loading, network, CI, asset, audio or AI benchmark was executed.
-- No score, normalization, weighting result, sensitivity analysis or ranking was computed from real data.
-- No current price, quote, subscription, contract, procurement condition or total cost was collected.
-- No user study, questionnaire, interview, ergonomic test or human preference campaign was conducted.
-- No migration pilot, rollback exercise, purchase, retirement or collection-reference decision was approved.
-- No executable spreadsheet, script, dataset, scoring model or automated report was produced.
-- No player data, personal data, secret, contract, voice or confidential artifact was used.
+- No score, normalization, weighting result, sensitivity analysis or ranking was computed
+  from real data.
+- No current price, quote, subscription, contract, procurement condition or total
+  cost was collected.
+- No user study, questionnaire, interview, ergonomic test or human preference campaign
+  was conducted.
+- No migration pilot, rollback exercise, purchase, retirement or collection-reference
+  decision was approved.
+- No executable spreadsheet, script, dataset, scoring model or automated report was
+  produced.
+- No player data, personal data, secret, contract, voice or confidential artifact
+  was used.
 - No Companion Pack comparison tool or PDF was produced.

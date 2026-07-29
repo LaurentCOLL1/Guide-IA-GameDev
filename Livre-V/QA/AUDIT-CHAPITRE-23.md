@@ -6,6 +6,7 @@ version: "1.0.0"
 lang: "fr-FR"
 book: "Livre V"
 chapter: 23
+last-verified: "2026-07-29T22:44:00+02:00"
 audit-date: "2026-07-29T22:44:00+02:00"
 audit-level: "static-review"
 validated-document: "Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md"
@@ -43,16 +44,16 @@ L’audit ne qualifie aucun candidat réel et n’exécute aucune comparaison.
 
 | Mesure | Valeur finale |
 |---|---:|
-| lignes du chapitre | __CHAPTER_LINES__ |
-| titres Markdown | __CHAPTER_HEADINGS__ |
-| cartes `l5:card` | __REFERENCE_CARDS__ |
-| matrices `l5:matrix` | __MATRICES__ |
-| liens Markdown | __MARKDOWN_LINKS__ |
-| renvois vers les Livres I à IV | __SOURCE_BOOK_LINKS__ |
-| liens avec fragment | __FRAGMENT_LINKS__ |
-| diagrammes compacts | __COMPACT_DIAGRAMS__ |
-| blocs clôturés | __FENCED_BLOCKS__ |
-| titres dupliqués | __DUPLICATE_HEADINGS__ |
+| lignes du chapitre | 460 |
+| titres Markdown | 20 |
+| cartes `l5:card` | 13 |
+| matrices `l5:matrix` | 3 |
+| liens Markdown | 90 |
+| renvois vers les Livres I à IV | 30 |
+| liens avec fragment | 55 |
+| diagrammes compacts | 8 |
+| blocs clôturés | 0 |
+| titres dupliqués | 0 |
 
 ## 4. Conformité au profil Livre V
 

@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.14.0"
+version: "1.15.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -46,11 +46,11 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 20 — Catalogue des erreurs et diagnostics](CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 21 — Benchmarks et méthodes de mesure](CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 22 — Matrices de compatibilité](CHAPITRE-22-Matrices-de-compatibilite.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 23 — Comparatifs des solutions.
+- [x] [Fiche 23 — Comparatifs des solutions](CHAPITRE-23-Comparatifs-des-solutions.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 24 — Checklists de production et de publication.
 - [ ] Chapitre 25 — Licences, provenance et conformité.
 - [ ] Chapitre 26 — Index croisés.
 
 ## Statut
 
-Progression : **22 chapitres sur 26** rédigés et audités. Les fiches 01 à 22 utilisent le profil de référence spécialisé du Livre V ; la fiche 22 rassemble contrat de cellule, statuts amont et locaux, axes, sources, versions, systèmes, GPU, backends, outils, formats, API, tests positifs et négatifs, portes de promotion, vues, migrations et historique. Les tests exécutés et matrices automatisées du Companion Pack, les comparatifs, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **23 chapitres sur 26** rédigés et audités. Les fiches 01 à 23 utilisent le profil de référence spécialisé du Livre V ; la fiche 23 rassemble contrat de comparaison, portes éliminatoires, critères, pondérations, scénarios, sources, mesures, préférences, coûts, migration, sensibilité, recommandations conditionnelles et maintenance. Les comparatifs exécutés et outils automatisés du Companion Pack, les checklists, la licence globale et les formats de publication avancés restent des chantiers distincts.
