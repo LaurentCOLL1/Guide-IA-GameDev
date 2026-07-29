@@ -1,0 +1,79 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH17
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 7f916d610ed56c429754d6119603eb2cfedf0d25
+source-branch: docs/livre-v-ch17-patrons-gameplay
+chapter:
+  id: DOC-L5-CH17
+  path: Livre-V/CHAPITRE-17-Patrons-de-gameplay.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+results:
+  blocking-errors: 0
+  chapter-lines: 442
+  chapter-headings: 19
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 57
+  source-book-links: 33
+  fragment-links: 4
+  compact-diagrams: 6
+  fenced-blocks: 0
+  duplicate-headings: 0
+  gameplay-pattern-contract-covered: true
+  data-rules-state-presentation-covered: true
+  finite-state-machine-covered: true
+  advanced-state-variants-covered: true
+  capabilities-and-effects-covered: true
+  command-result-event-covered: true
+  inventory-patterns-covered: true
+  quest-patterns-covered: true
+  deterministic-simulation-covered: true
+  materialization-covered: true
+  multi-authority-commit-covered: true
+  extensibility-and-test-seams-covered: true
+  anti-patterns-covered: true
+  master-plan-scope-covered: true
+  tutorial-boundary-preserved: true
+  architecture-pattern-boundary-preserved: true
+  graphics-reference-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  godot-runtime-executed: false
+  gdscript-executed: false
+  scene-loaded: false
+  addon-loaded: false
+  storage-loaded: false
+  network-used: false
+  ai-service-used: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: __CHAPTER_SHA__
+  audit-sha256: __AUDIT_SHA__
+ci:
+  lightweight-validation:
+    workflow: Temporary Livre V Chapter 17 Finalizer
+    run-id: __RUN_ID__
+    source-head-commit: __HEAD_SHA__
+    conclusion: success
+    commands:
+      - python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+      - python tools/check_context_markers.py --check
+reservations:
+  - No Godot Engine, GDScript, scene, Node, Resource, Autoload or addon was executed.
+  - No finite-state machine, capability, inventory, quest or simulation prototype was materialized.
+  - No persistent Companion Pack fixture or executable gameplay asset was created.
+  - No storage, network, AI service, user, secret, personal or production data was used.
+  - No performance, load, concurrency, memory, save migration, multiplayer or cross-platform campaign was executed.
+  - No organisational legal approval was performed.
+  - No PDF was produced; collection licence and advanced accessibility tagging remain open.
