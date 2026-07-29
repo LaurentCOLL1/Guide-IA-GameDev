@@ -1,0 +1,121 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH21
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 165d3719cc8851be42b02f7e0d20c136f08268a0
+source-branch: docs/livre-v-ch21-benchmarks-methodes-mesure
+chapter:
+  id: DOC-L5-CH21
+  path: Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: 0
+  chapter-lines: 462
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 64
+  source-book-links: 41
+  fragment-links: 47
+  compact-diagrams: 8
+  fenced-blocks: 0
+  duplicate-headings: 0
+  benchmark-contract-covered: true
+  measurement-routing-covered: true
+  question-hypothesis-and-decision-covered: true
+  environment-fingerprint-covered: true
+  scenario-load-and-fixtures-covered: true
+  warmup-cache-and-cold-warm-covered: true
+  controlled-randomized-and-reported-factors-covered: true
+  runs-repetitions-order-and-stopping-covered: true
+  units-clocks-precision-and-instrumentation-covered: true
+  raw-data-schema-and-nullability-covered: true
+  statistics-dispersion-and-uncertainty-covered: true
+  outliers-missing-data-and-exclusions-covered: true
+  baseline-candidate-and-practical-effect-covered: true
+  visualization-report-and-layer-separation-covered: true
+  proof-gates-covered: true
+  independent-repetition-maintenance-and-retirement-covered: true
+  master-plan-scope-covered: true
+  profiling-boundaries-preserved: true
+  testing-boundary-preserved: true
+  observability-boundary-preserved: true
+  diagnostics-boundary-preserved: true
+  compatibility-boundary-preserved: true
+  comparison-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  benchmark-executed: false
+  warmup-observed: false
+  cache-state-controlled: false
+  profiler-or-measurement-tool-executed: false
+  raw-data-produced: false
+  statistics-computed: false
+  baseline-measured: false
+  candidate-measured: false
+  comparison-computed: false
+  independent-repetition-executed: false
+  platform-qualified: false
+  product-decision-approved: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: 84a81333af830ff28cdf8ea25ad543a0b6b3b4465a0170a22505f40d3ecd46f8
+  audit-sha256: 6e3a702eab8e3b59ef5a96feba7f7ffce18f48cf2ddf3d4b947456d302464dd2
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 21 Script Runner
+    run-id: 30471225722
+    source-head-commit: f066fd4f4c9a96d22f53e2b54508803ec56dee13
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30471424681
+    head-commit: 07ae7eaa74da045a20067eb22b56df44fcf0f842
+    conclusion: success
+    artifact-id: 8731789102
+    artifact-digest: sha256:f5f31c921e47465f06b89b672dca1f5733ff66d29b92212e256b5ae56cf0738f
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+reservations:
+- No CPU, GPU, RAM, VRAM, loading, gameplay, network, CI, asset, audio or AI benchmark
+  was executed.
+- No warm-up, cold or warm cache state, run, repetition, randomization or stopping
+  rule was exercised.
+- No profiler, counter, capture, timer, power meter, network emulator or measurement
+  tool was used.
+- No raw sample, distribution, statistic, confidence interval, chart or report was
+  produced.
+- No baseline, candidate, speedup, relative difference, practical effect or platform
+  budget was measured.
+- No independent repetition, product decision or compatibility conclusion was completed.
+- No player data, personal data, secret, token, contract, voice or confidential artifact
+  was used.
+- No Companion Pack benchmark script, fixture, dataset or PDF was produced.
