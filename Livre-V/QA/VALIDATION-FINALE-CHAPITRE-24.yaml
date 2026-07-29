@@ -22,16 +22,16 @@ chapter:
     fallback-version: 3.13.14
 results:
   blocking-errors: 0
-  chapter-lines: __CHAPTER_LINES__
-  chapter-headings: __CHAPTER_HEADINGS__
-  reference-cards: __REFERENCE_CARDS__
-  matrices: __MATRICES__
-  markdown-links: __MARKDOWN_LINKS__
-  source-book-links: __SOURCE_BOOK_LINKS__
-  fragment-links: __FRAGMENT_LINKS__
-  compact-diagrams: __COMPACT_DIAGRAMS__
-  fenced-blocks: __FENCED_BLOCKS__
-  duplicate-headings: __DUPLICATE_HEADINGS__
+  chapter-lines: 481
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 64
+  source-book-links: 34
+  fragment-links: 64
+  compact-diagrams: 9
+  fenced-blocks: 0
+  duplicate-headings: 0
   checklist-item-contract-covered: true
   obligation-status-and-action-covered: true
   phase-scope-and-gates-covered: true
@@ -72,13 +72,13 @@ results:
   runtime-results-invented: false
   pdf-produced: false
 integrity:
-  chapter-sha256: __CHAPTER_SHA256__
-  audit-sha256: __AUDIT_SHA256__
+  chapter-sha256: 070faf80f0a1752a76b98b4bdc59e98e346c87bdb2a901e633969ede3d258439
+  audit-sha256: 0c4db8cab6c707614eb22bc7ad9bf8e182a90408df0d930b3db284db5c73026e
 ci:
   lightweight-finalization:
     workflow: Temporary Livre V Chapter 24 Script Runner
-    run-id: __LIGHTWEIGHT_RUN_ID__
-    source-head-commit: __SOURCE_HEAD_COMMIT__
+    run-id: 30493779602
+    source-head-commit: 9490145911f139a0014447a17981cf120a576919
     conclusion: success
     validated-steps:
     - structure, metadata, links and duplicates

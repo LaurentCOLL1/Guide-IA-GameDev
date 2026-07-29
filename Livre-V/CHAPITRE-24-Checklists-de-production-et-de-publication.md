@@ -211,9 +211,9 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | publication et distribution | [Livre IV, chapitre 17](../Livre-IV/CHAPITRE-17-Publication-et-distribution.md#1-rôle-du-chapitre) | page, média, classification, soumission et support |
 | accessibilité | [Livre IV, chapitre 18](../Livre-IV/CHAPITRE-18-Accessibilite.md#1-rôle-du-chapitre) | parcours, options, limites et déclaration vérifiée |
 | localisation | [Livre IV, chapitre 19](../Livre-IV/CHAPITRE-19-Localisation-et-internationalisation.md#1-rôle-du-chapitre) | catalogues, polices, pseudo-localisation et revue |
-| correctifs et rollback | [Livre IV, chapitre 20](../Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md#4-modèle-mental--une-mise-à-jour-est-une-transaction-distribuée) | canaux, migration, observation, arrêt et récupération |
-| maintenance et archivage | [Livre IV, chapitre 22](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental--conserver-un-système-pas-seulement-un-zip) | inventaire, fixité, restauration, reconstruction et succession |
-| mesures et comparaison | [fiches 21 à 23](CHAPITRE-23-Comparatifs-des-solutions.md#compa-00--contrat-minimal-dun-comparatif) | résultats datés, compatibilité et décision conditionnelle |
+| correctifs et rollback | [Livre IV, chapitre 20](../Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md#4-modèle-mental-une-mise-à-jour-est-une-transaction-distribuée) | canaux, migration, observation, arrêt et récupération |
+| maintenance et archivage | [Livre IV, chapitre 22](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental-conserver-un-système-pas-seulement-un-zip) | inventaire, fixité, restauration, reconstruction et succession |
+| mesures et comparaison | [fiches 21 à 23](CHAPITRE-23-Comparatifs-des-solutions.md#cmp-00--contrat-minimal-dun-comparatif) | résultats datés, compatibilité et décision conditionnelle |
 | licences et conformité | future fiche 25 | registre, obligations, attributions et avis spécialisé |
 
 **Décision :** la checklist référence ces preuves sans recopier leurs procédures. Une ligne bloquée ouvre le chapitre propriétaire, pas une procédure parallèle dans la fiche 24.
@@ -451,7 +451,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | fin de support | checklist de retrait, données, communication, comptes et archive |
 | archive | contrat, preuves, décisions, exceptions et historique corrélés au lot |
 
-**Réponse rapide :** la [maintenance après publication](../Volume-0/CHAPITRE-10-Production-validation-et-publication.md#18-maintenance-après-publication), la [transaction de mise à jour](../Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md#4-modèle-mental--une-mise-à-jour-est-une-transaction-distribuée) et le [dossier de version](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental--conserver-un-système-pas-seulement-un-zip) empêchent de figer une checklist hors de son contexte.
+**Réponse rapide :** la [maintenance après publication](../Volume-0/CHAPITRE-10-Production-validation-et-publication.md#18-maintenance-après-publication), la [transaction de mise à jour](../Livre-IV/CHAPITRE-20-Correctifs-mises-a-jour-et-retour-arriere.md#4-modèle-mental-une-mise-à-jour-est-une-transaction-distribuée) et le [dossier de version](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental-conserver-un-système-pas-seulement-un-zip) empêchent de figer une checklist hors de son contexte.
 
 **Cycle :** `draft → active → instantiated → decided → reopened ou closed → superseded → retired`, avec historique append-only des décisions.
 

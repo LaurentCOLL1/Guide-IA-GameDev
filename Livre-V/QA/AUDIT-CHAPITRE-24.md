@@ -45,16 +45,16 @@ L’audit ne remplit aucune checklist, ne signe aucun formulaire et ne qualifie 
 
 | Mesure | Valeur finale |
 |---|---:|
-| lignes du chapitre | __CHAPTER_LINES__ |
-| titres Markdown | __CHAPTER_HEADINGS__ |
-| cartes `l5:card` | __REFERENCE_CARDS__ |
-| matrices `l5:matrix` | __MATRICES__ |
-| liens Markdown | __MARKDOWN_LINKS__ |
-| renvois vers les Livres I à IV | __SOURCE_BOOK_LINKS__ |
-| liens avec fragment | __FRAGMENT_LINKS__ |
-| diagrammes compacts | __COMPACT_DIAGRAMS__ |
-| blocs clôturés | __FENCED_BLOCKS__ |
-| titres dupliqués | __DUPLICATE_HEADINGS__ |
+| lignes du chapitre | 481 |
+| titres Markdown | 20 |
+| cartes `l5:card` | 13 |
+| matrices `l5:matrix` | 3 |
+| liens Markdown | 64 |
+| renvois vers les Livres I à IV | 34 |
+| liens avec fragment | 64 |
+| diagrammes compacts | 9 |
+| blocs clôturés | 0 |
+| titres dupliqués | 0 |
 
 ## 4. Conformité au profil Livre V
 
@@ -68,7 +68,7 @@ L’audit ne remplit aucune checklist, ne signe aucun formulaire et ne qualifie 
 | liens vers les propriétaires | conforme | Volume 0, Livres II à IV et fiches 21 à 23 reliés sans duplication longue |
 | séparation statique/runtime | conforme | aucune checklist exécutée revendiquée |
 | absence de PDF intermédiaire | conforme | aucune chaîne PDF appelée |
-| lot permanent de huit fichiers | à vérifier par CI | contrôle automatisé avant commit final |
+| lot permanent de huit fichiers | conforme | contrôle automatisé dans le workflow de finalisation |
 
 ## 5. Couverture du plan maître
 

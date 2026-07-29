@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.10.0"
+version: "4.11.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T22:44:00+02:00"
+last-updated: "2026-07-29T23:31:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2322,6 +2322,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas interpréter une cellule vide, non évaluée, bloquée ou obsolète comme une incompatibilité ;
 - ne pas déduire lecture, écriture, import, export ou round-trip les uns des autres ;
 - ne pas conserver une cellule `reference` sans preuve consultable, date et propriétaire ;
+- ne pas confondre obligation, applicabilité, statut, preuve et décision d’une checklist ;
+- ne pas considérer une case cochée, un nom ou une CI verte comme preuve suffisante sans artefact propriétaire ;
+- ne pas masquer un item obligatoire pour faire passer une porte ;
+- ne pas accepter une dérogation sans portée, propriétaire, compensation et expiration ;
+- ne pas transférer automatiquement une checklist réussie vers un nouveau build, une nouvelle plateforme ou une nouvelle locale ;
+- ne pas réécrire une décision historique lors d’une réouverture ;
 - ne pas modifier les poids, critères ou seuils après lecture des scores sans créer une nouvelle version du comparatif ;
 - ne pas laisser un score agrégé compenser une porte obligatoire non satisfaite ;
 - ne pas imputer silencieusement une valeur aux données inconnues, bloquées, obsolètes ou non applicables ;
@@ -2332,7 +2338,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 23 chapitres sur 26 ;
+- progression du Livre V : 24 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2356,6 +2362,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 21 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 22 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 23 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 24 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2450,19 +2457,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt-trois fiches sur 26 au niveau `static-review`. La fiche 23 fournit un contrat transversal pour portes, critères, pondérations, scénarios, faits, mesures, préférences, coûts, migration, sensibilité et recommandations conditionnelles. Les comparatifs exécutés, tableurs et scripts du Companion Pack, checklists signées, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
+Le Livre V contient vingt-quatre fiches sur 26 au niveau `static-review`. La fiche 24 fournit un contrat transversal pour items, obligations, applicabilité, preuves, phases, vues Solo/Studio, portes, dérogations, signatures et réouverture. Les checklists réellement instanciées, formulaires et automatisations du Companion Pack, décisions de licence et conformité, index croisés, approbations organisationnelles et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
+Livre-V/CHAPITRE-25-Licences-provenance-et-conformite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 24 centralisera les contrôles par phase, distinguera obligatoire, recommandé et optionnel, fournira des vues Solo et Studio, et permettra signature, preuve, exception et réouverture sans recopier les procédures détaillées des Livres I à IV.
+Le chapitre 25 synthétisera licences du texte, du code, des modèles et des assets, séparera provenance, consentement, redistribution et obligations, fournira des matrices et modèles de registre, et signalera les situations exigeant un avis professionnel sans rendre de conseil juridique.
 ## 27. Journal
+
+### 2026-07-29T23:31:00+02:00 — version 4.11.0
+
+- création de la fiche 24 — Checklists de production et de publication ;
+- ajout de treize cartes, de trois matrices et de 9 diagrammes compacts ;
+- contrat d’item, obligation, statut, phase, preuve, préparation, intégration, QA, build, publication, vues Solo/Studio, décisions, dérogations, signatures et réouverture indexés ;
+- frontières avec le Volume 0, les Livres II à IV, les fiches 21 à 23, les futures fiches 25 et 26 et le Companion Pack maintenues sans duplication ;
+- métriques statiques : 481 lignes, 20 titres, 13 fiches, 3 matrices, 64 liens, 34 renvois vers les Livres I à IV, 64 liens profonds et 9 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 25 — Licences, provenance et conformité, niveau Élevée ;
+- aucune checklist, preuve d’exécution, dérogation, signature, approbation, publication, donnée utilisateur, outil du Companion Pack ou PDF produit.
 
 ### 2026-07-29T22:44:00+02:00 — version 4.10.0
 
