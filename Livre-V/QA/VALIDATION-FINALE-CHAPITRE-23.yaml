@@ -1,0 +1,91 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH23
+validation-authority: livre-v-reference-profile
+status: prepared
+validation-date: '2026-07-29'
+validated-base-commit: d49ab43bceecd4b87294d86c000c4773169a7922
+source-branch: docs/livre-v-ch23-comparatifs-solutions
+chapter:
+  id: DOC-L5-CH23
+  path: Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: pending_validation
+  chapter-lines: pending_finalization
+  chapter-headings: pending_finalization
+  reference-cards: pending_finalization
+  matrices: pending_finalization
+  markdown-links: pending_finalization
+  source-book-links: pending_finalization
+  fragment-links: pending_finalization
+  compact-diagrams: pending_finalization
+  fenced-blocks: pending_finalization
+  duplicate-headings: pending_finalization
+  comparison-contract-covered: true
+  evidence-layer-separation-covered: true
+  decision-scope-and-candidates-covered: true
+  eligibility-gates-covered: true
+  criteria-scales-and-directions-covered: true
+  criteria-routing-covered: true
+  weighting-and-score-limits-covered: true
+  missing-data-and-normalization-covered: true
+  scenarios-and-profiles-covered: true
+  facts-sources-and-traceability-covered: true
+  measurements-and-practical-effect-covered: true
+  qualitative-review-and-bias-covered: true
+  conditional-decision-outputs-covered: true
+  total-cost-migration-and-reversibility-covered: true
+  sensitivity-ties-and-indeterminacy-covered: true
+  report-versioning-and-retirement-covered: true
+  master-plan-scope-covered: true
+  decision-tree-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  compatibility-boundary-preserved: true
+  checklist-boundary-preserved: true
+  license-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  candidate-installed-or-launched: false
+  functional-comparison-executed: false
+  benchmark-executed: false
+  scoring-computed: false
+  sensitivity-analysis-executed: false
+  price-or-quote-collected: false
+  total-cost-calculated: false
+  user-study-executed: false
+  migration-pilot-executed: false
+  purchase-decision-approved: false
+  collection-reference-approved: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: pending_finalization
+  audit-sha256: pending_finalization
+ci:
+  lightweight-finalization:
+    workflow: pending
+    run-id: pending
+    source-head-commit: pending
+    conclusion: pending
+reservations:
+- No candidate solution was installed, launched or functionally compared.
+- No CPU, GPU, memory, loading, network, CI, asset, audio or AI benchmark was executed.
+- No score, normalization, weighting result, sensitivity analysis or ranking was computed from real data.
+- No current price, quote, subscription, contract, procurement condition or total cost was collected.
+- No user study, questionnaire, interview, ergonomic test or human preference campaign was conducted.
+- No migration pilot, rollback exercise, purchase, retirement or collection-reference decision was approved.
+- No executable spreadsheet, script, dataset, scoring model or automated report was produced.
+- No player data, personal data, secret, contract, voice or confidential artifact was used.
+- No Companion Pack comparison tool or PDF was produced.
