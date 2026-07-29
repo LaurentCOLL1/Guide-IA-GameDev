@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.03.0"
+version: "4.04.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T07:08:35+02:00"
+last-updated: "2026-07-29T10:21:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 16 chapitres sur 26 ;
+- progression du Livre V : 17 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2332,6 +2332,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 14 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 15 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 16 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2426,19 +2427,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient seize fiches sur 26 au niveau `static-review`. La fiche 16 fournit des contrats non linéaires pour frontières, composition, injection, services d’application, repositories, ports, adaptateurs, événements, propriété d’état, façades, stratégies, coutures de test et anti-patterns. Les scènes, graphes, adaptateurs et tests de contrat réellement exécutés, patrons de gameplay, fichiers du Companion Pack, approbations juridiques, licence globale et balisage avancé restent ouverts.
+Le Livre V contient dix-sept fiches sur 26 au niveau `static-review`. La fiche 17 fournit des contrats non linéaires pour machines à états, variantes simples et avancées, capacités, commandes, inventaires, quêtes, simulations déterministes, matérialisation, commits multi-autorités, extensibilité, coutures de test et anti-patterns. Les petits prototypes Godot, scènes, scripts et fixtures permanentes du Companion Pack, la référence graphique et 3D, les approbations juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-17-Patrons-de-gameplay.md
+Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 17 cataloguera machines à états, capacités, inventaires, quêtes et simulations, avec séparation des données, règles et présentations, variantes simples et avancées, diagnostics et critères de test. Il devra renvoyer aux systèmes propriétaires du Livre II sans les recopier ni prétendre qu’un patron de gameplay convient à tous les projets.
+Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventions, import, export et erreurs visuelles fréquentes. Il devra renvoyer aux méthodes propriétaires du Livre III sans les recopier ni prétendre qu’un budget ou un preset graphique convient à toutes les plateformes.
 ## 27. Journal
+
+### 2026-07-29T10:21:00+02:00 — version 4.04.0
+
+- création de la fiche 17 — Patrons de gameplay ;
+- ajout de treize cartes, de trois matrices et de six diagrammes compacts ;
+- machines à états, variantes simples et avancées, capacités, commandes, inventaires, quêtes, simulations, matérialisation, commits multi-autorités et coutures de test indexés ;
+- frontières avec les systèmes propriétaires des chapitres 14, 17 à 20, 22, 25 et 27 du Livre II maintenues sans duplication ;
+- validations documentaires légères sans PDF réussies dans le run `30438299611` ;
+- métriques statiques : 442 lignes, 19 titres, 13 fiches, 3 matrices, 57 liens, 33 renvois vers les Livres I à IV, 4 liens profonds et 6 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 18 — Référence graphique et 3D, niveau Élevée ;
+- aucun runtime Godot, GDScript, scène, addon, base, réseau, service IA, prototype du Companion Pack, approbation juridique ou PDF produit.
+
 
 ### 2026-07-29T07:08:35+02:00 — version 4.03.0
 
