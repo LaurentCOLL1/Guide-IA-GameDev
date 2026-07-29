@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.17.0"
+version: "1.18.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -49,8 +49,8 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 23 — Comparatifs des solutions](CHAPITRE-23-Comparatifs-des-solutions.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 24 — Checklists de production et de publication](CHAPITRE-24-Checklists-de-production-et-de-publication.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 25 — Licences, provenance et conformité](CHAPITRE-25-Licences-provenance-et-conformite.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 26 — Index croisés.
+- [x] [Fiche 26 — Index croisés](CHAPITRE-26-Index-croises.md) — version `1.0.0`, niveau `static-review`.
 
 ## Statut
 
-Progression : **25 chapitres sur 26** rédigés et audités. Les fiches 01 à 25 utilisent le profil de référence spécialisé du Livre V ; la fiche 25 rassemble objets et couches juridiques, inventaire, SPDX, droits, provenance, personnes, chaînes IA, redistribution, statuts, notices, gouvernance, escalade, incidents et frontières de licence globale. Les registres exécutables et outils automatisés du Companion Pack, la décision de licence globale et les index croisés restent des chantiers distincts.
+Progression : **26 chapitres sur 26** rédigés et audités au niveau `static-review`. La fiche 26 clôt la couverture documentaire par identités canoniques, index alphabétiques et thématiques, synonymes, relations typées, routes par domaine, navigation multiformat et contrôles d’intégrité. La construction, le préflight et l’inspection du PDF complet du Livre V, les formats HTML/EPUB, l’accessibilité avancée, la licence globale et les outils exécutables du Companion Pack restent des portes séparées.
