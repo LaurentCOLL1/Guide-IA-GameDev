@@ -1,9 +1,13 @@
 name: Temporary Livre V Chapter 17 Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
       - docs/livre-v-ch17-patrons-gameplay
+    types:
+      - opened
+      - reopened
+      - synchronize
     paths:
       - .qa/livre-v-ch17-finalize.trigger
 
@@ -32,7 +36,7 @@ jobs:
       - name: Finalize chapter governance and evidence
         env:
           RUN_ID: ${{ github.run_id }}
-          SOURCE_HEAD: ${{ github.sha }}
+          SOURCE_HEAD: ${{ github.event.pull_request.base.sha }}
         run: |
           python - <<'PY'
           from __future__ import annotations
@@ -218,11 +222,10 @@ Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventio
             exit 1
           fi
 
-      - name: Remove temporary workflow, trigger and reports
+      - name: Remove temporary workflow and reports
         run: |
           rm -rf dist
           rm -f .github/workflows/livre-v-ch17-finalize.yml
-          rm -f .qa/livre-v-ch17-finalize.trigger
 
       - name: Commit finalized permanent lot
         run: |
