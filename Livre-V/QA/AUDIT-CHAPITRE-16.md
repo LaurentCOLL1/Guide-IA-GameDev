@@ -7,6 +7,7 @@ lang: "fr-FR"
 book: "Livre V"
 chapter: 16
 audit-date: "2026-07-29T06:49:56+02:00"
+last-verified: "2026-07-29T06:49:56+02:00"
 audit-level: "static-review"
 document-format: "reference-cards"
 protocol: "Livre-V/QA/PROTOCOLE-FICHES-LIVRE-V.md"
