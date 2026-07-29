@@ -1,0 +1,15 @@
+name: Livre V Chapter 24 Finalizer Trigger
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - synchronize
+
+jobs:
+  placeholder:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The temporary runner on main owns finalization."
