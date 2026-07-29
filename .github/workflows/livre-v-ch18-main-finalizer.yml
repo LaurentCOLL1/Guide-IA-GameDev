@@ -6,8 +6,6 @@ on:
       - main
     types:
       - synchronize
-    paths:
-      - .qa/livre-v-ch18-main-trigger
 
 permissions:
   contents: write
