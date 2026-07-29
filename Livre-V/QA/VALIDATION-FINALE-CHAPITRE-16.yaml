@@ -83,6 +83,14 @@ ci:
     conclusion: success
   governance-finalization:
     workflow: Temporary Livre V Chapter 16 Governance
+    run-id: 30424513466
+    source-head-commit: 33c654df7c3f7f66f4fd4f645992f1443cd19793
+    permanent-commit: 7ecdc8878b56733c4d8174c1e057f151129e4c40
+    conclusion: success
+    artifact-id: 8713079659
+    artifact-digest: sha256:ddd1c84c56cd74e84282fb0fbccf1ecfb8cf6f7aee67bd3c78cc1b070ebf7e89
+  proof-finalization:
+    workflow: Temporary Livre V Chapter 16 Governance
     run-id: 30424717173
     source-head-commit: 4deb66041ca611467d2cb02f21ddb6a58bc40872
     permanent-commit: 3fdf9a7f0b6b3145a9150db13daf1879f0fb8d92
