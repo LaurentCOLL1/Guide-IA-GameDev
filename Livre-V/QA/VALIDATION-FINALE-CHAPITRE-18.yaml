@@ -1,0 +1,98 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH18
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 1c98559f4965e14d2b60fe9c349a3adf638d341d
+source-branch: docs/livre-v-ch18-reference-graphique-3d
+chapter:
+  id: DOC-L5-CH18
+  path: Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-tools:
+    blender:
+      version: 5.2.0
+      qualification: documentation-reviewed
+    exchange:
+      format: glTF 2.0
+      default-container: GLB
+results:
+  blocking-errors: 0
+  chapter-lines: __LINES__
+  chapter-headings: __HEADINGS__
+  reference-cards: __CARDS__
+  matrices: __MATRICES__
+  markdown-links: __LINKS__
+  source-book-links: __SOURCE_LINKS__
+  fragment-links: __FRAGMENT_LINKS__
+  compact-diagrams: __DIAGRAMS__
+  fenced-blocks: __FENCED_BLOCKS__
+  duplicate-headings: 0
+  reference-contract-covered: true
+  units-and-axes-covered: true
+  origins-pivots-bounds-sockets-covered: true
+  exchange-formats-covered: true
+  asset-lifecycle-covered: true
+  pbr-and-color-spaces-covered: true
+  uv-texel-density-baking-covered: true
+  geometry-normals-tangents-covered: true
+  lod-hlod-impostors-covered: true
+  rigging-skinning-retargeting-covered: true
+  import-reimport-remaps-covered: true
+  contextual-budgets-covered: true
+  presets-checklists-pilots-covered: true
+  visual-diagnostics-covered: true
+  master-plan-scope-covered: true
+  production-method-boundary-preserved: true
+  audio-reference-boundary-preserved: true
+  diagnostics-catalog-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  blender-executed: false
+  godot-runtime-executed: false
+  gltf-exported: false
+  glb-exported: false
+  mesh-created: false
+  texture-created: false
+  material-created: false
+  uv-or-bake-created: false
+  lod-or-impostor-created: false
+  rig-or-animation-created: false
+  import-or-reimport-executed: false
+  pilot-comparison-executed: false
+  performance-measured: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: __CHAPTER_SHA__
+  audit-sha256: __AUDIT_SHA__
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 18 Finalizer
+    run-id: __RUN_ID__
+    source-head-commit: __SOURCE_HEAD__
+    conclusion: success
+    validated-steps:
+      - structure, metadata, links and duplicates
+      - Livre V cards and deep links
+      - structured code explanations
+      - usage marker presence
+      - semantic marker consistency
+      - context coverage
+      - absence of PDF
+reservations:
+  - No Blender, Godot Engine, glTF importer, GDScript, scene, addon or authoring tool was executed.
+  - No GLB, mesh, texture, material, UV layout, bake, LOD, impostor, rig, animation or preset was produced.
+  - No asset pilot, Companion Pack fixture, import profile, sidecar, remap or integration scene was materialized.
+  - No import, reimport, capture, artistic review, performance, memory, loading or platform campaign was executed.
+  - No storage, network, AI service, user, secret, personal or production data was used.
+  - No organisational legal approval was performed.
+  - No PDF was produced; collection licence and advanced accessibility tagging remain open.
