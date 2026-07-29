@@ -92,7 +92,7 @@ jobs:
 
       - name: Commit permanent governance lot
         run: |
-          git add CONTINUITE-PROJET.md Livre-V/index.md ROADMAP.md contents.txt plans/LIVRE-V-PLAN-MAITRE.md
+          git add CONTINUITE-PROJET.md Livre-V/QA/VALIDATION-FINALE-CHAPITRE-16.yaml Livre-V/index.md ROADMAP.md contents.txt plans/LIVRE-V-PLAN-MAITRE.md
           git diff --cached --check
           if git diff --cached --quiet; then
             echo "No permanent governance changes to commit."
