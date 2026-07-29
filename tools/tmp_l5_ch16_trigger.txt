@@ -1,1 +1,2 @@
 Déclencheur unique des 67 fixtures synthétiques de la fiche 16.
+Relance avec mesure statique et empreinte du chapitre.
