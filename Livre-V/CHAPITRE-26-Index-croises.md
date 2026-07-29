@@ -249,7 +249,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | DCC, modélisation 3D | Blender | [OUTIL-09](CHAPITRE-03-Fiches-des-logiciels-et-outils.md#outil-09--blender) | [pipeline Blender](../Livre-III/CHAPITRE-04-Pipeline-Blender-et-organisation-des-fichiers.md) |
 | workflow nodal visuel | ComfyUI | [OUTIL-10](CHAPITRE-03-Fiches-des-logiciels-et-outils.md#outil-10--comfyui) | [références et concept art](../Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md) |
 | interface LLM | Open WebUI | [OUTIL-11](CHAPITRE-03-Fiches-des-logiciels-et-outils.md#outil-11--open-webui) | [LLM locaux](../Livre-I/CHAPITRE-08-LLM-locaux-Ollama-llama-cpp-LocalAI-et-LibreChat.md) |
-| exécution agentique | Open Terminal | [OUTIL-12](CHAPITRE-03-Fiches-des-logiciels-et-outils.md#outil-12--open-terminal) | [sécurité et validation](../Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation.md) |
+| exécution agentique | Open Terminal | [OUTIL-12](CHAPITRE-03-Fiches-des-logiciels-et-outils.md#outil-12--open-terminal) | [sécurité et validation](../Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md) |
 
 **Réponse rapide :** la carte d’outil indique la référence datée et les limites ; la procédure propriétaire indique l’installation ou l’usage ; la matrice de compatibilité indique le statut de la combinaison exacte.
 

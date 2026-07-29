@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.12.0"
+version: "4.13.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T00:17:00+02:00"
+last-updated: "2026-07-30T01:18:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2337,6 +2337,13 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas automatiser une conclusion de titularité, de compatibilité juridique ou de conformité réglementaire ;
 - ne pas appliquer une exception au-delà de son objet, sa version, son canal, son territoire, sa durée ou son expiration ;
 - ne pas annoncer une licence globale avant une décision documentée sur le texte, le code, les médias et le Companion Pack ;
+- ne pas confondre identifiant d’index, libellé, chemin, titre et ancre ;
+- ne pas donner à un alias, un acronyme ou une ancienne appellation une définition concurrente ;
+- ne pas confondre `owner`, `prerequisite`, `validates`, `diagnoses`, `alternative`, `supersedes` et `related` ;
+- ne pas déclarer un document orphelin depuis le seul nombre de liens entrants ou sortants ;
+- ne pas présenter une cible `planned`, `unresolved`, `deprecated` ou `retired` comme une destination active ;
+- ne pas déduire la qualité de navigation PDF, HTML ou EPUB depuis les seuls liens Markdown ;
+- ne pas exposer secret, donnée personnelle, contrat ou chemin restreint dans un index public ;
 - ne pas modifier les poids, critères ou seuils après lecture des scores sans créer une nouvelle version du comparatif ;
 - ne pas laisser un score agrégé compenser une porte obligatoire non satisfaite ;
 - ne pas imputer silencieusement une valeur aux données inconnues, bloquées, obsolètes ou non applicables ;
@@ -2347,7 +2354,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 25 chapitres sur 26 ;
+- progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2373,7 +2380,9 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 23 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 24 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 25 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 26 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
+- clôture documentaire du Livre V : 26 fiches sur 26 ; construction, préflight et inspection du PDF complet encore requis ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2467,19 +2476,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt-cinq fiches sur 26 au niveau `static-review`. La fiche 25 fournit un contrat transversal pour objets, textes applicables, identifiants SPDX, droits, obligations, provenance, personnes, chaînes IA, redistribution, notices, gouvernance, escalades, incidents et future licence globale. Les registres réellement instanciés, validations juridiques, licence globale, outils du Companion Pack, index croisés et formats avancés de publication restent ouverts.
+Le Livre V contient vingt-six fiches sur 26 au niveau `static-review`. La fiche 26 fournit les identités canoniques, index alphabétiques et thématiques, synonymes, relations typées, routes par domaine, navigation multiformat et contrôles d’intégrité. La couverture documentaire est complète, mais la clôture technique exige encore la construction, le préflight et l’inspection du PDF complet du Livre V. La licence globale, les formats HTML/EPUB, l’accessibilité avancée et le Companion Pack restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-26-Index-croises.md
+Livre-V/index.md — construire, préflighter et inspecter le PDF complet du Livre V
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 26 clôturera l’encyclopédie par des index alphabétiques et thématiques, synonymes, anciennes appellations, liens croisés, navigation PDF/HTML et détection des références orphelines, sans recopier les fiches propriétaires.
+Après réussite de cette porte PDF, le jalon actif passera à M7 — Companion Pack, Pack 1 — Starter Kit, avec `Companion-Pack/Starter-Kit/README.md` comme point d’entrée canonique à matérialiser.
 ## 27. Journal
+
+### 2026-07-30T01:18:00+02:00 — version 4.13.0
+
+- création de la fiche 26 — Index croisés ;
+- ajout de treize cartes, de trois matrices et de 9 diagrammes compacts ;
+- identités canoniques, index alphabétiques et thématiques, facettes, synonymes, alias, anciennes appellations, relations typées, routes outils/systèmes/formats/diagnostics/licences et navigation multiformat indexés ;
+- contrôles de chemins, fragments, doublons, redirections, candidats orphelins, cibles retirées et supports non testés encadrés sans suppression automatique ;
+- frontières avec les fiches 01 à 25, les procédures des Livres I à IV, le Companion Pack et M8 maintenues sans duplication ;
+- métriques statiques : 474 lignes, 21 titres, 13 fiches, 3 matrices, 176 liens, 46 renvois vers les Livres I à IV, 102 liens profonds et 9 diagrammes compacts ;
+- progression documentaire du Livre V portée à 26 chapitres sur 26 ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la construction, le préflight et l’inspection du PDF complet du Livre V, niveau Élevée ;
+- aucun moteur de recherche, générateur d’index, base d’alias, graphe de connaissances, rapport exhaustif d’orphelins, étude utilisateur, donnée personnelle, licence globale, outil du Companion Pack, PDF, HTML ou EPUB produit.
 
 ### 2026-07-30T00:17:00+02:00 — version 4.12.0
 

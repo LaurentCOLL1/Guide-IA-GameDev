@@ -37,16 +37,16 @@ Le niveau reste `static-review`. Aucun moteur d’indexation, scénario utilisat
 
 | Contrôle | Résultat |
 |---|---:|
-| lignes | __CHAPTER_LINES__ |
-| titres | __CHAPTER_HEADINGS__ |
-| cartes `l5:card` | __REFERENCE_CARDS__ |
-| matrices `l5:matrix` | __MATRICES__ |
-| liens Markdown | __MARKDOWN_LINKS__ |
-| renvois directs vers les Livres I à IV | __SOURCE_BOOK_LINKS__ |
-| liens avec fragment | __FRAGMENT_LINKS__ |
-| diagrammes compacts | __COMPACT_DIAGRAMS__ |
-| blocs clôturés | __FENCED_BLOCKS__ |
-| titres dupliqués | __DUPLICATE_HEADINGS__ |
+| lignes | 474 |
+| titres | 21 |
+| cartes `l5:card` | 13 |
+| matrices `l5:matrix` | 3 |
+| liens Markdown | 176 |
+| renvois directs vers les Livres I à IV | 46 |
+| liens avec fragment | 102 |
+| diagrammes compacts | 9 |
+| blocs clôturés | 0 |
+| titres dupliqués | 0 |
 
 La fiche privilégie les tables et routes directement consultables. Elle porte treize cartes, trois matrices et neuf diagrammes compacts sans structure tutoriel importée.
 
@@ -110,7 +110,7 @@ Un document sans lien entrant est seulement un candidat orphelin. Les racines, a
 | structure, métadonnées, liens et doublons | à confirmer par CI | validation légère du dépôt |
 | cartes et liens profonds du Livre V | à confirmer par CI | cible Markdown uniquement |
 | repères et cohérence sémantique | à confirmer par CI | aucun test utilisateur |
-| lot permanent de huit fichiers | à vérifier par CI | contrôle avant commit final |
+| lot permanent de huit fichiers | conforme | contrôle automatisé dans le workflow de finalisation |
 | absence de PDF | à confirmer par CI | aucune publication multiformat dans ce lot |
 
 Aucune recherche utilisateur, aucune mesure du temps de recherche, aucun générateur d’index, aucune base d’alias, aucun graphe de connaissances, aucun rapport exhaustif d’orphelins, aucun contrôle d’accessibilité du format final et aucune licence globale ne sont produits.

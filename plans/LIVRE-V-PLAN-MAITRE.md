@@ -2,9 +2,9 @@
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
 status: "active"
-version: "1.25.0"
+version: "1.26.0"
 lang: "fr-FR"
-last-updated: "2026-07-29"
+last-updated: "2026-07-30"
 book: "Livre V"
 chapter-count: 26
 ---
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
-> **Statut :** 25 chapitres sur 26 rédigés et audités au niveau `static-review`
+> **Statut :** 26 chapitres sur 26 rédigés et audités au niveau `static-review` ; clôture PDF du Livre V encore requise
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles spécifiques du Livre V
@@ -579,6 +579,8 @@ Ne constitue pas un avis juridique. Validation par cohérence des registres et s
 
 ## Chapitre 26 — Index croisés
 
+**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.
+
 **Objectifs**
 
 - indexer outils, systèmes, formats, erreurs, licences et concepts ;
@@ -606,3 +608,5 @@ Ce chapitre clôt l’encyclopédie. Validation par recherche de scénarios conn
 - les matrices distinguent testé, officiel, expérimental et inconnu ;
 - les exemples minimaux et fichiers associés sont validés ;
 - le PDF/HTML permet une navigation non linéaire efficace.
+
+**État de clôture :** la couverture documentaire des 26 fiches est complète ; la génération et l’inspection des formats de publication restent à exécuter séparément.

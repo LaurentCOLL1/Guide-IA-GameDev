@@ -206,9 +206,9 @@
 - [x] Checklists de production et de publication — fiche 24 rédigée et auditée au niveau `static-review`.
 - [x] Licences, provenance et conformité — fiche 25 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
-- [ ] Bibliothèques techniques et index croisés.
+- [x] Bibliothèques techniques et index croisés — fiche 26 rédigée et auditée au niveau `static-review`.
 
-**Statut M6 : en cours — 25 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 26 chapitres rédigés, repérés et audités sur 26 ; la construction, le préflight et l’inspection du PDF complet du Livre V restent la porte de clôture technique.**
 
 ## M7 — Companion Pack
 
@@ -228,6 +228,7 @@
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre III.
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre IV.
+- [ ] Produire, préflighter et inspecter le PDF complet de fin du Livre V.
 
 - [ ] Définir la licence globale du projet.
 - [ ] Produire les versions PDF, HTML et EPUB.
