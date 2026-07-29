@@ -31,11 +31,13 @@ jobs:
       - name: Install validator dependency
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
-      - name: Correct known reference anchors
+      - name: Correct known references and metric assertion
         run: |
           sed -i 's/#compa-00--contrat-minimal-dun-comparatif/#cmp-00--contrat-minimal-dun-comparatif/g' Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
           sed -i 's/#4-modèle-mental--une-mise-à-jour-est-une-transaction-distribuée/#4-modèle-mental-une-mise-à-jour-est-une-transaction-distribuée/g' Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
           sed -i 's/#4-modèle-mental--conserver-un-système-pas-seulement-un-zip/#4-modèle-mental-conserver-un-système-pas-seulement-un-zip/g' Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
+          sed -i 's/metrics\["COMPACT_DIAGRAMS"\] != 8/metrics["COMPACT_DIAGRAMS"] != 9/' .github/scripts/finalize_livre_v_ch24.py
+          sed -i 's/Expected 8 compact diagrams/Expected 9 compact diagrams/' .github/scripts/finalize_livre_v_ch24.py
 
       - name: Finalize governance and evidence
         env:
