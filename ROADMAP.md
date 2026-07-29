@@ -203,10 +203,11 @@
 - [x] Benchmarks et méthodes de mesure — fiche 21 rédigée et auditée au niveau `static-review`.
 - [x] Matrices de compatibilité — fiche 22 rédigée et auditée au niveau `static-review`.
 - [x] Comparatifs des solutions — fiche 23 rédigée et auditée au niveau `static-review`.
+- [x] Checklists de production et de publication — fiche 24 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 23 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 24 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 

@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.15.0"
+version: "1.16.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -47,10 +47,10 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 21 — Benchmarks et méthodes de mesure](CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 22 — Matrices de compatibilité](CHAPITRE-22-Matrices-de-compatibilite.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 23 — Comparatifs des solutions](CHAPITRE-23-Comparatifs-des-solutions.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 24 — Checklists de production et de publication.
+- [x] [Fiche 24 — Checklists de production et de publication](CHAPITRE-24-Checklists-de-production-et-de-publication.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 25 — Licences, provenance et conformité.
 - [ ] Chapitre 26 — Index croisés.
 
 ## Statut
 
-Progression : **23 chapitres sur 26** rédigés et audités. Les fiches 01 à 23 utilisent le profil de référence spécialisé du Livre V ; la fiche 23 rassemble contrat de comparaison, portes éliminatoires, critères, pondérations, scénarios, sources, mesures, préférences, coûts, migration, sensibilité, recommandations conditionnelles et maintenance. Les comparatifs exécutés et outils automatisés du Companion Pack, les checklists, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **24 chapitres sur 26** rédigés et audités. Les fiches 01 à 24 utilisent le profil de référence spécialisé du Livre V ; la fiche 24 rassemble contrat d’item, obligation et statut, phases, preuves, checklists de préparation à publication, vues Solo/Studio, décisions de porte, dérogations, signatures et réouverture. Les formulaires exécutés et outils automatisés du Companion Pack, les licences et la conformité globale ainsi que les index croisés restent des chantiers distincts.

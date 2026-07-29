@@ -1,0 +1,114 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH24
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 152b98f6e819f36190fc568dbdd5a51f56ee9b06
+source-branch: docs/livre-v-ch24-checklists-production-publication
+chapter:
+  id: DOC-L5-CH24
+  path: Livre-V/CHAPITRE-24-Checklists-de-production-et-de-publication.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: 0
+  chapter-lines: 481
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 64
+  source-book-links: 34
+  fragment-links: 64
+  compact-diagrams: 9
+  fenced-blocks: 0
+  duplicate-headings: 0
+  checklist-item-contract-covered: true
+  obligation-status-and-action-covered: true
+  phase-scope-and-gates-covered: true
+  atomic-formulation-and-oracle-covered: true
+  evidence-source-and-traceability-covered: true
+  phase-routing-covered: true
+  preparation-and-prerequisites-covered: true
+  production-integration-and-candidate-covered: true
+  qa-security-accessibility-and-localization-covered: true
+  build-export-package-and-installation-covered: true
+  publication-distribution-and-support-covered: true
+  solo-studio-views-covered: true
+  gate-decisions-and-reopening-covered: true
+  exceptions-reservations-and-expiry-covered: true
+  approvals-signatures-and-responsibility-covered: true
+  versioning-history-and-retirement-covered: true
+  master-plan-scope-covered: true
+  owner-procedure-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  compatibility-boundary-preserved: true
+  comparison-boundary-preserved: true
+  license-boundary-preserved: true
+  cross-index-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  checklist-instantiated: false
+  checklist-item-passed: false
+  checklist-item-failed: false
+  waiver-approved: false
+  risk-acceptance-approved: false
+  signature-produced: false
+  build-or-package-qualified: false
+  publication-submitted: false
+  release-approved: false
+  rollback-or-recovery-executed: false
+  archive-qualified: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: 070faf80f0a1752a76b98b4bdc59e98e346c87bdb2a901e633969ede3d258439
+  audit-sha256: 0c4db8cab6c707614eb22bc7ad9bf8e182a90408df0d930b3db284db5c73026e
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 24 Script Runner
+    run-id: 30493779602
+    source-head-commit: 9490145911f139a0014447a17981cf120a576919
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30493930429
+    head-commit: 95f4c7b10919570187b0e959adc7889fc344a19d
+    conclusion: success
+    artifact-id: 8740822871
+    artifact-digest: sha256:c6241b4671dead27926dff18890ce5c2ca46da58900471fd39105905579ed153
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+reservations:
+- No checklist was instantiated, filled, signed or approved for a real lot.
+- No item was marked passed, failed, waived, stale or not applicable from execution evidence.
+- No functional, performance, security, privacy, accessibility, localization, legal or artistic campaign was executed.
+- No build, export, package, clean-machine installation, storefront page, submission, release, patch or archive was qualified.
+- No exception, reservation, waiver, risk acceptance, signature or organizational approval was issued.
+- No price, contract, account, secret, player data, personal data or confidential artifact was used.
+- No executable form, evidence database, signing tool or automation from the Companion Pack was produced.
+- No PDF was produced.
