@@ -80,6 +80,13 @@ ci:
     run-id: 30451780779
     source-head-commit: 5ef3d50223e12e82445aa40a04d6dd469b22bb05
     conclusion: success
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30452103955
+    head-commit: 26328d90dff1e99e7cfb8cec48325ba59ae4abbf
+    conclusion: success
+    artifact-id: 8723930256
+    artifact-digest: sha256:fce6fc8bf7d439200fe436353f7de8a1225ba75324ce93fce0870ff3ddd62bb8
     validated-steps:
       - structure, metadata, links and duplicates
       - Livre V cards and deep links
