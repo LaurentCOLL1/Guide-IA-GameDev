@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 TIMESTAMP = "2026-07-29T07:08:35+02:00"
 CHAPTER_SHA = "23d740ea8746baf7aee5480536b0c89448d5e150e56bb0e543d8f74903fe0e38"
-AUDIT_SHA = "9b3b4e57c4d0af0b5ad4b0c98cc2b605c6749f6bae88e1e88629665bd4f9d0ae"
 
 
 def read(path: str) -> str:
@@ -29,11 +29,15 @@ def sha256(path: str) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def validate_integrity() -> None:
+def validate_integrity() -> str:
     if sha256("Livre-V/CHAPITRE-16-Patrons-d-architecture.md") != CHAPTER_SHA:
         raise RuntimeError("Chapter SHA-256 mismatch")
-    if sha256("Livre-V/QA/AUDIT-CHAPITRE-16.md") != AUDIT_SHA:
-        raise RuntimeError("Audit SHA-256 mismatch")
+    audit_path = "Livre-V/QA/AUDIT-CHAPITRE-16.md"
+    audit = read(audit_path)
+    required_metadata = 'last-verified: "2026-07-29T06:49:56+02:00"'
+    if required_metadata not in audit:
+        raise RuntimeError("Audit last-verified metadata missing")
+    audit_sha = sha256(audit_path)
     metrics = json.loads(Path("dist/QA-LIVRE-V-CH16-CHAPTER.json").read_text(encoding="utf-8"))
     expected = {
         "lines": 409,
@@ -50,6 +54,18 @@ def validate_integrity() -> None:
     }
     if metrics != expected:
         raise RuntimeError(f"Chapter metrics mismatch: {metrics!r}")
+    return audit_sha
+
+
+def patch_proof(audit_sha: str) -> None:
+    path = "Livre-V/QA/VALIDATION-FINALE-CHAPITRE-16.yaml"
+    content = read(path)
+    pattern = r"(?m)^  audit-sha256: [0-9a-f]{64}$"
+    replacement = f"  audit-sha256: {audit_sha}"
+    content, count = re.subn(pattern, replacement, content)
+    if count != 1:
+        raise RuntimeError(f"proof audit hash: expected one line, found {count}")
+    write(path, content)
 
 
 def patch_index() -> None:
@@ -189,13 +205,14 @@ Le chapitre 17 cataloguera machines à états, capacités, inventaires, quêtes 
 
 
 def main() -> int:
-    validate_integrity()
+    audit_sha = validate_integrity()
+    patch_proof(audit_sha)
     patch_index()
     patch_roadmap()
     patch_contents()
     patch_plan()
     patch_continuity()
-    print("Permanent governance patched successfully.")
+    print(f"Permanent governance patched successfully; audit SHA-256={audit_sha}")
     return 0
 
 
