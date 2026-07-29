@@ -1,0 +1,124 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH22
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 482a4116bcc822631439d85ccdfd9abbe32dc621
+source-branch: docs/livre-v-ch22-matrices-compatibilite
+chapter:
+  id: DOC-L5-CH22
+  path: Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: 0
+  chapter-lines: 493
+  chapter-headings: 20
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 70
+  source-book-links: 11
+  fragment-links: 51
+  compact-diagrams: 8
+  fenced-blocks: 0
+  duplicate-headings: 0
+  compatibility-cell-contract-covered: true
+  three-axis-status-legend-covered: true
+  axes-identity-and-granularity-covered: true
+  sources-evidence-and-traceability-covered: true
+  versions-ranges-and-direction-covered: true
+  compatibility-family-routing-covered: true
+  os-shell-container-and-files-covered: true
+  hardware-gpu-driver-and-backend-covered: true
+  tools-runtimes-plugins-and-dependencies-covered: true
+  formats-import-export-and-roundtrip-covered: true
+  api-data-network-and-modding-covered: true
+  positive-negative-blocked-and-na-covered: true
+  promotion-degradation-and-decision-gates-covered: true
+  matrix-form-density-and-derived-views-covered: true
+  migration-breakage-fallback-and-deprecation-covered: true
+  history-ownership-and-retirement-covered: true
+  master-plan-scope-covered: true
+  compatibility-policy-boundary-preserved: true
+  tools-and-backends-boundaries-preserved: true
+  format-and-data-boundaries-preserved: true
+  diagnostics-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  comparison-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  os-or-container-qualified: false
+  hardware-or-driver-tested: false
+  backend-executed: false
+  tool-or-runtime-installed: false
+  plugin-or-dependency-executed: false
+  format-or-roundtrip-tested: false
+  api-or-network-tested: false
+  save-or-migration-tested: false
+  mod-tested: false
+  compatibility-cell-produced: false
+  incompatibility-confirmed: false
+  platform-qualified: false
+  collection-reference-approved: false
+  external-source-requalified: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: 2226e280baf887735189bd4ba684157f03f6b4f5d3b83115d76d991d9eea0afb
+  audit-sha256: daaf46847a6bd81ddd19a337af281fbc7095209658f105da0bb20c02bdab4e50
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 22 Script Runner
+    run-id: 30484816495
+    source-head-commit: ee980812f733a94c39ef420c9ca4e2d20bafe6ed
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30484966157
+    head-commit: 5cb8d3da7eddeb038689abfcecf9332bff62315d
+    conclusion: success
+    artifact-id: 8737220056
+    artifact-digest: sha256:ffbb4bdf45429eed0b1e3926f8deaad1037dbad3355876094912445703b5b406
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
+reservations:
+- No OS, shell, filesystem, container or CI runner was qualified.
+- No CPU, GPU, driver, graphics API, backend, precision mode or offload path was tested.
+- No tool, runtime, plugin, extension, dependency or container image was installed
+  or launched.
+- No format, import, export, conversion, migration or round-trip was executed.
+- No API, save, database, network connection, synchronization path or mod was tested.
+- No runtime compatibility cell, executable matrix, compatibility suite or automated
+  report was produced.
+- No compatibility, incompatibility, collection reference, waiver or platform qualification
+  was approved.
+- No external source was requalified beyond the references already present in the
+  repository.
+- No player data, personal data, secret, license-specific decision or confidential
+  artifact was used.
+- No Companion Pack compatibility tool or PDF was produced.

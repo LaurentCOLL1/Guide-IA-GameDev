@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.08.0"
+version: "4.09.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T18:11:00+02:00"
+last-updated: "2026-07-29T21:13:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2318,12 +2318,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas traiter les observations d’un même run comme des répétitions indépendantes ;
 - ne pas supprimer une valeur extrême ou manquante sans règle, statut et justification conservés ;
 - ne pas arrêter une campagne dès que le résultat devient favorable ni changer la métrique primaire après lecture ;
+- ne pas confondre support officiel, preuve locale et décision de la collection ;
+- ne pas interpréter une cellule vide, non évaluée, bloquée ou obsolète comme une incompatibilité ;
+- ne pas déduire lecture, écriture, import, export ou round-trip les uns des autres ;
+- ne pas conserver une cellule `reference` sans preuve consultable, date et propriétaire ;
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 21 chapitres sur 26 ;
+- progression du Livre V : 22 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2345,6 +2349,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 19 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 20 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 21 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 22 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2439,19 +2444,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt et une fiches sur 26 au niveau `static-review`. La fiche 21 fournit un contrat transversal pour question, environnement, scénario, warm-up, caches, répétitions, unités, données brutes, statistiques, exclusions, comparaisons, rapports, niveaux de preuve et maintenance. Les campagnes réelles, scripts et fixtures du Companion Pack, matrices de compatibilité, comparatifs, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
+Le Livre V contient vingt-deux fiches sur 26 au niveau `static-review`. La fiche 22 fournit un contrat transversal pour cellules directionnelles, statuts amont et locaux, versions, sources, systèmes, GPU, backends, outils, formats, API, tests positifs et négatifs, promotion, migration et historique. Les tests réels, matrices automatisées du Companion Pack, comparatifs, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 22 croisera OS, GPU, versions, formats, outils et backends. Il distinguera support officiel, expérimental, testé, non vérifié et incompatible, conservera date et source, et interdira d’interpréter l’absence de test comme une incompatibilité.
+Le chapitre 23 comparera des solutions selon des critères explicites, séparera faits, mesures et préférences, proposera des choix conditionnels par scénario et documentera coûts de migration, réversibilité et limites sans produire de recommandation absolue.
 ## 27. Journal
+
+### 2026-07-29T21:13:00+02:00 — version 4.09.0
+
+- création de la fiche 22 — Matrices de compatibilité ;
+- ajout de treize cartes, de trois matrices et de 8 diagrammes compacts ;
+- contrat de cellule, statuts amont et locaux, axes, sources, versions, systèmes, GPU, backends, outils, formats, API, tests, promotion, vues, migrations et historique indexés ;
+- frontières avec la politique du Volume 0, les fiches 03 à 07, 13 à 14 et 18 à 21, les procédures propriétaires des Livres II à IV, la future fiche 23 et le Companion Pack maintenues sans duplication ;
+- métriques statiques : 493 lignes, 20 titres, 13 fiches, 3 matrices, 70 liens, 11 renvois vers les Livres I à IV, 51 liens profonds et 8 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 23 — Comparatifs des solutions, niveau Élevée ;
+- aucun OS, GPU, pilote, backend, outil, format, import, export, API, sauvegarde, réseau, mod, matrice runtime, donnée utilisateur ou PDF produit.
 
 ### 2026-07-29T18:11:00+02:00 — version 4.08.0
 
