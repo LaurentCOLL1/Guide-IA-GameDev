@@ -134,4 +134,5 @@ Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md
 Livre-V/CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md
 Livre-V/CHAPITRE-16-Patrons-d-architecture.md
 Livre-V/CHAPITRE-17-Patrons-de-gameplay.md
+Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md
 Companion-Pack/index.md

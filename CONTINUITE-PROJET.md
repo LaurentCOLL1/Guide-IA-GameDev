@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.04.0"
+version: "4.05.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T10:21:00+02:00"
+last-updated: "2026-07-29T13:59:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 17 chapitres sur 26 ;
+- progression du Livre V : 18 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2333,6 +2333,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 15 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 16 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 18 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2427,19 +2428,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient dix-sept fiches sur 26 au niveau `static-review`. La fiche 17 fournit des contrats non linéaires pour machines à états, variantes simples et avancées, capacités, commandes, inventaires, quêtes, simulations déterministes, matérialisation, commits multi-autorités, extensibilité, coutures de test et anti-patterns. Les petits prototypes Godot, scènes, scripts et fixtures permanentes du Companion Pack, la référence graphique et 3D, les approbations juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient dix-huit fiches sur 26 au niveau `static-review`. La fiche 18 fournit une référence non linéaire pour unités, axes, transformations, pivots, formats, cycle de vie des assets, PBR, UV, baking, géométrie, LOD, rigs, import, réimportation, budgets contextualisés, presets documentaires, niveaux de preuve et diagnostics visuels. Les assets pilotes, presets exécutables et fixtures permanentes du Companion Pack, la référence audio, les approbations artistiques et juridiques, la licence globale et le balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md
+Livre-V/CHAPITRE-19-Reference-audio.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventions, import, export et erreurs visuelles fréquentes. Il devra renvoyer aux méthodes propriétaires du Livre III sans les recopier ni prétendre qu’un budget ou un preset graphique convient à toutes les plateformes.
+Le chapitre 19 rassemblera formats, fréquences, loudness, boucles, spatialisation, TTS/STT, licences, bus Godot et diagnostics audio. Il devra renvoyer à la production propriétaire du Livre III sans recopier ses procédures ni présenter un format, un niveau ou un preset comme universel.
 ## 27. Journal
+
+### 2026-07-29T13:59:00+02:00 — version 4.05.0
+
+- création de la fiche 18 — Référence graphique et 3D ;
+- ajout de treize cartes, de trois matrices et de 7 diagrammes compacts ;
+- unités, axes, pivots, formats, cycle de vie, PBR, UV, baking, géométrie, LOD, rigs, import, budgets, presets, preuves et diagnostics visuels indexés ;
+- méthodes propriétaires des chapitres 4, 5, 16 à 21, 28 et 29 du Livre III maintenues sans duplication ;
+- validations documentaires légères sans PDF réussies dans le run `30451780779` ;
+- métriques statiques : 500 lignes, 19 titres, 13 fiches, 3 matrices, 91 liens, 63 renvois vers les Livres I à IV, 35 liens profonds et 7 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 19 — Référence audio, niveau Élevée ;
+- aucun Blender, Godot, GLB, mesh, texture, matériau, UV, bake, LOD, rig, animation, preset, import, comparaison de pilote, benchmark, approbation juridique ou PDF produit.
+
 
 ### 2026-07-29T10:21:00+02:00 — version 4.04.0
 

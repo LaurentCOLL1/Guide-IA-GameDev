@@ -25,15 +25,15 @@ chapter:
       default-container: GLB
 results:
   blocking-errors: 0
-  chapter-lines: __LINES__
-  chapter-headings: __HEADINGS__
-  reference-cards: __CARDS__
-  matrices: __MATRICES__
-  markdown-links: __LINKS__
-  source-book-links: __SOURCE_LINKS__
-  fragment-links: __FRAGMENT_LINKS__
-  compact-diagrams: __DIAGRAMS__
-  fenced-blocks: __FENCED_BLOCKS__
+  chapter-lines: 500
+  chapter-headings: 19
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 91
+  source-book-links: 63
+  fragment-links: 35
+  compact-diagrams: 7
+  fenced-blocks: 0
   duplicate-headings: 0
   reference-contract-covered: true
   units-and-axes-covered: true
@@ -72,13 +72,13 @@ results:
   runtime-results-invented: false
   pdf-produced: false
 integrity:
-  chapter-sha256: __CHAPTER_SHA__
-  audit-sha256: __AUDIT_SHA__
+  chapter-sha256: a0c694103dc1385e5168ad4653c7081058888fe4e3ae04625d3f00232cf8d015
+  audit-sha256: 68ed543591281dc66f57e8977fd7c287314404264bbd73d722289ddac4e91979
 ci:
   lightweight-finalization:
     workflow: Temporary Livre V Chapter 18 Finalizer
-    run-id: __RUN_ID__
-    source-head-commit: __SOURCE_HEAD__
+    run-id: 30451780779
+    source-head-commit: 5ef3d50223e12e82445aa40a04d6dd469b22bb05
     conclusion: success
     validated-steps:
       - structure, metadata, links and duplicates

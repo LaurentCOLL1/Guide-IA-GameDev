@@ -78,15 +78,15 @@ Mesures calculées sur le contenu final :
 
 | Mesure | Valeur |
 |---|---:|
-| lignes | __LINES__ |
-| titres | __HEADINGS__ |
-| cartes `<!-- l5:card -->` | __CARDS__ |
-| matrices `<!-- l5:matrix -->` | __MATRICES__ |
-| liens Markdown | __LINKS__ |
-| renvois vers les Livres I à IV | __SOURCE_LINKS__ |
-| liens profonds vers les Livres I à IV | __FRAGMENT_LINKS__ |
-| diagrammes compacts | __DIAGRAMS__ |
-| blocs clôturés | __FENCED_BLOCKS__ |
+| lignes | 500 |
+| titres | 19 |
+| cartes `<!-- l5:card -->` | 13 |
+| matrices `<!-- l5:matrix -->` | 3 |
+| liens Markdown | 91 |
+| renvois vers les Livres I à IV | 63 |
+| liens profonds vers les Livres I à IV | 35 |
+| diagrammes compacts | 7 |
+| blocs clôturés | 0 |
 | titres dupliqués | 0 |
 
 L’index express ouvre chaque carte ou matrice. Les identifiants `G3D-00` à `G3D-12` restent uniques.
@@ -140,9 +140,9 @@ Les exemples détaillés restent dans les sections conformes des chapitres propr
 
 Workflow temporaire : `Temporary Livre V Chapter 18 Finalizer`.
 
-Run final : `__RUN_ID__`.
+Run final : `30451780779`.
 
-Tête source : `__SOURCE_HEAD__`.
+Tête source : `5ef3d50223e12e82445aa40a04d6dd469b22bb05`.
 
 Commandes exécutées sans PDF :
 
@@ -188,7 +188,7 @@ Le niveau reste `static-review`.
 
 Empreinte SHA-256 du chapitre :
 
-`__CHAPTER_SHA__`
+`a0c694103dc1385e5168ad4653c7081058888fe4e3ae04625d3f00232cf8d015`
 
 L’empreinte de cet audit est enregistrée dans la preuve finale.
 
