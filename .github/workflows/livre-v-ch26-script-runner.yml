@@ -31,6 +31,10 @@ jobs:
       - name: Install validator dependency
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
+      - name: Correct known source path
+        run: |
+          sed -i 's#../Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation.md#../Livre-I/CHAPITRE-10-Securite-sauvegarde-et-validation-de-la-plateforme.md#g' Livre-V/CHAPITRE-26-Index-croises.md
+
       - name: Finalize governance and evidence
         env:
           SOURCE_HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
