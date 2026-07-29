@@ -44,8 +44,8 @@ jobs:
       - name: Measure chapter structure and integrity
         run: python3 tools/tmp_l5_ch16_measure.py
 
-      - name: Apply permanent governance
-        run: python3 tools/tmp_l5_ch16_finalize.py
+      - name: Verify permanent governance and finalize proof
+        run: python3 tools/tmp_l5_ch16_finalize_idempotent.py
 
       - name: Validate structure, metadata, links and duplicates
         run: |
@@ -97,7 +97,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No permanent governance changes to commit."
           else
-            git commit -m "docs(livre-v): finaliser la gouvernance de la fiche 16"
+            git commit -m "docs(livre-v): finaliser la preuve et la gouvernance de la fiche 16"
             git push origin HEAD:docs/livre-v-ch16-patrons-architecture
           fi
           git rev-parse HEAD | tee dist/PERMANENT-COMMIT.txt
