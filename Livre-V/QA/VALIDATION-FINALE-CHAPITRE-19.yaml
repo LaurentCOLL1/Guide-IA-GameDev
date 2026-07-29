@@ -1,0 +1,93 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH19
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 7f6e9d3f398e4b31d434a93020870a0d6119c513
+source-branch: docs/livre-v-ch19-reference-audio
+chapter:
+  id: DOC-L5-CH19
+  path: Livre-V/CHAPITRE-19-Reference-audio.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+results:
+  blocking-errors: 0
+  chapter-lines: __LINES__
+  chapter-headings: __HEADINGS__
+  reference-cards: __CARDS__
+  matrices: __MATRICES__
+  markdown-links: __LINKS__
+  source-book-links: __SOURCE_LINKS__
+  fragment-links: __FRAGMENT_LINKS__
+  compact-diagrams: __DIAGRAMS__
+  fenced-blocks: __FENCED_BLOCKS__
+  duplicate-headings: 0
+  reference-contract-covered: true
+  signal-specifications-covered: true
+  levels-loudness-and-dynamics-covered: true
+  asset-lifecycle-and-provenance-covered: true
+  formats-and-import-covered: true
+  loops-transitions-and-variants-covered: true
+  audio-families-covered: true
+  spatialization-and-listener-covered: true
+  buses-effects-snapshots-ducking-covered: true
+  tts-stt-localization-lipsync-covered: true
+  accessibility-and-captions-covered: true
+  contextual-budgets-and-presets-covered: true
+  audio-diagnostics-covered: true
+  master-plan-scope-covered: true
+  audio-model-reference-boundary-preserved: true
+  production-method-boundary-preserved: true
+  diagnostics-catalog-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  audio-tools-executed: false
+  tts-executed: false
+  stt-executed: false
+  audio-file-created: false
+  audio-file-encoded: false
+  audio-file-listened: false
+  godot-runtime-executed: false
+  import-or-reimport-executed: false
+  bus-or-effect-created: false
+  loop-or-transition-created: false
+  loudness-or-peak-measured: false
+  memory-or-latency-measured: false
+  accessibility-test-executed: false
+  localization-test-executed: false
+  pilot-comparison-executed: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: __CHAPTER_SHA__
+  audit-sha256: __AUDIT_SHA__
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 19 Script Runner
+    run-id: __RUN_ID__
+    source-head-commit: __SOURCE_HEAD__
+    conclusion: success
+    validated-steps:
+      - structure, metadata, links and duplicates
+      - Livre V cards and deep links
+      - structured code explanations
+      - usage marker presence
+      - semantic marker consistency
+      - context coverage
+      - absence of PDF
+reservations:
+  - No audio application, TTS engine, STT engine, generator, editor, encoder or measurement tool was executed.
+  - No WAV, FLAC, Ogg Vorbis, MP3, Opus, voice, transcript, SFX, ambience, music, master or runtime export was produced.
+  - No audio pilot, Companion Pack fixture, import profile, bus layout, effect chain, snapshot, loop, zone or Godot scene was materialized.
+  - No import, reimport, playback, listening, AB comparison, loudness, true-peak, memory, latency, streaming or concurrency campaign was executed.
+  - No accessibility, caption, localization, linguistic, artistic or organisational legal review was performed.
+  - No storage, network, AI service, user, secret, personal, voice-reference, consent or production data was used.
+  - No PDF was produced; collection licence and advanced accessibility tagging remain open.
