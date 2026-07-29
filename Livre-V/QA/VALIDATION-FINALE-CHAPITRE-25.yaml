@@ -1,0 +1,107 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH25
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-30'
+validated-base-commit: a44095df7f924a3a8b39ad1386310215769011cf
+source-branch: docs/livre-v-ch25-licences-provenance-conformite
+chapter:
+  id: DOC-L5-CH25
+  path: Livre-V/CHAPITRE-25-Licences-provenance-et-conformite.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-jurisdiction:
+    production-base: France
+    market-context: European Union
+    verification-date: '2026-07-30'
+results:
+  blocking-errors: 0
+  chapter-lines: 584
+  chapter-headings: 34
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 77
+  source-book-links: 35
+  fragment-links: 55
+  compact-diagrams: 9
+  fenced-blocks: 0
+  duplicate-headings: 0
+  qualification-contract-covered: true
+  object-layer-separation-covered: true
+  identity-inventory-and-scope-covered: true
+  spdx-license-ref-and-expressions-covered: true
+  rights-obligations-and-blocking-questions-covered: true
+  family-routing-covered: true
+  provenance-and-evidence-package-covered: true
+  persons-consent-and-data-covered: true
+  ai-chain-covered: true
+  redistribution-and-transitive-dependencies-covered: true
+  decision-statuses-covered: true
+  notices-attribution-sbom-and-publication-covered: true
+  solo-studio-governance-covered: true
+  regulatory-routing-and-escalation-covered: true
+  changes-incidents-and-withdrawal-covered: true
+  collection-license-boundary-covered: true
+  official-sources-reviewed: true
+  master-plan-scope-covered: true
+  owner-procedure-boundary-preserved: true
+  checklist-boundary-preserved: true
+  cross-index-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  real-component-qualified: false
+  license-compatibility-decided: false
+  ownership-determined: false
+  consent-approved: false
+  regulatory-applicability-determined: false
+  production-register-created: false
+  sbom-produced: false
+  notices-produced: false
+  source-offer-produced: false
+  personal-data-processed: false
+  professional-advice-issued: false
+  collection-license-selected: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: 10d670ac4ec0452ce2e046ac8b3273a96dea8676f159bb9b70e34a687acb9af7
+  audit-sha256: d0d7e09965059c65cd141f07595fdc6437f5f2f82b8e3ca57d966d3887e5cf81
+ci:
+  lightweight-finalization:
+    workflow: Temporary Livre V Chapter 25 Script Runner
+    run-id: 30496605577
+    source-head-commit: 6d86800763c26ab9fdd863a7007f30bbf9250ed9
+    conclusion: success
+    validated-steps:
+      - structure, metadata, links and duplicates
+      - Livre V cards and deep links
+      - structured code explanations
+      - usage marker presence
+      - semantic marker consistency
+      - context coverage
+      - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30496776046
+    head-commit: d9fb7b894ef741d27f82cb114efee7dc79466920
+    conclusion: success
+    artifact-id: 8741890339
+    artifact-digest: sha256:91b1084bdb1963cccd707efc52c4b8210c16898bb970399a607949e6128e7e6f
+    validated-steps:
+      - structure, metadata, links and duplicates
+      - Livre V cards and deep links
+      - structured code explanations
+      - usage marker presence
+      - semantic marker consistency
+      - context coverage
+      - absence of PDF
+reservations:
+  - No real component, model, dataset, asset, contract, consent, service or output was qualified.
+  - No license compatibility, ownership, jurisdiction, lawful basis or regulatory applicability was determined.
+  - No production register, SBOM, notices, source offer, attribution package or evidence package was created.
+  - No personal data, voice, image, signature, contract, secret or confidential artifact was processed.
+  - No exception, approval, signature or professional legal advice was issued.
+  - No global license was selected for the collection.
+  - No executable registry, notice generator, validator or report from the Companion Pack was produced.
+  - No PDF was produced.

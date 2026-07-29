@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.11.0"
+version: "4.12.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T23:31:00+02:00"
+last-updated: "2026-07-30T00:17:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2328,6 +2328,15 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas accepter une dérogation sans portée, propriétaire, compensation et expiration ;
 - ne pas transférer automatiquement une checklist réussie vers un nouveau build, une nouvelle plateforme ou une nouvelle locale ;
 - ne pas réécrire une décision historique lors d’une réouverture ;
+- ne pas déduire un droit d’un prix, d’un téléchargement, d’une visibilité publique ou d’une génération ;
+- ne pas étendre la licence du code aux modèles, poids, données, médias, personnes ou services ;
+- ne pas utiliser `open`, `free`, `royalty-free` ou `NOASSERTION` comme autorisation de publication ;
+- ne pas fusionner auteur, titulaire, fournisseur, opérateur et approbateur ;
+- ne pas publier un objet dont une dépendance obligatoire reste `unknown`, `blocked`, `contested` ou `stale` ;
+- ne pas exposer contrats, consentements, signatures, secrets ou données personnelles dans un registre public ;
+- ne pas automatiser une conclusion de titularité, de compatibilité juridique ou de conformité réglementaire ;
+- ne pas appliquer une exception au-delà de son objet, sa version, son canal, son territoire, sa durée ou son expiration ;
+- ne pas annoncer une licence globale avant une décision documentée sur le texte, le code, les médias et le Companion Pack ;
 - ne pas modifier les poids, critères ou seuils après lecture des scores sans créer une nouvelle version du comparatif ;
 - ne pas laisser un score agrégé compenser une porte obligatoire non satisfaite ;
 - ne pas imputer silencieusement une valeur aux données inconnues, bloquées, obsolètes ou non applicables ;
@@ -2338,7 +2347,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 24 chapitres sur 26 ;
+- progression du Livre V : 25 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2363,6 +2372,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 22 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 23 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 24 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 25 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2457,19 +2467,31 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt-quatre fiches sur 26 au niveau `static-review`. La fiche 24 fournit un contrat transversal pour items, obligations, applicabilité, preuves, phases, vues Solo/Studio, portes, dérogations, signatures et réouverture. Les checklists réellement instanciées, formulaires et automatisations du Companion Pack, décisions de licence et conformité, index croisés, approbations organisationnelles et balisage avancé restent ouverts.
+Le Livre V contient vingt-cinq fiches sur 26 au niveau `static-review`. La fiche 25 fournit un contrat transversal pour objets, textes applicables, identifiants SPDX, droits, obligations, provenance, personnes, chaînes IA, redistribution, notices, gouvernance, escalades, incidents et future licence globale. Les registres réellement instanciés, validations juridiques, licence globale, outils du Companion Pack, index croisés et formats avancés de publication restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-25-Licences-provenance-et-conformite.md
+Livre-V/CHAPITRE-26-Index-croises.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 25 synthétisera licences du texte, du code, des modèles et des assets, séparera provenance, consentement, redistribution et obligations, fournira des matrices et modèles de registre, et signalera les situations exigeant un avis professionnel sans rendre de conseil juridique.
+Le chapitre 26 clôturera l’encyclopédie par des index alphabétiques et thématiques, synonymes, anciennes appellations, liens croisés, navigation PDF/HTML et détection des références orphelines, sans recopier les fiches propriétaires.
 ## 27. Journal
+
+### 2026-07-30T00:17:00+02:00 — version 4.12.0
+
+- création de la fiche 25 — Licences, provenance et conformité ;
+- ajout de treize cartes, de trois matrices et de 9 diagrammes compacts ;
+- objets, couches juridiques, inventaire, SPDX, droits, provenance, personnes, chaînes IA, redistribution, statuts, notices, gouvernance, escalades, incidents et licence globale indexés ;
+- sources officielles SPDX, REUSE, OSI, Creative Commons, Légifrance, CNIL et Union européenne vérifiées le 30 juillet 2026 ;
+- frontières avec le Volume 0, les Livres II à IV, la fiche 24, la future fiche 26 et le Companion Pack maintenues sans duplication ;
+- métriques statiques : 584 lignes, 34 titres, 13 fiches, 3 matrices, 77 liens, 35 renvois vers les Livres I à IV, 55 liens profonds et 9 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 26 — Index croisés, niveau Élevée ;
+- aucune licence, compatibilité, titularité, conformité réglementaire, donnée personnelle, approbation, licence globale, outil du Companion Pack ou PDF produit.
 
 ### 2026-07-29T23:31:00+02:00 — version 4.11.0
 
