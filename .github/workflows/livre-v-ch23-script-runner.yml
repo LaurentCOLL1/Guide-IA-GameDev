@@ -31,6 +31,40 @@ jobs:
       - name: Install validator dependency
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
+      - name: Correct audit metadata and deep links
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          audit = Path('Livre-V/QA/AUDIT-CHAPITRE-23.md')
+          audit_text = audit.read_text(encoding='utf-8')
+          audit_text = audit_text.replace(
+              'chapter: 23\naudit-date: "2026-07-29T22:44:00+02:00"',
+              'chapter: 23\nlast-verified: "2026-07-29T22:44:00+02:00"\naudit-date: "2026-07-29T22:44:00+02:00"',
+              1,
+          )
+          audit.write_text(audit_text, encoding='utf-8', newline='\n')
+
+          chapter = Path('Livre-V/CHAPITRE-23-Comparatifs-des-solutions.md')
+          chapter_text = chapter.read_text(encoding='utf-8')
+          replacements = {
+              '../Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md)': '../Livre-IV/CHAPITRE-03-Tests-fonctionnels-et-tests-de-regression.md#6-contrat-dun-cas)',
+              '../Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md)': '../Livre-IV/CHAPITRE-05-Journalisation-et-observabilite-locale.md#8-distinguer-événements-métriques-et-traces)',
+              '../Livre-IV/CHAPITRE-06-Profilage-CPU.md)': '../Livre-IV/CHAPITRE-06-Profilage-CPU.md#8-mesurer-plusieurs-distributions-pas-un-seul-nombre)',
+              '../Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md)': '../Livre-IV/CHAPITRE-07-Profilage-GPU-et-optimisation-du-rendu.md#7-distinguer-cpu-de-rendu-gpu-et-attente)',
+              '../Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md)': '../Livre-IV/CHAPITRE-08-Optimisation-RAM-VRAM-et-allocations.md#7-les-quatre-questions-dune-enquête-mémoire)',
+              '../Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md)': '../Livre-IV/CHAPITRE-09-Chargements-streaming-et-gestion-des-ressources.md#8-budgets-de-chargement)',
+              '../Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md)': '../Livre-IV/CHAPITRE-10-Optimisation-des-scenes-scripts-et-systemes-de-jeu.md#7-classer-le-coût-avant-de-modifier)',
+              '../Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md)': '../Livre-IV/CHAPITRE-14-DevOps-et-integration-continue.md#1-rôle-du-chapitre)',
+              '../Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md)': '../Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md#4-prérequis-et-frontières)',
+              '../Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md)': '../Livre-III/CHAPITRE-29-Validation-technique-et-artistique-des-assets.md#1-rôle-du-chapitre)',
+              '../Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md)': '../Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md#3-périmètre-et-frontières)',
+          }
+          for old, new in replacements.items():
+              chapter_text = chapter_text.replace(old, new)
+          chapter.write_text(chapter_text, encoding='utf-8', newline='\n')
+          PY
+
       - name: Finalize governance and evidence
         env:
           SOURCE_HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
