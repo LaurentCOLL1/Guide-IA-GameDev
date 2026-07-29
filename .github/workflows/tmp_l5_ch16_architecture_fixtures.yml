@@ -1,0 +1,44 @@
+name: Temporary Livre V Chapter 16 Architecture Fixtures
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/tmp_l5_ch16_trigger.txt"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: livre-v-ch16-architecture-fixtures
+  cancel-in-progress: false
+
+jobs:
+  validate-architecture-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-v-ch16-patrons-architecture
+
+      - name: Execute deterministic synthetic architecture fixtures
+        run: |
+          mkdir -p dist
+          set -o pipefail
+          python3 tools/tmp_l5_ch16_validate_architecture.py \
+            | tee dist/QA-LIVRE-V-CH16-ARCHITECTURE.log
+
+      - name: Upload architecture fixture evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-v-ch16-architecture-fixtures
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            dist/QA-LIVRE-V-CH16-ARCHITECTURE.json
+            dist/QA-LIVRE-V-CH16-ARCHITECTURE.log
