@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p dist
           set -o pipefail
-          python3 tools/tmp_l5_ch15_validate_vectors.py \
+          python3 tools/tmp_l5_ch15_validate_vectors_run.py \
             | tee dist/QA-LIVRE-V-CH15-VECTORS.log
 
       - name: Upload vector fixture evidence
