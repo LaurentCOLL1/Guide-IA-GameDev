@@ -75,8 +75,21 @@ ci:
     fixture-failed: 0
     artifact-id: 8712287839
     artifact-digest: sha256:925bad56fa65f9dbc4a0545f2e997d1af7927cae461ee193afc72e50ca78894d
+  governance-finalization:
+    workflow: Temporary Livre V Chapter 15 Governance
+    run-id: 30422349952
+    source-head-commit: 86593aeac6eb0fe5571b79cb29925a011880c002
+    permanent-commit: 1e209eb9282c1216f05397d30813f2a4c672d6cc
+    conclusion: success
+    artifact-id: 8712358673
+    artifact-digest: sha256:989ad9689e42f25cbc2f8eb5536245739a9e5cf73941888c97eb60f1e6c651da
   permanent-validations:
-    status: pending-recording-after-clean-head-run
+    workflow: Validate Chapters Without PDF
+    head-commit: ab1bd1dc0ac0811a969075ff621663ee52c05fc6
+    run-id: 30422474486
+    conclusion: success
+    artifact-id: 8712397203
+    artifact-digest: sha256:bb6c9a71a32d3f4c7f120ebaebd3a96d6630dc4fef5847404740c35ea4983c28
 reservations:
   - Runtime evidence is limited to 43 deterministic synthetic vector-contract cases through Python stdlib.
   - Qdrant 1.18.2, Faiss 1.14.3, Chroma 1.5.9 and Sentence Transformers 5.5.1 are documentary references, not executed runtimes.
