@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 MODULE_PATH = Path(__file__).with_name("tmp_l5_ch15_validate_vectors.py")
@@ -9,6 +10,7 @@ SPEC = importlib.util.spec_from_file_location("l5_ch15_vector_fixtures", MODULE_
 if SPEC is None or SPEC.loader is None:
     raise RuntimeError("Impossible de charger les fixtures vectorielles.")
 module = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = module
 SPEC.loader.exec_module(module)
 module.EXPECTED_CASES = 43
 
