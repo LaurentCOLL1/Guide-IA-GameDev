@@ -1,0 +1,94 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH16
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: fcef7dbf8daa8429085d3b0d17f173ca5e277c56
+source-branch: docs/livre-v-ch16-patrons-architecture
+chapter:
+  id: DOC-L5-CH16
+  path: Livre-V/CHAPITRE-16-Patrons-d-architecture.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+results:
+  blocking-errors: 0
+  chapter-lines: 409
+  chapter-headings: 19
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 65
+  source-book-links: 34
+  fragment-links: 21
+  official-links: 13
+  compact-diagrams: 7
+  fenced-blocks: 0
+  pattern-contract-covered: true
+  boundaries-and-dependencies-covered: true
+  composition-root-and-injection-covered: true
+  support-and-lifecycle-covered: true
+  composition-and-inheritance-covered: true
+  application-services-covered: true
+  repository-and-unit-of-work-covered: true
+  ports-and-adapters-covered: true
+  events-and-mediation-covered: true
+  state-ownership-covered: true
+  facade-and-strategy-covered: true
+  test-seams-covered: true
+  anti-patterns-covered: true
+  fixture-tests: 67
+  fixture-tests-passed: 67
+  fixture-tests-failed: 0
+  fixture-backend: python-stdlib-synthetic-architecture-graphs
+  fixture-python-version: 3.12.3
+  fixture-python-implementation: CPython
+  fixture-platform: 'Linux-6.17.0-1020-azure-x86_64-with-glibc2.39'
+  fixture-duration-ms: 4.818
+  fixture-runtime-executed: true
+  network-used: false
+  godot-runtime-executed: false
+  gdscript-executed: false
+  addon-loaded: false
+  storage-loaded: false
+  user-data-processed: false
+  runtime-results-invented: false
+  tutorial-boundary-preserved: true
+  gameplay-pattern-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+integrity:
+  chapter-sha256: 23d740ea8746baf7aee5480536b0c89448d5e150e56bb0e543d8f74903fe0e38
+  audit-sha256: 9b3b4e57c4d0af0b5ad4b0c98cc2b605c6749f6bae88e1e88629665bd4f9d0ae
+ci:
+  specialized-architecture-fixtures:
+    workflow: Temporary Livre V Chapter 16 Architecture Fixtures
+    run-id: 30423850824
+    source-head-commit: dd26f85e540436cc86b2cc7523b8ea9ac623a882
+    conclusion: success
+    fixture-total: 67
+    fixture-passed: 67
+    fixture-failed: 0
+    artifact-id: 8712843349
+    artifact-digest: sha256:f5b8a0cbf70a3e0667a89736bf11a61ddbc03d37158270d29d62033e48ed862f
+  initial-documentary-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30423747724
+    source-head-commit: 8d04942f0e7e27d366dcfdc33abc9eedf1868a52
+    conclusion: success
+  permanent-validations:
+    status: pending-recording-after-clean-head-run
+reservations:
+  - Runtime evidence is limited to 67 deterministic synthetic architecture-contract cases through Python stdlib.
+  - No Godot Engine, GDScript, scene, Node, Resource, Autoload or addon was loaded.
+  - No real project dependency graph, bootstrap, repository, database, network or AI service was executed.
+  - No user, production, secret, personal or Companion Pack data was processed.
+  - No performance, load, concurrency, memory, disk or cross-platform campaign was executed.
+  - No plugin capability audit, native export or binary compatibility matrix was executed.
+  - No organisational legal approval was performed.
+  - No PDF was produced; collection licence and advanced accessibility tagging remain open.
