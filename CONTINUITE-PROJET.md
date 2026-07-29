@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.02.0"
+version: "4.03.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T06:18:10+02:00"
+last-updated: "2026-07-29T07:08:35+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2315,7 +2315,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 15 chapitres sur 26 ;
+- progression du Livre V : 16 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2331,6 +2331,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 13 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 14 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 15 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 16 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2425,19 +2426,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient quinze fiches sur 26 au niveau `static-review`. La fiche 15 fournit des contrats non linéaires pour espaces vectoriels, embeddings, métriques, index exacts et approximatifs, filtres, collections, cycle de vie, réindexation, corpus et évaluations. Les modèles et backends réellement exécutés, campagnes ANN et matérielles, fichiers du Companion Pack, approbations juridiques, licence globale et balisage avancé restent ouverts.
+Le Livre V contient seize fiches sur 26 au niveau `static-review`. La fiche 16 fournit des contrats non linéaires pour frontières, composition, injection, services d’application, repositories, ports, adaptateurs, événements, propriété d’état, façades, stratégies, coutures de test et anti-patterns. Les scènes, graphes, adaptateurs et tests de contrat réellement exécutés, patrons de gameplay, fichiers du Companion Pack, approbations juridiques, licence globale et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-16-Patrons-d-architecture.md
+Livre-V/CHAPITRE-17-Patrons-de-gameplay.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 16 cataloguera composition, services, repositories, événements, états, anti-patterns, contextes d’usage et conséquences. Il devra relier chaque patron aux chapitres propriétaires et fournir des exemples compacts testables sans prescrire une architecture universelle ni recopier les systèmes complets.
+Le chapitre 17 cataloguera machines à états, capacités, inventaires, quêtes et simulations, avec séparation des données, règles et présentations, variantes simples et avancées, diagnostics et critères de test. Il devra renvoyer aux systèmes propriétaires du Livre II sans les recopier ni prétendre qu’un patron de gameplay convient à tous les projets.
 ## 27. Journal
+
+### 2026-07-29T07:08:35+02:00 — version 4.03.0
+
+- création de la fiche 16 — Patrons d’architecture ;
+- ajout de treize cartes, de trois matrices et de sept diagrammes compacts ;
+- frontières, dépendances, composition root, injection, composition, services, repositories, ports, adaptateurs, événements, propriété d’état, façades, stratégies et coutures de test indexés ;
+- documentation Godot `4.7` et sources spécialisées sur injection, Repository et architectures événementielles relues le 29 juillet 2026 ;
+- campagne temporaire de 67 contrats synthétiques réussie avec CPython `3.12.3`, sans Godot, addon, stockage, réseau ni donnée utilisateur ;
+- métriques statiques : 409 lignes, 19 titres, 13 fiches, 3 matrices, 65 liens, 34 renvois vers les Livres I à IV, 21 liens profonds et 7 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 17 — Patrons de gameplay, niveau Élevée ;
+- aucun runtime Godot, GDScript, scène, addon, base, service, projet Companion Pack, approbation juridique ou PDF produit.
+
 
 ### 2026-07-29T06:18:10+02:00 — version 4.02.0
 
