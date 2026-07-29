@@ -7,6 +7,7 @@ lang: "fr-FR"
 book: "Livre V"
 chapter: 26
 audit-level: "static-review"
+audit-date: "2026-07-30T01:18:00+02:00"
 last-verified: "2026-07-30T01:18:00+02:00"
 ---
 
