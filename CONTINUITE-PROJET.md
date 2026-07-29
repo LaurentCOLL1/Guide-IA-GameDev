@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.06.0"
+version: "4.07.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T15:46:00+02:00"
+last-updated: "2026-07-29T16:26:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2310,12 +2310,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas confondre corrélation observée et causalité démontrée ;
 - ne pas présenter une simulation comme un résultat obtenu auprès de joueurs ;
 - ne pas collecter à distance ou auprès de personnes sans gouvernance, minimisation, information, base retenue, rétention et retrait adaptés ;
+- ne pas traiter un message, un code, une corrélation ou une signature comme une cause unique ;
+- ne pas supprimer un cache, réinstaller, migrer ou restaurer avant d’avoir préservé les preuves utiles ;
+- ne pas publier un secret, un dump non revu, une sauvegarde joueur brute ou une donnée personnelle dans un dossier diagnostique ;
+- ne pas fermer un défaut sur un contournement, un commit ou une CI verte sans vérification et non-régression adaptées ;
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 19 chapitres sur 26 ;
+- progression du Livre V : 20 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2335,6 +2339,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 18 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 19 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 20 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2429,19 +2434,32 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient dix-neuf fiches sur 26 au niveau `static-review`. La fiche 19 fournit une référence non linéaire pour signal, fréquence, profondeur, canaux, niveaux, loudness, formats, cycle de vie, boucles, variantes, spatialisation, bus, voix, TTS/STT, localisation, accessibilité, budgets contextualisés, niveaux de preuve et diagnostics audio. Les fichiers de test, presets exécutables et fixtures permanentes du Companion Pack, le catalogue transversal des erreurs, les campagnes de mesure, les approbations artistiques et juridiques, la licence globale et le balisage avancé restent ouverts.
+Le Livre V contient vingt fiches sur 26 au niveau `static-review`. La fiche 20 fournit un catalogue non linéaire pour contrat diagnostique, routage, certitude, environnement, observation, reproduction, réduction, preuves, messages, hypothèses, causes, contournements, corrections, index transversaux et maintenance versionnée. Les cas réels, outils de collecte, fixtures permanentes du Companion Pack, campagnes de benchmark, matrices de compatibilité, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md
+Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 20 classera les erreurs par outil, symptôme, message, cause et version, puis fournira des arbres de diagnostic progressifs. Il devra distinguer cause confirmée, hypothèse et contournement, renvoyer aux corrections propriétaires et ne pas promettre qu’un message possède une cause unique.
+Le chapitre 21 définira protocoles reproductibles, environnement, échauffement, cache, répétitions, unités, statistiques, dispersion, comparaisons et limites. Il devra dater chaque mesure, la lier au matériel et aux versions, séparer résultat brut et interprétation, et ne jamais généraliser une moyenne isolée.
 ## 27. Journal
+
+### 2026-07-29T16:26:00+02:00 — version 4.07.0
+
+- création de la fiche 20 — Catalogue des erreurs et diagnostics ;
+- ajout de treize cartes, de trois matrices et de 7 diagrammes compacts ;
+- contrat diagnostique, routage, certitude, environnement, reproduction, preuves, messages, hypothèses, causes, contournements, corrections, index transversaux et maintenance versionnée indexés ;
+- frontières avec les chapitres 2 à 20 du Livre IV, les méthodes de production du Livre III, les fiches 18 et 19, la future fiche 21, la future fiche 22 et le Companion Pack maintenues sans duplication ;
+- validations documentaires légères sans PDF préparées par le workflow temporaire dédié ;
+- métriques statiques : 454 lignes, 20 titres, 13 fiches, 3 matrices, 89 liens, 50 renvois vers les Livres I à IV, 80 liens profonds et 7 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 21 — Benchmarks et méthodes de mesure, niveau Élevée ;
+- aucun défaut, message, log, trace, dump, reproduction, hypothèse, cause, contournement, correctif, benchmark, donnée utilisateur, outil diagnostique ou PDF produit.
+
 
 ### 2026-07-29T15:46:00+02:00 — version 4.06.0
 

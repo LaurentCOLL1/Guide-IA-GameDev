@@ -199,10 +199,11 @@
 - [x] Patrons de gameplay — fiche 17 rédigée et auditée au niveau `static-review`.
 - [x] Référence graphique et 3D — fiche 18 rédigée et auditée au niveau `static-review`.
 - [x] Référence audio — fiche 19 rédigée et auditée au niveau `static-review`.
+- [x] Catalogue des erreurs et diagnostics — fiche 20 rédigée et auditée au niveau `static-review`.
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [ ] Bibliothèques techniques et index croisés.
 
-**Statut M6 : en cours — 19 chapitres rédigés, repérés et audités sur 26.**
+**Statut M6 : en cours — 20 chapitres rédigés, repérés et audités sur 26.**
 
 ## M7 — Companion Pack
 

@@ -106,7 +106,7 @@ La validation légère doit contrôler :
 
 ## 7. Métriques finales
 
-Les valeurs exactes sont calculées par le finaliseur sur le chapitre stabilisé et reportées dans la preuve QA : lignes, titres, cartes, matrices, liens Markdown, renvois vers les Livres I à IV, liens profonds, diagrammes compacts, blocs clôturés et doublons de titres.
+Métriques statiques du chapitre stabilisé : **454 lignes**, **20 titres**, **13 cartes**, **3 matrices**, **89 liens Markdown**, **50 renvois vers les Livres I à IV**, **80 liens profonds**, **7 diagrammes compacts**, **0 bloc clôturé** et **0 doublon de titre**.
 
 ## 8. Réserves
 
