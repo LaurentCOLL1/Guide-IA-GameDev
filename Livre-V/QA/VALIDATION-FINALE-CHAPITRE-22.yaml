@@ -1,0 +1,96 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH22
+validation-authority: livre-v-reference-profile
+status: prepared
+validation-date: '2026-07-29'
+validated-base-commit: 482a4116bcc822631439d85ccdfd9abbe32dc621
+source-branch: docs/livre-v-ch22-matrices-compatibilite
+chapter:
+  id: DOC-L5-CH22
+  path: Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  reference-engine:
+    name: Godot Engine
+    version: 4.7.1-stable
+    edition: Standard
+    language: GDScript
+  reference-python:
+    implementation: CPython
+    version: 3.14.6
+    fallback-version: 3.13.14
+results:
+  blocking-errors: pending_validation
+  chapter-lines: pending_measurement
+  chapter-headings: pending_measurement
+  reference-cards: 13
+  matrices: 3
+  markdown-links: pending_measurement
+  source-book-links: pending_measurement
+  fragment-links: pending_measurement
+  compact-diagrams: pending_measurement
+  fenced-blocks: pending_measurement
+  duplicate-headings: pending_measurement
+  compatibility-cell-contract-covered: true
+  three-axis-status-legend-covered: true
+  axes-identity-and-granularity-covered: true
+  sources-evidence-and-traceability-covered: true
+  versions-ranges-and-direction-covered: true
+  compatibility-family-routing-covered: true
+  os-shell-container-and-files-covered: true
+  hardware-gpu-driver-and-backend-covered: true
+  tools-runtimes-plugins-and-dependencies-covered: true
+  formats-import-export-and-roundtrip-covered: true
+  api-data-network-and-modding-covered: true
+  positive-negative-blocked-and-na-covered: true
+  promotion-degradation-and-decision-gates-covered: true
+  matrix-form-density-and-derived-views-covered: true
+  migration-breakage-fallback-and-deprecation-covered: true
+  history-ownership-and-retirement-covered: true
+  master-plan-scope-covered: true
+  compatibility-policy-boundary-preserved: true
+  tools-and-backends-boundaries-preserved: true
+  format-and-data-boundaries-preserved: true
+  diagnostics-boundary-preserved: true
+  benchmark-boundary-preserved: true
+  comparison-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  runtime-tests: 0
+  os-or-container-qualified: false
+  hardware-or-driver-tested: false
+  backend-executed: false
+  tool-or-runtime-installed: false
+  plugin-or-dependency-executed: false
+  format-or-roundtrip-tested: false
+  api-or-network-tested: false
+  save-or-migration-tested: false
+  mod-tested: false
+  compatibility-cell-produced: false
+  incompatibility-confirmed: false
+  platform-qualified: false
+  collection-reference-approved: false
+  external-source-requalified: false
+  user-data-processed: false
+  runtime-results-invented: false
+  pdf-produced: false
+integrity:
+  chapter-sha256: pending
+  audit-sha256: pending
+ci:
+  lightweight-finalization:
+    workflow: pending
+    run-id: pending
+    source-head-commit: pending
+    conclusion: pending
+reservations:
+- No OS, shell, filesystem, container or CI runner was qualified.
+- No CPU, GPU, driver, graphics API, backend, precision mode or offload path was tested.
+- No tool, runtime, plugin, extension, dependency or container image was installed or launched.
+- No format, import, export, conversion, migration or round-trip was executed.
+- No API, save, database, network connection, synchronization path or mod was tested.
+- No runtime compatibility cell, executable matrix, compatibility suite or automated report was produced.
+- No compatibility, incompatibility, collection reference, waiver or platform qualification was approved.
+- No external source was requalified beyond the references already present in the repository.
+- No player data, personal data, secret, license-specific decision or confidential artifact was used.
+- No Companion Pack compatibility tool or PDF was produced.
