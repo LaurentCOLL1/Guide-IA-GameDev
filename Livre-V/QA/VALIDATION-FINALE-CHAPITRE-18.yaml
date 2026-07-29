@@ -73,10 +73,10 @@ results:
   pdf-produced: false
 integrity:
   chapter-sha256: a0c694103dc1385e5168ad4653c7081058888fe4e3ae04625d3f00232cf8d015
-  audit-sha256: 68ed543591281dc66f57e8977fd7c287314404264bbd73d722289ddac4e91979
+  audit-sha256: 5fcdf2d7293af8332e334b4fd8fcb2b0fafd15e37a6d57c346385b195bf8d509
 ci:
   lightweight-finalization:
-    workflow: Temporary Livre V Chapter 18 Finalizer
+    workflow: Temporary Livre V Chapter 18 Script Runner
     run-id: 30451780779
     source-head-commit: 5ef3d50223e12e82445aa40a04d6dd469b22bb05
     conclusion: success

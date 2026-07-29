@@ -138,7 +138,7 @@ Les exemples détaillés restent dans les sections conformes des chapitres propr
 
 ## 8. Validation documentaire légère
 
-Workflow temporaire : `Temporary Livre V Chapter 18 Finalizer`.
+Workflow temporaire : `Temporary Livre V Chapter 18 Script Runner`.
 
 Run final : `30451780779`.
 
