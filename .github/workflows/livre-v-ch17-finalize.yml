@@ -1,9 +1,13 @@
 name: Temporary Livre V Chapter 17 Finalizer
 
 on:
-  push:
+  pull_request:
     branches:
-      - docs/livre-v-ch17-patrons-gameplay
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
     paths:
       - .github/workflows/livre-v-ch17-finalize.yml
 
@@ -32,7 +36,7 @@ jobs:
       - name: Finalize chapter governance and evidence
         env:
           RUN_ID: ${{ github.run_id }}
-          SOURCE_HEAD: ${{ github.sha }}
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           python - <<'PY'
           from __future__ import annotations
@@ -59,7 +63,6 @@ jobs:
                   raise RuntimeError(f'{path}: remplacement attendu une fois, trouvé {count}: {old[:100]!r}')
               write(path, text.replace(old, new, 1))
 
-          # Index actif.
           replace_once('Livre-V/index.md', 'version: "1.8.0"', 'version: "1.9.0"')
           replace_once(
               'Livre-V/index.md',
@@ -72,7 +75,6 @@ jobs:
               'Progression : **17 chapitres sur 26** rédigés et audités. Les fiches 01 à 17 utilisent le profil de référence spécialisé du Livre V ; la fiche 17 catalogue machines à états, variantes simples et avancées, capacités, commandes, inventaires, quêtes, simulations, matérialisation, commits multi-autorités, coutures de test et anti-patterns. Les petits prototypes Godot, scènes, scripts et fixtures permanentes du Companion Pack, la référence graphique et 3D, la licence globale et les formats de publication avancés restent des chantiers distincts.',
           )
 
-          # Roadmap.
           replace_once(
               'ROADMAP.md',
               '- [x] Patrons d’architecture — fiche 16 rédigée et auditée au niveau `static-review`.',
@@ -84,14 +86,12 @@ jobs:
               '**Statut M6 : en cours — 17 chapitres rédigés, repérés et audités sur 26.**',
           )
 
-          # Ordre lecteur.
           replace_once(
               'contents.txt',
               'Livre-V/CHAPITRE-16-Patrons-d-architecture.md\nCompanion-Pack/index.md',
               'Livre-V/CHAPITRE-16-Patrons-d-architecture.md\nLivre-V/CHAPITRE-17-Patrons-de-gameplay.md\nCompanion-Pack/index.md',
           )
 
-          # Plan maître, sans changer l’ordre ni le périmètre.
           replace_once('plans/LIVRE-V-PLAN-MAITRE.md', 'version: "1.16.0"', 'version: "1.17.0"')
           replace_once(
               'plans/LIVRE-V-PLAN-MAITRE.md',
@@ -104,7 +104,6 @@ jobs:
               '## Chapitre 17 — Patrons de gameplay\n\n**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.\n\n**Objectifs**',
           )
 
-          # Continuité : métadonnées et état courant.
           replace_once('CONTINUITE-PROJET.md', 'version: "4.03.0"', 'version: "4.04.0"')
           replace_once(
               'CONTINUITE-PROJET.md',
@@ -169,7 +168,6 @@ Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventio
           continuity = continuity.replace(marker, marker + journal_entry, 1)
           write('CONTINUITE-PROJET.md', continuity)
 
-          # Empreinte du chapitre, puis finalisation de l’audit.
           chapter_path = ROOT / 'Livre-V/CHAPITRE-17-Patrons-de-gameplay.md'
           chapter_sha = hashlib.sha256(chapter_path.read_bytes()).hexdigest()
           audit_path = 'Livre-V/QA/AUDIT-CHAPITRE-17.md'
@@ -185,7 +183,6 @@ Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventio
           write(audit_path, audit)
           audit_sha = hashlib.sha256((ROOT / audit_path).read_bytes()).hexdigest()
 
-          # Finalisation de la preuve QA.
           proof_path = 'Livre-V/QA/VALIDATION-FINALE-CHAPITRE-17.yaml'
           proof = read(proof_path)
           for placeholder, value in {
@@ -206,8 +203,24 @@ Le chapitre 18 rassemblera unités, axes, formats, PBR, UV, LOD, rigs, conventio
       - name: Validate chapters without PDF
         run: python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
 
+      - name: Validate Livre V cards and deep links
+        run: python tools/validate_livre_v_references.py --check
+
+      - name: Validate structured code explanations
+        run: python tools/check_code_explanation_structure.py --check
+
       - name: Validate usage contexts
         run: python tools/check_context_markers.py --check
+
+      - name: Validate semantic usage contexts
+        run: python tools/audit_contextes_semantiques.py --check
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
 
       - name: Remove temporary workflow and reports
         run: |
