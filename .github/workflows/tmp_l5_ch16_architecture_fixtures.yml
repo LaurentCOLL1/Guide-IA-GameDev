@@ -32,6 +32,9 @@ jobs:
           python3 tools/tmp_l5_ch16_validate_architecture.py \
             | tee dist/QA-LIVRE-V-CH16-ARCHITECTURE.log
 
+      - name: Measure chapter structure and integrity
+        run: python3 tools/tmp_l5_ch16_measure.py
+
       - name: Upload architecture fixture evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -42,3 +45,4 @@ jobs:
           path: |
             dist/QA-LIVRE-V-CH16-ARCHITECTURE.json
             dist/QA-LIVRE-V-CH16-ARCHITECTURE.log
+            dist/QA-LIVRE-V-CH16-CHAPTER.json
