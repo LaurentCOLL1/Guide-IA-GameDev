@@ -1,2 +1,0 @@
-Déclencheur unique du finaliseur permanent de la fiche 16.
-Relance idempotente après détection de la gouvernance déjà poussée.
