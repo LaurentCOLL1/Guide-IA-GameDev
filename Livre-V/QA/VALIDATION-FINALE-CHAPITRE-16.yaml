@@ -81,8 +81,21 @@ ci:
     run-id: 30423747724
     source-head-commit: 8d04942f0e7e27d366dcfdc33abc9eedf1868a52
     conclusion: success
+  governance-finalization:
+    workflow: Temporary Livre V Chapter 16 Governance
+    run-id: 30424717173
+    source-head-commit: 4deb66041ca611467d2cb02f21ddb6a58bc40872
+    permanent-commit: 3fdf9a7f0b6b3145a9150db13daf1879f0fb8d92
+    conclusion: success
+    artifact-id: 8713157626
+    artifact-digest: sha256:251de30ab5b0defe4a09b8550875f55fc4c2cd541491a5561088b1254e872842
   permanent-validations:
-    status: pending-recording-after-clean-head-run
+    workflow: Validate Chapters Without PDF
+    head-commit: 179911e8a966851b896e82ab3dc6309f4d64642a
+    run-id: 30424869831
+    conclusion: success
+    artifact-id: 8713211603
+    artifact-digest: sha256:03a7125ec32911c3283968ae7851024ef7d9013a7d82a9bdf475330f6bca0e50
 reservations:
   - Runtime evidence is limited to 67 deterministic synthetic architecture-contract cases through Python stdlib.
   - No Godot Engine, GDScript, scene, Node, Resource, Autoload or addon was loaded.
