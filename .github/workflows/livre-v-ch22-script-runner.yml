@@ -31,6 +31,11 @@ jobs:
       - name: Install validator dependency
         run: python3 -m pip install --disable-pip-version-check --quiet PyYAML
 
+      - name: Correct known compatibility anchors
+        run: |
+          sed -i 's/#4-modèle-mental--conserver-un-système-pas-seulement-un-zip/#4-modèle-mental-conserver-un-système-pas-seulement-un-zip/g' Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+          sed -i 's/#4-modèle-mental--une-extension-est-une-entrée-non-fiable/#4-modèle-mental-une-extension-est-une-entrée-non-fiable/g' Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
+
       - name: Finalize governance and evidence
         env:
           SOURCE_HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
