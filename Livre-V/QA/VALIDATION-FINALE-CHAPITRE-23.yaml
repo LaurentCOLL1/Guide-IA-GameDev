@@ -87,6 +87,21 @@ ci:
     - semantic marker consistency
     - context coverage
     - absence of PDF
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30490773603
+    head-commit: 7cd7efe306b16f5fc67e5796feff4bf229c0b6e5
+    conclusion: success
+    artifact-id: 8739582154
+    artifact-digest: sha256:9e0958b2afcaf21b3175521b7def89176547a0d7c1fbc18c620c12586bb20706
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
 reservations:
 - No candidate solution was installed, launched or functionally compared.
 - No CPU, GPU, memory, loading, network, CI, asset, audio or AI benchmark was executed.
