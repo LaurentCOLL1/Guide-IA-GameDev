@@ -1,0 +1,96 @@
+name: Temporary Livre V Chapter 17 Main Finalizer
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - synchronize
+    paths:
+      - .qa/livre-v-ch17-main-trigger
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'docs/livre-v-ch17-patrons-gameplay'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout documentary branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: docs/livre-v-ch17-patrons-gameplay
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependency
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Extract and execute branch finalizer
+        env:
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          workflow = Path('.github/workflows/livre-v-ch17-finalize.yml').read_text(encoding='utf-8').splitlines()
+          collected = []
+          inside = False
+          for line in workflow:
+              if line.strip() == "python - <<'PY'":
+                  inside = True
+                  continue
+              if inside and line.strip() == 'PY':
+                  break
+              if inside:
+                  collected.append(line[10:] if line.startswith('          ') else line)
+          if not collected:
+              raise RuntimeError('Script de finalisation introuvable dans le workflow de branche.')
+          Path('/tmp/finalize_ch17.py').write_text('\n'.join(collected) + '\n', encoding='utf-8')
+          PY
+          python /tmp/finalize_ch17.py
+
+      - name: Validate chapters without PDF
+        run: python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+
+      - name: Validate Livre V cards and deep links
+        run: python tools/validate_livre_v_references.py --check
+
+      - name: Validate structured code explanations
+        run: python tools/check_code_explanation_structure.py --check
+
+      - name: Validate usage contexts
+        run: python tools/check_context_markers.py --check
+
+      - name: Validate semantic usage contexts
+        run: python tools/audit_contextes_semantiques.py --check
+
+      - name: Assert that no PDF was produced
+        run: |
+          if find . -type f -name '*.pdf' -print -quit | grep -q .; then
+            echo "Un PDF a été produit pendant une validation légère." >&2
+            exit 1
+          fi
+
+      - name: Remove temporary branch files
+        run: |
+          rm -rf dist
+          rm -f .github/workflows/livre-v-ch17-finalize.yml
+          rm -f .qa/livre-v-ch17-main-trigger
+
+      - name: Commit finalized permanent lot
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(livre-v): finaliser la fiche 17"
+          git push origin HEAD:docs/livre-v-ch17-patrons-gameplay
