@@ -1,0 +1,209 @@
+from __future__ import annotations
+
+import hashlib
+import os
+import re
+from collections import Counter
+from pathlib import Path
+
+ROOT = Path('.')
+RUN_ID = os.environ['RUN_ID']
+SOURCE_HEAD = os.environ['SOURCE_HEAD']
+STAMP = '2026-07-29T13:59:00+02:00'
+
+
+def read(path: str) -> str:
+    return (ROOT / path).read_text(encoding='utf-8')
+
+
+def write(path: str, text: str) -> None:
+    (ROOT / path).write_text(text, encoding='utf-8')
+
+
+def replace_once(path: str, old: str, new: str) -> None:
+    text = read(path)
+    count = text.count(old)
+    if count != 1:
+        raise RuntimeError(
+            f'{path}: remplacement attendu une fois, trouvé {count}: {old[:100]!r}'
+        )
+    write(path, text.replace(old, new, 1))
+
+
+def regex_once(path: str, pattern: str, replacement: str, flags: int = 0) -> None:
+    text = read(path)
+    updated, count = re.subn(pattern, replacement, text, count=1, flags=flags)
+    if count != 1:
+        raise RuntimeError(f'{path}: motif remplacé {count} fois: {pattern!r}')
+    write(path, updated)
+
+
+chapter_path = 'Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md'
+chapter = read(chapter_path)
+lines = chapter.splitlines()
+headings = [line.strip() for line in lines if re.match(r'^#{1,6} ', line)]
+duplicates = [title for title, count in Counter(headings).items() if count > 1]
+if duplicates:
+    raise RuntimeError(f'titres dupliqués: {duplicates}')
+
+metrics = {
+    '__LINES__': str(len(lines)),
+    '__HEADINGS__': str(len(headings)),
+    '__CARDS__': str(chapter.count('<!-- l5:card -->')),
+    '__MATRICES__': str(chapter.count('<!-- l5:matrix -->')),
+    '__LINKS__': str(len(re.findall(r'\[[^\]]+\]\([^)]+\)', chapter))),
+    '__SOURCE_LINKS__': str(
+        len(re.findall(r'\]\(\.\./Livre-(?:I|II|III|IV)/', chapter))
+    ),
+    '__FRAGMENT_LINKS__': str(
+        len(
+            re.findall(
+                r'\]\(\.\./Livre-(?:I|II|III|IV)/[^)#]+#[^)]+\)', chapter
+            )
+        )
+    ),
+    '__DIAGRAMS__': str(chapter.count('**Diagramme compact :**')),
+    '__FENCED_BLOCKS__': str(chapter.count('```') // 2),
+}
+
+replace_once('Livre-V/index.md', 'version: "1.9.0"', 'version: "1.10.0"')
+replace_once(
+    'Livre-V/index.md',
+    '- [ ] Chapitre 18 — Référence graphique et 3D.',
+    '- [x] [Fiche 18 — Référence graphique et 3D](CHAPITRE-18-Reference-graphique-et-3D.md) — version `1.0.0`, niveau `static-review`.',
+)
+regex_once(
+    'Livre-V/index.md',
+    r'Progression : \*\*17 chapitres sur 26\*\*.*',
+    'Progression : **18 chapitres sur 26** rédigés et audités. Les fiches 01 à 18 utilisent le profil de référence spécialisé du Livre V ; la fiche 18 rassemble unités, axes, formats, cycle de vie des assets, PBR, UV, baking, géométrie, LOD, rigs, import, budgets contextualisés, preuves et diagnostics visuels. Les assets pilotes, presets exécutables et fixtures permanentes du Companion Pack, la référence audio, la licence globale et les formats de publication avancés restent des chantiers distincts.',
+)
+
+replace_once(
+    'ROADMAP.md',
+    '- [x] Patrons de gameplay — fiche 17 rédigée et auditée au niveau `static-review`.',
+    '- [x] Patrons de gameplay — fiche 17 rédigée et auditée au niveau `static-review`.\n- [x] Référence graphique et 3D — fiche 18 rédigée et auditée au niveau `static-review`.',
+)
+replace_once(
+    'ROADMAP.md',
+    '**Statut M6 : en cours — 17 chapitres rédigés, repérés et audités sur 26.**',
+    '**Statut M6 : en cours — 18 chapitres rédigés, repérés et audités sur 26.**',
+)
+
+replace_once(
+    'contents.txt',
+    'Livre-V/CHAPITRE-17-Patrons-de-gameplay.md\nCompanion-Pack/index.md',
+    'Livre-V/CHAPITRE-17-Patrons-de-gameplay.md\nLivre-V/CHAPITRE-18-Reference-graphique-et-3D.md\nCompanion-Pack/index.md',
+)
+
+replace_once('plans/LIVRE-V-PLAN-MAITRE.md', 'version: "1.17.0"', 'version: "1.18.0"')
+replace_once(
+    'plans/LIVRE-V-PLAN-MAITRE.md',
+    '> **Statut :** 17 chapitres sur 26 rédigés et audités au niveau `static-review`',
+    '> **Statut :** 18 chapitres sur 26 rédigés et audités au niveau `static-review`',
+)
+replace_once(
+    'plans/LIVRE-V-PLAN-MAITRE.md',
+    '## Chapitre 18 — Référence graphique et 3D\n\n**Objectifs**',
+    '## Chapitre 18 — Référence graphique et 3D\n\n**État documentaire :** rédigé en version `1.0.0`, niveau `static-review`, au format fiches de référence.\n\n**Objectifs**',
+)
+
+replace_once('CONTINUITE-PROJET.md', 'version: "4.04.0"', 'version: "4.05.0"')
+replace_once(
+    'CONTINUITE-PROJET.md',
+    'last-updated: "2026-07-29T10:21:00+02:00"',
+    f'last-updated: "{STAMP}"',
+)
+replace_once(
+    'CONTINUITE-PROJET.md',
+    '- progression du Livre V : 17 chapitres sur 26 ;',
+    '- progression du Livre V : 18 chapitres sur 26 ;',
+)
+replace_once(
+    'CONTINUITE-PROJET.md',
+    '- chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;',
+    '- chapitre 17 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;\n- chapitre 18 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;',
+)
+
+continuity = read('CONTINUITE-PROJET.md')
+next_section = '''## 26. Prochaine action
+
+Le Livre V contient dix-huit fiches sur 26 au niveau `static-review`. La fiche 18 fournit une référence non linéaire pour unités, axes, transformations, pivots, formats, cycle de vie des assets, PBR, UV, baking, géométrie, LOD, rigs, import, réimportation, budgets contextualisés, presets documentaires, niveaux de preuve et diagnostics visuels. Les assets pilotes, presets exécutables et fixtures permanentes du Companion Pack, la référence audio, les approbations artistiques et juridiques, la licence globale et le balisage avancé restent ouverts.
+
+Action suivante :
+
+> **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
+
+```text
+Livre-V/CHAPITRE-19-Reference-audio.md
+Niveau GPT-5.6 Sol recommandé : Élevée
+```
+
+Le chapitre 19 rassemblera formats, fréquences, loudness, boucles, spatialisation, TTS/STT, licences, bus Godot et diagnostics audio. Il devra renvoyer à la production propriétaire du Livre III sans recopier ses procédures ni présenter un format, un niveau ou un preset comme universel.
+'''
+updated, count = re.subn(
+    r'## 26\. Prochaine action\n.*?(?=## 27\. Journal)',
+    next_section,
+    continuity,
+    count=1,
+    flags=re.DOTALL,
+)
+if count != 1:
+    raise RuntimeError(
+        f'CONTINUITE-PROJET.md: section prochaine action remplacée {count} fois'
+    )
+continuity = updated
+
+journal_entry = f'''### {STAMP} — version 4.05.0
+
+- création de la fiche 18 — Référence graphique et 3D ;
+- ajout de treize cartes, de trois matrices et de {metrics['__DIAGRAMS__']} diagrammes compacts ;
+- unités, axes, pivots, formats, cycle de vie, PBR, UV, baking, géométrie, LOD, rigs, import, budgets, presets, preuves et diagnostics visuels indexés ;
+- méthodes propriétaires des chapitres 4, 5, 16 à 21, 28 et 29 du Livre III maintenues sans duplication ;
+- validations documentaires légères sans PDF réussies dans le run `{RUN_ID}` ;
+- métriques statiques : {metrics['__LINES__']} lignes, {metrics['__HEADINGS__']} titres, {metrics['__CARDS__']} fiches, {metrics['__MATRICES__']} matrices, {metrics['__LINKS__']} liens, {metrics['__SOURCE_LINKS__']} renvois vers les Livres I à IV, {metrics['__FRAGMENT_LINKS__']} liens profonds et {metrics['__DIAGRAMS__']} diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 19 — Référence audio, niveau Élevée ;
+- aucun Blender, Godot, GLB, mesh, texture, matériau, UV, bake, LOD, rig, animation, preset, import, comparaison de pilote, benchmark, approbation juridique ou PDF produit.
+
+
+'''
+marker = '## 27. Journal\n\n'
+if marker not in continuity:
+    raise RuntimeError('CONTINUITE-PROJET.md: marqueur de journal absent')
+continuity = continuity.replace(marker, marker + journal_entry, 1)
+write('CONTINUITE-PROJET.md', continuity)
+
+chapter_sha = hashlib.sha256((ROOT / chapter_path).read_bytes()).hexdigest()
+audit_path = 'Livre-V/QA/AUDIT-CHAPITRE-18.md'
+audit = read(audit_path)
+replacements = {
+    **metrics,
+    '__RUN_ID__': RUN_ID,
+    '__SOURCE_HEAD__': SOURCE_HEAD,
+    '__CHAPTER_SHA__': chapter_sha,
+}
+for placeholder, value in replacements.items():
+    if placeholder not in audit:
+        raise RuntimeError(f'{audit_path}: placeholder absent {placeholder}')
+    audit = audit.replace(placeholder, value)
+write(audit_path, audit)
+audit_sha = hashlib.sha256((ROOT / audit_path).read_bytes()).hexdigest()
+
+proof_path = 'Livre-V/QA/VALIDATION-FINALE-CHAPITRE-18.yaml'
+proof = read(proof_path)
+replacements = {
+    **metrics,
+    '__RUN_ID__': RUN_ID,
+    '__SOURCE_HEAD__': SOURCE_HEAD,
+    '__CHAPTER_SHA__': chapter_sha,
+    '__AUDIT_SHA__': audit_sha,
+}
+for placeholder, value in replacements.items():
+    if placeholder not in proof:
+        raise RuntimeError(f'{proof_path}: placeholder absent {placeholder}')
+    proof = proof.replace(placeholder, value)
+write(proof_path, proof)
+
+print(f'chapter_sha256={chapter_sha}')
+print(f'audit_sha256={audit_sha}')
+print(f'metrics={metrics}')
