@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.07.0"
+version: "4.08.0"
 lang: "fr-FR"
-last-updated: "2026-07-29T16:26:00+02:00"
+last-updated: "2026-07-29T18:11:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2314,12 +2314,16 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ne pas supprimer un cache, réinstaller, migrer ou restaurer avant d’avoir préservé les preuves utiles ;
 - ne pas publier un secret, un dump non revu, une sauvegarde joueur brute ou une donnée personnelle dans un dossier diagnostique ;
 - ne pas fermer un défaut sur un contournement, un commit ou une CI verte sans vérification et non-régression adaptées ;
+- ne pas présenter une moyenne isolée comme description suffisante d’une distribution ;
+- ne pas traiter les observations d’un même run comme des répétitions indépendantes ;
+- ne pas supprimer une valeur extrême ou manquante sans règle, statut et justification conservés ;
+- ne pas arrêter une campagne dès que le résultat devient favorable ni changer la métrique primaire après lecture ;
 
 ## 25. État courant
 
 - branche principale : `main` ;
 - jalon : M6 — Livre V ;
-- progression du Livre V : 20 chapitres sur 26 ;
+- progression du Livre V : 21 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 3 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2340,6 +2344,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 18 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 19 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 20 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
+- chapitre 21 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
@@ -2434,19 +2439,30 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt fiches sur 26 au niveau `static-review`. La fiche 20 fournit un catalogue non linéaire pour contrat diagnostique, routage, certitude, environnement, observation, reproduction, réduction, preuves, messages, hypothèses, causes, contournements, corrections, index transversaux et maintenance versionnée. Les cas réels, outils de collecte, fixtures permanentes du Companion Pack, campagnes de benchmark, matrices de compatibilité, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
+Le Livre V contient vingt et une fiches sur 26 au niveau `static-review`. La fiche 21 fournit un contrat transversal pour question, environnement, scénario, warm-up, caches, répétitions, unités, données brutes, statistiques, exclusions, comparaisons, rapports, niveaux de preuve et maintenance. Les campagnes réelles, scripts et fixtures du Companion Pack, matrices de compatibilité, comparatifs, approbations organisationnelles, licence globale et balisage avancé restent ouverts.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
+Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le chapitre 21 définira protocoles reproductibles, environnement, échauffement, cache, répétitions, unités, statistiques, dispersion, comparaisons et limites. Il devra dater chaque mesure, la lier au matériel et aux versions, séparer résultat brut et interprétation, et ne jamais généraliser une moyenne isolée.
+Le chapitre 22 croisera OS, GPU, versions, formats, outils et backends. Il distinguera support officiel, expérimental, testé, non vérifié et incompatible, conservera date et source, et interdira d’interpréter l’absence de test comme une incompatibilité.
 ## 27. Journal
+
+### 2026-07-29T18:11:00+02:00 — version 4.08.0
+
+- création de la fiche 21 — Benchmarks et méthodes de mesure ;
+- ajout de treize cartes, de trois matrices et de 8 diagrammes compacts ;
+- contrat, routage, question, environnement, scénario, warm-up, caches, répétitions, unités, données brutes, statistiques, exclusions, comparaison, rapports, preuves et maintenance indexés ;
+- frontières avec l’équilibrage, la QA, l’observabilité, le diagnostic et les campagnes spécialisées des chapitres 1 à 14 du Livre IV, les fiches 18 à 20, les futures fiches 22 et 23 et le Companion Pack maintenues sans duplication ;
+- métriques statiques : 462 lignes, 20 titres, 13 fiches, 3 matrices, 64 liens, 41 renvois vers les Livres I à IV, 47 liens profonds et 8 diagrammes compacts ;
+- index, roadmap, ordre lecteur, plan maître, audit, preuve QA et continuité mis à jour ;
+- prochaine action déplacée vers la fiche 22 — Matrices de compatibilité, niveau Élevée ;
+- aucun benchmark, warm-up, cache, run, profiler, série, statistique, comparaison, donnée utilisateur, script du Companion Pack ou PDF produit.
 
 ### 2026-07-29T16:26:00+02:00 — version 4.07.0
 

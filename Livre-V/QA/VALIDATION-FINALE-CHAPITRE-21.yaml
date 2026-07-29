@@ -1,7 +1,7 @@
 schema-version: 2
 evidence-id: DOC-L5-QA-EVIDENCE-CH21
 validation-authority: livre-v-reference-profile
-status: prepared
+status: complete
 validation-date: '2026-07-29'
 validated-base-commit: 165d3719cc8851be42b02f7e0d20c136f08268a0
 source-branch: docs/livre-v-ch21-benchmarks-methodes-mesure
@@ -21,7 +21,7 @@ chapter:
     version: 3.14.6
     fallback-version: 3.13.14
 results:
-  blocking-errors: pending_validation
+  blocking-errors: 0
   chapter-lines: 462
   chapter-headings: 20
   reference-cards: 13
@@ -77,16 +77,30 @@ integrity:
   audit-sha256: 6e3a702eab8e3b59ef5a96feba7f7ffce18f48cf2ddf3d4b947456d302464dd2
 ci:
   lightweight-finalization:
-    workflow: pending
-    run-id: pending
-    source-head-commit: pending
-    conclusion: pending
+    workflow: Temporary Livre V Chapter 21 Script Runner
+    run-id: 30471225722
+    source-head-commit: f066fd4f4c9a96d22f53e2b54508803ec56dee13
+    conclusion: success
+    validated-steps:
+    - structure, metadata, links and duplicates
+    - Livre V cards and deep links
+    - structured code explanations
+    - usage marker presence
+    - semantic marker consistency
+    - context coverage
+    - absence of PDF
 reservations:
-- No CPU, GPU, RAM, VRAM, loading, gameplay, network, CI, asset, audio or AI benchmark was executed.
-- No warm-up, cold or warm cache state, run, repetition, randomization or stopping rule was exercised.
-- No profiler, counter, capture, timer, power meter, network emulator or measurement tool was used.
-- No raw sample, distribution, statistic, confidence interval, chart or report was produced.
-- No baseline, candidate, speedup, relative difference, practical effect or platform budget was measured.
+- No CPU, GPU, RAM, VRAM, loading, gameplay, network, CI, asset, audio or AI benchmark
+  was executed.
+- No warm-up, cold or warm cache state, run, repetition, randomization or stopping
+  rule was exercised.
+- No profiler, counter, capture, timer, power meter, network emulator or measurement
+  tool was used.
+- No raw sample, distribution, statistic, confidence interval, chart or report was
+  produced.
+- No baseline, candidate, speedup, relative difference, practical effect or platform
+  budget was measured.
 - No independent repetition, product decision or compatibility conclusion was completed.
-- No player data, personal data, secret, token, contract, voice or confidential artifact was used.
+- No player data, personal data, secret, token, contract, voice or confidential artifact
+  was used.
 - No Companion Pack benchmark script, fixture, dataset or PDF was produced.
