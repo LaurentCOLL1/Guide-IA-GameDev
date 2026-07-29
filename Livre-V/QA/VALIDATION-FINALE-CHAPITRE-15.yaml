@@ -1,0 +1,88 @@
+schema-version: 2
+evidence-id: DOC-L5-QA-EVIDENCE-CH15
+validation-authority: livre-v-reference-profile
+status: complete
+validation-date: '2026-07-29'
+validated-base-commit: 645b7bc46fea2408673c4939baf739089168b09b
+source-branch: docs/livre-v-ch15-bases-vectorielles-recherche-semantique
+chapter:
+  id: DOC-L5-CH15
+  path: Livre-V/CHAPITRE-15-Bases-vectorielles-et-recherche-semantique.md
+  version: 1.0.0
+  document-format: reference-cards
+  audit-level: static-review
+  documentary-versions:
+    qdrant: 1.18.2
+    faiss: 1.14.3
+    chroma: 1.5.9
+    sentence-transformers: 5.5.1
+results:
+  blocking-errors: 0
+  chapter-lines: 424
+  chapter-headings: 19
+  reference-cards: 13
+  matrices: 3
+  markdown-links: 67
+  source-book-links: 28
+  fragment-links: 12
+  official-links: 17
+  fenced-blocks: 0
+  authority-boundary-covered: true
+  embedding-contract-covered: true
+  metrics-and-normalization-covered: true
+  chunk-and-identity-covered: true
+  metadata-and-visibility-covered: true
+  collections-and-indexes-covered: true
+  filtering-covered: true
+  lifecycle-and-reindexing-covered: true
+  evaluation-covered: true
+  local-solutions-covered: true
+  diagnostics-and-security-covered: true
+  fixture-tests: 43
+  fixture-tests-passed: 43
+  fixture-tests-failed: 0
+  fixture-backend: python-stdlib-exact-synthetic
+  fixture-python-version: 3.12.3
+  fixture-python-implementation: CPython
+  fixture-platform: 'Linux-6.17.0-1020-azure-x86_64-with-glibc2.39'
+  fixture-duration-ms: 5.677
+  fixture-runtime-executed: true
+  network-used: false
+  model-loaded: false
+  vector-backend-loaded: false
+  user-data-processed: false
+  qdrant-runtime-executed: false
+  faiss-runtime-executed: false
+  chroma-runtime-executed: false
+  sentence-transformers-runtime-executed: false
+  godot-runtime-executed: false
+  runtime-results-invented: false
+  tutorial-boundary-preserved: true
+  companion-pack-boundary-preserved: true
+  master-plan-scope-covered: true
+  pdf-produced: false
+integrity:
+  chapter-sha256: 1d3ca66382ac903bab6da3ea3254148d1029e092a1a4ee0d9f83d93440a1df66
+  audit-sha256: 0fa731f03a52c665b7e1b4432065c20967bbaeb5ec4f38a839c195f90f6a2766
+ci:
+  specialized-vector-fixtures:
+    workflow: Temporary Livre V Chapter 15 Vector Fixtures
+    run-id: 30422132646
+    source-head-commit: e96ed22808daaf65a20dc23258aef63c7bb5c2e5
+    conclusion: success
+    fixture-total: 43
+    fixture-passed: 43
+    fixture-failed: 0
+    artifact-id: 8712287839
+    artifact-digest: sha256:925bad56fa65f9dbc4a0545f2e997d1af7927cae461ee193afc72e50ca78894d
+  permanent-validations:
+    status: pending-recording-after-clean-head-run
+reservations:
+  - Runtime evidence is limited to 43 deterministic synthetic vector-contract cases through Python stdlib.
+  - Qdrant 1.18.2, Faiss 1.14.3, Chroma 1.5.9 and Sentence Transformers 5.5.1 are documentary references, not executed runtimes.
+  - No embedding model, vector backend, Godot binary, network service, container or GPU was loaded.
+  - No user, production, secret, personal or Companion Pack data was processed.
+  - No ANN recall, performance, load, concurrency, memory, disk or cross-platform campaign was executed.
+  - No backend migration, binary format compatibility or native export matrix was executed.
+  - No organisational legal approval was performed.
+  - No PDF was produced; collection licence and advanced accessibility tagging remain open.
