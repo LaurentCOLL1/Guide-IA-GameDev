@@ -1,2 +1,2 @@
 Déclencheur unique du finaliseur permanent de la fiche 16.
-Relance après ajout de last-verified et calcul CI de l’empreinte d’audit.
+Relance idempotente après détection de la gouvernance déjà poussée.
