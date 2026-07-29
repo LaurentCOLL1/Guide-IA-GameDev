@@ -13,3 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The temporary runner on main owns finalization."
+
+# trigger: finalize Livre V chapter 25
+# created-at: 2026-07-30T00:17:00+02:00
