@@ -32,6 +32,12 @@ jobs:
           python3 tools/tmp_l5_ch15_validate_vectors_run.py \
             | tee dist/QA-LIVRE-V-CH15-VECTORS.log
 
+      - name: Measure chapter structure and integrity
+        run: |
+          set -o pipefail
+          python3 tools/tmp_l5_ch15_measure.py \
+            | tee dist/QA-LIVRE-V-CH15-CHAPTER.log
+
       - name: Upload vector fixture evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -42,3 +48,5 @@ jobs:
           path: |
             dist/QA-LIVRE-V-CH15-VECTORS.json
             dist/QA-LIVRE-V-CH15-VECTORS.log
+            dist/QA-LIVRE-V-CH15-CHAPTER.json
+            dist/QA-LIVRE-V-CH15-CHAPTER.log
