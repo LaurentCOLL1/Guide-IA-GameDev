@@ -138,4 +138,5 @@ Livre-V/CHAPITRE-18-Reference-graphique-et-3D.md
 Livre-V/CHAPITRE-19-Reference-audio.md
 Livre-V/CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md
 Livre-V/CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md
+Livre-V/CHAPITRE-22-Matrices-de-compatibilite.md
 Companion-Pack/index.md

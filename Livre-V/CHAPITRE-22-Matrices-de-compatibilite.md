@@ -205,7 +205,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | réseau et API | protocole, version, transport, autorité | [communication IA](../Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md#51-port-applicatif) | handshake, requête, erreurs et reprise |
 | exports | Godot, templates, SDK, OS, architecture | [exports et packaging](../Livre-IV/CHAPITRE-16-Exports-Godot-et-packaging.md#4-prérequis-et-frontières) | export, installation et lancement propre |
 | mods | API publique, manifeste, capacités, dépendances | [modding](../Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md#5-choisir-les-surfaces-dextension) | validation, activation, désactivation et sauvegarde |
-| archivage | format, dépendances, outils, reconstruction | [maintenance et pérennité](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental--conserver-un-système-pas-seulement-un-zip) | fixité, restauration ou reconstruction |
+| archivage | format, dépendances, outils, reconstruction | [maintenance et pérennité](../Livre-IV/CHAPITRE-22-Maintenance-archivage-et-perennite.md#4-modèle-mental-conserver-un-système-pas-seulement-un-zip) | fixité, restauration ou reconstruction |
 
 **Décision :** cette fiche centralise les statuts et leur lecture. Les procédures, oracles et corrections restent dans les sources propriétaires.
 
@@ -332,7 +332,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | localisation | locale, clés, placeholders, police et repli |
 | reprise | retry, idempotence, timeout, annulation et état partiel |
 
-**Réponse rapide :** la [politique réseau](../Volume-0/CHAPITRE-09-Politique-de-compatibilite.md#11-compatibilité-réseau-et-multijoueur) sépare compatibilité réseau et sauvegardes. Le [port applicatif](../Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md#51-port-applicatif) sépare domaine et transport, tandis que le [modding](../Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md#4-modèle-mental--une-extension-est-une-entrée-non-fiable) traite toute extension comme une entrée non fiable.
+**Réponse rapide :** la [politique réseau](../Volume-0/CHAPITRE-09-Politique-de-compatibilite.md#11-compatibilité-réseau-et-multijoueur) sépare compatibilité réseau et sauvegardes. Le [port applicatif](../Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md#51-port-applicatif) sépare domaine et transport, tandis que le [modding](../Livre-IV/CHAPITRE-21-Modding-et-contenu-communautaire.md#4-modèle-mental-une-extension-est-une-entrée-non-fiable) traite toute extension comme une entrée non fiable.
 
 **Porte :** une réponse HTTP 200 ne prouve ni conformité de tous les champs, ni ordre des événements, ni compatibilité de reprise. Une sauvegarde chargée ne prouve pas que tous ses contenus restent disponibles.
 

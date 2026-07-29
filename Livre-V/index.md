@@ -2,7 +2,7 @@
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
 status: "active"
-version: "1.13.0"
+version: "1.14.0"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -45,7 +45,7 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 - [x] [Fiche 19 — Référence audio](CHAPITRE-19-Reference-audio.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 20 — Catalogue des erreurs et diagnostics](CHAPITRE-20-Catalogue-des-erreurs-et-diagnostics.md) — version `1.0.0`, niveau `static-review`.
 - [x] [Fiche 21 — Benchmarks et méthodes de mesure](CHAPITRE-21-Benchmarks-et-methodes-de-mesure.md) — version `1.0.0`, niveau `static-review`.
-- [ ] Chapitre 22 — Matrices de compatibilité.
+- [x] [Fiche 22 — Matrices de compatibilité](CHAPITRE-22-Matrices-de-compatibilite.md) — version `1.0.0`, niveau `static-review`.
 - [ ] Chapitre 23 — Comparatifs des solutions.
 - [ ] Chapitre 24 — Checklists de production et de publication.
 - [ ] Chapitre 25 — Licences, provenance et conformité.
@@ -53,4 +53,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **21 chapitres sur 26** rédigés et audités. Les fiches 01 à 21 utilisent le profil de référence spécialisé du Livre V ; la fiche 21 rassemble contrat de benchmark, environnement, scénarios, warm-up, caches, répétitions, unités, données brutes, statistiques, exclusions, comparaisons, rapports, niveaux de preuve et maintenance. Les campagnes exécutées, scripts et fixtures permanents du Companion Pack, les matrices de compatibilité, les comparatifs, la licence globale et les formats de publication avancés restent des chantiers distincts.
+Progression : **22 chapitres sur 26** rédigés et audités. Les fiches 01 à 22 utilisent le profil de référence spécialisé du Livre V ; la fiche 22 rassemble contrat de cellule, statuts amont et locaux, axes, sources, versions, systèmes, GPU, backends, outils, formats, API, tests positifs et négatifs, portes de promotion, vues, migrations et historique. Les tests exécutés et matrices automatisées du Companion Pack, les comparatifs, la licence globale et les formats de publication avancés restent des chantiers distincts.

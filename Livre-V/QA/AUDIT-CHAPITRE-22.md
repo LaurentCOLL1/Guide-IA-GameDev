@@ -121,7 +121,7 @@ La validation légère doit contrôler :
 
 ## 7. Métriques finales
 
-Les métriques statiques du chapitre stabilisé, ainsi que les empreintes SHA-256 du chapitre et de l’audit, sont calculées par le finaliseur et enregistrées dans la preuve QA finale.
+Les métriques statiques du chapitre stabilisé sont : 493 lignes, 20 titres, 13 cartes, 3 matrices, 70 liens Markdown, 11 renvois vers les Livres I à IV, 51 liens avec fragment, 8 diagrammes compacts, 0 bloc clôturé et 0 titre dupliqué. Les empreintes SHA-256 sont enregistrées dans la preuve QA finale.
 
 ## 8. Réserves
 
