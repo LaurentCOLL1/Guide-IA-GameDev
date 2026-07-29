@@ -61,14 +61,33 @@ integrity:
   chapter-sha256: 7b389d684720dd2592d98e9270efb1be6fbe11e0cdba768372bf751973b8145a
   audit-sha256: fc51dc2a8f775cf7c257c9ba6ad7f15806e8231ffa0d5ef5f76f8757964f52cd
 ci:
-  lightweight-validation:
+  initial-documentary-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30437422489
+    source-head-commit: 00da1a6cb8ad127db99c49ba1fb0c01307f41168
+    conclusion: failure
+    blocking-finding: missing generated heading fragment for the agents authority chain
+    correction: replaced the explicit-anchor fragment with the validated Markdown heading fragment
+  lightweight-finalization:
     workflow: Temporary Livre V Chapter 17 Finalizer
     run-id: 30438299611
     source-head-commit: 514052ec945646c9d38345ffe2e8509f0468804b
     conclusion: success
-    commands:
-      - python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
-      - python tools/check_context_markers.py --check
+  permanent-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30438453942
+    head-commit: 4e2d91b7a753372ed8c9f66e9bd6e6bc2dbdf642
+    conclusion: success
+    artifact-id: 8718387269
+    artifact-digest: sha256:d5e7643c467bd598fe905ee0d7fe719c2280c9782ee5ca8ce7b0bf6aec06fa6f
+    validated-steps:
+      - structure, metadata, links and duplicates
+      - Livre V cards and deep links
+      - structured code explanations
+      - usage marker presence
+      - semantic marker consistency
+      - context coverage
+      - absence of PDF
 reservations:
   - No Godot Engine, GDScript, scene, Node, Resource, Autoload or addon was executed.
   - No finite-state machine, capability, inventory, quest or simulation prototype was materialized.
