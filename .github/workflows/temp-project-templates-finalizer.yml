@@ -35,7 +35,10 @@ jobs:
 
       - name: Finalize Pack 2 and governance
         shell: bash
-        run: python3 "$RUNNER_TEMP/finalize_project_templates.py"
+        run: |
+          set -euo pipefail
+          python3 "$RUNNER_TEMP/finalize_project_templates.py"
+          sed -i 's/[[:space:]]\+$//' plans/COMPANION-PACK-PLAN-MAITRE.md
 
       - name: Validate documentation and Project Templates
         shell: bash
