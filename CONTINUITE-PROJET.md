@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.19.0"
+version: "4.20.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T10:29:52+02:00"
+last-updated: "2026-07-30T11:20:49+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,12 +2354,13 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 5 packs validés sur 10 ;
+- progression du Companion Pack : 6 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
 - Code Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Database Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
+- ComfyUI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2482,19 +2483,34 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 5 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Database Library a validé quatre migrations ascendantes, deux repositories, quatorze tests Python, la création depuis zéro, les montées de version, la sauvegarde, la restauration et les contrôles d’intégrité avec Python `sqlite3`. Godot-SQLite, Godot, les performances, la concurrence, Windows graphique, les exports et la licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 6 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. ComfyUI Library a validé 37 fichiers, 12 tests Python, ComfyUI `v0.28.0` au commit `700821e1364eaab0e8f21c538a2131719fec57bf`, un démarrage CPU local et le workflow sans modèle `LoadImage → SaveImage`, avec sortie PNG et métadonnées. Les modèles, custom nodes tiers, profils AMD/ZLUDA, Windows graphique, performances, qualité, droits de sortie, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/ComfyUI-Library/README.md
+Companion-Pack/Documentation-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 6 doit matérialiser une bibliothèque ComfyUI reproductible : workflows JSON, manifestes YAML, listes de custom nodes, presets, scripts de lancement, modèles de dossiers, fiches de provenance, images légères de validation et checksums. Aucun modèle non redistribuable ne devra être inclus ; chaque dépendance, seed, paramètre, profil matériel, exécution et licence devra être qualifié sans inventer de résultat.
+Le Pack 7 doit matérialiser une bibliothèque documentaire normalisée : templates de chapitre, front matter, rapports QA, preuves YAML, ADR, checklists, fiches outils/modèles/assets, glossaires et scripts de génération. Les templates devront être compilables, porter des identifiants conformes, inclure les repères d’utilisation, fournir des exemples remplis et documenter leur personnalisation sans dupliquer les documents propriétaires.
 ## 27. Journal
+
+### 2026-07-30T11:20:49+02:00 — version 4.20.0
+
+- matérialisation du Companion Pack, Pack 6 — ComfyUI Library ;
+- 37 fichiers du Pack, deux workflows, trois profils, manifestes, provenance, scripts, image SVG et checksums créés ;
+- 12 tests Python réussis ;
+- ComfyUI `v0.28.0` au commit `700821e1364eaab0e8f21c538a2131719fec57bf`, Python `3.12.13` et Torch `2.13.0+cu130` qualifiés sur Ubuntu 24.04 ;
+- workflow `WF-COMFY-0001` exécuté en CPU sur `127.0.0.1` sans modèle ni custom node tiers ;
+- base SQLite interne créée explicitement dans le workspace runtime ;
+- sortie PNG de 1565 octets avec métadonnées `prompt` et `workflow`, SHA-256 `868bc37be44cf32ae8cac9e55106bd2d16dc9161f6bea4e391e9c146e7603388` ;
+- run `30529642016`, artefact `8754176422`, digest `sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af` ;
+- arbre Git propre et validations documentaires légères exécutées sans PDF ;
+- progression M7 portée à 6 packs sur 10 ;
+- prochaine action : `Companion-Pack/Documentation-Library/README.md`, niveau Élevée ;
+- aucun modèle réel, text-to-image, custom node tiers, AMD/ZLUDA, Windows graphique, performance, qualité, droit de sortie, export, release, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T10:29:52+02:00 — version 4.19.0
 

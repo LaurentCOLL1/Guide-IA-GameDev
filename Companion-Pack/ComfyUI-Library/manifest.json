@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "CP-PACK-06-COMFYUI-LIBRARY",
+  "version": "1.0.0",
+  "status": "reviewed",
+  "entry_point": "README.md",
+  "validation": "qa/VALIDATION-COMFYUI-LIBRARY.yaml",
+  "audit": "qa/AUDIT-COMFYUI-LIBRARY.md",
+  "workflow_registry": "catalog.json",
+  "comfyui_manifest": "manifests/comfyui.yaml",
+  "qualification": {
+    "level": "runtime-tested-linux",
+    "run_id": 30529642016,
+    "artifact_id": 8754176422
+  }
+}

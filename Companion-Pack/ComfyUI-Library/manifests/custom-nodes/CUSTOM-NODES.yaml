@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "validation_workflow": {
+    "required": [],
+    "missing_node_policy": "fail-with-exact-list"
+  },
+  "template_workflows": {
+    "required": []
+  },
+  "installation_policy": {
+    "automatic": false,
+    "review_repository": true,
+    "pin_commit": true,
+    "record_license": true
+  }
+}

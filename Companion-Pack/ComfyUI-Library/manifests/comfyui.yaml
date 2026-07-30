@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "comfyui": {
+    "tag": "v0.28.0",
+    "commit": "700821e1364eaab0e8f21c538a2131719fec57bf",
+    "python_profile": "3.12-fallback",
+    "bind": "127.0.0.1",
+    "port": 8188
+  },
+  "workflow_roots": [
+    "workflows/source",
+    "workflows/api"
+  ],
+  "model_policy": {
+    "bundled": false,
+    "required_for_validation": false
+  },
+  "custom_node_policy": {
+    "bundled": false,
+    "automatic_install": false
+  },
+  "metadata_policy": {
+    "png_prompt_required": true,
+    "png_workflow_required": true
+  },
+  "runtime_qualification": {
+    "status": "success",
+    "profile": "PROFILE-COMFY-CPU-001",
+    "run_id": 30529642016,
+    "python": "3.12.13",
+    "torch": "2.13.0+cu130",
+    "models_loaded": 0,
+    "custom_nodes_loaded": 0
+  }
+}

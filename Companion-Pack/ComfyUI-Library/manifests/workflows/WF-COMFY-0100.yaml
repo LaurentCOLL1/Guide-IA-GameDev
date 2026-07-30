@@ -1,0 +1,44 @@
+{
+  "id": "WF-COMFY-0100",
+  "name": "Concept art text-to-image template",
+  "version": "1.0.0",
+  "status": "review",
+  "comfyui": {
+    "tag": "v0.28.0",
+    "commit": "unqualified-until-executed"
+  },
+  "backend": {
+    "profile": "PROFILE-COMFY-QUALITY-001",
+    "executed": false
+  },
+  "source_workflow": "workflows/source/WF-COMFY-0100-concept-art-template.json",
+  "api_workflow": null,
+  "models": [
+    "MODEL-USER-SD15-001"
+  ],
+  "custom_nodes": [],
+  "inputs": {
+    "width": 768,
+    "height": 768,
+    "steps": 24,
+    "batch": 1
+  },
+  "reproducibility": {
+    "seed": 42424242,
+    "deterministic_requested": false
+  },
+  "expected_output": {
+    "format": "png",
+    "metadata": [
+      "prompt",
+      "workflow"
+    ]
+  },
+  "verified_date": null,
+  "reservations": [
+    "model absent",
+    "license unresolved",
+    "not executed",
+    "quality not assessed"
+  ]
+}

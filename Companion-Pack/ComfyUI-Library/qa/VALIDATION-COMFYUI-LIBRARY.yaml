@@ -1,0 +1,73 @@
+{
+  "schema-version": 1,
+  "evidence-id": "CP-QA-PACK-06",
+  "status": "complete",
+  "validation-date": "2026-07-30",
+  "source-branch": "feat/companion-pack-comfyui-library",
+  "pack": {
+    "id": "CP-PACK-06-COMFYUI-LIBRARY",
+    "version": "1.0.0",
+    "entry-point": "Companion-Pack/ComfyUI-Library/README.md",
+    "audit-level": "runtime-tested-linux"
+  },
+  "environment": {
+    "os": "ubuntu-24.04",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu130",
+    "comfyui_tag": "v0.28.0",
+    "comfyui_commit": "700821e1364eaab0e8f21c538a2131719fec57bf"
+  },
+  "results": {
+    "source-files": 37,
+    "workflow-count": 2,
+    "runtime-workflows": 1,
+    "template-workflows": 1,
+    "profiles": 3,
+    "python-tests": {
+      "status": "success",
+      "count": 12
+    },
+    "comfyui-runtime": "success",
+    "required-nodes": [
+      "LoadImage",
+      "SaveImage"
+    ],
+    "models-included": false,
+    "models-loaded": 0,
+    "custom-node-code-included": false,
+    "custom-nodes-loaded": 0,
+    "database-created": true,
+    "output": {
+      "format": "png",
+      "size-bytes": 1565,
+      "sha256": "868bc37be44cf32ae8cac9e55106bd2d16dc9161f6bea4e391e9c146e7603388",
+      "metadata": [
+        "prompt",
+        "workflow"
+      ]
+    },
+    "clean-tree": true,
+    "pdf-produced": false
+  },
+  "ci": {
+    "qualification-workflow": "Validate ComfyUI Library",
+    "qualification-run-id": 30529642016,
+    "qualification-artifact-id": 8754176422,
+    "qualification-artifact-digest": "sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af",
+    "governance-finalization-run-id": 30530301801,
+    "governance-finalization-status": "success",
+    "final-permanent-run-id": 30530423375,
+    "final-permanent-artifact-id": 8754498685,
+    "final-permanent-artifact-digest": "sha256:324f880ad07c294af38275413de3cd3999e1573af4a44752a07afd50107057ef",
+    "validated-before-final-commit": true,
+    "final-permanent-validation": "success"
+  },
+  "reservations": [
+    "No model or text-to-image execution.",
+    "No third-party custom node execution.",
+    "No AMD, ZLUDA or Windows graphical execution.",
+    "No performance or artistic quality measurement.",
+    "No output-rights qualification.",
+    "Global license undefined."
+  ]
+}

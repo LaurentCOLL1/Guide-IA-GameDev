@@ -1,0 +1,8 @@
+{
+  "id": "PROFILE-COMFY-AMD-RDNA2-001",
+  "status": "laboratory-not-qualified",
+  "hardware": "AMD Radeon RX 6750 XT 12 Go",
+  "backend": "ZLUDA isolated environment",
+  "models_required": true,
+  "performance_claim": false
+}

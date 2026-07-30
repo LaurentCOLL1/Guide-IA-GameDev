@@ -2,8 +2,8 @@
 title: "Companion Pack — Kit de développement"
 id: "CP-INDEX"
 status: "active"
-version: "0.6.0"
-last-updated: "2026-07-30T10:29:52+02:00"
+version: "0.7.0"
+last-updated: "2026-07-30T11:20:49+02:00"
 ---
 
 # Companion Pack — Kit de développement
@@ -17,7 +17,7 @@ Le Companion Pack regroupe les ressources directement réutilisables associées 
 3. [x] [AI Library](AI-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 4. [x] [Code Library](Code-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 5. [x] [Database Library](Database-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
-6. [ ] ComfyUI Library ;
+6. [x] [ComfyUI Library](ComfyUI-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
 7. [ ] Documentation Library ;
 8. [ ] Test & Benchmark Library ;
 9. [ ] Production Toolkit ;
@@ -29,4 +29,4 @@ Chaque ressource reçoit un identifiant stable, une version, une licence ou un s
 
 ## Statut
 
-Progression : **5 packs sur 10**. Le Starter Kit, Project Templates, AI Library, Code Library et Database Library sont matérialisés et validés dans leur périmètre Linux. Les réserves services IA réels, modèles, réseau distant, performance, concurrence, Godot-SQLite, Windows graphique, Forward+ GPU, protections GitHub effectives, exports et licence globale restent ouvertes. La prochaine action est le Pack 6 — ComfyUI Library.
+Progression : **6 packs sur 10**. Le Starter Kit, Project Templates, AI Library, Code Library, Database Library et ComfyUI Library sont matérialisés et validés dans leur périmètre Linux. Les réserves services IA réels, modèles, réseau distant, performance, concurrence, Godot-SQLite, custom nodes tiers, profils AMD/ZLUDA, Windows graphique, Forward+ GPU, protections GitHub effectives, exports et licence globale restent ouvertes. La prochaine action est le Pack 7 — Documentation Library.

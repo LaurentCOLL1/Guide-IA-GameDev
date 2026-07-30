@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-06-COMFYUI-LIBRARY",
+  "pack_version": "1.0.0",
+  "origin": "authored-for-this-repository",
+  "source_books": [
+    "Livre-I/CHAPITRE-07-ComfyUI-et-workflows-graphiques.md",
+    "Livre-III/CHAPITRE-03-References-concept-art-et-ComfyUI.md",
+    "Livre-III/CHAPITRE-30-Automatisation-Blender-ComfyUI-et-production-en-lots.md"
+  ],
+  "generated_files": [
+    "validation/reference/WF-COMFY-0001-preview.svg"
+  ],
+  "copied_third_party_code": [],
+  "excluded_artifacts": [
+    "models",
+    "checkpoints",
+    "loras",
+    "vae",
+    "upscalers",
+    "custom-node-source"
+  ],
+  "qualification": "runtime-tested-linux-run-30529642016"
+}
