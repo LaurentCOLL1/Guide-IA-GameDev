@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.23.0"
+version: "4.24.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T15:10:10+02:00"
+last-updated: "2026-07-30T16:44:55+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2353,8 +2353,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 ## 25. État courant
 
 - branche principale : `main` ;
-- jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 9 packs validés sur 10 ;
+- jalon : M8 — Publications ;
+- progression du Companion Pack : 10 packs validés sur 10, M7 terminé ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
@@ -2364,6 +2364,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - Documentation Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec génération déterministe, PyYAML et Pandoc HTML ;
 - Test & Benchmark Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Godot et proxy de rendu Xvfb borné ;
 - Production Toolkit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Blender et import Godot ;
+- Knowledge Base : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec corpus synthétique, index local déterministe, recherche et suppression vérifiée ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2486,20 +2487,37 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 9 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Production Toolkit a validé 28 fichiers, neuf familles, 29 tests Python, le dry-run, les codes de sortie, l’échec injecté et la reprise, les conversions synthétiques, deux ZIP déterministes, Blender OBJ vers GLB, l’import Godot et la préservation des sources. Les formats propriétaires, la qualité artistique, les bakes complexes, la compression GPU, les exports de jeu, les plateformes non Linux et la licence globale restent réservés.
+M7 — Companion Pack est terminé. Les dix Packs sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Knowledge Base a validé 28 fichiers, huit documents synthétiques, 16 fragments, 32 tests Python, deux index byte-identiques, les recherches et filtres attendus, la suppression complète d'un document et la reconstruction identique après retrait de sa source. Les embeddings réels, services RAG distants, bases vectorielles externes, grandes volumétries, concurrence, publication et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Knowledge-Base/README.md
+M8 — Publications
+Définir la licence globale du projet.
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 10 doit matérialiser une base de connaissances synthétique : lore, codex, documents RAG, schémas de métadonnées, corpus de test, scripts de découpage, index reproductibles et outils de suppression/réindexation. Les droits devront être clairs, le corpus synthétique ou autorisé, l’index recréable depuis les sources, les tests de recherche exécutés et la suppression complète d’un document vérifiée.
+La prochaine décision doit établir une licence globale compatible avec les textes, scripts, fixtures synthétiques, exemples et futures archives du Companion Pack avant toute publication officielle ou redistribution autonome.
 
 ## 27. Journal
+
+### 2026-07-30T16:44:55+02:00 — version 4.24.0
+
+- matérialisation du Companion Pack, Pack 10 — Knowledge Base ;
+- 28 fichiers du Pack, huit documents `Project Asteria`, trois schémas et 16 fragments déterministes validés ;
+- séparation canon, rumeur, mémoire et référence validée ;
+- 32 tests Python réussis ;
+- deux index reconstruits byte pour byte ;
+- recherches lexicale, vectorielle locale et hybride avec filtres de vérité validées ;
+- suppression complète de `AST-RUMOR-EMBER-QUEEN` et reconstruction après retrait de sa source vérifiées ;
+- Ubuntu 24.04 et Python `3.12.13` qualifiés, sans modèle ni réseau ;
+- run `30551507215`, artefact `8762968115`, digest `sha256:0f85a3d1dd8bf6728c963dd88adee17502a27280b9b7aea4a4515b2565cc8119` ;
+- arbre Git propre, sources inchangées, aucun secret, donnée personnelle ou corpus tiers inclus ;
+- progression M7 portée à 10 Packs sur 10 et jalon M7 terminé ;
+- prochaine action : M8 — Publications, définir la licence globale du projet, niveau Élevée ;
+- aucun embedding réel, service RAG distant, base vectorielle externe, grande volumétrie, concurrence, publication, release ou licence globale validé ou produit.
 
 ### 2026-07-30T15:10:10+02:00 — version 4.23.0
 

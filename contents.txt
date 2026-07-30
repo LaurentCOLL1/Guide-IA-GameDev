@@ -153,3 +153,4 @@ Companion-Pack/ComfyUI-Library/README.md
 Companion-Pack/Documentation-Library/README.md
 Companion-Pack/Test-Benchmark-Library/README.md
 Companion-Pack/Production-Toolkit/README.md
+Companion-Pack/Knowledge-Base/README.md
