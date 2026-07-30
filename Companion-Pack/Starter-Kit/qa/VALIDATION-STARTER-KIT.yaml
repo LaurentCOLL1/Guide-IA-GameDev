@@ -3,6 +3,7 @@ evidence-id: CP-QA-PACK-01
 status: pending
 validation-date: '2026-07-30'
 source-branch: feat/companion-pack-starter-kit
+finalization-trigger: requested
 pack:
   id: CP-PACK-01-STARTER-KIT
   version: 0.1.0
