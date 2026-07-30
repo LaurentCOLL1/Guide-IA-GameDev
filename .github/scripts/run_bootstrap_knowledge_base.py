@@ -16,7 +16,7 @@ env=os.environ.copy(); env['PYTHONPATH']=str(pack/'python/src'); env['PYTHONDONT
 subprocess.run([sys.executable,'-m','unittest','discover','-s',str(pack/'python/tests'),'-v'],check=True,env=env)
 report=root/'dist/knowledge-base-bootstrap.json'; report.parent.mkdir(parents=True,exist_ok=True)
 subprocess.run([sys.executable,str(pack/'scripts/validate_knowledge_base.py'),'--report',str(report)],check=True,env=env)
-for rel in ['.github/scripts/bootstrap_knowledge_base.py','.github/scripts/run_bootstrap_knowledge_base.py','.github/scripts/kb_payload_1.b64','.github/scripts/kb_payload_2.b64','.github/scripts/kb_payload_3.b64','.github/scripts/kb_payload_4.b64','.github/workflows/bootstrap-knowledge-base.yml']:
+for rel in ['.github/scripts/bootstrap_knowledge_base.py','.github/scripts/run_bootstrap_knowledge_base.py','.github/scripts/kb_payload_1.b64','.github/scripts/kb_payload_2.b64','.github/scripts/kb_payload_3.b64','.github/scripts/kb_payload_4.b64','.github/workflows/bootstrap-knowledge-base.yml','.github/workflows/validate-knowledge-base.yml']:
     p=root/rel
     if p.exists(): p.unlink()
 subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
