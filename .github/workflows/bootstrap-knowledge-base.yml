@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/scripts/bootstrap_knowledge_base.py"
+      - ".github/scripts/run_bootstrap_knowledge_base.py"
       - ".github/workflows/bootstrap-knowledge-base.yml"
   workflow_dispatch:
 
@@ -24,4 +25,4 @@ jobs:
         with:
           python-version: "3.12"
       - name: Generate and validate Knowledge Base
-        run: python .github/scripts/bootstrap_knowledge_base.py
+        run: python .github/scripts/run_bootstrap_knowledge_base.py
