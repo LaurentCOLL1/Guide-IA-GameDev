@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "database_id": "asteria-local-data",
+  "application_id": 1095980085,
+  "latest_version": 4,
+  "migrations": [
+    {
+      "version": 1,
+      "name": "create_beacon_state",
+      "path": "sql/migrations/001_create_beacon_state.sql",
+      "sha256": "673e1c8fae44ba803e78da8e888eb7e5b2e5132b33cf3f5588726b6a0a7bab4c",
+      "minimum_sqlite_version": "3.37.0"
+    },
+    {
+      "version": 2,
+      "name": "add_beacon_activation_event",
+      "path": "sql/migrations/002_add_beacon_activation_event.sql",
+      "sha256": "b94b693605af31503c53c9d95a853c55ce3ea17a379cff0c9b8bf0f7dab08be1",
+      "minimum_sqlite_version": "3.37.0"
+    },
+    {
+      "version": 3,
+      "name": "add_content_documents",
+      "path": "sql/migrations/003_add_content_documents.sql",
+      "sha256": "32e638e3ed5bf717f72d7366c2800f9b750c0e6d4016b18dbbf249c848f7d4bd",
+      "minimum_sqlite_version": "3.37.0"
+    },
+    {
+      "version": 4,
+      "name": "add_derived_cache",
+      "path": "sql/migrations/004_add_derived_cache.sql",
+      "sha256": "8f886a339614846a43caf29a44be93f5f60cbb2fa55df34a0153d75ca4e438bc",
+      "minimum_sqlite_version": "3.37.0"
+    }
+  ]
+}

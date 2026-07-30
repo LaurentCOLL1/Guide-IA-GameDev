@@ -1,10 +1,10 @@
 ---
 title: "Companion Pack — Database Library"
 id: "CP-PACK-05-DATABASE-LIBRARY"
-status: "candidate"
+status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
-validation-status: "local-runtime-tested-linux-pending-ci"
+validation-status: "runtime-tested-linux"
 redistribution-status: "pending-global-license"
 reference-runtime:
   name: "CPython"

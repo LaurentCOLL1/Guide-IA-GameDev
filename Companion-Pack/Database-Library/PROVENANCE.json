@@ -15,5 +15,5 @@
     "Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md",
     "Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md"
   ],
-  "qualification": "local-runtime-tested-linux-pending-ci"
+  "qualification": "runtime-tested-linux-run-30526910180"
 }
