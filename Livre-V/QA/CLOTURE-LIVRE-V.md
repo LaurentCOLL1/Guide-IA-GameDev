@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Finalisation de la preuve et de la gouvernance déclenchée.**
+**Finalisation relancée après correction du contrôle du lot permanent.**
