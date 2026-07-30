@@ -43,6 +43,8 @@ Le Pack 4 fournit un catalogue resserré de composants réutilisables en Python 
 
 Le run `30517143131` a validé 64 fichiers sources du pack, 18 composants et 9 concepts, puis exécuté 16 tests Python. Godot `4.7.1.stable.official.a13da4feb` a importé l’exemple, exécuté les démarrages headless et Xvfb Compatibility, puis obtenu `CODE_LIBRARY_GODOT_TESTS: PASS`. L’arbre Git est resté propre après runtime.
 
+La CI refuse explicitement tout journal contenant `SCRIPT ERROR`, même lorsque le processus Godot retourne un code de succès.
+
 Archive Godot Linux SHA-256 : `c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba`.
 
 La qualification ne mesure ni performance ni charge et ne couvre pas Windows graphique, Forward+ sur GPU réel, export ou redistribution autonome.
