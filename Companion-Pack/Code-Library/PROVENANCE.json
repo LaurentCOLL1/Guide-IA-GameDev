@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "pack_id": "CP-PACK-04-CODE-LIBRARY",
-  "pack_version": "0.1.0",
+  "pack_version": "1.0.0",
   "origin": "authored-for-this-repository",
   "generated_files": [],
   "copied_third_party_code": [],
@@ -9,5 +9,5 @@
     "Livre-II/chapitres techniques",
     "Livre-V/fiches de référence"
   ],
-  "qualification": "candidate"
+  "qualification": "runtime-tested-linux-run-30517143131"
 }

@@ -1,5 +1,14 @@
 # Journal des versions
 
+## 1.0.0 — 2026-07-30
+
+- validation de 18 composants et 9 concepts sans doublon interdit ;
+- 16 tests Python réussis ;
+- import et démarrages Godot headless et Xvfb Compatibility réussis ;
+- tests GDScript réussis avec `CODE_LIBRARY_GODOT_TESTS: PASS` ;
+- arbre Git propre après runtime ;
+- réserves performance, Windows graphique, GPU réel, exports et licence globale maintenues.
+
 ## 0.1.0 — candidat
 
 - matérialisation des composants Python et GDScript ;
