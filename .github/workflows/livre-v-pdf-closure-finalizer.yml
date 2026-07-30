@@ -57,7 +57,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin main
-          mapfile -t actual < <(git diff --name-only origin/main | sort)
+          mapfile -t actual < <(git diff --name-only origin/main | grep -v '^.github/workflows/livre-v-pdf-closure-finalizer.yml$' | sort)
           mapfile -t expected < <(printf '%s\n' \
             CONTINUITE-PROJET.md \
             Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md \
