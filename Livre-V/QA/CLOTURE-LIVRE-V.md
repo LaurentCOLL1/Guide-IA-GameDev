@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Tous les séparateurs Pandoc connus de la fiche 05 sont normalisés ; compilation et diagnostic relancés.**
+**Chaîne PDF V2 avec Latin Modern déclenchée après validation des 145 sources.**
