@@ -126,6 +126,9 @@ class MockWebSocketHandler(socketserver.BaseRequestHandler):
             "payload": {"progress": 0.5, "provider": "mock-provider"},
         }
         self._send_text(json.dumps(event, separators=(",", ":")))
+        # Keep the TCP stream open long enough for event-loop clients such as
+        # Godot WebSocketPeer to poll and consume the frame before teardown.
+        time.sleep(0.25)
 
     def _read_headers(self) -> str:
         data = bytearray()
