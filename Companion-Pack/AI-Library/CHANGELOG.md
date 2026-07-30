@@ -7,4 +7,5 @@
 - ajout des faux serveurs HTTP et WebSocket ;
 - ajout des filtres de sécurité et du comportement dégradé ;
 - ajout de l’exemple Godot et des validations Python/GDScript ;
+- campagne de qualification candidate réussie par le run `30514201037` ;
 - aucune qualification de service ou modèle réel.
