@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -27,29 +29,15 @@ proof_path = ROOT / "QA/VALIDATION-LICENSING.yaml"
 proof = proof_path.read_text(encoding="utf-8")
 if "status: complete" not in proof:
     proof = replace_once(proof, "status: qualified-candidate", "status: complete", "proof status")
-    proof = replace_once(
-        proof,
-        "validation-status: awaiting-permanent-workflow",
-        "validation-status: runtime-tested-linux",
-        "proof validation",
-    )
+    proof = replace_once(proof, "validation-status: awaiting-permanent-workflow", "validation-status: runtime-tested-linux", "proof validation")
     proof = proof.replace(
         "reservations:\n",
-        "environment:\n"
-        "  os: ubuntu-24.04\n"
-        "  python: 3.12.13\n"
-        "results:\n"
-        "  required-policy-files: 9\n"
-        "  companion-pack-license-files: 10\n"
-        "  allowed-spdx-identifiers: 3\n"
-        "  matrix-rules: 5\n"
-        "  chapter-validation: success\n"
+        "environment:\n  os: ubuntu-24.04\n  python: 3.12.13\n"
+        "results:\n  required-policy-files: 9\n  companion-pack-license-files: 10\n"
+        "  allowed-spdx-identifiers: 3\n  matrix-rules: 5\n  chapter-validation: success\n"
         "  obsolete-global-license-markers: 0\n"
-        "ci:\n"
-        "  workflow: Validate Global Licensing\n"
-        f"  run-id: {RUN_ID}\n"
-        f"  artifact-id: {ARTIFACT_ID}\n"
-        f"  artifact-digest: {DIGEST}\n"
+        "ci:\n  workflow: Validate Global Licensing\n"
+        f"  run-id: {RUN_ID}\n  artifact-id: {ARTIFACT_ID}\n  artifact-digest: {DIGEST}\n"
         "reservations:\n",
         1,
     )
@@ -87,23 +75,37 @@ if f"- run `{RUN_ID}`" not in continuity:
     )
 continuity_path.write_text(continuity, encoding="utf-8")
 
+
+updated_checksums: list[str] = []
+for checksum_path in sorted((ROOT / "Companion-Pack").glob("*/checksums.json")):
+    data = json.loads(checksum_path.read_text(encoding="utf-8"))
+    pack_root = checksum_path.parent
+    changed = False
+    for relative, expected in list(data.get("files", {}).items()):
+        target = pack_root / relative
+        if not target.is_file():
+            raise RuntimeError(f"checksum target missing: {target.relative_to(ROOT)}")
+        actual = hashlib.sha256(target.read_bytes()).hexdigest()
+        if actual != expected:
+            data["files"][relative] = actual
+            changed = True
+    if changed:
+        checksum_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        updated_checksums.append(str(checksum_path.relative_to(ROOT)))
+
 run(sys.executable, "tools/validate_licenses.py", "--report", "dist/licensing/finalizer-validation.json")
 run(sys.executable, "tools/validate_chapters.py")
 run("git", "diff", "--check")
 
-changed = subprocess.run(
-    ["git", "status", "--porcelain", "--", "QA/AUDIT-LICENSING.md", "QA/VALIDATION-LICENSING.yaml", "CONTINUITE-PROJET.md"],
-    check=True,
-    capture_output=True,
-    text=True,
-).stdout.strip()
+tracked = ["QA/AUDIT-LICENSING.md", "QA/VALIDATION-LICENSING.yaml", "CONTINUITE-PROJET.md", *updated_checksums]
+changed = subprocess.run(["git", "status", "--porcelain", "--", *tracked], check=True, capture_output=True, text=True).stdout.strip()
 if not changed:
     print("GLOBAL_LICENSING_FINALIZER: ALREADY_COMPLETE")
     raise SystemExit(0)
 
 run("git", "config", "user.name", "github-actions[bot]")
 run("git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com")
-run("git", "add", "QA/AUDIT-LICENSING.md", "QA/VALIDATION-LICENSING.yaml", "CONTINUITE-PROJET.md")
-run("git", "commit", "-m", "docs(license): inscrire la qualification permanente")
+run("git", "add", *tracked)
+run("git", "commit", "-m", "docs(license): synchroniser la preuve et les checksums")
 run("git", "push", "origin", "HEAD:feat/global-licensing-policy")
 print("GLOBAL_LICENSING_FINALIZER: PASS")
