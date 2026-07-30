@@ -19,10 +19,14 @@ if actual != EXPECTED_SHA256:
     raise SystemExit(f"AI Library payload checksum mismatch: {actual}")
 
 files = json.loads(decoded.decode("utf-8"))
+written = 0
 for relative, content in sorted(files.items()):
+    if relative == ".github/workflows/validate-ai-library.yml":
+        continue
     target = root / relative
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(content, encoding="utf-8", newline="\n")
+    written += 1
 
 for part in payload_dir.glob("part-*.txt"):
     part.unlink()
@@ -34,4 +38,4 @@ for temporary in [
     if temporary.exists():
         temporary.unlink()
 
-print(f"AI Library materialized: {len(files)} files; payload {actual}.")
+print(f"AI Library materialized: {written} pack files; payload {actual}.")
