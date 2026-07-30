@@ -154,7 +154,7 @@ La licence globale du dépôt n’étant pas encore décidée, [LICENSE-STATUS.m
 
 - [Créer le projet fil rouge](../../Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md)
 - [Architecture modulaire](../../Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md)
-- [Services et composition](../../Livre-II/CHAPITRE-05-Services-gestionnaires-bus-d-evenements-et-injection-de-dependances.md)
+- [Services et composition](../../Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md)
 - [Données et configurations](../../Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md)
 - [Tests et simulations](../../Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md)
 - [Architecture Solo et Studio](../../Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md)
