@@ -16,6 +16,7 @@ func _initialize() -> void:
     if failures.is_empty():
         print("CODE_LIBRARY_GODOT_TESTS: PASS")
         quit(0)
+        return
     for failure in failures:
         push_error(failure)
     print("CODE_LIBRARY_GODOT_TESTS: FAIL count=", failures.size())
