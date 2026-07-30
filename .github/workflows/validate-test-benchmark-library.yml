@@ -105,127 +105,21 @@ jobs:
           unzip -q .ci/godot/godot.zip -d .ci/godot
           GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
           test -n "$GODOT_BIN"
-          chmod +x "$GODOT_BIN"
-          GODOT_BIN="$(realpath "$GODOT_BIN")"
-          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
-          "$GODOT_BIN" --version | tee dist/test-benchmark-library/godot-version.txt
-          grep -F "4.7.1.stable" dist/test-benchmark-library/godot-version.txt
+         Ú[Ù
+Ş‰ÓÑÕĞ’Sˆ‚ˆÓÑÕĞ’SH‰
+™X[]‰ÓÑÕĞ’SˆŠH‚ˆXÚÈ‘ÓÑÕĞ’SIÓÑÕĞ’Sˆˆˆ‰ÒUP—ÑS•ˆ‚ˆ‰ÓÑÕĞ’SˆˆK]™\œÚ[ÛˆYH\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ]™\œÚ[Û‹ˆÜ™\QˆËŒKœİX›Hˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ]™\œÚ[Û‹‚ˆH˜[YNˆ[\ÜÛÙİ™[˜ÚX\šÈ›Ú™XİˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ‰ÓÑÕĞ’SˆˆKZXY\ÜÈK\™[™\š[™Ë[Y]ÙÛØÛÛ\]Xš[]HˆK\]ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİKZ[\ÜˆK[ÙËYš[H‰ÒUP—ÕÓÔ’ÔÔPÑKÙ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİZ[\Ü›ÙÈ‚ˆHÜ™\Qˆ”ĞÔ’TT”“Ôˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİZ[\Ü›ÙÂ‚ˆH˜[YNˆ[ˆÑØÜš\\İÂˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ‰ÓÑÕĞ’SˆˆKZXY\ÜÈK\™[™\š[™Ë[Y]ÙÛØÛÛ\]Xš[]HˆK\]ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİˆK\ØÜš\™\Î‹Ëİ\İËÜ[—İ\İË™ÙˆK[ÙËYš[H‰ÒUP—ÕÓÔ’ÔÔPÑKÙ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ]\İË›ÙÈ‚ˆÜ™\Qˆ•TÕĞ‘SÒPT’×ÓP”T–WÑÓÑÕÕTÕÎˆTÔÈˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ]\İË›ÙÂˆHÜ™\Qˆ”ĞÔ’TT”“Ôˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ]\İË›ÙÂ‚ˆH˜[YNˆ[ˆÛÙİÔH[™Y[[ÜHØÙ[™\ÈÙ\\˜][BˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ•S•SQOH‰•S“‘T—ÕSTİ\İX™[˜ÚX\šË[Xœ˜\H‚ˆS•—ÒQH‰
+]ÛˆXÈ	Ùœ›ÛH™[˜ÚX\š×ÛXœ˜\K™[š\›Û›Y[[\ÜØY™WÙ[š\›Û›Y[Èš[
+ØY™WÙ[š\›Û›Y[
 
-      - name: Import Godot benchmark project
-        shell: bash
-        run: |
-          set -euo pipefail
-          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
-            --path Companion-Pack/Test-Benchmark-Library/godot --import \
-            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-import.log"
-          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-import.log
-
-      - name: Run GDScript tests
-        shell: bash
-        run: |
-          set -euo pipefail
-          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
-            --path Companion-Pack/Test-Benchmark-Library/godot \
-            --script res://tests/run_tests.gd \
-            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-tests.log"
-          grep -F "TEST_BENCHMARK_LIBRARY_GODOT_TESTS: PASS" dist/test-benchmark-library/godot-tests.log
-          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-tests.log
-
-      - name: Run Godot CPU and memory scenes separately
-        shell: bash
-        run: |
-          set -euo pipefail
-          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
-          ENV_ID="$(python -c 'from benchmark_library.environment import safe_environment; print(safe_environment()["environment_id"])')"
-          export BENCH_ENVIRONMENT_ID="$ENV_ID"
-          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
-            --path Companion-Pack/Test-Benchmark-Library/godot \
-            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-cpu.log" \
-            res://scenes/cpu_benchmark.tscn -- \
-            --output "$RUNTIME/godot-cpu-summary.json" --warmups 1 --repetitions 5 --iterations 5000
-          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
-            --path Companion-Pack/Test-Benchmark-Library/godot \
-            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-memory.log" \
-            res://scenes/memory_benchmark.tscn -- \
-            --output "$RUNTIME/godot-memory-summary.json" --warmups 1 --repetitions 5 --items 20000
-          grep -F "GODOT_CPU_BENCHMARK: PASS" dist/test-benchmark-library/godot-cpu.log
-          grep -F "GODOT_MEMORY_BENCHMARK: PASS" dist/test-benchmark-library/godot-memory.log
-          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-cpu.log
-          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-memory.log
-
-      - name: Run virtual render proxy separately
-        shell: bash
-        run: |
-          set -euo pipefail
-          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
-          ENV_ID="$(python -c 'from benchmark_library.environment import safe_environment; print(safe_environment({"renderer":"xvfb-gl-compatibility"})["environment_id"])')"
-          export BENCH_ENVIRONMENT_ID="$ENV_ID"
-          xvfb-run -a "$GODOT_BIN" --rendering-method gl_compatibility \
-            --path Companion-Pack/Test-Benchmark-Library/godot \
-            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-render.log" \
-            res://scenes/render_proxy_benchmark.tscn -- \
-            --output "$RUNTIME/godot-render-summary.json" --warmups 10 --repetitions 30 --draw-items 128
-          grep -F "GODOT_RENDER_PROXY_BENCHMARK: PASS" dist/test-benchmark-library/godot-render.log
-          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-render.log
-
-      - name: Validate Godot results and assemble campaign
-        shell: bash
-        run: |
-          set -euo pipefail
-          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
-          python Companion-Pack/Test-Benchmark-Library/scripts/validate_result.py \
-            "$RUNTIME/godot-cpu-summary.json" \
-            "$RUNTIME/godot-memory-summary.json" \
-            "$RUNTIME/godot-render-summary.json" \
-            | tee dist/test-benchmark-library/godot-results-validation.json
-          python Companion-Pack/Test-Benchmark-Library/scripts/assemble_campaign.py \
-            "$RUNTIME/python/cpu/cpu-summary.json" \
-            "$RUNTIME/python/memory/memory-summary.json" \
-            "$RUNTIME/python/corpus/corpus-summary.json" \
-            "$RUNTIME/godot-cpu-summary.json" \
-            "$RUNTIME/godot-memory-summary.json" \
-            "$RUNTIME/godot-render-summary.json" \
-            --output-dir "$RUNTIME/campaign"
-          cp "$RUNTIME"/godot-*-summary.json dist/test-benchmark-library/
-          cp -R "$RUNTIME/campaign" dist/test-benchmark-library/
-          grep -F "hosted runner" "$RUNTIME/campaign/campaign.md"
-          test "$(wc -l < "$RUNTIME/campaign/campaign.csv")" -eq 7
-
-      - name: Run lightweight repository validations
-        shell: bash
-        run: |
-          set -euo pipefail
-          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
-          python tools/validate_livre_v_references.py --check
-          python tools/check_code_explanation_structure.py --check
-          python tools/check_context_markers.py --check
-          python tools/audit_contextes_semantiques.py --check
-          python tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
-
-      - name: Verify exclusions and clean state
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf Companion-Pack/Test-Benchmark-Library/godot/.godot .ci
-          git status --short | tee dist/test-benchmark-library/git-status-after-runtime.txt
-          test ! -s dist/test-benchmark-library/git-status-after-runtime.txt
-          test ! -e dist/Guide-IA-GameDev.pdf
-          test -z "$(find Companion-Pack/Test-Benchmark-Library -type f \
-            \( -name '*.pdf' -o -name '*.docx' -o -name '*.epub' -o -name '*.bin' \) -print -quit)"
-          test -z "$(find Companion-Pack/Test-Benchmark-Library -type f -size +500k -print -quit)"
-          if grep -RIE '"(hostname|username|home_dir|api[_-]?key|secret|token)"[[:space:]]*:' \
-            "$RUNNER_TEMP/test-benchmark-library" --include='*.json' --include='*.csv'; then
-            echo "Runtime results contain a forbidden private field." >&2
-            exit 1
-          fi
-
-      - name: Upload Test Benchmark Library evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-benchmark-library-validation
-          path: |
-            dist/test-benchmark-library
-            dist/QA-CHAPTERS.md
-            dist/QA-CONTEXTES-COUVERTURE.md
-          if-no-files-found: error
-          retention-days: 30
+VÈ™[š\›Û›Y[ÚY—JIÊH‚ˆ^Ü‘SÒÑS•’T“Ó“QS•ÒQH‰S•—ÒQ‚ˆ‰ÓÑÕĞ’SˆˆKZXY\ÜÈK\™[™\š[™Ë[Y]ÙÛØÛÛ\]Xš[]HˆK\]ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİˆK[ÙËYš[H‰ÒUP—ÕÓÔ’ÔÔPÑKÙ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİXÜK›ÙÈˆˆ™\Î‹ËÜØÙ[™\ËØÜWØ™[˜ÚX\šËØÛˆKHˆK[İ]]‰•S•SQKÙÛÙİXÜK\İ[[X\KšœÛÛˆˆK]Ø\›]\ÈHK\™\]][ÛœÈHKZ]\˜][ÛœÈLˆ‰ÓÑÕĞ’SˆˆKZXY\ÜÈK\™[™\š[™Ë[Y]ÙÛØÛÛ\]Xš[]HˆK\]ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİˆK[ÙËYš[H‰ÒUP—ÕÓÔ’ÔÔPÑKÙ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ[Y[[ÜK›ÙÈˆˆ™\Î‹ËÜØÙ[™\ËÛY[[ÜWØ™[˜ÚX\šËØÛˆKHˆK[İ]]‰•S•SQKÙÛÙİ[Y[[ÜK\İ[[X\KšœÛÛˆˆK]Ø\›]\ÈHK\™\]][ÛœÈHKZ][\ÈŒˆÜ™\Qˆ‘ÓÑÕĞÔWĞ‘SÒPT’ÎˆTÔÈˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİXÜK›ÙÂˆÜ™\Qˆ‘ÓÑÕÓQSSÔ–WĞ‘SÒPT’ÎˆTÔÈˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ[Y[[ÜK›ÙÂˆHÜ™\Qˆ”ĞÔ’TT”“Ôˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİXÜK›ÙÂˆHÜ™\Qˆ”ĞÔ’TT”“Ôˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ[Y[[ÜK›ÙÂ‚ˆH˜[YNˆ[ˆš\X[™[™\ˆ›ŞHÙ\\˜][BˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ•S•SQOH‰•S“‘T—ÕSTİ\İX™[˜ÚX\šË[Xœ˜\H‚ˆS•—ÒQH‰
+]ÛˆXÈ	Ùœ›ÛH™[˜ÚX\š×ÛXœ˜\K™[š\›Û›Y[[\ÜØY™WÙ[š\›Û›Y[Èš[
+ØY™WÙ[š\›Û›Y[
+Èœ™[™\™\ˆˆ™˜‹YÛXÛÛ\]Xš[]HŸJVÈ™[š\›Û›Y[ÚY—JIÊH‚ˆ^Ü‘SÒÑS•’T“Ó“QS•ÒQH‰S•—ÒQ‚ˆ™˜‹\[ˆXH‰ÓÑÕĞ’SˆˆK\™[™\š[™Ë[Y]ÙÛØÛÛ\]Xš[]HˆK\]ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİˆK[ÙËYš[H‰ÒUP—ÕÓÔ’ÔÔPÑKÙ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ\™[™\‹›ÙÈˆˆ™\Î‹ËÜØÙ[™\ËÜ™[™\—Ü›ŞWØ™[˜ÚX\šËØÛˆKHˆK[İ]]‰•S•SQKÙÛÙİ\™[™\‹\İ[[X\KšœÛÛˆˆK]Ø\›]\ÈLK\™\]][ÛœÈÌKY˜]ËZ][\ÈLˆÜ™\Qˆ‘ÓÑÕÔ‘S‘T—Ô“ÖWĞ‘SÒPT’ÎˆTÔÈˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ\™[™\‹›ÙÂˆHÜ™\Qˆ”ĞÔ’TT”“Ôˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ\™[™\‹›ÙÂ‚ˆH˜[YNˆ˜[Y]HÛÙİ™\İ[È[™\ÜÙ[X›HØ[\ZYÛ‚ˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ•S•SQOH‰•S“‘T—ÕSTİ\İX™[˜ÚX\šË[Xœ˜\H‚ˆ]ÛˆÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÜØÜš\Ëİ˜[Y]WÜ™\İ[œHˆ‰•S•SQKÙÛÙİXÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÙÛÙİ[Y[[ÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÙÛÙİ\™[™\‹\İ[[X\KšœÛÛˆˆˆYH\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÛÙİ\™\İ[Ë]˜[Y][Û‹šœÛÛ‚ˆ]ÛˆÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÜØÜš\ËØ\ÜÙ[X›WØØ[\ZYÛ‹œHˆ‰•S•SQKÜ]Û‹ØÜKØÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÜ]Û‹ÛY[[ÜKÛY[[ÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÜ]Û‹ØÛÜœ\ËØÛÜœ\Ë\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÙÛÙİXÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÙÛÙİ[Y[[ÜK\İ[[X\KšœÛÛˆˆˆ‰•S•SQKÙÛÙİ\™[™\‹\İ[[X\KšœÛÛˆˆˆK[İ]]Y\ˆ‰•S•SQKØØ[\ZYÛˆ‚ˆÜ‰•S•SQH‹ÙÛÙİJ‹\İ[[X\KšœÛÛˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÂˆÜTˆ‰•S•SQKØØ[\ZYÛˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\KÂˆÜ™\QˆšÜİY[›™\ˆˆ‰•S•SQKØØ[\ZYÛ‹ØØ[\ZYÛ‹›Y‚ˆ\İ‰
+ØÈ[‰•S•SQKØØ[\ZYÛ‹ØØ[\ZYÛ‹˜ÜİˆŠHˆY\HÂ‚ˆH˜[YNˆ[ˆYÚÙZYÚ™\ÜÚ]ÜH˜[Y][ÛœÂˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ]ÛˆÛÛËİ˜[Y]WØÚ\\œËœHK\›ÛİˆK\™\Ü\İÔPKPÒTT”Ë›Yˆ]ÛˆÛÛËİ˜[Y]WÛ]œ™Wİ—Ü™Y™\™[˜Ù\ËœHKXÚXÚÂˆ]ÛˆÛÛËØÚXÚ×ØÛÙWÙ^[˜][Û—ÜİXİ\™KœHKXÚXÚÂˆ]ÛˆÛÛËØÚXÚ×ØÛÛ^ÛX\šÙ\œËœHKXÚXÚÂˆ]ÛˆÛÛËØ]Y]ØÛÛ^\×ÜÙ[X[\]Y\ËœHKXÚXÚÂˆ]ÛˆÛÛËÜ™\ÜØÛÛ^\×İ][\Ø][Û‹œHˆ\İÔPKPÓÓ•VTËPÓÕU‘T•T‘K›Y‚ˆH˜[YNˆ™\šYH^Û\Ú[ÛœÈ[™ÛX[ˆİ]BˆÚ[ˆ˜\Úˆ[ˆˆÙ]Y][È\Y˜Z[ˆ›H\™ˆÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİË™ÛÙİ˜ÚBˆš[™ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\KÙÛÙİ]\Hˆ[˜[YH	Ê‹ZY	ÈY[]BˆÚ]İ]\ÈK\ÚÜYH\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÚ]\İ]\ËXY\‹\[[YKˆ\İH\È\İİ\İX™[˜ÚX\šË[Xœ˜\KÙÚ]\İ]\ËXY\‹\[[YKˆ\İHYH\İÑİZYKRPKQØ[YQ]‹œ‚ˆ\İ^ˆ‰
+š[™ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\H]\Hˆˆ
+[˜[YH	Ê‹œ‰È[È[˜[YH	Ê‹™ØŞ	È[È[˜[YH	Ê‹™\X‰È[È[˜[YH	Ê‹˜š[‰È
+H\š[\]Z]
+H‚ˆ\İ^ˆ‰
+š[™ÛÛ\[š[Û‹TXÚËÕ\İP™[˜ÚX\šËSXœ˜\H]\Hˆ\Ú^™H
+ÍLÈ\š[\]Z]
+H‚ˆYˆÜ™\T’QH	ÈŠÜİ˜[Y_\Ù\›˜[Y_ÛYWÙ\Ÿ\V×ËWOÚÙ^_ÙXÜ™]ÚÙ[ŠH–ÖÎœÜXÙN—WJ‰Èˆ‰•S“‘T—ÕSTİ\İX™[˜ÚX\šË[Xœ˜\HˆKZ[˜ÛYOIÊ‹šœÛÛ‰ÈKZ[˜ÛYOIÊ‹˜Üİ‰ÎÈ[‚ˆXÚÈ”[[YH™\İ[ÈÛÛZ[ˆH›Ü˜šY[ˆš]˜]HšY[ˆˆ‰Œ‚ˆ^]BˆšB‚ˆH˜[YNˆ\ØY\İ™[˜ÚX\šÈXœ˜\H]šY[˜ÙBˆ\Ù\ÎˆXİ[ÛœËİ\ØYX\Y˜XİˆÚ]‚ˆ˜[YNˆ\İX™[˜ÚX\šË[Xœ˜\K]˜[Y][Û‚ˆ]ˆˆ\İİ\İX™[˜ÚX\šË[Xœ˜\Bˆ\İÔPKPÒTT”Ë›Yˆ\İÔPKPÓÓ•VTËPÓÕU‘T•T‘K›YˆY‹[›ËYš[\ËY›İ[™ˆ\œ›Ü‚ˆ™][[Û‹Y^\ÎˆÌ
