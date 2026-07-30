@@ -1,0 +1,18 @@
+{
+  "category": "lore",
+  "id": "AST-LORE-FOUNDATION",
+  "language": "fr-FR",
+  "narrator": "archives-civiques",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "asteria",
+    "fondation",
+    "orbite",
+    "colonie"
+  ],
+  "text": "Project Asteria est une colonie scientifique installée dans l'anneau habitable d'Orphée. La cité principale, Nacre, fut fondée après la panne du vaisseau Horizon. Les premiers habitants ont transformé les modules de survie en quartiers permanents. Le Conseil des Sept maintient le registre canonique des événements publics.",
+  "title": "Fondation d'Asteria",
+  "truth_status": "canonical",
+  "version": "1.0.0"
+}

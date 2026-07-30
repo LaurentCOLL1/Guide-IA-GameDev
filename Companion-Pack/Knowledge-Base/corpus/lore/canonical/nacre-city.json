@@ -1,0 +1,18 @@
+{
+  "category": "lore",
+  "id": "AST-LORE-NACRE",
+  "language": "fr-FR",
+  "narrator": "archives-civiques",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "nacre",
+    "cité",
+    "quartiers",
+    "héliostat"
+  ],
+  "text": "Nacre est divisée en cinq quartiers reliés par des galeries pressurisées. Le quartier du Zénith contient l'héliostat principal, qui concentre la lumière d'Orphée vers les serres. Le quartier des Docks reçoit les convois miniers. Les plans officiels interdisent toute galerie sous le bassin central.",
+  "title": "La cité de Nacre",
+  "truth_status": "canonical",
+  "version": "1.0.0"
+}

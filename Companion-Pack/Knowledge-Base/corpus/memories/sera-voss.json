@@ -1,0 +1,17 @@
+{
+  "category": "memory",
+  "id": "AST-MEM-SERA-VOSS",
+  "language": "fr-FR",
+  "narrator": "Sera Voss",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "sera voss",
+    "mémoire",
+    "tempête"
+  ],
+  "text": "Je me souviens d'une tempête magnétique qui fit vibrer les vitres du Zénith. Mon père disait que l'héliostat chantait lorsque le flux dépassait la limite. Je crois avoir vu une silhouette rouge dans la galerie de maintenance, mais les journaux de service ne signalent aucune intrusion.",
+  "title": "Mémoire de Sera Voss",
+  "truth_status": "memory",
+  "version": "1.0.0"
+}

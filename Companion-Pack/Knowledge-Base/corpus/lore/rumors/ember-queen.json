@@ -1,0 +1,17 @@
+{
+  "category": "lore",
+  "id": "AST-RUMOR-EMBER-QUEEN",
+  "language": "fr-FR",
+  "narrator": "rumeurs-des-docks",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "rumeur",
+    "reine de braise",
+    "souterrains"
+  ],
+  "text": "Des dockers racontent qu'une Reine de Braise vit sous le bassin central et commande des automates oubliés. Selon la rumeur, elle échange des cartes interdites contre des souvenirs enregistrés. Aucun relevé officiel ne confirme son existence ni l'accès à ces souterrains.",
+  "title": "La Reine de Braise",
+  "truth_status": "rumor",
+  "version": "1.0.0"
+}

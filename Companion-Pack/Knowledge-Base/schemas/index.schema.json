@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required": [
+    "schema_version",
+    "algorithm",
+    "documents",
+    "chunks",
+    "postings",
+    "source_manifest",
+    "source_digest",
+    "index_digest"
+  ],
+  "type": "object"
+}

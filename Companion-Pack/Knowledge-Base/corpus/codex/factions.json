@@ -1,0 +1,18 @@
+{
+  "category": "codex",
+  "id": "AST-CODEX-FACTIONS",
+  "language": "fr-FR",
+  "narrator": "codex-editorial",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "factions",
+    "conseil",
+    "cartographes",
+    "mineurs"
+  ],
+  "text": "Le Conseil des Sept administre Nacre. La Guilde des Cartographes entretient les cartes pressurisées et marque les zones condamnées. Les Mineurs Libres exploitent les fragments métalliques de l'anneau. Les Veilleurs du Flux surveillent l'héliostat et les batteries thermiques.",
+  "title": "Factions d'Asteria",
+  "truth_status": "reference",
+  "version": "1.0.0"
+}

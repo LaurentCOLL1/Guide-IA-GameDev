@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "redistribution": {
+      "const": "synthetic-original"
+    },
+    "truth_status": {
+      "enum": [
+        "canonical",
+        "rumor",
+        "memory",
+        "reference"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "category",
+    "truth_status",
+    "version",
+    "language",
+    "narrator",
+    "tags",
+    "text",
+    "provenance",
+    "redistribution"
+  ],
+  "type": "object"
+}

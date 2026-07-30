@@ -1,0 +1,18 @@
+{
+  "category": "rag",
+  "id": "AST-RAG-MAINTENANCE",
+  "language": "fr-FR",
+  "narrator": "manuel-technique",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "rag",
+    "maintenance",
+    "héliostat",
+    "sécurité"
+  ],
+  "text": "Avant toute maintenance, isoler le régulateur de flux et confirmer le verrouillage dans le journal. Contrôler ensuite la température des batteries thermiques. Une intervention ne doit jamais modifier le registre source. Après remplacement d'un capteur, reconstruire l'index de diagnostic et vérifier la présence de l'identifiant du composant.",
+  "title": "Procédure de maintenance de l'héliostat",
+  "truth_status": "reference",
+  "version": "1.0.0"
+}

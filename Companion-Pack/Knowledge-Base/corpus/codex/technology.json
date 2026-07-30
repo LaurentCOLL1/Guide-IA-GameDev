@@ -1,0 +1,18 @@
+{
+  "category": "codex",
+  "id": "AST-CODEX-TECH",
+  "language": "fr-FR",
+  "narrator": "codex-editorial",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "technologie",
+    "héliostat",
+    "flux",
+    "batterie"
+  ],
+  "text": "L'héliostat de Nacre suit Orphée et redistribue le flux lumineux vers les serres. Des batteries thermiques stockent l'excédent pendant douze heures. Un régulateur coupe automatiquement le faisceau lorsque le flux dépasse le seuil de sécurité. Les journaux de maintenance utilisent des identifiants immuables.",
+  "title": "Technologies énergétiques",
+  "truth_status": "reference",
+  "version": "1.0.0"
+}

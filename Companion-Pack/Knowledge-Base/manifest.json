@@ -1,0 +1,13 @@
+{
+  "corpus_documents": 8,
+  "entrypoint": "scripts/knowledge_base_cli.py",
+  "pack_id": "CP-PACK-10-KNOWLEDGE-BASE",
+  "schema_version": 1,
+  "truth_statuses": [
+    "canonical",
+    "rumor",
+    "memory",
+    "reference"
+  ],
+  "version": "1.0.0"
+}

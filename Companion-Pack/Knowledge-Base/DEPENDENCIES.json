@@ -1,0 +1,12 @@
+{
+  "external_services": [],
+  "models": [],
+  "references": [
+    "Livre II chapitres 10, 15-17, 25",
+    "Livre V chapitre 15"
+  ],
+  "runtime": [
+    "CPython >=3.12"
+  ],
+  "schema_version": 1
+}

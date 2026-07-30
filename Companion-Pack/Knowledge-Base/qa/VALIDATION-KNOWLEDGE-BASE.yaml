@@ -1,0 +1,39 @@
+schema-version: 1
+evidence-id: QA-KNOWLEDGE-BASE-PACK-10
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-knowledge-base
+pack:
+  id: CP-PACK-10-KNOWLEDGE-BASE
+  version: 1.0.0
+  audit-level: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: 3.12.13
+results:
+  source-files: 28
+  corpus-documents: 8
+  chunks: 16
+  python-tests:
+    status: success
+    count: 32
+  deterministic-index: success
+  index-digest: f90186d922ef1c06be0bbf5dadc8af108a79e5ecd307ef5597142dd7f7cc4a9a
+  index-file-sha256: 386475d454a868f28e60e3d6e2fb7cd475e7163e278770588ae406a5a68f8809
+  search-tests: success
+  truth-filters: success
+  deletion-complete: true
+  reindex-matches-pruned: true
+  source-preserved: true
+  clean-tree: true
+  private-fields-detected: false
+  corpus: synthetic
+ci:
+  workflow: Validate Knowledge Base
+  run-id: 30551507215
+  artifact-id: 8762968115
+  artifact-digest: sha256:0f85a3d1dd8bf6728c963dd88adee17502a27280b9b7aea4a4515b2565cc8119
+reservations:
+  - No external embedding model or remote RAG service qualification.
+  - No external vector database, concurrency or large-volume qualification.
+  - No publication, release or global-license qualification.

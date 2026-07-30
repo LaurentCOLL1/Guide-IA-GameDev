@@ -1,0 +1,18 @@
+{
+  "category": "rag",
+  "id": "AST-RAG-SEARCH-POLICY",
+  "language": "fr-FR",
+  "narrator": "manuel-editorial",
+  "provenance": "authored-for-guide-ia-gamedev",
+  "redistribution": "synthetic-original",
+  "tags": [
+    "rag",
+    "recherche",
+    "vérité",
+    "filtrage"
+  ],
+  "text": "Une réponse factuelle doit privilégier les documents canoniques et de référence. Les rumeurs doivent être signalées comme non confirmées. Les souvenirs de personnages expriment un point de vue et ne remplacent pas le registre canonique. Toute suppression exige le retrait du document, de ses fragments, de ses termes inversés et de ses vecteurs.",
+  "title": "Politique de recherche et de vérité",
+  "truth_status": "reference",
+  "version": "1.0.0"
+}
