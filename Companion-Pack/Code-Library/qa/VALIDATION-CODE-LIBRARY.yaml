@@ -1,0 +1,25 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-04
+status: candidate
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-code-library
+pack:
+  id: CP-PACK-04-CODE-LIBRARY
+  version: 0.1.0
+  entry-point: Companion-Pack/Code-Library/README.md
+  audit-level: candidate
+results:
+  static-validation: pending
+  python-tests: pending
+  godot-import: pending
+  godot-headless-smoke: pending
+  godot-xvfb-smoke: pending
+  godot-tests: pending
+  clean-tree-after-runtime: pending
+ci: {}
+reservations:
+  - Windows graphical execution is not executed.
+  - Forward+ rendering on a real GPU is not executed.
+  - Performance and load behavior are not measured.
+  - Exports and release packages are not produced.
+  - The global license is undefined.
