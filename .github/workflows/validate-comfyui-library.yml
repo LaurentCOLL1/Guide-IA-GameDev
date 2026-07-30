@@ -100,6 +100,7 @@ jobs:
             --input-directory "$INPUT_DIR" \
             --output-directory "$OUTPUT_DIR" \
             --user-directory "$USER_DIR" \
+            --database-url "sqlite:///$USER_DIR/comfyui.db" \
             > dist/comfyui-library/comfyui.log 2>&1 &
           echo "COMFYUI_PID=$!" >> "$GITHUB_ENV"
 
@@ -128,15 +129,27 @@ jobs:
         run: |
           if [ -n "${COMFYUI_PID:-}" ]; then
             kill "$COMFYUI_PID" || true
-            wait "$COMFYUI_PID" || true
+            for _ in $(seq 1 20); do
+              if ! kill -0 "$COMFYUI_PID" 2>/dev/null; then
+                break
+              fi
+              sleep 0.25
+            done
+            if kill -0 "$COMFYUI_PID" 2>/dev/null; then
+              kill -9 "$COMFYUI_PID" || true
+            fi
           fi
 
       - name: Verify exclusions and clean state
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -E "Traceback|ERROR|Exception" \
-            dist/comfyui-library/comfyui.log
+          if grep -E "Traceback|\[ERROR\]|Exception" \
+            dist/comfyui-library/comfyui.log; then
+            echo "ComfyUI runtime log contains a blocking error." >&2
+            exit 1
+          fi
+          test -s "$USER_DIR/comfyui.db"
           test -z "$(find "$COMFYUI_ROOT/models" -type f \
             \( -name '*.safetensors' -o -name '*.ckpt' -o -name '*.pt' \
                -o -name '*.pth' -o -name '*.bin' \) -print -quit)"
