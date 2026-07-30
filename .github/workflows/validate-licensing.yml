@@ -1,0 +1,45 @@
+name: Validate Global Licensing
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "LICENSE.md"
+      - "LICENSES/**"
+      - "NOTICE.md"
+      - "docs/licensing/**"
+      - "QA/*LICENSING*"
+      - "tools/validate_licenses.py"
+      - "Companion-Pack/**/LICENSE-STATUS.md"
+      - "README.md"
+      - "CONTRIBUTING.md"
+      - "metadata.yaml"
+      - "ROADMAP.md"
+      - "contents.txt"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/validate-licensing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-licensing:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check --quiet PyYAML
+      - name: Validate licensing policy
+        run: |
+          mkdir -p dist/licensing
+          python tools/validate_licenses.py --report dist/licensing/validation.json
+          python tools/validate_chapters.py
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-licensing-validation
+          path: dist/licensing
+          if-no-files-found: error
