@@ -1,0 +1,225 @@
+name: Validate Test Benchmark Library
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Companion-Pack/Test-Benchmark-Library/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "contents.txt"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/validate-test-benchmark-library.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-test-benchmark-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/Test-Benchmark-Library/python/src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate pack and Python tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/test-benchmark-library
+          python Companion-Pack/Test-Benchmark-Library/scripts/validate_test_benchmark_library.py \
+            --report dist/test-benchmark-library/static-validation.json
+          python -m unittest discover \
+            -s Companion-Pack/Test-Benchmark-Library/python/tests \
+            -v 2>&1 | tee dist/test-benchmark-library/python-tests.log
+          grep -F "Ran 25 tests" dist/test-benchmark-library/python-tests.log
+          grep -F "OK" dist/test-benchmark-library/python-tests.log
+          python --version | tee dist/test-benchmark-library/python-version.txt
+
+      - name: Run Python benchmarks separately
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
+          mkdir -p "$RUNTIME/python"
+          python Companion-Pack/Test-Benchmark-Library/scripts/run_python_suite.py \
+            --benchmark cpu --output-dir "$RUNTIME/python/cpu" \
+            --warmups 1 --repetitions 5 --iterations 3000
+          python Companion-Pack/Test-Benchmark-Library/scripts/run_python_suite.py \
+            --benchmark memory --output-dir "$RUNTIME/python/memory" \
+            --warmups 1 --repetitions 5 --items 20000
+          python Companion-Pack/Test-Benchmark-Library/scripts/run_python_suite.py \
+            --benchmark corpus --output-dir "$RUNTIME/python/corpus" \
+            --warmups 1 --repetitions 5 --queries 2
+          python Companion-Pack/Test-Benchmark-Library/scripts/validate_result.py \
+            "$RUNTIME/python/cpu/cpu-summary.json" \
+            "$RUNTIME/python/memory/memory-summary.json" \
+            "$RUNTIME/python/corpus/corpus-summary.json" \
+            | tee dist/test-benchmark-library/python-results-validation.json
+          cp -R "$RUNTIME/python" dist/test-benchmark-library/
+
+      - name: Validate comparison gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
+          python Companion-Pack/Test-Benchmark-Library/scripts/compare_results.py \
+            "$RUNTIME/python/cpu/cpu-summary.json" \
+            "$RUNTIME/python/cpu/cpu-summary.json" \
+            --output "$RUNTIME/comparable.json"
+          grep -F '"status": "comparable"' "$RUNTIME/comparable.json"
+          python Companion-Pack/Test-Benchmark-Library/scripts/compare_results.py \
+            "$RUNTIME/python/cpu/cpu-summary.json" \
+            "$RUNTIME/python/memory/memory-summary.json" \
+            --output "$RUNTIME/not-comparable.json"
+          grep -F '"status": "not-comparable"' "$RUNTIME/not-comparable.json"
+          cp "$RUNTIME"/*comparable.json dist/test-benchmark-library/
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3 \
+            "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip" \
+            --output .ci/godot/godot.zip
+          echo "c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba  .ci/godot/godot.zip" | sha256sum -c -
+          sha256sum .ci/godot/godot.zip | tee dist/test-benchmark-library/godot-download.sha256
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          GODOT_BIN="$(realpath "$GODOT_BIN")"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/test-benchmark-library/godot-version.txt
+          grep -F "4.7.1.stable" dist/test-benchmark-library/godot-version.txt
+
+      - name: Import Godot benchmark project
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path Companion-Pack/Test-Benchmark-Library/godot --import \
+            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-import.log"
+          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-import.log
+
+      - name: Run GDScript tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path Companion-Pack/Test-Benchmark-Library/godot \
+            --script res://tests/run_tests.gd \
+            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-tests.log"
+          grep -F "TEST_BENCHMARK_LIBRARY_GODOT_TESTS: PASS" dist/test-benchmark-library/godot-tests.log
+          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-tests.log
+
+      - name: Run Godot CPU and memory scenes separately
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
+          ENV_ID="$(python -c 'from benchmark_library.environment import safe_environment; print(safe_environment()["environment_id"])')"
+          export BENCH_ENVIRONMENT_ID="$ENV_ID"
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path Companion-Pack/Test-Benchmark-Library/godot \
+            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-cpu.log" \
+            res://scenes/cpu_benchmark.tscn -- \
+            --output "$RUNTIME/godot-cpu-summary.json" --warmups 1 --repetitions 5 --iterations 5000
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path Companion-Pack/Test-Benchmark-Library/godot \
+            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-memory.log" \
+            res://scenes/memory_benchmark.tscn -- \
+            --output "$RUNTIME/godot-memory-summary.json" --warmups 1 --repetitions 5 --items 20000
+          grep -F "GODOT_CPU_BENCHMARK: PASS" dist/test-benchmark-library/godot-cpu.log
+          grep -F "GODOT_MEMORY_BENCHMARK: PASS" dist/test-benchmark-library/godot-memory.log
+          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-cpu.log
+          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-memory.log
+
+      - name: Run virtual render proxy separately
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
+          ENV_ID="$(python -c 'from benchmark_library.environment import safe_environment; print(safe_environment({"renderer":"xvfb-gl-compatibility"})["environment_id"])')"
+          export BENCH_ENVIRONMENT_ID="$ENV_ID"
+          xvfb-run -a "$GODOT_BIN" --rendering-method gl_compatibility \
+            --path Companion-Pack/Test-Benchmark-Library/godot \
+            --log-file "$GITHUB_WORKSPACE/dist/test-benchmark-library/godot-render.log" \
+            res://scenes/render_proxy_benchmark.tscn -- \
+            --output "$RUNTIME/godot-render-summary.json" --warmups 10 --repetitions 30 --draw-items 128
+          grep -F "GODOT_RENDER_PROXY_BENCHMARK: PASS" dist/test-benchmark-library/godot-render.log
+          ! grep -F "SCRIPT ERROR" dist/test-benchmark-library/godot-render.log
+
+      - name: Validate Godot results and assemble campaign
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/test-benchmark-library"
+          python Companion-Pack/Test-Benchmark-Library/scripts/validate_result.py \
+            "$RUNTIME/godot-cpu-summary.json" \
+            "$RUNTIME/godot-memory-summary.json" \
+            "$RUNTIME/godot-render-summary.json" \
+            | tee dist/test-benchmark-library/godot-results-validation.json
+          python Companion-Pack/Test-Benchmark-Library/scripts/assemble_campaign.py \
+            "$RUNTIME/python/cpu/cpu-summary.json" \
+            "$RUNTIME/python/memory/memory-summary.json" \
+            "$RUNTIME/python/corpus/corpus-summary.json" \
+            "$RUNTIME/godot-cpu-summary.json" \
+            "$RUNTIME/godot-memory-summary.json" \
+            "$RUNTIME/godot-render-summary.json" \
+            --output-dir "$RUNTIME/campaign"
+          cp "$RUNTIME"/godot-*-summary.json dist/test-benchmark-library/
+          cp -R "$RUNTIME/campaign" dist/test-benchmark-library/
+          grep -F "hosted runner" "$RUNTIME/campaign/campaign.md"
+          test "$(wc -l < "$RUNTIME/campaign/campaign.csv")" -eq 7
+
+      - name: Run lightweight repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          python tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Verify exclusions and clean state
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf Companion-Pack/Test-Benchmark-Library/godot/.godot .ci
+          git status --short | tee dist/test-benchmark-library/git-status-after-runtime.txt
+          test ! -s dist/test-benchmark-library/git-status-after-runtime.txt
+          test ! -e dist/Guide-IA-GameDev.pdf
+          test -z "$(find Companion-Pack/Test-Benchmark-Library -type f \
+            \( -name '*.pdf' -o -name '*.docx' -o -name '*.epub' -o -name '*.bin' \) -print -quit)"
+          test -z "$(find Companion-Pack/Test-Benchmark-Library -type f -size +500k -print -quit)"
+          if grep -RIE '"(hostname|username|home_dir|api[_-]?key|secret|token)"[[:space:]]*:' \
+            "$RUNNER_TEMP/test-benchmark-library" --include='*.json' --include='*.csv'; then
+            echo "Runtime results contain a forbidden private field." >&2
+            exit 1
+          fi
+
+      - name: Upload Test Benchmark Library evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-benchmark-library-validation
+          path: |
+            dist/test-benchmark-library
+            dist/QA-CHAPTERS.md
+            dist/QA-CONTEXTES-COUVERTURE.md
+          if-no-files-found: error
+          retention-days: 30

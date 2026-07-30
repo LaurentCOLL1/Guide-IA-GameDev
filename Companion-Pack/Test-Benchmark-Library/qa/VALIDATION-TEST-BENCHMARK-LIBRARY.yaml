@@ -1,0 +1,21 @@
+schema-version: 1
+evidence-id: QA-TEST-BENCHMARK-LIBRARY-PACK-08
+status: candidate
+pack:
+  id: CP-PACK-08-TEST-BENCHMARK-LIBRARY
+  version: 1.0.0
+  audit-level: candidate
+results:
+  source-files: pending
+  python-tests: pending
+  godot-tests: pending
+  python-benchmarks: pending
+  godot-scenes: pending
+  campaign-formats: pending
+ci:
+  workflow: Validate Test Benchmark Library
+  run-id: pending
+reservations:
+  - No universal performance claim.
+  - No physical GPU qualification.
+  - Global license undefined.

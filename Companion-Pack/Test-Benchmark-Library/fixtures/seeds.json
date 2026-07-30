@@ -1,0 +1,10 @@
+{
+  "default_seed": 1701,
+  "named": {
+    "corpus": 1701,
+    "cpu": 1701,
+    "godot": 1701,
+    "memory": 1701
+  },
+  "schema_version": 1
+}

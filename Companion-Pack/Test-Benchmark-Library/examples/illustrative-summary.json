@@ -1,0 +1,70 @@
+{
+  "benchmark_id": "BMK-ILLUSTRATIVE-001",
+  "comparability": "illustrative-only",
+  "contract_version": "1.0.0",
+  "environment": {
+    "architecture": "illustrative",
+    "environment_id": "0000000000000000000000000000000000000000000000000000000000000000",
+    "logical_cpu_count": 1,
+    "os": "illustrative",
+    "runtime": "illustrative"
+  },
+  "evidence_level": "illustrative-only",
+  "family": "example",
+  "generated_at_utc": "2026-01-01T00:00:00Z",
+  "implementation": "fabricated-format-example",
+  "metric": "elapsed_ns",
+  "oracle_checksum": "x",
+  "oracle_status": "pass",
+  "parameters": {
+    "items": 1
+  },
+  "repetitions": 3,
+  "reservations": [
+    "fabricated values",
+    "format example only"
+  ],
+  "samples": [
+    {
+      "benchmark_id": "BMK-ILLUSTRATIVE-001",
+      "checksum": "x",
+      "sample_index": 0,
+      "status": "pass",
+      "unit": "ns",
+      "value": 100
+    },
+    {
+      "benchmark_id": "BMK-ILLUSTRATIVE-001",
+      "checksum": "x",
+      "sample_index": 1,
+      "status": "pass",
+      "unit": "ns",
+      "value": 110
+    },
+    {
+      "benchmark_id": "BMK-ILLUSTRATIVE-001",
+      "checksum": "x",
+      "sample_index": 2,
+      "status": "pass",
+      "unit": "ns",
+      "value": 90
+    }
+  ],
+  "schema_version": 1,
+  "secondary_statistics": {},
+  "seed": 1,
+  "statistics": {
+    "coefficient_of_variation": 0.1,
+    "count": 3,
+    "max": 110,
+    "mean": 100,
+    "median": 100,
+    "min": 90,
+    "p95": 109,
+    "p99": 109.8,
+    "stdev": 10,
+    "variance": 100
+  },
+  "unit": "ns",
+  "warmups": 1
+}

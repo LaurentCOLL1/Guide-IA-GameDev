@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "evidence_scope": {
+      "type": "string"
+    },
+    "family": {
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^BMK-[A-Z0-9-]+$",
+      "type": "string"
+    },
+    "metric": {
+      "type": "string"
+    },
+    "oracle": {
+      "type": "string"
+    },
+    "repetitions": {
+      "minimum": 2,
+      "type": "integer"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "warmups": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "family",
+    "metric",
+    "unit",
+    "warmups",
+    "repetitions",
+    "seed",
+    "oracle",
+    "evidence_scope"
+  ],
+  "title": "Benchmark contract",
+  "type": "object"
+}

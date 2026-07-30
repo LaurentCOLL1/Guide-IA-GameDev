@@ -1,0 +1,21 @@
+{
+  "direction": "lower",
+  "evidence_scope": "local-only",
+  "family": "cpu",
+  "id": "BMK-CPU-REF-001",
+  "implementation": "python-sha256-chain",
+  "metric": "elapsed_ns",
+  "oracle": "checksum-stable",
+  "parameters": {
+    "iterations": 20000,
+    "payload_bytes": 4096
+  },
+  "practical_threshold_pct": 5.0,
+  "question": "Mesurer localement une charge CPU synthétique déterministe.",
+  "repetitions": 7,
+  "schema_version": 1,
+  "seed": 1701,
+  "unit": "ns",
+  "version": "1.0.0",
+  "warmups": 2
+}

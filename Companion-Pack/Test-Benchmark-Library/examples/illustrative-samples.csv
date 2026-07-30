@@ -1,0 +1,4 @@
+benchmark_id,sample_index,value,unit,status,checksum,secondary_value,secondary_unit
+BMK-ILLUSTRATIVE-001,0,100,ns,pass,x,,
+BMK-ILLUSTRATIVE-001,1,110,ns,pass,x,,
+BMK-ILLUSTRATIVE-001,2,90,ns,pass,x,,

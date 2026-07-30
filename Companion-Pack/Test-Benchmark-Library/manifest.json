@@ -1,0 +1,25 @@
+{
+  "boundaries": [
+    "same-environment-only comparison",
+    "no physical GPU claim",
+    "no universal performance ranking"
+  ],
+  "contracts": 6,
+  "fixtures": "synthetic-only",
+  "formats": [
+    "json",
+    "csv",
+    "yaml-compatible",
+    "markdown"
+  ],
+  "godot_scenes": 3,
+  "id": "CP-PACK-08-TEST-BENCHMARK-LIBRARY",
+  "language": "fr-FR",
+  "python_benchmarks": 3,
+  "reference_godot": "4.7.1-stable",
+  "reference_python": "3.12",
+  "schema_version": 1,
+  "status": "candidate",
+  "validation": "pending-ci",
+  "version": "1.0.0"
+}

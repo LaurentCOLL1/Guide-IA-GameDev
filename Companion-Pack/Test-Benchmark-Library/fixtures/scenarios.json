@@ -1,0 +1,21 @@
+{
+  "scenarios": [
+    {
+      "contract": "BMK-CPU-REF-001",
+      "id": "SCN-CPU-SMALL"
+    },
+    {
+      "contract": "BMK-MEM-REF-001",
+      "id": "SCN-MEM-SMALL"
+    },
+    {
+      "contract": "BMK-CORPUS-REF-001",
+      "id": "SCN-CORPUS-SMALL"
+    },
+    {
+      "contract": "BMK-GODOT-RENDER-PROXY-001",
+      "id": "SCN-GODOT-RENDER-VIRTUAL"
+    }
+  ],
+  "schema_version": 1
+}

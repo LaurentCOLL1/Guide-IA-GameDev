@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "sample_index": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "value": {
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "sample_index",
+    "value",
+    "unit",
+    "status",
+    "checksum"
+  ],
+  "title": "Raw benchmark sample",
+  "type": "object"
+}

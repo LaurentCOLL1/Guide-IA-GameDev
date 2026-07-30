@@ -1,0 +1,19 @@
+{
+  "direction": "lower",
+  "evidence_scope": "local-only",
+  "family": "cpu",
+  "id": "BMK-GODOT-CPU-001",
+  "implementation": "godot-lcg-loop",
+  "metric": "elapsed_usec",
+  "oracle": "checksum-stable",
+  "parameters": {
+    "iterations": 30000
+  },
+  "practical_threshold_pct": 5.0,
+  "repetitions": 7,
+  "schema_version": 1,
+  "seed": 1701,
+  "unit": "us",
+  "version": "1.0.0",
+  "warmups": 2
+}
