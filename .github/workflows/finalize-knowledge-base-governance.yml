@@ -23,5 +23,18 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install --disable-pip-version-check --quiet PyYAML
+      - name: Normalize the bounded continuity replacement
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('.github/scripts/finalize_knowledge_base_governance.py')
+          s=p.read_text(encoding='utf-8')
+          old="s=one(s,a,b,'cont next')"
+          new="import re\ns,n=re.subn(r'(?s)(## 26\\. Prochaine action\\n\\n).*?(?=\\n## 27\\. Journal)',lambda m:m.group(1)+b+'\\n',s)\nif n!=1: raise RuntimeError(f'cont next regex: {n}')"
+          if s.count(old)!=1:
+              raise SystemExit('finalizer patch target missing')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+          PY
       - name: Finalize governance and validate
         run: python .github/scripts/finalize_knowledge_base_governance.py
