@@ -37,53 +37,90 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist/comfyui-library
-          python Companion-Pack/ComfyUI-Library/tools/validate_comfyui_library.py --report dist/comfyui-library/static-validation.json
-          python -m unittest discover -s Companion-Pack/ComfyUI-Library/python/tests -v 2>&1 | tee dist/comfyui-library/python-tests.log
+          python Companion-Pack/ComfyUI-Library/tools/validate_comfyui_library.py \
+            --report dist/comfyui-library/static-validation.json
+          python -m unittest discover \
+            -s Companion-Pack/ComfyUI-Library/python/tests \
+            -v 2>&1 | tee dist/comfyui-library/python-tests.log
           grep -F "Ran 12 tests" dist/comfyui-library/python-tests.log
           grep -F "OK" dist/comfyui-library/python-tests.log
 
-      - name: Clone pinned ComfyUI
+      - name: Clone pinned ComfyUI outside the repository
         shell: bash
         run: |
           set -euo pipefail
-          git clone --branch v0.28.0 --depth 1 https://github.com/Comfy-Org/ComfyUI.git .ci/ComfyUI
-          git -C .ci/ComfyUI rev-parse HEAD | tee dist/comfyui-library/comfyui-commit.txt
-          git -C .ci/ComfyUI describe --tags --exact-match | tee dist/comfyui-library/comfyui-tag.txt
+          RUNTIME_ROOT="$RUNNER_TEMP/comfyui-library-runtime"
+          COMFYUI_ROOT="$RUNTIME_ROOT/ComfyUI"
+          INPUT_DIR="$RUNTIME_ROOT/input"
+          OUTPUT_DIR="$RUNTIME_ROOT/output"
+          USER_DIR="$RUNTIME_ROOT/user"
+          mkdir -p "$RUNTIME_ROOT" "$INPUT_DIR" "$OUTPUT_DIR" "$USER_DIR"
+          git clone --branch v0.28.0 --depth 1 \
+            https://github.com/Comfy-Org/ComfyUI.git \
+            "$COMFYUI_ROOT"
+          echo "COMFYUI_ROOT=$COMFYUI_ROOT" >> "$GITHUB_ENV"
+          echo "INPUT_DIR=$INPUT_DIR" >> "$GITHUB_ENV"
+          echo "OUTPUT_DIR=$OUTPUT_DIR" >> "$GITHUB_ENV"
+          echo "USER_DIR=$USER_DIR" >> "$GITHUB_ENV"
+          git -C "$COMFYUI_ROOT" rev-parse HEAD \
+            | tee dist/comfyui-library/comfyui-commit.txt
+          git -C "$COMFYUI_ROOT" describe --tags --exact-match \
+            | tee dist/comfyui-library/comfyui-tag.txt
           test "$(cat dist/comfyui-library/comfyui-tag.txt)" = "v0.28.0"
 
       - name: Install ComfyUI dependencies
         shell: bash
         run: |
           set -euo pipefail
-          python -m pip install --disable-pip-version-check --quiet -r .ci/ComfyUI/requirements.txt
+          python -m pip install --disable-pip-version-check --quiet \
+            -r "$COMFYUI_ROOT/requirements.txt"
           python -m pip check | tee dist/comfyui-library/pip-check.txt
-          python -c 'import platform; print(platform.python_version())' | tee dist/comfyui-library/python-version.txt
-          python -c 'import torch; print(torch.__version__)' | tee dist/comfyui-library/torch-version.txt
+          python -c 'import platform; print(platform.python_version())' \
+            | tee dist/comfyui-library/python-version.txt
+          python -c 'import torch; print(torch.__version__)' \
+            | tee dist/comfyui-library/torch-version.txt
 
       - name: Prepare deterministic validation input
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p .ci/input .ci/output .ci/user
-          python Companion-Pack/ComfyUI-Library/tools/make_validation_input.py .ci/input/validation-input.png
-          sha256sum .ci/input/validation-input.png | tee dist/comfyui-library/validation-input.sha256
+          python Companion-Pack/ComfyUI-Library/tools/make_validation_input.py \
+            "$INPUT_DIR/validation-input.png"
+          sha256sum "$INPUT_DIR/validation-input.png" \
+            | tee dist/comfyui-library/validation-input.sha256
 
       - name: Start ComfyUI CPU server
         shell: bash
         run: |
           set -euo pipefail
-          python .ci/ComfyUI/main.py --cpu --listen 127.0.0.1 --port 8188 --input-directory "$GITHUB_WORKSPACE/.ci/input" --output-directory "$GITHUB_WORKSPACE/.ci/output" --user-directory "$GITHUB_WORKSPACE/.ci/user" > dist/comfyui-library/comfyui.log 2>&1 &
+          python "$COMFYUI_ROOT/main.py" \
+            --cpu \
+            --listen 127.0.0.1 \
+            --port 8188 \
+            --input-directory "$INPUT_DIR" \
+            --output-directory "$OUTPUT_DIR" \
+            --user-directory "$USER_DIR" \
+            > dist/comfyui-library/comfyui.log 2>&1 &
           echo "COMFYUI_PID=$!" >> "$GITHUB_ENV"
 
       - name: Run model-free ComfyUI workflow
         shell: bash
         run: |
           set -euo pipefail
-          python Companion-Pack/ComfyUI-Library/tools/run_validation_workflow.py --base-url http://127.0.0.1:8188 --api-workflow Companion-Pack/ComfyUI-Library/workflows/api/WF-COMFY-0001-validation-copy.json --ui-workflow Companion-Pack/ComfyUI-Library/workflows/source/WF-COMFY-0001-validation-copy.json --output-root .ci/output --report dist/comfyui-library/runtime-report.json --timeout 300
-          grep -F '"status": "success"' dist/comfyui-library/runtime-report.json
-          find .ci/output -type f -name '*.png' -print | tee dist/comfyui-library/output-files.txt
+          python Companion-Pack/ComfyUI-Library/tools/run_validation_workflow.py \
+            --base-url http://127.0.0.1:8188 \
+            --api-workflow Companion-Pack/ComfyUI-Library/workflows/api/WF-COMFY-0001-validation-copy.json \
+            --ui-workflow Companion-Pack/ComfyUI-Library/workflows/source/WF-COMFY-0001-validation-copy.json \
+            --output-root "$OUTPUT_DIR" \
+            --report dist/comfyui-library/runtime-report.json \
+            --timeout 300
+          grep -F '"status": "success"' \
+            dist/comfyui-library/runtime-report.json
+          find "$OUTPUT_DIR" -type f -name '*.png' -print \
+            | tee dist/comfyui-library/output-files.txt
           test "$(wc -l < dist/comfyui-library/output-files.txt)" -eq 1
-          cp "$(cat dist/comfyui-library/output-files.txt)" dist/comfyui-library/WF-COMFY-0001-output.png
+          cp "$(cat dist/comfyui-library/output-files.txt)" \
+            dist/comfyui-library/WF-COMFY-0001-output.png
 
       - name: Stop ComfyUI server
         if: always()
@@ -98,13 +135,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -E "Traceback|ERROR|Exception" dist/comfyui-library/comfyui.log
-          test -z "$(find .ci/ComfyUI/models -type f \( -name '*.safetensors' -o -name '*.ckpt' -o -name '*.pt' -o -name '*.pth' -o -name '*.bin' \) -print -quit)"
-          test -z "$(find .ci/ComfyUI/custom_nodes -mindepth 1 -maxdepth 1 -type d -print -quit)"
-          git status --short | tee dist/comfyui-library/git-status-after-runtime.txt
+          ! grep -E "Traceback|ERROR|Exception" \
+            dist/comfyui-library/comfyui.log
+          test -z "$(find "$COMFYUI_ROOT/models" -type f \
+            \( -name '*.safetensors' -o -name '*.ckpt' -o -name '*.pt' \
+               -o -name '*.pth' -o -name '*.bin' \) -print -quit)"
+          test -z "$(find "$COMFYUI_ROOT/custom_nodes" \
+            -mindepth 1 -maxdepth 1 -type d \
+            -not -name '__pycache__' -print -quit)"
+          git status --short \
+            | tee dist/comfyui-library/git-status-after-runtime.txt
           test ! -s dist/comfyui-library/git-status-after-runtime.txt
           test ! -e dist/Guide-IA-GameDev.pdf
-          test -z "$(find Companion-Pack/ComfyUI-Library -type f -name '*.pdf' -print -quit)"
+          test -z "$(find Companion-Pack/ComfyUI-Library \
+            -type f -name '*.pdf' -print -quit)"
 
       - name: Upload ComfyUI Library evidence
         uses: actions/upload-artifact@v4
