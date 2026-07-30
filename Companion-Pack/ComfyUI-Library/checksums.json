@@ -2,9 +2,9 @@
   "schema_version": 1,
   "algorithm": "sha256",
   "files": {
-    "workflows/source/WF-COMFY-0001-validation-copy.json": "1643effa747bbf23ef2cece31e8ff99d89883996b230d262e892ad209672bc06",
-    "workflows/api/WF-COMFY-0001-validation-copy.json": "6b180268ab50f51b4db69e9391d5c37bf5a9a98645b74d28cd4f047b6df5a851",
-    "workflows/source/WF-COMFY-0100-concept-art-template.json": "ad01976db58336902a72258f8a348a5119a6caa024ae5c6854208e2cb5935164",
+    "workflows/source/WF-COMFY-0001-validation-copy.json": "249839cf418414a13519e3aeb50dee8374306494c2f95306967f62ceb9c9bcaa",
+    "workflows/api/WF-COMFY-0001-validation-copy.json": "afcdae46c6d66a7463815253c73f22ceafb88c2407d3614a085c78e0ab46ba3a",
+    "workflows/source/WF-COMFY-0100-concept-art-template.json": "d77b865173d4e56433fde5d09c056754df0f2dc6cac7c89ad599faef24718514",
     "manifests/workflows/WF-COMFY-0001.yaml": "bf8219c73cfdbd95064f904c99b236e32eee5fdf9ef991371ad14e95ad78c4a4",
     "manifests/workflows/WF-COMFY-0100.yaml": "b7aadd977714cecf7dac1f35ca217271d965d6465fce67d5c135469c51e05bcb",
     "manifests/models/MODELS.yaml": "ce2158fe4f17e2184c840c731c9ec771367bf32d9119edbaac6d094fb215667b",
