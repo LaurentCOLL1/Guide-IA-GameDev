@@ -1,0 +1,91 @@
+name: Build Publication Formats
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Volume-0/**"
+      - "Livre-I/**"
+      - "Livre-II/**"
+      - "Livre-III/**"
+      - "Livre-IV/**"
+      - "Livre-V/**"
+      - "README.md"
+      - "LICENSE.md"
+      - "NOTICE.md"
+      - "LICENSES/**"
+      - "contents.txt"
+      - "metadata.yaml"
+      - "filters/**"
+      - "build.sh"
+      - "build.ps1"
+      - "BUILD.md"
+      - "tools/build_publications.py"
+      - "tools/validate_publications.py"
+      - "QA/*PUBLICATION-FORMATS*"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/build-publication-formats.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-publications:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      SOURCE_DATE_EPOCH: "1785452640"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install publication toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            pandoc texlive-xetex texlive-fonts-recommended texlive-latex-extra \
+            fonts-dejavu-core poppler-utils
+          pandoc --version | head -n 2
+          xelatex --version | head -n 1
+          python --version
+
+      - name: Build PDF HTML and EPUB
+        run: python tools/build_publications.py --clean --formats pdf html epub
+
+      - name: Validate generated formats
+        run: python tools/validate_publications.py --report dist/publications/validation.json
+
+      - name: Run repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+          python tools/validate_chapters.py
+          python tools/validate_licenses.py --report dist/publications/licensing-validation.json
+          git status --short | tee dist/publications/git-status.txt
+          test ! -s dist/publications/git-status.txt
+
+      - name: Record tool versions and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          pandoc --version > dist/publications/pandoc-version.txt
+          xelatex --version > dist/publications/xelatex-version.txt
+          python --version > dist/publications/python-version.txt 2>&1
+          sha256sum dist/publications/Guide-IA-GameDev.* > dist/publications/SHA256SUMS
+          find dist/publications -maxdepth 1 -type f -printf '%f %s bytes\n' | sort > dist/publications/files.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-publication-formats
+          path: dist/publications
+          if-no-files-found: error
+          retention-days: 30
