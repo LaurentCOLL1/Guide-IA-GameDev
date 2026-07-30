@@ -20,8 +20,7 @@ REQUIRED = {
 
 
 def sha256(path: Path) -> str:
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    return digest
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def command(*args: str) -> str:
@@ -45,22 +44,33 @@ def main() -> int:
     if pdf.is_file():
         try:
             info = command("pdfinfo", str(pdf))
-            pages = int(re.search(r"^Pages:\s+(\d+)$", info, re.MULTILINE).group(1))
-            if pages < 100:
-                errors.append("pdf:unexpected-page-count")
+            match = re.search(r"^Pages:\s+(\d+)$", info, re.MULTILINE)
+            if match is None:
+                errors.append("pdf:missing-page-count")
+            else:
+                pages = int(match.group(1))
+                if pages < 100:
+                    errors.append("pdf:unexpected-page-count")
+                result["formats"]["pdf"]["pages"] = pages
             text = command("pdftotext", "-f", "1", "-l", "5", str(pdf), "-")
             if "Guide" not in text or "Laurent" not in text:
                 errors.append("pdf:missing-title-or-author")
-            result["formats"]["pdf"]["pages"] = pages
         except Exception as exc:
             errors.append(f"pdf:inspection:{type(exc).__name__}")
 
     html = REQUIRED["html"]
     if html.is_file():
         text = html.read_text(encoding="utf-8", errors="replace")
-        for needle in ("<!DOCTYPE html", "Guide IA GameDev", "CC-BY-SA-4.0", "table-of-contents"):
+        for needle in ("<!DOCTYPE html", "Guide IA GameDev", "CC-BY-SA-4.0"):
             if needle not in text:
                 errors.append(f"html:missing:{needle}")
+        toc_patterns = (
+            r'id=["\']TOC["\']',
+            r'id=["\']table-of-contents["\']',
+            r'role=["\']doc-toc["\']',
+        )
+        if not any(re.search(pattern, text, re.IGNORECASE) for pattern in toc_patterns):
+            errors.append("html:missing:toc")
         if re.search(r'(?:src|href)=["\'](?:/|file:)', text):
             errors.append("html:absolute-local-resource")
 
