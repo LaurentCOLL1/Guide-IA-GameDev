@@ -35,6 +35,26 @@ jobs:
         shell: bash
         run: python -m pip install --disable-pip-version-check --quiet PyYAML
 
+      - name: Narrow continuity path replacement
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/scripts/finalize_comfyui_library.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''text = replace_once(text, 'Companion-Pack/ComfyUI-Library/README.md', 'Companion-Pack/Documentation-Library/README.md', "continuity next path")'''
+          new = '''text = replace_once(
+              text,
+              '```text\\nCompanion-Pack/ComfyUI-Library/README.md\\nNiveau GPT-5.6 Sol recommandé : Élevée\\n```',
+              '```text\\nCompanion-Pack/Documentation-Library/README.md\\nNiveau GPT-5.6 Sol recommandé : Élevée\\n```',
+              "continuity next path",
+          )'''
+          if text.count(old) != 1:
+              raise SystemExit(f'Unexpected finalizer target count: {text.count(old)}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
       - name: Finalize Pack 6 and governance
         shell: bash
         run: python .github/scripts/finalize_comfyui_library.py
