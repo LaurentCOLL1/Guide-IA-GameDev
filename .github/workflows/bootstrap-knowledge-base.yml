@@ -1,18 +1,19 @@
 name: Bootstrap Knowledge Base
 
 on:
-  push:
-    branches:
-      - feat/companion-pack-knowledge-base
+  pull_request:
+    branches: [main]
     paths:
       - ".github/scripts/bootstrap_knowledge_base.py"
       - ".github/workflows/bootstrap-knowledge-base.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   bootstrap:
+    if: github.head_ref == 'feat/companion-pack-knowledge-base'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
