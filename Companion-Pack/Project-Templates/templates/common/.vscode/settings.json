@@ -1,0 +1,17 @@
+{
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.detectIndentation": false,
+  "[gdscript]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4,
+    "editor.formatOnSave": false
+  },
+  "godotTools.editorPath.godot4": "",
+  "search.exclude": {
+    "**/.godot": true,
+    "**/work": true,
+    "**/builds": true
+  }
+}

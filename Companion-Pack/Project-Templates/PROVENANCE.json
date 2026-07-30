@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-02-PROJECT-TEMPLATES",
+  "version": "1.0.0",
+  "created_for": "Guide IA GameDev",
+  "origin": "original_text_and_code",
+  "third_party_assets": [],
+  "third_party_binaries": [],
+  "personal_data": false,
+  "secrets": false,
+  "reference_sources": [
+    "Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md",
+    "Livre-II/CHAPITRE-05-Services-gestionnaires-bus-evenements-et-injection-de-dependances.md",
+    "Livre-II/CHAPITRE-26-Outils-d-edition-internes-et-pipelines-de-contenu.md",
+    "Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md"
+  ]
+}

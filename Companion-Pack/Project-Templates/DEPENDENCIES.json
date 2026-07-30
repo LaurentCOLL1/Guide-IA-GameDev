@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-02-PROJECT-TEMPLATES",
+  "runtime": [
+    {
+      "name": "Godot Engine",
+      "version": "4.7.1-stable",
+      "edition": "Standard",
+      "required_for": [
+        "import",
+        "smoke_test",
+        "gdscript_tests"
+      ],
+      "bundled": false,
+      "qualification": {
+        "platform": "linux-x86_64",
+        "engine_version": "4.7.1.stable.official.a13da4feb",
+        "archive_sha256": "c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba",
+        "run_id": 30511425269,
+        "status": "pass"
+      }
+    }
+  ],
+  "tooling": [
+    {
+      "name": "Python",
+      "minimum_version": "3.10",
+      "required_for": [
+        "instantiate_project",
+        "create_module",
+        "static_validation"
+      ],
+      "third_party_packages": [],
+      "qualification": {
+        "run_id": 30511425269,
+        "status": "pass",
+        "third_party_packages": []
+      }
+    },
+    {
+      "name": "PowerShell",
+      "minimum_version": "7",
+      "required_for": [
+        "optional_windows_wrapper"
+      ],
+      "bundled": false,
+      "qualification": {
+        "run_id": 30511425269,
+        "status": "pass-linux-runner"
+      }
+    },
+    {
+      "name": "Git",
+      "version": "unspecified",
+      "required_for": [
+        "repository_initialization",
+        "clean_tree_check"
+      ],
+      "bundled": false,
+      "qualification": {
+        "run_id": 30511425269,
+        "status": "pass-generated-repositories"
+      }
+    }
+  ],
+  "hidden_dependencies": []
+}

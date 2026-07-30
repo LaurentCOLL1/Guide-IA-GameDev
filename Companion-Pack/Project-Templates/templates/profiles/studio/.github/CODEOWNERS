@@ -1,0 +1,6 @@
+# Valeurs initiales à adapter dans le dépôt cible.
+* @__OWNER_HANDLE__
+/src/core/ @__OWNER_HANDLE__
+/src/composition/ @__OWNER_HANDLE__
+/.github/ @__OWNER_HANDLE__
+/docs/adr/ @__OWNER_HANDLE__

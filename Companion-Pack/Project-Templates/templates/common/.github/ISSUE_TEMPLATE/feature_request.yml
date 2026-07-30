@@ -1,0 +1,26 @@
+name: Évolution
+description: Proposer une capacité ou une modification
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problème à résoudre
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Résultat attendu
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Frontières et exclusions
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation proposée

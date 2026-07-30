@@ -1,0 +1,14 @@
+class_name __MODULE_CLASS__Service
+extends RefCounted
+
+var _repository: InMemory__MODULE_CLASS__Repository
+
+func _init(repository: InMemory__MODULE_CLASS__Repository) -> void:
+	assert(repository != null)
+	_repository = repository
+
+func register(record_id: StringName) -> bool:
+	var candidate := __MODULE_CLASS__Record.new(record_id)
+	if not candidate.is_valid():
+		return false
+	return _repository.add(candidate)

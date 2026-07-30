@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "tokens": {
+    "__PROJECT_NAME__": "Nom lisible du projet",
+    "__PROJECT_ID__": "Identifiant snake_case stable",
+    "__PROJECT_SLUG__": "Slug de dossier en kebab-case",
+    "__PROFILE_ID__": "solo ou studio",
+    "__OWNER_HANDLE__": "Propriétaire ou organisation sans secret",
+    "__REVIEW_MODE__": "Mode de revue documentaire",
+    "__REQUIRED_REVIEWERS__": "Nombre entier de réviseurs",
+    "__RELEASE_APPROVAL__": "Mode d’approbation de release"
+  },
+  "forbidden_after_generation": [
+    "__PROJECT_",
+    "__PROFILE_",
+    "__OWNER_",
+    "__REVIEW_",
+    "__REQUIRED_",
+    "__RELEASE_"
+  ]
+}

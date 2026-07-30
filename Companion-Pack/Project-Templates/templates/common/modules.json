@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "modules": [
+    {
+      "module_id": "example_feature",
+      "display_name": "Fonctionnalité exemple",
+      "source": "template"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+# Module __MODULE_ID__
+
+## Responsabilité
+
+__MODULE_DISPLAY_NAME__ possède ses règles, son orchestration, ses adaptateurs et sa présentation.
+
+## Interface publique
+
+- `__MODULE_CLASS__Record` ;
+- `__MODULE_CLASS__Service` ;
+- `InMemory__MODULE_CLASS__Repository`.
+
+## Dépendances autorisées
+
+- classes Godot standard ;
+- types du module ;
+- contrats réellement communs de `src/core`.
+
+## Dépendances interdites
+
+- nœud interne d’un autre module ;
+- Autoload non déclaré ;
+- stockage concret depuis le domaine ;
+- réseau depuis le domaine ;
+- état global mutable caché.
+
+## Validation
+
+Le fichier `tests/test___MODULE_ID__.gd` contient un test autonome minimal. Il doit être intégré à la stratégie de test du projet avant que le module soit considéré comme qualifié.

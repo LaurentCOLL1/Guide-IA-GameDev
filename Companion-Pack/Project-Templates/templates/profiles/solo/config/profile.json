@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "profile_id": "solo",
+  "required_reviewers": 0,
+  "review_mode": "delayed_self_review",
+  "release_approval": "self_review",
+  "required_platforms": [
+    "windows-x86_64"
+  ],
+  "codeowners_required": false,
+  "protected_main_recommended": true,
+  "local_ai_required": false
+}

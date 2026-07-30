@@ -145,3 +145,4 @@ Livre-V/CHAPITRE-25-Licences-provenance-et-conformite.md
 Livre-V/CHAPITRE-26-Index-croises.md
 Companion-Pack/index.md
 Companion-Pack/Starter-Kit/README.md
+Companion-Pack/Project-Templates/README.md

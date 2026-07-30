@@ -1,0 +1,73 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-02
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-project-templates
+pack:
+  id: CP-PACK-02-PROJECT-TEMPLATES
+  version: 1.0.0
+  entry-point: Companion-Pack/Project-Templates/README.md
+  audit-level: runtime-tested
+results:
+  static-validation: success
+  source-files: 71
+  powershell-wrapper: success
+  solo-instantiation: success
+  studio-instantiation: success
+  module-generation: success
+  deterministic-generation:
+    status: success
+    solo-project-sha256: 61f2286f90dbaad1375ac201eeecfff85f65eecd25967799a126e6d1cdbe2896
+    studio-project-sha256: 43d49d1e9b06a16f2f822217111a7d1ca49a759b7390a2f7b86adfe604dd4f57
+    solo-module-sha256: 0662f720c8880a4726fb5139ca247f692ae7b283620d32a6f46c2ac6975d471a
+    studio-module-sha256: 6a48c5014cfffdbe8645a5959294ae90d408e6f81fba4584afa2e86da5328cf7
+  godot-version: 4.7.1.stable.official.a13da4feb
+  godot-archive-sha256: c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba
+  solo-import: success
+  studio-import: success
+  solo-headless-smoke: success
+  studio-headless-smoke: success
+  solo-virtual-graphical-smoke:
+    status: success
+    display: Xvfb
+    renderer: gl_compatibility
+  studio-virtual-graphical-smoke:
+    status: success
+    display: Xvfb
+    renderer: gl_compatibility
+  solo-gdscript-tests: success
+  studio-gdscript-tests: success
+  generated-module-tests: success
+  clean-tree-after-runtime: true
+  document-validation: success
+  runtime-tests: 8
+ci:
+  qualification-run:
+    workflow: Validate Project Templates
+    run-id: 30511425269
+    head-commit: 488697292d3dd82804c80d6bbc56629b45cb6a79
+    conclusion: success
+    artifact-id: 8747249256
+    artifact-digest: sha256:a285b4880527d0aa36bfe1f1ed67d3e950b4668601709ce5aadb04e73bd04473
+  permanent-runtime-validation:
+    workflow: Validate Project Templates
+    run-id: 30512113788
+    head-commit: ac3eb61095d54970dfac8219acd9e09998a2e250
+    conclusion: success
+    artifact-id: 8747500270
+    artifact-digest: sha256:3b60894bf0ac41edf55c896c196fd45d773e156c7cebeb78f71ac0920bd791c4
+  permanent-document-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30512113804
+    head-commit: ac3eb61095d54970dfac8219acd9e09998a2e250
+    conclusion: success
+    artifact-id: 8747492419
+    artifact-digest: sha256:c8a1357b31d34b21e5608f9b1aa623a0d36c1e2969e014bd0a06d97559245838
+reservations:
+  - Branch protection is not applied to a target repository.
+  - CODEOWNERS effectiveness is not verified on a target repository.
+  - Xvfb execution is not a visual-quality review.
+  - Windows graphical execution is not executed.
+  - Forward+ rendering on a real GPU is not executed.
+  - Exports and release packages are not produced.
+  - The global license is undefined.

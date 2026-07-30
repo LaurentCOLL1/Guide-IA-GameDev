@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.15.0"
+version: "4.16.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T04:19:00+02:00"
+last-updated: "2026-07-30T05:34:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,8 +2354,9 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 1 pack validé sur 10 ;
+- progression du Companion Pack : 2 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
+- Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2478,19 +2479,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Le Pack 1 — Starter Kit est matérialisé en version `1.0.0` et validé sur Linux x86_64 : statique, PowerShell, import headless, bootstrap, lancement Xvfb Compatibility, tests GDScript, clone neuf et arbre propre. Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 et 2 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Project Templates a généré des projets Solo et Studio, ajouté un module en cinq couches, importé les deux projets, exécuté les démarrages headless et Xvfb Compatibility, passé les tests GDScript et conservé des arbres Git propres. Les protections GitHub effectives, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Project-Templates/README.md
+Companion-Pack/AI-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 2 doit matérialiser des templates Solo et Studio, les conventions Git, les modèles d’issues et de PR, les ADR, les responsabilités, les réglages VS Code et les squelettes de modules Godot. Aucun projet dérivé, protection de branche, CODEOWNERS effectif ou test de création ne devra être annoncé sans matérialisation et preuve.
+Le Pack 3 doit matérialiser une couche IA locale remplaçable : contrats OpenAI-compatible, clients HTTP et WebSocket, adaptateurs Ollama, llama.cpp et LocalAI, délais, reprises bornées, annulation, files, cache, mocks, filtres de sécurité et exemples Godot. Aucun service réel, secret, disponibilité fournisseur, performance ou compatibilité réseau ne devra être annoncé sans exécution et preuve.
 ## 27. Journal
+
+### 2026-07-30T05:34:00+02:00 — version 4.16.0
+
+- matérialisation du Companion Pack, Pack 2 — Project Templates ;
+- modèles Solo et Studio, générateur Python, enveloppe PowerShell, module en cinq couches, ADR, conventions Git, issues, PR, VS Code, style et CODEOWNERS Studio créés ;
+- 71 sources textuelles du pack validées sans dépendance Python tierce ni fichier binaire ;
+- générations Solo et Studio déterministes pour des entrées identiques ;
+- projets neufs et modules `inventory_demo` créés, importés et testés ;
+- Godot `4.7.1.stable.official.a13da4feb`, archive SHA-256 `c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba` ;
+- démarrages headless et Xvfb Compatibility réussis pour les deux profils ;
+- tests GDScript réussis avec `PROJECT_TEMPLATE_TESTS: PASS` ;
+- arbres Git générés propres après runtime ;
+- run `30511425269`, artefact `8747249256`, digest `sha256:a285b4880527d0aa36bfe1f1ed67d3e950b4668601709ce5aadb04e73bd04473` ;
+- progression M7 portée à 2 packs sur 10 ;
+- prochaine action : `Companion-Pack/AI-Library/README.md`, niveau Élevée ;
+- aucune protection de branche, efficacité CODEOWNERS, Windows graphique, Forward+ GPU réel, export, release, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T04:19:00+02:00 — version 4.15.0
 
