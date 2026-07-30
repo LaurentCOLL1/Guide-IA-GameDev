@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "reserved_external_concepts": {
+    "bounded-task-queue": "AI-Library",
+    "ttl-lru-cache": "AI-Library",
+    "bootstrap-report": "Starter-Kit",
+    "project-composition": "Project-Templates",
+    "module-generator": "Project-Templates"
+  },
+  "allowed_cross_language_ports": [
+    "stable-unique-list",
+    "validation-composition",
+    "canonical-json",
+    "service-registry",
+    "in-memory-repository",
+    "finite-state-machine",
+    "interaction-router",
+    "bounded-value-conversions",
+    "test-observation"
+  ],
+  "decisions": [
+    {
+      "concept_id": "in-memory-repository",
+      "relationship": "generalizes-example",
+      "external_owner": "Project-Templates",
+      "automatic_migration": false
+    },
+    {
+      "concept_id": "service-registry",
+      "relationship": "independent-component",
+      "external_owner": null,
+      "automatic_migration": false
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "pack_version": "0.1.0",
+  "components": [
+    {
+      "component_id": "py-stable-unique-list",
+      "concept_id": "stable-unique-list",
+      "port_group": "stable-unique-list",
+      "language": "python",
+      "domain": "collections",
+      "source": "python/src/asteria_code/collections.py",
+      "public_symbols": ["StableUniqueList"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-stable-unique-list",
+      "concept_id": "stable-unique-list",
+      "port_group": "stable-unique-list",
+      "language": "gdscript",
+      "domain": "collections",
+      "source": "godot/addons/asteria_code/collections/stable_unique_list.gd",
+      "public_symbols": ["StableUniqueList"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-validation-composition",
+      "concept_id": "validation-composition",
+      "port_group": "validation-composition",
+      "language": "python",
+      "domain": "validation",
+      "source": "python/src/asteria_code/validation.py",
+      "public_symbols": ["Validator"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-validation-composition",
+      "concept_id": "validation-composition",
+      "port_group": "validation-composition",
+      "language": "gdscript",
+      "domain": "validation",
+      "source": "godot/addons/asteria_code/validation/validator.gd",
+      "public_symbols": ["Validator"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-canonical-json",
+      "concept_id": "canonical-json",
+      "port_group": "canonical-json",
+      "language": "python",
+      "domain": "serialization",
+      "source": "python/src/asteria_code/serialization.py",
+      "public_symbols": ["canonical_json_dumps"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-canonical-json",
+      "concept_id": "canonical-json",
+      "port_group": "canonical-json",
+      "language": "gdscript",
+      "domain": "serialization",
+      "source": "godot/addons/asteria_code/serialization/canonical_json.gd",
+      "public_symbols": ["CanonicalJson"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-service-registry",
+      "concept_id": "service-registry",
+      "port_group": "service-registry",
+      "language": "python",
+      "domain": "services",
+      "source": "python/src/asteria_code/services.py",
+      "public_symbols": ["ServiceRegistry"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-service-registry",
+      "concept_id": "service-registry",
+      "port_group": "service-registry",
+      "language": "gdscript",
+      "domain": "services",
+      "source": "godot/addons/asteria_code/services/service_registry.gd",
+      "public_symbols": ["ServiceRegistry"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-in-memory-repository",
+      "concept_id": "in-memory-repository",
+      "port_group": "in-memory-repository",
+      "language": "python",
+      "domain": "repositories",
+      "source": "python/src/asteria_code/repositories.py",
+      "public_symbols": ["InMemoryRepository"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-in-memory-repository",
+      "concept_id": "in-memory-repository",
+      "port_group": "in-memory-repository",
+      "language": "gdscript",
+      "domain": "repositories",
+      "source": "godot/addons/asteria_code/repositories/in_memory_repository.gd",
+      "public_symbols": ["InMemoryRepository"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-finite-state-machine",
+      "concept_id": "finite-state-machine",
+      "port_group": "finite-state-machine",
+      "language": "python",
+      "domain": "state_machine",
+      "source": "python/src/asteria_code/state_machine.py",
+      "public_symbols": ["StateMachine"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-finite-state-machine",
+      "concept_id": "finite-state-machine",
+      "port_group": "finite-state-machine",
+      "language": "gdscript",
+      "domain": "state_machine",
+      "source": "godot/addons/asteria_code/state_machine/state_machine.gd",
+      "public_symbols": ["StateMachine"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-interaction-router",
+      "concept_id": "interaction-router",
+      "port_group": "interaction-router",
+      "language": "python",
+      "domain": "interactions",
+      "source": "python/src/asteria_code/interactions.py",
+      "public_symbols": ["InteractionRouter"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-interaction-router",
+      "concept_id": "interaction-router",
+      "port_group": "interaction-router",
+      "language": "gdscript",
+      "domain": "interactions",
+      "source": "godot/addons/asteria_code/interactions/interaction_router.gd",
+      "public_symbols": ["InteractionRouter"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-bounded-value-conversions",
+      "concept_id": "bounded-value-conversions",
+      "port_group": "bounded-value-conversions",
+      "language": "python",
+      "domain": "conversions",
+      "source": "python/src/asteria_code/conversions.py",
+      "public_symbols": ["clamp_float"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-bounded-value-conversions",
+      "concept_id": "bounded-value-conversions",
+      "port_group": "bounded-value-conversions",
+      "language": "gdscript",
+      "domain": "conversions",
+      "source": "godot/addons/asteria_code/conversions/value_conversions.gd",
+      "public_symbols": ["ValueConversions"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "py-test-observation",
+      "concept_id": "test-observation",
+      "port_group": "test-observation",
+      "language": "python",
+      "domain": "testing",
+      "source": "python/src/asteria_code/testing.py",
+      "public_symbols": ["EventRecorder"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    },
+    {
+      "component_id": "gd-test-observation",
+      "concept_id": "test-observation",
+      "port_group": "test-observation",
+      "language": "gdscript",
+      "domain": "testing",
+      "source": "godot/addons/asteria_code/testing/test_probe.gd",
+      "public_symbols": ["TestProbe"],
+      "status": "candidate",
+      "owner_pack": "Code-Library"
+    }
+  ]
+}
