@@ -1,0 +1,150 @@
+name: Validate AI Library
+
+on:
+  pull_request:
+    paths:
+      - "Companion-Pack/AI-Library/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "contents.txt"
+      - ".github/workflows/validate-ai-library.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-ai-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/AI-Library/src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate AI Library statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/ai-library
+          python3 Companion-Pack/AI-Library/tools/validate_ai_library.py \
+            --report dist/ai-library/static-validation.json
+
+      - name: Run Python unit and mock integration tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover \
+            -s Companion-Pack/AI-Library/tests \
+            -v 2>&1 | tee dist/ai-library/python-tests.log
+          grep -F "OK" dist/ai-library/python-tests.log
+
+      - name: Start controlled local mock servers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m asteria_ai.mock_server \
+            --http-port 8765 \
+            --ws-port 8766 \
+            > dist/ai-library/mock-server.log 2>&1 &
+          echo "MOCK_SERVER_PID=$!" >> "$GITHUB_ENV"
+          for attempt in $(seq 1 50); do
+            if curl --fail --silent http://127.0.0.1:8765/health \
+              > dist/ai-library/mock-health.json; then
+              break
+            fi
+            sleep 0.1
+          done
+          grep -F '"provider":"mock-provider"' dist/ai-library/mock-health.json
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3 \
+            "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip" \
+            --output .ci/godot/godot.zip
+          sha256sum .ci/godot/godot.zip | tee dist/ai-library/godot-download.sha256
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          GODOT_BIN="$(realpath "$GODOT_BIN")"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/ai-library/godot-version.txt
+          grep -F "4.7.1.stable" dist/ai-library/godot-version.txt
+
+      - name: Import Godot example
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/AI-Library/godot-example \
+            --import \
+            --log-file "$GITHUB_WORKSPACE/dist/ai-library/godot-import.log"
+
+      - name: Run bounded headless smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/AI-Library/godot-example \
+            --quit-after 5 \
+            --log-file "$GITHUB_WORKSPACE/dist/ai-library/godot-smoke.log"
+          grep -F "CP-AI-BOOTSTRAP-001" dist/ai-library/godot-smoke.log
+
+      - name: Run virtual graphical smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a "$GODOT_BIN" \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/AI-Library/godot-example \
+            --quit-after 5 \
+            --log-file "$GITHUB_WORKSPACE/dist/ai-library/godot-xvfb.log"
+          grep -F "CP-AI-BOOTSTRAP-001" dist/ai-library/godot-xvfb.log
+
+      - name: Run Godot mock integration tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/AI-Library/godot-example \
+            --script res://tests/run_tests.gd \
+            --log-file "$GITHUB_WORKSPACE/dist/ai-library/godot-tests.log"
+          grep -F "AI_LIBRARY_GODOT_TESTS: PASS" dist/ai-library/godot-tests.log
+
+      - name: Check clean tree and record inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          kill "$MOCK_SERVER_PID" || true
+          wait "$MOCK_SERVER_PID" || true
+          rm -rf .ci
+          git status --short | tee dist/ai-library/git-status-after-runtime.txt
+          test ! -s dist/ai-library/git-status-after-runtime.txt
+          find Companion-Pack/AI-Library \
+            -type f \
+            -not -path "*/.godot/*" \
+            -print | sort | tee dist/ai-library/source-files.txt
+          test ! -e dist/Guide-IA-GameDev.pdf
+
+      - name: Upload AI Library evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-library-validation
+          path: dist/ai-library
+          if-no-files-found: error
+          retention-days: 30
