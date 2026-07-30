@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Diagnostic Pandoc par source déclenché après exception YAML de l’assemblage cumulatif.**
+**Correction ciblée du séparateur Pandoc de la fiche 05 déclenchée avant nouvelle compilation.**
