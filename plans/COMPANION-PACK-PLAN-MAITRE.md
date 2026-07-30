@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.5.0"
+version: "1.6.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 5 sur 10 validé
+> **Statut :** en cours — Pack 6 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -200,6 +200,8 @@ Livre II, chapitres 7 à 10 et systèmes de gameplay concernés.
 - aucune donnée personnelle incluse.
 
 ## Pack 6 — ComfyUI Library
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30529642016` avec ComfyUI CPU sans modèle ; réserves modèles, custom nodes tiers, AMD/ZLUDA, Windows graphique, performance, qualité, droits de sortie, exports et licence globale maintenues.
 
 **Objectifs**
 

@@ -20,5 +20,5 @@
     "upscalers",
     "custom-node-source"
   ],
-  "qualification": "candidate"
+  "qualification": "runtime-tested-linux-run-30529642016"
 }

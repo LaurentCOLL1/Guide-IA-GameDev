@@ -5,7 +5,7 @@
     "workflows/source/WF-COMFY-0001-validation-copy.json": "249839cf418414a13519e3aeb50dee8374306494c2f95306967f62ceb9c9bcaa",
     "workflows/api/WF-COMFY-0001-validation-copy.json": "afcdae46c6d66a7463815253c73f22ceafb88c2407d3614a085c78e0ab46ba3a",
     "workflows/source/WF-COMFY-0100-concept-art-template.json": "d77b865173d4e56433fde5d09c056754df0f2dc6cac7c89ad599faef24718514",
-    "manifests/workflows/WF-COMFY-0001.yaml": "bf8219c73cfdbd95064f904c99b236e32eee5fdf9ef991371ad14e95ad78c4a4",
+    "manifests/workflows/WF-COMFY-0001.yaml": "523c5f1895840bb2738383368a87915e382f5d970b51a0c96db13e8369c4c405",
     "manifests/workflows/WF-COMFY-0100.yaml": "b7aadd977714cecf7dac1f35ca217271d965d6465fce67d5c135469c51e05bcb",
     "manifests/models/MODELS.yaml": "ce2158fe4f17e2184c840c731c9ec771367bf32d9119edbaac6d094fb215667b",
     "manifests/custom-nodes/CUSTOM-NODES.yaml": "6d0ae94b57ab59a21f56923a4574a5963682a5c4cb9ff007cfaef3338f11f4b0",

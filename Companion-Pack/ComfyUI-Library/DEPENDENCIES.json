@@ -17,7 +17,7 @@
       "scope": "runtime-validation",
       "bundled": false,
       "license": "GPL-3.0",
-      "qualification": "pinned-tag-runtime-required"
+      "qualification": "pass-run-30529642016"
     }
   ],
   "optional_profiles": [

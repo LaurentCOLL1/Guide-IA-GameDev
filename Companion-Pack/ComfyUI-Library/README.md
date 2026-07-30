@@ -1,10 +1,11 @@
 ---
 title: "Companion Pack — ComfyUI Library"
 id: "CP-PACK-06-COMFYUI-LIBRARY"
-status: "candidate"
+status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
-validation-status: "candidate-runtime"
+last-verified: "2026-07-30T11:20:49+02:00"
+validation-status: "runtime-tested-linux"
 redistribution-status: "pending-global-license"
 reference-software:
   comfyui: "v0.28.0"
@@ -19,18 +20,18 @@ Le Pack 6 distribue des workflows visuels reproductibles, leurs manifestes, prof
 
 ## 1. État du lot
 
-| Élément | État candidat |
+| Élément | État qualifié |
 |---|---|
-| workflow de validation sans modèle | matérialisé |
+| workflow de validation sans modèle | exécuté sur CPU par le run `30529642016` |
 | workflow de concept art | modèle non exécuté |
 | profils CPU, AMD RDNA2 et qualité | matérialisés |
-| manifeste ComfyUI | tag `v0.28.0`, commit à enregistrer pendant la qualification |
+| manifeste ComfyUI | tag `v0.28.0`, commit `700821e1364eaab0e8f21c538a2131719fec57bf` |
 | modèles | aucun distribué |
 | custom nodes | aucun code distribué |
 | scripts Linux et PowerShell | matérialisés |
 | provenance et checksums | matérialisés |
 | image légère de référence | SVG original |
-| qualification ComfyUI | à exécuter en CI |
+| qualification ComfyUI | validée sur Linux x86_64 par le run `30529642016` |
 | licence globale | non décidée |
 
 ## 2. Frontières
@@ -230,6 +231,14 @@ et l’empreinte de chaque fichier significatif.
 
 **Différence :** la chaîne corrigée permet l’audit et la reprise même lorsque l’image seule ne conserve plus toutes les informations.
 
-## 10. Réserves
+## 10. Qualification obtenue
 
-Le candidat ne valide encore aucun modèle réel, aucune génération text-to-image, aucun custom node tiers, aucun profil AMD, aucune performance, aucune qualité artistique, aucun droit d’exploitation de sortie et aucune redistribution autonome.
+Le run `30529642016` a validé 37 fichiers du Pack et 12 tests Python, puis a cloné ComfyUI `v0.28.0` au commit `700821e1364eaab0e8f21c538a2131719fec57bf`. L’environnement utilisait CPython `3.12.13` et Torch `2.13.0+cu130` sur Ubuntu 24.04.
+
+Le workflow `WF-COMFY-0001` a réellement exécuté `LoadImage → SaveImage` sans modèle ni custom node tiers. La sortie PNG contient les métadonnées `prompt` et `workflow`, mesure `1565` octets et possède l’empreinte `868bc37be44cf32ae8cac9e55106bd2d16dc9161f6bea4e391e9c146e7603388`.
+
+Artefact `8754176422`, digest `sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af`. L’arbre Git est resté propre et aucun PDF n’a été produit.
+
+## 11. Réserves
+
+La qualification ne valide aucun modèle réel, aucune génération text-to-image, aucun custom node tiers, aucun profil AMD, aucune performance, aucune qualité artistique, aucun droit d’exploitation de sortie et aucune redistribution autonome.
