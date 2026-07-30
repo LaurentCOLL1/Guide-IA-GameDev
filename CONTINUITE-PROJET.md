@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.22.0"
+version: "4.23.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T14:03:39+02:00"
+last-updated: "2026-07-30T15:10:10+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,7 +2354,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 8 packs validés sur 10 ;
+- progression du Companion Pack : 9 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
@@ -2363,6 +2363,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - ComfyUI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
 - Documentation Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec génération déterministe, PyYAML et Pandoc HTML ;
 - Test & Benchmark Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Godot et proxy de rendu Xvfb borné ;
+- Production Toolkit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Blender et import Godot ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2485,19 +2486,39 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 8 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Test & Benchmark Library a validé 73 fichiers, 6 contrats, 25 tests Python, une suite GDScript, trois benchmarks Python, trois scènes Godot et six résultats de campagne avec répétitions, variance, seeds et empreintes d’environnement. Les temps du runner ne sont pas des références universelles ; Windows, GPU physique, Forward+, AMD/ZLUDA, mobile, console, charges longues, performance produit, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 9 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Production Toolkit a validé 28 fichiers, neuf familles, 29 tests Python, le dry-run, les codes de sortie, l’échec injecté et la reprise, les conversions synthétiques, deux ZIP déterministes, Blender OBJ vers GLB, l’import Godot et la préservation des sources. Les formats propriétaires, la qualité artistique, les bakes complexes, la compression GPU, les exports de jeu, les plateformes non Linux et la licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Production-Toolkit/README.md
+Companion-Pack/Knowledge-Base/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 9 doit matérialiser un outillage de production : scripts Blender, convertisseurs de textures et audio, validateurs d’assets, générateurs de catalogues, outils de renommage, pipelines de lots, scripts d’import Godot et packaging. Les outils devront proposer un mode dry-run, des journaux et codes de sortie, la reprise après erreur, préserver les sources et être testés sur des assets synthétiques.
+Le Pack 10 doit matérialiser une base de connaissances synthétique : lore, codex, documents RAG, schémas de métadonnées, corpus de test, scripts de découpage, index reproductibles et outils de suppression/réindexation. Les droits devront être clairs, le corpus synthétique ou autorisé, l’index recréable depuis les sources, les tests de recherche exécutés et la suppression complète d’un document vérifiée.
+
 ## 27. Journal
+
+### 2026-07-30T15:10:10+02:00 — version 4.23.0
+
+- matérialisation du Companion Pack, Pack 9 — Production Toolkit ;
+- 28 fichiers du Pack et neuf familles d’outils créés ;
+- 29 tests Python réussis ;
+- dry-run sans sortie métier, journaux JSON et codes de sortie validés ;
+- conversions PPM vers PNG et WAV stéréo vers PCM mono validées ;
+- validation OBJ, PNG et WAV, renommage par copie et catalogue JSON/CSV validés ;
+- échec injecté, checkpoint partiel et reprise complète validés ;
+- deux archives ZIP de SHA-256 identique produites ;
+- Blender `4.0.2` avec NumPy `1.26.4` : OBJ synthétique exporté en GLB ;
+- Godot `4.7.1.stable.official.a13da4feb` : GLB importé et instancié ;
+- empreintes SHA-256 des sources inchangées ;
+- run `30544978391`, artefact `8760345537`, digest `sha256:d48f12b2aff00e76dc82e06072deb994863dff43fcce7758faa762c914841359` ;
+- arbre Git propre, aucune donnée privée ou asset tiers inclus ;
+- progression M7 portée à 9 packs sur 10 ;
+- prochaine action : `Companion-Pack/Knowledge-Base/README.md`, niveau Élevée ;
+- aucun format propriétaire, rendu artistique, bake complexe, compression GPU, export de jeu, Windows, macOS, mobile, console, publication, release ou licence globale validé ou produit.
 
 ### 2026-07-30T14:03:39+02:00 — version 4.22.0
 
