@@ -1,0 +1,14 @@
+{
+  "engine": "Godot",
+  "version": "4.7.1-stable",
+  "edition": "standard",
+  "language": "GDScript",
+  "renderer": "forward_plus",
+  "reference_platform": "windows-x86_64",
+  "verified": "2026-07-30",
+  "qualification": {
+    "linux_headless": "pending-ci",
+    "windows_graphical": "not-executed",
+    "forward_plus_graphical": "not-executed"
+  }
+}
