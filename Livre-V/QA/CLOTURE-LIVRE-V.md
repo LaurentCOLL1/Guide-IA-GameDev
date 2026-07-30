@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Candidat PDF final déclenché avec cartographie séquentielle des pages réelles du Livre V.**
+**Finalisation de la preuve et de la gouvernance déclenchée.**
