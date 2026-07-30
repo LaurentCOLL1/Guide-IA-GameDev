@@ -1,3 +1,14 @@
+---
+title: "Audit — Politique de licence globale"
+id: "QA-AUDIT-GLOBAL-LICENSING"
+status: "candidate"
+version: "1.0.0"
+lang: "fr-FR"
+last-verified: "2026-07-30T18:08:00+02:00"
+audit-level: "static-review"
+license: "CC-BY-SA-4.0"
+---
+
 # Audit — Politique de licence globale
 
 - **Statut :** candidate
