@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**En attente de compilation, préflight, inspection visuelle et enregistrement des artefacts.**
+**Compilation candidate déclenchée après installation du runner temporaire.**
