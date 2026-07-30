@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.6.0"
+version: "1.7.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 6 sur 10 validé
+> **Statut :** en cours — Pack 7 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -235,6 +235,8 @@ Livre I, chapitre 7 ; Livre III, chapitres 3 et 30.
 - licence de chaque composant connue.
 
 ## Pack 7 — Documentation Library
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30535138371` avec génération déterministe, PyYAML et compilation Pandoc HTML ; réserves rendu visuel, accessibilité, PDF, DOCX, EPUB, publication et licence globale maintenues.
 
 **Objectifs**
 
