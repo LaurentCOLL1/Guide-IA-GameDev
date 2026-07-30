@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Normalisation générale des séparateurs Pandoc de la fiche 05 déclenchée.**
+**Tous les séparateurs Pandoc connus de la fiche 05 sont normalisés ; compilation et diagnostic relancés.**
