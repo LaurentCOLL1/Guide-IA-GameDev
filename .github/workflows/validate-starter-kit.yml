@@ -94,6 +94,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p dist/starter-kit/generated-uids
+          while IFS= read -r uid_file; do
+            target="dist/starter-kit/generated-uids/$uid_file"
+            mkdir -p "$(dirname "$target")"
+            cp "$uid_file" "$target"
+          done < <(find Companion-Pack/Starter-Kit/godot-project -type f -name '*.uid' -print | sort)
+          rm -rf .ci
           git status --short | tee dist/starter-kit/git-status-after-runtime.txt
           find Companion-Pack/Starter-Kit/godot-project \
             -type f \
