@@ -1,3 +1,13 @@
+---
+title: "Licence globale du projet Guide IA GameDev"
+id: "DOC-LICENSE-GLOBAL"
+status: "active"
+version: "1.0.0"
+lang: "fr-FR"
+last-updated: "2026-07-30T18:08:00+02:00"
+license: "CC-BY-SA-4.0"
+---
+
 # Licence du projet Guide IA GameDev
 
 Copyright © 2026 Laurent Collin.
