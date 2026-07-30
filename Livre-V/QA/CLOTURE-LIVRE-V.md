@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Correction ciblée du séparateur Pandoc de la fiche 05 déclenchée avant nouvelle compilation.**
+**Séparateur Pandoc de la fiche 05 corrigé ; nouvelle compilation candidate déclenchée.**
