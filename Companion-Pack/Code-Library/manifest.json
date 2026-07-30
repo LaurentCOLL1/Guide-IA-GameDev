@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-04-CODE-LIBRARY",
+  "version": "1.0.0",
+  "entry_point": "README.md",
+  "catalog": "catalog.json",
+  "languages": [
+    "python",
+    "gdscript"
+  ],
+  "validation": "tools/validate_code_library.py"
+}

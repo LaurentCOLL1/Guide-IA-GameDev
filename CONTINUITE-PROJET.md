@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.17.0"
+version: "4.18.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T06:36:00+02:00"
+last-updated: "2026-07-30T07:53:26+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,10 +2354,11 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 3 packs validés sur 10 ;
+- progression du Companion Pack : 4 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
+- Code Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2480,19 +2481,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 3 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. AI Library a validé ses contrats, politiques, faux serveurs HTTP/WebSocket, exemples Python et Godot, sans exécuter de service ou modèle fournisseur réel. Les performances, le réseau distant, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 4 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Code Library a validé 18 composants pour 9 concepts, leurs ports Python et GDScript, 16 tests Python, l’import Godot, les démarrages headless et Xvfb Compatibility ainsi que les tests GDScript. Les performances, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Code-Library/README.md
+Companion-Pack/Database-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 4 doit rassembler des composants GDScript et utilitaires Python réutilisables : collections, validation, sérialisation, services et repositories, machines à états, interactions, helpers de tests, conversions et exemples. Chaque API publique devra être documentée, testée, versionnée et contrôlée contre les doublons sans imposer une architecture unique.
+Le Pack 5 doit matérialiser une bibliothèque de données réutilisable : schémas SQLite, migrations ascendantes, repositories, données synthétiques, scripts d’initialisation, sauvegarde et restauration, validateurs et diagrammes. Aucune migration, restauration, performance, concurrence ou compatibilité de version ne devra être annoncée sans exécution et preuve.
 ## 27. Journal
+
+### 2026-07-30T07:53:26+02:00 — version 4.18.0
+
+- matérialisation du Companion Pack, Pack 4 — Code Library ;
+- 18 composants enregistrés pour 9 concepts, avec ports Python et GDScript et registre d’API publique ;
+- collections, validation, sérialisation canonique, services, repository mémoire, machine à états, interactions, conversions et aides de test créés ;
+- politique anti-doublon appliquée ; files et cache réservés à l’AI Library, bootstrap et composition réservés aux Packs 1 et 2 ;
+- 64 fichiers sources du pack validés sans paquet Python tiers, addon binaire, secret ni donnée personnelle ;
+- 16 tests Python réussis ;
+- import, démarrages headless et Xvfb Compatibility réussis avec Godot `4.7.1.stable.official.a13da4feb` ;
+- tests GDScript réussis avec `CODE_LIBRARY_GODOT_TESTS: PASS` ;
+- arbre Git propre après runtime ;
+- run `30517143131`, artefact `8749316530`, digest `sha256:d7c5bc8ae40c824e0629e290c3765470132fa3141f7f2b59416c8b7310957b52` ;
+- correction d’une inférence de type GDScript, durcissement de la CI contre les `SCRIPT ERROR` et arrêt explicite du runner après succès ;
+- progression M7 portée à 4 packs sur 10 ;
+- prochaine action : `Companion-Pack/Database-Library/README.md`, niveau Élevée ;
+- aucune performance, charge, Windows graphique, Forward+ GPU réel, export, release, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T06:36:00+02:00 — version 4.17.0
 

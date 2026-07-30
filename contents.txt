@@ -147,3 +147,4 @@ Companion-Pack/index.md
 Companion-Pack/Starter-Kit/README.md
 Companion-Pack/Project-Templates/README.md
 Companion-Pack/AI-Library/README.md
+Companion-Pack/Code-Library/README.md

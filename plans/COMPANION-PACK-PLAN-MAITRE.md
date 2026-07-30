@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.3.0"
+version: "1.4.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 3 sur 10 validé
+> **Statut :** en cours — Pack 4 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -132,6 +132,8 @@ Livre II, chapitres 10 à 13.
 - fournisseurs interchangeables.
 
 ## Pack 4 — Code Library
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30517143131` ; réserves performance, Windows graphique, Forward+ GPU, exports et licence globale maintenues.
 
 **Objectifs**
 

@@ -1,0 +1,59 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-04
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-code-library
+pack:
+  id: CP-PACK-04-CODE-LIBRARY
+  version: 1.0.0
+  entry-point: Companion-Pack/Code-Library/README.md
+  audit-level: runtime-tested
+results:
+  source-files: 64
+  components: 18
+  public-symbols: 18
+  concepts: 9
+  duplicate-control: success
+  python-tests:
+    status: success
+    count: 16
+  godot-version: 4.7.1.stable.official.a13da4feb
+  godot-archive-sha256: c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba
+  godot-import: success
+  godot-headless-smoke: success
+  godot-xvfb-smoke:
+    status: success
+    renderer: gl_compatibility
+    display: Xvfb
+  godot-tests: success
+  clean-tree-after-runtime: true
+  document-validation: success
+  runtime-tests: 19
+ci:
+  qualification-run:
+    workflow: Validate Code Library
+    run-id: 30517143131
+    head-commit: abe6d750dc38b04c34978c175438ce30d6140d3c
+    conclusion: success
+    artifact-id: 8749316530
+    artifact-digest: sha256:d7c5bc8ae40c824e0629e290c3765470132fa3141f7f2b59416c8b7310957b52
+  permanent-runtime-validation:
+    workflow: Validate Code Library
+    run-id: 30518027060
+    head-commit: aa01dfd9a80f7383012d41bc7ae7f03bc623ea98
+    conclusion: success
+    artifact-id: 8749638944
+    artifact-digest: sha256:80c7f3ba756b3ec26d192212db8c6773f6d8de7f23f1867c9da3ffaf4948f1e8
+  permanent-document-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30518027095
+    head-commit: aa01dfd9a80f7383012d41bc7ae7f03bc623ea98
+    conclusion: success
+    artifact-id: 8749632810
+    artifact-digest: sha256:4d48f56250d9cde1ee224839a5904be737a13f1b261e7fe05927dd1fac8bf8a2
+reservations:
+  - Windows graphical execution is not executed.
+  - Forward+ rendering on a real GPU is not executed.
+  - Performance and load behavior are not measured.
+  - Exports and release packages are not produced.
+  - The global license is undefined.
