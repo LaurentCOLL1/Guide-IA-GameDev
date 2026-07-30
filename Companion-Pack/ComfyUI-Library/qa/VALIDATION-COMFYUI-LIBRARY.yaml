@@ -50,13 +50,17 @@
     "pdf-produced": false
   },
   "ci": {
-    "workflow": "Validate ComfyUI Library",
-    "run-id": 30529642016,
-    "artifact-id": 8754176422,
-    "artifact-digest": "sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af",
+    "qualification-workflow": "Validate ComfyUI Library",
+    "qualification-run-id": 30529642016,
+    "qualification-artifact-id": 8754176422,
+    "qualification-artifact-digest": "sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af",
     "governance-finalization-run-id": 30530301801,
     "governance-finalization-status": "success",
-    "validated-before-final-commit": true
+    "final-permanent-run-id": 30530423375,
+    "final-permanent-artifact-id": 8754498685,
+    "final-permanent-artifact-digest": "sha256:324f880ad07c294af38275413de3cd3999e1573af4a44752a07afd50107057ef",
+    "validated-before-final-commit": true,
+    "final-permanent-validation": "success"
   },
   "reservations": [
     "No model or text-to-image execution.",
