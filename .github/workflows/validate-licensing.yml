@@ -34,9 +34,12 @@ jobs:
       - run: python -m pip install --disable-pip-version-check --quiet PyYAML
       - name: Validate licensing policy
         run: |
+          set -euo pipefail
           mkdir -p dist/licensing
           python tools/validate_licenses.py --report dist/licensing/validation.json
           python tools/validate_chapters.py
+          test ! -e .github/scripts/finalize_global_licensing.py
+          test ! -e .github/workflows/finalize-global-licensing.yml
           git diff --exit-code
       - uses: actions/upload-artifact@v4
         with:
