@@ -207,11 +207,18 @@ jobs:
           sudo apt-get install -y -qq blender python3-numpy
           blender --version | head -n 2 \
             | tee dist/production-toolkit/blender-version.txt
+          test -d /usr/lib/python3/dist-packages/numpy
+          PYTHONPATH="/usr/lib/python3/dist-packages:$PYTHONPATH" \
+            blender --background --python-expr \
+            "import numpy; print('NUMPY_IN_BLENDER:', numpy.__version__)" \
+            2>&1 | tee dist/production-toolkit/blender-numpy.log
+          grep -F "NUMPY_IN_BLENDER:" dist/production-toolkit/blender-numpy.log
           PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
           RUNTIME="$RUNNER_TEMP/production-toolkit"
           cp -R "$PACK/godot" "$RUNTIME/godot-project"
           mkdir -p "$RUNTIME/godot-project/assets"
-          blender --background --python "$PACK/blender/obj_to_glb.py" -- \
+          PYTHONPATH="/usr/lib/python3/dist-packages:$PYTHONPATH" \
+            blender --background --python "$PACK/blender/obj_to_glb.py" -- \
             --input "$RUNTIME/source/cube.obj" \
             --output "$RUNTIME/godot-project/assets/cube.glb" \
             --report "$RUNTIME/blender-report.json" \
