@@ -52,9 +52,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             pandoc texlive-xetex texlive-fonts-recommended texlive-latex-extra \
-            fonts-dejavu-core poppler-utils
+            lmodern librsvg2-bin fonts-dejavu-core poppler-utils
           pandoc --version | head -n 2
           xelatex --version | head -n 1
+          rsvg-convert --version
           python --version
 
       - name: Build PDF HTML and EPUB
