@@ -1,0 +1,33 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    ".gitignore": "2501c503bcbe193875e9b818f97bec6d6c9bffc3ba2c168cb5fa7be7737d7b8d",
+    "CHANGELOG.md": "2e5f5da16a967844b570e77be56888244ea84882a6afed6923425dd1ea91c050",
+    "DEPENDENCIES.json": "72192ad304aa4bac08f697e6d9ae6fb9e90569be60b755ed87e9f7890dcc5a9c",
+    "LICENSE-STATUS.md": "e6a0a022c8cbe70209d2985e7929fb82953755d95dfae812f7b34a982e0c2a0e",
+    "PROVENANCE.json": "ded1de8a603d1eddd86ae94938d69abee9af8264ae7d4f6d39051dd8d57929de",
+    "README.md": "5fe49ce5581906094d52a923898f4902328ee61fbd939fbe2b6cc89579e6f432",
+    "VERSION": "59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03",
+    "blender/obj_to_glb.py": "0ab61091b7299d20f852de896e562ea7ee33d4b80be95fc30d3388f42cf4986a",
+    "catalog.json": "b8a036b3c1f23dc7634786c266e61e001179a7a6556508f43efbd55ae25e61dc",
+    "docs/OPERATIONS.md": "9bcfdca2fcb274a1b2ee60f5013f02396f10077ca9c6df1aea14f758e0a09279",
+    "fixtures/plans/pipeline.json": "349cf8cc0e09dca3194d2e0b2eb83280d4cbd8db0d796167ca2e913511d900b6",
+    "fixtures/source/Name With Spaces.txt": "1038ae391b7073c442eb3d69b814b8364104115ca73ae0e2adf863c5e617b707",
+    "fixtures/source/checker.ppm": "b79a08d1f502ac71c933626bcd5d76bc75ec485ebb1021d32cd1acda3c74e9a7",
+    "fixtures/source/cube.obj": "ebc2b048ff9888614882558d7b0e415a2ce720b8b65b2ee01e9124b83899fa6f",
+    "fixtures/source/naMé-duplicate.txt": "1a08415b9341b7a722409be03f52228154799eb43ab94112a36e215d42ab0ab0",
+    "fixtures/source/name_duplicate.txt": "ab883703576550d0d434ac0dcfc43d05d676950b7e58fdbad4d11fb7c93f2754",
+    "godot/check_import.gd": "7fcc309c51c1a5e3163bfd7d2f4ca6bfdeac1a95a73c4c473386e132f765d899",
+    "godot/project.godot": "64559fe6ef7b4a348c3b1c7fb77d10f0607f7692e4faefa1432324250503348a",
+    "manifest.json": "3514baccb9fe7745009466136b1fb00ffce8f898076c477c9530dd75738fcdb4",
+    "python/src/production_toolkit/__init__.py": "27e8febb48ada44153ea2add9969a2c50a9831a74d9755fdd53c549a888b1cc2",
+    "python/src/production_toolkit/toolkit.py": "e49cade49c30bb4a0f8573e8486b4d66f72787b48a6a41b8433f582429e7f7b3",
+    "python/tests/test_toolkit.py": "6cc61acac133769d87be59430491b7a990e1a04bdf8c899c4d2aa1f39782cc5c",
+    "qa/AUDIT-PRODUCTION-TOOLKIT.md": "177288d49cc4115c9fc9a64057423ccaa7c5ec3ee814228e2ebd7dd746f558ad",
+    "qa/VALIDATION-PRODUCTION-TOOLKIT.yaml": "8a4277851884c73dc19d2029858bb4d4a5a2b13fbddf57a74b238098d85e024f",
+    "reports/REPORT-TEMPLATES.md": "f38e90746976fa6d7e7ff62dc3f586709a46ac44e137d60363d25f379c372778",
+    "scripts/toolkit_cli.py": "73116b88635861683505e3dfdc0133d54f17adaa1e6c291d73ee732c6ead245c",
+    "scripts/validate_production_toolkit.py": "90de472c3a175b6ca3afbbe27fc6133bb4cfb1a4fce22accdd9fcc77fc82cdb8"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,320 @@
+name: Validate Production Toolkit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Companion-Pack/Production-Toolkit/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "contents.txt"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/validate-production-toolkit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-production-toolkit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/Production-Toolkit/python/src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python validation dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet Pillow PyYAML
+
+      - name: Validate pack and run Python tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/production-toolkit
+          python Companion-Pack/Production-Toolkit/scripts/validate_production_toolkit.py \
+            --report dist/production-toolkit/static-validation.json
+          python -m unittest discover \
+            -s Companion-Pack/Production-Toolkit/python/tests \
+            -v 2>&1 | tee dist/production-toolkit/python-tests.log
+          grep -F "Ran 29 tests" dist/production-toolkit/python-tests.log
+          grep -F "OK" dist/production-toolkit/python-tests.log
+          python --version | tee dist/production-toolkit/python-version.txt
+
+      - name: Generate synthetic sources and record hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          TOOL="$PACK/scripts/toolkit_cli.py"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          mkdir -p "$RUNTIME"
+          python "$TOOL" generate --output "$RUNTIME/source" \
+            | tee dist/production-toolkit/generate-synthetic.log
+          pushd "$RUNTIME" >/dev/null
+          find source -type f -print0 | sort -z | xargs -0 sha256sum \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/source-before.sha256"
+          popd >/dev/null
+
+      - name: Prove dry-run creates no business outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          TOOL="$PACK/scripts/toolkit_cli.py"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          pushd "$RUNTIME" >/dev/null
+          python "$TOOL" texture source/checker.ppm output/checker.png --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/texture-dry-run.log"
+          python "$TOOL" audio source/tone.wav output/tone.wav --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/audio-dry-run.log"
+          python "$TOOL" rename \
+            "$PACK/fixtures/source/Name With Spaces.txt" \
+            "$PACK/fixtures/source/naMé-duplicate.txt" \
+            "$PACK/fixtures/source/name_duplicate.txt" \
+            --output-dir renamed --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/rename-dry-run.log"
+          python "$TOOL" catalog source/cube.obj \
+            --json dry-catalog.json --csv dry-catalog.csv --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/catalog-dry-run.log"
+          python "$TOOL" batch \
+            --plan "$PACK/fixtures/plans/pipeline.json" \
+            --source-root "$PACK/fixtures" --workspace workspace --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/pipeline-dry-run.log"
+          python "$TOOL" package source dry-package.zip --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/package-dry-run.log"
+          python "$PACK/blender/obj_to_glb.py" -- \
+            --input source/cube.obj --output blender-dry.glb \
+            --report blender-dry.json --dry-run \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/blender-dry-run.log"
+          test ! -e output/checker.png
+          test ! -e output/tone.wav
+          test ! -e renamed
+          test ! -e dry-catalog.json
+          test ! -e dry-catalog.csv
+          test ! -e workspace
+          test ! -e dry-package.zip
+          test ! -e blender-dry.glb
+          test ! -e blender-dry.json
+          popd >/dev/null
+
+      - name: Run converters validators catalog and renamer
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          TOOL="$PACK/scripts/toolkit_cli.py"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          pushd "$RUNTIME" >/dev/null
+          python "$TOOL" texture source/checker.ppm output/checker.png \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/texture.log"
+          python "$TOOL" audio source/tone.wav output/tone.wav \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/audio.log"
+          python "$TOOL" validate source/cube.obj output/checker.png output/tone.wav \
+            --report validation.json \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/asset-validation.log"
+          python "$TOOL" catalog source/cube.obj output/checker.png output/tone.wav \
+            --json catalog.json --csv catalog.csv \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/catalog.log"
+          python "$TOOL" rename \
+            "$PACK/fixtures/source/Name With Spaces.txt" \
+            "$PACK/fixtures/source/naMé-duplicate.txt" \
+            "$PACK/fixtures/source/name_duplicate.txt" \
+            --output-dir renamed --mapping rename-map.json \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/rename.log"
+          test "$(find renamed -type f | wc -l)" -eq 3
+          popd >/dev/null
+
+      - name: Inject failure then resume batch pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          TOOL="$PACK/scripts/toolkit_cli.py"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          pushd "$RUNTIME" >/dev/null
+          set +e
+          python "$TOOL" batch \
+            --plan "$PACK/fixtures/plans/pipeline.json" \
+            --source-root "$PACK/fixtures" --workspace workspace \
+            --fail-task copy-notes \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/pipeline-failure.log"
+          code=${PIPESTATUS[0]}
+          set -e
+          test "$code" -eq 4
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          checkpoint=json.loads(Path("workspace/checkpoint.json").read_text(encoding="utf-8"))
+          assert checkpoint["status"] == "partial"
+          assert checkpoint["completed"] == ["copy-model"]
+          print("CHECKPOINT_AFTER_FAILURE: PASS")
+          PY
+          python "$TOOL" batch \
+            --plan "$PACK/fixtures/plans/pipeline.json" \
+            --source-root "$PACK/fixtures" --workspace workspace \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/pipeline-resume.log"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          checkpoint=json.loads(Path("workspace/checkpoint.json").read_text(encoding="utf-8"))
+          assert checkpoint["status"] == "complete"
+          assert checkpoint["completed"] == ["copy-model", "copy-notes", "write-metadata"]
+          assert Path("workspace/staged/cube.obj").is_file()
+          print("CHECKPOINT_RESUME: PASS")
+          PY
+          cp workspace/checkpoint.json "$GITHUB_WORKSPACE/dist/production-toolkit/checkpoint.json"
+          popd >/dev/null
+
+      - name: Build deterministic packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          TOOL="$PACK/scripts/toolkit_cli.py"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          pushd "$RUNTIME" >/dev/null
+          mkdir -p package-input
+          cp output/checker.png output/tone.wav source/cube.obj package-input/
+          python "$TOOL" package package-input package-a.zip \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/package-a.log"
+          python "$TOOL" package package-input package-b.zip \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/package-b.log"
+          sha256sum package-a.zip package-b.zip \
+            | tee "$GITHUB_WORKSPACE/dist/production-toolkit/package-sha256.txt"
+          test "$(sha256sum package-a.zip | cut -d' ' -f1)" = \
+               "$(sha256sum package-b.zip | cut -d' ' -f1)"
+          cp package-a.zip "$GITHUB_WORKSPACE/dist/production-toolkit/production-assets.zip"
+          popd >/dev/null
+
+      - name: Install and run Blender conversion
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq blender
+          blender --version | head -n 2 \
+            | tee dist/production-toolkit/blender-version.txt
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Production-Toolkit"
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          cp -R "$PACK/godot" "$RUNTIME/godot-project"
+          mkdir -p "$RUNTIME/godot-project/assets"
+          blender --background --python "$PACK/blender/obj_to_glb.py" -- \
+            --input "$RUNTIME/source/cube.obj" \
+            --output "$RUNTIME/godot-project/assets/cube.glb" \
+            --report "$RUNTIME/blender-report.json" \
+            2>&1 | tee dist/production-toolkit/blender.log
+          grep -F "PRODUCTION_TOOLKIT_BLENDER: PASS" dist/production-toolkit/blender.log
+          test -s "$RUNTIME/godot-project/assets/cube.glb"
+          cp "$RUNTIME/blender-report.json" dist/production-toolkit/
+          sha256sum "$RUNTIME/godot-project/assets/cube.glb" \
+            | tee dist/production-toolkit/cube-glb.sha256
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3 \
+            "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip" \
+            --output .ci/godot/godot.zip
+          echo "c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba  .ci/godot/godot.zip" | sha256sum -c -
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          GODOT_BIN="$(realpath "$GODOT_BIN")"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/production-toolkit/godot-version.txt
+          grep -F "4.7.1.stable" dist/production-toolkit/godot-version.txt
+
+      - name: Import Blender GLB with Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path "$RUNTIME/godot-project" --import \
+            --log-file "$GITHUB_WORKSPACE/dist/production-toolkit/godot-import.log"
+          if grep -F "SCRIPT ERROR" dist/production-toolkit/godot-import.log; then exit 1; fi
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+            --path "$RUNTIME/godot-project" --script res://check_import.gd \
+            --log-file "$GITHUB_WORKSPACE/dist/production-toolkit/godot-check.log" \
+            -- --asset res://assets/cube.glb
+          grep -F "PRODUCTION_TOOLKIT_GODOT_IMPORT: PASS" dist/production-toolkit/godot-check.log
+          if grep -F "SCRIPT ERROR" dist/production-toolkit/godot-check.log; then exit 1; fi
+
+      - name: Verify source preservation and assemble runtime evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/production-toolkit"
+          pushd "$RUNTIME" >/dev/null
+          find source -type f -print0 | sort -z | xargs -0 sha256sum \
+            > "$GITHUB_WORKSPACE/dist/production-toolkit/source-after.sha256"
+          popd >/dev/null
+          diff -u dist/production-toolkit/source-before.sha256 dist/production-toolkit/source-after.sha256
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          dist=Path("dist/production-toolkit")
+          runtime=Path(os.environ["RUNNER_TEMP"])/"production-toolkit"
+          validation=json.loads((runtime/"validation.json").read_text(encoding="utf-8"))
+          checkpoint=json.loads((dist/"checkpoint.json").read_text(encoding="utf-8"))
+          summary={"status":"success","pack_files":28,"catalog_entries":9,"python_tests":29,"dry_run":True,"failure_injected":True,"resume_status":checkpoint["status"],"validated_assets":len(validation["results"]),"source_preserved":True,"deterministic_package":True,"blender_glb":True,"godot_import":True,"fixtures":"synthetic"}
+          (dist/"runtime-summary.json").write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+          print(json.dumps(summary,sort_keys=True))
+          PY
+
+      - name: Run lightweight repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          python tools/report_contextes_utilisation.py > dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Verify exclusions and clean state
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ci
+          git status --short | tee dist/production-toolkit/git-status-after-runtime.txt
+          test ! -s dist/production-toolkit/git-status-after-runtime.txt
+          test ! -e dist/Guide-IA-GameDev.pdf
+          test -z "$(find Companion-Pack/Production-Toolkit -type f \
+            \( -name '*.pdf' -o -name '*.docx' -o -name '*.epub' \
+               -o -name '*.blend' -o -name '*.glb' -o -name '*.png' \
+               -o -name '*.wav' -o -name '*.zip' \) -print -quit)"
+          test -z "$(find Companion-Pack/Production-Toolkit -type f -size +500k -print -quit)"
+          if grep -RIE '"(hostname|username|home_dir|api[_-]?key|secret|token)"[[:space:]]*:' \
+            "$RUNNER_TEMP/production-toolkit" --include='*.json' --include='*.csv'; then
+            echo "Runtime evidence contains a forbidden private field." >&2
+            exit 1
+          fi
+
+      - name: Upload Production Toolkit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-toolkit-validation
+          path: |
+            dist/production-toolkit
+            dist/QA-CHAPTERS.md
+            dist/QA-CONTEXTES-COUVERTURE.md
+          if-no-files-found: error
+          retention-days: 30

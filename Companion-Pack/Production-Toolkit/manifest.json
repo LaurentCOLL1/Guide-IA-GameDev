@@ -1,0 +1,21 @@
+{
+  "checkpoint_resume": true,
+  "dry_run_required": true,
+  "families": [
+    "blender",
+    "texture",
+    "audio",
+    "validation",
+    "catalog",
+    "rename",
+    "batch",
+    "godot-import",
+    "packaging"
+  ],
+  "id": "CP-PACK-09-PRODUCTION-TOOLKIT",
+  "schema_version": 1,
+  "source_policy": "read-only",
+  "status": "candidate",
+  "validation": "candidate-runtime",
+  "version": "1.0.0"
+}
