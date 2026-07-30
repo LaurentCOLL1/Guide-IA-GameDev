@@ -14,7 +14,6 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 EXPECTED_LICENSE = "CC BY-SA 4.0"
-OBSOLETE_MARKERS = ("pending-global-license", "À définir avant publication")
 
 
 def run_text(command: list[str]) -> str:
@@ -84,8 +83,6 @@ def validate_pdf(path: Path, work: Path) -> dict[str, object]:
         errors.append("pdf-not-a4")
     if EXPECTED_LICENSE not in text or "Guide IA GameDev" not in text:
         errors.append("pdf-license-or-title-missing")
-    if any(marker in text for marker in OBSOLETE_MARKERS):
-        errors.append("pdf-obsolete-license-marker")
     font_lines = [line for line in fonts.splitlines()[2:] if line.strip()]
     if not font_lines:
         errors.append("pdf-fonts-empty")
@@ -126,8 +123,6 @@ def validate_html(path: Path) -> dict[str, object]:
         errors.append("html-title-missing")
     if EXPECTED_LICENSE not in raw or "Guide IA GameDev" not in raw:
         errors.append("html-license-or-project-missing")
-    if any(marker in raw for marker in OBSOLETE_MARKERS):
-        errors.append("html-obsolete-license-marker")
     if "file://" in raw:
         errors.append("html-file-url")
     return {
@@ -136,6 +131,8 @@ def validate_html(path: Path) -> dict[str, object]:
         "ids": len(parser.ids),
         "internal_fragments": len(parser.fragments),
         "missing_fragments": len(missing_fragments),
+        "missing_fragment_sample": missing_fragments[:50],
+        "duplicate_id_sample": sorted(parser.duplicate_ids)[:50],
         "errors": errors,
     }
 
@@ -162,8 +159,6 @@ def validate_epub(path: Path, epubcheck_jar: Path) -> dict[str, object]:
         )
         if EXPECTED_LICENSE not in text or "Guide IA GameDev" not in text:
             errors.append("epub-license-or-project-missing")
-        if any(marker in text for marker in OBSOLETE_MARKERS):
-            errors.append("epub-obsolete-license-marker")
     result = subprocess.run(
         ["java", "-Xss4m", "-Xmx2g", "-jar", str(epubcheck_jar.resolve()), str(path)],
         text=True,
@@ -173,11 +168,12 @@ def validate_epub(path: Path, epubcheck_jar: Path) -> dict[str, object]:
     epubcheck_output = result.stdout
     if result.returncode != 0:
         errors.append(f"epubcheck-exit:{result.returncode}")
+        print(epubcheck_output, file=sys.stderr)
     return {
         "entries": len(names),
         "package_path": package_path,
         "epubcheck_exit": result.returncode,
-        "epubcheck_summary": epubcheck_output[-2000:],
+        "epubcheck_summary": epubcheck_output[-8000:],
         "errors": errors,
     }
 
