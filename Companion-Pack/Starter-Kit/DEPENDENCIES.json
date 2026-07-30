@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "pack_version": "0.1.0",
+  "pack_version": "1.0.0",
   "dependencies": [
     {
       "id": "godot-engine",
@@ -12,10 +12,11 @@
       "license": "MIT",
       "bundled": false,
       "qualification": {
-        "linux_x86_64_headless": "pending-ci",
+        "linux_x86_64_headless": "pass-run-30508086899",
         "windows_x86_64_editor": "not-executed",
         "forward_plus_graphical": "not-executed",
-        "exports": "not-executed"
+        "exports": "not-executed",
+        "linux_x86_64_virtual_graphical_compatibility": "pass-run-30508086899"
       }
     },
     {
@@ -27,7 +28,7 @@
       "packages": [],
       "standard_library_only": true,
       "qualification": {
-        "linux_x86_64": "pending-ci",
+        "linux_x86_64": "pass-run-30508086899",
         "windows_x86_64": "not-executed"
       }
     },
@@ -38,7 +39,7 @@
       "required": false,
       "scope": "windows-validation-wrapper",
       "qualification": {
-        "linux_x86_64": "pending-ci",
+        "linux_x86_64": "pass-run-30508086899",
         "windows_x86_64": "not-executed"
       }
     }

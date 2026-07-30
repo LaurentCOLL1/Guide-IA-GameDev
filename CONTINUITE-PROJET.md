@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.14.0"
+version: "4.15.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T03:00:00+02:00"
+last-updated: "2026-07-30T04:19:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,6 +2354,8 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
+- progression du Companion Pack : 1 pack validé sur 10 ;
+- Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2467,7 +2469,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 28 : version `1.0.0` ;
 - chapitre 29 : version `1.0.1` ;
 - chapitre 30 : version `1.0.0` ;
-- Starter Kit non matérialisé ;
+- Starter Kit matérialisé et validé dans le périmètre Linux ;
 - licence globale à définir ;
 - publication technique du Livre II acceptée après compilation et inspection PDF ;
 - publication technique du Livre III acceptée après compilation et inspection PDF ;
@@ -2476,19 +2478,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M6 — Livre V est terminé au niveau `static-review+pdf-inspected`. Les 26 fiches sont rédigées et auditées ; le PDF cumulatif est construit, préflighté et inspecté. Le jalon actif est M7 — Companion Pack. Aucun Starter Kit, projet Godot, test, lancement ou artefact exécutable n’est encore matérialisé.
+M7 — Companion Pack est actif. Le Pack 1 — Starter Kit est matérialisé en version `1.0.0` et validé sur Linux x86_64 : statique, PowerShell, import headless, bootstrap, lancement Xvfb Compatibility, tests GDScript, clone neuf et arbre propre. Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Starter-Kit/README.md
+Companion-Pack/Project-Templates/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 1 doit matérialiser un projet Godot minimal de référence avec `project.godot`, scène de bootstrap, structure canonique, profils d’environnement, scripts de validation, README, licence ou statut de redistribution et provenance. Aucune ouverture, exécution graphique ou headless, reproductibilité de clone ou réussite de test ne devra être annoncée sans exécution et preuve consultable.
+Le Pack 2 doit matérialiser des templates Solo et Studio, les conventions Git, les modèles d’issues et de PR, les ADR, les responsabilités, les réglages VS Code et les squelettes de modules Godot. Aucun projet dérivé, protection de branche, CODEOWNERS effectif ou test de création ne devra être annoncé sans matérialisation et preuve.
 ## 27. Journal
+
+### 2026-07-30T04:19:00+02:00 — version 4.15.0
+
+- matérialisation du Companion Pack, Pack 1 — Starter Kit ;
+- projet Godot `Project Asteria` version `1.0.0`, Godot `4.7.1.stable.official.a13da4feb`, GDScript et Forward+ de référence ;
+- scène de bootstrap 3D, `BootstrapReport`, profils Solo/Studio, manifestes, provenance et statut de redistribution créés ;
+- validateur Python sans paquet tiers et enveloppe PowerShell exécutés avec succès ;
+- import et démarrage Linux headless réussis ;
+- démarrage graphique virtuel Xvfb avec Compatibility réussi, sans revendication de qualité visuelle ;
+- tests GDScript réussis avec `STARTER_KIT_TESTS: PASS` ;
+- clone Git neuf reproduit, importé et testé ; arbre propre après runtime ;
+- trois UID Godot générés puis versionnés ;
+- run `30508086899`, artefact `8746081670`, digest `sha256:5429fcc7001d4a28d7475908d8660e859b4aafd86b4febd42629b66e5310e2ed` ;
+- progression M7 portée à 1 pack sur 10 ;
+- prochaine action : `Companion-Pack/Project-Templates/README.md`, niveau Élevée ;
+- aucun Windows graphique, Forward+ GPU réel, export, archive publiable, restauration, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T03:00:00+02:00 — version 4.14.0
 

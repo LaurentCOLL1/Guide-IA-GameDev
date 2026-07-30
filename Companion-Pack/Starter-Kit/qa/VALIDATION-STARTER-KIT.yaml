@@ -1,26 +1,39 @@
 schema-version: 1
 evidence-id: CP-QA-PACK-01
-status: pending
+status: complete
 validation-date: '2026-07-30'
 source-branch: feat/companion-pack-starter-kit
-finalization-trigger: requested
 pack:
   id: CP-PACK-01-STARTER-KIT
-  version: 0.1.0
+  version: 1.0.0
   entry-point: Companion-Pack/Starter-Kit/README.md
+  audit-level: runtime-tested
 results:
-  static-validation: pending
-  powershell-wrapper: pending
-  godot-download: pending
-  godot-version: pending
-  headless-import: pending
-  headless-smoke: pending
-  gdscript-tests: pending
-  document-validation: pending
-  runtime-tests: 0
+  static-validation: success
+  powershell-wrapper: success
+  godot-download: success
+  godot-version: 4.7.1.stable.official.a13da4feb
+  godot-archive-sha256: c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba
+  headless-import: success
+  headless-smoke: success
+  virtual-graphical-smoke:
+    status: success
+    display: Xvfb
+    renderer: gl_compatibility
+  gdscript-tests: success
+  fresh-clone-validation: success
+  clean-tree-after-runtime: true
+  runtime-tests: 4
+ci:
+  workflow: Validate Starter Kit
+  run-id: 30508086899
+  head-commit: f310701c9ad41f0ca9a75a66a80fb75b089def03
+  conclusion: success
+  artifact-id: 8746081670
+  artifact-digest: sha256:5429fcc7001d4a28d7475908d8660e859b4aafd86b4febd42629b66e5310e2ed
 reservations:
   - Windows editor and graphical execution are not executed.
-  - Forward+ graphical rendering is not executed.
+  - Forward+ rendering on a real GPU is not executed.
+  - The Xvfb smoke test is not a visual-quality review.
   - Exports and release packages are not produced.
-  - Fresh-clone reproducibility is not independently executed.
   - The global license is undefined.

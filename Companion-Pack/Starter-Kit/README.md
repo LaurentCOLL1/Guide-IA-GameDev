@@ -1,11 +1,11 @@
 ---
 title: "Companion Pack — Starter Kit"
 id: "CP-PACK-01-STARTER-KIT"
-status: "candidate"
-version: "0.1.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
-last-verified: "2026-07-30T03:39:00+02:00"
-validation-status: "pending-runtime"
+last-verified: "2026-07-30T04:19:00+02:00"
+validation-status: "runtime-tested-linux"
 validation-report: "Companion-Pack/Starter-Kit/qa/AUDIT-STARTER-KIT.md"
 redistribution-status: "pending-global-license"
 reference-engine:
@@ -30,11 +30,12 @@ Le Starter Kit matérialise la base minimale de `Project Asteria`. Il fournit un
 | validation statique Python | matérialisée |
 | enveloppe PowerShell | matérialisée |
 | test GDScript autonome | matérialisé |
-| exécution Linux headless | en attente de la preuve CI |
+| exécution Linux headless | validée par le run `30508086899` |
+| lancement graphique virtuel Linux | validé sous Xvfb avec Compatibility |
 | ouverture Windows graphique | non exécutée |
 | rendu Forward+ graphique | non exécuté |
 | export Windows ou Linux | non produit |
-| clone neuf indépendant | non exécuté |
+| clone neuf indépendant | validé par le run `30508086899` |
 | licence globale | non décidée |
 
 Une validation headless réussie ne prouvera pas la qualité visuelle, la compatibilité GPU AMD, l’export ni l’expérience d’édition sous Windows.
@@ -111,7 +112,7 @@ La sortie attendue contient l’identifiant `CP-SK-BOOTSTRAP-001` et un objet JS
   --log-file .\starter-kit-tests.log
 ```
 
-Le processus retourne `0` et affiche `STARTER_KIT_TESTS: PASS` lorsque les invariants minimaux sont respectés.
+Le run `30508086899` a retourné `0` et affiché `STARTER_KIT_TESTS: PASS`. Cette preuve couvre Godot Linux x86_64 en mode Compatibility, pas Forward+ sur GPU réel.
 
 ## Profils Solo et Studio
 
