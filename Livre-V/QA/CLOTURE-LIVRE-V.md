@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Chaîne PDF V2 avec Latin Modern déclenchée après validation des 145 sources.**
+**Candidat PDF final déclenché avec cartographie séquentielle des pages réelles du Livre V.**
