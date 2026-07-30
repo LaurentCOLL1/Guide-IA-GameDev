@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/scripts/finalize_knowledge_base_governance.py"
+      - ".github/scripts/finalize_knowledge_base.trigger"
       - ".github/workflows/finalize-knowledge-base-governance.yml"
 
 permissions:
