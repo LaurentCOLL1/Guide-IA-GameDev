@@ -35,6 +35,7 @@ class PublicationHTMLParser(HTMLParser):
         self.ids: set[str] = set()
         self.duplicate_ids: set[str] = set()
         self.fragments: list[str] = []
+        self.file_urls: list[str] = []
         self.lang = ""
         self.title_parts: list[str] = []
         self.in_title = False
@@ -54,6 +55,8 @@ class PublicationHTMLParser(HTMLParser):
         href = values.get("href", "")
         if href.startswith("#") and len(href) > 1:
             self.fragments.append(href[1:])
+        if href.startswith("file://"):
+            self.file_urls.append(href)
         if tag == "title":
             self.in_title = True
 
@@ -123,8 +126,8 @@ def validate_html(path: Path) -> dict[str, object]:
         errors.append("html-title-missing")
     if EXPECTED_LICENSE not in raw or "Guide IA GameDev" not in raw:
         errors.append("html-license-or-project-missing")
-    if "file://" in raw:
-        errors.append("html-file-url")
+    if parser.file_urls:
+        errors.append(f"html-file-urls:{len(parser.file_urls)}")
     return {
         "lang": parser.lang,
         "title": title,
@@ -133,6 +136,7 @@ def validate_html(path: Path) -> dict[str, object]:
         "missing_fragments": len(missing_fragments),
         "missing_fragment_sample": missing_fragments[:50],
         "duplicate_id_sample": sorted(parser.duplicate_ids)[:50],
+        "file_url_sample": parser.file_urls[:20],
         "errors": errors,
     }
 
