@@ -112,7 +112,7 @@ jobs:
           python tools/validate_publications.py \
             --dist "$GITHUB_WORKSPACE/dist/publication" \
             --report "$GITHUB_WORKSPACE/dist/publication-evidence/validation.json" \
-            --epubcheck java -Xss4m -Xmx2g -jar "$RUNNER_TEMP/epubcheck/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar" \
+            --epubcheck-jar "$RUNNER_TEMP/epubcheck/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar" \
             2>&1 | tee dist/publication-evidence/validation.log
 
       - name: Render representative PDF pages
@@ -127,7 +127,7 @@ jobs:
           for page in 1 500 1000 2000 3000 4000 "$PAGES"; do
             if [ "$page" -le "$PAGES" ]; then
               pdftoppm -f "$page" -l "$page" -singlefile -png -r 110 \
-                "$PDF" "$RENDDERS/page-$(printf '%04d' "$page")"
+                "$PDF" "$RENDERS/page-$(printf '%04d' "$page")"
             fi
           done
           pdfinfo "$PDF" > dist/publication-evidence/pdfinfo.txt
