@@ -1,0 +1,109 @@
+name: Validate Starter Kit
+
+on:
+  pull_request:
+    paths:
+      - "Companion-Pack/Starter-Kit/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "contents.txt"
+      - ".github/workflows/validate-starter-kit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-starter-kit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate pack statically with Python
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/starter-kit
+          python3 Companion-Pack/Starter-Kit/godot-project/tools/validate_project.py \
+            --report ../../../../dist/starter-kit/static-validation.json
+
+      - name: Validate PowerShell wrapper
+        shell: pwsh
+        run: |
+          ./Companion-Pack/Starter-Kit/godot-project/tools/validate_project.ps1 `
+            -Report "../../../../dist/starter-kit/powershell-validation.json"
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3 \
+            "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip" \
+            --output .ci/godot/godot.zip
+          sha256sum .ci/godot/godot.zip | tee dist/starter-kit/godot-download.sha256
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/starter-kit/godot-version.txt
+          grep -F "4.7.1.stable" dist/starter-kit/godot-version.txt
+
+      - name: Import project headlessly
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/Starter-Kit/godot-project \
+            --import \
+            --log-file "$GITHUB_WORKSPACE/dist/starter-kit/import.log"
+
+      - name: Run bounded headless smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/Starter-Kit/godot-project \
+            --quit-after 5 \
+            --log-file "$GITHUB_WORKSPACE/dist/starter-kit/smoke.log"
+          grep -F "CP-SK-BOOTSTRAP-001" dist/starter-kit/smoke.log
+
+      - name: Run GDScript tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" \
+            --headless \
+            --rendering-method gl_compatibility \
+            --path Companion-Pack/Starter-Kit/godot-project \
+            --script res://tests/run_tests.gd \
+            --log-file "$GITHUB_WORKSPACE/dist/starter-kit/tests.log"
+          grep -F "STARTER_KIT_TESTS: PASS" dist/starter-kit/tests.log
+
+      - name: Record generated state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short | tee dist/starter-kit/git-status-after-runtime.txt
+          find Companion-Pack/Starter-Kit/godot-project \
+            -type f \
+            -not -path "*/.godot/*" \
+            -print | sort | tee dist/starter-kit/source-files.txt
+
+      - name: Upload Starter Kit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: starter-kit-validation
+          path: dist/starter-kit
+          if-no-files-found: error
+          retention-days: 30
