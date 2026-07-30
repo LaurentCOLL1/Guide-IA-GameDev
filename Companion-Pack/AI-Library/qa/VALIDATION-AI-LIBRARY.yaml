@@ -29,7 +29,7 @@ results:
     display: Xvfb
   godot-tests: success
   clean-tree-after-runtime: true
-  document-validation: pending-permanent-run
+  document-validation: success
   runtime-tests: 14
 ci:
   qualification-run:
@@ -39,6 +39,20 @@ ci:
     conclusion: success
     artifact-id: 8748232588
     artifact-digest: sha256:c42c91c7d604a2d128e6e95f2923b46cc55397e87956d7787cd9d63a812741b7
+  permanent-runtime-validation:
+    workflow: Validate AI Library
+    run-id: 30514987799
+    head-commit: 312245874c7eade7776c3f23c0638d81c94d2b11
+    conclusion: success
+    artifact-id: 8748517469
+    artifact-digest: sha256:84a42f973f36e992d60cf927c8ba09502461be890c12d3e05bafe1a2b6a1eaf2
+  permanent-document-validation:
+    workflow: Validate Chapters Without PDF
+    run-id: 30514987814
+    head-commit: 312245874c7eade7776c3f23c0638d81c94d2b11
+    conclusion: success
+    artifact-id: 8748514918
+    artifact-digest: sha256:1982099a27214becf34d4ab3970dffaebdc47dc3b80e24129cfdf83bc210bb4f
 reservations:
   - Real Ollama, llama.cpp and LocalAI services are not executed.
   - No model or model weights are downloaded.
