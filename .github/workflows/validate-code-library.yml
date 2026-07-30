@@ -1,0 +1,109 @@
+name: Validate Code Library
+
+on:
+  pull_request:
+    paths:
+      - "Companion-Pack/Code-Library/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "contents.txt"
+      - ".github/workflows/validate-code-library.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-code-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/Code-Library/python/src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Code Library statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/code-library
+          python3 Companion-Pack/Code-Library/tools/validate_code_library.py             --report dist/code-library/static-validation.json
+
+      - name: Run Python tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover             -s Companion-Pack/Code-Library/python/tests             -v 2>&1 | tee dist/code-library/python-tests.log
+          grep -F "OK" dist/code-library/python-tests.log
+
+      - name: Prepare Godot example
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 Companion-Pack/Code-Library/tools/prepare_godot_example.py
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3             "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip"             --output .ci/godot/godot.zip
+          sha256sum .ci/godot/godot.zip | tee dist/code-library/godot-download.sha256
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          GODOT_BIN="$(realpath "$GODOT_BIN")"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/code-library/godot-version.txt
+          grep -F "4.7.1.stable" dist/code-library/godot-version.txt
+
+      - name: Import Godot example
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility             --path Companion-Pack/Code-Library/godot-example --import             --log-file "$GITHUB_WORKSPACE/dist/code-library/godot-import.log"
+
+      - name: Run bounded headless smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility             --path Companion-Pack/Code-Library/godot-example --quit-after 5             --log-file "$GITHUB_WORKSPACE/dist/code-library/godot-smoke.log"
+          grep -F "CP-CODE-BOOTSTRAP-001" dist/code-library/godot-smoke.log
+
+      - name: Run virtual graphical smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          xvfb-run -a "$GODOT_BIN" --rendering-method gl_compatibility             --path Companion-Pack/Code-Library/godot-example --quit-after 5             --log-file "$GITHUB_WORKSPACE/dist/code-library/godot-xvfb.log"
+          grep -F "CP-CODE-BOOTSTRAP-001" dist/code-library/godot-xvfb.log
+
+      - name: Run GDScript tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility             --path Companion-Pack/Code-Library/godot-example             --script res://tests/run_tests.gd             --log-file "$GITHUB_WORKSPACE/dist/code-library/godot-tests.log"
+          grep -F "CODE_LIBRARY_GODOT_TESTS: PASS" dist/code-library/godot-tests.log
+
+      - name: Check generated state
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf Companion-Pack/Code-Library/godot-example/addons .ci
+          git status --short | tee dist/code-library/git-status-after-runtime.txt
+          test ! -s dist/code-library/git-status-after-runtime.txt
+          find Companion-Pack/Code-Library -type f -not -path "*/.godot/*" -print | sort             | tee dist/code-library/source-files.txt
+          test ! -e dist/Guide-IA-GameDev.pdf
+
+      - name: Upload Code Library evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-library-validation
+          path: dist/code-library
+          if-no-files-found: error
+          retention-days: 30

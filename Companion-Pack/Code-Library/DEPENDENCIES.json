@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "pack_version": "0.1.0",
+  "dependencies": [
+    {
+      "id": "python-standard-library",
+      "version": ">=3.10",
+      "required": true,
+      "scope": "library-and-tests",
+      "bundled": false,
+      "license": "PSF-2.0",
+      "qualification": "candidate"
+    },
+    {
+      "id": "godot-engine",
+      "version": "4.7.1-stable",
+      "required": true,
+      "scope": "godot-example-and-tests",
+      "bundled": false,
+      "license": "MIT",
+      "qualification": "candidate"
+    }
+  ],
+  "third_party_packages": []
+}
