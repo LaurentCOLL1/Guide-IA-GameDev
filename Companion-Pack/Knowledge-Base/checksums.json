@@ -1,0 +1,33 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "CHANGELOG.md": "cd2d4a7862ed09630ba93fc5345c3072014283841f548aeec30843315beb820b",
+    "DEPENDENCIES.json": "f19eae5c61f2c9b0e2b6c5f1dc74c4241d00a26f34cac3680597def211edbb50",
+    "LICENSE-STATUS.md": "3ff43dbd6b364d00f5b62f4e7bdcbc6992ca03d341ba91a258070c34e6f674c6",
+    "PROVENANCE.json": "15fc636ba94faf5ad2aae40bfe43cd507bd4549be1005bb5cd57a741b0b8bf2c",
+    "README.md": "2f43e224d19d4091946b623ce603994688d3e7062ca2d4d4003cb1b88cbeae8f",
+    "VERSION": "59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03",
+    "catalog.json": "5450b45b06d681e01b0f012b1db1ee48bf660839bb23a11c301b839c3262111a",
+    "corpus/codex/factions.json": "a4fb9fd1be61152414bd9e84b24a3071c2203e384f338a0c432aa176a02d892c",
+    "corpus/codex/technology.json": "4e0ebf8e7a27acb44b82b913549f1db1ea6131ca68fd9b4c603d0ac86f68115b",
+    "corpus/lore/canonical/asteria-foundation.json": "fd2aa109ea50e18a2511d9ca4cb344ecd35de098998f61e69e6e4135b1fe5594",
+    "corpus/lore/canonical/nacre-city.json": "a731ee03409ab6988707a8de92a02b7db18c2c61aa1cb293555736b36c5036fb",
+    "corpus/lore/rumors/ember-queen.json": "31d9df05e2bae218110bdf31d8d00e18f11f7a023fd4ebe98497139400b07605",
+    "corpus/memories/sera-voss.json": "1e5ae7d04280b7c76e632efb4c4e4fdea0c867a5d98ffe7e2b1434f76d093a32",
+    "corpus/rag/maintenance-procedure.json": "f3fa493aa351d20a26d07b245ae308a09ad609938b4ea49f7a14e38601431ed5",
+    "corpus/rag/search-policy.json": "d9593a30048a9eff29595260f1cd0166f71ff5ef370d040253b0e042311dbdd6",
+    "docs/OPERATIONS.md": "924aa563234b6dd11c91d811811fe73d697ddbd60e9bf47e1af487e0fe7faf7a",
+    "manifest.json": "810e8303120cc78dc56f35f50cb2e7964564441cfcb4a3f5610791285865f9cd",
+    "python/src/knowledge_base/__init__.py": "fea206b35d56641855845aa82242e004ba006fcb38b6dd587deb1a6df2f105ab",
+    "python/src/knowledge_base/core.py": "68f659624515808a4804fff02df1620b93ceaa7c9eca3bdff33f79bf3063e87a",
+    "python/tests/test_knowledge_base.py": "9e9a4f115b9bd6f027b3f0d39c434fb1ecc5dd70c92702cdc69754f6cee8aa8f",
+    "qa/AUDIT-KNOWLEDGE-BASE.md": "c93ca6308cee797f5ef063369da8c97603ce4fcc3b0d3d093cb1f6296c62d247",
+    "qa/VALIDATION-KNOWLEDGE-BASE.yaml": "0900b31f994a9c9fc9b1277c600e556b6180eda49b539f95908f007590f41105",
+    "schemas/chunk.schema.json": "017c3ee2a177469e862d4575928042cbc2511593719e1d4d614354a55d6d6d18",
+    "schemas/document.schema.json": "e8bf3eb5f8f2358b2702ef662180fb8a7a23582ef05d1f156a6a27375e16c6c6",
+    "schemas/index.schema.json": "c06bacba94d1d203a4bffc933663204c11f00a3aa1eae6fa66b86e0de6099a32",
+    "scripts/knowledge_base_cli.py": "853c2bf2f1b5183a64171026262f21381f31faa11104fbde8e45c156a69f78d8",
+    "scripts/validate_knowledge_base.py": "2c957a7fc8e163d4cabe8a7fc0bb23117b5a92c8c1181ea7906bd41daea0d7aa"
+  },
+  "schema_version": 1
+}

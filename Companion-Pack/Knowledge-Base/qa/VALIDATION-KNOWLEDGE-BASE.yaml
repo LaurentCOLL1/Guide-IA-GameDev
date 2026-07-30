@@ -1,0 +1,7 @@
+schema-version: 1
+evidence-id: QA-KNOWLEDGE-BASE-PACK-10
+status: pending
+pack:
+  id: CP-PACK-10-KNOWLEDGE-BASE
+  version: 1.0.0
+  audit-level: candidate

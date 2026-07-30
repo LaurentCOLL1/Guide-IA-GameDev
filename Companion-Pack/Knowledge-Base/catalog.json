@@ -1,0 +1,35 @@
+{
+  "entries": [
+    {
+      "description": "Huit documents synth\u00e9tiques Project Asteria",
+      "id": "KB-CORPUS",
+      "kind": "corpus",
+      "path": "corpus"
+    },
+    {
+      "description": "Chunking, index et recherche d\u00e9terministes",
+      "id": "KB-INDEXER",
+      "kind": "tool",
+      "path": "python/src/knowledge_base/core.py"
+    },
+    {
+      "description": "Build, search, remove et verify-deleted",
+      "id": "KB-CLI",
+      "kind": "tool",
+      "path": "scripts/knowledge_base_cli.py"
+    },
+    {
+      "description": "Suite de tests",
+      "id": "KB-TESTS",
+      "kind": "qa",
+      "path": "python/tests/test_knowledge_base.py"
+    },
+    {
+      "description": "Sch\u00e9mas document, fragment et index",
+      "id": "KB-SCHEMAS",
+      "kind": "contract",
+      "path": "schemas"
+    }
+  ],
+  "schema_version": 1
+}
