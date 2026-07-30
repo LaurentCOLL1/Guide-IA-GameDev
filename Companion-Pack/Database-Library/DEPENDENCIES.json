@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "dependencies": [
+    {
+      "id": "python-standard-library",
+      "version": ">=3.10",
+      "required": true,
+      "scope": "library-tools-tests",
+      "bundled": false,
+      "license": "PSF-2.0",
+      "qualification": "local-runtime-linux"
+    },
+    {
+      "id": "sqlite-runtime",
+      "version": ">=3.37.0",
+      "required": true,
+      "scope": "strict-tables-migrations-backup",
+      "bundled": false,
+      "license": "public-domain",
+      "qualification": "runtime-provided-by-python-sqlite3"
+    }
+  ],
+  "third_party_packages": []
+}

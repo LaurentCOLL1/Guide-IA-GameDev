@@ -1,0 +1,9 @@
+dist/
+__pycache__/
+*.py[cod]
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite3-wal
+*.sqlite3-shm
+*.restore.tmp

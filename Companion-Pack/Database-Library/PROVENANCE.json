@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-05-DATABASE-LIBRARY",
+  "pack_version": "1.0.0",
+  "origin": "authored-for-this-repository",
+  "generated_files": [],
+  "copied_third_party_code": [],
+  "synthetic_data": [
+    "data/synthetic/asteria-fixture.json"
+  ],
+  "source_books": [
+    "Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md",
+    "Livre-II/CHAPITRE-08-SQLite-migrations-et-donnees-persistantes.md",
+    "Livre-II/CHAPITRE-09-Sauvegardes-chargements-et-compatibilite-des-versions.md",
+    "Livre-II/CHAPITRE-10-Memoire-vectorielle-connaissances-et-recherche-semantique.md",
+    "Livre-V/CHAPITRE-14-Schemas-SQLite-et-migrations.md"
+  ],
+  "qualification": "local-runtime-tested-linux-pending-ci"
+}

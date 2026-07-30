@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "fixture_id": "asteria-database-synthetic-v1",
+  "notice": "Fictional deterministic data. No personal data.",
+  "beacons": [
+    {
+      "beacon_id": "beacon-relay-north",
+      "is_enabled": true,
+      "activation_count": 2,
+      "cooldown_remaining": 0.0,
+      "last_activated_at_utc": "2042-01-15T12:00:00Z",
+      "updated_at_utc": "2042-01-15T12:00:00Z"
+    },
+    {
+      "beacon_id": "beacon-delta-west",
+      "is_enabled": false,
+      "activation_count": 0,
+      "cooldown_remaining": 12.5,
+      "last_activated_at_utc": null,
+      "updated_at_utc": "2042-01-15T12:00:00Z"
+    }
+  ],
+  "events": [
+    {
+      "beacon_id": "beacon-relay-north",
+      "actor_id": "actor-synthetic-scout",
+      "occurred_at_utc": "2042-01-15T12:00:00Z"
+    }
+  ],
+  "documents": [
+    {
+      "document_id": "doc-synthetic-relay",
+      "title": "Journal synthétique du relais",
+      "body": "Fixture fictive créée uniquement pour les tests.",
+      "language_code": "fr-FR",
+      "content_version": 1,
+      "updated_at_utc": "2042-01-15T12:00:00Z"
+    },
+    {
+      "document_id": "doc-synthetic-delta",
+      "title": "Inventaire synthétique du delta",
+      "body": "Aucune personne réelle ni donnée utilisateur.",
+      "language_code": "fr-FR",
+      "content_version": 1,
+      "updated_at_utc": "2042-01-15T12:00:00Z"
+    }
+  ],
+  "tags": [
+    {
+      "tag_id": "tag-synthetic",
+      "label": "Synthétique"
+    }
+  ],
+  "document_tags": [
+    {
+      "document_id": "doc-synthetic-relay",
+      "tag_id": "tag-synthetic"
+    },
+    {
+      "document_id": "doc-synthetic-delta",
+      "tag_id": "tag-synthetic"
+    }
+  ],
+  "cache_entries": [
+    {
+      "cache_key": "synthetic-summary",
+      "source_text": "synthetic-source-v1",
+      "payload": {
+        "document_count": 2,
+        "beacon_count": 2
+      },
+      "expires_at_utc": null
+    }
+  ]
+}

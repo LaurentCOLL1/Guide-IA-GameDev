@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "public_modules": [
+    {
+      "module": "connection",
+      "symbols": ["ConnectionOptions", "open_database"]
+    },
+    {
+      "module": "migrations",
+      "symbols": ["MigrationRunner", "load_manifest", "split_sql_statements"]
+    },
+    {
+      "module": "repositories",
+      "symbols": ["BeaconStateRepository", "ContentDocumentRepository", "put_derived_cache_entry"]
+    },
+    {
+      "module": "backup",
+      "symbols": ["create_backup", "restore_backup"]
+    },
+    {
+      "module": "validation",
+      "symbols": ["validate_database"]
+    },
+    {
+      "module": "synthetic",
+      "symbols": ["seed_synthetic_data"]
+    }
+  ],
+  "schemas": [
+    "beacon_state",
+    "beacon_activation_event",
+    "content_document",
+    "content_tag",
+    "content_document_tag",
+    "derived_cache_entry"
+  ],
+  "migrations": 4,
+  "repositories": 2,
+  "tools": 4,
+  "tests": 14
+}

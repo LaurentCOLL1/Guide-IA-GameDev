@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling==1.31.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "asteria-database-library"
+version = "1.0.0"
+description = "Reusable SQLite schemas, migrations, repositories, backup and validation helpers for Guide IA GameDev."
+requires-python = ">=3.10"
+license = {text = "Pending global project license"}
+authors = [{name = "Guide IA GameDev"}]
+dependencies = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/asteria_database"]
