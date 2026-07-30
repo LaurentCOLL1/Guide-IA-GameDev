@@ -1,0 +1,14 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Séparer patrons et documents propriétaires",
+  "ID": "ADR-0099",
+  "DECISION_STATUS": "accepted",
+  "CONTEXT": "Le Pack doit aider à créer des documents sans recopier les chapitres du guide.",
+  "OPTIONS": "1. copier des chapitres complets ;\n2. fournir des patrons abstraits ;\n3. ne fournir aucun exemple.",
+  "DECISION": "Fournir des patrons abstraits accompagnés d’exemples fictifs et remplis.",
+  "CONSEQUENCES": "La source normative reste dans le Volume 0. Les exemples du Pack restent courts, remplaçables et sans décision propriétaire.",
+  "VALIDATION": "Le validateur refuse les placeholders non résolus, vérifie les identifiants et compare les exemples régénérés."
+}

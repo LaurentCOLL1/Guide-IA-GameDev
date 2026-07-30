@@ -1,0 +1,23 @@
+schema-version: 1
+evidence-id: "QA-DOCUMENTATION-LIBRARY-PACK-07"
+status: "candidate"
+validation-date: "2026-07-30"
+source-branch: "feat/companion-pack-documentation-library"
+pack:
+  id: "CP-PACK-07-DOCUMENTATION-LIBRARY"
+  version: "1.0.0"
+  audit-level: "candidate-runtime"
+results:
+  source-files: 0
+  templates: 13
+  filled-examples: 10
+  python-tests:
+    status: "pending"
+    count: 18
+  deterministic-generation: "pending"
+  pandoc-html-compilation: "pending"
+  pdf-produced: false
+reservations:
+  - "No PDF, DOCX or EPUB output."
+  - "No visual or accessibility inspection."
+  - "Global license undefined."

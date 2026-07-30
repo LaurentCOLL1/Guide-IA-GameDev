@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "id": "CP-PACK-07-DOCUMENTATION-LIBRARY",
+  "version": "1.0.0",
+  "status": "candidate",
+  "entry_point": "README.md",
+  "catalog": "catalog.json",
+  "generation_plan": "examples/generation-plan.json",
+  "validation": "qa/VALIDATION-DOCUMENTATION-LIBRARY.yaml",
+  "audit": "qa/AUDIT-DOCUMENTATION-LIBRARY.md"
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "dependencies": [
+    {"id":"python-standard-library","version":">=3.10","required":true,"scope":"generation-validation-tests","bundled":false,"license":"PSF-2.0"},
+    {"id":"pyyaml","version":">=6.0","required":true,"scope":"yaml-validation-ci","bundled":false,"license":"MIT"},
+    {"id":"pandoc","version":">=2.17","required":true,"scope":"html-compilation-ci","bundled":false,"license":"GPL-2.0-or-later"}
+  ],
+  "third_party_templates": []
+}

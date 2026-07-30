@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Preuve QA documentaire",
+  "type": "object",
+  "required": ["schema-version", "evidence-id", "status", "validation-date", "subject", "checks", "reservations"],
+  "properties": {
+    "schema-version": {"const": 1},
+    "evidence-id": {"type": "string", "pattern": "^QA-[A-Z0-9]+(?:-[A-Z0-9]+)+$"},
+    "status": {"enum": ["candidate", "complete", "failed"]},
+    "validation-date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "subject": {"type": "object", "required": ["id", "version"]},
+    "checks": {"type": "array", "minItems": 1},
+    "reservations": {"type": "array"}
+  }
+}

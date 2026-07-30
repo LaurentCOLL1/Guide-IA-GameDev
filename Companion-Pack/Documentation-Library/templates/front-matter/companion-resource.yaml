@@ -1,0 +1,10 @@
+---
+title: "{{TITLE}}"
+id: "{{ID}}"
+status: "{{STATUS}}"
+version: "{{VERSION}}"
+lang: "{{LANG}}"
+validation-status: "{{VALIDATION_STATUS}}"
+redistribution-status: "{{REDISTRIBUTION_STATUS}}"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+---

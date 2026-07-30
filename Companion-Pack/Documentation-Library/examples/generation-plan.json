@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "jobs": [
+    {
+      "template": "templates/chapters/tutorial.md",
+      "data": "examples/data/chapter.json",
+      "output": "examples/filled/CHAPITRE-99-Exemple-generation-documentaire.md"
+    },
+    {
+      "template": "templates/chapters/reference-card.md",
+      "data": "examples/data/reference-card.json",
+      "output": "examples/filled/FICHE-REFERENCE-EXEMPLE.md"
+    },
+    {
+      "template": "templates/qa/audit-report.md",
+      "data": "examples/data/audit.json",
+      "output": "examples/filled/AUDIT-EXEMPLE.md"
+    },
+    {
+      "template": "templates/qa/validation-proof.yaml",
+      "data": "examples/data/validation-proof.json",
+      "output": "examples/filled/VALIDATION-EXEMPLE.yaml"
+    },
+    {
+      "template": "templates/adr/ADR-NNNN.md",
+      "data": "examples/data/adr.json",
+      "output": "examples/filled/ADR-0099-EXEMPLE.md"
+    },
+    {
+      "template": "templates/checklists/editorial-review.md",
+      "data": "examples/data/checklist.json",
+      "output": "examples/filled/CHECKLIST-REVUE-EXEMPLE.md"
+    },
+    {
+      "template": "templates/cards/tool-card.md",
+      "data": "examples/data/tool-card.json",
+      "output": "examples/filled/FICHE-OUTIL-EXEMPLE.md"
+    },
+    {
+      "template": "templates/cards/model-card.md",
+      "data": "examples/data/model-card.json",
+      "output": "examples/filled/FICHE-MODELE-EXEMPLE.md"
+    },
+    {
+      "template": "templates/cards/asset-card.md",
+      "data": "examples/data/asset-card.json",
+      "output": "examples/filled/FICHE-ASSET-EXEMPLE.md"
+    },
+    {
+      "template": "templates/glossary/glossary.md",
+      "data": "examples/data/glossary.json",
+      "output": "examples/filled/GLOSSAIRE-EXEMPLE.md"
+    }
+  ]
+}

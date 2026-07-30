@@ -1,0 +1,14 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Audit — Exemple documentaire",
+  "ID": "QA-DOC-AUDIT-099",
+  "AUDIT_LEVEL": "static-review",
+  "DECISION": "Exemple accepté comme patron rempli ; il ne constitue pas l’audit d’un chapitre réel.",
+  "SCOPE": "Métadonnées, structure Markdown, repères d’utilisation, génération et compilation HTML.",
+  "EVIDENCE": "- validateur statique du Pack ;\n- tests Python ;\n- compilation Pandoc en CI.",
+  "GAPS": "Aucun rendu PDF ni contrôle visuel n’est revendiqué.",
+  "RESERVATIONS": "La conformité de cet exemple ne valide pas automatiquement un futur document."
+}
