@@ -18,7 +18,8 @@ func _initialize() -> void:
     var nodes := 0
     var stack: Array[Node] = [instance]
     while not stack.is_empty():
-        var node := stack.pop_back(); nodes += 1
+        var node: Node = stack.pop_back() as Node
+        nodes += 1
         for child in node.get_children(): stack.append(child)
     print("PRODUCTION_TOOLKIT_GODOT_IMPORT: PASS nodes=", nodes)
     instance.queue_free(); quit(0)
