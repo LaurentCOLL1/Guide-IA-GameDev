@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "profile_id": "studio",
+  "required_reviewers": 1,
+  "protected_main": true,
+  "required_platforms": [
+    "windows-x86_64",
+    "linux-x86_64"
+  ],
+  "local_ai_required": false,
+  "release_approval": "independent-approver",
+  "runtime_services": [],
+  "notes": "Governance profile only; it does not change domain authority or require distributed infrastructure."
+}
