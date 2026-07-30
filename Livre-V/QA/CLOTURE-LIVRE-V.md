@@ -33,4 +33,4 @@ La campagne ne constitue ni une validation runtime, ni une décision de licence 
 
 ## 4. État
 
-**Compilation candidate déclenchée après installation du runner temporaire.**
+**Diagnostic Pandoc par source déclenché après exception YAML de l’assemblage cumulatif.**
