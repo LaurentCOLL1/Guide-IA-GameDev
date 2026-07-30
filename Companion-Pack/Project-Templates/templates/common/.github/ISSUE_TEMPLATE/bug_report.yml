@@ -1,0 +1,36 @@
+name: Anomalie
+description: Signaler un comportement reproductible
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Comportement observé
+      description: Décrire ce qui s’est passé sans masquer les incertitudes.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit ou version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes de reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Journaux et preuves
+      description: Retirer secrets et données personnelles avant publication.

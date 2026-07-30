@@ -1,0 +1,35 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-02
+status: pending
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-project-templates
+pack:
+  id: CP-PACK-02-PROJECT-TEMPLATES
+  version: 0.1.0
+  entry-point: Companion-Pack/Project-Templates/README.md
+results:
+  static-validation: pending
+  powershell-wrapper: pending
+  solo-instantiation: pending
+  studio-instantiation: pending
+  module-generation: pending
+  deterministic-generation: pending
+  godot-version: pending
+  solo-import: pending
+  studio-import: pending
+  solo-headless-smoke: pending
+  studio-headless-smoke: pending
+  solo-virtual-graphical-smoke: pending
+  studio-virtual-graphical-smoke: pending
+  solo-gdscript-tests: pending
+  studio-gdscript-tests: pending
+  clean-tree-after-runtime: pending
+  document-validation: pending
+  runtime-tests: 0
+reservations:
+  - Branch protection is not applied to a target repository.
+  - CODEOWNERS effectiveness is not verified on a target repository.
+  - Windows graphical execution is not executed.
+  - Forward+ rendering on a real GPU is not executed.
+  - Exports and release packages are not produced.
+  - The global license is undefined.

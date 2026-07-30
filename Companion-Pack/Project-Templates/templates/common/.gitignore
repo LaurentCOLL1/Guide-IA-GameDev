@@ -1,0 +1,12 @@
+.godot/
+.import/
+*.log
+validation-*.json
+work/
+builds/
+exports/
+.vscode/settings.local.json
+.env
+.env.*
+secrets/
+credentials/

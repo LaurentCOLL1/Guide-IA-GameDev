@@ -1,0 +1,35 @@
+name: Validate Godot Project
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate static structure
+        run: python3 tools/validate_project.py
+      - name: Download Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3             "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip"             --output .ci/godot/godot.zip
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+      - name: Import and test
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility --path . --import
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility --path . --quit-after 5
+          "$GODOT_BIN" --headless --rendering-method gl_compatibility --path . --script res://tests/run_tests.gd
