@@ -5,4 +5,5 @@
 - matérialisation des modèles Solo et Studio ;
 - ajout du générateur de projets et du générateur de modules ;
 - ajout des conventions Git, ADR, responsabilités et réglages VS Code ;
-- ajout des validateurs statiques et de la campagne Godot Linux.
+- ajout des validateurs statiques et de la campagne Godot Linux ;
+- ajout des réserves explicites sur les protections GitHub et CODEOWNERS effectifs.
