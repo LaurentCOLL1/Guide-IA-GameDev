@@ -1,0 +1,62 @@
+name: Livre V PDF Source Fix
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  normalize-chapter-separator:
+    if: >-
+      github.event.pull_request.number == 381 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'qa/livre-v-pdf-closure'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout closure branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore blank line before Granite card
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md')
+          text = path.read_text(encoding='utf-8')
+          old = '\n---\n<!-- l5:card -->\n## MODÈLE-04 — Granite 4\n'
+          new = '\n---\n\n<!-- l5:card -->\n## MODÈLE-04 — Granite 4\n'
+          count = text.count(old)
+          if count == 0:
+              print('Separator already normalized.')
+          elif count == 1:
+              path.write_text(text.replace(old, new, 1), encoding='utf-8', newline='\n')
+              print('Separator normalized.')
+          else:
+              raise SystemExit(f'Unexpected matching separator count: {count}')
+          PY
+
+      - name: Commit source correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo 'No correction to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Livre-V/CHAPITRE-05-Fiches-des-modeles-de-langage.md
+          git commit -m 'fix(livre-v): rendre le séparateur de la fiche 05 compatible Pandoc'
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
