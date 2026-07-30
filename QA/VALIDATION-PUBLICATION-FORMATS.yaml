@@ -1,0 +1,16 @@
+schema-version: 1
+evidence-id: QA-PUBLICATION-FORMATS-M8
+status: candidate
+validation-status: awaiting-runtime
+formats:
+  - pdf
+  - html
+  - epub3
+source-order: contents.txt
+license: CC-BY-SA-4.0
+publication-status: technical-build-not-official-release
+reservations:
+  - No tagged accessible PDF is produced.
+  - No byte-identical cross-platform claim.
+  - No official release or public publication.
+  - No exhaustive visual inspection of HTML or EPUB.
