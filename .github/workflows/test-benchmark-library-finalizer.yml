@@ -1,0 +1,101 @@
+name: Temporary Test Benchmark Library Finalizer
+
+on:
+  push:
+    branches:
+      - feat/companion-pack-test-benchmark-library
+    paths:
+      - .github/scripts/finalize_test_benchmark_library.py
+      - .github/workflows/test-benchmark-library-finalizer.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/Test-Benchmark-Library/python/src
+      QUALIFIED_HEAD: 4698de711dccbaf907c97ee3988370fe16945855
+
+    steps:
+      - name: Checkout Pack 8 branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/companion-pack-test-benchmark-library
+          fetch-depth: 0
+
+      - name: Verify branch and qualified ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "feat/companion-pack-test-benchmark-library"
+          git merge-base --is-ancestor "$QUALIFIED_HEAD" HEAD
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lightweight validation dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Finalize Pack 8 and governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .github/scripts/finalize_test_benchmark_library.py
+
+      - name: Validate finalized Pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Companion-Pack/Test-Benchmark-Library/scripts/validate_test_benchmark_library.py
+          python -m unittest discover \
+            -s Companion-Pack/Test-Benchmark-Library/python/tests \
+            -v 2>&1 | tee /tmp/pack8-final-tests.log
+          grep -F "Ran 25 tests" /tmp/pack8-final-tests.log
+          grep -F "OK" /tmp/pack8-final-tests.log
+          python Companion-Pack/Test-Benchmark-Library/scripts/run_python_suite.py \
+            --benchmark all --output-dir "$RUNNER_TEMP/pack8-final-python" \
+            --warmups 0 --repetitions 2 --iterations 20 --items 100 --queries 1
+          python Companion-Pack/Test-Benchmark-Library/scripts/validate_result.py \
+            "$RUNNER_TEMP/pack8-final-python/cpu-summary.json" \
+            "$RUNNER_TEMP/pack8-final-python/memory-summary.json" \
+            "$RUNNER_TEMP/pack8-final-python/corpus-summary.json"
+
+      - name: Run lightweight repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+
+      - name: Remove temporary finalizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/scripts/finalize_test_benchmark_library.py
+          rm .github/workflows/test-benchmark-library-finalizer.yml
+          test ! -e .github/scripts/finalize_test_benchmark_library.py
+          test ! -e .github/workflows/test-benchmark-library-finalizer.yml
+
+      - name: Commit finalized Pack 8
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "feat(test-benchmark-library): finaliser les preuves et la gouvernance"
+          git push origin HEAD:feat/companion-pack-test-benchmark-library
