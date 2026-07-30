@@ -1,0 +1,14 @@
+# Godot generated state
+.godot/
+.import/
+
+# Local reports and logs
+*.log
+validation-static.json
+validation-runtime.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
