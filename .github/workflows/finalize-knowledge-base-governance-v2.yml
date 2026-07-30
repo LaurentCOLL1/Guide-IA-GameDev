@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
 
+# Second synchronization activates this PR-local workflow.
 jobs:
   finalize:
     if: github.head_ref == 'feat/companion-pack-knowledge-base'
