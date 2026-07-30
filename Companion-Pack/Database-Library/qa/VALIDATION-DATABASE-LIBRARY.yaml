@@ -44,6 +44,8 @@ ci:
     workflow: Temporary Database Library Materializer and Finalizer
     run-id: 30526910180
     validated-before-final-commit: true
+    artifact-id: 8753043390
+    artifact-digest: sha256:3375dade3c5c02f1083453b725944b36cdeb2a2a11daa9a6207c1625d77a8ed1
 reservations:
   - Godot and Godot-SQLite are not executed.
   - Windows graphical execution is not executed.
