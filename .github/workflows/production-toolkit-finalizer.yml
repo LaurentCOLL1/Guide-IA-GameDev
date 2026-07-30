@@ -1,0 +1,83 @@
+name: Finalize Production Toolkit
+
+on:
+  push:
+    branches:
+      - feat/companion-pack-production-toolkit
+    paths:
+      - ".github/scripts/finalize_production_toolkit.py"
+      - ".github/workflows/production-toolkit-finalizer.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-production-toolkit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: ${{ github.workspace }}/Companion-Pack/Production-Toolkit/python/src
+
+    steps:
+      - name: Checkout qualified branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/companion-pack-production-toolkit
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lightweight validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet Pillow PyYAML
+
+      - name: Verify qualified ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor \
+            7edc117b63b596be57d91a6ff2338a29e8d970dc HEAD
+
+      - name: Promote Pack and governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .github/scripts/finalize_production_toolkit.py \
+            | tee /tmp/production-toolkit-finalization.json
+
+      - name: Validate promoted state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Companion-Pack/Production-Toolkit/scripts/validate_production_toolkit.py \
+            --report /tmp/production-toolkit-static-validation.json
+          python -m unittest discover \
+            -s Companion-Pack/Production-Toolkit/python/tests \
+            -v 2>&1 | tee /tmp/production-toolkit-tests.log
+          grep -F "Ran 29 tests" /tmp/production-toolkit-tests.log
+          grep -F "OK" /tmp/production-toolkit-tests.log
+          python tools/validate_chapters.py --root . --report /tmp/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+
+      - name: Remove temporary finalizer and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f \
+            .github/scripts/finalize_production_toolkit.py \
+            .github/workflows/production-toolkit-finalizer.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "feat(production-toolkit): finaliser les preuves et la gouvernance"
+          git push origin HEAD:feat/companion-pack-production-toolkit
