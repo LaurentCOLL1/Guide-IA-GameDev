@@ -140,7 +140,7 @@ def validate_html(path: Path) -> dict[str, object]:
     }
 
 
-def validate_epub(path: Path, epubcheck_command: list[str]) -> dict[str, object]:
+def validate_epub(path: Path, epubcheck_jar: Path) -> dict[str, object]:
     errors: list[str] = []
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
@@ -165,7 +165,7 @@ def validate_epub(path: Path, epubcheck_command: list[str]) -> dict[str, object]
         if any(marker in text for marker in OBSOLETE_MARKERS):
             errors.append("epub-obsolete-license-marker")
     result = subprocess.run(
-        epubcheck_command + [str(path)],
+        ["java", "-Xss4m", "-Xmx2g", "-jar", str(epubcheck_jar.resolve()), str(path)],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -186,7 +186,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Validate generated PDF, HTML and EPUB publications")
     parser.add_argument("--dist", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
-    parser.add_argument("--epubcheck", nargs="+", required=True)
+    parser.add_argument("--epubcheck-jar", type=Path, required=True)
     args = parser.parse_args()
 
     dist = args.dist.resolve()
@@ -198,13 +198,15 @@ def main() -> int:
     missing = [str(path) for path in files.values() if not path.is_file()]
     if missing:
         raise FileNotFoundError("Artefacts absents : " + ", ".join(missing))
+    if not args.epubcheck_jar.is_file():
+        raise FileNotFoundError(f"EPUBCheck absent : {args.epubcheck_jar}")
 
     with tempfile.TemporaryDirectory(prefix="validate-publications-") as temporary:
         work = Path(temporary)
         results = {
             "pdf": validate_pdf(files["pdf"], work),
             "html": validate_html(files["html"]),
-            "epub": validate_epub(files["epub"], args.epubcheck),
+            "epub": validate_epub(files["epub"], args.epubcheck_jar),
         }
     errors = [f"{fmt}:{error}" for fmt, result in results.items() for error in result["errors"]]
     report = {
