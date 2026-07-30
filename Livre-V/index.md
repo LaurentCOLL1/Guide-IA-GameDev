@@ -1,8 +1,9 @@
 ---
 title: "Livre V — Encyclopédie technique et bibliothèque de référence"
 id: "LIV-V-INDEX"
-status: "active"
-version: "1.18.0"
+status: "complete"
+version: "1.19.0"
+last-updated: "2026-07-30T03:00:00+02:00"
 ---
 
 # Livre V — Encyclopédie technique et bibliothèque de référence
@@ -53,4 +54,4 @@ Le format spécialisé est défini par le [protocole éditorial et QA des fiches
 
 ## Statut
 
-Progression : **26 chapitres sur 26** rédigés et audités au niveau `static-review`. La fiche 26 clôt la couverture documentaire par identités canoniques, index alphabétiques et thématiques, synonymes, relations typées, routes par domaine, navigation multiformat et contrôles d’intégrité. La construction, le préflight et l’inspection du PDF complet du Livre V, les formats HTML/EPUB, l’accessibilité avancée, la licence globale et les outils exécutables du Companion Pack restent des portes séparées.
+Progression : **26 chapitres sur 26** rédigés et audités. La publication technique est acceptée au niveau `static-review+pdf-inspected` : PDF cumulatif de 4063 pages, préflight réussi, 26 titres présents, QA internes exclues et inspection visuelle Poppler/PDFium achevée. Voir le [rapport de clôture](QA/CLOTURE-LIVRE-V.md). La licence globale, les formats HTML/EPUB, le balisage avancé d’accessibilité et les outils du Companion Pack restent des portes séparées.
