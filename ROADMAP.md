@@ -208,9 +208,11 @@
 - [x] Arbres de décision et matrices — fiche 02 rédigée et auditée au niveau `static-review`.
 - [x] Bibliothèques techniques et index croisés — fiche 26 rédigée et auditée au niveau `static-review`.
 
-**Statut M6 : en cours — 26 chapitres rédigés, repérés et audités sur 26 ; la construction, le préflight et l’inspection du PDF complet du Livre V restent la porte de clôture technique.**
+**Statut M6 : terminé — 26 chapitres rédigés, repérés et audités ; PDF cumulatif construit, préflighté et inspecté au niveau `static-review+pdf-inspected`.**
 
 ## M7 — Companion Pack
+
+**Statut M7 : actif — Pack 1, Starter Kit, à matérialiser.**
 
 - [ ] Starter Kit.
 - [ ] Project Templates.
@@ -228,7 +230,7 @@
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre II.
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre III.
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre IV.
-- [ ] Produire, préflighter et inspecter le PDF complet de fin du Livre V.
+- [x] Produire, préflighter et inspecter le PDF complet de fin du Livre V.
 
 - [ ] Définir la licence globale du projet.
 - [ ] Produire les versions PDF, HTML et EPUB.

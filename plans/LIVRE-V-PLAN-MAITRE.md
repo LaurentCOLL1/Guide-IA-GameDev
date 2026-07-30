@@ -1,8 +1,8 @@
 ---
 title: "Plan maître détaillé — Livre V"
 id: "DOC-PLAN-L5"
-status: "active"
-version: "1.26.0"
+status: "complete"
+version: "1.27.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 book: "Livre V"
@@ -12,7 +12,7 @@ chapter-count: 26
 # Plan maître détaillé — Livre V
 
 > **Titre du Livre :** Encyclopédie technique et bibliothèque de référence
-> **Statut :** 26 chapitres sur 26 rédigés et audités au niveau `static-review` ; clôture PDF du Livre V encore requise
+> **Statut :** terminé — 26 chapitres sur 26 et publication technique acceptée au niveau `static-review+pdf-inspected`
 > **Rôle :** fournir une référence non linéaire, stable et directement consultable sans dupliquer les tutoriels complets des Livres I à IV.
 
 ## Règles spécifiques du Livre V
@@ -609,4 +609,6 @@ Ce chapitre clôt l’encyclopédie. Validation par recherche de scénarios conn
 - les exemples minimaux et fichiers associés sont validés ;
 - le PDF/HTML permet une navigation non linéaire efficace.
 
-**État de clôture :** la couverture documentaire des 26 fiches est complète ; la génération et l’inspection des formats de publication restent à exécuter séparément.
+**État de clôture :** accepté au niveau `static-review+pdf-inspected`. Le PDF cumulatif contient 4063 pages ; l’index et les 26 fiches du Livre V occupent les pages 3 681 à 4 062. La compilation, le préflight, l’extraction textuelle, l’exclusion des QA internes et l’inspection Poppler/PDFium sont réussis. Voir le [rapport de clôture](../Livre-V/QA/CLOTURE-LIVRE-V.md) et la [preuve structurée](../Livre-V/QA/VALIDATION-PUBLICATION-LIVRE-V.yaml).
+
+Les formats HTML/EPUB, le balisage avancé d’accessibilité, la licence globale et le Companion Pack restent hors de cette décision.

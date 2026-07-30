@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.13.0"
+version: "4.14.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T01:18:00+02:00"
+last-updated: "2026-07-30T03:00:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2353,7 +2353,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 ## 25. État courant
 
 - branche principale : `main` ;
-- jalon : M6 — Livre V ;
+- jalon : M7 — Companion Pack ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2382,7 +2382,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 25 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 26 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
 - profil éditorial du Livre V : fiches, matrices, recettes minimales et index ; les obligations tutoriel incompatibles sont exclues ;
-- clôture documentaire du Livre V : 26 fiches sur 26 ; construction, préflight et inspection du PDF complet encore requis ;
+- publication technique du Livre V : acceptée au niveau `static-review+pdf-inspected` ; PDF cumulatif de 4063 pages, préflight réussi et inspection Poppler/PDFium achevée ;
 - progression du Livre IV : 22 chapitres sur 22 ;
 - chapitre 1 du Livre IV : version `1.0.1`, niveau `static-review` ;
 - chapitre 2 du Livre IV : version `1.0.0`, niveau `static-review` ;
@@ -2476,19 +2476,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-Le Livre V contient vingt-six fiches sur 26 au niveau `static-review`. La fiche 26 fournit les identités canoniques, index alphabétiques et thématiques, synonymes, relations typées, routes par domaine, navigation multiformat et contrôles d’intégrité. La couverture documentaire est complète, mais la clôture technique exige encore la construction, le préflight et l’inspection du PDF complet du Livre V. La licence globale, les formats HTML/EPUB, l’accessibilité avancée et le Companion Pack restent ouverts.
+M6 — Livre V est terminé au niveau `static-review+pdf-inspected`. Les 26 fiches sont rédigées et auditées ; le PDF cumulatif est construit, préflighté et inspecté. Le jalon actif est M7 — Companion Pack. Aucun Starter Kit, projet Godot, test, lancement ou artefact exécutable n’est encore matérialisé.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Livre-V/index.md — construire, préflighter et inspecter le PDF complet du Livre V
+Companion-Pack/Starter-Kit/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Après réussite de cette porte PDF, le jalon actif passera à M7 — Companion Pack, Pack 1 — Starter Kit, avec `Companion-Pack/Starter-Kit/README.md` comme point d’entrée canonique à matérialiser.
+Le Pack 1 doit matérialiser un projet Godot minimal de référence avec `project.godot`, scène de bootstrap, structure canonique, profils d’environnement, scripts de validation, README, licence ou statut de redistribution et provenance. Aucune ouverture, exécution graphique ou headless, reproductibilité de clone ou réussite de test ne devra être annoncée sans exécution et preuve consultable.
 ## 27. Journal
+
+### 2026-07-30T03:00:00+02:00 — version 4.14.0
+
+- clôture technique et PDF du Livre V — Encyclopédie technique et bibliothèque de référence ;
+- 145 sources lecteur validées et parsables avec Pandoc ;
+- deux séparateurs de la fiche 05 normalisés pour empêcher une interprétation YAML erronée ;
+- dépendance Latin Modern ajoutée à la chaîne temporaire XeLaTeX ;
+- PDF cumulatif final : 4063 pages A4, 10462788 octets, version 1.5, non chiffré et texte extractible ;
+- empreinte PDF `008ae82f759f562178b810e87abbd08c0e00bf6dd6eba4afeb5334748feda8a3` et empreinte du texte extrait `6734cb86d214264e55b0f2ef188be73c55ccfed050c9374d43cde37ad6e58df5` ;
+- `qpdf --check`, polices incorporées, 26 titres du Livre V et exclusion des contenus QA internes validés ;
+- Livre V cartographié des pages 3 681 à 4 062 ; Companion Pack à partir de la page 4 063 ;
+- 82 pages inspectées avec Poppler et 8 pages comparées avec PDFium, sans défaut visuel bloquant observé ;
+- run final `30503741584`, artefact `8744567647`, digest `sha256:b8300a8a449b89606f9a1b80551454d17f3205bb8f1131451676fc514a4ff221` ;
+- publication technique du Livre V acceptée au niveau `static-review+pdf-inspected` ;
+- jalon actif déplacé vers M7 — Companion Pack ;
+- prochaine action : `Companion-Pack/Starter-Kit/README.md`, niveau Élevée ;
+- aucune licence globale, aucun PDF balisé, HTML, EPUB, Starter Kit, projet Godot exécutable, test runtime ou publication commerciale produit.
 
 ### 2026-07-30T01:18:00+02:00 — version 4.13.0
 
