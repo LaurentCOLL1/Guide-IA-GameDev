@@ -23,4 +23,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install --disable-pip-version-check --quiet PyYAML
-      - run: python .github/scripts/finalize_global_licensing.py
+      - name: Finalize governance after metadata correction
+        run: python .github/scripts/finalize_global_licensing.py
