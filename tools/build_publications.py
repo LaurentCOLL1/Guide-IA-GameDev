@@ -57,12 +57,12 @@ def main() -> int:
     dist = (args.dist or root / "dist" / "publication").resolve()
     contents_file = root / "contents.txt"
     metadata_files = [root / "metadata.yaml", root / "publication" / "metadata.yaml"]
-    filter_file = root / "filters" / "pdf-normalize.lua"
+    filter_files = [root / "filters" / "pdf-normalize.lua", root / "filters" / "publication-links.lua"]
     css_file = root / "publication" / "style.css"
 
     if shutil.which("pandoc") is None:
         raise RuntimeError("Pandoc est introuvable")
-    for required in [contents_file, filter_file, css_file, *metadata_files]:
+    for required in [contents_file, css_file, *metadata_files, *filter_files]:
         if not required.is_file():
             raise FileNotFoundError(f"Fichier de construction absent : {required.relative_to(root)}")
 
@@ -74,7 +74,9 @@ def main() -> int:
         "--metadata-file=metadata.yaml",
         "--metadata-file=publication/metadata.yaml",
         "--from=markdown+yaml_metadata_block",
+        "--file-scope",
         "--lua-filter=filters/pdf-normalize.lua",
+        "--lua-filter=filters/publication-links.lua",
         "--toc",
         "--number-sections",
         "--resource-path=.",
