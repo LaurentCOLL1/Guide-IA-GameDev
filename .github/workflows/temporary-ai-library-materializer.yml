@@ -1,0 +1,64 @@
+name: Temporary AI Library Materializer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: >-
+      github.event.pull_request.number == 400 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'feat/companion-pack-ai-library'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/AI-Library/src
+
+    steps:
+      - name: Checkout AI Library branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/companion-pack-ai-library
+          fetch-depth: 0
+
+      - name: Materialize permanent files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/scripts/materialize_ai_library.py
+          test ! -e .github/scripts/materialize_ai_library.py
+          test -f Companion-Pack/AI-Library/README.md
+          test -f .github/workflows/validate-ai-library.yml
+
+      - name: Validate candidate statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/ai-library
+          python3 Companion-Pack/AI-Library/tools/validate_ai_library.py \
+            --report dist/ai-library/materialization-static.json
+          python3 -m unittest discover \
+            -s Companion-Pack/AI-Library/tests \
+            -v
+          test ! -e dist/Guide-IA-GameDev.pdf
+
+      - name: Commit materialized AI Library
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A \
+            Companion-Pack/AI-Library \
+            .github/workflows/validate-ai-library.yml \
+            .github/scripts/materialize_ai_library.py
+          git diff --cached --check
+          git commit -m "feat(ai-library): matérialiser le Pack 3"
+          git push origin HEAD:feat/companion-pack-ai-library
