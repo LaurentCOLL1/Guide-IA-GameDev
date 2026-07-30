@@ -1,0 +1,58 @@
+{
+  "entries": [
+    {
+      "family": "texture",
+      "id": "PT-CONVERT-TEXTURE",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "texture"
+    },
+    {
+      "family": "audio",
+      "id": "PT-CONVERT-AUDIO",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "audio"
+    },
+    {
+      "family": "validation",
+      "id": "PT-VALIDATE",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "validate"
+    },
+    {
+      "family": "catalog",
+      "id": "PT-CATALOG",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "catalog"
+    },
+    {
+      "family": "rename",
+      "id": "PT-RENAME",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "rename"
+    },
+    {
+      "family": "batch",
+      "id": "PT-BATCH",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "batch"
+    },
+    {
+      "family": "packaging",
+      "id": "PT-PACKAGE",
+      "path": "scripts/toolkit_cli.py",
+      "subcommand": "package"
+    },
+    {
+      "family": "blender",
+      "id": "PT-BLENDER",
+      "path": "blender/obj_to_glb.py"
+    },
+    {
+      "family": "godot-import",
+      "id": "PT-GODOT-IMPORT",
+      "path": "godot/check_import.gd"
+    }
+  ],
+  "pack_version": "1.0.0",
+  "schema_version": 1
+}

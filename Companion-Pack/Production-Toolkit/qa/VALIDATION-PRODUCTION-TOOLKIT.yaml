@@ -1,0 +1,43 @@
+schema-version: 1
+evidence-id: QA-PRODUCTION-TOOLKIT-PACK-09
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-production-toolkit
+pack:
+  id: CP-PACK-09-PRODUCTION-TOOLKIT
+  version: 1.0.0
+  audit-level: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: 3.12.13
+  blender: 4.0.2
+  blender-numpy: 1.26.4
+  godot: 4.7.1.stable.official.a13da4feb
+results:
+  source-files: 28
+  catalog-entries: 9
+  python-tests:
+    status: success
+    count: 29
+  dry-run: success
+  failure-injected: true
+  resume-status: complete
+  validated-assets: 3
+  deterministic-package: true
+  blender-glb: success
+  godot-import: success
+  source-preserved: true
+  clean-tree: true
+  private-fields-detected: false
+  fixtures: synthetic
+ci:
+  workflow: Validate Production Toolkit
+  run-id: 30544978391
+  artifact-id: 8760345537
+  artifact-digest: sha256:d48f12b2aff00e76dc82e06072deb994863dff43fcce7758faa762c914841359
+  governance-finalizer-run: 30545689178
+reservations:
+  - No proprietary format or artistic-quality qualification.
+  - No complex bake, GPU compression or perceptual-audio qualification.
+  - No game export, Windows, macOS, mobile or console qualification.
+  - Global license undefined.

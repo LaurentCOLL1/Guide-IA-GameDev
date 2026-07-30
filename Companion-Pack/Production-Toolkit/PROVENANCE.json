@@ -1,0 +1,9 @@
+{
+  "fixtures": "synthetic-only",
+  "origin": "created-for-guide-ia-gamedev",
+  "pack_id": "CP-PACK-09-PRODUCTION-TOOLKIT",
+  "personal_data": false,
+  "schema_version": 1,
+  "secrets": false,
+  "third_party_assets": []
+}

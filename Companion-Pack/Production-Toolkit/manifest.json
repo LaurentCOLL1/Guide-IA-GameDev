@@ -1,0 +1,31 @@
+{
+  "artifact_digest": "sha256:d48f12b2aff00e76dc82e06072deb994863dff43fcce7758faa762c914841359",
+  "artifact_id": 8760345537,
+  "checkpoint_resume": true,
+  "dry_run_required": true,
+  "families": [
+    "blender",
+    "texture",
+    "audio",
+    "validation",
+    "catalog",
+    "rename",
+    "batch",
+    "godot-import",
+    "packaging"
+  ],
+  "id": "CP-PACK-09-PRODUCTION-TOOLKIT",
+  "qualified_environment": {
+    "blender": "4.0.2",
+    "blender_numpy": "1.26.4",
+    "godot": "4.7.1.stable.official.a13da4feb",
+    "os": "ubuntu-24.04",
+    "python": "3.12.13"
+  },
+  "qualified_run": 30544978391,
+  "schema_version": 1,
+  "source_policy": "read-only",
+  "status": "reviewed",
+  "validation": "runtime-tested-linux",
+  "version": "1.0.0"
+}

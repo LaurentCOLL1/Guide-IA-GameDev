@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.8.0"
+version: "1.9.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 8 sur 10 validé
+> **Statut :** en cours — Pack 9 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -303,6 +303,8 @@ Livre II, chapitre 27 ; Livre IV, chapitres 2 à 10 ; Livre V, chapitre 21.
 - absence de données non redistribuables.
 
 ## Pack 9 — Production Toolkit
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30544978391` avec Python, Blender et import Godot ; réserves formats propriétaires, qualité artistique, exports de jeu, plateformes non Linux et licence globale maintenues.
 
 **Objectifs**
 
