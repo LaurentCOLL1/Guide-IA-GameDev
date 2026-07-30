@@ -6,6 +6,8 @@
 - 16 tests Python réussis ;
 - import et démarrages Godot headless et Xvfb Compatibility réussis ;
 - tests GDScript réussis avec `CODE_LIBRARY_GODOT_TESTS: PASS` ;
+- inférence de type GDScript corrigée et CI durcie contre les `SCRIPT ERROR` ;
+- runner GDScript arrêté explicitement après succès ;
 - arbre Git propre après runtime ;
 - réserves performance, Windows graphique, GPU réel, exports et licence globale maintenues.
 
