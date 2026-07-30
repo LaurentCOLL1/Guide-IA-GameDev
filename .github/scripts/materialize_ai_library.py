@@ -39,3 +39,4 @@ for temporary in [
         temporary.unlink()
 
 print(f"AI Library materialized: {written} pack files; payload {actual}.")
+# Synchronization retry after separating workflow permissions.
