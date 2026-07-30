@@ -1,0 +1,92 @@
+schema-version: 1
+policy-version: 1.0.0
+last-verified: '2026-07-30T18:08:00+02:00'
+copyright-holder: Laurent Collin
+licenses:
+  documentation:
+    spdx: CC-BY-SA-4.0
+    notice: LICENSES/CC-BY-SA-4.0.txt
+  software:
+    spdx: MIT
+    notice: LICENSES/MIT.txt
+  factual-metadata:
+    spdx: CC0-1.0
+    notice: LICENSES/CC0-1.0.txt
+precedence:
+- file-level SPDX notice
+- nearest LICENSE or LICENSE-STATUS file
+- this matrix
+- LICENSE.md defaults
+rules:
+- id: editorial-sources
+  license: CC-BY-SA-4.0
+  paths:
+  - Volume-0/**
+  - Livre-I/**
+  - Livre-II/**
+  - Livre-III/**
+  - Livre-IV/**
+  - Livre-V/**
+  - plans/**
+  - README.md
+  - CONTRIBUTING.md
+  - STYLE_GUIDE.md
+  - BUILD.md
+  - CHANGELOG.md
+  - ROADMAP.md
+  - CONTINUITE-PROJET.md
+  - REPRISE-NOUVELLE-CONVERSATION.md
+- id: software-and-automation
+  license: MIT
+  paths:
+  - tools/**
+  - scripts/**
+  - .github/**
+  - build.ps1
+  - build.sh
+  - '**/*.py'
+  - '**/*.gd'
+  - '**/*.ps1'
+  - '**/*.sh'
+  - '**/Dockerfile'
+  - '**/docker-compose*.yml'
+  - '**/docker-compose*.yaml'
+- id: companion-documentation
+  license: CC-BY-SA-4.0
+  paths:
+  - Companion-Pack/**/README.md
+  - Companion-Pack/**/CHANGELOG.md
+  - Companion-Pack/**/docs/**
+  - Companion-Pack/**/qa/*.md
+  - Companion-Pack/Knowledge-Base/corpus/**
+- id: companion-technical-material
+  license: MIT
+  paths:
+  - Companion-Pack/**/python/**
+  - Companion-Pack/**/scripts/**
+  - Companion-Pack/**/godot/**
+  - Companion-Pack/**/blender/**
+  - Companion-Pack/**/schemas/**
+  - Companion-Pack/**/templates/**
+  - Companion-Pack/**/fixtures/**
+  - Companion-Pack/**/*.json
+  - Companion-Pack/**/*.yaml
+  - Companion-Pack/**/*.yml
+  - Companion-Pack/**/*.csv
+- id: explicit-factual-metadata
+  license: CC0-1.0
+  paths:
+  - '**/checksums.json'
+  - '**/checksums.sha256'
+  - '**/*.sha256'
+  - contents.txt
+  - Companion-Pack/**/catalog.json
+  note: Only factual arrangement and values; authored descriptions remain under their applicable license.
+generated-outputs:
+  PDF/HTML/EPUB: CC-BY-SA-4.0 when generated from editorial sources
+  Companion-Pack archives: aggregate; retain LICENSE.md, NOTICE.md, LICENSES and this matrix
+exclusions:
+- third-party components unless explicitly licensed and inventoried
+- trademarks and product names
+- secrets and personal data
+- non-redistributable model weights and assets
