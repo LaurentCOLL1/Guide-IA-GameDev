@@ -1,0 +1,11 @@
+Creative Commons CC0 1.0 Universal
+SPDX-License-Identifier: CC0-1.0
+
+Canonical legal code:
+https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+Official French translation:
+https://creativecommons.org/publicdomain/zero/1.0/legalcode.fr
+
+CC0 is applied only to files explicitly classified by the project license
+matrix or by a file-level notice. The canonical legal code controls.

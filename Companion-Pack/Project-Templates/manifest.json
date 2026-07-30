@@ -10,5 +10,5 @@
   "project_generator": "tools/instantiate_project.py",
   "module_generator": "tools/create_module.py",
   "validator": "tools/validate_templates.py",
-  "license_status": "pending-global-license"
+  "license_status": "global-policy-defined"
 }

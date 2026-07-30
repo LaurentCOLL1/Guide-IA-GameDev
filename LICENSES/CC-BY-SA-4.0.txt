@@ -1,0 +1,12 @@
+Creative Commons Attribution-ShareAlike 4.0 International
+SPDX-License-Identifier: CC-BY-SA-4.0
+
+Canonical legal code:
+https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+Official French translation:
+https://creativecommons.org/licenses/by-sa/4.0/legalcode.fr
+
+This notice identifies the unmodified Creative Commons public license applied
+by LICENSE.md. The canonical legal code controls. A redistributed archive must
+retain this notice, LICENSE.md and a usable copy or link to the canonical text.

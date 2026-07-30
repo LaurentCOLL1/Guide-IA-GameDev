@@ -1,5 +1,12 @@
 # Journal des modifications
 
+## 2026-07-30 — Politique de licence globale
+
+- documentation sous `CC-BY-SA-4.0` ;
+- logiciel et ressources techniques sous `MIT` ;
+- métadonnées factuelles explicitement classées sous `CC0-1.0` ;
+- matrice de chemins, notices, règles de contribution et validation CI ajoutées.
+
 Toutes les modifications notables de ce projet seront documentées dans ce fichier.
 
 Le format s'inspire de *Keep a Changelog* et le projet utilisera le versionnement sémantique lorsque la première version publique sera stabilisée.

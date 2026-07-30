@@ -1,0 +1,28 @@
+schema-version: 1
+evidence-id: QA-GLOBAL-LICENSING-M8
+status: complete
+policy-version: 1.0.0
+licenses:
+  documentation: CC-BY-SA-4.0
+  software: MIT
+  factual-metadata: CC0-1.0
+validation-status: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: 3.12.13
+results:
+  required-policy-files: 9
+  companion-pack-license-files: 10
+  allowed-spdx-identifiers: 3
+  matrix-rules: 5
+  chapter-validation: success
+  obsolete-global-license-markers: 0
+ci:
+  workflow: Validate Global Licensing
+  run-id: 30561457478
+  artifact-id: 8767038421
+  artifact-digest: sha256:bda4f6a33fda885a5ee2bc140c835a1af58a695d9399c5fd64cac099839371d9
+reservations:
+  - No file-by-file REUSE compliance claim.
+  - No legal opinion or trademark clearance.
+  - Third-party redistribution remains component-specific.

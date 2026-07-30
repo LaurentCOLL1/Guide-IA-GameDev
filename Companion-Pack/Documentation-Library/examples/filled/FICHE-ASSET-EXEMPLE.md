@@ -18,7 +18,7 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 | Nom | icon-example.svg |
 | Version ou format | SVG textuel |
 | Source ou installation | créé pour cet exemple |
-| Licence | pending-global-license |
+| Licence | global-policy-defined |
 
 ## Usage retenu
 

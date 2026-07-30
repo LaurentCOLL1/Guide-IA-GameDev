@@ -11,5 +11,5 @@
     "llama_cpp",
     "localai"
   ],
-  "redistribution_status": "pending-global-license"
+  "redistribution_status": "global-policy-defined"
 }

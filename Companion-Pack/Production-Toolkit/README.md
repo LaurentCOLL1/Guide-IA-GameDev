@@ -6,7 +6,7 @@ version: "1.0.0"
 lang: "fr-FR"
 last-verified: "2026-07-30T15:10:10+02:00"
 validation-status: "runtime-tested-linux"
-redistribution-status: "pending-global-license"
+redistribution-status: "global-policy-defined"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
 

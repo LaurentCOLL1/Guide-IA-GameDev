@@ -5,7 +5,7 @@ status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
 validation-status: "runtime-tested-linux"
-redistribution-status: "pending-global-license"
+redistribution-status: "global-policy-defined"
 reference-runtime:
   name: "CPython"
   version: "3.12"

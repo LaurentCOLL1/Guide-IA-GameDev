@@ -8,7 +8,7 @@
   "ASSET_NAME": "icon-example.svg",
   "FORMAT": "SVG textuel",
   "SOURCE": "créé pour cet exemple",
-  "LICENSE": "pending-global-license",
+  "LICENSE": "global-policy-defined",
   "USAGE": "Illustrer une fiche d’asset sans dépendance externe.",
   "LIMITS": "Ne constitue pas un asset de production accepté.",
   "VERIFICATION": "Contrôler la provenance, le format et l’absence de ressource liée externe."

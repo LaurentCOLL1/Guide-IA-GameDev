@@ -7,7 +7,7 @@ lang: "fr-FR"
 last-verified: "2026-07-30T06:36:00+02:00"
 validation-status: "runtime-tested-linux"
 validation-report: "Companion-Pack/AI-Library/qa/AUDIT-AI-LIBRARY.md"
-redistribution-status: "pending-global-license"
+redistribution-status: "global-policy-defined"
 reference-engine:
   name: "Godot Engine"
   version: "4.7.1-stable"

@@ -51,6 +51,17 @@ Avant toute pull request :
 - [ ] La génération Pandoc réussit ou les limitations sont documentées.
 - [ ] Les nouveaux fichiers sont ajoutés à l'index et à `contents.txt` si nécessaire.
 
+## Licence des contributions
+
+En proposant une contribution, son auteur confirme qu’il dispose des droits nécessaires et accepte que la contribution soit distribuée selon la licence applicable au fichier ou à sa catégorie dans `LICENSE.md` et `docs/licensing/LICENSE-MATRIX.yaml`.
+
+- les contributions éditoriales sont reçues sous `CC-BY-SA-4.0` ;
+- les contributions logicielles et techniques sont reçues sous `MIT` ;
+- `CC0-1.0` ne s’applique qu’aux métadonnées explicitement classées ;
+- tout composant tiers doit rester sous sa licence d’origine et être accompagné de sa provenance.
+
+Une contribution ne doit pas incorporer un contenu incompatible avec la licence de destination.
+
 ## Contenu sensible et adulte
 
 Les contributions relatives aux thèmes adultes doivent respecter la loi applicable, concerner exclusivement des adultes et éviter tout contenu non consensuel présenté comme souhaitable. Aucun contenu sexuel impliquant des mineurs, des personnes présentées comme mineures ou des animaux réels n'est accepté.

@@ -154,3 +154,10 @@ Companion-Pack/Documentation-Library/README.md
 Companion-Pack/Test-Benchmark-Library/README.md
 Companion-Pack/Production-Toolkit/README.md
 Companion-Pack/Knowledge-Base/README.md
+LICENSE.md
+NOTICE.md
+LICENSES/README.md
+docs/licensing/README.md
+docs/licensing/LICENSE-MATRIX.yaml
+QA/AUDIT-LICENSING.md
+QA/VALIDATION-LICENSING.yaml

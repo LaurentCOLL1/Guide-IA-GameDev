@@ -232,7 +232,7 @@
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre IV.
 - [x] Produire, préflighter et inspecter le PDF complet de fin du Livre V.
 
-- [ ] Définir la licence globale du projet.
+- [x] Définir la licence globale du projet — politique multiple `CC-BY-SA-4.0` / `MIT` / `CC0-1.0`, matrice et validation CI.
 - [ ] Produire les versions PDF, HTML et EPUB.
 - [ ] Produire un PDF balisé pour les lecteurs d’écran.
 - [ ] Publier les archives du Companion Pack.

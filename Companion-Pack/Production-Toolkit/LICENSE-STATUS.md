@@ -1,9 +1,10 @@
-# Statut de redistribution
+# Statut de licence
 
-Le code, les patrons et les fixtures texte de ce Pack ont été créés pour ce dépôt. La licence globale reste indécise.
+Ce Pack suit la politique globale décrite dans [`../../LICENSE.md`](../../LICENSE.md) et la matrice [`../../docs/licensing/LICENSE-MATRIX.yaml`](../../docs/licensing/LICENSE-MATRIX.yaml).
 
-- asset tiers copié : aucun ;
-- fixture : synthétique ;
-- Blender, Godot, Pillow et PyYAML : outils externes non redistribués dans le Pack ;
-- binaire ou modèle : aucun ;
-- donnée personnelle ou secret : aucun.
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts, schémas techniques, configurations et fixtures de test : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, provenance obligatoire et aucune relicence automatique.
+
+Le Pack peut être inclus dans une archive redistribuable si l’archive conserve `LICENSE.md`, `NOTICE.md`, le dossier `LICENSES/` et la matrice de licence.
