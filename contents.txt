@@ -146,3 +146,4 @@ Livre-V/CHAPITRE-26-Index-croises.md
 Companion-Pack/index.md
 Companion-Pack/Starter-Kit/README.md
 Companion-Pack/Project-Templates/README.md
+Companion-Pack/AI-Library/README.md

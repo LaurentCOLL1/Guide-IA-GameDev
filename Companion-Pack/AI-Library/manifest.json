@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "pack_id": "CP-PACK-03-AI-LIBRARY",
-  "version": "0.1.0",
-  "status": "candidate",
+  "version": "1.0.0",
+  "status": "reviewed",
   "entry_point": "Companion-Pack/AI-Library/README.md",
   "python_package": "asteria_ai",
   "godot_example": "Companion-Pack/AI-Library/godot-example",

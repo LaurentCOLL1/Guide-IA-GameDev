@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "pack_version": "0.1.0",
+  "pack_version": "1.0.0",
   "dependencies": [
     {
       "id": "python-standard-library",
@@ -9,7 +9,7 @@
       "scope": "library-tests-and-mocks",
       "bundled": false,
       "license": "PSF-2.0",
-      "qualification": "candidate"
+      "qualification": "tests-pass-run-30514201037"
     },
     {
       "id": "godot-engine",
@@ -18,7 +18,7 @@
       "scope": "godot-example-tests",
       "bundled": false,
       "license": "MIT",
-      "qualification": "candidate"
+      "qualification": "linux-runtime-pass-run-30514201037"
     }
   ],
   "optional_external_services": [

@@ -1,11 +1,11 @@
 ---
 title: "Companion Pack — AI Library"
 id: "CP-PACK-03-AI-LIBRARY"
-status: "candidate"
-version: "0.1.0"
+status: "reviewed"
+version: "1.0.0"
 lang: "fr-FR"
-last-verified: "2026-07-30T05:55:00+02:00"
-validation-status: "candidate"
+last-verified: "2026-07-30T06:36:00+02:00"
+validation-status: "runtime-tested-linux"
 validation-report: "Companion-Pack/AI-Library/qa/AUDIT-AI-LIBRARY.md"
 redistribution-status: "pending-global-license"
 reference-engine:
@@ -19,7 +19,7 @@ reference-engine:
 
 Le Pack 3 matérialise une couche IA locale remplaçable pour `Project Asteria`. Le jeu dépend de contrats stables ; les fournisseurs, transports et politiques restent injectés à la périphérie.
 
-## État candidat
+## État du lot
 
 | Élément | État |
 |---|---|
@@ -35,12 +35,22 @@ Le Pack 3 matérialise une couche IA locale remplaçable pour `Project Asteria`.
 | faux serveurs HTTP et WebSocket | matérialisés |
 | filtres de sécurité d’entrée et rédaction | matérialisés |
 | exemple Godot | matérialisé |
+| qualification Python et mocks | validée par le run `30514201037` |
+| import, lancements et tests Godot | validés sur Linux x86_64 par le run `30514201037` |
 | service fournisseur réel | non exécuté |
 | modèle réel | non téléchargé |
 | performance | non mesurée |
 | licence globale | non décidée |
 
 La qualification obligatoire utilise uniquement les faux serveurs inclus, liés à `127.0.0.1`. Les tests optionnels contre un service local réel sont séparés et ne sont jamais exécutés sans action explicite.
+
+## Qualification obtenue
+
+Le run `30514201037` a validé 51 fichiers sources, 13 tests Python, les faux serveurs HTTP et WebSocket sur boucle locale, l’import Godot, les lancements headless et Xvfb Compatibility, puis les tests GDScript avec `AI_LIBRARY_GODOT_TESTS: PASS`. L’arbre Git est resté propre après runtime.
+
+Godot qualifié : `4.7.1.stable.official.a13da4feb`. Archive Linux SHA-256 : `c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba`.
+
+Cette qualification ne couvre aucun service fournisseur réel, aucun modèle, aucune performance, aucune qualité de sortie et aucune exposition réseau distante.
 
 ## Architecture
 

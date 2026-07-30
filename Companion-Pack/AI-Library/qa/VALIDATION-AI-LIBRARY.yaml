@@ -1,32 +1,44 @@
 schema-version: 1
 evidence-id: CP-QA-PACK-03
-status: candidate
+status: complete
 validation-date: '2026-07-30'
 source-branch: feat/companion-pack-ai-library
 pack:
   id: CP-PACK-03-AI-LIBRARY
-  version: 0.1.0
+  version: 1.0.0
   entry-point: Companion-Pack/AI-Library/README.md
-  audit-level: candidate
+  audit-level: runtime-tested
 results:
-  static-validation: pending
-  python-tests: pending
-  http-mock-integration: pending
-  websocket-mock-integration: pending
-  provider-adapters: pending
-  godot-import: pending
-  godot-headless-smoke: pending
-  godot-xvfb-smoke: pending
-  godot-tests: pending
-  clean-tree-after-runtime: pending
+  source-files: 51
+  third-party-python-dependencies: 0
+  static-validation: success
+  python-tests:
+    status: success
+    count: 13
+  http-mock-integration: success
+  websocket-mock-integration: success
+  provider-adapters: success-common-contract-only
+  bounded-retry-cache-cancellation-queue: success
+  godot-version: 4.7.1.stable.official.a13da4feb
+  godot-archive-sha256: c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba
+  godot-import: success
+  godot-headless-smoke: success
+  godot-xvfb-smoke:
+    status: success
+    renderer: gl_compatibility
+    display: Xvfb
+  godot-tests: success
+  clean-tree-after-runtime: true
+  document-validation: pending-permanent-run
+  runtime-tests: 14
 ci:
   qualification-run:
     workflow: Validate AI Library
-    run-id: null
-    head-commit: null
-    conclusion: pending
-    artifact-id: null
-    artifact-digest: null
+    run-id: 30514201037
+    head-commit: 79aa29be43f508461e7a5499489bc7a8b65cf1d4
+    conclusion: success
+    artifact-id: 8748232588
+    artifact-digest: sha256:c42c91c7d604a2d128e6e95f2923b46cc55397e87956d7787cd9d63a812741b7
 reservations:
   - Real Ollama, llama.cpp and LocalAI services are not executed.
   - No model or model weights are downloaded.
