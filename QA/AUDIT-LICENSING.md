@@ -1,11 +1,11 @@
 ---
 title: "Audit — Politique de licence globale"
 id: "QA-AUDIT-GLOBAL-LICENSING"
-status: "candidate"
+status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
-last-verified: "2026-07-30T18:08:00+02:00"
-audit-level: "static-review"
+last-verified: "2026-07-30T18:26:37+02:00"
+audit-level: "runtime-tested-linux"
 license: "CC-BY-SA-4.0"
 ---
 
@@ -29,4 +29,4 @@ La validation ne remplace pas une consultation juridique pour une publication co
 
 ## Résultat
 
-La politique est structurée, les dix Packs sont reliés à la matrice et les anciens marqueurs de licence globale en attente sont retirés. La qualification runtime Linux reste à inscrire dans la preuve YAML après le workflow permanent.
+La politique est structurée, les dix Packs sont reliés à la matrice et les anciens marqueurs de licence globale en attente sont retirés. Le workflow permanent a réussi sur Ubuntu 24.04 avec Python 3.12.13 : run `30561457478`, artefact `8767038421`, digest `sha256:bda4f6a33fda885a5ee2bc140c835a1af58a695d9399c5fd64cac099839371d9`.

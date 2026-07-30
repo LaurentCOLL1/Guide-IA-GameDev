@@ -4,7 +4,7 @@ id: "DOC-PROJECT-CONTINUITY"
 status: "active"
 version: "4.25.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T18:08:00+02:00"
+last-updated: "2026-07-30T18:26:37+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2480,10 +2480,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - chapitre 29 : version `1.0.1` ;
 - chapitre 30 : version `1.0.0` ;
 - Starter Kit matérialisé et validé dans le périmètre Linux ;
-- licence globale à définir ;
+- licence globale multiple définie et validée ;
 - publication technique du Livre II acceptée après compilation et inspection PDF ;
 - publication technique du Livre III acceptée après compilation et inspection PDF ;
-- licence globale à décider avant publication officielle de la collection ;
+- notices de licence et attributions à embarquer dans chaque publication officielle ;
 - accessibilité PDF avancée et balisage à traiter avant publication officielle.
 
 ## 26. Prochaine action
@@ -2514,7 +2514,8 @@ Le prochain lot doit générer les formats de collection à partir des sources m
 - `LICENSE.md`, `NOTICE.md`, trois notices de licence et une matrice machine-readable ajoutés ;
 - règles de contribution et métadonnées Pandoc alignées ;
 - dix fichiers `LICENSE-STATUS.md` du Companion Pack rendus redistribuables sous la politique globale ;
-- validation CI dédiée ajoutée ;
+- validation CI dédiée ajoutée et réussie sur Ubuntu 24.04 avec Python `3.12.13` ;
+- run `30561457478`, artefact `8767038421`, digest `sha256:bda4f6a33fda885a5ee2bc140c835a1af58a695d9399c5fd64cac099839371d9` ;
 - tâche M8 « définir la licence globale » clôturée ;
 - prochaine action : produire les versions PDF, HTML et EPUB, niveau Élevée ;
 - aucune publication, release, archive publique ou validation juridique individualisée réalisée.
