@@ -1,0 +1,22 @@
+{
+  "direction": "lower",
+  "evidence_scope": "local-only",
+  "family": "memory",
+  "id": "BMK-GODOT-MEM-001",
+  "implementation": "godot-packed-int64-array",
+  "metric": "elapsed_usec",
+  "oracle": "checksum-stable",
+  "parameters": {
+    "items": 50000
+  },
+  "practical_threshold_pct": 5.0,
+  "repetitions": 7,
+  "schema_version": 1,
+  "secondary_metrics": [
+    "static_memory_delta_bytes"
+  ],
+  "seed": 1701,
+  "unit": "us",
+  "version": "1.0.0",
+  "warmups": 2
+}

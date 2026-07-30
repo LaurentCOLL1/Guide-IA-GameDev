@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "environment_ids": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "reservations": {
+      "type": "array"
+    },
+    "results": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "generated_at_utc",
+    "environment_ids",
+    "results",
+    "reservations"
+  ],
+  "title": "Benchmark campaign",
+  "type": "object"
+}

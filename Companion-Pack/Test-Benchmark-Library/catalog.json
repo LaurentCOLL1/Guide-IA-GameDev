@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "id": "BMK-CPU-REF-001",
+      "kind": "contract",
+      "path": "contracts/CPU-REFERENCE.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-MEM-REF-001",
+      "kind": "contract",
+      "path": "contracts/MEMORY-REFERENCE.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-CORPUS-REF-001",
+      "kind": "contract",
+      "path": "contracts/CORPUS-REFERENCE.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-CPU-001",
+      "kind": "contract",
+      "path": "contracts/GODOT-CPU-REFERENCE.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-MEM-001",
+      "kind": "contract",
+      "path": "contracts/GODOT-MEMORY-REFERENCE.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-RENDER-PROXY-001",
+      "kind": "contract",
+      "path": "contracts/GODOT-RENDER-PROXY.json",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-PY-SUITE-001",
+      "kind": "python-suite",
+      "path": "scripts/run_python_suite.py",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-SCENE-CPU-001",
+      "kind": "godot-scene",
+      "path": "godot/scenes/cpu_benchmark.tscn",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-SCENE-MEM-001",
+      "kind": "godot-scene",
+      "path": "godot/scenes/memory_benchmark.tscn",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-GODOT-SCENE-RENDER-001",
+      "kind": "godot-scene",
+      "path": "godot/scenes/render_proxy_benchmark.tscn",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-CORPUS-SYN-001",
+      "kind": "corpus",
+      "path": "fixtures/corpus/synthetic-documents.jsonl",
+      "status": "candidate"
+    },
+    {
+      "id": "BMK-REPORT-TEMPLATE-001",
+      "kind": "report-template",
+      "path": "reports/BENCHMARK-REPORT-TEMPLATE.md",
+      "status": "candidate"
+    }
+  ],
+  "pack_id": "CP-PACK-08-TEST-BENCHMARK-LIBRARY",
+  "schema_version": 1
+}

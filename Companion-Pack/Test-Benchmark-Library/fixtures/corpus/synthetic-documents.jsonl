@@ -1,0 +1,8 @@
+{"id": "DOC-SYN-001", "tags": ["forest", "river"], "text": "La forêt synthétique contient des pins, une rivière et un observatoire.", "title": "Forêt de référence"}
+{"id": "DOC-SYN-002", "tags": ["forge", "craft"], "text": "La forge fictive transforme le minerai en outils et consomme du charbon.", "title": "Atelier de forge"}
+{"id": "DOC-SYN-003", "tags": ["weather", "measure"], "text": "La station mesure le vent, la pluie et la température sans réseau externe.", "title": "Station météo"}
+{"id": "DOC-SYN-004", "tags": ["library", "search"], "text": "La bibliothèque indexe des fiches techniques synthétiques pour une recherche hors ligne.", "title": "Bibliothèque locale"}
+{"id": "DOC-SYN-005", "tags": ["farm", "simulation"], "text": "La ferme cultive du blé, des fèves et des herbes sur des parcelles simulées.", "title": "Ferme expérimentale"}
+{"id": "DOC-SYN-006", "tags": ["port", "logistics"], "text": "Le port organise des conteneurs fictifs, des quais et des itinéraires de livraison.", "title": "Port logistique"}
+{"id": "DOC-SYN-007", "tags": ["audio", "signal"], "text": "Le laboratoire teste des signaux sinusoïdaux synthétiques et des enveloppes simples.", "title": "Laboratoire audio"}
+{"id": "DOC-SYN-008", "tags": ["observatory", "stars"], "text": "L’observatoire fictif suit des étoiles, des phases et des coordonnées simulées.", "title": "Observatoire nocturne"}

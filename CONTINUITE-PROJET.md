@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.21.0"
+version: "4.22.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T12:34:03+02:00"
+last-updated: "2026-07-30T14:03:39+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,7 +2354,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 7 packs validés sur 10 ;
+- progression du Companion Pack : 8 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
@@ -2362,6 +2362,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - Database Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
 - ComfyUI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
 - Documentation Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec génération déterministe, PyYAML et Pandoc HTML ;
+- Test & Benchmark Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Godot et proxy de rendu Xvfb borné ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2484,19 +2485,36 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 7 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Documentation Library a validé 57 fichiers, 13 patrons, 10 exemples remplis, 18 tests Python, une régénération déterministe de dix documents, neuf compilations Pandoc HTML et une preuve YAML avec PyYAML. Les rendus visuels, l’accessibilité, PDF, DOCX, EPUB, publication, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 8 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Test & Benchmark Library a validé 73 fichiers, 6 contrats, 25 tests Python, une suite GDScript, trois benchmarks Python, trois scènes Godot et six résultats de campagne avec répétitions, variance, seeds et empreintes d’environnement. Les temps du runner ne sont pas des références universelles ; Windows, GPU physique, Forward+, AMD/ZLUDA, mobile, console, charges longues, performance produit, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Test-Benchmark-Library/README.md
+Companion-Pack/Production-Toolkit/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 8 doit matérialiser une bibliothèque de tests et benchmarks : tests GDScript, tests Python, scènes de benchmark CPU/GPU/mémoire, corpus IA, fixtures de base, scripts de lancement, formats CSV/JSON/YAML et modèles de rapports. Les tests devront rester exécutables séparément ; chaque résultat devra être horodaté, lié au matériel, documenter répétitions et variance, et exclure toute donnée non redistribuable.
+Le Pack 9 doit matérialiser un outillage de production : scripts Blender, convertisseurs de textures et audio, validateurs d’assets, générateurs de catalogues, outils de renommage, pipelines de lots, scripts d’import Godot et packaging. Les outils devront proposer un mode dry-run, des journaux et codes de sortie, la reprise après erreur, préserver les sources et être testés sur des assets synthétiques.
 ## 27. Journal
+
+### 2026-07-30T14:03:39+02:00 — version 4.22.0
+
+- matérialisation du Companion Pack, Pack 8 — Test & Benchmark Library ;
+- 73 fichiers du Pack, six contrats, douze entrées de catalogue, fixtures, seeds et corpus synthétique créés ;
+- 25 tests Python et suite GDScript réussis ;
+- trois benchmarks Python et trois scènes Godot exécutés séparément ;
+- six résultats horodatés avec observations brutes, variance, écart-type, coefficient de variation, p95, p99 et empreinte d’environnement ;
+- portes `comparable` et `not-comparable` validées ;
+- campagne JSON, CSV et Markdown produite ;
+- Ubuntu 24.04, Python `3.12.13` et Godot `4.7.1.stable.official.a13da4feb` qualifiés ;
+- proxy de rendu Xvfb en `gl_compatibility` avec Mesa llvmpipe, sans revendication GPU physique ;
+- run `30540336088`, artefact `8758417029`, digest `sha256:4c4aeeea49e3d9b1d7124bb2da119e0d4994d14250e1c9959754cf980cf18d42` ;
+- arbre Git propre, aucun champ privé détecté et aucune donnée non redistribuable incluse ;
+- progression M7 portée à 8 packs sur 10 ;
+- prochaine action : `Companion-Pack/Production-Toolkit/README.md`, niveau Élevée ;
+- aucun Windows, GPU physique, Forward+, AMD/ZLUDA, mobile, console, charge longue, performance produit, modèle IA réel, export, release ou licence globale validé ou produit.
 
 ### 2026-07-30T12:34:03+02:00 — version 4.21.0
 

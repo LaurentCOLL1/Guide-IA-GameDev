@@ -1,0 +1,22 @@
+{
+  "direction": "lower",
+  "evidence_scope": "virtual-or-local-renderer-only",
+  "family": "render-proxy",
+  "id": "BMK-GODOT-RENDER-PROXY-001",
+  "implementation": "godot-node2d-draw-circles",
+  "metric": "frame_interval_ms",
+  "oracle": "required-frame-count",
+  "parameters": {
+    "draw_items": 256,
+    "viewport": "640x360",
+    "vsync": false
+  },
+  "physical_gpu_claim_allowed": false,
+  "practical_threshold_pct": 5.0,
+  "repetitions": 90,
+  "schema_version": 1,
+  "seed": 1701,
+  "unit": "ms",
+  "version": "1.0.0",
+  "warmups": 30
+}

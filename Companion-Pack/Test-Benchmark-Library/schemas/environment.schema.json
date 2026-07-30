@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "architecture": {
+      "type": "string"
+    },
+    "environment_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "logical_cpu_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "os": {
+      "type": "string"
+    },
+    "runtime": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "environment_id",
+    "os",
+    "architecture",
+    "runtime",
+    "logical_cpu_count"
+  ],
+  "title": "Safe environment fingerprint",
+  "type": "object"
+}

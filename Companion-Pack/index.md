@@ -2,8 +2,8 @@
 title: "Companion Pack — Kit de développement"
 id: "CP-INDEX"
 status: "active"
-version: "0.8.0"
-last-updated: "2026-07-30T12:34:03+02:00"
+version: "0.9.0"
+last-updated: "2026-07-30T14:03:39+02:00"
 ---
 
 # Companion Pack — Kit de développement
@@ -19,7 +19,7 @@ Le Companion Pack regroupe les ressources directement réutilisables associées 
 5. [x] [Database Library](Database-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
 6. [x] [ComfyUI Library](ComfyUI-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
 7. [x] [Documentation Library](Documentation-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec génération déterministe et Pandoc HTML ;
-8. [ ] Test & Benchmark Library ;
+8. [x] [Test & Benchmark Library](Test-Benchmark-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python, Godot et proxy de rendu Xvfb ;
 9. [ ] Production Toolkit ;
 10. [ ] Knowledge Base.
 
@@ -29,4 +29,4 @@ Chaque ressource reçoit un identifiant stable, une version, une licence ou un s
 
 ## Statut
 
-Progression : **7 packs sur 10**. Le Starter Kit, Project Templates, AI Library, Code Library, Database Library, ComfyUI Library et Documentation Library sont matérialisés et validés dans leur périmètre Linux. Les réserves services IA réels, modèles, réseau distant, performance, concurrence, Godot-SQLite, custom nodes tiers, profils AMD/ZLUDA, Windows graphique, Forward+ GPU, rendus documentaires visuels, accessibilité, protections GitHub effectives, exports et licence globale restent ouvertes. La prochaine action est le Pack 8 — Test & Benchmark Library.
+Progression : **8 packs sur 10**. Les Packs 1 à 8 sont matérialisés et validés dans leur périmètre Linux. Les mesures du Test & Benchmark Library restent synthétiques et liées à leurs environnements ; aucun classement matériel universel ni GPU physique n’est qualifié. Les réserves services IA réels, modèles, réseau distant, performance produit, concurrence, Godot-SQLite, custom nodes tiers, profils AMD/ZLUDA, Windows graphique, Forward+ GPU, accessibilité, exports et licence globale restent ouvertes. La prochaine action est le Pack 9 — Production Toolkit.

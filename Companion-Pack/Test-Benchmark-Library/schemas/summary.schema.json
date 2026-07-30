@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "comparability": {
+      "enum": [
+        "same-environment-only",
+        "not-comparable",
+        "illustrative-only"
+      ]
+    },
+    "generated_at_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "oracle_status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "samples": {
+      "minItems": 2,
+      "type": "array"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "contract_version",
+    "generated_at_utc",
+    "environment",
+    "samples",
+    "statistics",
+    "oracle_status",
+    "comparability"
+  ],
+  "title": "Benchmark summary",
+  "type": "object"
+}

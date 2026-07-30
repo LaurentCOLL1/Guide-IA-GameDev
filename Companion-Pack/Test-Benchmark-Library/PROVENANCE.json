@@ -1,0 +1,29 @@
+{
+  "created_for": "Guide-IA-GameDev",
+  "generated_or_synthetic": [
+    "fixtures",
+    "corpus",
+    "illustrative-results"
+  ],
+  "pack_id": "CP-PACK-08-TEST-BENCHMARK-LIBRARY",
+  "personal_data": false,
+  "schema_version": 1,
+  "secrets": false,
+  "sources": [
+    {
+      "copied": false,
+      "id": "DOC-L2-CH27",
+      "role": "test-strategy-reference"
+    },
+    {
+      "copied": false,
+      "id": "DOC-L4-CH02-CH10",
+      "role": "qa-profiling-reference"
+    },
+    {
+      "copied": false,
+      "id": "DOC-L5-CH21",
+      "role": "benchmark-contract-reference"
+    }
+  ]
+}

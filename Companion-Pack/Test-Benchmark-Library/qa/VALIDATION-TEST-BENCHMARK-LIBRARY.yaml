@@ -1,0 +1,51 @@
+schema-version: 1
+evidence-id: QA-TEST-BENCHMARK-LIBRARY-PACK-08
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-test-benchmark-library
+pack:
+  id: CP-PACK-08-TEST-BENCHMARK-LIBRARY
+  version: 1.0.0
+  audit-level: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: 3.12.13
+  godot: 4.7.1.stable.official.a13da4feb
+  render-proxy: xvfb-gl-compatibility-mesa-llvmpipe
+results:
+  source-files: 73
+  contracts: 6
+  catalog-entries: 12
+  python-tests:
+    status: success
+    count: 25
+  gdscript-tests: success
+  python-benchmarks:
+    status: success
+    count: 3
+  godot-scenes:
+    status: success
+    count: 3
+  campaign-results:
+    status: success
+    count: 6
+  formats:
+    - json
+    - csv
+    - yaml-compatible
+    - markdown
+  clean-tree: true
+  private-fields-detected: false
+  physical-gpu-qualified: false
+ci:
+  workflow: Validate Test Benchmark Library
+  run-id: 30540336088
+  artifact-id: 8758417029
+  artifact-digest: sha256:4c4aeeea49e3d9b1d7124bb2da119e0d4994d14250e1c9959754cf980cf18d42
+  governance-finalizer-run: 30540978373
+reservations:
+  - No universal performance claim.
+  - No Windows or physical GPU qualification.
+  - No Forward+, AMD/ZLUDA, mobile or console qualification.
+  - No long-duration or product-performance campaign.
+  - Global license undefined.

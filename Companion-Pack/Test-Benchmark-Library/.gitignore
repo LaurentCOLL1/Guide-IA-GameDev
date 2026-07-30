@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.godot/
+dist/
+runtime/
+.generated/
+
+*.gd.uid

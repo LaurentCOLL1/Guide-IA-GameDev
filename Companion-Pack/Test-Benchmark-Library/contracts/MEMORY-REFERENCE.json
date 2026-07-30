@@ -1,0 +1,23 @@
+{
+  "direction": "lower",
+  "evidence_scope": "local-only",
+  "family": "memory",
+  "id": "BMK-MEM-REF-001",
+  "implementation": "python-buffer-traversal",
+  "metric": "elapsed_ns",
+  "oracle": "checksum-stable",
+  "parameters": {
+    "items": 50000
+  },
+  "practical_threshold_pct": 5.0,
+  "question": "Mesurer localement une allocation et traversée synthétiques.",
+  "repetitions": 7,
+  "schema_version": 1,
+  "secondary_metrics": [
+    "peak_bytes"
+  ],
+  "seed": 1701,
+  "unit": "ns",
+  "version": "1.0.0",
+  "warmups": 2
+}

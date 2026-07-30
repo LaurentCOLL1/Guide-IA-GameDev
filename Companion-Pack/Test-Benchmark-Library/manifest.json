@@ -1,0 +1,34 @@
+{
+  "artifact_digest": "sha256:4c4aeeea49e3d9b1d7124bb2da119e0d4994d14250e1c9959754cf980cf18d42",
+  "artifact_id": 8758417029,
+  "boundaries": [
+    "same-environment-only comparison",
+    "no physical GPU claim",
+    "no universal performance ranking"
+  ],
+  "contracts": 6,
+  "fixtures": "synthetic-only",
+  "formats": [
+    "json",
+    "csv",
+    "yaml-compatible",
+    "markdown"
+  ],
+  "godot_scenes": 3,
+  "id": "CP-PACK-08-TEST-BENCHMARK-LIBRARY",
+  "language": "fr-FR",
+  "python_benchmarks": 3,
+  "qualified_environment": {
+    "godot": "4.7.1.stable.official.a13da4feb",
+    "os": "ubuntu-24.04",
+    "python": "3.12.13",
+    "render_proxy": "xvfb-gl-compatibility-mesa-llvmpipe"
+  },
+  "qualified_run": 30540336088,
+  "reference_godot": "4.7.1-stable",
+  "reference_python": "3.12",
+  "schema_version": 1,
+  "status": "reviewed",
+  "validation": "runtime-tested-linux",
+  "version": "1.0.0"
+}
