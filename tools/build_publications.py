@@ -18,9 +18,9 @@ OUTPUT_NAMES = {
 }
 
 
-def run(command: list[str], *, env: dict[str, str] | None = None) -> None:
+def run(command: list[str], *, cwd: Path, env: dict[str, str] | None = None) -> None:
     print("+", " ".join(command), flush=True)
-    subprocess.run(command, check=True, env=env)
+    subprocess.run(command, check=True, cwd=cwd, env=env)
 
 
 def sha256(path: Path) -> str:
@@ -71,15 +71,15 @@ def main() -> int:
 
     common = [
         "pandoc",
-        f"--metadata-file={metadata_files[0]}",
-        f"--metadata-file={metadata_files[1]}",
+        "--metadata-file=metadata.yaml",
+        "--metadata-file=publication/metadata.yaml",
         "--from=markdown+yaml_metadata_block",
-        f"--lua-filter={filter_file}",
+        "--lua-filter=filters/pdf-normalize.lua",
         "--toc",
         "--number-sections",
-        f"--resource-path={root}",
+        "--resource-path=.",
     ]
-    source_args = [str(path) for path in sources]
+    source_args = [path.relative_to(root).as_posix() for path in sources]
     env = os.environ.copy()
     env.setdefault("SOURCE_DATE_EPOCH", "1785440400")
     outputs: dict[str, dict[str, object]] = {}
@@ -94,17 +94,17 @@ def main() -> int:
                 "--standalone",
                 "--embed-resources",
                 "--mathml",
-                f"--css={css_file}",
+                "--css=publication/style.css",
                 f"--output={output}",
             ] + source_args
         else:
             command = common + [
                 "--to=epub3",
                 "--epub-chapter-level=1",
-                f"--css={css_file}",
+                "--css=publication/style.css",
                 f"--output={output}",
             ] + source_args
-        run(command, env=env)
+        run(command, cwd=root, env=env)
         outputs[fmt] = {
             "file": output.name,
             "bytes": output.stat().st_size,
@@ -113,7 +113,7 @@ def main() -> int:
 
     source_manifest = [
         {
-            "path": str(path.relative_to(root)).replace("\\", "/"),
+            "path": path.relative_to(root).as_posix(),
             "bytes": path.stat().st_size,
             "sha256": sha256(path),
         }
