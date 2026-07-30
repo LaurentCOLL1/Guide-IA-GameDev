@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-02-PROJECT-TEMPLATES",
+  "runtime": [
+    {
+      "name": "Godot Engine",
+      "version": "4.7.1-stable",
+      "edition": "Standard",
+      "required_for": [
+        "import",
+        "smoke_test",
+        "gdscript_tests"
+      ],
+      "bundled": false
+    }
+  ],
+  "tooling": [
+    {
+      "name": "Python",
+      "minimum_version": "3.10",
+      "required_for": [
+        "instantiate_project",
+        "create_module",
+        "static_validation"
+      ],
+      "third_party_packages": []
+    },
+    {
+      "name": "PowerShell",
+      "minimum_version": "7",
+      "required_for": [
+        "optional_windows_wrapper"
+      ],
+      "bundled": false
+    },
+    {
+      "name": "Git",
+      "version": "unspecified",
+      "required_for": [
+        "repository_initialization",
+        "clean_tree_check"
+      ],
+      "bundled": false
+    }
+  ],
+  "hidden_dependencies": []
+}

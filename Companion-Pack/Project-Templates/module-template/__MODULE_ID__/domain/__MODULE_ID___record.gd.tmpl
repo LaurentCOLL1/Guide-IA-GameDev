@@ -1,0 +1,10 @@
+class_name __MODULE_CLASS__Record
+extends RefCounted
+
+var record_id: StringName
+
+func _init(p_record_id: StringName) -> void:
+	record_id = p_record_id
+
+func is_valid() -> bool:
+	return not record_id.is_empty()

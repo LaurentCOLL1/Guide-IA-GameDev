@@ -1,0 +1,8 @@
+# Journal des versions
+
+## 0.1.0 — candidat
+
+- matérialisation des modèles Solo et Studio ;
+- ajout du générateur de projets et du générateur de modules ;
+- ajout des conventions Git, ADR, responsabilités et réglages VS Code ;
+- ajout des validateurs statiques et de la campagne Godot Linux.

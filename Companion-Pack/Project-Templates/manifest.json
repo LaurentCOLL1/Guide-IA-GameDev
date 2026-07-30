@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-02-PROJECT-TEMPLATES",
+  "version": "0.1.0",
+  "entry_point": "README.md",
+  "profiles": [
+    "solo",
+    "studio"
+  ],
+  "project_generator": "tools/instantiate_project.py",
+  "module_generator": "tools/create_module.py",
+  "validator": "tools/validate_templates.py",
+  "license_status": "pending-global-license"
+}

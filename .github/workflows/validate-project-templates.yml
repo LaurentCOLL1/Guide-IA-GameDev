@@ -1,0 +1,191 @@
+name: Validate Project Templates
+
+on:
+  pull_request:
+    paths:
+      - "Companion-Pack/Project-Templates/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "contents.txt"
+      - ".github/workflows/validate-project-templates.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-project-templates:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate pack sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/project-templates
+          python3 Companion-Pack/Project-Templates/tools/validate_templates.py \
+            --report dist/project-templates/static-validation.json
+
+      - name: Instantiate Solo and Studio projects
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/project-templates/generated
+          python3 Companion-Pack/Project-Templates/tools/instantiate_project.py \
+            --profile solo \
+            --project-name "Asteria Solo CI" \
+            --project-id asteria_solo_ci \
+            --owner-handle example-owner \
+            --output dist/project-templates/generated/solo
+          python3 Companion-Pack/Project-Templates/tools/instantiate_project.py \
+            --profile studio \
+            --project-name "Asteria Studio CI" \
+            --project-id asteria_studio_ci \
+            --owner-handle example-owner \
+            --output dist/project-templates/generated/studio
+
+      - name: Validate PowerShell wrapper
+        shell: pwsh
+        run: |
+          ./Companion-Pack/Project-Templates/tools/instantiate_project.ps1 `
+            -Profile solo `
+            -ProjectName "Asteria PowerShell CI" `
+            -ProjectId asteria_powershell_ci `
+            -OwnerHandle example-owner `
+            -Output dist/project-templates/generated/powershell-solo
+          python dist/project-templates/generated/powershell-solo/tools/validate_project.py
+
+      - name: Create layered modules
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            python3 Companion-Pack/Project-Templates/tools/create_module.py \
+              --project "dist/project-templates/generated/$profile" \
+              --module-id inventory_demo \
+              --display-name "Inventaire de démonstration"
+            python3 "dist/project-templates/generated/$profile/tools/validate_project.py"
+          done
+
+      - name: Initialize generated Git repositories
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            project="dist/project-templates/generated/$profile"
+            git -C "$project" init -q
+            git -C "$project" config user.name "Project Templates CI"
+            git -C "$project" config user.email "project-templates-ci@example.invalid"
+            git -C "$project" add .
+            git -C "$project" commit -q -m "chore: initialize generated project"
+          done
+
+      - name: Download official Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/godot
+          curl --fail --location --retry 3 \
+            "https://downloads.godotengine.org/?version=4.7.1&flavor=stable&platform=linux.64&slug=linux.x86_64.zip" \
+            --output .ci/godot/godot.zip
+          sha256sum .ci/godot/godot.zip | tee dist/project-templates/godot-download.sha256
+          unzip -q .ci/godot/godot.zip -d .ci/godot
+          GODOT_BIN="$(find .ci/godot -maxdepth 1 -type f -name 'Godot_v4.7.1-stable_linux.x86_64' -print -quit)"
+          test -n "$GODOT_BIN"
+          chmod +x "$GODOT_BIN"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+          "$GODOT_BIN" --version | tee dist/project-templates/godot-version.txt
+          grep -F "4.7.1.stable" dist/project-templates/godot-version.txt
+
+      - name: Import generated projects
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            "$GODOT_BIN" \
+              --headless \
+              --rendering-method gl_compatibility \
+              --path "dist/project-templates/generated/$profile" \
+              --import \
+              --log-file "$GITHUB_WORKSPACE/dist/project-templates/${profile}-import.log"
+          done
+
+      - name: Run bounded headless smoke tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            "$GODOT_BIN" \
+              --headless \
+              --rendering-method gl_compatibility \
+              --path "dist/project-templates/generated/$profile" \
+              --quit-after 5 \
+              --log-file "$GITHUB_WORKSPACE/dist/project-templates/${profile}-smoke.log"
+            grep -F "CP-PT-BOOTSTRAP-001" "dist/project-templates/${profile}-smoke.log"
+          done
+
+      - name: Run virtual graphical smoke tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            xvfb-run -a "$GODOT_BIN" \
+              --rendering-method gl_compatibility \
+              --path "dist/project-templates/generated/$profile" \
+              --quit-after 5 \
+              --log-file "$GITHUB_WORKSPACE/dist/project-templates/${profile}-xvfb.log"
+            grep -F "CP-PT-BOOTSTRAP-001" "dist/project-templates/${profile}-xvfb.log"
+          done
+
+      - name: Run GDScript tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            "$GODOT_BIN" \
+              --headless \
+              --rendering-method gl_compatibility \
+              --path "dist/project-templates/generated/$profile" \
+              --script res://tests/run_tests.gd \
+              --log-file "$GITHUB_WORKSPACE/dist/project-templates/${profile}-tests.log"
+            grep -F "PROJECT_TEMPLATE_TESTS: PASS" "dist/project-templates/${profile}-tests.log"
+          done
+
+      - name: Check clean generated repositories
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio; do
+            project="dist/project-templates/generated/$profile"
+            git -C "$project" status --short | tee "dist/project-templates/${profile}-git-status.txt"
+            test -z "$(git -C "$project" status --porcelain)"
+          done
+
+      - name: Record generated inventories
+        shell: bash
+        run: |
+          set -euo pipefail
+          for profile in solo studio powershell-solo; do
+            find "dist/project-templates/generated/$profile" \
+              -type f \
+              -not -path "*/.git/*" \
+              -not -path "*/.godot/*" \
+              -print | sort > "dist/project-templates/${profile}-files.txt"
+          done
+          rm -rf .ci
+          rm -rf dist/project-templates/generated/*/.git
+          rm -rf dist/project-templates/generated/*/.godot
+
+      - name: Upload Project Templates evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-templates-validation
+          path: dist/project-templates
+          if-no-files-found: error
+          retention-days: 30
