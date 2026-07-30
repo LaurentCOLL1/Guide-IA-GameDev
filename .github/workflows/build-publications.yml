@@ -60,6 +60,7 @@ jobs:
             texlive-fonts-recommended \
             texlive-lang-french \
             lmodern \
+            librsvg2-bin \
             qpdf \
             poppler-utils \
             default-jre-headless \
@@ -89,6 +90,7 @@ jobs:
           python --version | tee dist/publication-evidence/python-version.txt
           pandoc --version | head -n 2 | tee dist/publication-evidence/pandoc-version.txt
           xelatex --version | head -n 2 | tee dist/publication-evidence/xelatex-version.txt
+          rsvg-convert --version | tee dist/publication-evidence/rsvg-version.txt
           qpdf --version | tee dist/publication-evidence/qpdf-version.txt
           pdfinfo -v 2>&1 | head -n 1 | tee dist/publication-evidence/poppler-version.txt
           java -version 2>&1 | head -n 2 | tee dist/publication-evidence/java-version.txt
@@ -125,7 +127,7 @@ jobs:
           for page in 1 500 1000 2000 3000 4000 "$PAGES"; do
             if [ "$page" -le "$PAGES" ]; then
               pdftoppm -f "$page" -l "$page" -singlefile -png -r 110 \
-                "$PDF" "$RENDERS/page-$(printf '%04d' "$page")"
+                "$PDF" "$RENDDERS/page-$(printf '%04d' "$page")"
             fi
           done
           pdfinfo "$PDF" > dist/publication-evidence/pdfinfo.txt
