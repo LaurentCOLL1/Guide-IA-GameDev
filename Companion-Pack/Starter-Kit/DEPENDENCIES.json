@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "dependencies": [
+    {
+      "id": "godot-engine",
+      "name": "Godot Engine",
+      "version": "4.7.1-stable",
+      "required": true,
+      "scope": "runtime-and-tests",
+      "source": "official-godot-download",
+      "license": "MIT",
+      "bundled": false,
+      "qualification": {
+        "linux_x86_64_headless": "pass-run-30508086899",
+        "windows_x86_64_editor": "not-executed",
+        "forward_plus_graphical": "not-executed",
+        "exports": "not-executed",
+        "linux_x86_64_virtual_graphical_compatibility": "pass-run-30508086899"
+      }
+    },
+    {
+      "id": "python",
+      "name": "CPython",
+      "version_constraint": ">=3.10",
+      "required": false,
+      "scope": "static-validation",
+      "packages": [],
+      "standard_library_only": true,
+      "qualification": {
+        "linux_x86_64": "pass-run-30508086899",
+        "windows_x86_64": "not-executed"
+      }
+    },
+    {
+      "id": "powershell",
+      "name": "PowerShell",
+      "version_constraint": ">=7",
+      "required": false,
+      "scope": "windows-validation-wrapper",
+      "qualification": {
+        "linux_x86_64": "pass-run-30508086899",
+        "windows_x86_64": "not-executed"
+      }
+    }
+  ],
+  "godot_addons": [],
+  "network_services": [],
+  "local_ai_required": false
+}

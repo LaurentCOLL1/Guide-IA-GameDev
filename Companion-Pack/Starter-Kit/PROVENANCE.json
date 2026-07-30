@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "resource_id": "CP-PACK-01-STARTER-KIT",
+  "version": "1.0.0",
+  "created_at": "2026-07-30T03:39:00+02:00",
+  "origin": "Original synthetic implementation created for Guide-IA-GameDev and Project Asteria.",
+  "internal_sources": [
+    "Livre-II/CHAPITRE-01-Decouvrir-Godot-et-creer-le-projet-fil-rouge.md",
+    "Livre-II/CHAPITRE-04-Architecture-modulaire-du-projet.md",
+    "Livre-II/CHAPITRE-05-Services-gestionnaires-bus-d-evenements-et-injection-de-dependances.md",
+    "Livre-II/CHAPITRE-07-Donnees-avec-Resources-JSON-et-configurations.md",
+    "Livre-II/CHAPITRE-27-Tests-unitaires-tests-d-integration-et-simulations.md",
+    "Livre-II/CHAPITRE-30-Architecture-Solo-et-architecture-Studio.md"
+  ],
+  "external_sources": [
+    {
+      "name": "Godot Engine 4.7.1 maintenance release",
+      "url": "https://godotengine.org/article/maintenance-release-godot-4-7-1/",
+      "role": "Reference engine release; binary not redistributed."
+    }
+  ],
+  "third_party_files": [],
+  "binary_files": [],
+  "personal_data": false,
+  "secrets": false,
+  "generated_assets": false,
+  "validated_at": "2026-07-30T04:19:00+02:00"
+}

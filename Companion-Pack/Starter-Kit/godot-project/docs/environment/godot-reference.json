@@ -1,0 +1,16 @@
+{
+  "engine": "Godot",
+  "version": "4.7.1-stable",
+  "edition": "standard",
+  "language": "GDScript",
+  "renderer": "forward_plus",
+  "reference_platform": "windows-x86_64",
+  "verified": "2026-07-30",
+  "qualification": {
+    "linux_headless": "pass-run-30508086899",
+    "windows_graphical": "not-executed",
+    "forward_plus_graphical": "not-executed",
+    "linux_virtual_graphical_compatibility": "pass-run-30508086899",
+    "fresh_clone_linux": "pass-run-30508086899"
+  }
+}
