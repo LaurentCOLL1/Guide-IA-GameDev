@@ -13,6 +13,7 @@ on:
       - "Companion-Pack/**"
       - "publication/**"
       - "filters/pdf-normalize.lua"
+      - "filters/publication-links.lua"
       - "tools/build_publications.py"
       - "tools/validate_publications.py"
       - "build.sh"
