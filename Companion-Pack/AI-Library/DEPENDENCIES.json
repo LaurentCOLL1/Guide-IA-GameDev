@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "pack_version": "0.1.0",
+  "dependencies": [
+    {
+      "id": "python-standard-library",
+      "version": ">=3.10",
+      "required": true,
+      "scope": "library-tests-and-mocks",
+      "bundled": false,
+      "license": "PSF-2.0",
+      "qualification": "candidate"
+    },
+    {
+      "id": "godot-engine",
+      "version": "4.7.1-stable",
+      "required": true,
+      "scope": "godot-example-tests",
+      "bundled": false,
+      "license": "MIT",
+      "qualification": "candidate"
+    }
+  ],
+  "optional_external_services": [
+    {
+      "id": "ollama",
+      "bundled": false,
+      "qualified": false
+    },
+    {
+      "id": "llama-cpp-server",
+      "bundled": false,
+      "qualified": false
+    },
+    {
+      "id": "localai",
+      "bundled": false,
+      "qualified": false
+    }
+  ]
+}

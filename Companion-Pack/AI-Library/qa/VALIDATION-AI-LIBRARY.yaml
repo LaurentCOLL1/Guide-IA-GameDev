@@ -1,0 +1,38 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-03
+status: candidate
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-ai-library
+pack:
+  id: CP-PACK-03-AI-LIBRARY
+  version: 0.1.0
+  entry-point: Companion-Pack/AI-Library/README.md
+  audit-level: candidate
+results:
+  static-validation: pending
+  python-tests: pending
+  http-mock-integration: pending
+  websocket-mock-integration: pending
+  provider-adapters: pending
+  godot-import: pending
+  godot-headless-smoke: pending
+  godot-xvfb-smoke: pending
+  godot-tests: pending
+  clean-tree-after-runtime: pending
+ci:
+  qualification-run:
+    workflow: Validate AI Library
+    run-id: null
+    head-commit: null
+    conclusion: pending
+    artifact-id: null
+    artifact-digest: null
+reservations:
+  - Real Ollama, llama.cpp and LocalAI services are not executed.
+  - No model or model weights are downloaded.
+  - Performance and output quality are not measured.
+  - Remote networking, TLS and authentication are not qualified.
+  - SSE streaming, tools and multimodal features are not qualified.
+  - Windows graphical execution and real-GPU Forward+ are not executed.
+  - Exports and release packages are not produced.
+  - The global license is undefined.

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-03-AI-LIBRARY",
+  "source_repository": "LaurentCOLL1/Guide-IA-GameDev",
+  "created_for": "Guide IA GameDev Companion Pack",
+  "source_authority": [
+    "Livre-II/CHAPITRE-11-Communication-Godot-avec-les-services-IA-locaux.md",
+    "Livre-II/CHAPITRE-12-HTTP-WebSocket-API-compatibles-OpenAI-et-files-de-taches.md",
+    "Livre-II/CHAPITRE-13-Securite-et-separation-entre-production-et-runtime-de-l-IA.md",
+    "plans/COMPANION-PACK-PLAN-MAITRE.md"
+  ],
+  "third_party_code_included": false,
+  "real_model_assets_included": false,
+  "personal_data_included": false,
+  "secrets_included": false
+}
