@@ -19,7 +19,7 @@ static func parse_bool(value: Variant) -> Variant:
     if value is int and (value == 0 or value == 1):
         return value == 1
     if value is String:
-        var normalized := value.strip_edges().to_lower()
+        var normalized: String = str(value).strip_edges().to_lower()
         if normalized in ["1", "true", "yes", "on"]:
             return true
         if normalized in ["0", "false", "no", "off"]:
