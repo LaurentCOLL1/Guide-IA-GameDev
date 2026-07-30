@@ -1,11 +1,11 @@
 ---
 title: "Audit — Formats de publication PDF HTML EPUB"
 id: "QA-AUDIT-PUBLICATION-FORMATS"
-status: "candidate"
+status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
 last-verified: "2026-07-30T23:04:00+02:00"
-audit-level: "runtime-candidate-linux"
+audit-level: "runtime-tested-linux"
 license: "CC-BY-SA-4.0"
 ---
 
@@ -41,3 +41,8 @@ license: "CC-BY-SA-4.0"
 - aucun PDF balisé pour lecteur d'écran n'est produit dans ce lot ;
 - aucune identité byte pour byte inter-plateformes ou inter-versions d'outils n'est revendiquée ;
 - aucune publication publique, release ou archive définitive n'est créée.
+
+
+## Résultat qualifié
+
+Le run `30582855712` a construit et validé 162 sources sous Ubuntu 24.04 avec Python 3.12.13 et Pandoc 3.1.3 : PDF de 4 108 pages, HTML autonome et EPUB 3. L'artefact `8775425907` porte le digest `sha256:d5d3d548b133e1e6cc12e7d2809e27c3e7166f5dfb131e0e817c4de39426e9e6`. Les pages PDF 1 et 2 ont été rendues et inspectées visuellement : couverture et table des matières lisibles, sans chevauchement ni glyphe cassé.
