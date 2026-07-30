@@ -1,0 +1,15 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Fiche outil — Pandoc d’exemple",
+  "ID": "CARD-TOOL-099",
+  "TOOL_NAME": "Pandoc",
+  "VERSION_SCOPE": ">= 3.0",
+  "INSTALLATION": "paquet système ou distribution officielle",
+  "LICENSE": "GPL-2.0-or-later",
+  "USAGE": "Compiler les exemples Markdown du Pack vers HTML pendant la qualification.",
+  "LIMITS": "La compilation HTML ne prouve ni la qualité PDF ni l’accessibilité du rendu.",
+  "VERIFICATION": "Exécuter `pandoc --version`, puis compiler un exemple avec `--standalone`."
+}

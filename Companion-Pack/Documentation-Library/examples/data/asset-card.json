@@ -1,0 +1,15 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Fiche asset — Icône fictive",
+  "ID": "CARD-ASSET-099",
+  "ASSET_NAME": "icon-example.svg",
+  "FORMAT": "SVG textuel",
+  "SOURCE": "créé pour cet exemple",
+  "LICENSE": "pending-global-license",
+  "USAGE": "Illustrer une fiche d’asset sans dépendance externe.",
+  "LIMITS": "Ne constitue pas un asset de production accepté.",
+  "VERIFICATION": "Contrôler la provenance, le format et l’absence de ressource liée externe."
+}

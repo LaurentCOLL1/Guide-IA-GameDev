@@ -1,0 +1,9 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Glossaire documentaire d’exemple",
+  "ID": "GLO-DOC-099",
+  "ENTRIES": "### Source de vérité {#glo-source-verite}\n\nDocument ou ensemble de fichiers qui porte la décision normative.\n\n### Patron documentaire {#glo-patron-documentaire}\n\nStructure réutilisable contenant des tokens explicites à remplacer.\n\n### Preuve QA {#glo-preuve-qa}\n\nEnregistrement structuré des contrôles exécutés, de leur environnement et des réserves."
+}

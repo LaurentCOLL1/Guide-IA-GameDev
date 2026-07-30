@@ -1,0 +1,11 @@
+{
+  "EVIDENCE_ID": "QA-DOC-PROOF-099",
+  "STATUS": "complete",
+  "DATE": "2026-07-30",
+  "SUBJECT_ID": "DOC-L2-CH99",
+  "SUBJECT_VERSION": "1.0.0",
+  "OS": "ubuntu-24.04",
+  "RUNTIME": "python-3.12",
+  "CHECKS": "  - id: metadata\n    status: success\n  - id: pandoc-html\n    status: success\n  - id: unresolved-placeholders\n    status: success",
+  "RESERVATIONS": "  - Aucun PDF produit.\n  - Aucun contrôle visuel revendiqué."
+}

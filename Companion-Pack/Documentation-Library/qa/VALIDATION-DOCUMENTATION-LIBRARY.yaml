@@ -1,0 +1,44 @@
+schema-version: 1
+evidence-id: QA-DOCUMENTATION-LIBRARY-PACK-07
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-documentation-library
+pack:
+  id: CP-PACK-07-DOCUMENTATION-LIBRARY
+  version: 1.0.0
+  audit-level: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: 3.12.13
+  pyyaml: 6.0.3
+  pandoc: 3.1.3
+results:
+  source-files: 57
+  templates: 13
+  catalog-entries: 13
+  filled-examples: 10
+  python-tests:
+    status: success
+    count: 18
+  deterministic-generation:
+    status: success
+    count: 10
+  pandoc-html-compilation:
+    status: success
+    count: 9
+  yaml-proofs-parsed: 1
+  clean-tree: true
+  pdf-produced: false
+  docx-produced: false
+  epub-produced: false
+ci:
+  workflow: Validate Documentation Library
+  run-id: 30535138371
+  artifact-id: 8756322426
+  artifact-digest: sha256:7d17cbbc5897f74130ef20420c33d5f68a9d483381027b549b2f558e14806933
+  governance-finalizer-run: 30535446034
+reservations:
+- No visual or accessibility inspection.
+- No PDF, DOCX or EPUB output.
+- No publication or autonomous redistribution.
+- Global license undefined.

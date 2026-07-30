@@ -1,0 +1,9 @@
+---
+title: "{{TITLE}}"
+id: "{{ID}}"
+status: "{{STATUS}}"
+version: "{{VERSION}}"
+lang: "{{LANG}}"
+date: "{{DATE}}"
+usage-context-standard: "DOC-V0-ANN-CONTEXTES"
+---

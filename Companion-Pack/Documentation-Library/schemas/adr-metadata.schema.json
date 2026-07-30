@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Métadonnées ADR",
+  "type": "object",
+  "required": ["title", "id", "status", "date", "decision-status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^ADR-[0-9]{4}$"},
+    "status": {"enum": ["draft", "review", "validated", "deprecated", "superseded"]},
+    "decision-status": {"enum": ["proposed", "accepted", "rejected", "superseded"]}
+  }
+}

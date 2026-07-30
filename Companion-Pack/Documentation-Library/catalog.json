@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "entries": [
+    {"id":"TMP-DOC-CHAPTER-001","type":"chapter-tutorial","path":"templates/chapters/tutorial.md"},
+    {"id":"TMP-DOC-REFERENCE-001","type":"reference-card","path":"templates/chapters/reference-card.md"},
+    {"id":"TMP-DOC-FRONT-001","type":"chapter-front-matter","path":"templates/front-matter/chapter.yaml"},
+    {"id":"TMP-DOC-FRONT-002","type":"resource-front-matter","path":"templates/front-matter/companion-resource.yaml"},
+    {"id":"TMP-DOC-QA-001","type":"audit-report","path":"templates/qa/audit-report.md"},
+    {"id":"TMP-DOC-QA-002","type":"validation-proof","path":"templates/qa/validation-proof.yaml"},
+    {"id":"TMP-DOC-ADR-001","type":"adr","path":"templates/adr/ADR-NNNN.md"},
+    {"id":"TMP-DOC-CHK-001","type":"editorial-checklist","path":"templates/checklists/editorial-review.md"},
+    {"id":"TMP-DOC-CHK-002","type":"release-checklist","path":"templates/checklists/release-readiness.md"},
+    {"id":"TMP-DOC-CARD-001","type":"tool-card","path":"templates/cards/tool-card.md"},
+    {"id":"TMP-DOC-CARD-002","type":"model-card","path":"templates/cards/model-card.md"},
+    {"id":"TMP-DOC-CARD-003","type":"asset-card","path":"templates/cards/asset-card.md"},
+    {"id":"TMP-DOC-GLO-001","type":"glossary","path":"templates/glossary/glossary.md"}
+  ]
+}

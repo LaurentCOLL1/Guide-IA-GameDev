@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-07-DOCUMENTATION-LIBRARY",
+  "pack_version": "1.0.0",
+  "origin": "authored-for-this-repository",
+  "source_documents": [
+    "Volume-0/CHAPITRE-03-Architecture-documentaire.md",
+    "Volume-0/CHAPITRE-04-Convention-des-identifiants.md",
+    "Volume-0/CHAPITRE-05-Conventions-Markdown-et-Pandoc.md",
+    "Volume-0/CHAPITRE-06-Style-redactionnel.md",
+    "Volume-0/CHAPITRE-10-Production-validation-et-publication.md",
+    "Volume-0/CHAPITRE-11-Glossaire-bibliographie-et-index.md",
+    "Volume-0/annexes/CONVENTION-OUTILS-ET-CONTEXTES.md"
+  ],
+  "copied_proprietary_documents": [],
+  "generated_examples": [
+    "examples/filled/CHAPITRE-99-Exemple-generation-documentaire.md",
+    "examples/filled/FICHE-REFERENCE-EXEMPLE.md",
+    "examples/filled/AUDIT-EXEMPLE.md",
+    "examples/filled/VALIDATION-EXEMPLE.yaml",
+    "examples/filled/ADR-0099-EXEMPLE.md",
+    "examples/filled/CHECKLIST-REVUE-EXEMPLE.md",
+    "examples/filled/FICHE-OUTIL-EXEMPLE.md",
+    "examples/filled/FICHE-MODELE-EXEMPLE.md",
+    "examples/filled/FICHE-ASSET-EXEMPLE.md",
+    "examples/filled/GLOSSAIRE-EXEMPLE.md"
+  ],
+  "qualification": "runtime-tested-linux-run-30535138371"
+}

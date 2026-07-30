@@ -1,0 +1,21 @@
+{
+  "STATUS": "validated",
+  "VERSION": "1.0.0",
+  "LANG": "fr-FR",
+  "DATE": "2026-07-30",
+  "TITLE": "Chapitre 99 — Générer une fiche documentaire reproductible",
+  "ID": "DOC-L2-CH99",
+  "OBJECTIVE": "Créer un document Markdown identifié, vérifiable et compilable à partir d’un patron versionné.",
+  "AUDIENCE": "auteur technique débutant à intermédiaire",
+  "PREREQUISITES": "- Python 3.10 ou supérieur ;\n- accès en lecture au Pack 7 ;\n- Pandoc pour la compilation de contrôle.",
+  "PRIORITY": "Recommandé",
+  "SOLO_SCOPE": "génération locale d’un document",
+  "STUDIO_SCOPE": "génération intégrée à une revue de branche",
+  "CONCEPTS": "Le patron définit la structure. Le profil JSON fournit uniquement les valeurs propres au document. La génération refuse tout placeholder non résolu.",
+  "PROCEDURE": "1. copier un profil d’exemple ;\n2. remplacer l’identifiant et les contenus ;\n3. lancer le générateur ;\n4. exécuter le validateur ;\n5. compiler le Markdown vers HTML avec Pandoc.",
+  "MINIMAL_EXAMPLE": "> **[PS] PowerShell — Exécuter depuis la racine du dépôt :**\n\n```powershell\npython .\\Companion-Pack\\Documentation-Library\\scripts\\generate_document.py `\n  --template .\\Companion-Pack\\Documentation-Library\\templates\\chapters\\tutorial.md `\n  --data .\\Companion-Pack\\Documentation-Library\\examples\\data\\chapter.json `\n  --output .\\dist\\documentation\\CHAPITRE-99.md\n```",
+  "EXPECTED_RESULT": "Le fichier généré ne contient aucun token `{{...}}`, possède un seul titre de niveau 1 et peut être converti vers HTML.",
+  "ERROR_CORRECTION": "**Erreur :** modifier directement le patron pour un seul chapitre.\n\n**Correction :** conserver le patron générique et placer les valeurs spécifiques dans le profil JSON.",
+  "CHECKLIST": "- [x] identifiant conforme ;\n- [x] repères d’utilisation présents ;\n- [x] exemple et résultat attendus ;\n- [x] aucune information propriétaire copiée.",
+  "REFERENCES": "- `DOC-V0-CH03` — architecture documentaire ;\n- `DOC-V0-CH04` — identifiants ;\n- `DOC-V0-CH05` — Markdown et Pandoc."
+}

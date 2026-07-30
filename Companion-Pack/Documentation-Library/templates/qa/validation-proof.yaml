@@ -1,0 +1,14 @@
+schema-version: 1
+evidence-id: "{{EVIDENCE_ID}}"
+status: "{{STATUS}}"
+validation-date: "{{DATE}}"
+subject:
+  id: "{{SUBJECT_ID}}"
+  version: "{{SUBJECT_VERSION}}"
+environment:
+  os: "{{OS}}"
+  runtime: "{{RUNTIME}}"
+checks:
+{{CHECKS}}
+reservations:
+{{RESERVATIONS}}

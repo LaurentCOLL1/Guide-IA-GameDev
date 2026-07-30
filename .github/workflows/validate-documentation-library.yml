@@ -1,0 +1,161 @@
+name: Validate Documentation Library
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Companion-Pack/Documentation-Library/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "contents.txt"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/validate-documentation-library.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-documentation-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install documentation validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pandoc
+
+      - name: Record tool versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/documentation-library
+          python --version | tee dist/documentation-library/python-version.txt
+          python -c 'import yaml; print(yaml.__version__)' \
+            | tee dist/documentation-library/pyyaml-version.txt
+          pandoc --version | head -n 2 \
+            | tee dist/documentation-library/pandoc-version.txt
+
+      - name: Validate pack statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Companion-Pack/Documentation-Library/scripts/validate_documentation_library.py \
+            --report dist/documentation-library/static-validation.json
+          python -m unittest discover \
+            -s Companion-Pack/Documentation-Library/tests \
+            -v 2>&1 | tee dist/documentation-library/python-tests.log
+          grep -F "Ran 18 tests" dist/documentation-library/python-tests.log
+          grep -F "OK" dist/documentation-library/python-tests.log
+
+      - name: Regenerate examples deterministically
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Documentation-Library"
+          RUNTIME="$RUNNER_TEMP/documentation-library-runtime"
+          mkdir -p "$RUNTIME/generated" "$RUNTIME/html"
+          python "$PACK/scripts/generate_document.py" \
+            --root "$PACK" \
+            --plan examples/generation-plan.json \
+            --output-root "$RUNTIME/generated" \
+            | tee dist/documentation-library/generation.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          pack = Path("Companion-Pack/Documentation-Library")
+          runtime = Path(__import__("os").environ["RUNNER_TEMP"]) / "documentation-library-runtime/generated"
+          plan = json.loads((pack / "examples/generation-plan.json").read_text(encoding="utf-8"))
+          for job in plan["jobs"]:
+              expected = pack / job["output"]
+              actual = runtime / expected.name
+              if actual.read_bytes() != expected.read_bytes():
+                  raise SystemExit(f"generated example differs: {expected}")
+          print(f"DETERMINISTIC_GENERATION: PASS ({len(plan['jobs'])} examples)")
+          PY
+
+      - name: Compile generated Markdown with Pandoc
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNTIME="$RUNNER_TEMP/documentation-library-runtime"
+          count=0
+          for source in "$RUNTIME/generated"/*.md; do
+            name="$(basename "$source" .md)"
+            pandoc "$source" \
+              --from markdown \
+              --to html \
+              --standalone \
+              --output "$RUNTIME/html/$name.html"
+            count=$((count + 1))
+          done
+          test "$count" -eq 9
+          test "$(find "$RUNTIME/html" -type f -name '*.html' | wc -l)" -eq 9
+          python - <<'PY'
+          from pathlib import Path
+          import os, yaml
+          runtime = Path(os.environ["RUNNER_TEMP"]) / "documentation-library-runtime"
+          proofs = list((runtime / "generated").glob("*.yaml"))
+          assert len(proofs) == 1
+          assert isinstance(yaml.safe_load(proofs[0].read_text(encoding="utf-8")), dict)
+          assert all(path.stat().st_size > 200 for path in (runtime / "html").glob("*.html"))
+          print("PANDOC_HTML_COMPILATION: PASS (9 documents)")
+          PY
+          cp "$RUNTIME/generated/VALIDATION-EXEMPLE.yaml" \
+            dist/documentation-library/generated-validation-example.yaml
+          find "$RUNTIME/html" -type f -name '*.html' -printf '%f\n' \
+            | sort | tee dist/documentation-library/html-files.txt
+
+      - name: Run lightweight repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_chapters.py \
+            --root . \
+            --report dist/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          python tools/report_contextes_utilisation.py \
+            > dist/QA-CONTEXTES-COUVERTURE.md
+
+      - name: Verify exclusions and clean state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short \
+            | tee dist/documentation-library/git-status-after-runtime.txt
+          test ! -s dist/documentation-library/git-status-after-runtime.txt
+          test ! -e dist/Guide-IA-GameDev.pdf
+          test -z "$(find Companion-Pack/Documentation-Library \
+            -type f \( -name '*.pdf' -o -name '*.docx' -o -name '*.epub' \) \
+            -print -quit)"
+          test -z "$(find Companion-Pack/Documentation-Library \
+            -type f -size +500k -print -quit)"
+
+      - name: Upload Documentation Library evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-library-validation
+          path: |
+            dist/documentation-library
+            dist/QA-CHAPTERS.md
+            dist/QA-CONTEXTES-COUVERTURE.md
+          if-no-files-found: error
+          retention-days: 30

@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.20.0"
+version: "4.21.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T11:20:49+02:00"
+last-updated: "2026-07-30T12:34:03+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,13 +2354,14 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 6 packs validés sur 10 ;
+- progression du Companion Pack : 7 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
 - Code Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Database Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
 - ComfyUI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec ComfyUI CPU sans modèle ;
+- Documentation Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec génération déterministe, PyYAML et Pandoc HTML ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2483,19 +2484,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 6 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. ComfyUI Library a validé 37 fichiers, 12 tests Python, ComfyUI `v0.28.0` au commit `700821e1364eaab0e8f21c538a2131719fec57bf`, un démarrage CPU local et le workflow sans modèle `LoadImage → SaveImage`, avec sortie PNG et métadonnées. Les modèles, custom nodes tiers, profils AMD/ZLUDA, Windows graphique, performances, qualité, droits de sortie, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 7 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Documentation Library a validé 57 fichiers, 13 patrons, 10 exemples remplis, 18 tests Python, une régénération déterministe de dix documents, neuf compilations Pandoc HTML et une preuve YAML avec PyYAML. Les rendus visuels, l’accessibilité, PDF, DOCX, EPUB, publication, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Documentation-Library/README.md
+Companion-Pack/Test-Benchmark-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 7 doit matérialiser une bibliothèque documentaire normalisée : templates de chapitre, front matter, rapports QA, preuves YAML, ADR, checklists, fiches outils/modèles/assets, glossaires et scripts de génération. Les templates devront être compilables, porter des identifiants conformes, inclure les repères d’utilisation, fournir des exemples remplis et documenter leur personnalisation sans dupliquer les documents propriétaires.
+Le Pack 8 doit matérialiser une bibliothèque de tests et benchmarks : tests GDScript, tests Python, scènes de benchmark CPU/GPU/mémoire, corpus IA, fixtures de base, scripts de lancement, formats CSV/JSON/YAML et modèles de rapports. Les tests devront rester exécutables séparément ; chaque résultat devra être horodaté, lié au matériel, documenter répétitions et variance, et exclure toute donnée non redistribuable.
 ## 27. Journal
+
+### 2026-07-30T12:34:03+02:00 — version 4.21.0
+
+- matérialisation du Companion Pack, Pack 7 — Documentation Library ;
+- 57 fichiers du Pack, 13 patrons, 13 entrées de catalogue, trois schémas, dix profils et dix exemples remplis créés ;
+- générateur déterministe, validateur statique et 18 tests Python créés et réussis ;
+- dix exemples régénérés octet pour octet ;
+- neuf documents Markdown compilés vers HTML et une preuve YAML analysée ;
+- Ubuntu 24.04, Python `3.12.13`, PyYAML `6.0.3` et Pandoc `3.1.3` qualifiés ;
+- run `30535138371`, artefact `8756322426`, digest `sha256:7d17cbbc5897f74130ef20420c33d5f68a9d483381027b549b2f558e14806933` ;
+- validations documentaires transversales réussies, arbre Git propre et aucun PDF, DOCX ou EPUB produit ;
+- progression M7 portée à 7 packs sur 10 ;
+- prochaine action : `Companion-Pack/Test-Benchmark-Library/README.md`, niveau Élevée ;
+- aucun rendu visuel, contrôle d’accessibilité, PDF, DOCX, EPUB, publication, export, release, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T11:20:49+02:00 — version 4.20.0
 
