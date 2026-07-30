@@ -212,10 +212,10 @@
 
 ## M7 — Companion Pack
 
-**Statut M7 : actif — 1 pack validé sur 10 ; Pack 2, Project Templates, suivant.**
+**Statut M7 : actif — 2 packs validés sur 10 ; Pack 3, AI Library, suivant.**
 
 - [x] Starter Kit — version `1.0.0`, validation Linux `runtime-tested`.
-- [ ] Project Templates.
+- [x] Project Templates — version `1.0.0`, validation Linux `runtime-tested`.
 - [ ] AI Library.
 - [ ] Code Library.
 - [ ] Database Library.

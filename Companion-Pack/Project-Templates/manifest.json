@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "pack_id": "CP-PACK-02-PROJECT-TEMPLATES",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "entry_point": "README.md",
   "profiles": [
     "solo",
