@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.16.0"
+version: "4.17.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T05:34:00+02:00"
+last-updated: "2026-07-30T06:36:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,9 +2354,10 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 2 packs validés sur 10 ;
+- progression du Companion Pack : 3 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
+- AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2479,19 +2480,33 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 et 2 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Project Templates a généré des projets Solo et Studio, ajouté un module en cinq couches, importé les deux projets, exécuté les démarrages headless et Xvfb Compatibility, passé les tests GDScript et conservé des arbres Git propres. Les protections GitHub effectives, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 3 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. AI Library a validé ses contrats, politiques, faux serveurs HTTP/WebSocket, exemples Python et Godot, sans exécuter de service ou modèle fournisseur réel. Les performances, le réseau distant, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/AI-Library/README.md
+Companion-Pack/Code-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 3 doit matérialiser une couche IA locale remplaçable : contrats OpenAI-compatible, clients HTTP et WebSocket, adaptateurs Ollama, llama.cpp et LocalAI, délais, reprises bornées, annulation, files, cache, mocks, filtres de sécurité et exemples Godot. Aucun service réel, secret, disponibilité fournisseur, performance ou compatibilité réseau ne devra être annoncé sans exécution et preuve.
+Le Pack 4 doit rassembler des composants GDScript et utilitaires Python réutilisables : collections, validation, sérialisation, services et repositories, machines à états, interactions, helpers de tests, conversions et exemples. Chaque API publique devra être documentée, testée, versionnée et contrôlée contre les doublons sans imposer une architecture unique.
 ## 27. Journal
+
+### 2026-07-30T06:36:00+02:00 — version 4.17.0
+
+- matérialisation du Companion Pack, Pack 3 — AI Library ;
+- contrats, sous-ensemble OpenAI-compatible, HTTP, WebSocket, adaptateurs Ollama/llama.cpp/LocalAI, délais, reprises, annulation, file, cache, sécurité et modes dégradés créés ;
+- 51 fichiers sources validés sans paquet Python tiers ;
+- 13 tests Python réussis contre les faux serveurs contrôlés ;
+- import, démarrages headless et Xvfb Compatibility réussis avec Godot `4.7.1.stable.official.a13da4feb` ;
+- tests GDScript réussis avec `AI_LIBRARY_GODOT_TESTS: PASS` ;
+- arbre Git propre après runtime ;
+- run `30514201037`, artefact `8748232588`, digest `sha256:c42c91c7d604a2d128e6e95f2923b46cc55397e87956d7787cd9d63a812741b7` ;
+- progression M7 portée à 3 packs sur 10 ;
+- prochaine action : `Companion-Pack/Code-Library/README.md`, niveau Élevée ;
+- aucun service fournisseur réel, modèle, secret, réseau distant, mesure de performance, export, release ou licence globale validé ou produit.
 
 ### 2026-07-30T05:34:00+02:00 — version 4.16.0
 

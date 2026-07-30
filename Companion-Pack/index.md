@@ -2,8 +2,8 @@
 title: "Companion Pack — Kit de développement"
 id: "CP-INDEX"
 status: "active"
-version: "0.3.0"
-last-updated: "2026-07-30T05:34:00+02:00"
+version: "0.4.0"
+last-updated: "2026-07-30T06:36:00+02:00"
 ---
 
 # Companion Pack — Kit de développement
@@ -14,7 +14,7 @@ Le Companion Pack regroupe les ressources directement réutilisables associées 
 
 1. [x] [Starter Kit](Starter-Kit/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 2. [x] [Project Templates](Project-Templates/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
-3. [ ] AI Library ;
+3. [x] [AI Library](AI-Library/README.md) — version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 4. [ ] Code Library ;
 5. [ ] Database Library ;
 6. [ ] ComfyUI Library ;
@@ -29,4 +29,4 @@ Chaque ressource reçoit un identifiant stable, une version, une licence ou un s
 
 ## Statut
 
-Progression : **2 packs sur 10**. Le Starter Kit et Project Templates sont matérialisés et validés dans leur périmètre Linux. Les réserves Windows graphique, Forward+ GPU, protections GitHub effectives, exports et licence globale restent ouvertes. La prochaine action est le Pack 3 — AI Library.
+Progression : **3 packs sur 10**. Le Starter Kit, Project Templates et AI Library sont matérialisés et validés dans leur périmètre Linux. Les réserves services IA réels, modèles, réseau distant, Windows graphique, Forward+ GPU, protections GitHub effectives, exports et licence globale restent ouvertes. La prochaine action est le Pack 4 — Code Library.

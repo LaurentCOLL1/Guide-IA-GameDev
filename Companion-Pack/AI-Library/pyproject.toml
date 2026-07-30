@@ -1,0 +1,13 @@
+[build-system]
+requires = []
+build-backend = "asteria_ai._build_stub"
+
+[project]
+name = "asteria-ai-library"
+version = "0.1.0"
+description = "Couche locale IA remplaçable et testable sans fournisseur réel"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"

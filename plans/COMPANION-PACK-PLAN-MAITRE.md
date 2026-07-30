@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.2.0"
+version: "1.3.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 2 sur 10 validé
+> **Statut :** en cours — Pack 3 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -97,6 +97,8 @@ Livre II, chapitres 4, 5, 26 et 30 ; Volume 0.
 - documentation Solo/Studio distincte.
 
 ## Pack 3 — AI Library
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30514201037` avec faux serveurs contrôlés ; réserves services réels, modèles, performances, réseau distant, exports et licence globale maintenues.
 
 **Objectifs**
 
