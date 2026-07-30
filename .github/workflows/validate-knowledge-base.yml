@@ -1,0 +1,113 @@
+name: Validate Knowledge Base
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Companion-Pack/Knowledge-Base/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "contents.txt"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/validate-knowledge-base.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-knowledge-base:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: ${{ github.workspace }}/Companion-Pack/Knowledge-Base/python/src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate pack and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/knowledge-base
+          python Companion-Pack/Knowledge-Base/scripts/validate_knowledge_base.py --report dist/knowledge-base/static-validation.json
+          python -m unittest discover -s Companion-Pack/Knowledge-Base/python/tests -v 2>&1 | tee dist/knowledge-base/python-tests.log
+          grep -F "Ran 32 tests" dist/knowledge-base/python-tests.log
+          grep -F "OK" dist/knowledge-base/python-tests.log
+          python --version | tee dist/knowledge-base/python-version.txt
+
+      - name: Build deterministic indexes
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Knowledge-Base"
+          CLI="$PACK/scripts/knowledge_base_cli.py"
+          RUNTIME="$RUNNER_TEMP/knowledge-base"
+          mkdir -p "$RUNTIME"
+          find "$PACK/corpus" -type f -name '*.json' -print0 | sort -z | xargs -0 sha256sum > dist/knowledge-base/source-before.sha256
+          python "$CLI" build --source-dir "$PACK/corpus" --output "$RUNTIME/index-a.json" | tee dist/knowledge-base/build-a.log
+          python "$CLI" build --source-dir "$PACK/corpus" --output "$RUNTIME/index-b.json" | tee dist/knowledge-base/build-b.log
+          cmp "$RUNTIME/index-a.json" "$RUNTIME/index-b.json"
+          sha256sum "$RUNTIME/index-a.json" "$RUNTIME/index-b.json" | tee dist/knowledge-base/index-sha256.txt
+
+      - name: Validate search and truth filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Knowledge-Base"
+          CLI="$PACK/scripts/knowledge_base_cli.py"
+          RUNTIME="$RUNNER_TEMP/knowledge-base"
+          python "$CLI" search --index "$RUNTIME/index-a.json" --query "héliostat flux" --top-k 3 --output "$RUNTIME/search-tech.json"
+          grep -F '"document_id": "AST-CODEX-TECH"' "$RUNTIME/search-tech.json"
+          python "$CLI" search --index "$RUNTIME/index-a.json" --query "reine de braise" --truth-status rumor --output "$RUNTIME/search-rumor.json"
+          grep -F '"document_id": "AST-RUMOR-EMBER-QUEEN"' "$RUNTIME/search-rumor.json"
+          python "$CLI" search --index "$RUNTIME/index-a.json" --query "reine de braise" --truth-status canonical --output "$RUNTIME/search-canonical.json"
+          ! grep -F '"truth_status": "rumor"' "$RUNTIME/search-canonical.json"
+          cp "$RUNTIME"/search-*.json dist/knowledge-base/
+
+      - name: Prove complete deletion and reindexing
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Knowledge-Base"
+          CLI="$PACK/scripts/knowledge_base_cli.py"
+          RUNTIME="$RUNNER_TEMP/knowledge-base"
+          python "$CLI" remove --index "$RUNTIME/index-a.json" --document-id AST-RUMOR-EMBER-QUEEN --output "$RUNTIME/pruned.json" | tee dist/knowledge-base/remove.log
+          python "$CLI" verify-deleted --index "$RUNTIME/pruned.json" --document-id AST-RUMOR-EMBER-QUEEN | tee dist/knowledge-base/verify-deleted.log
+          cp -R "$PACK/corpus" "$RUNTIME/corpus-pruned"
+          rm "$RUNTIME/corpus-pruned/lore/rumors/ember-queen.json"
+          python "$CLI" build --source-dir "$RUNTIME/corpus-pruned" --output "$RUNTIME/rebuilt-pruned.json"
+          cmp "$RUNTIME/pruned.json" "$RUNTIME/rebuilt-pruned.json"
+          cp "$RUNTIME/pruned.json" "$RUNTIME/rebuilt-pruned.json" dist/knowledge-base/
+
+      - name: Repository validations and exclusions
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACK="$GITHUB_WORKSPACE/Companion-Pack/Knowledge-Base"
+          find "$PACK/corpus" -type f -name '*.json' -print0 | sort -z | xargs -0 sha256sum > dist/knowledge-base/source-after.sha256
+          diff -u dist/knowledge-base/source-before.sha256 dist/knowledge-base/source-after.sha256
+          python tools/validate_chapters.py --root . --report dist/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          git status --short | tee dist/knowledge-base/git-status.txt
+          test ! -s dist/knowledge-base/git-status.txt
+          test -z "$(find "$PACK" -type f \( -name '*.pdf' -o -name '*.docx' -o -name '*.epub' -o -name '*.bin' \) -print -quit)"
+          test -z "$(find "$PACK" -type f -size +500k -print -quit)"
+          ! grep -RIE '"(api[_-]?key|secret|token|email|phone|address)"[[:space:]]*:' "$PACK/corpus"
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: knowledge-base-validation
+          path: |
+            dist/knowledge-base
+            dist/QA-CHAPTERS.md
+          if-no-files-found: error
+          retention-days: 30
