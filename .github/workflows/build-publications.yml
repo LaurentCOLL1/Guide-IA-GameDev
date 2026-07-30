@@ -1,0 +1,181 @@
+name: Build Publication Formats
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Volume-0/**"
+      - "Livre-I/**"
+      - "Livre-II/**"
+      - "Livre-III/**"
+      - "Livre-IV/**"
+      - "Livre-V/**"
+      - "Companion-Pack/**"
+      - "publication/**"
+      - "filters/pdf-normalize.lua"
+      - "tools/build_publications.py"
+      - "tools/validate_publications.py"
+      - "build.sh"
+      - "build.ps1"
+      - "BUILD.md"
+      - "metadata.yaml"
+      - "contents.txt"
+      - "LICENSE.md"
+      - "NOTICE.md"
+      - "LICENSES/**"
+      - "docs/licensing/**"
+      - "QA/*PUBLICATION*"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/build-publications.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-publications:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      SOURCE_DATE_EPOCH: "1785440400"
+      EPUBCHECK_VERSION: "5.3.0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install publication toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-lang-french \
+            lmodern \
+            qpdf \
+            poppler-utils \
+            default-jre-headless \
+            curl \
+            unzip
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+
+      - name: Install pinned EPUBCheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          EPUBCHECK_ROOT="$RUNNER_TEMP/epubcheck"
+          mkdir -p "$EPUBCHECK_ROOT"
+          curl --fail --location --silent --show-error \
+            "https://github.com/w3c/epubcheck/releases/download/v${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.zip" \
+            --output "$EPUBCHECK_ROOT/epubcheck.zip"
+          unzip -q "$EPUBCHECK_ROOT/epubcheck.zip" -d "$EPUBCHECK_ROOT"
+          test -f "$EPUBCHECK_ROOT/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar"
+          sha256sum "$EPUBCHECK_ROOT/epubcheck.zip" | tee "$EPUBCHECK_ROOT/epubcheck-download.sha256"
+          java -jar "$EPUBCHECK_ROOT/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar" --version
+
+      - name: Record environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/publication-evidence
+          python --version | tee dist/publication-evidence/python-version.txt
+          pandoc --version | head -n 2 | tee dist/publication-evidence/pandoc-version.txt
+          xelatex --version | head -n 2 | tee dist/publication-evidence/xelatex-version.txt
+          qpdf --version | tee dist/publication-evidence/qpdf-version.txt
+          pdfinfo -v 2>&1 | head -n 1 | tee dist/publication-evidence/poppler-version.txt
+          java -version 2>&1 | head -n 2 | tee dist/publication-evidence/java-version.txt
+          cp "$RUNNER_TEMP/epubcheck/epubcheck-download.sha256" dist/publication-evidence/
+
+      - name: Build PDF HTML and EPUB
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/build_publications.py \
+            --root "$GITHUB_WORKSPACE" \
+            --dist "$GITHUB_WORKSPACE/dist/publication" \
+            2>&1 | tee dist/publication-evidence/build.log
+
+      - name: Validate generated publications
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_publications.py \
+            --dist "$GITHUB_WORKSPACE/dist/publication" \
+            --report "$GITHUB_WORKSPACE/dist/publication-evidence/validation.json" \
+            --epubcheck java -Xss4m -Xmx2g -jar "$RUNNER_TEMP/epubcheck/epubcheck-${EPUBCHECK_VERSION}/epubcheck.jar" \
+            2>&1 | tee dist/publication-evidence/validation.log
+
+      - name: Render representative PDF pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          PDF="dist/publication/Guide-IA-GameDev.pdf"
+          RENDERS="dist/publication-evidence/pdf-renders"
+          mkdir -p "$RENDERS"
+          PAGES="$(pdfinfo "$PDF" | awk '/^Pages:/ {print $2}')"
+          printf '%s\n' "$PAGES" > dist/publication-evidence/pdf-page-count.txt
+          for page in 1 500 1000 2000 3000 4000 "$PAGES"; do
+            if [ "$page" -le "$PAGES" ]; then
+              pdftoppm -f "$page" -l "$page" -singlefile -png -r 110 \
+                "$PDF" "$RENDERS/page-$(printf '%04d' "$page")"
+            fi
+          done
+          pdfinfo "$PDF" > dist/publication-evidence/pdfinfo.txt
+          pdffonts "$PDF" > dist/publication-evidence/pdffonts.txt
+          qpdf --check "$PDF" > dist/publication-evidence/qpdf-check.txt 2>&1
+
+      - name: Record HTML and EPUB structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import zipfile
+
+          html = Path('dist/publication/Guide-IA-GameDev.html')
+          epub = Path('dist/publication/Guide-IA-GameDev.epub')
+          with zipfile.ZipFile(epub) as archive:
+              payload = {
+                  'html_bytes': html.stat().st_size,
+                  'epub_bytes': epub.stat().st_size,
+                  'epub_entries': len(archive.namelist()),
+                  'epub_first_entry': archive.namelist()[0],
+              }
+          Path('dist/publication-evidence/container-summary.json').write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          PY
+          unzip -l dist/publication/Guide-IA-GameDev.epub > dist/publication-evidence/epub-entries.txt
+
+      - name: Run repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_licenses.py --report dist/publication-evidence/licensing.json
+          python tools/validate_chapters.py --root . --report dist/publication-evidence/QA-CHAPTERS.md
+          python tools/validate_livre_v_references.py --check
+          python tools/check_code_explanation_structure.py --check
+          python tools/check_context_markers.py --check
+          python tools/audit_contextes_semantiques.py --check
+          git diff --exit-code
+          test ! -e .github/scripts/finalize_publications.py
+          test ! -e .github/workflows/finalize-publications.yml
+
+      - name: Upload publication artifacts and evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-publications
+          path: |
+            dist/publication
+            dist/publication-evidence
+          if-no-files-found: error
+          retention-days: 30
