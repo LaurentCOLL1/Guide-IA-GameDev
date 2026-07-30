@@ -1,0 +1,23 @@
+schema-version: 1
+evidence-id: QA-PUBLICATIONS-M8
+status: candidate
+validation-status: awaiting-runtime
+source-count: 162
+formats:
+  pdf:
+    status: awaiting-build
+  html:
+    status: awaiting-build
+  epub:
+    status: awaiting-build
+expected-toolchain:
+  os: ubuntu-24.04
+  python: '3.12'
+  pandoc: system-package
+  pdf-engine: xelatex
+  epubcheck: '5.3.0'
+reservations:
+  - No PDF/UA or tagged-PDF qualification.
+  - No universal browser or reading-system compatibility claim.
+  - No release, public upload or commercial publication.
+  - Visual inspection is representative sampling only.

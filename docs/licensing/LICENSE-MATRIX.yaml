@@ -1,6 +1,6 @@
 schema-version: 1
 policy-version: 1.0.0
-last-verified: '2026-07-30T18:08:00+02:00'
+last-verified: '2026-07-30T21:37:00+02:00'
 copyright-holder: Laurent Collin
 licenses:
   documentation:
@@ -36,6 +36,8 @@ rules:
   - ROADMAP.md
   - CONTINUITE-PROJET.md
   - REPRISE-NOUVELLE-CONVERSATION.md
+  - publication/README.md
+  - publication/metadata.yaml
 - id: software-and-automation
   license: MIT
   paths:
@@ -44,6 +46,7 @@ rules:
   - .github/**
   - build.ps1
   - build.sh
+  - publication/style.css
   - '**/*.py'
   - '**/*.gd'
   - '**/*.ps1'

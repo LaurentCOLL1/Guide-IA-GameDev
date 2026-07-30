@@ -1,7 +1,7 @@
--- Normalisation du livrable PDF destiné au lecteur.
+-- Normalisation du livrable lecteur destiné aux formats PDF, HTML et EPUB.
 -- Le filtre protège les métadonnées globales, retire quelques pictogrammes
 -- absents des polices choisies et exclut les éléments de fabrication éditoriale
--- qui appartiennent au dépôt de conception, pas au manuel commercial.
+-- qui appartiennent au dépôt de conception, pas au manuel publié.
 
 local function plain_text(element)
   local text = pandoc.utils.stringify(element):lower()
@@ -84,6 +84,35 @@ local function clean_list_items(items)
   return cleaned
 end
 
+local function clean_blocks(blocks)
+  local output = pandoc.List()
+  local skipped_level = nil
+
+  for _, block in ipairs(blocks) do
+    if block.t == "Header" then
+      if skipped_level ~= nil and block.level <= skipped_level then
+        skipped_level = nil
+      end
+      if skipped_level == nil and is_process_heading(block) then
+        skipped_level = block.level
+      elseif skipped_level == nil then
+        output:insert(block)
+      end
+    elseif skipped_level == nil then
+      if block.t == "Div" then
+        block.content = clean_blocks(block.content)
+        if #block.content > 0 then
+          output:insert(block)
+        end
+      elseif not contains_process_phrase(block) then
+        output:insert(block)
+      end
+    end
+  end
+
+  return output
+end
+
 function Meta(meta)
   meta.title = pandoc.MetaString("Guide réaliste de création de jeux vidéo 3D avec IA locale")
   meta.subtitle = pandoc.MetaString("Godot, Blender, ComfyUI, Open WebUI et outils open source locaux")
@@ -115,24 +144,6 @@ function OrderedList(element)
 end
 
 function Pandoc(document)
-  local output = pandoc.List()
-  local skipped_level = nil
-
-  for _, block in ipairs(document.blocks) do
-    if block.t == "Header" then
-      if skipped_level ~= nil and block.level <= skipped_level then
-        skipped_level = nil
-      end
-      if skipped_level == nil and is_process_heading(block) then
-        skipped_level = block.level
-      elseif skipped_level == nil then
-        output:insert(block)
-      end
-    elseif skipped_level == nil and not contains_process_phrase(block) then
-      output:insert(block)
-    end
-  end
-
-  document.blocks = output
+  document.blocks = clean_blocks(document.blocks)
   return document
 end
