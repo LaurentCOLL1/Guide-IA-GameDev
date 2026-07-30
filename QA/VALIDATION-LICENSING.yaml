@@ -1,0 +1,13 @@
+schema-version: 1
+evidence-id: QA-GLOBAL-LICENSING-M8
+status: pending
+policy-version: 1.0.0
+licenses:
+  documentation: CC-BY-SA-4.0
+  software: MIT
+  factual-metadata: CC0-1.0
+validation-status: candidate
+reservations:
+  - No file-by-file REUSE compliance claim.
+  - No legal opinion or trademark clearance.
+  - Third-party redistribution remains component-specific.
