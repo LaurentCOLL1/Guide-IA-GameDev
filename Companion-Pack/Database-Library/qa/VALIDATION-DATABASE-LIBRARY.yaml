@@ -1,0 +1,61 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-05
+status: complete
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-database-library
+pack:
+  id: CP-PACK-05-DATABASE-LIBRARY
+  version: 1.0.0
+  entry-point: Companion-Pack/Database-Library/README.md
+  audit-level: runtime-tested-linux
+environment:
+  os: ubuntu-24.04
+  python: '3.12.13'
+  sqlite: '3.45.1'
+results:
+  source-files: 46
+  migration-count: 4
+  latest-schema-version: 4
+  repositories: 2
+  cli-tools: 4
+  python-tests:
+    status: success
+    count: 14
+  create-from-zero: success
+  upgrades:
+    from-1: success
+    from-2: success
+    from-3: success
+  future-version-refusal: success
+  foreign-database-refusal: success
+  checksum-divergence-detection: success
+  parameter-binding: success
+  backup-api: success
+  restore-staging: success
+  quick-check: success
+  foreign-key-check: success
+  synthetic-data: success
+  personal-data-included: false
+  secrets-included: false
+  database-binaries-versioned: false
+  pdf-produced: false
+ci:
+  qualification:
+    workflow: Temporary Database Library Materializer and Finalizer
+    run-id: 30526910180
+    validated-before-final-commit: true
+    artifact-id: 8753043390
+    artifact-digest: sha256:3375dade3c5c02f1083453b725944b36cdeb2a2a11daa9a6207c1625d77a8ed1
+  permanent-validation:
+    workflow: Validate Database Library
+    run-id: 30527182759
+    head-commit: 88ce7a5301e2d9d2edf4efcb556a6696dd151908
+    conclusion: success
+    artifact-id: 8753148257
+    artifact-digest: sha256:59cb71548a11317c3d2626b47ab353787f07cc3879c733d6aee7b0112f87633e
+reservations:
+  - Godot and Godot-SQLite are not executed.
+  - Windows graphical execution is not executed.
+  - Performance, load, concurrency and lock contention are not measured.
+  - Exports and release packages are not produced.
+  - The global license is undefined.

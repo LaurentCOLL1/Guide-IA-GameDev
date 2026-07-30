@@ -1,0 +1,101 @@
+name: Validate Database Library
+
+on:
+  pull_request:
+    paths:
+      - "Companion-Pack/Database-Library/**"
+      - "Companion-Pack/index.md"
+      - "plans/COMPANION-PACK-PLAN-MAITRE.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - "contents.txt"
+      - ".github/workflows/validate-database-library.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-database-library:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: Companion-Pack/Database-Library/python/src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record runtime versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/database-library
+          python --version | tee dist/database-library/python-version.txt
+          python - <<'PY' | tee dist/database-library/sqlite-version.txt
+          import sqlite3
+          print(sqlite3.sqlite_version)
+          PY
+
+      - name: Validate Database Library statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          python Companion-Pack/Database-Library/tools/validate_database_library.py \
+            --report dist/database-library/static-validation.json
+
+      - name: Run Python tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover \
+            -s Companion-Pack/Database-Library/python/tests \
+            -v 2>&1 | tee dist/database-library/python-tests.log
+          grep -F "Ran 14 tests" dist/database-library/python-tests.log
+          grep -F "OK" dist/database-library/python-tests.log
+
+      - name: Exercise CLI lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORK_DIR="$RUNNER_TEMP/database-library-runtime"
+          mkdir -p "$WORK_DIR/backups" "$WORK_DIR/restored"
+          python Companion-Pack/Database-Library/tools/init_database.py \
+            "$WORK_DIR/asteria.sqlite3" \
+            --with-synthetic-data \
+            | tee dist/database-library/init.log
+          python Companion-Pack/Database-Library/tools/backup_database.py \
+            "$WORK_DIR/asteria.sqlite3" \
+            "$WORK_DIR/backups/asteria-001.sqlite3" \
+            | tee dist/database-library/backup.log
+          python Companion-Pack/Database-Library/tools/restore_database.py \
+            "$WORK_DIR/backups/asteria-001.sqlite3" \
+            "$WORK_DIR/restored/asteria.sqlite3" \
+            | tee dist/database-library/restore.log
+          python Companion-Pack/Database-Library/tools/validate_database.py \
+            "$WORK_DIR/restored/asteria.sqlite3" \
+            | tee dist/database-library/validate.log
+          grep -F '"status": "success"' dist/database-library/validate.log
+
+      - name: Verify generated state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short | tee dist/database-library/git-status-after-runtime.txt
+          test ! -s dist/database-library/git-status-after-runtime.txt
+          test -z "$(find Companion-Pack/Database-Library -type f -name '*.pdf' -print -quit)"
+          test -z "$(find Companion-Pack/Database-Library -type f \( -name '*.sqlite' -o -name '*.sqlite3' -o -name '*.db' \) -print -quit)"
+
+      - name: Upload Database Library evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-library-validation
+          path: dist/database-library
+          if-no-files-found: error
+          retention-days: 30

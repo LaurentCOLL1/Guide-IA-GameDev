@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.18.0"
+version: "4.19.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T07:53:26+02:00"
+last-updated: "2026-07-30T10:29:52+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2354,11 +2354,12 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 - branche principale : `main` ;
 - jalon : M7 — Companion Pack ;
-- progression du Companion Pack : 4 packs validés sur 10 ;
+- progression du Companion Pack : 5 packs validés sur 10 ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
 - Code Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
+- Database Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec Python `sqlite3` ;
 - progression du Livre V : 26 chapitres sur 26 ;
 - chapitre 1 du Livre V : version `1.1.0`, niveau `static-review`, format `reference-cards` ;
 - chapitre 2 du Livre V : version `1.0.0`, niveau `static-review`, format `reference-cards` ;
@@ -2481,19 +2482,35 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est actif. Les Packs 1 à 4 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Code Library a validé 18 composants pour 9 concepts, leurs ports Python et GDScript, 16 tests Python, l’import Godot, les démarrages headless et Xvfb Compatibility ainsi que les tests GDScript. Les performances, Windows graphique, Forward+ GPU, exports et licence globale restent réservés.
+M7 — Companion Pack est actif. Les Packs 1 à 5 sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Database Library a validé quatre migrations ascendantes, deux repositories, quatorze tests Python, la création depuis zéro, les montées de version, la sauvegarde, la restauration et les contrôles d’intégrité avec Python `sqlite3`. Godot-SQLite, Godot, les performances, la concurrence, Windows graphique, les exports et la licence globale restent réservés.
 
 Action suivante :
 
 > **[LECTURE] Chemin et niveau prévisionnels — Ne pas saisir.**
 
 ```text
-Companion-Pack/Database-Library/README.md
+Companion-Pack/ComfyUI-Library/README.md
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le Pack 5 doit matérialiser une bibliothèque de données réutilisable : schémas SQLite, migrations ascendantes, repositories, données synthétiques, scripts d’initialisation, sauvegarde et restauration, validateurs et diagrammes. Aucune migration, restauration, performance, concurrence ou compatibilité de version ne devra être annoncée sans exécution et preuve.
+Le Pack 6 doit matérialiser une bibliothèque ComfyUI reproductible : workflows JSON, manifestes YAML, listes de custom nodes, presets, scripts de lancement, modèles de dossiers, fiches de provenance, images légères de validation et checksums. Aucun modèle non redistribuable ne devra être inclus ; chaque dépendance, seed, paramètre, profil matériel, exécution et licence devra être qualifié sans inventer de résultat.
 ## 27. Journal
+
+### 2026-07-30T10:29:52+02:00 — version 4.19.0
+
+- matérialisation du Companion Pack, Pack 5 — Database Library ;
+- quatre migrations SQLite ascendantes et immuables avec manifeste et empreintes SHA-256 ;
+- schémas de balises, événements, documents, tags et cache dérivé créés ;
+- deux repositories, fixture synthétique, scripts d’initialisation, sauvegarde, restauration et validation créés ;
+- 46 fichiers sources validés sans paquet runtime tiers, addon binaire, secret, donnée personnelle ni base binaire versionnée ;
+- 14 tests Python réussis avec `3.12.13` et SQLite `3.45.1` via `sqlite3` ;
+- création depuis zéro, montées depuis les versions 1 à 3, refus de version future et de base étrangère validés ;
+- Online Backup API, restauration par staging, `quick_check`, `foreign_key_check` et historique des migrations validés ;
+- run `30526910180` du finaliseur temporaire ;
+- validations documentaires légères exécutées sans PDF ;
+- progression M7 portée à 5 packs sur 10 ;
+- prochaine action : `Companion-Pack/ComfyUI-Library/README.md`, niveau Élevée ;
+- aucun Godot-SQLite, Godot, Windows graphique, test de performance, charge, concurrence, export, release, licence globale, donnée personnelle ou secret validé ou produit.
 
 ### 2026-07-30T07:53:26+02:00 — version 4.18.0
 
