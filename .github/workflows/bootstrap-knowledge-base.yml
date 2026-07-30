@@ -1,0 +1,26 @@
+name: Bootstrap Knowledge Base
+
+on:
+  push:
+    branches:
+      - feat/companion-pack-knowledge-base
+    paths:
+      - ".github/scripts/bootstrap_knowledge_base.py"
+      - ".github/workflows/bootstrap-knowledge-base.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/companion-pack-knowledge-base
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate and validate Knowledge Base
+        run: python .github/scripts/bootstrap_knowledge_base.py
