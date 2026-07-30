@@ -85,7 +85,7 @@ write(path, text)
 assert (PACK / "VERSION").read_text(encoding="utf-8").strip() == "1.0.0"
 assert 'validation-status: "runtime-tested-linux"' in read(PACK / "README.md")
 assert 'status: complete' in read(PACK / "qa/VALIDATION-CODE-LIBRARY.yaml")
-assert '4 packs sur 10' in read(ROOT / "ROADMAP.md")
+assert '4 packs validés sur 10' in read(ROOT / "ROADMAP.md")
 assert 'Companion-Pack/Database-Library/README.md' in read(ROOT / "CONTINUITE-PROJET.md")
 assert entry.strip() in read(ROOT / "contents.txt")
 print(f"Code Library Pack 4 governance finalized at {TIMESTAMP}.")
