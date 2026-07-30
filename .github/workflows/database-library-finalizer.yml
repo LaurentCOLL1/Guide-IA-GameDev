@@ -28,12 +28,17 @@ jobs:
           ref: feat/companion-pack-database-library
           fetch-depth: 0
 
-      - name: Load materializer and finalizer from main
+      - name: Load materializer, payload and finalizer from main
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p .github/scripts
+          git show origin/main:.github/scripts/database_library_payload_1.txt > .github/scripts/database_library_payload_1.txt
+          git show origin/main:.github/scripts/database_library_payload_2.txt > .github/scripts/database_library_payload_2.txt
           git show origin/main:.github/scripts/materialize_database_library.py > "$RUNNER_TEMP/materialize_database_library.py"
           git show origin/main:.github/scripts/finalize_database_library.py > "$RUNNER_TEMP/finalize_database_library.py"
+          test -s .github/scripts/database_library_payload_1.txt
+          test -s .github/scripts/database_library_payload_2.txt
           python3 -m py_compile "$RUNNER_TEMP/materialize_database_library.py" "$RUNNER_TEMP/finalize_database_library.py"
 
       - name: Materialize permanent Pack 5 files
