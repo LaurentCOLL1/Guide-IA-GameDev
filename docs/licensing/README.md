@@ -1,3 +1,13 @@
+---
+title: "Politique de licence et redistribution"
+id: "DOC-LICENSING-POLICY"
+status: "active"
+version: "1.0.0"
+lang: "fr-FR"
+last-updated: "2026-07-30T18:08:00+02:00"
+license: "CC-BY-SA-4.0"
+---
+
 # Politique de licence et redistribution
 
 Ce dossier matérialise la décision de licence globale de **Guide IA GameDev**.
