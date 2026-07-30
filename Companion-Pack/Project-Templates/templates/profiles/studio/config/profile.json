@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "profile_id": "studio",
+  "required_reviewers": 1,
+  "review_mode": "independent_review",
+  "release_approval": "independent_approver",
+  "required_platforms": [
+    "windows-x86_64",
+    "linux-x86_64"
+  ],
+  "codeowners_required": true,
+  "protected_main_recommended": true,
+  "local_ai_required": false
+}

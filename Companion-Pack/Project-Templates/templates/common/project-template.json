@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "template_pack": "CP-PACK-02-PROJECT-TEMPLATES",
+  "template_pack_version": "0.1.0",
+  "project_name": "__PROJECT_NAME__",
+  "project_id": "__PROJECT_ID__",
+  "project_slug": "__PROJECT_SLUG__",
+  "profile": "__PROFILE_ID__",
+  "owner_handle": "__OWNER_HANDLE__",
+  "review_mode": "__REVIEW_MODE__",
+  "required_reviewers": "__REQUIRED_REVIEWERS__",
+  "release_approval": "__RELEASE_APPROVAL__",
+  "godot_version": "4.7.1-stable",
+  "language": "GDScript",
+  "renderer_reference": "Forward+",
+  "runtime_dependencies": [
+    "Godot Engine 4.7.1-stable"
+  ],
+  "tooling_dependencies": [
+    "Python >= 3.10",
+    "Git"
+  ],
+  "hidden_dependencies": []
+}
