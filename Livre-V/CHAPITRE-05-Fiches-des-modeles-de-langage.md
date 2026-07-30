@@ -143,6 +143,7 @@ La configuration de référence conserve le [profil initial 7B–9B en Q4 et con
 **Décision de consultation :** Phi-4-mini est un candidat de faible empreinte, à condition de mesurer ses tâches réelles plutôt que de transférer les résultats de benchmarks éditeur.
 
 ---
+
 <!-- l5:card -->
 ## MODÈLE-04 — Granite 4
 
