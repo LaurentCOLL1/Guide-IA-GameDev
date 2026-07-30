@@ -1,10 +1,11 @@
 ---
 title: "Companion Pack — Test & Benchmark Library"
 id: "CP-PACK-08-TEST-BENCHMARK-LIBRARY"
-status: "candidate"
+status: "reviewed"
 version: "1.0.0"
 lang: "fr-FR"
-validation-status: "candidate"
+last-verified: "2026-07-30T14:03:39+02:00"
+validation-status: "runtime-tested-linux"
 redistribution-status: "pending-global-license"
 usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 ---
@@ -15,16 +16,19 @@ usage-context-standard: "DOC-V0-ANN-CONTEXTES"
 
 Le Pack 8 centralise des tests fonctionnels, des charges synthétiques et des formats de mesure reproductibles. Il sépare explicitement la preuve d’exécution, la mesure locale et toute comparaison de performance.
 
-## Contenu
+## État qualifié
 
-- trois benchmarks Python séparables : CPU, mémoire et corpus synthétique ;
-- trois scènes Godot séparables : CPU, mémoire et proxy de rendu sous environnement graphique ;
-- suites unitaires Python et GDScript ;
-- contrats, seeds, fixtures et corpus synthétique ;
-- observations brutes CSV, résumés JSON et manifestes YAML-compatible ;
-- statistiques de répétition : moyenne, médiane, variance, écart-type, coefficient de variation, p95 et p99 ;
-- comparaison refusée lorsque le contrat ou l’empreinte d’environnement diffère ;
-- modèles de rapports et exemples uniquement illustratifs.
+| Élément | État |
+|---|---|
+| fichiers du Pack | 73 validés |
+| contrats versionnés | 6 |
+| tests Python | 25 réussis |
+| suite GDScript | réussie |
+| benchmarks Python | CPU, mémoire et corpus exécutés séparément |
+| scènes Godot | CPU, mémoire et proxy de rendu exécutés séparément |
+| résultats de campagne | 6 résultats horodatés et validés |
+| formats | JSON, CSV, YAML-compatible et Markdown |
+| arbre Git | propre après suppression des artefacts runtime |
 
 ## Exécution Python séparée
 
@@ -58,12 +62,18 @@ res://scenes/memory_benchmark.tscn
 res://scenes/render_proxy_benchmark.tscn
 ```
 
-Le proxy de rendu mesure des intervalles de frame dans le renderer et l’affichage documentés. Une exécution Xvfb ou une carte non identifiée ne constitue pas un benchmark GPU physique.
+## Qualification obtenue
+
+Le run `30540336088` a validé les 73 fichiers du Pack, 25 tests Python, la suite GDScript, trois benchmarks Python et trois scènes Godot exécutés séparément. Il a produit six résultats avec horodatage UTC, seed, paramètres, observations brutes, statistiques de dispersion et empreinte d’environnement.
+
+Environnement : Ubuntu 24.04, CPython `3.12.13` et Godot `4.7.1.stable.official.a13da4feb`. Le proxy de rendu a utilisé Xvfb, `gl_compatibility` et Mesa llvmpipe ; il qualifie le protocole graphique virtuel, pas un GPU physique.
+
+Artefact `8758417029`, digest `sha256:4c4aeeea49e3d9b1d7124bb2da119e0d4994d14250e1c9959754cf980cf18d42`. Le finaliseur de gouvernance a été exécuté par le run `30540978373`.
 
 ## Interprétation
 
-Une mesure est liée au contrat, au commit, à la seed, au scénario, aux versions et à l’empreinte matérielle. Les résultats d’un runner hébergé prouvent que le protocole s’exécute ; ils ne décrivent pas les performances générales d’un PC, d’un GPU ou du projet final.
+Une mesure est liée au contrat, au commit, à la seed, au scénario, aux versions et à l’empreinte matérielle. Les résultats du runner hébergé prouvent que le protocole s’exécute ; ils ne décrivent pas les performances générales d’un PC, d’un GPU ou du projet final.
 
-## Réserves candidates
+## Réserves
 
-Aucun matériel Windows, GPU physique, pilote AMD/ZLUDA, Forward+, mobile, console, charge longue, performance produit, modèle IA réel, publication, export ou licence globale n’est encore qualifié.
+La qualification ne valide aucun Windows, GPU physique, Forward+, pilote AMD/ZLUDA, mobile, console, charge longue, performance produit, modèle IA réel, export, publication, release, licence globale ou redistribution autonome.

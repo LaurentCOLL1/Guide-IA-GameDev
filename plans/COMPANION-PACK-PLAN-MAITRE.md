@@ -2,7 +2,7 @@
 title: "Plan maître détaillé — Companion Pack"
 id: "DOC-PLAN-COMPANION"
 status: "active"
-version: "1.7.0"
+version: "1.8.0"
 lang: "fr-FR"
 last-updated: "2026-07-30"
 pack-count: 10
@@ -10,7 +10,7 @@ pack-count: 10
 
 # Plan maître détaillé — Companion Pack
 
-> **Statut :** en cours — Pack 7 sur 10 validé
+> **Statut :** en cours — Pack 8 sur 10 validé
 > **Rôle :** fournir les fichiers réellement réutilisables produits ou validés pendant les cinq Livres.
 
 ## Règles transversales du Companion Pack
@@ -270,6 +270,8 @@ Volume 0 et tous les Livres.
 - documentation de personnalisation.
 
 ## Pack 8 — Test & Benchmark Library
+
+**État :** matérialisé en version `1.0.0`, validé sur Linux x86_64 par le run `30540336088` avec Python, Godot et proxy de rendu Xvfb ; réserves GPU physique, Windows, performance produit, charges longues, exports et licence globale maintenues.
 
 **Objectifs**
 
