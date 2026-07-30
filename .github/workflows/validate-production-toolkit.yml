@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 45
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPATH: Companion-Pack/Production-Toolkit/python/src
+      PYTHONPATH: ${{ github.workspace }}/Companion-Pack/Production-Toolkit/python/src
 
     steps:
       - name: Checkout repository
