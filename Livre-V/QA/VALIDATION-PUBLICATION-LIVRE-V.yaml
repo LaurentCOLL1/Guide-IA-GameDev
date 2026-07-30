@@ -1,0 +1,34 @@
+schema-version: 1
+evidence-id: DOC-L5-QA-PUBLICATION
+status: pending
+validation-date: '2026-07-30'
+validated-base-commit: 7f530fa47512768d543dba936fcae540c2a06de7
+book:
+  id: LIV-V-INDEX
+  path: Livre-V/index.md
+  chapters: 26
+  audit-level: static-review+pdf-inspection-pending
+results:
+  blocking-errors: null
+  chapters-present: 26
+  all-chapter-titles-present-in-pdf: null
+  reader-internal-qa-excluded-from-pdf: null
+  pandoc-xelatex-build: pending
+  qpdf-check: pending
+  fonts-embedded: null
+  visual-inspection: pending
+  renderer-parity: pending
+pdf:
+  path: dist/Guide-IA-GameDev.pdf
+  pages: null
+  format: null
+  size-bytes: null
+  sha256: null
+  extracted-text-sha256: null
+  encrypted: null
+  tagged: null
+  text-extractable: null
+reservations:
+  - Global collection license is undefined and LICENSE.md is absent.
+  - PDF accessibility tagging is not yet qualified.
+  - Runtime product, platform, performance and recovery procedures are outside this campaign.
