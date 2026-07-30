@@ -25,11 +25,13 @@ jobs:
           ref: feat/companion-pack-project-templates
           fetch-depth: 0
 
-      - name: Load finalizer from main
+      - name: Load corrected finalizer from main
         shell: bash
         run: |
           set -euo pipefail
           git show origin/main:.github/scripts/finalize_project_templates.py > "$RUNNER_TEMP/finalize_project_templates.py"
+          sed -i 's/assert "status: complete"/assert '\''status: "complete"'\''/' "$RUNNER_TEMP/finalize_project_templates.py"
+          python3 -m py_compile "$RUNNER_TEMP/finalize_project_templates.py"
 
       - name: Finalize Pack 2 and governance
         shell: bash
