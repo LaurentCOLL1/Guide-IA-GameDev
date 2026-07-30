@@ -92,29 +92,41 @@ jobs:
           if len(chapters) != 26:
               raise SystemExit(f'Expected 26 chapters, found {len(chapters)}')
 
-          entries = []
-          missing = []
+          title_data = []
           for path in sources:
               source = path.read_text(encoding='utf-8')
               title = next((line[2:].strip() for line in source.splitlines() if line.startswith('# ')), None)
               if not title:
-                  missing.append(f'{path}: missing H1')
-                  continue
+                  raise SystemExit(f'{path}: missing H1')
               matches = [index + 1 for index, page in enumerate(normalized_pages) if norm(title) in page]
               if not matches:
-                  missing.append(f'{path}: {title}')
+                  raise SystemExit(f'{path}: title absent from extracted PDF text: {title}')
+              title_data.append((path, title, matches))
+
+          # The table of contents contains the same titles before the real Livre V pages.
+          # Select the final occurrence of the Livre V index, then move strictly forward
+          # through the 26 chapter openings.
+          entries = []
+          previous_page = 0
+          for position, (path, title, matches) in enumerate(title_data):
+              if position == 0:
+                  page = matches[-1]
               else:
-                  entries.append({'path': str(path), 'title': title, 'page': matches[0], 'matches': matches})
-          if missing:
-              raise SystemExit('Missing Livre V reader content:\n' + '\n'.join(missing))
+                  page = next((candidate for candidate in matches if candidate > previous_page), None)
+                  if page is None:
+                      raise SystemExit(f'{path}: no title occurrence after page {previous_page}')
+              entries.append({'path': str(path), 'title': title, 'page': page, 'matches': matches})
+              previous_page = page
 
           companion = Path('Companion-Pack/index.md')
           companion_title = next((line[2:].strip() for line in companion.read_text(encoding='utf-8').splitlines() if line.startswith('# ')), '')
-          companion_pages = [index + 1 for index, page in enumerate(normalized_pages) if companion_title and norm(companion_title) in page]
-          last_page = companion_pages[0] - 1 if companion_pages else len(pages)
+          companion_matches = [index + 1 for index, page in enumerate(normalized_pages) if companion_title and norm(companion_title) in page]
+          companion_page = next((candidate for candidate in companion_matches if candidate > previous_page), None)
+          companion_pages = [companion_page] if companion_page else []
+          last_page = companion_page - 1 if companion_page else len(pages)
 
           starts = [entry['page'] for entry in entries]
-          next_starts = starts[1:] + ([companion_pages[0]] if companion_pages else [len(pages) + 1])
+          next_starts = starts[1:] + ([companion_page] if companion_page else [len(pages) + 1])
           sample_pages = set()
           for start, next_start in zip(starts, next_starts):
               sample_pages.add(start)
@@ -123,19 +135,30 @@ jobs:
               if next_start - start > 4:
                   sample_pages.add((start + next_start - 1) // 2)
           sample_pages.add(last_page)
-          if companion_pages:
-              sample_pages.add(companion_pages[0])
+          if companion_page:
+              sample_pages.add(companion_page)
+
+          anchors = starts + [last_page]
+          parity_indexes = sorted(set([0, 1, len(anchors)//4, len(anchors)//2, (3*len(anchors))//4, len(anchors)-2, len(anchors)-1]))
+          parity_pages = sorted(set(anchors[index] for index in parity_indexes if 0 <= index < len(anchors)))
 
           payload = {
               'total_pdf_pages': len(pages),
               'livre_v_entries': entries,
               'companion_pack_title': companion_title,
+              'companion_pack_matches': companion_matches,
               'companion_pack_pages': companion_pages,
               'livre_v_last_page': last_page,
               'sample_pages': sorted(sample_pages),
+              'parity_pages': parity_pages,
           }
           Path('dist/LIVRE-V-PAGE-MAP.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-          print(f'Livre V index and 26 chapter titles present; {len(sample_pages)} sample pages selected.')
+          Path('dist/SAMPLE-PAGES.txt').write_text(','.join(map(str, sorted(sample_pages))) + '\n', encoding='utf-8')
+          Path('dist/PARITY-PAGES.txt').write_text(','.join(map(str, parity_pages)) + '\n', encoding='utf-8')
+          print(
+              f'Livre V index and 26 chapter openings mapped from page {entries[0]["page"]} '
+              f'to page {last_page}; {len(sample_pages)} sample pages selected.'
+          )
           PY
           sha256sum "$PDF" | tee dist/Guide-IA-GameDev.pdf.sha256
           sha256sum "$TEXT" | tee dist/Guide-IA-GameDev.txt.sha256
@@ -160,5 +183,7 @@ jobs:
             dist/QA-LIVRE-V-REFERENCES.log
             dist/QA-CONTEXTES-COUVERTURE.md
             dist/LIVRE-V-PAGE-MAP.json
+            dist/SAMPLE-PAGES.txt
+            dist/PARITY-PAGES.txt
           if-no-files-found: error
           retention-days: 30
