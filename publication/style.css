@@ -1,0 +1,112 @@
+/* Style commun aux publications HTML et EPUB de Guide IA GameDev. */
+:root {
+  color-scheme: light;
+  --text: #1b1b1b;
+  --muted: #555;
+  --border: #c9c9c9;
+  --surface: #f5f5f5;
+  --accent: #163f73;
+}
+
+html {
+  font-family: "DejaVu Sans", sans-serif;
+  line-height: 1.55;
+  color: var(--text);
+  background: #fff;
+}
+
+body {
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 4vw, 4rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 1.2;
+  break-after: avoid;
+}
+
+h1 {
+  margin-top: 2.5rem;
+  border-bottom: 0.16rem solid var(--accent);
+  padding-bottom: 0.35rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  border-bottom: 0.06rem solid var(--border);
+  padding-bottom: 0.25rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+code, pre, kbd, samp {
+  font-family: "DejaVu Sans Mono", monospace;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 0.06rem solid var(--border);
+  border-radius: 0.25rem;
+  white-space: pre-wrap;
+}
+
+code {
+  overflow-wrap: anywhere;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.94rem;
+}
+
+th, td {
+  border: 0.06rem solid var(--border);
+  padding: 0.45rem 0.55rem;
+  vertical-align: top;
+}
+
+th {
+  background: var(--surface);
+  text-align: left;
+}
+
+blockquote {
+  margin-left: 0;
+  padding: 0.25rem 1rem;
+  border-left: 0.22rem solid var(--accent);
+  color: var(--muted);
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+#TOC {
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 0.06rem solid var(--border);
+}
+
+@media print {
+  body {
+    max-width: none;
+    padding: 0;
+  }
+  a {
+    color: inherit;
+  }
+  pre, table, figure, blockquote {
+    break-inside: avoid;
+  }
+}
