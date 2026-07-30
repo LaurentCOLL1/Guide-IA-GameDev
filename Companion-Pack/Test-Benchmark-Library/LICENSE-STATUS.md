@@ -1,10 +1,10 @@
-# Statut de redistribution
+# Statut de licence
 
-Le Pack 8 est créé pour ce dépôt. La licence globale de la collection reste indécise.
+Ce Pack suit la politique globale décrite dans [`../../LICENSE.md`](../../LICENSE.md) et la matrice [`../../docs/licensing/LICENSE-MATRIX.yaml`](../../docs/licensing/LICENSE-MATRIX.yaml).
 
-- code ou corpus tiers copié : aucun ;
-- corpus : synthétique et créé pour le Pack ;
-- fixtures : synthétiques, sans donnée personnelle ;
-- dépendance Python runtime : aucune ;
-- Godot : téléchargé par la CI, non redistribué dans le Pack ;
-- résultats CI : preuves d’exécution du runner, pas références commerciales ou matérielles.
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts, schémas techniques, configurations et fixtures de test : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, provenance obligatoire et aucune relicence automatique.
+
+Le Pack peut être inclus dans une archive redistribuable si l’archive conserve `LICENSE.md`, `NOTICE.md`, le dossier `LICENSES/` et la matrice de licence.

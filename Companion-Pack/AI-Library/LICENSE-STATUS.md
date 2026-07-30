@@ -1,14 +1,10 @@
-# Statut de redistribution
+# Statut de licence
 
-Le Pack 3 est créé pour ce dépôt, mais la licence globale de la collection n’est pas encore décidée.
+Ce Pack suit la politique globale décrite dans [`../../LICENSE.md`](../../LICENSE.md) et la matrice [`../../docs/licensing/LICENSE-MATRIX.yaml`](../../docs/licensing/LICENSE-MATRIX.yaml).
 
-## État
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts, schémas techniques, configurations et fixtures de test : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, provenance obligatoire et aucune relicence automatique.
 
-- code tiers copié : aucun ;
-- paquet Python tiers : aucun ;
-- binaire Godot : non versionné ;
-- service ou modèle fournisseur : non inclus ;
-- poids, tokenizer ou dataset : non inclus ;
-- redistribution autonome : bloquée jusqu’à la décision de licence globale.
-
-Les noms Ollama, llama.cpp, LocalAI, Godot et OpenAI servent à identifier des interfaces ou projets. Leur présence ne transfère aucun droit de marque ni aucune licence de modèle.
+Le Pack peut être inclus dans une archive redistribuable si l’archive conserve `LICENSE.md`, `NOTICE.md`, le dossier `LICENSES/` et la matrice de licence.

@@ -10,7 +10,7 @@
   "latest_schema_version": 4,
   "application_id": 1095980085,
   "validation_status": "runtime-tested-linux",
-  "redistribution_status": "pending-global-license",
+  "redistribution_status": "global-policy-defined",
   "contains_binaries": false,
   "contains_personal_data": false,
   "contains_secrets": false

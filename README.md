@@ -185,7 +185,14 @@ Le dépôt sera ouvert aux contributions après stabilisation du Volume 0. Les r
 
 ## Licence
 
-La licence du texte, du code d’exemple et des ressources du Companion Pack sera précisée dans `LICENSE.md`. Les composants tiers conserveront leurs propres licences, qui devront être recensées et respectées individuellement.
+Le dépôt applique une politique de licences multiples définie dans [`LICENSE.md`](LICENSE.md) :
+
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts et ressources techniques réutilisables : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, sans relicence automatique.
+
+La matrice machine-readable se trouve dans [`docs/licensing/LICENSE-MATRIX.yaml`](docs/licensing/LICENSE-MATRIX.yaml). Les exports et archives doivent conserver les notices de copyright, d’attribution et de licence.
 
 ## Avertissement sur les informations évolutives
 

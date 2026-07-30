@@ -35,5 +35,5 @@ reference-hardware:
   gpu: "AMD Radeon RX 6750 XT 12 Go"
   cpu: "AMD Ryzen 7 2700"
   ram: "32 Go"
-license: "À définir avant publication"
+license: "CC-BY-SA-4.0 (documentation); MIT (software); CC0-1.0 (explicit factual metadata)"
 ...

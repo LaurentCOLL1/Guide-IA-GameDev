@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.24.0"
+version: "4.25.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T16:44:55+02:00"
+last-updated: "2026-07-30T18:08:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2355,6 +2355,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 - branche principale : `main` ;
 - jalon : M8 — Publications ;
 - progression du Companion Pack : 10 packs validés sur 10, M7 terminé ;
+- politique de licence globale : `CC-BY-SA-4.0` pour l’éditorial, `MIT` pour le logiciel et `CC0-1.0` pour les métadonnées explicitement classées ;
 - Starter Kit : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - Project Templates : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 ;
 - AI Library : version `1.0.0`, niveau `runtime-tested` sur Linux x86_64 avec faux serveurs contrôlés ;
@@ -2487,7 +2488,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M7 — Companion Pack est terminé. Les dix Packs sont matérialisés en version `1.0.0` et validés dans leur périmètre Linux. Knowledge Base a validé 28 fichiers, huit documents synthétiques, 16 fragments, 32 tests Python, deux index byte-identiques, les recherches et filtres attendus, la suppression complète d'un document et la reconstruction identique après retrait de sa source. Les embeddings réels, services RAG distants, bases vectorielles externes, grandes volumétries, concurrence, publication et licence globale restent réservés.
+M8 — Publications est actif. La licence globale est définie par catégories de droits et de fichiers : documentation sous `CC-BY-SA-4.0`, logiciel et ressources techniques sous `MIT`, métadonnées factuelles explicitement classées sous `CC0-1.0`. Les composants tiers conservent leur licence d’origine et sont exclus de toute relicence automatique.
 
 Action suivante :
 
@@ -2495,13 +2496,28 @@ Action suivante :
 
 ```text
 M8 — Publications
-Définir la licence globale du projet.
+Produire les versions PDF, HTML et EPUB.
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-La prochaine décision doit établir une licence globale compatible avec les textes, scripts, fixtures synthétiques, exemples et futures archives du Companion Pack avant toute publication officielle ou redistribution autonome.
+Le prochain lot doit générer les formats de collection à partir des sources maîtrisées, embarquer les attributions et notices de licence, vérifier les liens et métadonnées, et ne pas confondre génération technique avec publication officielle.
 
 ## 27. Journal
+
+### 2026-07-30T18:08:00+02:00 — version 4.25.0
+
+- définition de la politique de licence globale multiple du projet ;
+- documentation, chapitres, contenus narratifs et exports éditoriaux placés sous `CC-BY-SA-4.0` ;
+- code, scripts, workflows, schémas techniques, configurations et fixtures de test placés sous `MIT` ;
+- métadonnées factuelles explicitement classées placées sous `CC0-1.0` ;
+- composants tiers, marques, modèles et assets externes exclus de toute relicence automatique ;
+- `LICENSE.md`, `NOTICE.md`, trois notices de licence et une matrice machine-readable ajoutés ;
+- règles de contribution et métadonnées Pandoc alignées ;
+- dix fichiers `LICENSE-STATUS.md` du Companion Pack rendus redistribuables sous la politique globale ;
+- validation CI dédiée ajoutée ;
+- tâche M8 « définir la licence globale » clôturée ;
+- prochaine action : produire les versions PDF, HTML et EPUB, niveau Élevée ;
+- aucune publication, release, archive publique ou validation juridique individualisée réalisée.
 
 ### 2026-07-30T16:44:55+02:00 — version 4.24.0
 

@@ -1,12 +1,10 @@
-# Statut de redistribution
+# Statut de licence
 
-Le contenu du Pack 2 est original et textuel. La licence globale du dépôt n’est pas encore décidée.
+Ce Pack suit la politique globale décrite dans [`../../LICENSE.md`](../../LICENSE.md) et la matrice [`../../docs/licensing/LICENSE-MATRIX.yaml`](../../docs/licensing/LICENSE-MATRIX.yaml).
 
-En conséquence :
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts, schémas techniques, configurations et fixtures de test : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, provenance obligatoire et aucune relicence automatique.
 
-- aucun droit de redistribution autonome n’est accordé par ce fichier ;
-- aucun binaire Godot ni composant tiers n’est incorporé ;
-- les modèles peuvent être évalués dans le dépôt ;
-- toute publication séparée doit attendre une décision de licence explicite.
-
-Ce document décrit un statut de projet. Il ne constitue pas un avis juridique.
+Le Pack peut être inclus dans une archive redistribuable si l’archive conserve `LICENSE.md`, `NOTICE.md`, le dossier `LICENSES/` et la matrice de licence.

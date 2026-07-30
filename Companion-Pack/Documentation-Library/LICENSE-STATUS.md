@@ -1,10 +1,10 @@
-# Statut de redistribution
+# Statut de licence
 
-Le Pack 7 est créé pour ce dépôt. La licence globale de la collection reste indécise.
+Ce Pack suit la politique globale décrite dans [`../../LICENSE.md`](../../LICENSE.md) et la matrice [`../../docs/licensing/LICENSE-MATRIX.yaml`](../../docs/licensing/LICENSE-MATRIX.yaml).
 
-- texte ou template tiers copié : aucun ;
-- dépendance Python runtime : aucune ;
-- PyYAML et Pandoc : outils de validation CI, non redistribués ;
-- exemples : fictifs et créés pour ce Pack ;
-- données personnelles et secrets : absents ;
-- redistribution autonome : bloquée jusqu’à la décision de licence globale.
+- documentation et contenus éditoriaux : `CC-BY-SA-4.0` ;
+- code, scripts, schémas techniques, configurations et fixtures de test : `MIT` ;
+- métadonnées factuelles explicitement classées : `CC0-1.0` ;
+- composants tiers : licence d’origine, provenance obligatoire et aucune relicence automatique.
+
+Le Pack peut être inclus dans une archive redistribuable si l’archive conserve `LICENSE.md`, `NOTICE.md`, le dossier `LICENSES/` et la matrice de licence.

@@ -11,6 +11,6 @@
     "environments/studio/profile.json"
   ],
   "validation_status": "runtime-tested-linux",
-  "redistribution_status": "pending-global-license",
+  "redistribution_status": "global-policy-defined",
   "validation_evidence": "qa/VALIDATION-STARTER-KIT.yaml"
 }
