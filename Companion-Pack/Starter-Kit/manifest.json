@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "pack_id": "CP-PACK-01-STARTER-KIT",
+  "version": "0.1.0",
+  "entry_point": "godot-project/project.godot",
+  "main_scene": "res://src/features/bootstrap/main.tscn",
+  "test_entry_point": "res://tests/run_tests.gd",
+  "static_validator": "godot-project/tools/validate_project.py",
+  "profiles": [
+    "environments/solo/profile.json",
+    "environments/studio/profile.json"
+  ],
+  "validation_status": "pending-runtime",
+  "redistribution_status": "pending-global-license"
+}
