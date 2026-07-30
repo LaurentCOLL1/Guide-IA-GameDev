@@ -1,0 +1,25 @@
+schema-version: 1
+evidence-id: CP-QA-PACK-01
+status: pending
+validation-date: '2026-07-30'
+source-branch: feat/companion-pack-starter-kit
+pack:
+  id: CP-PACK-01-STARTER-KIT
+  version: 0.1.0
+  entry-point: Companion-Pack/Starter-Kit/README.md
+results:
+  static-validation: pending
+  powershell-wrapper: pending
+  godot-download: pending
+  godot-version: pending
+  headless-import: pending
+  headless-smoke: pending
+  gdscript-tests: pending
+  document-validation: pending
+  runtime-tests: 0
+reservations:
+  - Windows editor and graphical execution are not executed.
+  - Forward+ graphical rendering is not executed.
+  - Exports and release packages are not produced.
+  - Fresh-clone reproducibility is not independently executed.
+  - The global license is undefined.
