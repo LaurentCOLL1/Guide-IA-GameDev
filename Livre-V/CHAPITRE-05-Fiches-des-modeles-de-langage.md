@@ -242,6 +242,7 @@ La configuration de référence conserve le [profil initial 7B–9B en Q4 et con
 Ces valeurs sont des calculs **poids seuls** : `paramètres × bits ÷ 8`. Elles excluent métadonnées, tensors auxiliaires, runtime, cache KV, buffers GPU, vision, experts non chargés à la demande et copies mémoire. Pour un MoE, le stockage dépend des paramètres totaux même si le calcul par token n’active qu’une partie des experts.
 
 ---
+
 <!-- l5:card -->
 ## MODÈLE-08 — Quantification
 
