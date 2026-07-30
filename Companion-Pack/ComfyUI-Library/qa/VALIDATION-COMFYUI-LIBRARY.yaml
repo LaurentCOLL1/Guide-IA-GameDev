@@ -53,7 +53,10 @@
     "workflow": "Validate ComfyUI Library",
     "run-id": 30529642016,
     "artifact-id": 8754176422,
-    "artifact-digest": "sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af"
+    "artifact-digest": "sha256:19be52a44ab295a747cb4ed7655268058d27494572e83709455004bf5be145af",
+    "governance-finalization-run-id": 30530301801,
+    "governance-finalization-status": "success",
+    "validated-before-final-commit": true
   },
   "reservations": [
     "No model or text-to-image execution.",
