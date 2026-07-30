@@ -1,0 +1,13 @@
+---
+publisher: "Guide IA GameDev"
+date: "2026-07-30"
+identifier: "urn:guide-ia-gamedev:collection:0.1.0-dev"
+rights: "Copyright © 2026 Laurent Collin — documentation sous CC BY-SA 4.0"
+description: "Collection française consacrée au développement de jeux 3D réalistes avec Godot, Blender et des outils d'intelligence artificielle locale."
+subject:
+  - "développement de jeux vidéo"
+  - "Godot Engine"
+  - "Blender"
+  - "intelligence artificielle locale"
+  - "production 3D"
+...
