@@ -1,0 +1,12 @@
+{
+  "id": "PROFILE-COMFY-QUALITY-001",
+  "status": "review-template-not-executed",
+  "workflow": "WF-COMFY-0100",
+  "width": 768,
+  "height": 768,
+  "steps": 24,
+  "batch": 1,
+  "seed": 42424242,
+  "models_required": true,
+  "quality_claim": false
+}

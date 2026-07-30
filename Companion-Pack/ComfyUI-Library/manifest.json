@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "id": "CP-PACK-06-COMFYUI-LIBRARY",
+  "version": "1.0.0",
+  "status": "candidate",
+  "entry_point": "README.md",
+  "validation": "qa/VALIDATION-COMFYUI-LIBRARY.yaml",
+  "audit": "qa/AUDIT-COMFYUI-LIBRARY.md",
+  "workflow_registry": "catalog.json",
+  "comfyui_manifest": "manifests/comfyui.yaml"
+}

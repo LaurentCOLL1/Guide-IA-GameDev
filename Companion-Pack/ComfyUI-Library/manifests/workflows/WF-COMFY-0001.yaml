@@ -1,0 +1,37 @@
+{
+  "id": "WF-COMFY-0001",
+  "name": "Validation copy without model",
+  "version": "1.0.0",
+  "status": "accepted",
+  "comfyui": {
+    "tag": "v0.28.0",
+    "commit": "resolved-at-runtime"
+  },
+  "backend": {
+    "profile": "PROFILE-COMFY-CPU-001",
+    "executed": false
+  },
+  "source_workflow": "workflows/source/WF-COMFY-0001-validation-copy.json",
+  "api_workflow": "workflows/api/WF-COMFY-0001-validation-copy.json",
+  "models": [],
+  "custom_nodes": [],
+  "inputs": {
+    "image": "generated checkerboard 64x64"
+  },
+  "reproducibility": {
+    "seed": null,
+    "parameters": {
+      "width": 64,
+      "height": 64
+    },
+    "deterministic_requested": true
+  },
+  "expected_output": {
+    "format": "png",
+    "metadata": [
+      "prompt",
+      "workflow"
+    ]
+  },
+  "verified_date": null
+}

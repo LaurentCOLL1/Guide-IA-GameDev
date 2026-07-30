@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "comfyui": {
+    "tag": "v0.28.0",
+    "commit": "resolved-at-runtime",
+    "python_profile": "3.12-fallback",
+    "bind": "127.0.0.1",
+    "port": 8188
+  },
+  "workflow_roots": [
+    "workflows/source",
+    "workflows/api"
+  ],
+  "model_policy": {
+    "bundled": false,
+    "required_for_validation": false
+  },
+  "custom_node_policy": {
+    "bundled": false,
+    "automatic_install": false
+  },
+  "metadata_policy": {
+    "png_prompt_required": true,
+    "png_workflow_required": true
+  }
+}

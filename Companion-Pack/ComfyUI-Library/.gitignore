@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+dist/
+runtime/
+output/
+input/generated/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin

@@ -1,0 +1,14 @@
+{
+  "id": "PROFILE-COMFY-CPU-001",
+  "status": "accepted-for-validation",
+  "launch_args": [
+    "--cpu",
+    "--listen",
+    "127.0.0.1",
+    "--port",
+    "8188"
+  ],
+  "purpose": "functional-reference",
+  "models_required": false,
+  "quality_claim": false
+}

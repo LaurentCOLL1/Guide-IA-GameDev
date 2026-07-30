@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "runtime_dependencies": [
+    {
+      "id": "python-standard-library",
+      "version": ">=3.12",
+      "required": true,
+      "scope": "tools-and-tests",
+      "bundled": false,
+      "license": "PSF-2.0"
+    },
+    {
+      "id": "comfyui",
+      "version": "v0.28.0",
+      "required": true,
+      "scope": "runtime-validation",
+      "bundled": false,
+      "license": "GPL-3.0",
+      "qualification": "pinned-tag-runtime-required"
+    }
+  ],
+  "optional_profiles": [
+    {
+      "id": "zluda",
+      "required": false,
+      "scope": "amd-rdna2-laboratory",
+      "bundled": false,
+      "qualification": "not-executed"
+    },
+    {
+      "id": "directml",
+      "required": false,
+      "scope": "degraded-fallback",
+      "bundled": false,
+      "qualification": "not-executed"
+    }
+  ],
+  "third_party_code_copied": []
+}

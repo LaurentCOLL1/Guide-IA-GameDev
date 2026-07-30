@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "MODEL-USER-SD15-001",
+      "purpose": "concept-art-template-only",
+      "filename": null,
+      "family": "user-selected-stable-diffusion-compatible",
+      "source": null,
+      "revision": null,
+      "license": "unresolved",
+      "sha256": null,
+      "size_bytes": null,
+      "redistribution": "excluded",
+      "status": "user-must-resolve-before-execution"
+    }
+  ]
+}

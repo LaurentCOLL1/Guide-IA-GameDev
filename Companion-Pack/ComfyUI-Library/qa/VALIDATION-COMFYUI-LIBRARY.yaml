@@ -1,0 +1,33 @@
+{
+  "schema-version": 1,
+  "evidence-id": "CP-QA-PACK-06",
+  "status": "candidate",
+  "validation-date": "2026-07-30",
+  "source-branch": "feat/companion-pack-comfyui-library",
+  "pack": {
+    "id": "CP-PACK-06-COMFYUI-LIBRARY",
+    "version": "1.0.0",
+    "entry-point": "Companion-Pack/ComfyUI-Library/README.md",
+    "audit-level": "candidate-runtime"
+  },
+  "results": {
+    "source-files": 0,
+    "workflow-count": 2,
+    "runtime-workflows": 1,
+    "template-workflows": 1,
+    "python-tests": {
+      "status": "pending",
+      "count": 12
+    },
+    "comfyui-runtime": "pending",
+    "models-included": false,
+    "custom-node-code-included": false,
+    "pdf-produced": false
+  },
+  "reservations": [
+    "No model execution.",
+    "No AMD or Windows graphical execution.",
+    "No performance or artistic quality measurement.",
+    "Global license undefined."
+  ]
+}

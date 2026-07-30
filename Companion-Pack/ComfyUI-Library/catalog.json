@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "pack_version": "1.0.0",
+  "workflows": [
+    "WF-COMFY-0001",
+    "WF-COMFY-0100"
+  ],
+  "profiles": [
+    "PROFILE-COMFY-CPU-001",
+    "PROFILE-COMFY-AMD-RDNA2-001",
+    "PROFILE-COMFY-QUALITY-001"
+  ],
+  "runtime_workflows": [
+    "WF-COMFY-0001"
+  ],
+  "template_workflows": [
+    "WF-COMFY-0100"
+  ],
+  "models_bundled": [],
+  "custom_nodes_bundled": []
+}
