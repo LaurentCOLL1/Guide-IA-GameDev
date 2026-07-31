@@ -33,10 +33,11 @@ def command(args: list[str]) -> str:
 def catalog_text() -> str:
     """Read only the PDF trailer and catalog, never page-content streams."""
     trailer = command(["qpdf", "--show-object=trailer", str(PDF)])
-    root_match = re.search(r"/Root\s+(\d+\s+\d+\s+R)", trailer)
+    root_match = re.search(r"/Root\s+(\d+)\s+(\d+)\s+R", trailer)
     if not root_match:
         return trailer
-    catalog = command(["qpdf", f"--show-object={root_match.group(1)}", str(PDF)])
+    object_id = f"{root_match.group(1)},{root_match.group(2)}"
+    catalog = command(["qpdf", f"--show-object={object_id}", str(PDF)])
     return trailer + "\n" + catalog
 
 
