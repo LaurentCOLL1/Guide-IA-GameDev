@@ -29,11 +29,15 @@ printf 'container-user='; id
 printf 'TEXMFVAR=%s\n' "$TEXMFVAR"
 printf 'TEXMFCONFIG=%s\n' "$TEXMFCONFIG"
 printf 'TEXMFCACHE=%s\n' "$TEXMFCACHE"
-mkdir -p "$TEXMFVAR" "$TEXMFCONFIG" "$TEXMFCACHE"
-touch "$TEXMFCACHE/.write-test"
+mkdir -p \
+  "$TEXMFVAR/luatex-cache/generic/names" \
+  "$TEXMFVAR/luatex-cache/generic/fonts"
+touch "$TEXMFVAR/.write-test"
 printf 'kpse-TEXMFVAR=%s\n' "$(kpsewhich -var-value=TEXMFVAR)"
 printf 'kpse-TEXMFCACHE=%s\n' "$(kpsewhich -var-value=TEXMFCACHE)"
+luaotfload-tool --cache=show
 luaotfload-tool --update --force
+find "$TEXMFVAR/luatex-cache" -maxdepth 4 -type d -print | sort
 exec pandoc "$@"
 """.strip()
 DIAGNOSTIC_PATTERN = re.compile(
@@ -158,7 +162,7 @@ def texmf_cache_root() -> Path:
 def prepare_texmf_cache() -> Path:
     cache_root = texmf_cache_root()
     shutil.rmtree(cache_root, ignore_errors=True)
-    for child in ("var", "config", "cache"):
+    for child in ("var", "config"):
         (cache_root / child).mkdir(parents=True, exist_ok=True)
     return cache_root
 
@@ -186,6 +190,7 @@ def main() -> int:
         run(["docker", "pull", args.image])
 
     cache_root = prepare_texmf_cache()
+    texmf_var = CONTAINER_TEXMF / "var"
     command = [
         "docker",
         "run",
@@ -204,11 +209,13 @@ def main() -> int:
         "--env",
         "HOME=/tmp",
         "--env",
-        f"TEXMFVAR={CONTAINER_TEXMF / 'var'}",
+        "TERM=dumb",
+        "--env",
+        f"TEXMFVAR={texmf_var}",
         "--env",
         f"TEXMFCONFIG={CONTAINER_TEXMF / 'config'}",
         "--env",
-        f"TEXMFCACHE={CONTAINER_TEXMF / 'cache'}",
+        f"TEXMFCACHE={texmf_var}",
         "--entrypoint",
         "/bin/sh",
     ]
