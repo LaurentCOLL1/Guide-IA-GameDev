@@ -143,10 +143,15 @@ jobs:
             dist/accessible-pdf/verapdf.log
             dist/accessible-pdf/verapdf-exit-code.txt
             dist/accessible-pdf/verapdf-version.txt
+            dist/accessible-pdf/verapdf-image.json
             dist/accessible-pdf/verapdf-image-digest.txt
             dist/accessible-pdf/lualatex-version.txt
             dist/accessible-pdf/pandoc-version.txt
             dist/accessible-pdf/texlive-image.txt
+            BUILD.md
+            ROADMAP.md
+            CONTINUITE-PROJET.md
+            QA/AUDIT-ACCESSIBLE-PDF.md
           if-no-files-found: ignore
           retention-days: 30
 
