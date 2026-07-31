@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -30,6 +31,14 @@ def command(args: list[str]) -> str:
     return result.stdout
 
 
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def catalog_text() -> str:
     """Read only the PDF trailer and catalog, never page-content streams."""
     trailer = command(["qpdf", "--show-object=trailer", str(PDF)])
@@ -41,6 +50,45 @@ def catalog_text() -> str:
     return trailer + "\n" + catalog
 
 
+def parse_verapdf(report: Path | None) -> tuple[dict[str, object], list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    result: dict[str, object] = {
+        "executed": False,
+        "profile": "ua1",
+        "report_parsed": False,
+        "machine_compliant": None,
+        "failed_checks": None,
+        "note": "veraPDF covers machine-verifiable PDF/UA checks only",
+    }
+    if report is None:
+        errors.append("verapdf_report_not_requested")
+        return result, errors, warnings
+    if not report.is_file() or report.stat().st_size == 0:
+        errors.append("verapdf_report_absent_or_empty")
+        return result, errors, warnings
+
+    result["executed"] = True
+    text = report.read_text(encoding="utf-8", errors="replace")
+    compliant_true = bool(
+        re.search(r'(?:isCompliant|compliant)="(?:true|1)"', text, re.IGNORECASE)
+    )
+    compliant_false = bool(
+        re.search(r'(?:isCompliant|compliant)="(?:false|0)"', text, re.IGNORECASE)
+    )
+    if compliant_true == compliant_false:
+        errors.append("verapdf_result_unparseable")
+        return result, errors, warnings
+
+    result["report_parsed"] = True
+    result["machine_compliant"] = compliant_true
+    failed = re.search(r'failedChecks="(\d+)"', text)
+    result["failed_checks"] = int(failed.group(1)) if failed else None
+    if not compliant_true:
+        warnings.append("verapdf_ua1_noncompliance_requires_correction_or_reservation")
+    return result, errors, warnings
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", type=Path, default=DIST / "validation.json")
@@ -48,6 +96,7 @@ def main() -> int:
     args = parser.parse_args()
 
     errors: list[str] = []
+    warnings: list[str] = []
     if not PDF.is_file():
         errors.append("PDF absent")
     if not MANIFEST.is_file():
@@ -59,6 +108,7 @@ def main() -> int:
         raise SystemExit("; ".join(errors))
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    pdf_hash = sha256(PDF)
     qpdf_check = command(["qpdf", "--check", str(PDF)])
     info = command(["pdfinfo", str(PDF)])
     catalog = catalog_text()
@@ -69,6 +119,7 @@ def main() -> int:
     normalized_catalog = re.sub(r"\s+", " ", catalog)
     checks = {
         "qpdf_integrity": "No syntax or stream encoding errors found" in qpdf_check,
+        "pdfinfo_tagged": bool(re.search(r"^Tagged:\s+yes$", info, re.MULTILINE | re.IGNORECASE)),
         "markinfo_marked": bool(
             re.search(r"/MarkInfo\s*<<.*?/Marked\s+true.*?>>", normalized_catalog)
         ),
@@ -83,42 +134,43 @@ def main() -> int:
         "page_count_plausible": pages >= 4000,
         "manifest_claim_bounded": manifest.get("claim")
         == "tagged-pdf-machine-checked-not-full-pdfua-conformance",
+        "manifest_standard_target": manifest.get("standard_target") == "PDF/UA-1",
         "source_count": manifest.get("source_count") == 162,
+        "manifest_bytes_match": manifest.get("bytes") == PDF.stat().st_size,
+        "manifest_sha256_match": manifest.get("sha256") == pdf_hash,
     }
     for name, passed in checks.items():
         if not passed:
             errors.append(name)
 
-    verapdf = {
-        "executed": False,
-        "profile": "ua1",
-        "machine_compliant": None,
-        "failed_checks": None,
-        "note": "veraPDF covers machine-verifiable PDF/UA checks only",
-    }
-    if args.verapdf_report and args.verapdf_report.is_file():
-        verapdf["executed"] = True
-        text = args.verapdf_report.read_text(encoding="utf-8", errors="replace")
-        verapdf["machine_compliant"] = (
-            'isCompliant="true"' in text or 'compliant="1"' in text
-        )
-        failed = re.search(r"failedChecks=\"(\d+)\"", text)
-        verapdf["failed_checks"] = int(failed.group(1)) if failed else None
+    verapdf, verapdf_errors, verapdf_warnings = parse_verapdf(args.verapdf_report)
+    errors.extend(verapdf_errors)
+    warnings.extend(verapdf_warnings)
+
+    if errors:
+        status = "failure"
+    elif warnings:
+        status = "success-with-reservations"
+    else:
+        status = "success"
 
     report = {
-        "schema_version": 1,
-        "status": "success" if not errors else "failure",
+        "schema_version": 2,
+        "status": status,
         "errors": errors,
+        "warnings": warnings,
         "checks": checks,
         "pages": pages,
         "bytes": PDF.stat().st_size,
+        "sha256": pdf_hash,
         "claim": manifest.get("claim"),
         "verapdf": verapdf,
         "human_checks_required": [
             "reading-order",
             "alternative-text-quality",
             "heading-hierarchy",
-            "table-semantics",
+            "list-and-table-semantics",
+            "links-notes-code-and-formulas",
             "screen-reader-behaviour",
         ],
     }
