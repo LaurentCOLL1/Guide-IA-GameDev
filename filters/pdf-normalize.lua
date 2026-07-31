@@ -99,6 +99,17 @@ function Str(element)
   return element
 end
 
+function Image(element)
+  if element.src:match("^https?://") then
+    local description = element.caption
+    if #description == 0 then
+      description = pandoc.Inlines({pandoc.Str("Illustration externe non embarquée")})
+    end
+    return pandoc.Span(description, pandoc.Attr("", {"external-image-description"}, {}))
+  end
+  return element
+end
+
 function BulletList(element)
   element.content = clean_list_items(element.content)
   if #element.content == 0 then
