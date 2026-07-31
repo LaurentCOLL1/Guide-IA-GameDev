@@ -2,9 +2,9 @@
 title: "Continuité du projet Guide IA GameDev"
 id: "DOC-PROJECT-CONTINUITY"
 status: "active"
-version: "4.25.0"
+version: "4.26.0"
 lang: "fr-FR"
-last-updated: "2026-07-30T18:26:37+02:00"
+last-updated: "2026-07-30T23:04:00+02:00"
 update-policy: "mandatory-on-every-project-change"
 ---
 
@@ -2488,7 +2488,7 @@ Décision : accepté avec réserves runtime et PDF de fin de Livre.
 
 ## 26. Prochaine action
 
-M8 — Publications est actif. La licence globale est définie par catégories de droits et de fichiers : documentation sous `CC-BY-SA-4.0`, logiciel et ressources techniques sous `MIT`, métadonnées factuelles explicitement classées sous `CC0-1.0`. Les composants tiers conservent leur licence d’origine et sont exclus de toute relicence automatique.
+M8 — Publications est actif. La chaîne commune génère désormais depuis 162 sources un PDF A4, un HTML autonome et un EPUB 3, avec manifeste SHA-256, licence éditoriale et statut explicite de build technique. La génération a été qualifiée sur Linux ; aucune release officielle n'a été créée.
 
 Action suivante :
 
@@ -2496,13 +2496,28 @@ Action suivante :
 
 ```text
 M8 — Publications
-Produire les versions PDF, HTML et EPUB.
+Produire un PDF balisé pour les lecteurs d’écran.
 Niveau GPT-5.6 Sol recommandé : Élevée
 ```
 
-Le prochain lot doit générer les formats de collection à partir des sources maîtrisées, embarquer les attributions et notices de licence, vérifier les liens et métadonnées, et ne pas confondre génération technique avec publication officielle.
+Le prochain lot doit traiter la structure logique, les titres, la langue, l'ordre de lecture, les alternatives textuelles et la vérification avec des outils d'accessibilité, sans dégrader le PDF visuel existant ni revendiquer une conformité non testée.
 
 ## 27. Journal
+
+### 2026-07-30T23:04:00+02:00 — version 4.26.0
+
+- chaîne commune PDF, HTML autonome et EPUB 3 ajoutée ;
+- wrappers Bash et PowerShell alignés sur `tools/build_publications.py` ;
+- 162 sources compilées dans l'ordre de `contents.txt` ;
+- PDF de 4 108 pages, 10 571 878 octets, SHA-256 `ca360a66a820a4dbd9951acd4c45e16c5bb8560fd5a0323620455307b1e9dcd4` ;
+- HTML autonome de 18 721 066 octets, SHA-256 `411671facba03ac6b194e42b664a67d55eb459a34cdd37fb73ea363a99a274ee` ;
+- EPUB 3 de 3 864 620 octets et 173 entrées, SHA-256 `a6db51c39e37b848cefb63d2a80926c1f35ed89169f6f32bd67859fdf6c31b96` ;
+- manifeste, contrôles PDF/HTML/EPUB, licences et état Git propre validés ;
+- pages PDF 1 et 2 rendues et inspectées sans chevauchement ni glyphe cassé ;
+- run `30582855712`, artefact `8775425907`, digest `sha256:d5d3d548b133e1e6cc12e7d2809e27c3e7166f5dfb131e0e817c4de39426e9e6` ;
+- tâche M8 « produire les versions PDF, HTML et EPUB » clôturée ;
+- prochaine action : produire un PDF balisé pour les lecteurs d'écran, niveau Élevée ;
+- aucune release, publication publique, conformité EPUBCheck complète, PDF balisé ou identité byte pour byte inter-plateformes revendiquée.
 
 ### 2026-07-30T18:08:00+02:00 — version 4.25.0
 

@@ -1,53 +1,28 @@
 $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Dist = Join-Path $Root "dist"
-$ContentsFile = Join-Path $Root "contents.txt"
-$MetadataFile = Join-Path $Root "metadata.yaml"
-$FilterFile = Join-Path $Root "filters/pdf-normalize.lua"
-$OutputFile = Join-Path $Dist "Guide-IA-GameDev.pdf"
+Set-Location $Root
 
-if (-not (Get-Command pandoc -ErrorAction SilentlyContinue)) {
-    throw "Pandoc est introuvable. Installez Pandoc et ajoutez-le au PATH."
+$Python = Get-Command python -ErrorAction SilentlyContinue
+if (-not $Python) {
+    $Python = Get-Command py -ErrorAction SilentlyContinue
+}
+if (-not $Python) {
+    throw "Python 3 est introuvable."
 }
 
-foreach ($Required in @($ContentsFile, $MetadataFile, $FilterFile)) {
-    if (-not (Test-Path $Required)) {
-        throw "Fichier de construction absent : $Required"
-    }
+if ($Python.Name -eq "py.exe" -or $Python.Name -eq "py") {
+    & $Python.Source -3 tools/build_publications.py --clean --formats pdf html epub
+    if ($LASTEXITCODE -ne 0) { throw "La construction multiformat a échoué." }
+    & $Python.Source -3 tools/validate_publications.py --report dist/publications/validation.json
+} else {
+    & $Python.Source tools/build_publications.py --clean --formats pdf html epub
+    if ($LASTEXITCODE -ne 0) { throw "La construction multiformat a échoué." }
+    & $Python.Source tools/validate_publications.py --report dist/publications/validation.json
 }
-
-if (-not (Test-Path $Dist)) {
-    New-Item -ItemType Directory -Path $Dist | Out-Null
-}
-
-$Sources = Get-Content $ContentsFile |
-    ForEach-Object { $_.Trim() } |
-    Where-Object { $_ -and -not $_.StartsWith("#") } |
-    ForEach-Object { Join-Path $Root $_ }
-
-foreach ($Source in $Sources) {
-    if (-not (Test-Path $Source)) {
-        throw "Source absente : $Source"
-    }
-}
-
-$Arguments = @(
-    "--metadata-file=$MetadataFile",
-    "--from=markdown+yaml_metadata_block",
-    "--lua-filter=$FilterFile",
-    "--toc",
-    "--number-sections",
-    "--pdf-engine=xelatex",
-    "--resource-path=$Root",
-    "--output=$OutputFile"
-) + $Sources
-
-Write-Host "Construction de $OutputFile"
-& pandoc @Arguments
 
 if ($LASTEXITCODE -ne 0) {
-    throw "Pandoc a échoué avec le code $LASTEXITCODE."
+    throw "La validation des publications a échoué."
 }
 
-Write-Host "PDF généré : $OutputFile"
+Write-Host "Publications générées dans dist/publications/"

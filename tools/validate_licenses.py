@@ -114,8 +114,17 @@ def main() -> int:
             errors.append(f"governance-pending:{forbidden}")
 
     continuity = (root / "CONTINUITE-PROJET.md").read_text(encoding="utf-8")
-    if "Produire les versions PDF, HTML et EPUB" not in continuity:
+    if "## 26. Prochaine action" not in continuity or "M8 — Publications" not in continuity:
         errors.append("continuity-next-action")
+    if not any(
+        action in continuity
+        for action in (
+            "Produire les versions PDF, HTML et EPUB",
+            "Produire un PDF balisé pour les lecteurs d’écran",
+            "Publier les archives du Companion Pack",
+        )
+    ):
+        errors.append("continuity-next-action-m8")
 
     status = "success" if not errors else "failure"
     report = {
