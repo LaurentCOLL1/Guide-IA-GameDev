@@ -1,0 +1,24 @@
+schema-version: 1
+evidence-id: QA-ACCESSIBLE-PDF-M8
+status: candidate
+validation-status: pending-runtime-qualification
+standard-candidate: PDF/UA-2
+source-count: 162
+source-order: contents.txt
+output: Guide-IA-GameDev-accessible.pdf
+publication-status: technical-accessibility-candidate-not-official-release
+machine-checks:
+  pdfinfo-tagged: pending
+  qpdf-structure: pending
+  verapdf-ua2: pending
+  source-alt-audit: pending
+human-checks:
+  reading-order: required
+  heading-navigation: required
+  tables-lists-links-notes: required
+  alternative-text-quality: required
+  screen-reader-interoperability: required
+reservations:
+  - No accessibility certification or exhaustive user conformance is claimed.
+  - veraPDF covers machine-verifiable PDF/UA requirements only.
+  - No official release or public publication is produced.
