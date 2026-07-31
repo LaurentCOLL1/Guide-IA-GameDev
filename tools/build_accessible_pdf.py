@@ -18,7 +18,7 @@ METADATA = ROOT / "metadata-accessible-pdf.yaml"
 PDF_FILTER = ROOT / "filters" / "pdf-normalize.lua"
 OUTPUT = DIST / "Guide-IA-GameDev-accessible.pdf"
 MANIFEST = DIST / "accessible-pdf-manifest.json"
-DEFAULT_IMAGE = "pandoc/latex:3.10.0.0-ubuntu"
+DEFAULT_IMAGE = "pandoc/latex:3.10.0.0-ubuntu@sha256:568ae5d3dc4cf9266753c9c78e7d073c1472f6540e0cf02de6a330143df8bdb7"
 CONTAINER_ROOT = Path("/data")
 
 
@@ -56,10 +56,20 @@ def run(command: list[str], *, capture: bool = False) -> str:
     completed = subprocess.run(
         command,
         cwd=ROOT,
-        check=True,
         text=True,
-        capture_output=capture,
+        capture_output=True,
     )
+    if completed.stdout:
+        print(completed.stdout, end="" if completed.stdout.endswith("\n") else "\n", flush=True)
+    if completed.stderr:
+        print(completed.stderr, end="" if completed.stderr.endswith("\n") else "\n", file=sys.stderr, flush=True)
+    if completed.returncode != 0:
+        raise subprocess.CalledProcessError(
+            completed.returncode,
+            command,
+            output=completed.stdout,
+            stderr=completed.stderr,
+        )
     return completed.stdout.strip() if capture else ""
 
 
@@ -129,6 +139,7 @@ def main() -> int:
     command.extend(
         [
             args.image,
+            "--verbose",
             f"--metadata-file={container_path(METADATA)}",
             "--from=markdown+yaml_metadata_block",
             f"--resource-path={CONTAINER_ROOT}",
@@ -136,6 +147,9 @@ def main() -> int:
             "--number-sections",
             f"--lua-filter={container_path(PDF_FILTER)}",
             "--pdf-engine=lualatex",
+            "--pdf-engine-opt=-file-line-error",
+            "--pdf-engine-opt=-interaction=nonstopmode",
+            "--pdf-engine-opt=-halt-on-error",
             "--variable=pdfstandard:ua-2",
             "--metadata=license:CC-BY-SA-4.0",
             f"--output={container_path(OUTPUT)}",
