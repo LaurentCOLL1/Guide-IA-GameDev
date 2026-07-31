@@ -31,6 +31,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: accessible-tagged-pdf-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tagged-pdf:
     runs-on: ubuntu-24.04
@@ -49,7 +53,15 @@ jobs:
           test ! -e .github/scripts/finalize_accessible_pdf.py
           test ! -e .github/workflows/finalize-accessible-pdf.yml
 
+      - name: Restore exact tagged PDF build
+        id: pdf-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: dist/accessible-pdf
+          key: tagged-pdf-tl2026-pandoc310-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
+
       - name: Build with TeX Live 2026
+        if: steps.pdf-cache.outputs.cache-hit != 'true'
         uses: xu-cheng/texlive-action@v3
         with:
           texlive_version: 2026
@@ -59,6 +71,22 @@ jobs:
             python3 tools/build_accessible_pdf.py --clean
             lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
             pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
+
+      - name: Verify tagged PDF build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf
+          test -s dist/accessible-pdf/accessible-pdf-manifest.json
+          test -s dist/accessible-pdf/lualatex-version.txt
+          test -s dist/accessible-pdf/pandoc-version.txt
+
+      - name: Save exact tagged PDF build
+        if: steps.pdf-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: dist/accessible-pdf
+          key: ${{ steps.pdf-cache.outputs.cache-primary-key }}
 
       - name: Install validators
         shell: bash
@@ -72,7 +100,7 @@ jobs:
           test -n "$INSTALLER"
           chmod +x "$INSTALLER"
           "$INSTALLER" -q -d /tmp/verapdf
-          /tmp/verapdf/verapdf --version
+          /tmp/verapdf/verapdf --version | tee dist/accessible-pdf/verapdf-version.txt
 
       - name: Run PDF UA machine diagnostics
         shell: bash
