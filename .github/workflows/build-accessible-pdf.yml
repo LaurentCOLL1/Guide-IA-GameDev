@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: dist/accessible-pdf
-          key: tagged-pdf-tl2026-pandoc310-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
+          key: tagged-pdf-tl2026-pandoc310-texstrings1000000-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
 
       - name: Build with TeX Live 2026
         if: steps.pdf-cache.outputs.cache-hit != 'true'
@@ -68,6 +68,11 @@ jobs:
           run: |
             apk add --no-cache python3 pandoc font-dejavu rsvg-convert
             command -v rsvg-convert
+            mkdir -p /tmp/guide-texmf
+            printf '%s\n' 'max_strings = 1000000' 'pool_size = 12500000' > /tmp/guide-texmf/texmf.cnf
+            export TEXMFCNF="/tmp/guide-texmf:"
+            kpsewhich -var-value=max_strings
+            kpsewhich -var-value=pool_size
             python3 tools/build_accessible_pdf.py --clean
             lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
             pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
