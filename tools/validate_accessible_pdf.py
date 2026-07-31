@@ -40,15 +40,15 @@ def main() -> int:
 
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     info = command(["pdfinfo", str(PDF)])
-    qdf = command(["qpdf", "--qdf", "--object-streams=disable", str(PDF), "-"])
+    qpdf_json = command(["qpdf", "--json", str(PDF)])
     first_text = command(["pdftotext", "-f", "1", "-l", "3", str(PDF), "-"])
 
     pages_match = re.search(r"^Pages:\s+(\d+)$", info, re.MULTILINE)
     pages = int(pages_match.group(1)) if pages_match else 0
     checks = {
-        "markinfo_marked": "/MarkInfo" in qdf and "/Marked true" in qdf,
-        "structure_tree": "/StructTreeRoot" in qdf,
-        "document_language": "/Lang (fr-FR)" in qdf or "/Lang <66722D4652>" in qdf,
+        "markinfo_marked": '"/MarkInfo"' in qpdf_json and '"/Marked": true' in qpdf_json,
+        "structure_tree": '"/StructTreeRoot"' in qpdf_json,
+        "document_language": '"/Lang": "u:fr-FR"' in qpdf_json or '"/Lang": "fr-FR"' in qpdf_json,
         "title_metadata": "Guide réaliste" in info or "Guide réaliste" in first_text,
         "author_metadata": "Laurent Collin" in info or "Laurent Collin" in first_text,
         "page_count_plausible": pages >= 4000,
@@ -69,7 +69,7 @@ def main() -> int:
     if args.verapdf_report and args.verapdf_report.is_file():
         verapdf["executed"] = True
         text = args.verapdf_report.read_text(encoding="utf-8", errors="replace")
-        verapdf["machine_compliant"] = 'isCompliant="true"' in text or "compliant=\"1\"" in text
+        verapdf["machine_compliant"] = 'isCompliant="true"' in text or 'compliant="1"' in text
         failed = re.search(r"failedChecks=\"(\d+)\"", text)
         verapdf["failed_checks"] = int(failed.group(1)) if failed else None
 
