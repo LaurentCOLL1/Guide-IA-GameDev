@@ -22,6 +22,7 @@ MANIFEST = DIST / "accessible-pdf-manifest.json"
 BUILD_LOG = DIST / "accessible-build.log"
 DEFAULT_IMAGE = "pandoc/latex:3.10.0.0-ubuntu@sha256:568ae5d3dc4cf9266753c9c78e7d073c1472f6540e0cf02de6a330143df8bdb7"
 CONTAINER_ROOT = Path("/data")
+CONTAINER_TEXMF = Path("/texmf-cache")
 DIAGNOSTIC_PATTERN = re.compile(
     r"(^!|LaTeX Error|Package .* Error|Fatal error|Emergency stop|"
     r"Undefined control sequence|not set up for use|Error producing PDF|"
@@ -101,8 +102,9 @@ def print_build_diagnostics(log_path: Path) -> None:
     print(f"Journal complet : {log_path.relative_to(ROOT)}", file=sys.stderr)
 
 
-def run_build(command: list[str]) -> None:
-    print("+", " ".join(command), flush=True)
+def run_build(command: list[str], source_count: int) -> None:
+    visible = command[: command.index("--output=" + container_path(OUTPUT)) + 1]
+    print("+", " ".join(visible), f"… [{source_count} sources]", flush=True)
     BUILD_LOG.parent.mkdir(parents=True, exist_ok=True)
     with BUILD_LOG.open("w", encoding="utf-8") as stream:
         completed = subprocess.run(
@@ -134,6 +136,19 @@ def container_path(path: Path) -> str:
     return str(CONTAINER_ROOT / path.relative_to(ROOT))
 
 
+def texmf_cache_root() -> Path:
+    parent = Path(os.environ.get("RUNNER_TEMP", str(DIST))).resolve()
+    return parent / "guide-ia-gamedev-texmf"
+
+
+def prepare_texmf_cache() -> Path:
+    cache_root = texmf_cache_root()
+    shutil.rmtree(cache_root, ignore_errors=True)
+    for child in ("var", "config", "cache"):
+        (cache_root / child).mkdir(parents=True, exist_ok=True)
+    return cache_root
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--image", default=os.environ.get("PANDOC_LATEX_IMAGE", DEFAULT_IMAGE))
@@ -156,6 +171,7 @@ def main() -> int:
     if args.pull:
         run(["docker", "pull", args.image])
 
+    cache_root = prepare_texmf_cache()
     command = [
         "docker",
         "run",
@@ -165,6 +181,8 @@ def main() -> int:
         "no-new-privileges",
         "--volume",
         f"{ROOT}:{CONTAINER_ROOT}",
+        "--volume",
+        f"{cache_root}:{CONTAINER_TEXMF}",
         "--workdir",
         str(CONTAINER_ROOT),
         "--env",
@@ -172,11 +190,11 @@ def main() -> int:
         "--env",
         "HOME=/tmp",
         "--env",
-        "TEXMFVAR=/tmp/texmf-var",
+        f"TEXMFVAR={CONTAINER_TEXMF / 'var'}",
         "--env",
-        "TEXMFCONFIG=/tmp/texmf-config",
+        f"TEXMFCONFIG={CONTAINER_TEXMF / 'config'}",
         "--env",
-        "TEXMFCACHE=/tmp/texmf-cache",
+        f"TEXMFCACHE={CONTAINER_TEXMF / 'cache'}",
     ]
 
     if os.name != "nt" and hasattr(os, "getuid") and hasattr(os, "getgid"):
@@ -205,7 +223,11 @@ def main() -> int:
         ]
     )
     command.extend(container_path(path) for path in sources)
-    run_build(command)
+
+    try:
+        run_build(command, len(sources))
+    finally:
+        shutil.rmtree(cache_root, ignore_errors=True)
 
     if not OUTPUT.is_file() or OUTPUT.stat().st_size < 1000:
         fail(f"sortie vide ou absente : {OUTPUT}")
