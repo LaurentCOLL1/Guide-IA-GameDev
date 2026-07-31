@@ -1,0 +1,113 @@
+name: Build Accessible Tagged PDF
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Volume-0/**"
+      - "Livre-I/**"
+      - "Livre-II/**"
+      - "Livre-III/**"
+      - "Livre-IV/**"
+      - "Livre-V/**"
+      - "Companion-Pack/**"
+      - "README.md"
+      - "LICENSE.md"
+      - "NOTICE.md"
+      - "LICENSES/**"
+      - "docs/licensing/**"
+      - "contents.txt"
+      - "metadata.yaml"
+      - "filters/**"
+      - "tools/build_accessible_pdf.py"
+      - "tools/validate_accessible_pdf.py"
+      - "QA/*ACCESSIBLE-PDF*"
+      - "BUILD.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/build-accessible-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tagged-pdf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      SOURCE_DATE_EPOCH: "1785452640"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify permanent accessibility tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-files 'dist/accessible-pdf/**')"
+          test ! -e .github/scripts/finalize_accessible_pdf.py
+          test ! -e .github/workflows/finalize-accessible-pdf.yml
+
+      - name: Build with TeX Live 2026
+        uses: xu-cheng/texlive-action@v3
+        with:
+          texlive_version: 2026
+          run: |
+            apk add --no-cache python3 pandoc font-dejavu librsvg
+            python3 tools/build_accessible_pdf.py --clean
+            lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
+            pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
+
+      - name: Install validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends qpdf poppler-utils default-jre-headless unzip
+          curl -fsSL https://software.verapdf.org/releases/verapdf-installer.zip -o /tmp/verapdf-installer.zip
+          unzip -q /tmp/verapdf-installer.zip -d /tmp/verapdf-installer
+          INSTALLER="$(find /tmp/verapdf-installer -type f -name vera-install | head -n 1)"
+          test -n "$INSTALLER"
+          chmod +x "$INSTALLER"
+          "$INSTALLER" -q -d /tmp/verapdf
+          /tmp/verapdf/verapdf --version
+
+      - name: Run PDF UA machine diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          /tmp/verapdf/verapdf --format xml --flavour ua1 \
+            dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            > dist/accessible-pdf/verapdf-ua1.xml \
+            2> dist/accessible-pdf/verapdf.log
+          echo "$?" > dist/accessible-pdf/verapdf-exit-code.txt
+          set -e
+          python tools/validate_accessible_pdf.py \
+            --report dist/accessible-pdf/validation.json \
+            --verapdf-report dist/accessible-pdf/verapdf-ua1.xml
+
+      - name: Run repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+          python tools/validate_chapters.py
+          python tools/validate_licenses.py --report dist/accessible-pdf/licensing-validation.json
+          git status --short | tee dist/accessible-pdf/git-status.txt
+          test ! -s dist/accessible-pdf/git-status.txt
+
+      - name: Record checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf > dist/accessible-pdf/SHA256SUMS
+          find dist/accessible-pdf -maxdepth 1 -type f -printf '%f %s bytes\n' | sort > dist/accessible-pdf/files.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-accessible-tagged-pdf
+          path: dist/accessible-pdf
+          if-no-files-found: error
+          retention-days: 30
