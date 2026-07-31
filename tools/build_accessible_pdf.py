@@ -18,6 +18,11 @@ METADATA = ROOT / "metadata.yaml"
 PDF_FILTER = ROOT / "filters" / "pdf-normalize.lua"
 OUTPUT = DIST / "Guide-IA-GameDev-tagged.pdf"
 TEMPLATE = DIST / "tagged-pandoc-template.tex"
+TEX_CAPACITY = {
+    "max_strings": 2_000_000,
+    "hash_extra": 2_000_000,
+    "pool_size": 25_000_000,
+}
 
 
 def fail(message: str) -> None:
@@ -74,6 +79,14 @@ def make_template(env: dict[str, str]) -> None:
     TEMPLATE.write_text(metadata + default, encoding="utf-8")
 
 
+def engine_capacity_options() -> list[str]:
+    """Raise Web2C limits for the full tagged collection without global mutation."""
+    return [
+        f"--pdf-engine-opt=--cnf-line={name}={value}"
+        for name, value in TEX_CAPACITY.items()
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--clean", action="store_true")
@@ -104,6 +117,7 @@ def main() -> int:
         "--number-sections",
         f"--lua-filter={PDF_FILTER}",
         "--pdf-engine=lualatex",
+        *engine_capacity_options(),
         f"--template={TEMPLATE}",
         "--metadata=license:CC-BY-SA-4.0",
         "--metadata=title-meta:Guide réaliste de création de jeux vidéo 3D avec IA locale",
@@ -122,6 +136,7 @@ def main() -> int:
         "standard_target": "PDF/UA-1",
         "claim": "tagged-pdf-machine-checked-not-full-pdfua-conformance",
         "engine": "lualatex",
+        "tex_capacity": TEX_CAPACITY,
         "source_count": len(sources),
         "file": OUTPUT.name,
         "bytes": OUTPUT.stat().st_size,
