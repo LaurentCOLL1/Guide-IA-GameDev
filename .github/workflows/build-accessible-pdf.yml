@@ -21,6 +21,7 @@ on:
       - "filters/**"
       - "tools/build_accessible_pdf.py"
       - "tools/validate_accessible_pdf.py"
+      - "tools/test_accessible_pdf_validator.py"
       - "QA/*ACCESSIBLE-PDF*"
       - "BUILD.md"
       - "ROADMAP.md"
@@ -54,6 +55,12 @@ jobs:
           test -z "$(git ls-files 'dist/accessible-pdf/**')"
           test ! -e .github/scripts/finalize_accessible_pdf.py
           test ! -e .github/workflows/finalize-accessible-pdf.yml
+
+      - name: Validate accessibility tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest tools/test_accessible_pdf_validator.py -v
 
       - name: Restore exact tagged PDF build
         id: pdf-cache
