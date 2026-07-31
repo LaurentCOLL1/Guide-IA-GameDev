@@ -42,6 +42,7 @@ jobs:
     env:
       PYTHONDONTWRITEBYTECODE: "1"
       SOURCE_DATE_EPOCH: "1785452640"
+      TEXLIVE_IMAGE: "ghcr.io/xu-cheng/texlive-alpine@sha256:11383430b9a3e48c0b79339f34d8092f942f897d91ab3749d4899d06731fea7f"
       VERAPDF_IMAGE: "verapdf/cli:v1.30.2@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb"
     steps:
       - uses: actions/checkout@v4
@@ -59,13 +60,13 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: dist/accessible-pdf
-          key: tagged-pdf-tl2026-pandoc310-texstrings2000000-v2-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
+          key: tagged-pdf-tl2026-pandoc310-texstrings2000000-v3-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
 
-      - name: Build with TeX Live 2026
+      - name: Build with pinned TeX Live 2026 image
         if: steps.pdf-cache.outputs.cache-hit != 'true'
-        uses: xu-cheng/texlive-action@v3
+        uses: xu-cheng/texlive-action@22c04326a5d855880f9d39bb955138bf11c6df80
         with:
-          texlive_version: 2026
+          docker_image: ${{ env.TEXLIVE_IMAGE }}
           run: |
             apk add --no-cache python3 pandoc font-dejavu rsvg-convert
             command -v rsvg-convert
@@ -77,6 +78,8 @@ jobs:
             python3 tools/build_accessible_pdf.py --clean
             lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
             pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
+            printf '%s\n' '${{ env.TEXLIVE_IMAGE }}' > dist/accessible-pdf/texlive-image.txt
+            chown -R "$(stat -c '%u:%g' "$GITHUB_WORKSPACE")" dist/accessible-pdf
 
       - name: Verify tagged PDF build
         shell: bash
@@ -86,6 +89,7 @@ jobs:
           test -s dist/accessible-pdf/accessible-pdf-manifest.json
           test -s dist/accessible-pdf/lualatex-version.txt
           test -s dist/accessible-pdf/pandoc-version.txt
+          test -s dist/accessible-pdf/texlive-image.txt
 
       - name: Save exact tagged PDF build
         if: steps.pdf-cache.outputs.cache-hit != 'true'
@@ -142,6 +146,7 @@ jobs:
             dist/accessible-pdf/verapdf-image-digest.txt
             dist/accessible-pdf/lualatex-version.txt
             dist/accessible-pdf/pandoc-version.txt
+            dist/accessible-pdf/texlive-image.txt
           if-no-files-found: ignore
           retention-days: 30
 
