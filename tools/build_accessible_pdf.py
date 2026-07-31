@@ -62,9 +62,8 @@ def sha256(path: Path) -> str:
 
 def make_template(env: dict[str, str]) -> None:
     default = run(["pandoc", "--print-default-template=latex"], env, capture=True)
-    marker = "$if(documentclass)$"
-    if marker not in default:
-        fail("modèle LaTeX Pandoc inattendu")
+    if "\\documentclass" not in default:
+        fail("modèle LaTeX Pandoc sans documentclass")
     metadata = r"""\DocumentMetadata{
   lang=fr-FR,
   pdfversion=1.7,
