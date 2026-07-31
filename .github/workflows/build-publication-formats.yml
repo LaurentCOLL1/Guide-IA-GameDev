@@ -114,8 +114,8 @@ jobs:
     env:
       PYTHONDONTWRITEBYTECODE: "1"
       SOURCE_DATE_EPOCH: "1785452640"
-      PANDOC_LATEX_IMAGE: "pandoc/latex:3.10.0.0-ubuntu"
-      VERAPDF_IMAGE: "verapdf/cli:v1.30.2"
+      PANDOC_LATEX_IMAGE: "pandoc/latex:3.10.0.0-ubuntu@sha256:568ae5d3dc4cf9266753c9c78e7d073c1472f6540e0cf02de6a330143df8bdb7"
+      VERAPDF_IMAGE: "verapdf/cli:v1.30.2@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb"
     steps:
       - uses: actions/checkout@v4
 
