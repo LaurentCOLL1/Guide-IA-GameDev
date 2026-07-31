@@ -70,21 +70,28 @@ def parse_verapdf(report: Path | None) -> tuple[dict[str, object], list[str], li
 
     result["executed"] = True
     text = report.read_text(encoding="utf-8", errors="replace")
-    compliant_true = bool(
-        re.search(r'(?:isCompliant|compliant)="(?:true|1)"', text, re.IGNORECASE)
+    compliance_values = re.findall(
+        r'\bisCompliant="(true|false|1|0)"', text, re.IGNORECASE
     )
-    compliant_false = bool(
-        re.search(r'(?:isCompliant|compliant)="(?:false|0)"', text, re.IGNORECASE)
-    )
-    if compliant_true == compliant_false:
+    if not compliance_values:
+        compliance_values = re.findall(
+            r'(?<![A-Za-z])compliant="(true|false|1|0)"',
+            text,
+            re.IGNORECASE,
+        )
+    normalized_values = {
+        value.lower() in {"true", "1"} for value in compliance_values
+    }
+    if len(normalized_values) != 1:
         errors.append("verapdf_result_unparseable")
         return result, errors, warnings
 
+    compliant = normalized_values.pop()
     result["report_parsed"] = True
-    result["machine_compliant"] = compliant_true
+    result["machine_compliant"] = compliant
     failed = re.search(r'failedChecks="(\d+)"', text)
     result["failed_checks"] = int(failed.group(1)) if failed else None
-    if not compliant_true:
+    if not compliant:
         warnings.append("verapdf_ua1_noncompliance_requires_correction_or_reservation")
     return result, errors, warnings
 
