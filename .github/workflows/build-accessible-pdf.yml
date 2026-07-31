@@ -21,6 +21,7 @@ on:
       - "filters/**"
       - "tools/build_accessible_pdf.py"
       - "tools/validate_accessible_pdf.py"
+      - "tools/inspect_tagged_pdf.py"
       - "tools/test_accessible_pdf_validator.py"
       - "QA/*ACCESSIBLE-PDF*"
       - "BUILD.md"
@@ -111,6 +112,7 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends qpdf poppler-utils
+          python -m pip install --disable-pip-version-check --quiet pypdf==5.9.0
           docker pull "$VERAPDF_IMAGE"
           docker image inspect "$VERAPDF_IMAGE" > dist/accessible-pdf/verapdf-image.json
           docker image inspect --format '{{join .RepoDigests "\n"}}' "$VERAPDF_IMAGE" \
@@ -137,6 +139,9 @@ jobs:
           python tools/validate_accessible_pdf.py \
             --report dist/accessible-pdf/validation.json \
             --verapdf-report dist/accessible-pdf/verapdf-ua1.xml
+          python tools/inspect_tagged_pdf.py \
+            dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            --output dist/accessible-pdf/structure-inventory.json
 
       - name: Upload PDF diagnostics
         if: always()
@@ -146,6 +151,7 @@ jobs:
           path: |
             dist/accessible-pdf/accessible-pdf-manifest.json
             dist/accessible-pdf/validation.json
+            dist/accessible-pdf/structure-inventory.json
             dist/accessible-pdf/verapdf-ua1.xml
             dist/accessible-pdf/verapdf.log
             dist/accessible-pdf/verapdf-exit-code.txt
