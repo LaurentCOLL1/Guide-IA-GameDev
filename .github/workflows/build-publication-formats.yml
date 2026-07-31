@@ -16,14 +16,20 @@ on:
       - "LICENSES/**"
       - "contents.txt"
       - "metadata.yaml"
+      - "metadata-accessible-pdf.yaml"
       - "filters/**"
       - "build.sh"
       - "build.ps1"
+      - "build-accessible.sh"
+      - "build-accessible.ps1"
       - "BUILD.md"
       - "tools/build_publications.py"
       - "tools/validate_publications.py"
+      - "tools/build_accessible_pdf.py"
+      - "tools/validate_accessible_pdf.py"
       - "tools/validate_licenses.py"
       - "QA/*PUBLICATION-FORMATS*"
+      - "QA/*ACCESSIBLE-PDF*"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
       - ".github/scripts/finalize_publication_formats.py"
@@ -98,6 +104,87 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: guide-ia-gamedev-publication-formats
+          path: dist/publications
+          if-no-files-found: error
+          retention-days: 30
+
+  build-accessible-pdf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      SOURCE_DATE_EPOCH: "1785452640"
+      PANDOC_LATEX_IMAGE: "pandoc/latex:3.10.0.0-ubuntu"
+      VERAPDF_IMAGE: "verapdf/cli:v1.30.2"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify permanent accessible publication tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f metadata-accessible-pdf.yaml
+          test -f tools/build_accessible_pdf.py
+          test -f tools/validate_accessible_pdf.py
+          test -z "$(git ls-files 'dist/publications/**')"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install host validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            fonts-dejavu-core poppler-utils qpdf
+          python --version
+          docker --version
+          pdfinfo -v 2>&1 | head -n 1
+          qpdf --version
+
+      - name: Pull pinned accessibility toolchains
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "$PANDOC_LATEX_IMAGE"
+          docker pull "$VERAPDF_IMAGE"
+          docker image inspect --format '{{join .RepoDigests "\n"}}' "$PANDOC_LATEX_IMAGE"
+          docker image inspect --format '{{join .RepoDigests "\n"}}' "$VERAPDF_IMAGE"
+
+      - name: Build tagged PDF candidate
+        run: python tools/build_accessible_pdf.py --clean
+
+      - name: Validate PDF UA candidate
+        run: python tools/validate_accessible_pdf.py --report dist/publications/accessible-pdf-validation.json
+
+      - name: Run repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+          python tools/validate_chapters.py
+          python tools/validate_licenses.py --report dist/publications/licensing-validation.json
+          git status --short | tee dist/publications/git-status.txt
+          test ! -s dist/publications/git-status.txt
+
+      - name: Record accessibility toolchain and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker image inspect "$PANDOC_LATEX_IMAGE" > dist/publications/pandoc-latex-image.json
+          docker image inspect "$VERAPDF_IMAGE" > dist/publications/verapdf-image.json
+          docker run --rm "$PANDOC_LATEX_IMAGE" --version > dist/publications/pandoc-accessible-version.txt
+          docker run --rm --entrypoint lualatex "$PANDOC_LATEX_IMAGE" --version > dist/publications/lualatex-version.txt
+          docker run --rm "$VERAPDF_IMAGE" --version > dist/publications/verapdf-version.txt
+          pdfinfo dist/publications/Guide-IA-GameDev-accessible.pdf > dist/publications/accessible-pdf-info.txt
+          sha256sum dist/publications/Guide-IA-GameDev-accessible.pdf > dist/publications/ACCESSIBLE-PDF-SHA256SUMS
+          find dist/publications -maxdepth 1 -type f -printf '%f %s bytes\n' | sort > dist/publications/accessible-files.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-accessible-pdf
           path: dist/publications
           if-no-files-found: error
           retention-days: 30
