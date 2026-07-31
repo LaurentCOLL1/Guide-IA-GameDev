@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -18,8 +19,15 @@ METADATA = ROOT / "metadata-accessible-pdf.yaml"
 PDF_FILTER = ROOT / "filters" / "pdf-normalize.lua"
 OUTPUT = DIST / "Guide-IA-GameDev-accessible.pdf"
 MANIFEST = DIST / "accessible-pdf-manifest.json"
+BUILD_LOG = DIST / "accessible-build.log"
 DEFAULT_IMAGE = "pandoc/latex:3.10.0.0-ubuntu@sha256:568ae5d3dc4cf9266753c9c78e7d073c1472f6540e0cf02de6a330143df8bdb7"
 CONTAINER_ROOT = Path("/data")
+DIAGNOSTIC_PATTERN = re.compile(
+    r"(^!|LaTeX Error|Package .* Error|Fatal error|Emergency stop|"
+    r"Undefined control sequence|not set up for use|Error producing PDF|"
+    r"^l\.\d+|^\./[^:]+:\d+:)",
+    re.IGNORECASE,
+)
 
 
 def fail(message: str) -> None:
@@ -73,6 +81,47 @@ def run(command: list[str], *, capture: bool = False) -> str:
     return completed.stdout.strip() if capture else ""
 
 
+def print_build_diagnostics(log_path: Path) -> None:
+    lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+    matches: list[str] = []
+    for index, line in enumerate(lines):
+        if DIAGNOSTIC_PATTERN.search(line):
+            start = max(0, index - 2)
+            end = min(len(lines), index + 5)
+            matches.extend(lines[start:end])
+            matches.append("---")
+    print("\n=== Diagnostic LuaLaTeX borné ===", file=sys.stderr)
+    if matches:
+        for line in matches[-160:]:
+            print(line, file=sys.stderr)
+    else:
+        print("Aucun motif fatal standard détecté ; fin du journal :", file=sys.stderr)
+        for line in lines[-120:]:
+            print(line, file=sys.stderr)
+    print(f"Journal complet : {log_path.relative_to(ROOT)}", file=sys.stderr)
+
+
+def run_build(command: list[str]) -> None:
+    print("+", " ".join(command), flush=True)
+    BUILD_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with BUILD_LOG.open("w", encoding="utf-8") as stream:
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            text=True,
+            stdout=stream,
+            stderr=subprocess.STDOUT,
+        )
+    if completed.returncode != 0:
+        print_build_diagnostics(BUILD_LOG)
+        raise subprocess.CalledProcessError(completed.returncode, command)
+    tail = BUILD_LOG.read_text(encoding="utf-8", errors="replace").splitlines()[-20:]
+    print("\n=== Fin du journal de construction ===")
+    for line in tail:
+        print(line)
+    print(f"Journal complet : {BUILD_LOG.relative_to(ROOT)}")
+
+
 def image_digest(image: str) -> str:
     inspected = run(
         ["docker", "image", "inspect", "--format", "{{join .RepoDigests \"\\n\"}}", image],
@@ -101,7 +150,7 @@ def main() -> int:
     sources = source_files()
     DIST.mkdir(parents=True, exist_ok=True)
     if args.clean:
-        for path in (OUTPUT, MANIFEST):
+        for path in (OUTPUT, MANIFEST, BUILD_LOG):
             path.unlink(missing_ok=True)
 
     if args.pull:
@@ -156,7 +205,7 @@ def main() -> int:
         ]
     )
     command.extend(container_path(path) for path in sources)
-    run(command)
+    run_build(command)
 
     if not OUTPUT.is_file() or OUTPUT.stat().st_size < 1000:
         fail(f"sortie vide ou absente : {OUTPUT}")
