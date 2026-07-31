@@ -95,6 +95,7 @@ function Str(element)
   element.text = element.text:gsub("🟢", "")
   element.text = element.text:gsub("👤", "")
   element.text = element.text:gsub("👥", "")
+  element.text = element.text:gsub("～", "~")
   return element
 end
 
