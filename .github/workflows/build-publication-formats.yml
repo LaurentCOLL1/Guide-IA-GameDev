@@ -22,9 +22,12 @@ on:
       - "BUILD.md"
       - "tools/build_publications.py"
       - "tools/validate_publications.py"
+      - "tools/validate_licenses.py"
       - "QA/*PUBLICATION-FORMATS*"
       - "ROADMAP.md"
       - "CONTINUITE-PROJET.md"
+      - ".github/scripts/finalize_publication_formats.py"
+      - ".github/workflows/finalize-publication-formats.yml"
       - ".github/workflows/build-publication-formats.yml"
   workflow_dispatch:
 
@@ -40,6 +43,14 @@ jobs:
       SOURCE_DATE_EPOCH: "1785452640"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verify permanent publication tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e .github/scripts/finalize_publication_formats.py
+          test ! -e .github/workflows/finalize-publication-formats.yml
+          test -z "$(git ls-files 'dist/publications/**')"
 
       - uses: actions/setup-python@v5
         with:
