@@ -54,7 +54,8 @@ jobs:
         with:
           texlive_version: 2026
           run: |
-            apk add --no-cache python3 pandoc font-dejavu librsvg
+            apk add --no-cache python3 pandoc font-dejavu librsvg-tools
+            command -v rsvg-convert
             python3 tools/build_accessible_pdf.py --clean
             lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
             pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
