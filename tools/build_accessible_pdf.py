@@ -23,10 +23,23 @@ BUILD_LOG = DIST / "accessible-build.log"
 DEFAULT_IMAGE = "pandoc/latex:3.10.0.0-ubuntu@sha256:568ae5d3dc4cf9266753c9c78e7d073c1472f6540e0cf02de6a330143df8bdb7"
 CONTAINER_ROOT = Path("/data")
 CONTAINER_TEXMF = Path("/texmf-cache")
+SHELL_BOOTSTRAP = r"""
+set -eu
+printf 'container-user='; id
+printf 'TEXMFVAR=%s\n' "$TEXMFVAR"
+printf 'TEXMFCONFIG=%s\n' "$TEXMFCONFIG"
+printf 'TEXMFCACHE=%s\n' "$TEXMFCACHE"
+mkdir -p "$TEXMFVAR" "$TEXMFCONFIG" "$TEXMFCACHE"
+touch "$TEXMFCACHE/.write-test"
+printf 'kpse-TEXMFVAR=%s\n' "$(kpsewhich -var-value=TEXMFVAR)"
+printf 'kpse-TEXMFCACHE=%s\n' "$(kpsewhich -var-value=TEXMFCACHE)"
+luaotfload-tool --update --force
+exec pandoc "$@"
+""".strip()
 DIAGNOSTIC_PATTERN = re.compile(
     r"(^!|LaTeX Error|Package .* Error|Fatal error|Emergency stop|"
     r"Undefined control sequence|not set up for use|Error producing PDF|"
-    r"^l\.\d+|^\./[^:]+:\d+:)",
+    r"no writeable cache path|^l\.\d+|^\./[^:]+:\d+:)",
     re.IGNORECASE,
 )
 
@@ -93,7 +106,7 @@ def print_build_diagnostics(log_path: Path) -> None:
             matches.append("---")
     print("\n=== Diagnostic LuaLaTeX borné ===", file=sys.stderr)
     if matches:
-        for line in matches[-160:]:
+        for line in matches[-180:]:
             print(line, file=sys.stderr)
     else:
         print("Aucun motif fatal standard détecté ; fin du journal :", file=sys.stderr)
@@ -103,7 +116,8 @@ def print_build_diagnostics(log_path: Path) -> None:
 
 
 def run_build(command: list[str], source_count: int) -> None:
-    visible = command[: command.index("--output=" + container_path(OUTPUT)) + 1]
+    output_argument = "--output=" + container_path(OUTPUT)
+    visible = command[: command.index(output_argument) + 1]
     print("+", " ".join(visible), f"… [{source_count} sources]", flush=True)
     BUILD_LOG.parent.mkdir(parents=True, exist_ok=True)
     with BUILD_LOG.open("w", encoding="utf-8") as stream:
@@ -195,6 +209,8 @@ def main() -> int:
         f"TEXMFCONFIG={CONTAINER_TEXMF / 'config'}",
         "--env",
         f"TEXMFCACHE={CONTAINER_TEXMF / 'cache'}",
+        "--entrypoint",
+        "/bin/sh",
     ]
 
     if os.name != "nt" and hasattr(os, "getuid") and hasattr(os, "getgid"):
@@ -206,6 +222,9 @@ def main() -> int:
     command.extend(
         [
             args.image,
+            "-c",
+            SHELL_BOOTSTRAP,
+            "accessible-pdf-bootstrap",
             "--verbose",
             f"--metadata-file={container_path(METADATA)}",
             "--from=markdown+yaml_metadata_block",
