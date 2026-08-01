@@ -1,0 +1,214 @@
+name: Build Accessible Tagged PDF
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "Volume-0/**"
+      - "Livre-I/**"
+      - "Livre-II/**"
+      - "Livre-III/**"
+      - "Livre-IV/**"
+      - "Livre-V/**"
+      - "Companion-Pack/**"
+      - "README.md"
+      - "LICENSE.md"
+      - "NOTICE.md"
+      - "LICENSES/**"
+      - "docs/licensing/**"
+      - "contents.txt"
+      - "metadata.yaml"
+      - "filters/**"
+      - "tools/build_accessible_pdf.py"
+      - "tools/validate_accessible_pdf.py"
+      - "tools/inspect_tagged_pdf.py"
+      - "tools/run_qpdf_check.py"
+      - "tools/qpdf_validator_compat.py"
+      - "tools/test_accessible_pdf_validator.py"
+      - "tools/test_qpdf_check.py"
+      - "tools/test_qpdf_validator_compat.py"
+      - "QA/*ACCESSIBLE-PDF*"
+      - "BUILD.md"
+      - "ROADMAP.md"
+      - "CONTINUITE-PROJET.md"
+      - ".github/workflows/build-accessible-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: accessible-tagged-pdf-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tagged-pdf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      SOURCE_DATE_EPOCH: "1785452640"
+      TEXLIVE_IMAGE: "ghcr.io/xu-cheng/texlive-alpine@sha256:11383430b9a3e48c0b79339f34d8092f942f897d91ab3749d4899d06731fea7f"
+      VERAPDF_IMAGE: "verapdf/cli:v1.30.2@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify permanent accessibility tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git ls-files 'dist/accessible-pdf/**')"
+          test ! -e .github/scripts/finalize_accessible_pdf.py
+          test ! -e .github/workflows/finalize-accessible-pdf.yml
+
+      - name: Validate accessibility tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            tools/test_accessible_pdf_validator.py \
+            tools/test_qpdf_check.py \
+            tools/test_qpdf_validator_compat.py \
+            -v
+
+      - name: Restore exact tagged PDF build
+        id: pdf-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: dist/accessible-pdf
+          key: tagged-pdf-tl2026-pandoc310-texstrings2000000-v3-${{ hashFiles('contents.txt', 'metadata.yaml', 'filters/**', 'tools/build_accessible_pdf.py', 'README.md', 'Volume-0/**', 'Livre-I/**', 'Livre-II/**', 'Livre-III/**', 'Livre-IV/**', 'Livre-V/**', 'Companion-Pack/**', 'LICENSE.md', 'NOTICE.md', 'LICENSES/**', 'docs/licensing/**') }}
+
+      - name: Build with pinned TeX Live 2026 image
+        if: steps.pdf-cache.outputs.cache-hit != 'true'
+        uses: xu-cheng/texlive-action@22c04326a5d855880f9d39bb955138bf11c6df80
+        with:
+          docker_image: ${{ env.TEXLIVE_IMAGE }}
+          run: |
+            apk add --no-cache python3 pandoc font-dejavu rsvg-convert
+            command -v rsvg-convert
+            mkdir -p /tmp/guide-texmf
+            printf '%s\n' 'max_strings = 1000000' 'pool_size = 12500000' > /tmp/guide-texmf/texmf.cnf
+            export TEXMFCNF="/tmp/guide-texmf:"
+            kpsewhich -var-value=max_strings
+            kpsewhich -var-value=pool_size
+            python3 tools/build_accessible_pdf.py --clean
+            lualatex --version | head -n 1 > dist/accessible-pdf/lualatex-version.txt
+            pandoc --version | head -n 2 > dist/accessible-pdf/pandoc-version.txt
+            printf '%s\n' '${{ env.TEXLIVE_IMAGE }}' > dist/accessible-pdf/texlive-image.txt
+            chown -R "$(stat -c '%u:%g' "$GITHUB_WORKSPACE")" dist/accessible-pdf
+
+      - name: Verify tagged PDF build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf
+          test -s dist/accessible-pdf/accessible-pdf-manifest.json
+          test -s dist/accessible-pdf/lualatex-version.txt
+          test -s dist/accessible-pdf/pandoc-version.txt
+          test -s dist/accessible-pdf/texlive-image.txt
+
+      - name: Save exact tagged PDF build
+        if: steps.pdf-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: dist/accessible-pdf
+          key: ${{ steps.pdf-cache.outputs.cache-primary-key }}
+
+      - name: Install host validators and pull veraPDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends qpdf poppler-utils
+          python -m pip install --disable-pip-version-check --quiet pypdf==5.9.0
+          docker pull "$VERAPDF_IMAGE"
+          docker image inspect "$VERAPDF_IMAGE" > dist/accessible-pdf/verapdf-image.json
+          docker image inspect --format '{{join .RepoDigests "\n"}}' "$VERAPDF_IMAGE" \
+            | tee dist/accessible-pdf/verapdf-image-digest.txt
+          docker run --rm --network=none --security-opt no-new-privileges \
+            "$VERAPDF_IMAGE" --version \
+            | tee dist/accessible-pdf/verapdf-version.txt
+
+      - name: Run PDF UA machine diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          docker run --rm --network=none --security-opt no-new-privileges \
+            --volume "$PWD:/data:ro" \
+            "$VERAPDF_IMAGE" \
+            --format xml --maxfailuresdisplayed 100 -f ua1 \
+            /data/dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            > dist/accessible-pdf/verapdf-ua1.xml \
+            2> dist/accessible-pdf/verapdf.log
+          verapdf_status="$?"
+          set -e
+          printf '%s\n' "$verapdf_status" > dist/accessible-pdf/verapdf-exit-code.txt
+
+          python tools/run_qpdf_check.py \
+            dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            --report dist/accessible-pdf/qpdf-validation.json \
+            --text dist/accessible-pdf/qpdf-check.txt
+
+          qpdf_compat="$RUNNER_TEMP/qpdf-compat"
+          mkdir -p "$qpdf_compat"
+          cp tools/qpdf_validator_compat.py "$qpdf_compat/qpdf"
+          chmod +x "$qpdf_compat/qpdf"
+
+          PATH="$qpdf_compat:$PATH" python tools/validate_accessible_pdf.py \
+            --report dist/accessible-pdf/validation.json \
+            --verapdf-report dist/accessible-pdf/verapdf-ua1.xml
+          python tools/inspect_tagged_pdf.py \
+            dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            --output dist/accessible-pdf/structure-inventory.json
+
+      - name: Upload PDF diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-accessible-pdf-diagnostics
+          path: |
+            dist/accessible-pdf/accessible-pdf-manifest.json
+            dist/accessible-pdf/validation.json
+            dist/accessible-pdf/structure-inventory.json
+            dist/accessible-pdf/qpdf-validation.json
+            dist/accessible-pdf/qpdf-check.txt
+            dist/accessible-pdf/verapdf-ua1.xml
+            dist/accessible-pdf/verapdf.log
+            dist/accessible-pdf/verapdf-exit-code.txt
+            dist/accessible-pdf/verapdf-version.txt
+            dist/accessible-pdf/verapdf-image.json
+            dist/accessible-pdf/verapdf-image-digest.txt
+            dist/accessible-pdf/lualatex-version.txt
+            dist/accessible-pdf/pandoc-version.txt
+            dist/accessible-pdf/texlive-image.txt
+            BUILD.md
+            ROADMAP.md
+            CONTINUITE-PROJET.md
+            QA/AUDIT-ACCESSIBLE-PDF.md
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Run repository validations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --quiet PyYAML
+          python tools/validate_chapters.py
+          python tools/validate_licenses.py --report dist/accessible-pdf/licensing-validation.json
+          git status --short | tee dist/accessible-pdf/git-status.txt
+          test ! -s dist/accessible-pdf/git-status.txt
+
+      - name: Record checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf > dist/accessible-pdf/SHA256SUMS
+          find dist/accessible-pdf -maxdepth 1 -type f -printf '%f %s bytes\n' | sort > dist/accessible-pdf/files.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guide-ia-gamedev-accessible-tagged-pdf
+          path: dist/accessible-pdf
+          if-no-files-found: error
+          retention-days: 30

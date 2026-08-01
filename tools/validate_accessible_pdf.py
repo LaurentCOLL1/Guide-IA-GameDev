@@ -1,0 +1,379 @@
+#!/usr/bin/env python3
+"""Validate the machine-checkable structure of the tagged technical PDF."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import html
+import json
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DIST = ROOT / "dist" / "accessible-pdf"
+PDF = DIST / "Guide-IA-GameDev-tagged.pdf"
+MANIFEST = DIST / "accessible-pdf-manifest.json"
+CONTENTS = ROOT / "contents.txt"
+
+MARKDOWN_INLINE_IMAGE = re.compile(
+    r"(?<!\\)!\[([^\]]*)\]\((?:[^()\n]|\([^()\n]*\))*\)"
+)
+MARKDOWN_REFERENCE_IMAGE = re.compile(
+    r"(?<!\\)!\[([^\]]*)\]\[[^\]\n]*\]"
+)
+HTML_IMAGE = re.compile(r"<img\b([^>]*)>", re.IGNORECASE | re.DOTALL)
+HTML_ALT = re.compile(
+    r"\balt\s*=\s*([\"'])(.*?)\1", re.IGNORECASE | re.DOTALL
+)
+
+
+def command(args: list[str]) -> str:
+    result = subprocess.run(
+        args,
+        cwd=ROOT,
+        check=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    return result.stdout
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def catalog_text() -> str:
+    """Read only the PDF trailer and catalog, never page-content streams."""
+    trailer = command(["qpdf", "--show-object=trailer", str(PDF)])
+    root_match = re.search(r"/Root\s+(\d+)\s+(\d+)\s+R", trailer)
+    if not root_match:
+        return trailer
+    object_id = f"{root_match.group(1)},{root_match.group(2)}"
+    catalog = command(["qpdf", f"--show-object={object_id}", str(PDF)])
+    return trailer + "\n" + catalog
+
+
+def source_files() -> list[Path]:
+    if not CONTENTS.is_file():
+        raise ValueError("contents.txt absent")
+    result: list[Path] = []
+    for raw in CONTENTS.read_text(encoding="utf-8").splitlines():
+        item = raw.strip()
+        if not item or item.startswith("#"):
+            continue
+        path = ROOT / item
+        if not path.is_file():
+            raise ValueError(f"source absente : {item}")
+        result.append(path)
+    if not result:
+        raise ValueError("aucune source déclarée")
+    return result
+
+
+def strip_code_and_comments(text: str) -> str:
+    """Mask fenced blocks, inline code and HTML comments before image auditing."""
+    output: list[str] = []
+    fence_character: str | None = None
+    fence_length = 0
+    for line in text.splitlines(keepends=True):
+        opening = re.match(r"^[ \t]{0,3}(`{3,}|~{3,})", line)
+        if fence_character is None:
+            if opening:
+                fence_character = opening.group(1)[0]
+                fence_length = len(opening.group(1))
+                output.append("\n")
+            else:
+                output.append(line)
+            continue
+
+        closing = re.match(
+            rf"^[ \t]{{0,3}}{re.escape(fence_character)}{{{fence_length},}}[ \t]*$",
+            line.rstrip("\r\n"),
+        )
+        if closing:
+            fence_character = None
+            fence_length = 0
+        output.append("\n")
+
+    cleaned = "".join(output)
+    cleaned = re.sub(r"<!--.*?-->", "", cleaned, flags=re.DOTALL)
+    cleaned = re.sub(r"(`+)[^`\n]*?\1", "", cleaned)
+    return cleaned
+
+
+def normalize_alt(value: str | None) -> str:
+    if value is None:
+        return ""
+    plain = html.unescape(value)
+    plain = re.sub(r"\s+", " ", plain)
+    return plain.strip()
+
+
+def audit_source_alternatives() -> tuple[dict[str, object], list[str]]:
+    errors: list[str] = []
+    try:
+        sources = source_files()
+    except ValueError as exc:
+        return {
+            "executed": False,
+            "source_count": 0,
+            "image_count": 0,
+            "files_with_images": [],
+            "missing_or_empty_alternatives": [],
+        }, [f"source_audit:{exc}"]
+
+    images = 0
+    files_with_images: set[str] = set()
+    missing: list[dict[str, object]] = []
+
+    for path in sources:
+        relative = path.relative_to(ROOT).as_posix()
+        cleaned = strip_code_and_comments(path.read_text(encoding="utf-8"))
+
+        for kind, pattern in (
+            ("markdown-inline", MARKDOWN_INLINE_IMAGE),
+            ("markdown-reference", MARKDOWN_REFERENCE_IMAGE),
+        ):
+            for match in pattern.finditer(cleaned):
+                images += 1
+                files_with_images.add(relative)
+                alt = normalize_alt(match.group(1))
+                if not alt:
+                    missing.append(
+                        {
+                            "file": relative,
+                            "line": cleaned.count("\n", 0, match.start()) + 1,
+                            "kind": kind,
+                        }
+                    )
+
+        for match in HTML_IMAGE.finditer(cleaned):
+            images += 1
+            files_with_images.add(relative)
+            alt_match = HTML_ALT.search(match.group(1))
+            alt = normalize_alt(alt_match.group(2) if alt_match else None)
+            if not alt:
+                missing.append(
+                    {
+                        "file": relative,
+                        "line": cleaned.count("\n", 0, match.start()) + 1,
+                        "kind": "html",
+                    }
+                )
+
+    for item in missing:
+        errors.append(
+            "source_alt_text:"
+            f"{item['file']}:{item['line']}:{item['kind']}"
+        )
+
+    return {
+        "executed": True,
+        "source_count": len(sources),
+        "image_count": images,
+        "files_with_images": sorted(files_with_images),
+        "missing_or_empty_alternatives": missing,
+    }, errors
+
+
+def parse_verapdf(
+    report: Path | None,
+) -> tuple[dict[str, object], list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    result: dict[str, object] = {
+        "executed": False,
+        "profile": "ua1",
+        "report_parsed": False,
+        "machine_compliant": None,
+        "failed_checks": None,
+        "note": "veraPDF covers machine-verifiable PDF/UA checks only",
+    }
+    if report is None:
+        errors.append("verapdf_report_not_requested")
+        return result, errors, warnings
+    if not report.is_file() or report.stat().st_size == 0:
+        errors.append("verapdf_report_absent_or_empty")
+        return result, errors, warnings
+
+    result["executed"] = True
+    text = report.read_text(encoding="utf-8", errors="replace")
+    compliance_values = re.findall(
+        r'\bisCompliant="(true|false|1|0)"', text, re.IGNORECASE
+    )
+    if not compliance_values:
+        compliance_values = re.findall(
+            r'(?<![A-Za-z])compliant="(true|false|1|0)"',
+            text,
+            re.IGNORECASE,
+        )
+    normalized_values = {
+        value.lower() in {"true", "1"} for value in compliance_values
+    }
+    if len(normalized_values) != 1:
+        errors.append("verapdf_result_unparseable")
+        return result, errors, warnings
+
+    compliant = normalized_values.pop()
+    result["report_parsed"] = True
+    result["machine_compliant"] = compliant
+    failed = re.search(r'failedChecks="(\d+)"', text)
+    result["failed_checks"] = int(failed.group(1)) if failed else None
+    if not compliant:
+        warnings.append(
+            "verapdf_ua1_noncompliance_requires_correction_or_reservation"
+        )
+    return result, errors, warnings
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--report", type=Path, default=DIST / "validation.json")
+    parser.add_argument("--verapdf-report", type=Path)
+    args = parser.parse_args()
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    if not PDF.is_file():
+        errors.append("PDF absent")
+    if not MANIFEST.is_file():
+        errors.append("manifeste absent")
+    for executable in ("pdfinfo", "qpdf", "pdftotext"):
+        if shutil.which(executable) is None:
+            errors.append(f"outil absent : {executable}")
+    if errors:
+        raise SystemExit("; ".join(errors))
+
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    pdf_hash = sha256(PDF)
+    qpdf_check = command(["qpdf", "--check", str(PDF)])
+    info = command(["pdfinfo", str(PDF)])
+    catalog = catalog_text()
+    first_text = command(
+        ["pdftotext", "-f", "1", "-l", "3", str(PDF), "-"]
+    )
+
+    pages_match = re.search(r"^Pages:\s+(\d+)$", info, re.MULTILINE)
+    pages = int(pages_match.group(1)) if pages_match else 0
+    normalized_catalog = re.sub(r"\s+", " ", catalog)
+    source_audit, source_errors = audit_source_alternatives()
+    errors.extend(source_errors)
+
+    checks = {
+        "qpdf_integrity": (
+            "No syntax or stream encoding errors found" in qpdf_check
+        ),
+        "pdfinfo_tagged": bool(
+            re.search(
+                r"^Tagged:\s+yes$",
+                info,
+                re.MULTILINE | re.IGNORECASE,
+            )
+        ),
+        "markinfo_marked": bool(
+            re.search(
+                r"/MarkInfo\s*<<.*?/Marked\s+true.*?>>",
+                normalized_catalog,
+            )
+        ),
+        "structure_tree": bool(
+            re.search(r"/StructTreeRoot\s+\d+\s+\d+\s+R", catalog)
+        ),
+        "document_language": bool(
+            re.search(r"/Lang\s*\(fr-FR\)", catalog)
+            or re.search(r"/Lang\s*<66722[dD]4652>", catalog)
+            or re.search(
+                r"/Lang\s*<feff00660072002[dD]00460052>",
+                catalog,
+            )
+        ),
+        "title_metadata": (
+            "Guide réaliste" in info or "Guide réaliste" in first_text
+        ),
+        "author_metadata": (
+            "Laurent Collin" in info or "Laurent Collin" in first_text
+        ),
+        "page_count_plausible": pages >= 4000,
+        "manifest_claim_bounded": (
+            manifest.get("claim")
+            == "tagged-pdf-machine-checked-not-full-pdfua-conformance"
+        ),
+        "manifest_standard_target": (
+            manifest.get("standard_target") == "PDF/UA-1"
+        ),
+        "source_count": manifest.get("source_count") == 162,
+        "manifest_bytes_match": (
+            manifest.get("bytes") == PDF.stat().st_size
+        ),
+        "manifest_sha256_match": manifest.get("sha256") == pdf_hash,
+        "source_image_alternatives": (
+            source_audit.get("executed") is True
+            and source_audit.get("source_count") == 162
+            and not source_audit.get("missing_or_empty_alternatives")
+        ),
+    }
+    for name, passed in checks.items():
+        if not passed:
+            errors.append(name)
+
+    verapdf, verapdf_errors, verapdf_warnings = parse_verapdf(
+        args.verapdf_report
+    )
+    errors.extend(verapdf_errors)
+    warnings.extend(verapdf_warnings)
+
+    if errors:
+        status = "failure"
+    elif warnings:
+        status = "success-with-reservations"
+    else:
+        status = "success"
+
+    report = {
+        "schema_version": 3,
+        "status": status,
+        "errors": errors,
+        "warnings": warnings,
+        "checks": checks,
+        "pages": pages,
+        "bytes": PDF.stat().st_size,
+        "sha256": pdf_hash,
+        "claim": manifest.get("claim"),
+        "source_accessibility": source_audit,
+        "verapdf": verapdf,
+        "human_checks_required": [
+            "reading-order",
+            "alternative-text-quality",
+            "heading-hierarchy",
+            "list-and-table-semantics",
+            "links-notes-code-and-formulas",
+            "screen-reader-behaviour",
+        ],
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(
+        json.dumps(
+            report,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(json.dumps(report, ensure_ascii=False, sort_keys=True))
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

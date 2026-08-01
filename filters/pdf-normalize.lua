@@ -10,6 +10,13 @@ local function plain_text(element)
   return text
 end
 
+local function normalize_pdf_glyphs(text)
+  text = text:gsub("～", "~")
+  text = text:gsub("☒", "[x]")
+  text = text:gsub("☐", "[ ]")
+  return text
+end
+
 local process_headings = {
   "audit post",
   "audit transversal des contextes d'utilisation",
@@ -95,6 +102,17 @@ function Str(element)
   element.text = element.text:gsub("🟢", "")
   element.text = element.text:gsub("👤", "")
   element.text = element.text:gsub("👥", "")
+  element.text = normalize_pdf_glyphs(element.text)
+  return element
+end
+
+function Code(element)
+  element.text = normalize_pdf_glyphs(element.text)
+  return element
+end
+
+function CodeBlock(element)
+  element.text = normalize_pdf_glyphs(element.text)
   return element
 end
 

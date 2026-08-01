@@ -1,0 +1,157 @@
+schema-version: 1
+evidence-id: QA-ACCESSIBLE-PDF-M8
+status: complete
+validation-status: runtime-tested-linux
+claim: tagged-pdf-machine-checked-not-full-pdfua-conformance
+standard-target: PDF/UA-1
+source-count: 162
+source-order: contents.txt
+license: CC-BY-SA-4.0
+publication-status: technical-tagged-pdf-not-official-release
+
+pdf:
+  file: Guide-IA-GameDev-tagged.pdf
+  bytes: 28766695
+  pages: 4214
+  page-size: A4
+  sha256: 629ed5231627b84ea1832ffea9a60a403d3818b785949dbc3c2425ddac33159b
+  tagged: true
+  encrypted: false
+  language: fr-FR
+  title: Guide réaliste de création de jeux vidéo 3D avec IA locale
+  author: Laurent Collin
+
+build-environment:
+  os: ubuntu-24.04
+  pandoc: "3.10"
+  lualatex: LuaHBTeX 1.24.0
+  tex-live: "2026"
+  texlive-image: ghcr.io/xu-cheng/texlive-alpine@sha256:11383430b9a3e48c0b79339f34d8092f942f897d91ab3749d4899d06731fea7f
+  verapdf: "1.30.2"
+  verapdf-image: verapdf/cli:v1.30.2@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb
+  pypdf: "5.9.0"
+
+ci:
+  workflow: Build Accessible Tagged PDF
+  run-id: 30684329205
+  head-sha: 9f7f4feb3e5808d68057f67ba336e068d3a0a0c2
+  final-artifact:
+    id: 8813427010
+    digest: sha256:fe3f4c844b5d3e14afe2d01ca070b11d8f215aa92563c79f502d410c4d7bc861
+  diagnostics-artifact:
+    id: 8813426329
+    digest: sha256:57e86c3de2ffd3bf31a51a97417077456a30fd923029f6bd32e2e5efaf1cfde3
+
+machine-validation:
+  status: success
+  errors: 0
+  manifest-matches-bytes: true
+  manifest-matches-sha256: true
+  pdfinfo-tagged: true
+  markinfo-marked: true
+  structure-tree: true
+  document-language: true
+  title-metadata: true
+  author-metadata: true
+  source-image-alternatives: true
+  verapdf:
+    profile: PDF/UA-1 validation profile
+    job-status: normal
+    machine-compliant: true
+    passed-rules: 106
+    failed-rules: 0
+    passed-checks: 20644277
+    failed-checks: 0
+    failed-to-parse: 0
+    exceptions: 0
+
+qpdf:
+  status: success-with-reservations
+  exit-code: 3
+  completion-marker: operation succeeded with warnings
+  warning-count: 5
+  duplicated-group-key-objects: [8860, 8865, 8870, 8875, 8880]
+  raw-report-preserved: true
+
+structure-inventory:
+  document-nodes: 1
+  structure-elements: 387347
+  marked-content-references: 187096
+  object-references: 3402
+  visited-indirect-objects: 254175
+  chapter-tags: 160
+  section-tags: 4802
+  subsection-tags: 2363
+  subsubsection-tags: 13
+  tables: 579
+  table-headers: 1633
+  table-data-cells: 15758
+  unordered-list-tags: 4896
+  ordered-list-tags: 229
+  list-item-tags: 28926
+  figures: 5
+  figures-with-alt: 5
+  figures-with-empty-alt: 0
+  links: 2978
+  code-line-tags: 70553
+  verbatim-tags: 5809
+
+source-accessibility:
+  executed: true
+  sources: 162
+  files-with-images: [README.md]
+  images: 5
+  missing-or-empty-alternatives: 0
+  alternatives: [Statut, Documentation, Moteur, 3D, IA locale]
+
+visual-inspection:
+  renderer: Poppler
+  dpi: [100, 130]
+  pages:
+    - 1-8
+    - 143-150
+    - 556
+    - 1401
+    - 3018
+    - 3784
+    - 3995
+    - 4151
+    - 4153
+    - 4206-4214
+  text-order-pages: [145, 146, 556, 3018, 3995, 4151, 4206, 4213, 4214]
+  result: readable-no-overlap-no-clipping-no-broken-glyphs
+  screen-reader-runtime-tested: false
+  exhaustive: false
+
+non-regression:
+  classic-workflow: Build Publication Formats
+  classic-run-id: 30684329206
+  classic-artifact-id: 8813421114
+  classic-artifact-digest: sha256:e47f97c7a44c3fbc8ec3cccf4298769ae4d0c3f63751ddbce889f8255f77399f
+  classic-pages: 4108
+  tagged-pages: 4214
+  identical-pagination-claimed: false
+  byte-identical-claimed: false
+  sampled-content-loss-observed: false
+
+repository-validation:
+  chapter-validation: success
+  declared-sources: 162
+  unique-identifiers: 159
+  blocking-errors: 0
+  warnings: 0
+  licensing-validation: success
+  licenses: [CC-BY-SA-4.0, MIT, CC0-1.0]
+  companion-pack-license-files: 10
+  git-tree-clean-after-validation: true
+  generated-output-tracked: false
+
+reservations:
+  - No real screen-reader runtime test was executed.
+  - No exhaustive human inspection of all 4214 pages or 387347 structure elements.
+  - Reading order, headings, lists, tables, notes, code and formulas were sampled only.
+  - Five qpdf warnings about duplicated Group keys remain visible.
+  - No certification or exhaustive PDF/UA Matterhorn conformance claim.
+  - No universal interoperability claim across PDF viewers or assistive technologies.
+  - No byte-identical cross-platform or cross-toolchain claim.
+  - No official public release was created.
