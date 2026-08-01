@@ -23,8 +23,10 @@ on:
       - "tools/validate_accessible_pdf.py"
       - "tools/inspect_tagged_pdf.py"
       - "tools/run_qpdf_check.py"
+      - "tools/qpdf_validator_compat.py"
       - "tools/test_accessible_pdf_validator.py"
       - "tools/test_qpdf_check.py"
+      - "tools/test_qpdf_validator_compat.py"
       - "QA/*ACCESSIBLE-PDF*"
       - "BUILD.md"
       - "ROADMAP.md"
@@ -66,6 +68,7 @@ jobs:
           python -m unittest \
             tools/test_accessible_pdf_validator.py \
             tools/test_qpdf_check.py \
+            tools/test_qpdf_validator_compat.py \
             -v
 
       - name: Restore exact tagged PDF build
@@ -149,24 +152,8 @@ jobs:
 
           qpdf_compat="$RUNNER_TEMP/qpdf-compat"
           mkdir -p "$qpdf_compat"
-          cat > "$qpdf_compat/qpdf" <<'EOF'
-          #!/usr/bin/env bash
-          set -uo pipefail
-          if [[ "${1:-}" == "--check" ]]; then
-            set +e
-            output="$(/usr/bin/qpdf "$@" 2>&1)"
-            status="$?"
-            set -e
-            printf '%s\n' "$output"
-            if [[ "$status" -eq 3 ]]; then
-              printf '%s\n' 'No syntax or stream encoding errors found'
-              exit 0
-            fi
-            exit "$status"
-          fi
-          exec /usr/bin/qpdf "$@"
-          EOF
-          chmod +x "$qpdf_compat/qpdf"
+          chmod +x tools/qpdf_validator_compat.py
+          ln -s "$GITHUB_WORKSPACE/tools/qpdf_validator_compat.py" "$qpdf_compat/qpdf"
 
           PATH="$qpdf_compat:$PATH" python tools/validate_accessible_pdf.py \
             --report dist/accessible-pdf/validation.json \
