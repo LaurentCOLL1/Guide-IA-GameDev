@@ -1,0 +1,95 @@
+name: Livre IV Chapter 3 Finalizer
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - '.qa/ch03.finalizer.*'
+      - '.qa/ch03.payload.*'
+      - '.github/workflows/livre-iv-ch03-finalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-and-validate:
+    if: github.head_ref == 'docs/livre-iv-chapitre-03-tests-fonctionnels-regression'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout chapter branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/livre-iv-chapitre-03-tests-fonctionnels-regression
+          fetch-depth: 1
+
+      - name: Install lightweight dependencies
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Assemble and enrich finalizer
+        shell: bash
+        run: |
+          cat .qa/ch03.finalizer.* | base64 --decode | xz --decompress > .qa/ch03.finalizer.py
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.qa/ch03.finalizer.py')
+          text = path.read_text(encoding='utf-8')
+          replacements = [
+              (r'- **Empreinte :** elle détecte une modification silencieuse de la fixture.\n- **Valeur :** le placeholder est remplacé uniquement par une empreinte réellement calculée.\n- **Approbation :** la baseline d’entrée possède un propriétaire identifiable.', r'- **Empreinte :** elle détecte une modification silencieuse de la fixture.\n- **Valeur :** le placeholder est remplacé uniquement par une empreinte réellement calculée.\n- **Approbation :** la baseline d’entrée possède un propriétaire identifiable.\n- **Chemin :** `source_path` relie le manifeste au fichier canonique vérifié.'),
+              (r'- **Identité :** le run possède un dossier unique et traçable.\n- **Copie :** la fixture canonique n’est jamais modifiée directement.\n- **Effet de bord :** seul le workspace de campagne reçoit les fichiers temporaires.', r'- **Identité :** le run possède un dossier unique et traçable.\n- **Copie :** la fixture canonique n’est jamais modifiée directement.\n- **Effet de bord :** seul le workspace de campagne reçoit les fichiers temporaires.\n- **Précondition :** la fixture source doit exister avant la copie ; sinon la campagne s’arrête.'),
+              (r'- **Moteur :** `--headless` exécute sans fenêtre de rendu.\n- **Séparateur :** les options du runner suivent `--`.\n- **Code :** `1` reste un échec fonctionnel attendu par l’orchestrateur ; les autres codes signalent l’infrastructure.', r'- **Moteur :** `--headless` exécute sans fenêtre de rendu.\n- **Séparateur :** les options du runner suivent `--`.\n- **Code :** `1` reste un échec fonctionnel attendu par l’orchestrateur ; les autres codes signalent l’infrastructure.\n- **Traitement :** PowerShell conserve le code fonctionnel `1` et lève une exception uniquement pour une infrastructure invalide.'),
+              (r'- **Ordre :** la liste est versionnée et peut être triée par dépendance explicite.\n- **Collecte :** `fail_fast: false` conserve plusieurs échecs utiles pendant une campagne courte.\n- **Parallélisme :** la borne évite de saturer une ressource partagée.', r'- **Ordre :** la liste est versionnée et peut être triée par dépendance explicite.\n- **Collecte :** `fail_fast: false` conserve plusieurs échecs utiles pendant une campagne courte.\n- **Parallélisme :** la borne évite de saturer une ressource partagée.\n- **Identité :** `suite_id` et `version` rendent la sélection rejouable et comparable.'),
+              (r'- **Lignes :** chaque relation reste inspectable et versionnable.\n- **Statut :** `planned` ne prétend pas que le cas existe ou a été exécuté.\n- **Usage :** la matrice révèle les risques critiques sans contrôle ou sans cas.', r'- **Lignes :** chaque relation reste inspectable et versionnable.\n- **Statut :** `planned` ne prétend pas que le cas existe ou a été exécuté.\n- **Usage :** la matrice révèle les risques critiques sans contrôle ou sans cas.\n- **Colonnes :** les identifiants d’exigence, risque, contrôle, cas et suite gardent la chaîne de traçabilité explicite.'),
+              (r'- **Mise à jour :** un échec ne peut pas approuver automatiquement une nouvelle baseline.\n- **Champs :** seuls les éléments stables et significatifs sont comparés.\n- **Volatilité :** les exclusions sont explicites et justifiées.', r'- **Mise à jour :** un échec ne peut pas approuver automatiquement une nouvelle baseline.\n- **Champs :** seuls les éléments stables et significatifs sont comparés.\n- **Volatilité :** les exclusions sont explicites et justifiées.\n- **Revue :** toute nouvelle baseline exige une comparaison humaine avant approbation.'),
+              (r'- **Valeurs :** `null` évite de transformer une absence d’exécution en zéro résultat.\n- **Échecs :** la liste reste vide car aucun cas n’a été lancé.\n- **Décision :** la machine ne s’attribue pas la décision de porte.', r'- **Valeurs :** `null` évite de transformer une absence d’exécution en zéro résultat.\n- **Échecs :** la liste reste vide car aucun cas n’a été lancé.\n- **Décision :** la machine ne s’attribue pas la décision de porte.\n- **Comptage :** les quatre statuts restent séparés afin de distinguer produit, infrastructure et délai.'),
+              (r'- **Séparation :** les échecs produit et infrastructure ne sont pas fusionnés.\n- **Timeout :** `124` suit la convention de l’orchestrateur présenté.\n- **Annulation :** un arrêt demandé n’est pas présenté comme un échec fonctionnel.', r'- **Séparation :** les échecs produit et infrastructure ne sont pas fusionnés.\n- **Timeout :** `124` suit la convention de l’orchestrateur présenté.\n- **Annulation :** un arrêt demandé n’est pas présenté comme un échec fonctionnel.\n- **Consommation :** l’orchestrateur traduit chaque code en statut de campagne avant de produire le rapport.'),
+          ]
+          for old, new in replacements:
+              if text.count(old) != 1:
+                  raise RuntimeError(f'Enrichissement attendu une fois : {old[:60]}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+          python -m py_compile .qa/ch03.finalizer.py
+
+      - name: Materialize and validate chapter lot
+        id: materialize
+        shell: bash
+        run: |
+          set +e
+          python .qa/ch03.finalizer.py > "$RUNNER_TEMP/ch03-finalizer.log" 2>&1
+          status=$?
+          cat "$RUNNER_TEMP/ch03-finalizer.log"
+          exit $status
+
+      - name: Upload failure diagnostic
+        if: failure() && steps.materialize.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch03-finalizer-diagnostic
+          path: ${{ runner.temp }}/ch03-finalizer.log
+          if-no-files-found: error
+
+      - name: Upload QA evidence
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: livre-iv-ch03-validation-without-pdf
+          path: ${{ runner.temp }}/livre-iv-ch03-validation.json
+          if-no-files-found: error
+
+      - name: Commit finalized chapter lot
+        if: success()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(livre-iv): créer le chapitre 3 sur les tests fonctionnels"
+          git push origin HEAD:docs/livre-iv-chapitre-03-tests-fonctionnels-regression
