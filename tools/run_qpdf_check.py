@@ -10,21 +10,30 @@ import sys
 from pathlib import Path
 
 INTEGRITY_MESSAGE = "No syntax or stream encoding errors found"
+WARNING_SUCCESS_MESSAGE = "qpdf: operation succeeded with warnings"
 
 
 def classify_qpdf_result(return_code: int, output: str) -> dict[str, object]:
     warning_lines = [
         line.strip()
         for line in output.splitlines()
-        if "WARNING:" in line or "operation succeeded with warnings" in line.lower()
+        if "WARNING:" in line or WARNING_SUCCESS_MESSAGE in line.lower()
     ]
+    clean_integrity = INTEGRITY_MESSAGE in output
+    warning_success = WARNING_SUCCESS_MESSAGE in output.lower()
+    if return_code == 0:
+        completion_marker = clean_integrity
+    elif return_code == 3:
+        completion_marker = warning_success
+    else:
+        completion_marker = False
+
     errors: list[str] = []
     warnings: list[str] = []
-
     if return_code not in {0, 3}:
         errors.append(f"qpdf_exit_code:{return_code}")
-    if INTEGRITY_MESSAGE not in output:
-        errors.append("qpdf_integrity_message_absent")
+    if not completion_marker:
+        errors.append("qpdf_completion_marker_absent")
     if return_code == 3:
         warnings.append("qpdf_completed_with_warnings")
     if warning_lines:
@@ -38,10 +47,12 @@ def classify_qpdf_result(return_code: int, output: str) -> dict[str, object]:
         status = "success"
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": status,
         "exit_code": return_code,
-        "integrity_message_present": INTEGRITY_MESSAGE in output,
+        "completion_marker_present": completion_marker,
+        "clean_integrity_message_present": clean_integrity,
+        "warning_success_message_present": warning_success,
         "errors": errors,
         "warnings": warnings,
         "warning_lines": warning_lines,
