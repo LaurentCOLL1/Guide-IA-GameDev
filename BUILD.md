@@ -2,9 +2,9 @@
 title: "Construire les publications"
 id: "DOC-BUILD-PUBLICATIONS"
 status: "active"
-version: "2.1.0"
+version: "2.2.0"
 lang: "fr-FR"
-last-updated: "2026-07-31T16:34:00+02:00"
+last-updated: "2026-08-01T06:49:00+02:00"
 license: "CC-BY-SA-4.0"
 ---
 
@@ -175,6 +175,16 @@ Avant toute publication officielle, un échantillon représentatif doit couvrir 
 - comportement avec au moins un lecteur d’écran réel.
 
 Les contrôles réellement exécutés sont consignés dans `QA/AUDIT-ACCESSIBLE-PDF.md` et `QA/VALIDATION-ACCESSIBLE-PDF.yaml`. Les contrôles non exécutés restent des réserves explicites.
+
+## Qualification de référence
+
+Le workflow `Build Accessible Tagged PDF`, run `30684329205`, a qualifié sous Ubuntu 24.04 un candidat de 4 214 pages et 28 766 695 octets, SHA-256 `629ed5231627b84ea1832ffea9a60a403d3818b785949dbc3c2425ddac33159b`.
+
+veraPDF 1.30.2 a réussi le profil PDF/UA-1 avec 106 règles et 20 644 277 contrôles réussis, sans échec machine. `qpdf --check` termine avec cinq avertissements de clés `/Group` dupliquées et le statut `success-with-reservations` ; les sorties brutes restent conservées.
+
+L’artefact final `8813427010` porte le digest `sha256:fe3f4c844b5d3e14afe2d01ca070b11d8f215aa92563c79f502d410c4d7bc861`. L’artefact de diagnostics `8813426329` porte le digest `sha256:57e86c3de2ffd3bf31a51a97417077456a30fd923029f6bd32e2e5efaf1cfde3`.
+
+La qualification complète et ses réserves sont consignées dans `QA/AUDIT-ACCESSIBLE-PDF.md` et `QA/VALIDATION-ACCESSIBLE-PDF.yaml`. Aucun test avec lecteur d’écran réel ni aucune certification PDF/UA ne sont revendiqués.
 
 ## Reproductibilité
 

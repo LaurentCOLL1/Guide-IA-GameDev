@@ -234,7 +234,7 @@
 
 - [x] Définir la licence globale du projet — politique multiple `CC-BY-SA-4.0` / `MIT` / `CC0-1.0`, matrice et validation CI.
 - [x] Produire les versions PDF, HTML et EPUB — 162 sources, PDF de 4 108 pages, HTML autonome et EPUB 3 validés sous Linux.
-- [ ] Produire un PDF balisé pour les lecteurs d’écran.
+- [x] Produire un PDF balisé pour les lecteurs d’écran — candidat technique de 4 214 pages, structure et métadonnées validées sous Linux, profil veraPDF PDF/UA-1 sans échec machine, réserves humaines et cinq avertissements qpdf conservés.
 - [ ] Publier les archives du Companion Pack.
 
 ## M9 — Version 1.0
