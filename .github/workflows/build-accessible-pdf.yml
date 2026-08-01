@@ -152,8 +152,8 @@ jobs:
 
           qpdf_compat="$RUNNER_TEMP/qpdf-compat"
           mkdir -p "$qpdf_compat"
-          chmod +x tools/qpdf_validator_compat.py
-          ln -s "$GITHUB_WORKSPACE/tools/qpdf_validator_compat.py" "$qpdf_compat/qpdf"
+          cp tools/qpdf_validator_compat.py "$qpdf_compat/qpdf"
+          chmod +x "$qpdf_compat/qpdf"
 
           PATH="$qpdf_compat:$PATH" python tools/validate_accessible_pdf.py \
             --report dist/accessible-pdf/validation.json \
