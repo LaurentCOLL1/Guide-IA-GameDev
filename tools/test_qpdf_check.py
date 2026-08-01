@@ -24,12 +24,12 @@ class QpdfClassificationTests(unittest.TestCase):
         self.assertEqual(report["status"], "success")
         self.assertEqual(report["errors"], [])
         self.assertEqual(report["warnings"], [])
+        self.assertTrue(report["completion_marker_present"])
 
     def test_warning_exit_code_is_reserved_not_blocking(self) -> None:
         report = QPDF_CHECK.classify_qpdf_result(
             3,
             "WARNING: object has a duplicated /Group key\n"
-            "No syntax or stream encoding errors found\n"
             "qpdf: operation succeeded with warnings\n",
         )
         self.assertEqual(report["status"], "success-with-reservations")
@@ -37,17 +37,28 @@ class QpdfClassificationTests(unittest.TestCase):
         self.assertIn("qpdf_completed_with_warnings", report["warnings"])
         self.assertIn("qpdf_reported_warnings", report["warnings"])
         self.assertEqual(len(report["warning_lines"]), 2)
+        self.assertTrue(report["completion_marker_present"])
+        self.assertTrue(report["warning_success_message_present"])
+        self.assertFalse(report["clean_integrity_message_present"])
 
     def test_real_failure_is_blocking(self) -> None:
         report = QPDF_CHECK.classify_qpdf_result(2, "damaged file\n")
         self.assertEqual(report["status"], "failure")
         self.assertIn("qpdf_exit_code:2", report["errors"])
-        self.assertIn("qpdf_integrity_message_absent", report["errors"])
+        self.assertIn("qpdf_completion_marker_absent", report["errors"])
 
-    def test_missing_integrity_message_is_blocking(self) -> None:
+    def test_missing_completion_marker_is_blocking(self) -> None:
         report = QPDF_CHECK.classify_qpdf_result(3, "WARNING: incomplete\n")
         self.assertEqual(report["status"], "failure")
-        self.assertIn("qpdf_integrity_message_absent", report["errors"])
+        self.assertIn("qpdf_completion_marker_absent", report["errors"])
+
+    def test_clean_marker_does_not_hide_warning_exit_mismatch(self) -> None:
+        report = QPDF_CHECK.classify_qpdf_result(
+            3,
+            "No syntax or stream encoding errors found\n",
+        )
+        self.assertEqual(report["status"], "failure")
+        self.assertIn("qpdf_completion_marker_absent", report["errors"])
 
 
 if __name__ == "__main__":
