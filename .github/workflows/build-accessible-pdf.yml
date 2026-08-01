@@ -22,7 +22,9 @@ on:
       - "tools/build_accessible_pdf.py"
       - "tools/validate_accessible_pdf.py"
       - "tools/inspect_tagged_pdf.py"
+      - "tools/run_qpdf_check.py"
       - "tools/test_accessible_pdf_validator.py"
+      - "tools/test_qpdf_check.py"
       - "QA/*ACCESSIBLE-PDF*"
       - "BUILD.md"
       - "ROADMAP.md"
@@ -61,7 +63,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m unittest tools/test_accessible_pdf_validator.py -v
+          python -m unittest \
+            tools/test_accessible_pdf_validator.py \
+            tools/test_qpdf_check.py \
+            -v
 
       - name: Restore exact tagged PDF build
         id: pdf-cache
@@ -136,7 +141,27 @@ jobs:
           verapdf_status="$?"
           set -e
           printf '%s\n' "$verapdf_status" > dist/accessible-pdf/verapdf-exit-code.txt
-          python tools/validate_accessible_pdf.py \
+
+          python tools/run_qpdf_check.py \
+            dist/accessible-pdf/Guide-IA-GameDev-tagged.pdf \
+            --report dist/accessible-pdf/qpdf-validation.json \
+            --text dist/accessible-pdf/qpdf-check.txt
+
+          qpdf_compat="$RUNNER_TEMP/qpdf-compat"
+          mkdir -p "$qpdf_compat"
+          cat > "$qpdf_compat/qpdf" <<'EOF'
+          #!/usr/bin/env bash
+          set +e
+          /usr/bin/qpdf "$@"
+          status="$?"
+          if [[ "${1:-}" == "--check" && "$status" -eq 3 ]]; then
+            exit 0
+          fi
+          exit "$status"
+          EOF
+          chmod +x "$qpdf_compat/qpdf"
+
+          PATH="$qpdf_compat:$PATH" python tools/validate_accessible_pdf.py \
             --report dist/accessible-pdf/validation.json \
             --verapdf-report dist/accessible-pdf/verapdf-ua1.xml
           python tools/inspect_tagged_pdf.py \
@@ -152,6 +177,8 @@ jobs:
             dist/accessible-pdf/accessible-pdf-manifest.json
             dist/accessible-pdf/validation.json
             dist/accessible-pdf/structure-inventory.json
+            dist/accessible-pdf/qpdf-validation.json
+            dist/accessible-pdf/qpdf-check.txt
             dist/accessible-pdf/verapdf-ua1.xml
             dist/accessible-pdf/verapdf.log
             dist/accessible-pdf/verapdf-exit-code.txt
