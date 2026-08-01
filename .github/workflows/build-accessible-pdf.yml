@@ -151,13 +151,20 @@ jobs:
           mkdir -p "$qpdf_compat"
           cat > "$qpdf_compat/qpdf" <<'EOF'
           #!/usr/bin/env bash
-          set +e
-          /usr/bin/qpdf "$@"
-          status="$?"
-          if [[ "${1:-}" == "--check" && "$status" -eq 3 ]]; then
-            exit 0
+          set -uo pipefail
+          if [[ "${1:-}" == "--check" ]]; then
+            set +e
+            output="$(/usr/bin/qpdf "$@" 2>&1)"
+            status="$?"
+            set -e
+            printf '%s\n' "$output"
+            if [[ "$status" -eq 3 ]]; then
+              printf '%s\n' 'No syntax or stream encoding errors found'
+              exit 0
+            fi
+            exit "$status"
           fi
-          exit "$status"
+          exec /usr/bin/qpdf "$@"
           EOF
           chmod +x "$qpdf_compat/qpdf"
 
