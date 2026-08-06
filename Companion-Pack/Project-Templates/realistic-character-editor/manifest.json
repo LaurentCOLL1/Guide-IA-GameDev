@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "template_id": "CP-PT-REALISTIC-CHARACTER-EDITOR",
+  "display_name": "Asteria Character Studio",
+  "version": "0.1.0",
+  "status": "prototype-foundation",
+  "engine": {
+    "name": "Godot Engine",
+    "version": "4.7.1-stable",
+    "renderer": "Forward+",
+    "language": "GDScript"
+  },
+  "content_pipeline": {
+    "dcc": "Blender 5.2.x",
+    "exchange": "glTF 2.0 / GLB",
+    "morph_target_contract": "scripts/blend_shape_driver.gd"
+  },
+  "entry_scene": "scenes/character_editor.tscn",
+  "data_schema": "data/morphology_schema.json",
+  "smoke_test": "tests/run_smoke_tests.gd",
+  "asset_mode": "procedural-fallback",
+  "explicit_assets_included": false,
+  "minor_representation_policy": "non-explicit-and-covered",
+  "license": "MIT"
+}
