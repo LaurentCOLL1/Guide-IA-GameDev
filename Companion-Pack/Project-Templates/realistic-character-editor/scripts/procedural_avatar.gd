@@ -1,20 +1,87 @@
 class_name ProceduralAvatar
 extends Node3D
 
+const REALISTIC_SCENE_PATH := "res://assets/characters/human_base.glb"
+
 var definition: CharacterDefinition = CharacterDefinition.new()
 var _skin_material: StandardMaterial3D
 var _garment_material: StandardMaterial3D
 var _eye_material: StandardMaterial3D
 var _iris_material: StandardMaterial3D
+var _using_realistic_asset := false
+var _realistic_root: Node3D
+var _body_mesh: MeshInstance3D
+var _missing_morph_targets := PackedStringArray()
 
 func _ready() -> void:
-	rebuild()
+	if _try_load_realistic_asset():
+		_apply_realistic_definition()
+	else:
+		rebuild()
 
 func apply_definition(value: CharacterDefinition) -> void:
 	definition = value
-	rebuild()
+	if _using_realistic_asset:
+		_apply_realistic_definition()
+	else:
+		rebuild()
+
+func using_realistic_asset() -> bool:
+	return _using_realistic_asset
+
+func missing_morph_targets() -> PackedStringArray:
+	return _missing_morph_targets.duplicate()
+
+func _try_load_realistic_asset() -> bool:
+	if not ResourceLoader.exists(REALISTIC_SCENE_PATH):
+		return false
+	var resource: Resource = load(REALISTIC_SCENE_PATH)
+	if not (resource is PackedScene):
+		push_warning("The realistic character resource is not a PackedScene: %s" % REALISTIC_SCENE_PATH)
+		return false
+	var instance: Node = (resource as PackedScene).instantiate()
+	if not (instance is Node3D):
+		instance.queue_free()
+		push_warning("The realistic character root must inherit Node3D.")
+		return false
+	_realistic_root = instance as Node3D
+	add_child(_realistic_root)
+	_body_mesh = _find_first_morph_mesh(_realistic_root)
+	if _body_mesh == null:
+		remove_child(_realistic_root)
+		_realistic_root.queue_free()
+		_realistic_root = null
+		push_warning("No MeshInstance3D with blend shapes was found in %s" % REALISTIC_SCENE_PATH)
+		return false
+	_missing_morph_targets = BlendShapeDriver.validate_contract(_body_mesh)
+	if not _missing_morph_targets.is_empty():
+		push_warning("Realistic character is missing %d expected morph targets." % _missing_morph_targets.size())
+	_using_realistic_asset = true
+	return true
+
+func _find_first_morph_mesh(node: Node) -> MeshInstance3D:
+	if node is MeshInstance3D:
+		var candidate := node as MeshInstance3D
+		if candidate.mesh != null and candidate.mesh.get_blend_shape_count() > 0:
+			return candidate
+	for child in node.get_children():
+		var found := _find_first_morph_mesh(child)
+		if found != null:
+			return found
+	return null
+
+func _apply_realistic_definition() -> void:
+	definition.clamp_morphology()
+	if _body_mesh != null:
+		BlendShapeDriver.apply(_body_mesh, definition)
+	if _realistic_root != null:
+		_realistic_root.set_meta("life_stage", definition.life_stage())
+		_realistic_root.set_meta("adult_anatomy_profile", definition.adult_anatomy_profile)
+		_realistic_root.set_meta("privacy_garment_enabled", definition.privacy_garment_enabled)
 
 func rebuild() -> void:
+	if _using_realistic_asset:
+		return
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
@@ -141,7 +208,7 @@ func _add_sphere(part_name: String, radius: float, position_value: Vector3, mate
 
 func _add_box(part_name: String, size_value: Vector3, position_value: Vector3, material: Material) -> MeshInstance3D:
 	var mesh := BoxMesh.new()
-	mesh.size = size_value.max(Vector3(0.01, 0.01, 0.01))
+	mesh.size = Vector3(maxf(size_value.x, 0.01), maxf(size_value.y, 0.01), maxf(size_value.z, 0.01))
 	var instance := MeshInstance3D.new()
 	instance.name = part_name
 	instance.mesh = mesh
