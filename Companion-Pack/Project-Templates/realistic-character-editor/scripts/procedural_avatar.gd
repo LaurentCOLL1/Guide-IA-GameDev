@@ -45,25 +45,21 @@ func rebuild() -> void:
 	var neck_y := hip_y + torso_height + neck_height * 0.5
 	var head_y := hip_y + torso_height + neck_height + head_radius * 0.98
 
-	# Lower body.
 	_add_box("Pelvis", Vector3(hip_half * 1.72, torso_height * 0.22, waist_depth * 1.35), Vector3(0.0, hip_y + torso_height * 0.10, 0.0), _skin_material)
 	_add_capsule("Abdomen", maxf(waist_depth * 0.85, 0.045), torso_height * 0.44, Vector3(0.0, hip_y + torso_height * 0.35, 0.0), _skin_material, Vector3(1.0 + definition.waist_width * 0.15, 1.0, 0.92))
 	_add_capsule("Chest", maxf(chest_depth, 0.05), torso_height * 0.50, Vector3(0.0, hip_y + torso_height * 0.67, 0.0), _skin_material, Vector3(shoulder_half / maxf(chest_depth, 0.001), 1.0, 1.0))
 
-	# Legs and feet.
 	for side in [-1.0, 1.0]:
 		var leg_x := side * hip_half * 0.52
 		_add_capsule("Leg", limb_radius * 1.12, leg_height, Vector3(leg_x, ankle_y + leg_height * 0.5, 0.0), _skin_material, Vector3(1.0, 1.0, 1.0 + definition.adipose_mass * 0.05))
 		_add_box("Foot", Vector3(foot_size * 0.70, foot_height, foot_size * 1.45), Vector3(leg_x, foot_height * 0.5, foot_size * 0.20), _skin_material)
 
-	# Arms and hands.
 	for side in [-1.0, 1.0]:
 		var arm_x := side * (shoulder_half + limb_radius * 1.10)
 		var arm_center_y := shoulder_y - arm_height * 0.48
 		_add_capsule("Arm", limb_radius, arm_height, Vector3(arm_x, arm_center_y, 0.0), _skin_material)
 		_add_capsule("Hand", maxf(hand_size * 0.31, 0.025), hand_size * 1.15, Vector3(arm_x, shoulder_y - arm_height - hand_size * 0.42, 0.0), _skin_material, Vector3(0.88, 1.0, 0.58))
 
-	# Neck and head.
 	_add_capsule("Neck", maxf(head_radius * 0.36, 0.035), neck_height, Vector3(0.0, neck_y, 0.0), _skin_material)
 	var head_scale_x := 0.88 + definition.jaw_width * 0.10 + child_roundness * 0.04
 	var head_scale_y := 1.08 - elder_factor * 0.015
@@ -71,8 +67,6 @@ func rebuild() -> void:
 	_add_sphere("Head", head_radius, Vector3(0.0, head_y, 0.0), _skin_material, Vector3(head_scale_x, head_scale_y, head_scale_z))
 	_add_face(head_y, head_radius, head_scale_x)
 
-	# Neutral privacy garment is always forced for minors. Adults may disable it
-	# only after providing their own compliant adult anatomy module.
 	if definition.privacy_garment_enabled or definition.is_minor():
 		_add_box("PrivacyGarment", Vector3(hip_half * 1.86, torso_height * 0.19, waist_depth * 1.52), Vector3(0.0, hip_y + torso_height * 0.075, 0.0), _garment_material)
 
@@ -83,7 +77,6 @@ func rebuild() -> void:
 	anatomy_slot.set_meta("enabled", not definition.is_minor())
 	add_child(anatomy_slot)
 
-	# Subtle age posture without changing the canonical data.
 	rotation.x = deg_to_rad(-elder_factor * 3.0)
 
 func _prepare_materials() -> void:
@@ -114,7 +107,7 @@ func _add_face(head_y: float, head_radius: float, head_scale_x: float) -> void:
 	var nose_size := head_radius * (0.16 + definition.nose_scale * 0.045)
 	_add_capsule("Nose", nose_size * 0.42, nose_size, Vector3(0.0, head_y - head_radius * 0.02, head_radius * 0.94), _skin_material, Vector3(0.72, 1.0, 0.68))
 
-func _add_capsule(part_name: String, radius: float, height: float, position_value: Vector3, material: Material, scale_value := Vector3.ONE) -> MeshInstance3D:
+func _add_capsule(part_name: String, radius: float, height: float, position_value: Vector3, material: Material, scale_value: Vector3 = Vector3.ONE) -> MeshInstance3D:
 	var mesh := CapsuleMesh.new()
 	mesh.radius = maxf(radius, 0.005)
 	mesh.height = maxf(height, mesh.radius * 2.05)
@@ -130,7 +123,7 @@ func _add_capsule(part_name: String, radius: float, height: float, position_valu
 	add_child(instance)
 	return instance
 
-func _add_sphere(part_name: String, radius: float, position_value: Vector3, material: Material, scale_value := Vector3.ONE) -> MeshInstance3D:
+func _add_sphere(part_name: String, radius: float, position_value: Vector3, material: Material, scale_value: Vector3 = Vector3.ONE) -> MeshInstance3D:
 	var mesh := SphereMesh.new()
 	mesh.radius = maxf(radius, 0.005)
 	mesh.height = maxf(radius * 2.0, 0.01)
