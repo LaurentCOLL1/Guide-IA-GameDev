@@ -20,8 +20,11 @@ Le prototype fournit déjà :
 - la sauvegarde et le chargement JSON ;
 - un schéma de données versionné ;
 - un adaptateur de morph targets Blender/glTF ;
+- le chargement automatique d’un corps réaliste GLB lorsqu’il est disponible ;
+- un mannequin procédural de secours lorsque l’asset manque ;
 - un emplacement de module anatomique adulte ;
-- une politique automatique de représentation non explicite pour toute personne de moins de 18 ans.
+- une politique automatique de représentation non explicite pour toute personne de moins de 18 ans ;
+- des tests headless pour les règles d’âge, la croissance, les extrêmes et la sérialisation.
 
 ## Lancer le projet
 
@@ -36,12 +39,32 @@ La sauvegarde est écrite dans :
 user://character_profile.json
 ```
 
+Pour lancer les tests :
+
+```powershell
+godot --headless --path . --script res://tests/run_smoke_tests.gd
+```
+
+## Ajouter le corps réaliste
+
+Exporter depuis Blender un personnage GLB respectant le contrat de shape keys, puis placer le fichier exactement ici :
+
+```text
+assets/characters/human_base.glb
+```
+
+Au lancement, `ProceduralAvatar` détecte automatiquement ce fichier, recherche le premier `MeshInstance3D` contenant des blend shapes, vérifie les morph targets attendues et applique les valeurs de `CharacterDefinition`. Si le fichier est absent ou invalide, l’éditeur utilise le mannequin procédural.
+
 ## Arborescence
 
 ```text
 realistic-character-editor/
 ├── project.godot
+├── manifest.json
 ├── README.md
+├── assets/
+│   └── characters/
+│       └── README.md
 ├── data/
 │   └── morphology_schema.json
 ├── docs/
@@ -49,12 +72,14 @@ realistic-character-editor/
 │   └── SAFETY_AND_SCOPE.md
 ├── scenes/
 │   └── character_editor.tscn
-└── scripts/
-    ├── blend_shape_driver.gd
-    ├── character_definition.gd
-    ├── character_editor.gd
-    ├── morphology_rules.gd
-    └── procedural_avatar.gd
+├── scripts/
+│   ├── blend_shape_driver.gd
+│   ├── character_definition.gd
+│   ├── character_editor.gd
+│   ├── morphology_rules.gd
+│   └── procedural_avatar.gd
+└── tests/
+    └── run_smoke_tests.gd
 ```
 
 ## Architecture
@@ -69,7 +94,7 @@ Transforme les curseurs abstraits en dimensions cohérentes. Les courbes de croi
 
 ### `ProceduralAvatar`
 
-Mannequin de validation construit avec des primitives Godot. Il permet de tester immédiatement l’interface, les sauvegardes, les proportions et les règles d’âge sans dépendre d’un fichier `.blend`.
+Charge d’abord `assets/characters/human_base.glb`. Lorsque cet asset n’existe pas, il génère un mannequin de validation avec des primitives Godot afin de tester l’interface, les sauvegardes, les proportions et les règles d’âge.
 
 ### `BlendShapeDriver`
 
@@ -134,11 +159,12 @@ L’architecture prévoit un nœud `AdultAnatomySlot` et des métadonnées de pr
 - Les profils de présentation sont stockés mais ne pilotent pas encore un ensemble de morph targets dédié.
 - Aucun rig, animation, vêtement, coiffure ou shader de peau avancé n’est fourni.
 - Les courbes de croissance sont des hypothèses de conception à valider artistiquement.
-- Les shape keys Blender doivent être créées et exportées séparément.
+- Les shape keys Blender doivent être sculptées et exportées séparément.
+- Cette branche n’a pas pu être exécutée avec Godot dans l’environnement de création ; les tests sont fournis pour être lancés sur une machine équipée du moteur.
 
 ## Prochain jalon recommandé
 
-Créer dans Blender un premier corps adulte neutre avec les 32 shape keys signées définies dans `blend_shape_driver.gd`, puis remplacer `ProceduralAvatar` par une scène GLB tout en conservant exactement la même `CharacterDefinition`.
+Créer dans Blender un premier corps adulte neutre avec les 32 shape keys signées définies dans `blend_shape_driver.gd`, l’exporter vers `assets/characters/human_base.glb`, puis compléter les correctifs de pose, le shader de peau, les coiffures et les vêtements.
 
 ## Licence
 
