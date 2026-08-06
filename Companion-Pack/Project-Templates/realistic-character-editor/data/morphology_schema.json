@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/asteria/character-definition.schema.json",
+  "title": "Asteria Character Definition",
+  "type": "object",
+  "required": ["schema_version", "age_years", "morphology", "appearance", "anatomy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "age_years": {"type": "number", "minimum": 0, "maximum": 120},
+    "life_stage": {
+      "enum": [
+        "infant",
+        "early_childhood",
+        "childhood",
+        "adolescence",
+        "young_adult",
+        "mature_adult",
+        "elder"
+      ]
+    },
+    "morphology": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stature": {"$ref": "#/$defs/signedMorph"},
+        "head_scale": {"$ref": "#/$defs/signedMorph"},
+        "shoulder_width": {"$ref": "#/$defs/signedMorph"},
+        "chest_volume": {"$ref": "#/$defs/signedMorph"},
+        "waist_width": {"$ref": "#/$defs/signedMorph"},
+        "hip_width": {"$ref": "#/$defs/signedMorph"},
+        "torso_length": {"$ref": "#/$defs/signedMorph"},
+        "arm_length": {"$ref": "#/$defs/signedMorph"},
+        "leg_length": {"$ref": "#/$defs/signedMorph"},
+        "muscle_mass": {"$ref": "#/$defs/signedMorph"},
+        "adipose_mass": {"$ref": "#/$defs/signedMorph"},
+        "hand_scale": {"$ref": "#/$defs/signedMorph"},
+        "foot_scale": {"$ref": "#/$defs/signedMorph"},
+        "jaw_width": {"$ref": "#/$defs/signedMorph"},
+        "nose_scale": {"$ref": "#/$defs/signedMorph"},
+        "eye_spacing": {"$ref": "#/$defs/signedMorph"}
+      }
+    },
+    "appearance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "skin_pigment": {"type": "number", "minimum": 0, "maximum": 1},
+        "skin_roughness": {"type": "number", "minimum": 0, "maximum": 1},
+        "presentation_profile": {
+          "enum": ["androgynous", "feminine", "masculine", "custom"]
+        }
+      }
+    },
+    "anatomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Adult-only external anatomy module metadata. Explicit geometry is not distributed by this template.",
+      "properties": {
+        "adult_anatomy_profile": {
+          "enum": ["neutral", "type_a", "type_b", "custom_module", "unavailable_for_minor"]
+        },
+        "privacy_garment_enabled": {"type": "boolean"}
+      }
+    }
+  },
+  "$defs": {
+    "signedMorph": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    }
+  }
+}
